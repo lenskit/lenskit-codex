@@ -13,8 +13,8 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 99e64811af28bf21c1e0e882fcccbffe5ad2f82e3924a1f5794b6527afb718d7
-    osx-arm64: c4eac490d03bf439bb5276c312b53525a41365d12cecdc0673813d0dabe54559
+    linux-64: a6c8a014875fe06f91c1a6ff5a7f39079de51f7447bf271503a83ac3dca8acaa
+    osx-arm64: 25eeafe2a76cea720e8e7d529d6db4076fedcf5d30b01eeafe8be3931f83fa36
   channels:
   - url: pytorch
     used_env_vars: []
@@ -2122,28 +2122,33 @@ package:
     sha256: acbf9f6e58969882bc067e2428287a54635955a1bddf09597b672620691e05fd
   category: main
   optional: false
-- name: duckdb
+- name: duckdb-cli
   version: 0.10.3
   manager: conda
   platform: linux-64
   dependencies:
-    python-duckdb: '>=0.10.3,<0.10.4.0a0'
-  url: https://conda.anaconda.org/conda-forge/noarch/duckdb-0.10.3-hd8ed1ab_0.conda
+    __glibc: '>=2.17,<3.0.a0'
+    libduckdb: 0.10.3
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+  url: https://conda.anaconda.org/conda-forge/linux-64/duckdb-cli-0.10.3-he02047a_0.conda
   hash:
-    md5: bd8b5b0abe2ac12e766012c5561849d0
-    sha256: bb3ae22a9ec317ed132639a6463058503990a150a8dfde6c9c5471c8272c6d5e
+    md5: e57a0153f8d07d4e5e93b370f7d20427
+    sha256: e1f46f5a2798f1a8b1550f5c0af84f868bc3cc27fb9fa4a452282014b4d9ba00
   category: main
   optional: false
-- name: duckdb
+- name: duckdb-cli
   version: 0.10.3
   manager: conda
   platform: osx-arm64
   dependencies:
-    python-duckdb: '>=0.10.3,<0.10.4.0a0'
-  url: https://conda.anaconda.org/conda-forge/noarch/duckdb-0.10.3-hd8ed1ab_0.conda
+    __osx: '>=11.0'
+    libcxx: '>=16'
+    libduckdb: 0.10.3
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/duckdb-cli-0.10.3-h00cdb27_0.conda
   hash:
-    md5: bd8b5b0abe2ac12e766012c5561849d0
-    sha256: bb3ae22a9ec317ed132639a6463058503990a150a8dfde6c9c5471c8272c6d5e
+    md5: bc2d5c30a37ebf091ed75287c9eadc89
+    sha256: 136565f2696c962022f4113d19eb3aa6f7c737624496f81cc79f2c58e873e702
   category: main
   optional: false
 - name: dulwich
@@ -3808,6 +3813,30 @@ package:
     sha256: fdaf341fb2630b7afe8238315448fc93947f77ebfa4da68bb349e1bcf820af58
   category: main
   optional: false
+- name: humanize
+  version: 4.9.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3.8'
+  url: https://conda.anaconda.org/conda-forge/noarch/humanize-4.9.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: f15cf5f33b0eca7b02c468ddb0cbf1ad
+    sha256: 2764840b7ef7219af1288b27dfddbacc383fdf88af70980a355afdb2780f3c30
+  category: main
+  optional: false
+- name: humanize
+  version: 4.9.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    python: '>=3.8'
+  url: https://conda.anaconda.org/conda-forge/noarch/humanize-4.9.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: f15cf5f33b0eca7b02c468ddb0cbf1ad
+    sha256: 2764840b7ef7219af1288b27dfddbacc383fdf88af70980a355afdb2780f3c30
+  category: main
+  optional: false
 - name: hydra-core
   version: 1.3.2
   manager: conda
@@ -5423,6 +5452,33 @@ package:
   hash:
     md5: 97efeaeba2a9a82bdf46fc6d025e3a57
     sha256: 6d16cccb141b6bb05c38107b335089046664ea1d6611601d3f6e7e4227a99925
+  category: main
+  optional: false
+- name: libduckdb
+  version: 0.10.3
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+  url: https://conda.anaconda.org/conda-forge/linux-64/libduckdb-0.10.3-he02047a_0.conda
+  hash:
+    md5: d66741deb5704be12b2a47c7dba118ab
+    sha256: 972dc28e21311fa559dce506a02a47f63cfb91da2740894dd276bfc9f15f7de4
+  category: main
+  optional: false
+- name: libduckdb
+  version: 0.10.3
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    __osx: '>=11.0'
+    libcxx: '>=16'
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/libduckdb-0.10.3-h00cdb27_0.conda
+  hash:
+    md5: 3af5e4eca2aca6205facf1e59dbc5b1f
+    sha256: 56231bab110a70fad5f320af0da7a87cbf79ab09aa31533fe8e23ef3a9621285
   category: main
   optional: false
 - name: libedit

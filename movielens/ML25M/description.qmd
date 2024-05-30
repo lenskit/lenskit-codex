@@ -1,0 +1,98 @@
+---
+title: ML25M Data Description
+echo: false
+---
+
+```{python}
+name = 'ML25M'
+```
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotnine as pn
+import duckdb
+```
+
+```{python}
+from IPython.display import Markdown
+from tabulate import tabulate
+from humanize import intcomma
+```
+
+```{python}
+from sandal import autoroot
+from codex.stats import global_rating_stats, pop_gini
+```
+
+```{python}
+db = duckdb.connect(f'ratings.duckdb', read_only=True)
+```
+
+```{python}
+stats = global_rating_stats(db)
+item_stats = db.table('item_stats').df()
+```
+
+
+## Rating Statistics
+
+```{python}
+density = stats.n_ratings / (stats.n_users * stats.n_items)
+Markdown(tabulate([
+    ('Ratings', intcomma(stats.n_ratings)),
+    ('Users', intcomma(stats.n_users)),
+    ('Items', intcomma(stats.n_items)),
+    ('Density', '{:.3f}%'.format(density * 100)),
+    ('Item Gini', '{:.3f}'.format(pop_gini(item_stats))),
+    ('Start Date', stats.first_rating),
+    ('End Date', stats.last_rating),
+]))
+```
+
+## Item Statistics
+
+
+Now let's look at the distributions of item statistics.  What is the
+distribution of popularity?
+
+```{python}
+(
+    pn.ggplot(item_stats, pn.aes(x='n_ratings'))
+    + pn.geom_step(stat='ecdf', color='blue')
+    + pn.scale_x_log10()
+    + pn.xlab('# of Ratings')
+    + pn.ylab('Cumulative Frac. of Items')
+    + pn.ggtitle(f'{name} Item Popularity Distribution')
+    + pn.theme_minimal()
+)
+```
+
+Let's also look at this as a Lorenz curve, for clarity:
+
+```{python}
+item_stats['rank'] = item_stats['n_ratings'].rank(method='min') / len(item_stats)
+item_stats.sort_values('n_ratings', inplace=True)
+item_stats['cf_ratings'] = item_stats['n_ratings'].cumsum() / item_stats['n_ratings'].sum()
+(
+    pn.ggplot(item_stats, pn.aes(x='rank', y='cf_ratings'))
+    + pn.geom_line(color='blue')
+    + pn.geom_abline(color='grey', linetype='--')
+    + pn.xlab('Item Rank')
+    + pn.ylab('Cumulative Frac. of Ratings')
+    + pn.ggtitle(f'Lorenz curve of {name} item popularity')
+    + pn.theme_minimal()
+)
+```
+
+What is the distribution of average ratings?
+
+```{python}
+(
+    pn.ggplot(item_stats, pn.aes(x='mean_rating'))
+    + pn.geom_histogram(bins=25)
+    + pn.xlab('Mean Rating')
+    + pn.ylab('# of Movies')
+    + pn.theme_minimal()
+)
+```

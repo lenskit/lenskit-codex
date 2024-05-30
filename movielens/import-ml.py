@@ -23,7 +23,7 @@ from duckdb import connect
 from sandal import autoroot  # noqa: F401
 from sandal.cli import setup_logging
 
-from codex.tables import create_ratings_table
+from codex.tables import create_ratings_table, create_views
 
 _log = logging.getLogger("codex.import-ml")
 
@@ -113,7 +113,7 @@ def main(options):
 
     data = open_data(zipf)
 
-    duckf = zipf.with_suffix(".duckdb")
+    duckf = zipf.with_name("ratings.duckdb")
     if duckf.exists():
         _log.info("removing %s", duckf)
         duckf.unlink()
@@ -129,6 +129,8 @@ def main(options):
             "INSERT INTO ratings SELECT user_id, item_id, rating, to_timestamp(timestamp) FROM rate_df"
         )
         _log.info("DB insert completed")
+
+        create_views(db)
 
 
 def open_data(file: Path) -> MLData:

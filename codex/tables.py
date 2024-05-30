@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 from duckdb import DuckDBPyConnection
 
@@ -17,3 +18,10 @@ def create_ratings_table(db: DuckDBPyConnection, timestamp: bool = True):
     ddl += ")"
     _log.info("creating ratings table")
     db.execute(ddl)
+
+
+def create_views(db: DuckDBPyConnection):
+    pkg = Path(__file__).parent
+    rvf = pkg / "rating_stat_views.sql"
+    sql = rvf.read_text()
+    db.execute(sql)
