@@ -23,6 +23,7 @@ db = duckdb.connect(f'ratings.duckdb', read_only=True)
 ```{python}
 stats = global_rating_stats(db)
 item_stats = db.table('item_stats').df()
+user_stats = db.table('user_stats').df()
 ```
 
 
@@ -84,6 +85,35 @@ What is the distribution of average ratings?
     + pn.geom_histogram(bins=25)
     + pn.xlab('Mean Rating')
     + pn.ylab('# of Movies')
+    + pn.theme_minimal()
+)
+```
+
+## User Statistics
+
+How are user averages distributed?
+
+```{python}
+(
+    pn.ggplot(user_stats, pn.aes(x='mean_rating'))
+    + pn.geom_histogram(bins=50)
+    + pn.xlab('Mean Rating')
+    + pn.ylab('# of Users')
+    + pn.ggtitle('Distribution of Average Ratings by User')
+    + pn.theme_minimal()
+)
+```
+
+And what is the distribution of user activity levels (# of ratings)?
+
+```{python}
+(
+    pn.ggplot(user_stats, pn.aes(x='n_ratings'))
+    + pn.geom_histogram(bins=100)
+    + pn.xlab('# of Ratings')
+    + pn.ylab('# of Users')
+    + pn.scale_x_log10()
+    + pn.ggtitle('Distribution of Profile Sizes by User')
     + pn.theme_minimal()
 )
 ```
