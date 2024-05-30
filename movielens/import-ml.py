@@ -77,7 +77,7 @@ class MLM(MLData):
     rating_file = "ratings.dat"
 
     def read_ratings(self, file) -> pd.DataFrame:
-        pd.read_csv(
+        return pd.read_csv(
             file,
             sep=":",
             header=None,

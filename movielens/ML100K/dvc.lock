@@ -3,6 +3,10 @@ stages:
   import-data:
     cmd: python ../import-ml.py ml-100k.zip
     deps:
+    - path: ../import-ml.py
+      hash: md5
+      md5: 7ed93c9603f134a9de62470c4a87dc3d
+      size: 3687
     - path: ml-100k.zip
       hash: md5
       md5: 0e33842e24a9c977be4e0107933c0723

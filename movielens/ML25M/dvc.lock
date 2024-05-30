@@ -1,0 +1,18 @@
+schema: '2.0'
+stages:
+  import-data:
+    cmd: python ../import-ml.py ml-25m.zip
+    deps:
+    - path: ../import-ml.py
+      hash: md5
+      md5: 7ed93c9603f134a9de62470c4a87dc3d
+      size: 3687
+    - path: ml-25m.zip
+      hash: md5
+      md5: 6b51fb2759a8657d3bfcbfc42b592ada
+      size: 261978986
+    outs:
+    - path: ml-25m.duckdb
+      hash: md5
+      md5: 251460cf1c8fc6d0a7d45c49934618e9
+      size: 242757632

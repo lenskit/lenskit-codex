@@ -1,0 +1,8 @@
+stages:
+  import-data:
+    cmd: python ../import-ml.py ml-25m.zip
+    deps:
+    - ../import-ml.py
+    - ml-25m.zip
+    outs:
+    - ml-25m.duckdb
