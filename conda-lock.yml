@@ -13,8 +13,8 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: c1c3a95e8148a8b6c58806ba7810b28623d827f42b581932f03a20ec0502004a
-    osx-arm64: 479a0d14526a91c5bf69bd3aad8d1946447754ddf302fd2607d2351dfb7763ab
+    linux-64: a1e0b0cf514f93bc9a004642864431a270223ab0f08c844bba13cbe5652a9897
+    osx-arm64: 163e7a20c2d874362088e16b2d06e3aa41f2f0972683da52e289e968c2787502
   channels:
   - url: pytorch
     used_env_vars: []
@@ -6521,29 +6521,6 @@ package:
     sha256: 787eb542f055a2b3de553614b25f09eefb0a0931b0c87dbcce6efdfd92f04f18
   category: main
   optional: false
-- name: libuv
-  version: 1.48.0
-  manager: conda
-  platform: linux-64
-  dependencies:
-    libgcc-ng: '>=12'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libuv-1.48.0-hd590300_0.conda
-  hash:
-    md5: 7e8b914b1062dd4386e3de4d82a3ead6
-    sha256: b7c0e8a0c93c2621be7645b37123d4e8d27e8a974da26a3fba47a9c37711aa7f
-  category: main
-  optional: false
-- name: libuv
-  version: 1.48.0
-  manager: conda
-  platform: osx-arm64
-  dependencies: {}
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/libuv-1.48.0-h93a5062_0.conda
-  hash:
-    md5: abfd49e80f13453b62a56be226120ea8
-    sha256: 60bed2a7a85096387ab0381cbc32ea2da7f8dd99bd90e440983019c0cdd96ad1
-  category: main
-  optional: false
 - name: libvorbis
   version: 1.3.7
   manager: conda
@@ -7322,68 +7299,6 @@ package:
   hash:
     md5: d335fd5704b46f4efb89a6774e81aef0
     sha256: cbd8a6de87ad842e7665df38dcec719873fe74698bc761de5431047b8fada41a
-  category: main
-  optional: false
-- name: nodeenv
-  version: 1.8.0
-  manager: conda
-  platform: linux-64
-  dependencies:
-    python: 2.7|>=3.7
-    setuptools: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/nodeenv-1.8.0-pyhd8ed1ab_0.conda
-  hash:
-    md5: 2a75b296096adabbabadd5e9782e5fcc
-    sha256: 1320306234552717149f36f825ddc7e27ea295f24829e9db4cc6ceaff0b032bd
-  category: main
-  optional: false
-- name: nodeenv
-  version: 1.8.0
-  manager: conda
-  platform: osx-arm64
-  dependencies:
-    setuptools: ''
-    python: 2.7|>=3.7
-  url: https://conda.anaconda.org/conda-forge/noarch/nodeenv-1.8.0-pyhd8ed1ab_0.conda
-  hash:
-    md5: 2a75b296096adabbabadd5e9782e5fcc
-    sha256: 1320306234552717149f36f825ddc7e27ea295f24829e9db4cc6ceaff0b032bd
-  category: main
-  optional: false
-- name: nodejs
-  version: 20.12.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    icu: '>=73.2,<74.0a0'
-    libgcc-ng: '>=12'
-    libstdcxx-ng: '>=12'
-    libuv: '>=1.48.0,<1.49.0a0'
-    libzlib: '>=1.2.13,<2.0.0a0'
-    openssl: '>=3.2.1,<4.0a0'
-    zlib: ''
-  url: https://conda.anaconda.org/conda-forge/linux-64/nodejs-20.12.2-hb753e55_0.conda
-  hash:
-    md5: 1fd16ca757a195c4357a1fbb2cb553b5
-    sha256: 2f5813d9718963861314c6d9f75fe4630c3e6d078ec1e792770daf9ce7ac5c4f
-  category: main
-  optional: false
-- name: nodejs
-  version: 20.12.2
-  manager: conda
-  platform: osx-arm64
-  dependencies:
-    icu: '>=73.2,<74.0a0'
-    libcxx: '>=16'
-    libuv: '>=1.48.0,<1.49.0a0'
-    libzlib: '>=1.2.13,<2.0.0a0'
-    openssl: '>=3.2.1,<4.0a0'
-    zlib: ''
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/nodejs-20.12.2-h3b52c9b_0.conda
-  hash:
-    md5: 0ba66fae46df4a035db42e2230453604
-    sha256: 81ea2a695b4b97ce6066220b9e54232e67b4a1e3eac3fc7016c08a463c588478
   category: main
   optional: false
 - name: notebook
@@ -8786,39 +8701,6 @@ package:
   hash:
     md5: e4d262cc3600e70b505a6761d29f6207
     sha256: cf6936273d92e5213b085bfd9ce1a37defb46b317b6ee991f2712bf4a25b8456
-  category: main
-  optional: false
-- name: pyright
-  version: 1.1.365
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    libgcc-ng: '>=12'
-    nodeenv: '>=1.6.0'
-    nodejs: ''
-    python: '>=3.11,<3.12.0a0'
-    python_abi: 3.11.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/pyright-1.1.365-py311h61187de_0.conda
-  hash:
-    md5: 933ca535967e52370729c4ecf298f251
-    sha256: e262bb72f1936b6889bfcd041ea2cc61c809f8592c09b0d057ab452d61407a51
-  category: main
-  optional: false
-- name: pyright
-  version: 1.1.365
-  manager: conda
-  platform: osx-arm64
-  dependencies:
-    __osx: '>=11.0'
-    nodeenv: '>=1.6.0'
-    nodejs: ''
-    python: '>=3.11,<3.12.0a0'
-    python_abi: 3.11.*
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/pyright-1.1.365-py311hd3f4193_0.conda
-  hash:
-    md5: 2eac1b04b3fa298ea7eb03e1e202a72a
-    sha256: e8d464dce6d5b6a8e05ecda1726064525b8ab8047591e16e8802ae69dd86f7a0
   category: main
   optional: false
 - name: pysocks
@@ -11371,6 +11253,26 @@ package:
   url: https://files.pythonhosted.org/packages/f3/18/3e867ab37a24fdf073c1617b9c7830e06ec270b1ea4694a624038fc40a03/colorlog-6.8.2-py3-none-any.whl
   hash:
     sha256: 4dcbb62368e2800cb3c5abd348da7e53f6c362dda502ec27c560b2e58a66bd33
+  category: main
+  optional: false
+- name: docopt-ng
+  version: 0.9.0
+  manager: pip
+  platform: linux-64
+  dependencies: {}
+  url: https://files.pythonhosted.org/packages/6c/4a/c3b77fc1a24510b08918b43a473410c0168f6e657118807015f1f1edceea/docopt_ng-0.9.0-py3-none-any.whl
+  hash:
+    sha256: bfe4c8b03f9fca424c24ee0b4ffa84bf7391cb18c29ce0f6a8227a3b01b81ff9
+  category: main
+  optional: false
+- name: docopt-ng
+  version: 0.9.0
+  manager: pip
+  platform: osx-arm64
+  dependencies: {}
+  url: https://files.pythonhosted.org/packages/6c/4a/c3b77fc1a24510b08918b43a473410c0168f6e657118807015f1f1edceea/docopt_ng-0.9.0-py3-none-any.whl
+  hash:
+    sha256: bfe4c8b03f9fca424c24ee0b4ffa84bf7391cb18c29ce0f6a8227a3b01b81ff9
   category: main
   optional: false
 - name: enlighten
