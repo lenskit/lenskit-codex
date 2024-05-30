@@ -1,0 +1,31 @@
+name: lk-codex
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pandas=2
+  - duckdb=0.10
+  - python-duckdb=0.10
+  - pyarrow>=16
+  - quarto>=1.4
+  - plotnine=0.13
+  - matplotlib>=3.6
+  - ipython>=8
+  - notebook>=7
+  - jupyterlab
+  - dvc
+  - dvc-s3
+  - dvc-webdav
+  - libblas=*=*mkl* # [linux]
+  - pytorch-mutex=*=cuda # [linux]
+  - ruff
+  - pyright
+  - pip:
+      - sandal>=0.1.0a1
+      - progress-api>=0.1.0a1
+platforms:
+  - linux-64
+  - osx-arm64
