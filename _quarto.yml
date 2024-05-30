@@ -5,10 +5,20 @@ jupyter: python3
 
 website:
   title: "LensKit Codex"
-  navbar:
-    left:
+  sidebar:
+    # style: docked
+    search: true
+    contents:
       - href: index.qmd
         text: Home
+      - section: "MovieLens"
+        contents:
+        - href: movielens/index.qmd
+          text: Overview
+        - section: "ML25M"
+          contents:
+          - movielens/ML25M/description.qmd
+
 
 format:
   html:
