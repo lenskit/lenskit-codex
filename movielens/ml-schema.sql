@@ -1,3 +1,10 @@
+CREATE TABLE ratings (
+    user_id INTEGER NOT NULL,
+    item_id INTEGER NOT NULL,
+    rating FLOAT NOT NULL,
+    timestamp TIMESTAMP NOT NULL,
+);
+
 CREATE VIEW global_stats AS
 SELECT COUNT(*) AS n_ratings,
     COUNT(DISTINCT user_id) AS n_users,

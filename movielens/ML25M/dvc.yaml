@@ -3,7 +3,8 @@ stages:
     cmd: python ../import-ml.py ml-25m.zip
     deps:
     - ../import-ml.py
-    - ../../codex/rating_stat_views.sql
+    - ../ml-schema.sql
     - ml-25m.zip
     outs:
+    - ratings.duckdb
     - ratings.parquet

@@ -19,19 +19,23 @@ stages:
   import-ml-25m:
     cmd: python ../import-ml.py ml-25m.zip
     deps:
-    - path: ../../codex/rating_stat_views.sql
-      hash: md5
-      md5: 03ae5cde67281c6203545b90fa9c6c8d
-      size: 484
     - path: ../import-ml.py
       hash: md5
-      md5: ca67baf3473d97a44eafc27145876483
-      size: 3441
+      md5: 17eab99bc3d188e994957ca85edee252
+      size: 3975
+    - path: ../ml-schema.sql
+      hash: md5
+      md5: 114f059c4b992a68fe1754812d403417
+      size: 1450
     - path: ml-25m.zip
       hash: md5
       md5: 6b51fb2759a8657d3bfcbfc42b592ada
       size: 261978986
     outs:
+    - path: ratings.duckdb
+      hash: md5
+      md5: 5262699e60993b40499005abf304ccfc
+      size: 242757632
     - path: ratings.parquet
       hash: md5
       md5: 60a83d1b954209733419580cbfb6d27a

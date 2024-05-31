@@ -6,10 +6,11 @@ local ml_import = function(name, fn) {
   cmd: std.format('python ../import-ml.py %s.zip', [fn]),
   deps: [
     '../import-ml.py',
-    '../../codex/rating_stat_views.sql',
+    '../ml-schema.sql',
     fn + '.zip',
   ],
   outs: [
+    'ratings.duckdb',
     'ratings.parquet',
   ],
 };

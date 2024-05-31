@@ -19,9 +19,7 @@ from codex.stats import global_rating_stats, pop_gini
 ```
 
 ```{python}
-db = duckdb.connect()
-db.execute(f"CREATE VIEW ratings AS SELECT * FROM 'ratings.parquet'")
-db.execute(here('movielens/ml-views.sql').read_text())
+db = duckdb.connect(f'{NAME}/ratings.duckdb')
 ```
 
 ```{python}
