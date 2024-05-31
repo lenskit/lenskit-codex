@@ -55,7 +55,7 @@ distribution of popularity?
     + pn.scale_x_log10()
     + pn.xlab('# of Ratings')
     + pn.ylab('Cumulative Frac. of Items')
-    + pn.ggtitle(f'{name} Item Popularity Distribution')
+    + pn.ggtitle(f'{NAME} Item Popularity Distribution')
     + pn.theme_minimal()
 )
 ```
@@ -72,7 +72,7 @@ item_stats['cf_ratings'] = item_stats['n_ratings'].cumsum() / item_stats['n_rati
     + pn.geom_abline(color='grey', linetype='--')
     + pn.xlab('Item Rank')
     + pn.ylab('Cumulative Frac. of Ratings')
-    + pn.ggtitle(f'Lorenz curve of {name} item popularity')
+    + pn.ggtitle(f'Lorenz curve of {NAME} item popularity')
     + pn.theme_minimal()
 )
 ```
@@ -99,7 +99,7 @@ How are user averages distributed?
     + pn.geom_histogram(bins=50)
     + pn.xlab('Mean Rating')
     + pn.ylab('# of Users')
-    + pn.ggtitle('Distribution of Average Ratings by User')
+    + pn.ggtitle(f'Distribution of Average Ratings by User ({NAME})')
     + pn.theme_minimal()
 )
 ```
@@ -113,7 +113,41 @@ And what is the distribution of user activity levels (# of ratings)?
     + pn.xlab('# of Ratings')
     + pn.ylab('# of Users')
     + pn.scale_x_log10()
-    + pn.ggtitle('Distribution of Profile Sizes by User')
+    + pn.ggtitle(f'Distribution of Profile Sizes by User ({NAME})')
     + pn.theme_minimal()
 )
 ```
+
+## Ratings over Time
+
+The MovieLens ratings have timestamps, so we'll also look at a temporal view of the data.
+
+```{python}
+years = db.query('''
+SELECT year(timestamp) AS year,
+    count(*) AS n_ratings,
+    count(distinct user_id) AS n_users,
+    count(distinct item_id) AS n_items,
+    avg(rating) AS mean_rating
+FROM ratings
+GROUP BY year(timestamp)
+ORDER BY year
+''').df()
+```
+
+
+```{python}
+months = db.query('''
+SELECT year(timestamp) AS year, month(timestamp) AS month,
+    count(*) AS n_ratings,
+    count(distinct user_id) AS n_users,
+    count(distinct item_id) AS n_items,
+    avg(rating) AS mean_rating
+FROM ratings
+GROUP BY year(timestamp), month(timestamp)
+ORDER BY year, month
+''').df()
+```
+
+### Data Volume
+

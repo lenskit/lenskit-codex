@@ -1,8 +1,10 @@
 stages:
-  import-data:
+  import-ml-100k:
     cmd: python ../import-ml.py ml-100k.zip
     deps:
     - ../import-ml.py
+    - ../../codex/rating_stat_views.sql
     - ml-100k.zip
     outs:
     - ratings.duckdb
+    - ratings.parquet
