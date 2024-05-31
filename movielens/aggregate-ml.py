@@ -6,6 +6,8 @@ Usage:
 
 Options:
     -v, --verbose   Include verbose logging output.
+    -d DATABASE, --database=DATABASE
+                    Connect to specified database [default: ml-stats.duckdb]
 """
 
 import logging
@@ -25,15 +27,18 @@ _log = logging.getLogger("codex.aggregate-ml")
 
 
 def main(options):
+    dbfn = options["--database"]
     sets = options["DS"]
     _log.info("summarizing %d data sets", len(sets))
-    if os.path.exists("ml-stats.duckdb"):
-        _log.info("removing ml-stats.duckdb")
-        os.unlink("ml-stats.duckdb")
+    if os.path.exists(dbfn):
+        _log.info("removing %s", dbfn)
+        os.unlink(dbfn)
 
-    with connect("ml-stats.duckdb") as db:
+    with connect(dbfn) as db:
         initialize_db(db, sets)
         union_tables(db, "global_stats", sets)
+        union_tables(db, "item_stats", sets)
+        union_tables(db, "user_stats", sets)
 
 
 def initialize_db(db: DuckDBPyConnection, sets: list[str]):
@@ -41,13 +46,15 @@ def initialize_db(db: DuckDBPyConnection, sets: list[str]):
     db.execute(f"CREATE TYPE ml_set AS ENUM({set_names})")
     for name in sets:
         _log.info("attaching %s", name)
-        db.execute(f"ATTACH '{name}/ratings.duckdb' AS {name} (READONLY)")
+        db.execute(f"ATTACH '{name}/stats.duckdb' AS {name} (READONLY)")
 
 
 def union_tables(db: DuckDBPyConnection, table: str, sets: list[str]):
     _log.info("aggregating table %s", table)
     query = f"CREATE TABLE {table} AS "
-    selects = [f"SELECT '{n}', * FROM {n}.{table}" for n in sets]
+    selects = [
+        f"SELECT CAST('{n}' AS ml_set) AS dataset, * FROM {n}.{table}" for n in sets
+    ]
     query += " UNION ALL ".join(selects)
     _log.debug("query: %s", query)
     db.execute(query)

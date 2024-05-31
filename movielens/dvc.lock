@@ -1,0 +1,34 @@
+schema: '2.0'
+stages:
+  aggregate:
+    cmd: python aggregate-ml.py -d merged-stats.duckdb ML100K ML10M ML1M ML20M ML25M
+    deps:
+    - path: ML100K/stats.duckdb
+      hash: md5
+      md5: 005070d0bc196fbcbfec774407d7b0a8
+      size: 1323008
+    - path: ML10M/stats.duckdb
+      hash: md5
+      md5: 59d6961bed0bbe6c0822c4999a29cb09
+      size: 2895872
+    - path: ML1M/stats.duckdb
+      hash: md5
+      md5: 411a11e707d9b0f0281e2d8e6a64b1c2
+      size: 1323008
+    - path: ML20M/stats.duckdb
+      hash: md5
+      md5: cc596bebeb0b9d8738a06ad937166ce6
+      size: 4468736
+    - path: ML25M/stats.duckdb
+      hash: md5
+      md5: 6dcc1794a0e0d90e2cdeb756c84d55b1
+      size: 5255168
+    - path: aggregate-ml.py
+      hash: md5
+      md5: 4bb8b2360ea00a5c5564e936d1ca0b88
+      size: 1836
+    outs:
+    - path: merged-stats.duckdb
+      hash: md5
+      md5: 55c4a4e5001bccb9fdf428123101bd96
+      size: 14954496

@@ -15,15 +15,16 @@ from si_prefix import si_format
 ```{python}
 from sandal import autoroot
 from sandal.project import here
-from codex.stats import global_rating_stats, pop_gini
+from codex.stats import GlobalRatingStats, pop_gini
+from codex.dbutil import to_dataclass
 ```
 
 ```{python}
-db = duckdb.connect(f'{NAME}/stats.duckdb')
+db = duckdb.connect('stats.duckdb')
 ```
 
 ```{python}
-stats = global_rating_stats(db)
+stats = to_dataclass(db.table('global_stats'), GlobalRatingStats)
 item_stats = db.table('item_stats').df()
 user_stats = db.table('user_stats').df()
 ```
@@ -65,7 +66,6 @@ distribution of popularity?
 Let's also look at this as a Lorenz curve, for clarity:
 
 ```{python}
-item_stats['rank'] = item_stats['n_ratings'].rank(method='min') / len(item_stats)
 item_stats.sort_values('n_ratings', inplace=True)
 item_stats['cf_ratings'] = item_stats['n_ratings'].cumsum() / item_stats['n_ratings'].sum()
 (

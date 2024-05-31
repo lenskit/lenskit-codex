@@ -1,8 +1,72 @@
 ---
 title: MovieLens Data
+echo: false
 ---
 
 [MovieLens]: https://movielens.org
 
 [MovieLens][] is a movie recommendation site producing data sets that are widely
 used for recommender systems research.
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotnine as pn
+import duckdb
+```
+
+```{python}
+from IPython.display import Markdown
+from tabulate import tabulate
+from humanize import intcomma
+from si_prefix import si_format
+```
+
+
+```{python}
+stat_db = duckdb.connect('merged-stats.duckdb', read_only=True)
+```
+
+
+```{python}
+#| tbl-cap: MovieLens data set statistics.
+stats = stat_db.query('''
+SELECT dataset, n_ratings, n_users, n_items,
+    n_ratings / (n_users * n_items) AS density,
+    first_rating, last_rating
+FROM global_stats
+ORDER BY n_ratings
+''')
+Markdown(tabulate(
+    stats.fetchall(),
+    headers=['Set', 'Ratings', 'Users', 'Items', 'Density', 'Start', 'End'],
+    intfmt=',',
+    floatfmt='.3%'
+))
+```
+
+
+```{python}
+#| fig-cap: "Popularity concentration in MovieLens data sets (Lorenz curves)."
+items = stat_db.query('''
+    SELECT dataset, item_id, n_ratings, rank,
+        SUM(n_ratings) OVER(PARTITION BY dataset) AS tot_ratings,
+        SUM(n_ratings) OVER(PARTITION BY dataset ORDER BY n_ratings ROWS UNBOUNDED PRECEDING) AS cum_ratings,
+        cum_ratings / tot_ratings as cum_frac
+    FROM item_stats
+''').df()
+(
+    pn.ggplot(items)
+    + pn.aes(x='rank', y='cum_frac', color='dataset')
+    + pn.geom_line()
+    + pn.geom_abline(color='grey', linetype='--')
+    + pn.scale_color_brewer('qual', 'Dark2')
+    + pn.labs(
+        x='Item Rank',
+        y='Cum. Frac. Items',
+        color='Dataset'
+    )
+    + pn.theme_minimal()
+    + pn.theme(figure_size=(7, 3))
+)
+```
