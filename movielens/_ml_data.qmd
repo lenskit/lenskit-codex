@@ -9,15 +9,19 @@ import duckdb
 from IPython.display import Markdown
 from tabulate import tabulate
 from humanize import intcomma
+from si_prefix import si_format
 ```
 
 ```{python}
 from sandal import autoroot
+from sandal.project import here
 from codex.stats import global_rating_stats, pop_gini
 ```
 
 ```{python}
-db = duckdb.connect(f'ratings.duckdb', read_only=True)
+db = duckdb.connect()
+db.execute(f"CREATE VIEW ratings AS SELECT * FROM 'ratings.parquet'")
+db.execute(here('movielens/ml-views.sql').read_text())
 ```
 
 ```{python}
@@ -123,31 +127,64 @@ And what is the distribution of user activity levels (# of ratings)?
 The MovieLens ratings have timestamps, so we'll also look at a temporal view of the data.
 
 ```{python}
-years = db.query('''
-SELECT year(timestamp) AS year,
-    count(*) AS n_ratings,
-    count(distinct user_id) AS n_users,
-    count(distinct item_id) AS n_items,
-    avg(rating) AS mean_rating
-FROM ratings
-GROUP BY year(timestamp)
-ORDER BY year
-''').df()
+years = db.table('year_stats').df()
 ```
 
 
 ```{python}
-months = db.query('''
-SELECT year(timestamp) AS year, month(timestamp) AS month,
-    count(*) AS n_ratings,
-    count(distinct user_id) AS n_users,
-    count(distinct item_id) AS n_items,
-    avg(rating) AS mean_rating
-FROM ratings
-GROUP BY year(timestamp), month(timestamp)
-ORDER BY year, month
-''').df()
+months = db.table('month_stats').df()
 ```
 
 ### Data Volume
 
+How many ratings are we getting each year?
+
+```{python}
+(
+    pn.ggplot(years)
+    + pn.aes(x='year', y='n_ratings')
+    + pn.geom_line()
+    + pn.scale_y_continuous(labels=lambda ns: [
+        si_format(n, precision=1) for n in ns
+    ])
+    + pn.xlab('Year')
+    + pn.ylab('Annual # of Ratings')
+    + pn.ggtitle(f'{NAME} Rating Volume by Year')
+    + pn.theme_minimal()
+)
+```
+
+
+How many ratings are we getting each month?
+
+```{python}
+(
+    pn.ggplot(months)
+    + pn.aes(x='fracyear', y='n_ratings')
+    + pn.geom_line()
+    + pn.scale_y_continuous(labels=lambda ns: [
+        si_format(n, precision=1) for n in ns
+    ])
+    + pn.xlab('Year')
+    + pn.ylab('Monthly # of Ratings')
+    + pn.ggtitle(f'{NAME} Rating Volume by Month')
+    + pn.theme_minimal()
+)
+```
+
+And how many monthly unique users?
+
+```{python}
+(
+    pn.ggplot(months)
+    + pn.aes(x='fracyear', y='n_users')
+    + pn.geom_line()
+    + pn.scale_y_continuous(labels=lambda ns: [
+        si_format(n, precision=1) for n in ns
+    ])
+    + pn.xlab('Year')
+    + pn.ylab('Unique Users per Month')
+    + pn.ggtitle(f'{NAME} Monthly Unique Users')
+    + pn.theme_minimal()
+)
+```
