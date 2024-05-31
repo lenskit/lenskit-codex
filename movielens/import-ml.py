@@ -128,7 +128,7 @@ def main(options):
         rate_df["timestamp"] = pd.to_datetime(rate_df["timestamp"], unit="s")
 
         db.execute(
-            "INSERT INTO ratings SELECT user_id, item_id, rating, to_timestamp(timestamp) FROM rate_df"
+            "INSERT INTO ratings SELECT user_id, item_id, rating, timestamp FROM rate_df"
         )
         _log.info("DB insert completed")
 

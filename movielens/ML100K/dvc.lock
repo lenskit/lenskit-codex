@@ -16,3 +16,27 @@ stages:
       hash: md5
       md5: 547f56bb2ade8993dd3a1098db3f7138
       size: 1323008
+  import-ml-100k:
+    cmd: python ../import-ml.py ml-100k.zip
+    deps:
+    - path: ../../codex/rating_stat_views.sql
+      hash: md5
+      md5: 03ae5cde67281c6203545b90fa9c6c8d
+      size: 484
+    - path: ../import-ml.py
+      hash: md5
+      md5: 25d3293e7c4a15e33bc4450b0a3b2b33
+      size: 3933
+    - path: ml-100k.zip
+      hash: md5
+      md5: 0e33842e24a9c977be4e0107933c0723
+      size: 4924029
+    outs:
+    - path: ratings.duckdb
+      hash: md5
+      md5: 584b14df7542f8fa9a90c5ce67646bd7
+      size: 1323008
+    - path: ratings.parquet
+      hash: md5
+      md5: 17acf184eb0bfe350d35f4c39fceb314
+      size: 846024
