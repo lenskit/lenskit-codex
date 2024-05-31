@@ -1,5 +1,6 @@
 local lib = import '../../lib.jsonnet';
 local meta = std.parseYaml(importstr 'meta.yml');
+local ds_names = std.objectFields(meta.datasets);
 
 local ml_import = function(name, fn) {
   cmd: std.format('python ../import-ml.py %s.zip', [fn]),
@@ -23,6 +24,6 @@ local ml_pipeline = function(name) {
 {
   subdirs: {
     [name]: ml_pipeline(name)
-    for name in std.objectFields(meta.datasets)
+    for name in ds_names
   },
 }

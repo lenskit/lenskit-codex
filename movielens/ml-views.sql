@@ -1,3 +1,11 @@
+CREATE VIEW global_stats AS
+SELECT COUNT(*) AS n_ratings,
+    COUNT(DISTINCT user_id) AS n_users,
+    COUNT(DISTINCT item_id) AS n_items,
+    MIN(timestamp) AS first_rating,
+    MAX(timestamp) AS last_rating,
+FROM ratings;
+
 CREATE VIEW item_stats AS
 SELECT item_id,
     COUNT(*) AS n_ratings,

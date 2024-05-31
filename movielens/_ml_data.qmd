@@ -200,7 +200,7 @@ user_stats['days'] = user_stats['length'].dt.total_seconds() / (24 * 60 * 60)
 (
     pn.ggplot(user_stats)
     + pn.aes(x='days')
-    + pn.geom_histogram()
+    + pn.geom_histogram(bins=100)
     + pn.scale_x_symlog()
     + pn.xlab("Acocunt Duration (days)")
     + pn.ylab('# of Users')

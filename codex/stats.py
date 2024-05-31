@@ -15,14 +15,16 @@ class GlobalRatingStats:
     last_rating: datetime
 
 
-def global_rating_stats(db: DuckDBPyConnection) -> GlobalRatingStats:
-    db.execute("""
+def global_rating_stats(
+    db: DuckDBPyConnection, table: str = "ratings"
+) -> GlobalRatingStats:
+    db.execute(f"""
         SELECT COUNT(*) AS n_ratings,
             COUNT(DISTINCT user_id) AS n_users,
             COUNT(DISTINCT item_id) AS n_items,
             MIN(timestamp) AS first_rating,
             MAX(timestamp) AS last_rating
-        FROM ratings
+        FROM {table}
     """)
     res = db.fetchone()
     return GlobalRatingStats(**{c[0]: val for (c, val) in zip(db.description, res)})
