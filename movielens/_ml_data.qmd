@@ -172,7 +172,9 @@ How many ratings are we getting each month?
 )
 ```
 
-And how many monthly unique users?
+### User Activity
+
+Monthly unique users is a good measure of user activity.
 
 ```{python}
 (
@@ -185,6 +187,23 @@ And how many monthly unique users?
     + pn.xlab('Year')
     + pn.ylab('Unique Users per Month')
     + pn.ggtitle(f'{NAME} Monthly Unique Users')
+    + pn.theme_minimal()
+)
+```
+
+How long do users usually stick around?
+
+
+```{python}
+user_stats['length'] = user_stats['last_rating'] - user_stats['first_rating']
+user_stats['days'] = user_stats['length'].dt.total_seconds() / (24 * 60 * 60)
+(
+    pn.ggplot(user_stats)
+    + pn.aes(x='days')
+    + pn.geom_histogram()
+    + pn.scale_x_symlog()
+    + pn.xlab("Acocunt Duration (days)")
+    + pn.ylab('# of Users')
     + pn.theme_minimal()
 )
 ```
