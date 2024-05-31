@@ -9,7 +9,6 @@ local ml_import = function(name, fn) {
     fn + '.zip',
   ],
   outs: [
-    'ratings.duckdb',
     'ratings.parquet',
   ],
 };
