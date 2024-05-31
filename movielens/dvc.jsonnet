@@ -6,12 +6,20 @@ local ml_import = function(name, fn) {
   cmd: std.format('python ../import-ml.py %s.zip', [fn]),
   deps: [
     '../import-ml.py',
-    '../ml-schema.sql',
     fn + '.zip',
   ],
   outs: [
-    'ratings.duckdb',
     'ratings.parquet',
+  ],
+};
+local ml_stats = function(name) {
+  cmd: 'python ../../scripts/duckdb-sql.py -d stats.duckdb ../ml-stats.sql',
+  deps: [
+    '../ml-stats.sql',
+    'ratings.parquet',
+  ],
+  outs: [
+    'stats.duckdb',
   ],
 };
 
@@ -19,6 +27,7 @@ local ml_pipeline = function(name) {
   local fn = meta.datasets[name],
   stages: {
     ['import-' + fn]: ml_import(name, fn),
+    [fn + '-stats']: ml_stats(name),
   },
 };
 

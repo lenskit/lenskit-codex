@@ -21,22 +21,30 @@ stages:
     deps:
     - path: ../import-ml.py
       hash: md5
-      md5: 17eab99bc3d188e994957ca85edee252
-      size: 3975
-    - path: ../ml-schema.sql
-      hash: md5
-      md5: 114f059c4b992a68fe1754812d403417
-      size: 1450
+      md5: e4e7da8503eb71557becfc17dbf9dc48
+      size: 3495
     - path: ml-1m.zip
       hash: md5
       md5: c4d9eecfca2ab87c1945afe126590906
       size: 5917549
     outs:
-    - path: ratings.duckdb
-      hash: md5
-      md5: 97d843d0a8f250cfe5d9372a56adf75f
-      size: 8925184
     - path: ratings.parquet
       hash: md5
       md5: dea3ecb8a158bcf837a4d9d25ca9ab2e
       size: 6034375
+  ml-1m-stats:
+    cmd: python ../../scripts/duckdb-sql.py -d stats.duckdb ../ml-stats.sql
+    deps:
+    - path: ../ml-stats.sql
+      hash: md5
+      md5: bf09f212fabc98275ae949932889654c
+      size: 1374
+    - path: ratings.parquet
+      hash: md5
+      md5: dea3ecb8a158bcf837a4d9d25ca9ab2e
+      size: 6034375
+    outs:
+    - path: stats.duckdb
+      hash: md5
+      md5: 411a11e707d9b0f0281e2d8e6a64b1c2
+      size: 1323008

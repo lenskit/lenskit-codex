@@ -18,7 +18,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from docopt import docopt
-from duckdb import connect
 from sandal import autoroot  # noqa: F401
 from sandal.cli import setup_logging
 from sandal.project import here
@@ -112,26 +111,14 @@ def main(options):
     data = open_data(zipf)
 
     pqf = zipf.with_name("ratings.parquet")
-    duckf = zipf.with_name("ratings.duckdb")
 
-    if duckf.exists():
-        _log.info("removing %s", duckf)
-        duckf.unlink()
-
-    with data, connect(fspath(duckf)) as db:
-        db.execute(here("movielens/ml-schema.sql").read_text())
+    with data:
         dirname = data.get_dirname()
         with data.archive.open(os.path.join(dirname, data.rating_file)) as rf:
             rate_df = data.read_ratings(rf)
         _log.info("read %d ratings", len(rate_df))
 
         rate_df["timestamp"] = pd.to_datetime(rate_df["timestamp"], unit="s")
-
-        db.execute(
-            "INSERT INTO ratings SELECT user_id, item_id, rating, timestamp FROM rate_df"
-        )
-        _log.info("DB insert completed")
-        # db.execute(here("movielens/ml-index.sql").read_text())
 
         _log.info("saving %s", pqf)
         rate_df.to_parquet(pqf, index=False, compression="zstd")
