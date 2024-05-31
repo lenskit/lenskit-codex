@@ -22,6 +22,9 @@ from humanize import intcomma
 from si_prefix import si_format
 ```
 
+```{python}
+pn.theme_set(pn.theme_minimal() + pn.theme(figure_size=(7, 4), dpi=300))
+```
 
 ```{python}
 stat_db = duckdb.connect('merged-stats.duckdb', read_only=True)
@@ -66,7 +69,5 @@ items = stat_db.query('''
         y='Cum. Frac. Items',
         color='Dataset'
     )
-    + pn.theme_minimal()
-    + pn.theme(figure_size=(7, 3))
 )
 ```

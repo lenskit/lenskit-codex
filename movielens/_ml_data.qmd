@@ -20,6 +20,10 @@ from codex.dbutil import to_dataclass
 ```
 
 ```{python}
+pn.theme_set(pn.theme_minimal() + pn.theme(figure_size=(7, 4), dpi=300))
+```
+
+```{python}
 db = duckdb.connect('stats.duckdb')
 ```
 
@@ -59,7 +63,6 @@ distribution of popularity?
     + pn.xlab('# of Ratings')
     + pn.ylab('Cumulative Frac. of Items')
     + pn.ggtitle(f'{NAME} Item Popularity Distribution')
-    + pn.theme_minimal()
 )
 ```
 
@@ -75,7 +78,6 @@ item_stats['cf_ratings'] = item_stats['n_ratings'].cumsum() / item_stats['n_rati
     + pn.xlab('Item Rank')
     + pn.ylab('Cumulative Frac. of Ratings')
     + pn.ggtitle(f'Lorenz curve of {NAME} item popularity')
-    + pn.theme_minimal()
 )
 ```
 
@@ -87,7 +89,6 @@ What is the distribution of average ratings?
     + pn.geom_histogram(bins=25)
     + pn.xlab('Mean Rating')
     + pn.ylab('# of Movies')
-    + pn.theme_minimal()
 )
 ```
 
@@ -102,7 +103,6 @@ How are user averages distributed?
     + pn.xlab('Mean Rating')
     + pn.ylab('# of Users')
     + pn.ggtitle(f'Distribution of Average Ratings by User ({NAME})')
-    + pn.theme_minimal()
 )
 ```
 
@@ -116,7 +116,6 @@ And what is the distribution of user activity levels (# of ratings)?
     + pn.ylab('# of Users')
     + pn.scale_x_log10()
     + pn.ggtitle(f'Distribution of Profile Sizes by User ({NAME})')
-    + pn.theme_minimal()
 )
 ```
 
@@ -148,7 +147,6 @@ How many ratings are we getting each year?
     + pn.xlab('Year')
     + pn.ylab('Annual # of Ratings')
     + pn.ggtitle(f'{NAME} Rating Volume by Year')
-    + pn.theme_minimal()
 )
 ```
 
@@ -166,7 +164,6 @@ How many ratings are we getting each month?
     + pn.xlab('Year')
     + pn.ylab('Monthly # of Ratings')
     + pn.ggtitle(f'{NAME} Rating Volume by Month')
-    + pn.theme_minimal()
 )
 ```
 
@@ -185,7 +182,6 @@ Monthly unique users is a good measure of user activity.
     + pn.xlab('Year')
     + pn.ylab('Unique Users per Month')
     + pn.ggtitle(f'{NAME} Monthly Unique Users')
-    + pn.theme_minimal()
 )
 ```
 
@@ -202,6 +198,5 @@ user_stats['days'] = user_stats['length'].dt.total_seconds() / (24 * 60 * 60)
     + pn.scale_x_symlog()
     + pn.xlab("Acocunt Duration (days)")
     + pn.ylab('# of Users')
-    + pn.theme_minimal()
 )
 ```
