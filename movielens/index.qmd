@@ -35,19 +35,25 @@ stat_db = duckdb.connect('merged-stats.duckdb', read_only=True)
 
 ```{python}
 #| tbl-cap: MovieLens data set statistics.
-stats = stat_db.query('''
+stats_q = stat_db.query('''
 SELECT dataset, n_ratings, n_users, n_items,
     n_ratings / (n_users * n_items) AS density,
     first_rating, last_rating
 FROM global_stats
 ORDER BY n_ratings
 ''')
+stats = stats_q.fetchall()
 Markdown(tabulate(
-    stats.fetchall(),
+    stats,
     headers=['Set', 'Ratings', 'Users', 'Items', 'Density', 'Start', 'End'],
     intfmt=',',
     floatfmt='.3%'
 ))
+```
+
+```{python}
+# we want to order the data sets for other analyses
+ml_order = [row[0] for row in stats]
 ```
 
 
@@ -60,6 +66,7 @@ items = stat_db.query('''
         cum_ratings / tot_ratings as cum_frac
     FROM item_stats
 ''').df()
+items['dataset'] = items['dataset'].astype('category').cat.reorder_categories(ml_order)
 (
     pn.ggplot(items)
     + pn.aes(x='rank', y='cum_frac', color='dataset')

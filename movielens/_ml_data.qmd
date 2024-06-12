@@ -20,7 +20,12 @@ from codex.dbutil import to_dataclass
 ```
 
 ```{python}
-pn.theme_set(pn.theme_minimal() + pn.theme(figure_size=(7, 4), dpi=300))
+from mizani.palettes import brewer_pal
+pn.theme_set(pn.theme_classic() + pn.theme(figure_size=(7, 4), dpi=300))
+dark2 = brewer_pal('qual', 'Dark2')
+dft_line = dark2(2)[1]
+set2 = brewer_pal('qual', 'Set2')
+dft_fill = set2(2)[1]
 ```
 
 ```{python}
@@ -58,8 +63,8 @@ distribution of popularity?
 ```{python}
 (
     pn.ggplot(item_stats, pn.aes(x='n_ratings'))
-    + pn.geom_step(stat='ecdf', color='blue')
-    + pn.scale_x_log10()
+    + pn.geom_step(stat='ecdf', color=dft_line)
+    + pn.scale_x_symlog()
     + pn.xlab('# of Ratings')
     + pn.ylab('Cumulative Frac. of Items')
     + pn.ggtitle(f'{NAME} Item Popularity Distribution')
@@ -73,7 +78,7 @@ item_stats.sort_values('n_ratings', inplace=True)
 item_stats['cf_ratings'] = item_stats['n_ratings'].cumsum() / item_stats['n_ratings'].sum()
 (
     pn.ggplot(item_stats, pn.aes(x='rank', y='cf_ratings'))
-    + pn.geom_line(color='blue')
+    + pn.geom_line(color=dft_line)
     + pn.geom_abline(color='grey', linetype='--')
     + pn.xlab('Item Rank')
     + pn.ylab('Cumulative Frac. of Ratings')
@@ -86,7 +91,7 @@ What is the distribution of average ratings?
 ```{python}
 (
     pn.ggplot(item_stats, pn.aes(x='mean_rating'))
-    + pn.geom_histogram(bins=25)
+    + pn.geom_histogram(bins=25, fill=dft_fill)
     + pn.xlab('Mean Rating')
     + pn.ylab('# of Movies')
 )
@@ -99,7 +104,7 @@ How are user averages distributed?
 ```{python}
 (
     pn.ggplot(user_stats, pn.aes(x='mean_rating'))
-    + pn.geom_histogram(bins=50)
+    + pn.geom_histogram(bins=50, fill=dft_fill)
     + pn.xlab('Mean Rating')
     + pn.ylab('# of Users')
     + pn.ggtitle(f'Distribution of Average Ratings by User ({NAME})')
@@ -111,7 +116,7 @@ And what is the distribution of user activity levels (# of ratings)?
 ```{python}
 (
     pn.ggplot(user_stats, pn.aes(x='n_ratings'))
-    + pn.geom_histogram(bins=100)
+    + pn.geom_histogram(bins=100, fill=dft_fill)
     + pn.xlab('# of Ratings')
     + pn.ylab('# of Users')
     + pn.scale_x_log10()
@@ -134,24 +139,24 @@ months = db.table('month_stats').df()
 
 ### Data Volume
 
-How many ratings are we getting each year?
+How did the data grow over time?
 
 ```{python}
+months['cum_ratings'] = months['n_ratings'].cumsum()
 (
-    pn.ggplot(years)
-    + pn.aes(x='year', y='n_ratings')
-    + pn.geom_line()
+    pn.ggplot(months)
+    + pn.aes(x='fracyear', y='cum_ratings')
+    + pn.geom_area(fill=dft_fill)
     + pn.scale_y_continuous(labels=lambda ns: [
         si_format(n, precision=1) for n in ns
     ])
     + pn.xlab('Year')
-    + pn.ylab('Annual # of Ratings')
-    + pn.ggtitle(f'{NAME} Rating Volume by Year')
+    + pn.ylab('Total Cumulative Ratings')
+    + pn.ggtitle(f'{NAME} Rating Growth')
 )
 ```
 
-
-How many ratings are we getting each month?
+How many ratings are we getting each month through the life of the data set?
 
 ```{python}
 (
@@ -175,7 +180,7 @@ Monthly unique users is a good measure of user activity.
 (
     pn.ggplot(months)
     + pn.aes(x='fracyear', y='n_users')
-    + pn.geom_line()
+    + pn.geom_line(color=dft_line)
     + pn.scale_y_continuous(labels=lambda ns: [
         si_format(n, precision=1) for n in ns
     ])
@@ -194,7 +199,7 @@ user_stats['days'] = user_stats['length'].dt.total_seconds() / (24 * 60 * 60)
 (
     pn.ggplot(user_stats)
     + pn.aes(x='days')
-    + pn.geom_histogram(bins=100)
+    + pn.geom_histogram(bins=100, fill=dft_fill)
     + pn.scale_x_symlog()
     + pn.xlab("Acocunt Duration (days)")
     + pn.ylab('# of Users')
