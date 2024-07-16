@@ -1,3 +1,6 @@
+update-pipeline:
+    ./render-pipeline.ts
+
 render:
     quarto render
 
