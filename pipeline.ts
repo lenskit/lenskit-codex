@@ -42,7 +42,7 @@ export const pipeline = {
 };
 
 for (const nb of await collectNotebooks()) {
-  pipeline.stages[`render/${nb.path}`] = {
+  pipeline.stages[`page/${nb.path}`] = {
     cmd: `quarto render ${nb.file}`,
     deps: [nb.file].concat(nb.deps),
     outs: [`_freeze/${nb.path}`],

@@ -1,5 +1,5 @@
 stages:
-  render/movielens/ML100K/description:
+  page/movielens/ML100K/description:
     cmd: quarto render movielens/ML100K/description.qmd
     deps:
       - movielens/ML100K/description.qmd
@@ -7,7 +7,7 @@ stages:
       - movielens/ML100K/stats.duckdb
     outs:
       - _freeze/movielens/ML100K/description
-  render/movielens/ML10M/description:
+  page/movielens/ML10M/description:
     cmd: quarto render movielens/ML10M/description.qmd
     deps:
       - movielens/ML10M/description.qmd
@@ -15,7 +15,7 @@ stages:
       - movielens/ML10M/stats.duckdb
     outs:
       - _freeze/movielens/ML10M/description
-  render/movielens/ML1M/description:
+  page/movielens/ML1M/description:
     cmd: quarto render movielens/ML1M/description.qmd
     deps:
       - movielens/ML1M/description.qmd
@@ -23,7 +23,7 @@ stages:
       - movielens/ML1M/stats.duckdb
     outs:
       - _freeze/movielens/ML1M/description
-  render/movielens/ML20M/description:
+  page/movielens/ML20M/description:
     cmd: quarto render movielens/ML20M/description.qmd
     deps:
       - movielens/ML20M/description.qmd
@@ -31,7 +31,7 @@ stages:
       - movielens/ML20M/stats.duckdb
     outs:
       - _freeze/movielens/ML20M/description
-  render/movielens/ML25M/description:
+  page/movielens/ML25M/description:
     cmd: quarto render movielens/ML25M/description.qmd
     deps:
       - movielens/ML25M/description.qmd
@@ -39,7 +39,7 @@ stages:
       - movielens/ML25M/stats.duckdb
     outs:
       - _freeze/movielens/ML25M/description
-  render/movielens/index:
+  page/movielens/index:
     cmd: quarto render movielens/index.qmd
     deps:
       - movielens/index.qmd
