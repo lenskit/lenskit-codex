@@ -1,0 +1,38 @@
+name: Publish site
+
+on:
+  push:
+    branches:
+      - master
+
+defaults:
+  run:
+    shell: bash -el {0}
+
+jobs:
+  build-site:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛒 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Set up Conda environment
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-file: environment.yml
+          environment-name: lk-codex
+          init-shell: bash
+
+      - name: Fetch site assets
+        run: dvc pull -r web-assets dvc.yaml
+
+      - name: Render site content
+        run: quarto render
+
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: codex-site
+          path: _site
