@@ -1,1 +1,14 @@
-stages: {}
+stages:
+  render:
+    foreach:
+      - index
+      - movielens/ML100K/description
+      - movielens/ML10M/description
+      - movielens/ML1M/description
+      - movielens/ML20M/description
+      - movielens/ML25M/description
+      - movielens/index
+    do:
+      cmd: 'quarto render ${item}.qmd'
+      outs:
+        - '_freeze/${item}'
