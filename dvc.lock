@@ -8,3 +8,125 @@ stages:
       md5: 116ae7d9bd63b5e1a01457d2b5b36d3c.dir
       size: 364605
       nfiles: 2
+  render/movielens/ML100K/description:
+    cmd: quarto render movielens/ML100K/description.qmd
+    deps:
+    - path: movielens/ML100K/description.qmd
+      hash: md5
+      md5: cc6220677d1bc99754ca8b1187e07dc9
+      size: 156
+    - path: movielens/ML100K/ratings.parquet
+      hash: md5
+      md5: 17acf184eb0bfe350d35f4c39fceb314
+      size: 846024
+    - path: movielens/ML100K/stats.duckdb
+      hash: md5
+      md5: 005070d0bc196fbcbfec774407d7b0a8
+      size: 1323008
+    outs:
+    - path: _freeze/movielens/ML100K/description
+      hash: md5
+      md5: 2ca76a916890bbd0dff7411effe1bae9.dir
+      size: 1617994
+      nfiles: 10
+  render/movielens/ML10M/description:
+    cmd: quarto render movielens/ML10M/description.qmd
+    deps:
+    - path: movielens/ML10M/description.qmd
+      hash: md5
+      md5: f99a760226d7ccc4f3e7fb48eef7eeb6
+      size: 154
+    - path: movielens/ML10M/ratings.parquet
+      hash: md5
+      md5: 0854162a108211f4af074b65a8e8ddaa
+      size: 78007629
+    - path: movielens/ML10M/stats.duckdb
+      hash: md5
+      md5: 59d6961bed0bbe6c0822c4999a29cb09
+      size: 2895872
+    outs:
+    - path: _freeze/movielens/ML10M/description
+      hash: md5
+      md5: 27fbd3f526aabc65ddd5ae00b464b97f.dir
+      size: 1850152
+      nfiles: 10
+  render/movielens/ML1M/description:
+    cmd: quarto render movielens/ML1M/description.qmd
+    deps:
+    - path: movielens/ML1M/description.qmd
+      hash: md5
+      md5: aee857fdc4faba5befc04ec3030673c2
+      size: 152
+    - path: movielens/ML1M/ratings.parquet
+      hash: md5
+      md5: dea3ecb8a158bcf837a4d9d25ca9ab2e
+      size: 6034375
+    - path: movielens/ML1M/stats.duckdb
+      hash: md5
+      md5: 411a11e707d9b0f0281e2d8e6a64b1c2
+      size: 1323008
+    outs:
+    - path: _freeze/movielens/ML1M/description
+      hash: md5
+      md5: 9ae1d0ec167ea4898234d01c871855d5.dir
+      size: 1560112
+      nfiles: 10
+  render/movielens/ML20M/description:
+    cmd: quarto render movielens/ML20M/description.qmd
+    deps:
+    - path: movielens/ML20M/description.qmd
+      hash: md5
+      md5: 1e694324500809f5d6a96cf2bd6d436a
+      size: 154
+    - path: movielens/ML20M/ratings.parquet
+      hash: md5
+      md5: 0dc579f176e5f798b67fda4ee0873b27
+      size: 165821204
+    - path: movielens/ML20M/stats.duckdb
+      hash: md5
+      md5: cc596bebeb0b9d8738a06ad937166ce6
+      size: 4468736
+    outs:
+    - path: _freeze/movielens/ML20M/description
+      hash: md5
+      md5: c3c2a390daea3d1bdc6bfbe36ed3452a.dir
+      size: 1907128
+      nfiles: 10
+  render/movielens/ML25M/description:
+    cmd: quarto render movielens/ML25M/description.qmd
+    deps:
+    - path: movielens/ML25M/description.qmd
+      hash: md5
+      md5: 5ad0ce1e2c2368ee81967285e112192a
+      size: 154
+    - path: movielens/ML25M/ratings.parquet
+      hash: md5
+      md5: 60a83d1b954209733419580cbfb6d27a
+      size: 216741269
+    - path: movielens/ML25M/stats.duckdb
+      hash: md5
+      md5: 6dcc1794a0e0d90e2cdeb756c84d55b1
+      size: 5255168
+    outs:
+    - path: _freeze/movielens/ML25M/description
+      hash: md5
+      md5: 5ae2354dc651adaaa63af24d58056f97.dir
+      size: 1944074
+      nfiles: 10
+  render/movielens/index:
+    cmd: quarto render movielens/index.qmd
+    deps:
+    - path: movielens/index.qmd
+      hash: md5
+      md5: 0eb806128bf167e8b92ef671ea63b7cb
+      size: 2004
+    - path: movielens/merged-stats.duckdb
+      hash: md5
+      md5: 55c4a4e5001bccb9fdf428123101bd96
+      size: 14954496
+    outs:
+    - path: _freeze/movielens/index
+      hash: md5
+      md5: f2be1368761ab82d59c0008157cb6d9d.dir
+      size: 364509
+      nfiles: 2

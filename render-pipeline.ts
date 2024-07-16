@@ -6,6 +6,5 @@ import { expandGlob } from "std/fs/mod.ts";
 for await (const pipe of expandGlob("**/pipeline.ts")) {
   console.info("rendering pipeline %s", pipe.path);
   const mod = await import(pipe.path);
-  console.log("pipeline: %o", mod.default);
   await Deno.writeTextFile(joinPath(mod.dir ?? "", "dvc.yaml"), yaml.stringify(mod.default));
 }

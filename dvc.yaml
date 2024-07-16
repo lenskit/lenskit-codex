@@ -1,14 +1,48 @@
 stages:
-  render:
-    foreach:
-      - index
-      - movielens/ML100K/description
-      - movielens/ML10M/description
-      - movielens/ML1M/description
-      - movielens/ML20M/description
-      - movielens/ML25M/description
-      - movielens/index
-    do:
-      cmd: 'quarto render ${item}.qmd'
-      outs:
-        - '_freeze/${item}'
+  render/movielens/ML100K/description:
+    cmd: quarto render movielens/ML100K/description.qmd
+    deps:
+      - movielens/ML100K/description.qmd
+      - movielens/ML100K/ratings.parquet
+      - movielens/ML100K/stats.duckdb
+    outs:
+      - _freeze/movielens/ML100K/description
+  render/movielens/ML10M/description:
+    cmd: quarto render movielens/ML10M/description.qmd
+    deps:
+      - movielens/ML10M/description.qmd
+      - movielens/ML10M/ratings.parquet
+      - movielens/ML10M/stats.duckdb
+    outs:
+      - _freeze/movielens/ML10M/description
+  render/movielens/ML1M/description:
+    cmd: quarto render movielens/ML1M/description.qmd
+    deps:
+      - movielens/ML1M/description.qmd
+      - movielens/ML1M/ratings.parquet
+      - movielens/ML1M/stats.duckdb
+    outs:
+      - _freeze/movielens/ML1M/description
+  render/movielens/ML20M/description:
+    cmd: quarto render movielens/ML20M/description.qmd
+    deps:
+      - movielens/ML20M/description.qmd
+      - movielens/ML20M/ratings.parquet
+      - movielens/ML20M/stats.duckdb
+    outs:
+      - _freeze/movielens/ML20M/description
+  render/movielens/ML25M/description:
+    cmd: quarto render movielens/ML25M/description.qmd
+    deps:
+      - movielens/ML25M/description.qmd
+      - movielens/ML25M/ratings.parquet
+      - movielens/ML25M/stats.duckdb
+    outs:
+      - _freeze/movielens/ML25M/description
+  render/movielens/index:
+    cmd: quarto render movielens/index.qmd
+    deps:
+      - movielens/index.qmd
+      - movielens/merged-stats.duckdb
+    outs:
+      - _freeze/movielens/index
