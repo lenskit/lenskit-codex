@@ -60,8 +60,8 @@ class ML100K(MLData):
             header=None,
             names=["user_id", "item_id", "rating", "timestamp"],
             dtype={
-                "user": np.int32,
-                "item": np.int32,
+                "user_id": np.int32,
+                "item_id": np.int32,
                 "rating": np.float32,
                 "timestamp": np.int32,
             },
