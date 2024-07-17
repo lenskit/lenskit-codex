@@ -2,14 +2,14 @@ stages:
   import-ml-100k:
     cmd: python ../import-ml.py ml-100k.zip
     deps:
-    - ../import-ml.py
-    - ml-100k.zip
+      - ../import-ml.py
+      - ml-100k.zip
     outs:
-    - ratings.parquet
+      - ratings.parquet
   ml-100k-stats:
     cmd: python ../../scripts/duckdb-sql.py -d stats.duckdb ../ml-stats.sql
     deps:
-    - ../ml-stats.sql
-    - ratings.parquet
+      - ../ml-stats.sql
+      - ratings.parquet
     outs:
-    - stats.duckdb
+      - stats.duckdb
