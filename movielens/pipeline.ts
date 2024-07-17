@@ -11,7 +11,7 @@ export const datasets: Record<string, string> = {
 function ml_import(_name: string, file: string): Stage {
   return {
     cmd: `python ../import-ml.py ${file}.zip`,
-    deps: ["../import-ml.py", file + ".zip"],
+    deps: ["../import-ml.py", "../ml-stats.sql", file + ".zip"],
     outs: ["ratings.duckdb"],
   };
 }
@@ -29,7 +29,7 @@ export const pipeline: Pipeline = {
   stages: {
     aggregate: {
       cmd: "python aggregate-ml.py -d merged-stats.duckdb " + Object.keys(datasets).join(" "),
-      deps: ["aggregate-ml.py"].concat(Object.keys(datasets).map((n) => `${n}/stats.duckdb`)),
+      deps: ["aggregate-ml.py"].concat(Object.keys(datasets).map((n) => `${n}/ratings.duckdb`)),
       outs: ["merged-stats.duckdb"],
     },
   },

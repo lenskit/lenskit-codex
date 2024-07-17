@@ -3,6 +3,7 @@ stages:
     cmd: python ../import-ml.py ml-100k.zip
     deps:
       - ../import-ml.py
+      - ../ml-stats.sql
       - ml-100k.zip
     outs:
       - ratings.duckdb

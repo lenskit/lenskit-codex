@@ -1,5 +1,3 @@
-CREATE TEMPORARY VIEW ratings AS SELECT * FROM 'ratings.parquet';
-
 CREATE TABLE global_stats AS
 SELECT COUNT(*) AS n_ratings,
     COUNT(DISTINCT user_id) AS n_users,
