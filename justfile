@@ -1,11 +1,15 @@
-update-pipeline:
-    ./scripts/render-pipeline.ts
+# list recipes
+list:
+    just -l
 
-upload-web-assets:
-    dvc push -r web-assets --no-run-cache dvc.yaml
-
+# render the website
 render:
     quarto render
 
-deploy: render
-    netlify deploy -d _site --prod
+# update the DVC pipeline
+update-pipeline:
+    ./scripts/render-pipeline.ts
+
+# push web assets to the cloud
+upload-web-assets:
+    dvc push -r web-assets --no-run-cache dvc.yaml
