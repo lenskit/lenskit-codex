@@ -12,7 +12,6 @@ import logging
 import os.path
 import zipfile
 from abc import ABC, abstractmethod
-from os import fspath
 from pathlib import Path
 
 import numpy as np
@@ -20,7 +19,6 @@ import pandas as pd
 from docopt import docopt
 from sandal import autoroot  # noqa: F401
 from sandal.cli import setup_logging
-from sandal.project import here
 
 _log = logging.getLogger("codex.import-ml")
 
