@@ -1,5 +1,5 @@
 update-pipeline:
-    ./render-pipeline.ts
+    ./scripts/render-pipeline.ts
 
 upload-web-assets:
     dvc push -r web-assets --no-run-cache dvc.yaml
