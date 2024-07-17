@@ -19,5 +19,5 @@ update-deps:
     conda lock -f environment.yml -f lenskit-environment.yml
 
 # create a Conda environment
-create-env name="lk-codex"
+create-env name="lk-codex":
     conda lock install -n {{name}}
