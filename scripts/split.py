@@ -41,7 +41,7 @@ def main():
     src_file = db_file.parent / split.source
     with duckdb.connect(fspath(db_file)) as db:
         _log.info("attaching %s", src_file)
-        db.execute(f"ATTACH '{src_file}' AS rf")
+        db.execute(f"ATTACH '{src_file}' AS rf (READ_ONLY)")
 
         if split.method == "crossfold":
             assert split.crossfold
