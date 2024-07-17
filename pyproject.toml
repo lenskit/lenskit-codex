@@ -1,0 +1,8 @@
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+exclude = [".git", "__pycache__", "build", "dist", "*/tests/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+unfixable = ["F401"]
