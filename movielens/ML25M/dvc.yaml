@@ -5,11 +5,4 @@ stages:
       - ../import-ml.py
       - ml-25m.zip
     outs:
-      - ratings.parquet
-  ml-25m-stats:
-    cmd: python ../../scripts/duckdb-sql.py -d stats.duckdb ../ml-stats.sql
-    deps:
-      - ../ml-stats.sql
-      - ratings.parquet
-    outs:
-      - stats.duckdb
+      - ratings.duckdb

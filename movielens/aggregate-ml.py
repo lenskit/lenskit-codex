@@ -12,12 +12,7 @@ Options:
 
 import logging
 import os.path
-import zipfile
-from abc import ABC, abstractmethod
-from pathlib import Path
 
-import numpy as np
-import pandas as pd
 from docopt import docopt
 from duckdb import DuckDBPyConnection, connect
 from sandal import autoroot  # noqa: F401
@@ -46,15 +41,13 @@ def initialize_db(db: DuckDBPyConnection, sets: list[str]):
     db.execute(f"CREATE TYPE ml_set AS ENUM({set_names})")
     for name in sets:
         _log.info("attaching %s", name)
-        db.execute(f"ATTACH '{name}/stats.duckdb' AS {name} (READONLY)")
+        db.execute(f"ATTACH '{name}/ratings.duckdb' AS {name} (READONLY)")
 
 
 def union_tables(db: DuckDBPyConnection, table: str, sets: list[str]):
     _log.info("aggregating table %s", table)
     query = f"CREATE TABLE {table} AS "
-    selects = [
-        f"SELECT CAST('{n}' AS ml_set) AS dataset, * FROM {n}.{table}" for n in sets
-    ]
+    selects = [f"SELECT CAST('{n}' AS ml_set) AS dataset, * FROM {n}.{table}" for n in sets]
     query += " UNION ALL ".join(selects)
     _log.debug("query: %s", query)
     db.execute(query)

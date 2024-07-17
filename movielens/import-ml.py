@@ -12,14 +12,17 @@ import logging
 import os.path
 import zipfile
 from abc import ABC, abstractmethod
+from os import fspath
 from pathlib import Path
 
+import duckdb
 import numpy as np
 import pandas as pd
 from docopt import docopt
 from sandal import autoroot  # noqa: F401
 from sandal.cli import setup_logging
 
+ml_dir = Path(__file__).parent
 _log = logging.getLogger("codex.import-ml")
 
 
@@ -108,7 +111,7 @@ def main(options):
 
     data = open_data(zipf)
 
-    pqf = zipf.with_name("ratings.parquet")
+    dbf = zipf.with_name("ratings.duckdb")
 
     with data:
         dirname = data.get_dirname()
@@ -117,9 +120,13 @@ def main(options):
         _log.info("read %d ratings", len(rate_df))
 
         rate_df["timestamp"] = pd.to_datetime(rate_df["timestamp"], unit="s")
+        sql = (ml_dir / "ml-stats.sql").read_text()
 
-        _log.info("saving %s", pqf)
-        rate_df.to_parquet(pqf, index=False, compression="zstd")
+        _log.info("saving %s", dbf)
+        with duckdb.connect(fspath(dbf)) as db:
+            rel = db.from_df(rate_df)
+            rel.create("ratings")
+            db.execute(sql)
 
 
 def open_data(file: Path) -> MLData:

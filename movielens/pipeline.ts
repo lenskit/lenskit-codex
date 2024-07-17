@@ -8,33 +8,19 @@ export const datasets: Record<string, string> = {
   ML25M: "ml-25m",
 };
 
-function ml_import(name: string, file: string): Stage {
+function ml_import(_name: string, file: string): Stage {
   return {
     cmd: `python ../import-ml.py ${file}.zip`,
     deps: ["../import-ml.py", file + ".zip"],
-    outs: ["ratings.parquet"],
-  };
-}
-
-function ml_stats(name: string): Stage {
-  return {
-    cmd: "python ../../scripts/duckdb-sql.py -d stats.duckdb ../ml-stats.sql",
-    deps: [
-      "../ml-stats.sql",
-      "ratings.parquet",
-    ],
-    outs: [
-      "stats.duckdb",
-    ],
+    outs: ["ratings.duckdb"],
   };
 }
 
 function ml_pipeline(name: string): Pipeline {
-  let fn = datasets[name];
+  const fn = datasets[name];
   return {
     stages: {
       ["import-" + fn]: ml_import(name, fn),
-      [fn + "-stats"]: ml_stats(name),
     },
   };
 }
