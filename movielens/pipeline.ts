@@ -42,7 +42,7 @@ function ml_pipeline(name: string): Pipeline {
 export const pipeline: Pipeline = {
   stages: {
     aggregate: {
-      cmd: "python aggregate-ml.py -d merged-stats.duckdb" + Object.keys(datasets).join(" "),
+      cmd: "python aggregate-ml.py -d merged-stats.duckdb " + Object.keys(datasets).join(" "),
       deps: ["aggregate-ml.py"].concat(Object.keys(datasets).map((n) => `${n}/stats.duckdb`)),
       outs: ["merged-stats.duckdb"],
     },
