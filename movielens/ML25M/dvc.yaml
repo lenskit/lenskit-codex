@@ -10,6 +10,9 @@ stages:
   split-random:
     cmd: python ../../../scripts/split.py random.toml
     wdir: splits
+    params:
+      - ../../../config.toml:
+          - random.seed
     deps:
       - random.toml
       - ../ratings.duckdb

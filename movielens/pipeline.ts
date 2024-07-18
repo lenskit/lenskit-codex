@@ -30,6 +30,7 @@ async function ml_splits(name: string): Promise<Record<string, Stage>> {
     stages[`split-${path.name}`] = {
       cmd: `python ../../../scripts/split.py ${path.base}`,
       wdir: "splits",
+      params: [{ "../../../config.toml": ["random.seed"] }],
       deps: [path.base, split.source as string],
       outs: [`${path.name}.duckdb`],
     };

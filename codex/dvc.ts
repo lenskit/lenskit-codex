@@ -1,4 +1,5 @@
 export type Pipeline = {
+  params?: string[];
   stages: Record<string, Stage>;
 };
 
@@ -9,5 +10,6 @@ export type Stage = {
   wdir?: string;
   deps?: string[];
   outs?: (string | OutRec)[];
+  params?: (string | Record<string, string[]>)[];
   metrics?: (string | OutRec)[];
 };

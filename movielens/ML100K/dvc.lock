@@ -52,3 +52,22 @@ stages:
       hash: md5
       md5: 005070d0bc196fbcbfec774407d7b0a8
       size: 1323008
+  split-random:
+    cmd: python ../../../scripts/split.py random.toml
+    deps:
+    - path: ../ratings.duckdb
+      hash: md5
+      md5: a770a8e6c558a398515b74def824e7b8
+      size: 2371584
+    - path: random.toml
+      hash: md5
+      md5: 276ffa520abcf2243c9ffee115774a98
+      size: 137
+    params:
+      ../../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: random.duckdb
+      hash: md5
+      md5: 104d0924001308c5c1af255bea2d2825
+      size: 536576
