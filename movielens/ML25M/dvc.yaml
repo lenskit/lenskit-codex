@@ -7,3 +7,11 @@ stages:
       - ml-25m.zip
     outs:
       - ratings.duckdb
+  split-random:
+    cmd: python ../../../scripts/split.py random.toml
+    wdir: splits
+    deps:
+      - random.toml
+      - ../ratings.duckdb
+    outs:
+      - random.duckdb

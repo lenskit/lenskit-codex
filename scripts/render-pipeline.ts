@@ -11,7 +11,7 @@ for await (const pipe of expandGlob("**/pipeline.ts")) {
   console.info("writing DVC pipe %s", dvcfn);
   await Deno.writeTextFile(dvcfn, yaml.stringify(mod.pipeline));
   if (mod.subdirs) {
-    for (const [n, p] of Object.entries(mod.subdirs)) {
+    for (const [n, p] of mod.subdirs) {
       dvcfn = joinPath(dir, n, "dvc.yaml");
       console.info("writing DVC pipe %s", dvcfn);
       await Deno.writeTextFile(dvcfn, yaml.stringify(p));
