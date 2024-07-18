@@ -6,3 +6,8 @@ exclude = [".git", "__pycache__", "build", "dist", "*/tests/*"]
 [tool.ruff.lint]
 select = ["E", "F", "I"]
 unfixable = ["F401"]
+
+[tool.pyright]
+typeCheckingMode = "basic"
+reportMissingImports = true
+reportMissingTypeStubs = false
