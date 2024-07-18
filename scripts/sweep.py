@@ -2,7 +2,7 @@
 Grid-sweep hyperparameter values.
 
 Usage:
-    sweep.py [-v] [-p N] MODEL SPLIT OUTPUT
+    sweep.py [-v] [-p N] MODEL SPLIT RATINGS OUTPUT
 
 Options:
     -v, --verbose           enable verbose logging
@@ -24,8 +24,7 @@ from sandal.project import here
 from seedbank import init_file
 
 from codex.models import model_module
-from codex.splitting.crossfold import crossfold_ratings
-from codex.splitting.spec import load_split_spec
+from codex.params import param_grid
 
 _log = logging.getLogger("codex.split")
 
@@ -40,6 +39,16 @@ def main():
 
     split_fn = Path(opts["SPLIT"])
     out_fn = Path(opts["OUTPUT"])
+
+    space = param_grid(mod.sweep_space)
+    _log.debug("parameter search space:\n%s", space)
+
+    out_fn.parent.mkdir(exist_ok=True, parents=True)
+    with duckdb.connect(fspath(out_fn)) as db:
+        db.execute(f"ATTACH '{split_fn}' AS split (READ_ONLY)")
+        _log.info("saving run spec table")
+        db.execute("DROP TABLE IF EXISTS run_specs")
+        db.from_df(space).create("run_specs")
 
 
 if __name__ == "__main__":

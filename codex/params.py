@@ -2,28 +2,12 @@
 Hyperparameter search space utilities.
 """
 
-from duckdb import DuckDBPyConnection
+from itertools import product
+from uuid import uuid4
+
+import pandas as pd
 
 
-def save_param_grid(
-    db: DuckDBPyConnection, params: dict[str, type | list[int] | list[float] | list[str]]
-):
-    sql = "CREATE TABLE run_specs (\n"
-    sql += "  run_id SERIAL PRIMARY KEY,\n"
-    for name, v_or_t in params:
-        if isinstance(v_or_t, list):
-            pt = type(v_or_t[0])
-        else:
-            pt = v_or_t
-
-        if pt is int:
-            pct = "INTEGER"
-        elif pt is float:
-            pct = "FLOAT"
-        elif pt is str:
-            pct = "VARCHAR"
-
-        sql += f"  {name} {pct} NOT NULL,\n"
-    sql += ")"
-
-    db.execute(sql)
+def param_grid(params: dict[str, list[int] | list[float] | list[str]]) -> pd.DataFrame:
+    records = [[i, uuid4()] + list(vals) for (i, vals) in enumerate(product(*params.values()), 1)]
+    return pd.DataFrame.from_records(records, columns=["rec_idx", "rec_id"] + list(params.keys()))
