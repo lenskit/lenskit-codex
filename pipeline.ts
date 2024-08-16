@@ -14,7 +14,7 @@ type Notebook = {
 async function collectNotebooks(): Promise<Notebook[]> {
   const notebooks: Notebook[] = [];
   for await (
-    const nbf of expandGlob("**/*.qmd", { exclude: ["**/_*"], globstar: true })
+    const nbf of expandGlob("**/*.qmd", { exclude: [".pixi/**", "**/_*"], globstar: true })
   ) {
     const cwd = normalize(".");
     console.info("found notebook file %s", nbf.path);
