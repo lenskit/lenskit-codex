@@ -1,10 +1,12 @@
 import { parse as parsePath } from "std/path/mod.ts";
 import { expandGlob } from "std/fs/mod.ts";
 import * as toml from "std/toml/mod.ts";
+import { filterValues, mapEntries } from "std/collections/mod.ts";
 
 import * as ai from "aitertools";
 
 import { Pipeline, Stage } from "../codex/dvc.ts";
+import { MODELS } from "../codex/models/model-list.ts";
 
 export const datasets: Record<string, string> = {
   ML100K: "ml-100k",
@@ -38,12 +40,31 @@ async function ml_splits(name: string): Promise<Record<string, Stage>> {
   return stages;
 }
 
+function ml_sweeps(_name: string): Record<string, Stage> {
+  const active = filterValues(MODELS, (m) => m.sweepable);
+  return mapEntries(active, ([name, _info]) => [name, {
+    cmd:
+      `python ../../scripts/sweep.py -p 1 ${name} splits/random.duckdb ratings.duckdb sweeps/random/${name}.duckdb`,
+    params: [{ "../../config.toml": ["random.seed"] }],
+    deps: [
+      "splits/random.duckdb",
+      "ratings.duckdb",
+      `../../codex/models/${name.replaceAll("-", "_")}.py`,
+    ],
+    outs: [`sweeps/random/${name}.duckdb`],
+  }]);
+}
+
 async function ml_pipeline(name: string): Promise<Pipeline> {
   const fn = datasets[name];
   return {
-    stages: Object.assign({
-      ["import-" + fn]: ml_import(name, fn),
-    }, await ml_splits(name)),
+    stages: Object.assign(
+      {
+        ["import-" + fn]: ml_import(name, fn),
+      },
+      await ml_splits(name),
+      ml_sweeps(name),
+    ),
   };
 }
 
