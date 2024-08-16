@@ -71,3 +71,27 @@ stages:
       hash: md5
       md5: d83f0fda3e9a4b241b8b9293f2319bca
       size: 1323008
+  sweep-random-Bias:
+    cmd: python ../../scripts/sweep.py -p 1 Bias splits/random.duckdb ratings.duckdb
+      sweeps/random/Bias.duckdb
+    deps:
+    - path: ../../codex/models/Bias.py
+      hash: md5
+      md5: e35eac761bf892674a6fb8570132e7f1
+      size: 375
+    - path: ratings.duckdb
+      hash: md5
+      md5: 1a8b11ed426f9ff718074d7ce44e3dcd
+      size: 120598528
+    - path: splits/random.duckdb
+      hash: md5
+      md5: d83f0fda3e9a4b241b8b9293f2319bca
+      size: 1323008
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/random/Bias.duckdb
+      hash: md5
+      md5: 7e554032ce3a8244daa34a283909405a
+      size: 159920128
