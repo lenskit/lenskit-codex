@@ -1,10 +1,11 @@
 [project]
 name = "lenskit-codex"
-channels = ["pytorch", "nvidia", "conda-forge"]
+channels = ["conda-forge"]
 platforms = ["linux-64", "osx-arm64"]
 
 [dependencies]
-python = "~=3.12.0"
+python = "~=3.11.0"
+pytorch = "~=2.1"
 pandas = "~=2.1"
 pydantic = ">=2.8,<3"
 duckdb-cli = "~=1.0"
@@ -31,9 +32,10 @@ docopt-ng = ">=0.9"
 
 [feature.cuda]
 platforms = ["linux-64"]
+system-requirements = { cuda = "12" }
 
 [feature.cuda.dependencies]
-pytorch-mutex = { build = "cuda" }
+pytorch-gpu = ">=2"
 
 [feature.dev.dependencies]
 deno = "~=1.30"
