@@ -1,4 +1,18 @@
 stages:
+  page/movielens/ML100K/bias:
+    cmd: quarto render movielens/ML100K/bias.qmd
+    deps:
+      - movielens/ML100K/bias.qmd
+      - movielens/ML100K/sweeps/random/Bias.duckdb
+    outs:
+      - _freeze/movielens/ML100K/bias
+  page/movielens/ML100K/biasedmf:
+    cmd: quarto render movielens/ML100K/biasedmf.qmd
+    deps:
+      - movielens/ML100K/biasedmf.qmd
+      - movielens/ML100K/sweeps/random/BiasedMF-ALS.duckdb
+    outs:
+      - _freeze/movielens/ML100K/biasedmf
   page/movielens/ML100K/description:
     cmd: quarto render movielens/ML100K/description.qmd
     deps:
@@ -7,6 +21,20 @@ stages:
       - movielens/ML100K/ratings.duckdb
     outs:
       - _freeze/movielens/ML100K/description
+  page/movielens/ML100K/iknn-explicit:
+    cmd: quarto render movielens/ML100K/iknn-explicit.qmd
+    deps:
+      - movielens/ML100K/iknn-explicit.qmd
+      - movielens/ML100K/sweeps/random/IKNN-Explicit.duckdb
+    outs:
+      - _freeze/movielens/ML100K/iknn-explicit
+  page/movielens/ML100K/implicitmf:
+    cmd: quarto render movielens/ML100K/implicitmf.qmd
+    deps:
+      - movielens/ML100K/implicitmf.qmd
+      - movielens/ML100K/sweeps/random/ImplicitMF-ALS.duckdb
+    outs:
+      - _freeze/movielens/ML100K/implicitmf
   page/movielens/ML10M/description:
     cmd: quarto render movielens/ML10M/description.qmd
     deps:

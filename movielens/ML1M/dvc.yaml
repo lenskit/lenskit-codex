@@ -57,10 +57,10 @@ stages:
       - ../../codex/models/ImplicitMF_ALS.py
     outs:
       - sweeps/random/ImplicitMF-ALS.duckdb
-  IKNN_Explicit:
+  IKNN-Explicit:
     cmd: >-
-      python ../../scripts/sweep.py -p 1 IKNN_Explicit splits/random.duckdb
-      ratings.duckdb sweeps/random/IKNN_Explicit.duckdb
+      python ../../scripts/sweep.py -p 1 IKNN-Explicit splits/random.duckdb
+      ratings.duckdb sweeps/random/IKNN-Explicit.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -69,11 +69,11 @@ stages:
       - ratings.duckdb
       - ../../codex/models/IKNN_Explicit.py
     outs:
-      - sweeps/random/IKNN_Explicit.duckdb
-  IKNN_Implicit:
+      - sweeps/random/IKNN-Explicit.duckdb
+  IKNN-Implicit:
     cmd: >-
-      python ../../scripts/sweep.py -p 1 IKNN_Implicit splits/random.duckdb
-      ratings.duckdb sweeps/random/IKNN_Implicit.duckdb
+      python ../../scripts/sweep.py -p 1 IKNN-Implicit splits/random.duckdb
+      ratings.duckdb sweeps/random/IKNN-Implicit.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -82,4 +82,4 @@ stages:
       - ratings.duckdb
       - ../../codex/models/IKNN_Implicit.py
     outs:
-      - sweeps/random/IKNN_Implicit.duckdb
+      - sweeps/random/IKNN-Implicit.duckdb
