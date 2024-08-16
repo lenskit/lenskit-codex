@@ -42,7 +42,7 @@ async function ml_splits(name: string): Promise<Record<string, Stage>> {
 
 function ml_sweeps(_name: string): Record<string, Stage> {
   const active = filterValues(MODELS, (m) => m.sweepable);
-  return mapEntries(active, ([name, _info]) => [name, {
+  return mapEntries(active, ([name, _info]) => [`sweep-random-${name}`, {
     cmd:
       `python ../../scripts/sweep.py -p 1 ${name} splits/random.duckdb ratings.duckdb sweeps/random/${name}.duckdb`,
     params: [{ "../../config.toml": ["random.seed"] }],
