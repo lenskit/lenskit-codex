@@ -31,10 +31,10 @@ jobs:
           environments: publish
 
       - name: Fetch site assets
-        run: dvc pull -r web-assets dvc.yaml
+        run: pixi run -e publish dvc pull -r web-assets dvc.yaml
 
       - name: Render site content
-        run: quarto render
+        run: pixi run -e publish quarto render
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
