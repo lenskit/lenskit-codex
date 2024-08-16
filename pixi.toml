@@ -3,9 +3,9 @@ name = "lenskit-codex"
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-arm64"]
 
+# core dependencies to analyze the data & generate site
 [dependencies]
-python = "~=3.12.0"
-pytorch = "~=2.1"
+python = "~=3.11.0"
 pandas = "~=2.1"
 pydantic = ">=2.8,<3"
 duckdb-cli = "~=1.0"
@@ -14,8 +14,8 @@ pyarrow = ">=16"
 humanize = "~=4.0"
 si-prefix = "~=1.2"
 tabulate = ">=0.9"
-quarto = ">=1.4"
-plotnine = "=0.13"
+quarto = "~=1.4"
+plotnine = "~=0.13.0"
 matplotlib = "~=3.6"
 ipython = ">=8"
 notebook = ">=7"
@@ -30,6 +30,12 @@ sandal = { git = "https://github.com/mdekstrand/sandal" }
 progress-api = { git = "https://github.com/lenskit/progress-api" }
 docopt-ng = ">=0.9"
 
+# dependencies to run the recommender algorithms
+[feature.run.dependencies]
+pytorch = "~=2.1"
+lenskit = "~=0.14.4"
+
+# dependencies for running with CUDA
 [feature.cuda]
 platforms = ["linux-64"]
 system-requirements = { cuda = "12" }
@@ -37,6 +43,7 @@ system-requirements = { cuda = "12" }
 [feature.cuda.dependencies]
 pytorch-gpu = ">=2"
 
+# dependencies for dev work on the codex
 [feature.dev.dependencies]
 deno = "~=1.30"
 ruff = "*"
@@ -48,7 +55,8 @@ jupyterlab = "*"
 libblas = { build = "*mkl*" }
 
 [environments]
-default = { solve-group = "main" }
+default = { features = ["run"], solve-group = "main" }
+publish = { solve-group = "main" }
 dev = { features = ["dev"], solve-group = "main" }
-cuda = { features = ["cuda"], solve-group = "cuda" }
-cuda-dev = { features = ["cuda", "dev"], solve-group = "cuda" }
+cuda = { features = ["run", "cuda"], solve-group = "cuda" }
+cuda-dev = { features = ["run", "cuda", "dev"], solve-group = "cuda" }
