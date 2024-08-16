@@ -8,7 +8,7 @@ _log = logging.getLogger(__name__)
 
 
 class AlgoMod(Protocol):
-    outptus: list[str]
+    outputs: list[str]
     sweep_space: dict[str, list[int] | list[float] | list[str]]
 
     def default(self) -> Algorithm: ...
