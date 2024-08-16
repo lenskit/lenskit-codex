@@ -8,5 +8,5 @@ export const MODELS: Record<string, ModelInfo> = {
   "BiasedMF-ALS": { sweepable: true },
   "ImplicitMF-ALS": { sweepable: true },
   "IKNN_Explicit": { sweepable: true },
-  "UKNN_Explicit": { sweepable: true },
+  "IKNN_Implicit": { sweepable: true },
 };

@@ -70,16 +70,16 @@ stages:
       - ../../codex/models/IKNN_Explicit.py
     outs:
       - sweeps/random/IKNN_Explicit.duckdb
-  UKNN_Explicit:
+  IKNN_Implicit:
     cmd: >-
-      python ../../scripts/sweep.py -p 1 UKNN_Explicit splits/random.duckdb
-      ratings.duckdb sweeps/random/UKNN_Explicit.duckdb
+      python ../../scripts/sweep.py -p 1 IKNN_Implicit splits/random.duckdb
+      ratings.duckdb sweeps/random/IKNN_Implicit.duckdb
     params:
       - ../../config.toml:
           - random.seed
     deps:
       - splits/random.duckdb
       - ratings.duckdb
-      - ../../codex/models/UKNN_Explicit.py
+      - ../../codex/models/IKNN_Implicit.py
     outs:
-      - sweeps/random/UKNN_Explicit.duckdb
+      - sweeps/random/IKNN_Implicit.duckdb
