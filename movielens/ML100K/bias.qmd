@@ -1,0 +1,59 @@
+---
+title: Bias on ML100K
+echo: false
+deps:
+- sweeps/random/Bias.duckdb
+---
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotnine as pn
+import matplotlib.pyplot as plt
+import duckdb
+```
+
+```{python}
+from sandal import autoroot
+from codex.display import DEFAULTS
+```
+
+```{python}
+rnd_sweep = duckdb.connect('sweeps/random/Bias.duckdb', read_only=True)
+```
+
+## Parameter Sweeps
+
+For the per-user random crossfolding data split, we use the first partition of
+the fold for parameter tuning.
+
+```{python}
+cfg_rmse = rnd_sweep.sql("""
+SELECT user_damping, CAST(item_damping AS varchar) AS item_damping, AVG(rmse) AS rmse
+FROM run_specs JOIN user_metrics USING (rec_idx)
+GROUP BY user_damping, item_damping
+""").to_df()
+(
+    pn.ggplot(cfg_rmse)
+    + pn.aes(x='user_damping', y='rmse', color='item_damping', shape='item_damping')
+    + pn.geom_line()
+    + pn.ylab('Per-user RMSE')
+    + pn.scale_color_brewer('qual', 'Dark2')
+)
+```
+
+
+```{python}
+cfg_ndcg = rnd_sweep.sql("""
+SELECT user_damping, CAST(item_damping AS varchar) AS item_damping, AVG(ndcg) AS ndcg
+FROM run_specs JOIN user_metrics USING (rec_idx)
+GROUP BY user_damping, item_damping
+""").to_df()
+(
+    pn.ggplot(cfg_ndcg)
+    + pn.aes(x='user_damping', y='ndcg', color='item_damping', shape='item_damping')
+    + pn.geom_line()
+    + pn.ylab('Mean nDCG')
+    + pn.scale_color_brewer('qual', 'Dark2')
+)
+```

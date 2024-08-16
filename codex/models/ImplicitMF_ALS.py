@@ -17,4 +17,4 @@ def default():
 
 
 def from_config(features, reg):
-    return ImplicitMF(features, reg=reg)
+    return ImplicitMF(features, reg=reg, use_ratings=False)
