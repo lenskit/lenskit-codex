@@ -23,12 +23,14 @@ from typing import Any, cast
 import duckdb
 import pandas as pd
 from docopt import docopt
+from humanize import naturalsize
 from sandal import autoroot  # noqa: F401
 from sandal.cli import setup_logging
 from sandal.project import here
 from seedbank import init_file
 
 from codex.data import TrainTestData, partition_tt_data
+from codex.measure import METRIC_COLUMN_DDL
 from codex.models import AlgoMod, model_module
 from codex.params import param_grid
 from codex.training import train_model
@@ -37,6 +39,7 @@ _log = logging.getLogger("codex.split")
 
 
 def main():
+    assert __doc__
     opts = docopt(__doc__)
     setup_logging(opts["--verbose"])
 
@@ -57,6 +60,8 @@ def main():
         _log.info("saving run spec table")
         db.execute("DROP TABLE IF EXISTS run_specs")
         db.from_df(space).create("run_specs")
+        db.execute("DROP TABLE IF EXISTS train_log")
+        db.execute(f"CREATE TABLE train_log (rec_idx INT NOT NULL, {METRIC_COLUMN_DDL})")
 
         part = opts.get("--partition")
         if part is not None:
@@ -71,11 +76,18 @@ def main():
 def sweep_model(
     db: duckdb.DuckDBPyConnection, data: TrainTestData, mod: AlgoMod, space: pd.DataFrame
 ):
-    for point in space.itertuples():
+    for point in space.itertuples(index=False):
+        _log.info("measuring at point %s", point)
         model = mod.from_config(*point[2:])
-        with SharedMemoryManager() as mgr:
-            _log.info("training model")
-            model, metrics = train_model(model, data, mgr)
+        _log.info("training model %s", model)
+        model, metrics = train_model(model, data)
+        _log.info(
+            "finished in %.0fs (%.0fs CPU, %s max RSS)",
+            metrics.wall_time,
+            metrics.cpu_time,
+            naturalsize(metrics.rss_max_kb * 1024),
+        )
+        db.table("train_log").insert([point.rec_idx] + list(metrics.dict().values()))
 
 
 if __name__ == "__main__":
