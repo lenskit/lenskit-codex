@@ -2,9 +2,9 @@
 Explicit-feedback Item KNN.
 """
 
-from lenskit.algorithms.als import BiasedMF
+from lenskit.algorithms.als import ImplicitMF
 
-outputs = ["recommendations", "predictions"]
+outputs = ["recommendations"]
 
 sweep_space = {
     "features": [5, 10, 15, 25, 35, 50, 75, 100, 150, 250],
@@ -13,8 +13,8 @@ sweep_space = {
 
 
 def default():
-    return BiasedMF(50)
+    return ImplicitMF(50)
 
 
 def from_config(features, reg):
-    return BiasedMF(features, reg=reg)
+    return ImplicitMF(features, reg=reg)
