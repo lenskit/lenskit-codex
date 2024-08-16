@@ -29,7 +29,7 @@ class TrainTestData:
         return db
 
     def train_ratings(self, db: duckdb.DuckDBPyConnection) -> duckdb.DuckDBPyRelation:
-        return db.query(self.test_query)
+        return db.query(self.train_query)
 
     def test_ratings(self, db: duckdb.DuckDBPyConnection) -> duckdb.DuckDBPyRelation:
         return db.query(self.test_query)
