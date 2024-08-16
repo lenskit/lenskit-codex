@@ -30,8 +30,9 @@ import duckdb
 import pandas as pd
 from docopt import docopt
 from humanize import naturalsize
-from lenskit import batch
+from lenskit import batch, topn
 from lenskit.algorithms import Recommender
+from lenskit.metrics.predict import mae, rmse
 from sandal import autoroot  # noqa: F401
 from sandal.cli import setup_logging
 from sandal.project import here
@@ -82,6 +83,16 @@ def main():
                 score FLOAT NULL,
             )
         """)
+        db.execute("""
+            CREATE TABLE user_metrics (
+                rec_idx INT NOT NULL,
+                user INT NOT NULL,
+                nrecs INT,
+                ntruth INT,
+                recip_rank FLOAT,
+                ndcg FLOAT,
+            )
+        """)
         if "predictions" in mod.outputs:
             db.execute("""
                 CREATE TABLE predictions (
@@ -92,6 +103,8 @@ def main():
                     rating FLOAT,
                 )
             """)
+            db.execute("ALTER TABLE user_metrics ADD COLUMN rmse FLOAT")
+            db.execute("ALTER TABLE user_metrics ADD COLUMN mae FLOAT")
 
         part = opts.get("--partition")
         if part is not None:
@@ -128,8 +141,16 @@ def sweep_model(
         n_jobs = 1 if len(test_users) < 1000 else None
         recs = batch.recommend(model, test_users, N, n_jobs=n_jobs)
         db.from_df(
-            recs.assign(rec_idx=point.rec_idx)[["rec_idx", "user", "item", "rank", "score"]]
+            recs.assign(rec_idx=point.rec_idx)[db.table("recommendations").columns]
         ).insert_into("recommendations")
+
+        _log.info("measuring recommendations")
+        rla = topn.RecListAnalysis()
+        rla.add_metric(topn.recip_rank)
+        rla.add_metric(topn.ndcg)
+        umetrics = rla.compute(recs, test, include_missing=True)
+        assert umetrics.index.name == "user"
+        _log.info("avg. NDCG: %.3f", umetrics["ndcg"].mean())
 
         if "predictions" in mod.outputs:
             _log.info("predicting test ratings")
@@ -139,6 +160,21 @@ def sweep_model(
                     ["rec_idx", "user", "item", "prediction", "rating"]
                 ]
             ).insert_into("predictions")
+            u_pm = preds.groupby("user").apply(
+                lambda df: pd.Series(
+                    {
+                        "rmse": rmse(df["prediction"], df["rating"]),
+                        "mae": mae(df["prediction"], df["rating"]),
+                    }
+                ),
+                include_groups=False,
+            )
+            umetrics = umetrics.join(u_pm, how="outer")
+            _log.info("avg. RMSE: %.3f", umetrics["rmse"].mean())
+
+        umetrics = umetrics.reset_index().assign(rec_idx=point.rec_idx)
+
+        db.from_df(umetrics[db.table("user_metrics").columns]).insert_into("user_metrics")
 
 
 if __name__ == "__main__":
