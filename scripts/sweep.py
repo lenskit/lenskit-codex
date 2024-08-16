@@ -25,7 +25,6 @@ import logging
 import sys
 from os import fspath
 from pathlib import Path
-from typing import cast
 
 import duckdb
 import pandas as pd
@@ -54,7 +53,7 @@ def main():
 
     init_file(here("config.toml"))
 
-    mod = cast(AlgoMod, model_module(opts["MODEL"]))
+    mod = model_module(opts["MODEL"])
 
     split_fn = Path(opts["SPLIT"])
     src_fn = Path(opts["RATINGS"])

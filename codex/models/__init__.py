@@ -1,6 +1,6 @@
 import logging
 from importlib import import_module
-from typing import Protocol
+from typing import Protocol, cast
 
 from lenskit.algorithms import Algorithm
 
@@ -16,7 +16,7 @@ class AlgoMod(Protocol):
     def from_config(self, *args, **kwargs) -> Algorithm: ...
 
 
-def model_module(name: str):
+def model_module(name: str) -> AlgoMod:
     mod = "codex.models." + name.replace("-", "_")
     _log.info("importing mdel module %s", mod)
-    return import_module(mod)
+    return cast(AlgoMod, import_module(mod))
