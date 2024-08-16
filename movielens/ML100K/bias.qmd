@@ -29,31 +29,31 @@ the fold for parameter tuning.
 
 ```{python}
 cfg_rmse = rnd_sweep.sql("""
-SELECT user_damping, CAST(item_damping AS varchar) AS item_damping, AVG(rmse) AS rmse
+SELECT item_damping, CAST(user_damping AS varchar) AS user_damping, AVG(rmse) AS rmse
 FROM run_specs JOIN user_metrics USING (rec_idx)
-GROUP BY user_damping, item_damping
+GROUP BY item_damping, user_damping
 """).to_df()
 (
     pn.ggplot(cfg_rmse)
-    + pn.aes(x='user_damping', y='rmse', color='item_damping', shape='item_damping')
+    + pn.aes(x='item_damping', y='rmse', color='user_damping', shape='user_damping')
     + pn.geom_line()
     + pn.ylab('Per-user RMSE')
     + pn.scale_color_brewer('qual', 'Dark2')
 )
 ```
 
+User damping will have no effect on rankings.
 
 ```{python}
 cfg_ndcg = rnd_sweep.sql("""
-SELECT user_damping, CAST(item_damping AS varchar) AS item_damping, AVG(ndcg) AS ndcg
+SELECT item_damping, AVG(ndcg) AS ndcg
 FROM run_specs JOIN user_metrics USING (rec_idx)
-GROUP BY user_damping, item_damping
+GROUP BY item_damping
 """).to_df()
 (
     pn.ggplot(cfg_ndcg)
-    + pn.aes(x='user_damping', y='ndcg', color='item_damping', shape='item_damping')
+    + pn.aes(x='item_damping', y='ndcg')
     + pn.geom_line()
     + pn.ylab('Mean nDCG')
-    + pn.scale_color_brewer('qual', 'Dark2')
 )
 ```
