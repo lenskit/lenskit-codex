@@ -3,37 +3,47 @@ name = "lenskit-codex"
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-arm64"]
 
-# core dependencies to analyze the data & generate site
+# core dependencies to work with the data and website
 [dependencies]
 python = "~=3.11.0"
-pandas = "~=2.1"
 pydantic = ">=2.8,<3"
-duckdb-cli = "~=1.0"
-python-duckdb = "~=1.0"
-pyarrow = ">=16"
 humanize = "~=4.0"
 si-prefix = "~=1.2"
 tabulate = ">=0.9"
-quarto = "~=1.4"
 plotnine = "~=0.13.0"
-matplotlib = "~=3.6"
+matplotlib-base = "~=3.6"
 ipython = ">=8"
 notebook = ">=7"
 jupyter-cache = "*"
 dvc = "~=3.50"
-dvc-s3 = "*"
 dvc-webdav = "*"
 dvc-ssh = "*"
+dvc-s3 = "*"
+quarto = "~=1.4"
 
 [pypi-dependencies]
 sandal = { git = "https://github.com/mdekstrand/sandal" }
 progress-api = { git = "https://github.com/lenskit/progress-api" }
 docopt-ng = ">=0.9"
 
+# exclude MKL for smaller environments in some cases
+[feature.nomkl.dependencies]
+nomkl = "*"
+
+# dependencies to analyze recommender outputs
+[feature.analyze.dependencies]
+pandas = "~=2.1"
+duckdb-cli = "~=1.0"
+python-duckdb = "~=1.0"
+pyarrow = ">=16"
+
 # dependencies to run the recommender algorithms
 [feature.run.dependencies]
 pytorch = "~=2.1"
 lenskit = "~=0.14.4"
+
+[feature.run.target.linux.dependencies]
+libblas = { build = "*mkl*" }
 
 # dependencies for running with CUDA
 [feature.cuda]
@@ -51,12 +61,14 @@ just = "*"
 pre-commit = "~=3.7"
 jupyterlab = "*"
 
-[target.linux.dependencies]
-libblas = { build = "*mkl*" }
-
 [environments]
-default = { features = ["run"], solve-group = "main" }
-publish = { solve-group = "main" }
-dev = { features = ["dev"], solve-group = "main" }
-cuda = { features = ["run", "cuda"], solve-group = "cuda" }
-cuda-dev = { features = ["run", "cuda", "dev"], solve-group = "cuda" }
+default = { features = ["run", "analyze"], solve-group = "main" }
+publish = { features = ["nomkl"] }
+dev = { features = ["run", "analyze", "dev"], solve-group = "main" }
+cuda = { features = ["run", "analyze", "cuda"], solve-group = "cuda" }
+cuda-dev = { features = [
+  "run",
+  "analyze",
+  "cuda",
+  "dev",
+], solve-group = "cuda" }
