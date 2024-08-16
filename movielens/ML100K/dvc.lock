@@ -191,3 +191,27 @@ stages:
       hash: md5
       md5: 6b71d618abf27de875d99db147a4179a
       size: 3158016
+  sweep-random-BiasedMF-ALS:
+    cmd: python ../../scripts/sweep.py -p 1 BiasedMF-ALS splits/random.duckdb ratings.duckdb
+      sweeps/random/BiasedMF-ALS.duckdb
+    deps:
+    - path: ../../codex/models/BiasedMF_ALS.py
+      hash: md5
+      md5: 70b01ec78dc3f1c3d09190c032bc05a6
+      size: 349
+    - path: ratings.duckdb
+      hash: md5
+      md5: a770a8e6c558a398515b74def824e7b8
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 104d0924001308c5c1af255bea2d2825
+      size: 536576
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/random/BiasedMF-ALS.duckdb
+      hash: md5
+      md5: d1701fae97158fae8bf82735d00231c9
+      size: 4993024
