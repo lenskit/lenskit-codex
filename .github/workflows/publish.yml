@@ -24,12 +24,11 @@ jobs:
       - name: 🛒 Checkout
         uses: actions/checkout@v4
 
-      - name: 📦 Set up Conda environment
-        uses: mamba-org/setup-micromamba@v1
+      - name: 🧚 Install pixi
+        uses: prefix-dev/setup-pixi@v0.8.1
         with:
-          environment-file: environment.yml
-          environment-name: lk-codex
-          init-shell: bash
+          pixi-version: v0.27.1
+          environments: publish
 
       - name: Fetch site assets
         run: dvc pull -r web-assets dvc.yaml
