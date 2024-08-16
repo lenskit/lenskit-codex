@@ -1,0 +1,52 @@
+[project]
+name = "lenskit-codex"
+channels = ["pytorch", "nvidia", "conda-forge"]
+platforms = ["linux-64", "osx-arm64"]
+
+[dependencies]
+python = "~=3.12.0"
+pandas = "~=2.1"
+pydantic = ">=2.8,<3"
+duckdb-cli = "~=1.0"
+pythonj-duckdb = "~=1.0"
+pyarrow = ">=16"
+humanize = "~=4.0"
+si-prefix = "~=1.2"
+tabulate = ">=0.9"
+quarto = ">=1.4"
+plotnine = "=0.13"
+matplotlib = "~=3.6"
+ipython = ">=8"
+notebook = ">=7"
+jupyter-cache = "*"
+dvc = "~=3.50"
+dvc-s3 = "*"
+dvc-webdav = "*"
+dvc-ssh = "*"
+
+[pypi-dependencies]
+sandal = { git = "https://github.com/mdekstrand/sandal" }
+progress-api = { git = "https://github.com/lenskit/progress-api" }
+docopt-ng = ">=0.9"
+
+[feature.cuda]
+platforms = ["linux-64"]
+
+[feature.cuda.dependencies]
+pytorch-mutex = { build = "cuda" }
+
+[feature.dev.dependencies]
+deno = "~=1.30"
+ruff = "*"
+just = "*"
+pre-commit = "~=3.7"
+jupyterlab = "*"
+
+[target.linux.dependencies]
+libblas = { build = "*mkl*" }
+
+[environments]
+default = { solve-group = "main" }
+dev = { features = ["dev"], solve-group = "main" }
+cuda = { features = ["cuda"], solve-group = "cuda" }
+cuda-dev = { features = ["cuda", "dev"], solve-group = "cuda" }
