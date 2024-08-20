@@ -28,6 +28,13 @@ stages:
       - movielens/ML100K/sweeps/random/IKNN-Explicit.duckdb
     outs:
       - _freeze/movielens/ML100K/iknn-explicit
+  page/movielens/ML100K/iknn-implicit:
+    cmd: quarto render movielens/ML100K/iknn-implicit.qmd
+    deps:
+      - movielens/ML100K/iknn-implicit.qmd
+      - movielens/ML100K/sweeps/random/IKNN-Implicit.duckdb
+    outs:
+      - _freeze/movielens/ML100K/iknn-implicit
   page/movielens/ML100K/implicitmf:
     cmd: quarto render movielens/ML100K/implicitmf.qmd
     deps:
