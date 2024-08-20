@@ -320,3 +320,20 @@ stages:
       md5: 83a5036ee116fb4b19af240c1e050338.dir
       size: 313104
       nfiles: 2
+  page/movielens/ML100K/iknn-implicit:
+    cmd: quarto render movielens/ML100K/iknn-implicit.qmd
+    deps:
+    - path: movielens/ML100K/iknn-implicit.qmd
+      hash: md5
+      md5: 8abc965ecfdfb841f50bfcee80d599da
+      size: 927
+    - path: movielens/ML100K/sweeps/random/IKNN-Implicit.duckdb
+      hash: md5
+      md5: 80dfcd5dda7e37454e64ae73830eddfc
+      size: 2371584
+    outs:
+    - path: _freeze/movielens/ML100K/iknn-implicit
+      hash: md5
+      md5: d4bc94507a035bcaf6b342a8de348cd6.dir
+      size: 157264
+      nfiles: 2
