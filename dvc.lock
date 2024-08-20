@@ -252,3 +252,71 @@ stages:
       md5: e0cbe0f31000b271c0163954b782e1bc.dir
       size: 364413
       nfiles: 2
+  page/movielens/ML100K/bias:
+    cmd: quarto render movielens/ML100K/bias.qmd
+    deps:
+    - path: movielens/ML100K/bias.qmd
+      hash: md5
+      md5: d1a98df1f3db3f7789f487800d23abad
+      size: 1274
+    - path: movielens/ML100K/sweeps/random/Bias.duckdb
+      hash: md5
+      md5: 6b71d618abf27de875d99db147a4179a
+      size: 3158016
+    outs:
+    - path: _freeze/movielens/ML100K/bias
+      hash: md5
+      md5: 29bb6454238e9f2f2c1cae88365a6a4f.dir
+      size: 468729
+      nfiles: 3
+  page/movielens/ML100K/biasedmf:
+    cmd: quarto render movielens/ML100K/biasedmf.qmd
+    deps:
+    - path: movielens/ML100K/biasedmf.qmd
+      hash: md5
+      md5: 8d87fd57ac89e263b18924a5e1126d01
+      size: 1288
+    - path: movielens/ML100K/sweeps/random/BiasedMF-ALS.duckdb
+      hash: md5
+      md5: d1701fae97158fae8bf82735d00231c9
+      size: 4993024
+    outs:
+    - path: _freeze/movielens/ML100K/biasedmf
+      hash: md5
+      md5: 6e49c186704a7878c3a8908f3339cc68.dir
+      size: 365707
+      nfiles: 3
+  page/movielens/ML100K/iknn-explicit:
+    cmd: quarto render movielens/ML100K/iknn-explicit.qmd
+    deps:
+    - path: movielens/ML100K/iknn-explicit.qmd
+      hash: md5
+      md5: 6ee2b8bd6c73773daeeeba275df481d4
+      size: 1327
+    - path: movielens/ML100K/sweeps/random/IKNN-Explicit.duckdb
+      hash: md5
+      md5: eca3001e59a6e3ebbec0098571536291
+      size: 2633728
+    outs:
+    - path: _freeze/movielens/ML100K/iknn-explicit
+      hash: md5
+      md5: de6929b888a0a9c810cf90fdacbdb96a.dir
+      size: 420833
+      nfiles: 3
+  page/movielens/ML100K/implicitmf:
+    cmd: quarto render movielens/ML100K/implicitmf.qmd
+    deps:
+    - path: movielens/ML100K/implicitmf.qmd
+      hash: md5
+      md5: 59cd7f316ddedbf76cffe61143d69a81
+      size: 911
+    - path: movielens/ML100K/sweeps/random/ImplicitMF-ALS.duckdb
+      hash: md5
+      md5: 2f65be5f2500468f58b48c6168c07736
+      size: 4730880
+    outs:
+    - path: _freeze/movielens/ML100K/implicitmf
+      hash: md5
+      md5: 83a5036ee116fb4b19af240c1e050338.dir
+      size: 313104
+      nfiles: 2
