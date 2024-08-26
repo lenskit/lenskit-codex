@@ -31,7 +31,9 @@ jobs:
           environments: publish
 
       - name: Fetch site assets
-        run: pixi run -e publish dvc pull -r web-assets dvc.yaml
+        run: pixi run -e publish dvc pull dvc.yaml
+        env:
+          AZURE_STORAGE_SAS_TOKEN: ${{secrets.AZURE_STORAGE_SAS_TOKEN}}
 
       - name: Render site content
         run: pixi run -e publish quarto render
