@@ -1,7 +1,7 @@
 import { parse as parsePath } from "std/path/mod.ts";
 import { expandGlob } from "std/fs/mod.ts";
 import * as toml from "std/toml/mod.ts";
-import { filterValues, mapEntries } from "std/collections/mod.ts";
+import { filterValues, mapEntries, mapValues } from "std/collections/mod.ts";
 
 import * as ai from "aitertools";
 
@@ -70,6 +70,51 @@ function ml_sweeps(_name: string): Record<string, Stage> {
   return results;
 }
 
+function ml_runs(_name: string): Record<string, Stage> {
+  const runs: Record<string, Stage> = {};
+
+  for (const [name, info] of Object.entries(MODELS)) {
+    let outs: Record<string, string> = {
+      stats: `runs/random-default/${name}.json`,
+      recommendations: `runs/random-default/${name}-recs.parquet`,
+    };
+    if (info.predictor) {
+      outs["predictions"] = `runs/random-default/${name}-preds.parquet`;
+    }
+    let out_flags = Object.entries(outs).map(([k, f]) => `--${k}=${f}`).join(" ");
+    runs[`run-random-default-${name}`] = {
+      cmd:
+        `python ../../scripts/generate.py --default ${out_flags} --ratings ratings.duckdb --test-part 2-5 ${name} splits/random.duckdb`,
+      outs: Object.values(outs),
+      deps: [
+        "../../scripts/generate.py",
+        `../../codex/models/${name.replaceAll("-", "_")}.py`,
+        "ratings.duckdb",
+        "splits/random.duckdb",
+      ],
+    };
+
+    if (!info.sweepable) continue;
+
+    outs = mapValues(outs, (v) => v.replace("default", "sweep-best"));
+    out_flags = Object.entries(outs).map(([k, f]) => `--${k}=${f}`).join(" ");
+    runs[`run-random-sweep-best-${name}`] = {
+      cmd:
+        `python ../../scripts/generate.py --param-file=sweeps/random/${name}.json ${out_flags} --ratings ratings.duckdb --test-part 2-5 ${name} splits/random.duckdb`,
+      outs: Object.values(outs),
+      deps: [
+        "../../scripts/generate.py",
+        `../../codex/models/${name.replaceAll("-", "_")}.py`,
+        "ratings.duckdb",
+        "splits/random.duckdb",
+        `sweeps/random/${name}.json`,
+      ],
+    };
+  }
+
+  return runs;
+}
+
 async function ml_pipeline(name: string): Promise<Pipeline> {
   const fn = datasets[name];
   return {
@@ -79,6 +124,7 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
       },
       await ml_splits(name),
       ml_sweeps(name),
+      ml_runs(name),
     ),
   };
 }
