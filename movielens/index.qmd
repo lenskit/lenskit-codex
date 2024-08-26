@@ -20,6 +20,7 @@ import duckdb
 ```
 
 ```{python}
+from sandal import autoroot
 import codex.display
 from IPython.display import Markdown
 from tabulate import tabulate
@@ -54,7 +55,6 @@ Markdown(tabulate(
 # we want to order the data sets for other analyses
 ml_order = [row[0] for row in stats]
 ```
-
 
 ```{python}
 #| fig-cap: "Popularity concentration in MovieLens data sets (Lorenz curves)."
