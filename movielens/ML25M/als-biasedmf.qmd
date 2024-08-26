@@ -1,8 +1,8 @@
 ---
-title: ALS ImplicitMF on ML100K
+title: ALS BiasedMF on ML25M
 echo: false
 deps:
-- sweeps/random/ImplicitMF-ALS.duckdb
+- sweeps/random/BiasedMF-ALS.duckdb
 ---
 
 ```{python}
@@ -19,13 +19,30 @@ from codex.display import DEFAULTS
 ```
 
 ```{python}
-rnd_sweep = duckdb.connect('sweeps/random/ImplicitMF-ALS.duckdb', read_only=True)
+rnd_sweep = duckdb.connect('sweeps/random/BiasedMF-ALS.duckdb', read_only=True)
 ```
 
 ## Parameter Sweeps
 
 For the per-user random crossfolding data split, we use the first partition of
 the fold for parameter tuning.
+
+### Rating Prediction
+
+```{python}
+cfg_rmse = rnd_sweep.sql("""
+SELECT features, CAST(reg AS varchar) AS reg, AVG(rmse) AS rmse
+FROM run_specs JOIN user_metrics USING (rec_idx)
+GROUP BY features, reg
+""").to_df()
+(
+    pn.ggplot(cfg_rmse)
+    + pn.aes(x='features', y='rmse', color='reg', shape='reg')
+    + pn.geom_line()
+    + pn.ylab('Per-user RMSE')
+    + pn.scale_color_brewer('qual', 'Dark2')
+)
+```
 
 ### Top-N Ranking
 

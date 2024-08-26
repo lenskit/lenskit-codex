@@ -1,5 +1,5 @@
 ---
-title: ALS ImplicitMF on ML100K
+title: ALS ImplicitMF on ML25M
 echo: false
 deps:
 - sweeps/random/ImplicitMF-ALS.duckdb
@@ -27,6 +27,7 @@ rnd_sweep = duckdb.connect('sweeps/random/ImplicitMF-ALS.duckdb', read_only=True
 For the per-user random crossfolding data split, we use the first partition of
 the fold for parameter tuning.
 
+### Top-N Ranking
 
 ```{python}
 cfg_ndcg = rnd_sweep.sql("""
@@ -39,13 +40,13 @@ GROUP BY features, reg
     + pn.aes(x='features', y='ndcg', color='reg', shape='reg')
     + pn.geom_line()
     + pn.ylab('Mean nDCG')
-    + pn.xlab('Latent feature count')
     + pn.scale_color_brewer('qual', 'Dark2')
 )
 ```
 
-How long does training take?
+### Training Time
 
+How long does training take?
 
 ```{python}
 nf_times = rnd_sweep.sql("""
