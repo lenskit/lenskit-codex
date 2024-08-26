@@ -2,6 +2,7 @@ schema: '2.0'
 stages:
   aggregate:
     cmd: python aggregate-ml.py -d merged-stats.duckdb ML100K ML1M ML10M ML20M ML25M
+      ML32M
     deps:
     - path: ML100K/ratings.duckdb
       hash: md5
@@ -23,6 +24,10 @@ stages:
       hash: md5
       md5: 9463b4c41e34c62316f2518ffa78b1bd
       size: 299642880
+    - path: ML32M/ratings.duckdb
+      hash: md5
+      md5: bb6c15fab0f9f49d334babc97b3b3ef6
+      size: 381693952
     - path: aggregate-ml.py
       hash: md5
       md5: df277dd6355fbf0abfd84f57ecee8ea1
@@ -30,5 +35,5 @@ stages:
     outs:
     - path: merged-stats.duckdb
       hash: md5
-      md5: 70bf9ee4d5f5d03f4a58b19f87d30634
-      size: 17051648
+      md5: 604e5f2363907a3ba9d904ecf42cc96c
+      size: 29372416

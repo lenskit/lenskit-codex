@@ -244,13 +244,13 @@ stages:
       size: 2026
     - path: movielens/merged-stats.duckdb
       hash: md5
-      md5: 70bf9ee4d5f5d03f4a58b19f87d30634
-      size: 17051648
+      md5: 604e5f2363907a3ba9d904ecf42cc96c
+      size: 29372416
     outs:
     - path: _freeze/movielens/index
       hash: md5
-      md5: fb67d2a398708def5a230ed1382ce2bd.dir
-      size: 364418
+      md5: 279b69f2c81bd7b31a1ce02ef99f6731.dir
+      size: 387108
       nfiles: 2
   page/movielens/ML100K/bias:
     cmd: quarto render movielens/ML100K/bias.qmd
@@ -711,3 +711,24 @@ stages:
       md5: 71ab9457f2ae2796f6a3673a52589e97.dir
       size: 168998
       nfiles: 2
+  page/movielens/ML32M/description:
+    cmd: quarto render movielens/ML32M/description.qmd
+    deps:
+    - path: movielens/ML32M/description.qmd
+      hash: md5
+      md5: 90be829f7c0cef6a235c5b19f4c3f5e5
+      size: 165
+    - path: movielens/ML32M/ratings.duckdb
+      hash: md5
+      md5: bb6c15fab0f9f49d334babc97b3b3ef6
+      size: 381693952
+    - path: movielens/_ml_data.qmd
+      hash: md5
+      md5: 74befda7c312cbd30dcf62f26f933a25
+      size: 4822
+    outs:
+    - path: _freeze/movielens/ML32M/description
+      hash: md5
+      md5: bfe4d98100a33d43eecbe7fa26348f76.dir
+      size: 1933044
+      nfiles: 10
