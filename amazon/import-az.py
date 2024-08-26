@@ -2,11 +2,13 @@
 Import Amazon data.
 
 Usage:
-    import-az.py [-v] --benchmark NAME
+    import-az.py --benchmark [options] NAME
 
 Options:
     -v, --verbose   include verbose logging output.
     --benchmark     import pre-split benchmark data.
+    --stat-script=FILE
+        run statistics script in FILE
     NAME            the name of the data file (without suffix)
 """
 
@@ -43,6 +45,12 @@ def import_bench(options: ParsedOptions):
         import_part(options, db, name, "train")
         import_part(options, db, name, "valid")
         import_part(options, db, name, "test")
+
+        stat_fn = options["--stat-script"]
+        if stat_fn:
+            _log.info("loading statistics script from %s", stat_fn)
+            stat_sql = Path(stat_fn).read_text()
+            db.execute(stat_sql)
 
 
 def import_part(options: ParsedOptions, db: duckdb.DuckDBPyConnection, name: str, part: str):
