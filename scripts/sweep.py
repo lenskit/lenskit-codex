@@ -213,7 +213,6 @@ def export_best_results(opts: ParsedOptions):
             GROUP BY rs.*
             ORDER BY {metric} {order}
         """
-        print(query)
         top = db.sql(query)
         print(top.limit(5).to_df())
 
@@ -226,7 +225,7 @@ def export_best_results(opts: ParsedOptions):
         best_row = top.fetchone()
         assert best_row is not None
         best = dict(zip(top.columns, best_row))
-        json_fn.write_text(json.dumps(best, indent=2))
+        json_fn.write_text(json.dumps(best, indent=2) + "\n")
 
 
 if __name__ == "__main__":
