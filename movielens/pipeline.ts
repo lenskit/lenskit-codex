@@ -20,7 +20,7 @@ export const datasets: Record<string, string> = {
 function ml_import(_name: string, fn: string): Stage {
   return {
     cmd: `python ../import-ml.py ${fn}.zip`,
-    deps: ["../ml-stats.sql", fn + ".zip"],
+    deps: ["../import-ml.py", "../ml-stats.sql", fn + ".zip"],
     outs: ["ratings.duckdb"],
   };
 }
