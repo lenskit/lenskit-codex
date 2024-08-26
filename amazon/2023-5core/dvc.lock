@@ -1,8 +1,20 @@
 schema: '2.0'
 stages:
   import-bench@Video_Games:
-    cmd: python ../import-az.py --benchmark data/Video_Games
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Video_Games
     deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
     - path: data/Video_Games.test.csv.gz
       hash: md5
       md5: cf9c346ffe32cf46fd1f661032f29841
@@ -18,5 +30,741 @@ stages:
     outs:
     - path: data/Video_Games.duckdb
       hash: md5
-      md5: eac50ef2fb39bc085f29ca0de2b3ec99
-      size: 38809600
+      md5: 9e0202536ec39a56da0dd75bce5e0950
+      size: 41955328
+  import-bench@Toys_and_Games:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Toys_and_Games
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Toys_and_Games.test.csv.gz
+      hash: md5
+      md5: ad7345a51204a9aad2bf27f0e3343ed3
+      size: 15907254
+    - path: data/Toys_and_Games.train.csv.gz
+      hash: md5
+      md5: f63fb62ca7e21202b2fb0a4f113dd623
+      size: 69293339
+    - path: data/Toys_and_Games.valid.csv.gz
+      hash: md5
+      md5: ee8314d0fed7b4784cb2e83a2752ac85
+      size: 13450434
+    outs:
+    - path: data/Toys_and_Games.duckdb
+      hash: md5
+      md5: 8e07195f650ee621bea34755c59b63e8
+      size: 147861504
+  import-bench@Arts_Crafts_and_Sewing:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Arts_Crafts_and_Sewing
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Arts_Crafts_and_Sewing.test.csv.gz
+      hash: md5
+      md5: 403adf5856eb4cbe34b92e76a2fe1c34
+      size: 8079910
+    - path: data/Arts_Crafts_and_Sewing.train.csv.gz
+      hash: md5
+      md5: 7decb89d701fb2a69680f04485b48fa6
+      size: 30995841
+    - path: data/Arts_Crafts_and_Sewing.valid.csv.gz
+      hash: md5
+      md5: f8ef98db7c132b777f3e25dd3fa06d2f
+      size: 7962436
+    outs:
+    - path: data/Arts_Crafts_and_Sewing.duckdb
+      hash: md5
+      md5: 946ca3d8dbc9fbd820b2bc5156162299
+      size: 83374080
+  import-bench@Office_Products:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Office_Products
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Office_Products.test.csv.gz
+      hash: md5
+      md5: 15c37aba40a39ade6835e063f0d37cde
+      size: 7928557
+    - path: data/Office_Products.train.csv.gz
+      hash: md5
+      md5: 5cbb97836776f69d29682134f623f3d9
+      size: 32406473
+    - path: data/Office_Products.valid.csv.gz
+      hash: md5
+      md5: f4cbc7895de6d1f1f31e0f53ed18c3f7
+      size: 6375061
+    outs:
+    - path: data/Office_Products.duckdb
+      hash: md5
+      md5: de241cdb52338001934af91fa2dafbe2
+      size: 89927680
+  import-bench@Software:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Software
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Software.test.csv.gz
+      hash: md5
+      md5: 28ee12c81d368c35ae1970f985581cf8
+      size: 850336
+    - path: data/Software.train.csv.gz
+      hash: md5
+      md5: 7b5cfbb0ed1a4c9877820f1d38192374
+      size: 25432577
+    - path: data/Software.valid.csv.gz
+      hash: md5
+      md5: 5d886c3388d748283a24eacf424a521d
+      size: 1393199
+    outs:
+    - path: data/Software.duckdb
+      hash: md5
+      md5: 354942738eaadbfbc155337e9a8510b9
+      size: 58208256
+  import-bench@Beauty_and_Personal_Care:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Beauty_and_Personal_Care
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Beauty_and_Personal_Care.test.csv.gz
+      hash: md5
+      md5: 092628010cf2aba8c6b95b61084aba06
+      size: 39888459
+    - path: data/Beauty_and_Personal_Care.train.csv.gz
+      hash: md5
+      md5: 337e1993521f11ba102cc09f30bfad6a
+      size: 110996563
+    - path: data/Beauty_and_Personal_Care.valid.csv.gz
+      hash: md5
+      md5: 67fc522653cf3146162a21017cda47c3
+      size: 33121464
+    outs:
+    - path: data/Beauty_and_Personal_Care.duckdb
+      hash: md5
+      md5: 01580425cad8c6ed3df0a5b8e37e1477
+      size: 247476224
+  import-bench@Baby_Products:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Baby_Products
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Baby_Products.test.csv.gz
+      hash: md5
+      md5: 0474baa9899ff3473cd0de81f0adb014
+      size: 3328544
+    - path: data/Baby_Products.train.csv.gz
+      hash: md5
+      md5: f9a1c55a680f9ff2647677d8cdfb81a0
+      size: 23500223
+    - path: data/Baby_Products.valid.csv.gz
+      hash: md5
+      md5: 657b39315c7a1accb421e02210096e07
+      size: 2917369
+    outs:
+    - path: data/Baby_Products.duckdb
+      hash: md5
+      md5: 0b30058779183b54b50b8875fbd58464
+      size: 60829696
+  import-bench@Sports_and_Outdoors:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Sports_and_Outdoors
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Sports_and_Outdoors.test.csv.gz
+      hash: md5
+      md5: 2a865e4589d47ba0cd659420737e9718
+      size: 13487071
+    - path: data/Sports_and_Outdoors.train.csv.gz
+      hash: md5
+      md5: 3c2a6d35deccf862666634e4f33ad287
+      size: 64210142
+    - path: data/Sports_and_Outdoors.valid.csv.gz
+      hash: md5
+      md5: 8d1a0e513087f68f144425ca50ae0fde
+      size: 12125533
+    outs:
+    - path: data/Sports_and_Outdoors.duckdb
+      hash: md5
+      md5: 03ab1393843e8448e87aa6aa277e4c12
+      size: 145240064
+  import-bench@Automotive:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Automotive
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Automotive.test.csv.gz
+      hash: md5
+      md5: 72c29fdb736cfec6eb520515b1dd53f8
+      size: 27181518
+    - path: data/Automotive.train.csv.gz
+      hash: md5
+      md5: 4c585d79cabbd857eab50559b4ebf4f0
+      size: 107742925
+    - path: data/Automotive.valid.csv.gz
+      hash: md5
+      md5: 51cf8508cb262ca6107ab01e95f8b517
+      size: 29337051
+    outs:
+    - path: data/Automotive.duckdb
+      hash: md5
+      md5: 112517beb840653603cbc00d6c01c71d
+      size: 220213248
+  import-bench@Clothing_Shoes_and_Jewelry:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Clothing_Shoes_and_Jewelry
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Clothing_Shoes_and_Jewelry.test.csv.gz
+      hash: md5
+      md5: e115a22856bd1566ab8fb9b3bc4b1680
+      size: 135418744
+    - path: data/Clothing_Shoes_and_Jewelry.train.csv.gz
+      hash: md5
+      md5: 97430e87cd569226ccb96ef216bc8a3e
+      size: 387003859
+    - path: data/Clothing_Shoes_and_Jewelry.valid.csv.gz
+      hash: md5
+      md5: f30b363b02eaaa68eee66ea74b51de7e
+      size: 130985165
+    outs:
+    - path: data/Clothing_Shoes_and_Jewelry.duckdb
+      hash: md5
+      md5: 69be9ad561d71cbb695c3594a75a92f9
+      size: 829960192
+  import-bench@Books:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Books
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Books.test.csv.gz
+      hash: md5
+      md5: 22d49de2c5d25e729db283b8bc409156
+      size: 22866890
+    - path: data/Books.train.csv.gz
+      hash: md5
+      md5: c9bae9646a333245378b384e506a892a
+      size: 200166977
+    - path: data/Books.valid.csv.gz
+      hash: md5
+      md5: 580ff64b410805641eeb64c00987e2f8
+      size: 25317388
+    outs:
+    - path: data/Books.duckdb
+      hash: md5
+      md5: 3bf4ec6613f39e412dedf2f73c8146e8
+      size: 325332992
+  import-bench@Health_and_Household:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Health_and_Household
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Health_and_Household.test.csv.gz
+      hash: md5
+      md5: 3fe62a86716f5d7993e25852bd6f987c
+      size: 39150082
+    - path: data/Health_and_Household.train.csv.gz
+      hash: md5
+      md5: e472d338e6073f0cf4a14cc4a0991e36
+      size: 124541879
+    - path: data/Health_and_Household.valid.csv.gz
+      hash: md5
+      md5: bf0bde61e1fe1734f179951b3300fd38
+      size: 37157390
+    outs:
+    - path: data/Health_and_Household.duckdb
+      hash: md5
+      md5: bf89573253c3efa616a88e7ecd78e544
+      size: 261632000
+  import-bench@Pet_Supplies:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Pet_Supplies
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Pet_Supplies.test.csv.gz
+      hash: md5
+      md5: b3564f99d32fd3a0e61ed05413d2b05f
+      size: 23946261
+    - path: data/Pet_Supplies.train.csv.gz
+      hash: md5
+      md5: a4386269f83ffbe830b1f82e667681f9
+      size: 93208836
+    - path: data/Pet_Supplies.valid.csv.gz
+      hash: md5
+      md5: 554bc3be533d80b312042c1ec8ce47fb
+      size: 23814773
+    outs:
+    - path: data/Pet_Supplies.duckdb
+      hash: md5
+      md5: 8a3b16e295ec20f28631a46968bfcf3c
+      size: 195833856
+  import-bench@Movies_and_TV:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Movies_and_TV
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Movies_and_TV.test.csv.gz
+      hash: md5
+      md5: d0ac012c8af271f246f428fd2ab9a36c
+      size: 11316619
+    - path: data/Movies_and_TV.train.csv.gz
+      hash: md5
+      md5: f4443d6ae13a61b69f83ba1cbf663b77
+      size: 156128085
+    - path: data/Movies_and_TV.valid.csv.gz
+      hash: md5
+      md5: c18b344ae98c74bc9697946fdf7767a6
+      size: 11997632
+    outs:
+    - path: data/Movies_and_TV.duckdb
+      hash: md5
+      md5: 517b1cc63d2db04a8fc7b359f099c2eb
+      size: 245641216
+  import-bench@Electronics:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Electronics
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Electronics.test.csv.gz
+      hash: md5
+      md5: d5851b84350f9040bfd89a7f3a4e39d6
+      size: 59706322
+    - path: data/Electronics.train.csv.gz
+      hash: md5
+      md5: 63a1e8a27c8ab5e9b2bb2362d90d71af
+      size: 291870849
+    - path: data/Electronics.valid.csv.gz
+      hash: md5
+      md5: c86e52bf71f53d29302489fe2d08aed7
+      size: 60998902
+    outs:
+    - path: data/Electronics.duckdb
+      hash: md5
+      md5: 8d6f1e3f81d5807ef53c5941e09071ed
+      size: 527708160
+  import-bench@Cell_Phones_and_Accessories:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Cell_Phones_and_Accessories
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Cell_Phones_and_Accessories.test.csv.gz
+      hash: md5
+      md5: f1a24620ee1d6c04c6632ddda346b020
+      size: 11989115
+    - path: data/Cell_Phones_and_Accessories.train.csv.gz
+      hash: md5
+      md5: 023a5bc3efac70e65cc4e1914dd640a0
+      size: 50136518
+    - path: data/Cell_Phones_and_Accessories.valid.csv.gz
+      hash: md5
+      md5: 03db577c1e2bff622883fb364c4319b2
+      size: 10763179
+    outs:
+    - path: data/Cell_Phones_and_Accessories.duckdb
+      hash: md5
+      md5: 6f529f379975aa4a62f0b2e59fa5a1fb
+      size: 123744256
+  import-bench@Kindle_Store:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Kindle_Store
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Kindle_Store.test.csv.gz
+      hash: md5
+      md5: e69880467b21f9724644995e5de3c6b7
+      size: 76684779
+    - path: data/Kindle_Store.train.csv.gz
+      hash: md5
+      md5: 693b03c3670d011e952c50eb83895e1f
+      size: 352327053
+    - path: data/Kindle_Store.valid.csv.gz
+      hash: md5
+      md5: ba75f4de011bd2c8c5e03007638522d5
+      size: 85698319
+    outs:
+    - path: data/Kindle_Store.duckdb
+      hash: md5
+      md5: d0d6d5d27103de03b629962b6002aa89
+      size: 414461952
+  import-bench@Musical_Instruments:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Musical_Instruments
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Musical_Instruments.test.csv.gz
+      hash: md5
+      md5: 7bd4540b0b29282b4910aa1988cc6349
+      size: 1737026
+    - path: data/Musical_Instruments.train.csv.gz
+      hash: md5
+      md5: a1d9b08759ee1685abc91e5f768d292f
+      size: 9431776
+    - path: data/Musical_Instruments.valid.csv.gz
+      hash: md5
+      md5: 5333a84211e0f3b2a76ea848a3a75f7d
+      size: 1786891
+    outs:
+    - path: data/Musical_Instruments.duckdb
+      hash: md5
+      md5: 53828d51cb0c65919102d1e66af3e10b
+      size: 19410944
+  import-bench@Grocery_and_Gourmet_Food:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Grocery_and_Gourmet_Food
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Grocery_and_Gourmet_Food.test.csv.gz
+      hash: md5
+      md5: 832837da495f8d243238a9d69ed18d07
+      size: 19603496
+    - path: data/Grocery_and_Gourmet_Food.train.csv.gz
+      hash: md5
+      md5: c8f147e1796e57361eda6f9f4c6ea54d
+      size: 68113217
+    - path: data/Grocery_and_Gourmet_Food.valid.csv.gz
+      hash: md5
+      md5: 8bd8d4f79bf1a21b967b2b4c6834a90e
+      size: 21857518
+    outs:
+    - path: data/Grocery_and_Gourmet_Food.duckdb
+      hash: md5
+      md5: b86e7ec6b38017d61470a6500d44156d
+      size: 143929344
+  import-bench@Patio_Lawn_and_Garden:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Patio_Lawn_and_Garden
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Patio_Lawn_and_Garden.test.csv.gz
+      hash: md5
+      md5: f86cdcab5ace621918252fce992a45e9
+      size: 18639288
+    - path: data/Patio_Lawn_and_Garden.train.csv.gz
+      hash: md5
+      md5: 6d534fd8597eb6b8ee567695d0f8beb1
+      size: 58323206
+    - path: data/Patio_Lawn_and_Garden.valid.csv.gz
+      hash: md5
+      md5: 6a98e45550c5978a3519e9cc31cc5026
+      size: 18537791
+    outs:
+    - path: data/Patio_Lawn_and_Garden.duckdb
+      hash: md5
+      md5: ef8dc0e27091ac2b1f2599aa5b92ed9d
+      size: 142094336
+  import-bench@CDs_and_Vinyl:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/CDs_and_Vinyl
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/CDs_and_Vinyl.test.csv.gz
+      hash: md5
+      md5: 66d76238e903c0e6807e881790705712
+      size: 1273480
+    - path: data/CDs_and_Vinyl.train.csv.gz
+      hash: md5
+      md5: 52f026f7362db207ff7bcc8696025da0
+      size: 32949116
+    - path: data/CDs_and_Vinyl.valid.csv.gz
+      hash: md5
+      md5: 6b746db4246195b2fb1b8fd239c1204b
+      size: 1782019
+    outs:
+    - path: data/CDs_and_Vinyl.duckdb
+      hash: md5
+      md5: 3b7e7a99bc2167e31e939f1a4dd508ad
+      size: 70266880
+  import-bench@Tools_and_Home_Improvement:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Tools_and_Home_Improvement
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Tools_and_Home_Improvement.test.csv.gz
+      hash: md5
+      md5: 2ba66ae2c4918096a1e847c3d7aa479c
+      size: 42654397
+    - path: data/Tools_and_Home_Improvement.train.csv.gz
+      hash: md5
+      md5: 685e1f7be000432b56af04bef7b3e07c
+      size: 137338466
+    - path: data/Tools_and_Home_Improvement.valid.csv.gz
+      hash: md5
+      md5: b7b36838aa41b09033e23cd651e3a8e3
+      size: 39101306
+    outs:
+    - path: data/Tools_and_Home_Improvement.duckdb
+      hash: md5
+      md5: f74b969af50aa4ddcb026083ce027b41
+      size: 292564992
+  import-bench@Industrial_and_Scientific:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Industrial_and_Scientific
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Industrial_and_Scientific.test.csv.gz
+      hash: md5
+      md5: beec341361368869ab098ebe77463b40
+      size: 2392881
+    - path: data/Industrial_and_Scientific.train.csv.gz
+      hash: md5
+      md5: dbce994f298412dc2a4e2f6839e991ed
+      size: 6774883
+    - path: data/Industrial_and_Scientific.valid.csv.gz
+      hash: md5
+      md5: d2706e9e95fa40d7e4dcb47a298850e7
+      size: 1787185
+    outs:
+    - path: data/Industrial_and_Scientific.duckdb
+      hash: md5
+      md5: 6fbdf69e5c0666de2fb4d5a98efd0bcc
+      size: 17313792
+  import-bench@Home_and_Kitchen:
+    cmd: python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/Home_and_Kitchen
+    deps:
+    - path: ../import-az.py
+      hash: md5
+      md5: 4a68a3d3139148f2d99e4fc629591e3f
+      size: 2649
+    - path: ../schemas/benchmark.sql
+      hash: md5
+      md5: 8027da76a9aceead79a97cb3e45c45d7
+      size: 549
+    - path: az-bench-stats.sql
+      hash: md5
+      md5: d356b341d42599665f6b4f11d7964be2
+      size: 1395
+    - path: data/Home_and_Kitchen.test.csv.gz
+      hash: md5
+      md5: 721567b3b59c3daa049b311c1502e8f9
+      size: 155697034
+    - path: data/Home_and_Kitchen.train.csv.gz
+      hash: md5
+      md5: d0c6777ce0dd73bb899d7fea382fe1b6
+      size: 487962700
+    - path: data/Home_and_Kitchen.valid.csv.gz
+      hash: md5
+      md5: f4f9c9b7a447ccd140eacae9446b5718
+      size: 150886324
+    outs:
+    - path: data/Home_and_Kitchen.duckdb
+      hash: md5
+      md5: 270651d018a2c86258b257ab874072cb
+      size: 987770880
