@@ -13,6 +13,8 @@ stages:
       - movielens/ML100K/sweeps/random/ImplicitMF-ALS.duckdb
     outs:
       - _freeze/movielens/ML100K/als-implicitmf
+      - movielens/ML100K/sweeps/random/ImplicitMF-ALS.csv
+      - movielens/ML100K/sweeps/random/ImplicitMF-ALS.json
   page/movielens/ML100K/bias:
     cmd: quarto render movielens/ML100K/bias.qmd
     deps:
@@ -56,6 +58,8 @@ stages:
       - movielens/ML10M/sweeps/random/ImplicitMF-ALS.duckdb
     outs:
       - _freeze/movielens/ML10M/als-implicitmf
+      - movielens/ML10M/sweeps/random/ImplicitMF-ALS.csv
+      - movielens/ML10M/sweeps/random/ImplicitMF-ALS.json
   page/movielens/ML10M/bias:
     cmd: quarto render movielens/ML10M/bias.qmd
     deps:
@@ -99,6 +103,8 @@ stages:
       - movielens/ML1M/sweeps/random/ImplicitMF-ALS.duckdb
     outs:
       - _freeze/movielens/ML1M/als-implicitmf
+      - movielens/ML1M/sweeps/random/ImplicitMF-ALS.csv
+      - movielens/ML1M/sweeps/random/ImplicitMF-ALS.json
   page/movielens/ML1M/bias:
     cmd: quarto render movielens/ML1M/bias.qmd
     deps:
@@ -142,6 +148,8 @@ stages:
       - movielens/ML20M/sweeps/random/ImplicitMF-ALS.duckdb
     outs:
       - _freeze/movielens/ML20M/als-implicitmf
+      - movielens/ML20M/sweeps/random/ImplicitMF-ALS.csv
+      - movielens/ML20M/sweeps/random/ImplicitMF-ALS.json
   page/movielens/ML20M/bias:
     cmd: quarto render movielens/ML20M/bias.qmd
     deps:
@@ -185,6 +193,8 @@ stages:
       - movielens/ML25M/sweeps/random/ImplicitMF-ALS.duckdb
     outs:
       - _freeze/movielens/ML25M/als-implicitmf
+      - movielens/ML25M/sweeps/random/ImplicitMF-ALS.csv
+      - movielens/ML25M/sweeps/random/ImplicitMF-ALS.json
   page/movielens/ML25M/bias:
     cmd: quarto render movielens/ML25M/bias.qmd
     deps:

@@ -3,7 +3,16 @@ title: ALS ImplicitMF on ML10M
 echo: false
 deps:
 - sweeps/random/ImplicitMF-ALS.duckdb
+outs:
+- sweeps/random/ImplicitMF-ALS.csv
+- sweeps/random/ImplicitMF-ALS.json
 ---
+
+```{python}
+from os import fspath
+from pathlib import Path
+import json
+```
 
 ```{python}
 import pandas as pd
@@ -19,7 +28,9 @@ from codex.display import DEFAULTS
 ```
 
 ```{python}
-rnd_sweep = duckdb.connect('sweeps/random/ImplicitMF-ALS.duckdb', read_only=True)
+sweep_dir = Path('sweeps/random')
+sweep_name = 'ImplicitMF-ALS'
+rnd_sweep = duckdb.connect(fspath(sweep_dir / f'{sweep_name}.duckdb'), read_only=True)
 ```
 
 ## Parameter Sweeps
@@ -64,4 +75,32 @@ nf_times['value'] = pd.to_timedelta(nf_times['value'], unit='s')
     + pn.scale_y_timedelta()
     + pn.facet_wrap('type', scales='free_y')
 )
+```
+
+How does training time relate to performance?
+
+```{python}
+ranked = rnd_sweep.sql("""
+SELECT COLUMNS(rs.* EXCLUDE rec_id),
+    wall_time AS TrainTime,
+    cpu_time AS TrainCPU,
+    rss_max_kb / 1024 AS TrainMemMB,
+    AVG(ndcg) AS NDCG,
+    AVG(recip_rank) AS MRR,
+FROM run_specs rs
+JOIN train_metrics tm USING (rec_idx)
+JOIN user_metrics USING (rec_idx)
+GROUP BY rs.*
+ORDER BY ndcg DESC
+""")
+ranked.to_df()
+```
+
+Let's save those results.
+
+```{python}
+ranked.write_csv(fspath(sweep_dir / f'{sweep_name}.csv'))
+best = dict(zip(ranked.columns, ranked.fetchone()))
+json_file = sweep_dir / f'{sweep_name}.json'
+json_file.write_text(json.dumps(best))
 ```
