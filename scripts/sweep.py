@@ -2,7 +2,8 @@
 Grid-sweep hyperparameter values.
 
 Usage:
-    sweep.py [-v] [-p N] [-n N] MODEL SPLIT RATINGS OUTPUT
+    sweep.py [-v] [-p N] [-n N] MODEL SPLIT RATINGS DATABASE
+    sweep.py [-v] --export DATABASE METRIC
 
 Options:
     -v, --verbose
@@ -11,16 +12,21 @@ Options:
         sweep on test partition N
     -n N, --list-length=N
         generate recommendation lists of length N [default: 100]
+    --export
+        export the final sweep results
     MODEL
         name of the model to sweep
     SPLIT
         database file of splits
     RATINGS
         database file of original rating data
-    OUTPUT
-        output database file
+    DATABASE
+        sweep result database file
+    METRIC
+        the metric to use for selecting best results
 """
 
+import json
 import logging
 import sys
 from os import fspath
@@ -28,7 +34,7 @@ from pathlib import Path
 
 import duckdb
 import pandas as pd
-from docopt import docopt
+from docopt import ParsedOptions, docopt
 from humanize import naturalsize
 from lenskit import batch, topn
 from lenskit.algorithms import Recommender
@@ -54,11 +60,18 @@ def main():
 
     init_file(here("config.toml"))
 
+    if opts["--export"]:
+        export_best_results(opts)
+    else:
+        run_sweep(opts)
+
+
+def run_sweep(opts: ParsedOptions):
     mod = model_module(opts["MODEL"])
 
     split_fn = Path(opts["SPLIT"])
     src_fn = Path(opts["RATINGS"])
-    out_fn = Path(opts["OUTPUT"])
+    out_fn = Path(opts["DATABASE"])
 
     N = int(opts["--list-length"])
 
@@ -175,6 +188,45 @@ def sweep_model(
         umetrics = umetrics.reset_index().assign(rec_idx=point.rec_idx)
 
         db.from_df(umetrics[db.table("user_metrics").columns]).insert_into("user_metrics")
+
+
+def export_best_results(opts: ParsedOptions):
+    db_fn = Path(opts["DATABASE"])
+    metric = opts["METRIC"]
+    order = "ASC" if metric == "rmse" else "DESC"
+
+    with duckdb.connect(fspath(db_fn), read_only=True) as db:
+        um_cols = db.table("user_metrics").columns
+        um_aggs = ", ".join(
+            f"AVG({col}) AS {col}" for col in um_cols if col not in {"rec_idx", "user"}
+        )
+        _log.info("fetching output results")
+        query = f"""
+            SELECT COLUMNS(rs.* EXCLUDE rec_id),
+                wall_time AS TrainTime,
+                cpu_time AS TrainCPU,
+                rss_max_kb / 1024 AS TrainMemMB,
+                {um_aggs}
+            FROM run_specs rs
+            JOIN train_metrics tm USING (rec_idx)
+            JOIN user_metrics um USING (rec_idx)
+            GROUP BY rs.*
+            ORDER BY {metric} {order}
+        """
+        print(query)
+        top = db.sql(query)
+        print(top.limit(5).to_df())
+
+        csv_fn = db_fn.with_suffix(".csv")
+        _log.info("writing results to %s", csv_fn)
+        top.write_csv(fspath(csv_fn))
+
+        json_fn = db_fn.with_suffix(".json")
+        _log.info("writing best configuration to %s", json_fn)
+        best_row = top.fetchone()
+        assert best_row is not None
+        best = dict(zip(top.columns, best_row))
+        json_fn.write_text(json.dumps(best, indent=2))
 
 
 if __name__ == "__main__":

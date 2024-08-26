@@ -43,17 +43,28 @@ async function ml_splits(name: string): Promise<Record<string, Stage>> {
 
 function ml_sweeps(_name: string): Record<string, Stage> {
   const active = filterValues(MODELS, (m) => m.sweepable);
-  return mapEntries(active, ([name, _info]) => [`sweep-random-${name}`, {
-    cmd:
-      `python ../../scripts/sweep.py -p 1 ${name} splits/random.duckdb ratings.duckdb sweeps/random/${name}.duckdb`,
-    params: [{ "../../config.toml": ["random.seed"] }],
-    deps: [
-      "splits/random.duckdb",
-      "ratings.duckdb",
-      `../../codex/models/${name.replaceAll("-", "_")}.py`,
-    ],
-    outs: [`sweeps/random/${name}.duckdb`],
-  }]);
+  const results: Record<string, Stage> = {};
+  for (const name of Object.keys(active)) {
+    results[`sweep-random-${name}`] = {
+      cmd:
+        `python ../../scripts/sweep.py -p 1 ${name} splits/random.duckdb ratings.duckdb sweeps/random/${name}.duckdb`,
+      params: [{ "../../config.toml": ["random.seed"] }],
+      deps: [
+        "splits/random.duckdb",
+        "ratings.duckdb",
+        `../../codex/models/${name.replaceAll("-", "_")}.py`,
+      ],
+      outs: [`sweeps/random/${name}.duckdb`],
+    };
+    results[`export-random-${name}`] = {
+      cmd: `python ../../scripts/sweep.py --export sweeps/random/${name}.duckdb`,
+      deps: ["../../scripts/sweep.py", `sweeps/random/${name}.duckdb`],
+      outs: [
+        `sweeps/random/${name}.csv`,
+        `sweeps/random/${name}.json`,
+      ],
+    };
+  }
 }
 
 async function ml_pipeline(name: string): Promise<Pipeline> {
