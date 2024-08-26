@@ -11,8 +11,11 @@ export const pipeline = {
     "import-bench": {
       foreach: datasets,
       do: {
-        cmd: "python ../import-az.py --benchmark data/${item}",
+        cmd: "python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/${item}",
         deps: [
+          "../import-az.py",
+          "../schemas/benchmark.sql",
+          "az-bench-stats.sql",
           "data/${item}.train.csv.gz",
           "data/${item}.valid.csv.gz",
           "data/${item}.test.csv.gz",
