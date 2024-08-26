@@ -1,0 +1,22 @@
+schema: '2.0'
+stages:
+  import-bench@Video_Games:
+    cmd: python ../import-az.py --benchmark data/Video_Games
+    deps:
+    - path: data/Video_Games.test.csv.gz
+      hash: md5
+      md5: cf9c346ffe32cf46fd1f661032f29841
+      size: 1672711
+    - path: data/Video_Games.train.csv.gz
+      hash: md5
+      md5: cf52cdcd1bc96c0251cf525fd3373bf5
+      size: 15690763
+    - path: data/Video_Games.valid.csv.gz
+      hash: md5
+      md5: 5b29cd361999229e92cc7c3c49d3bc08
+      size: 1558363
+    outs:
+    - path: data/Video_Games.duckdb
+      hash: md5
+      md5: eac50ef2fb39bc085f29ca0de2b3ec99
+      size: 38809600
