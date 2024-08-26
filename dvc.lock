@@ -135,8 +135,8 @@ stages:
     deps:
     - path: movielens/ML100K/description.qmd
       hash: md5
-      md5: a0159b49d57351efa26fe85487ca9c9e
-      size: 158
+      md5: d06bd5f467235616b11f9ccee2e9a106
+      size: 167
     - path: movielens/ML100K/ratings.duckdb
       hash: md5
       md5: a770a8e6c558a398515b74def824e7b8
@@ -148,16 +148,16 @@ stages:
     outs:
     - path: _freeze/movielens/ML100K/description
       hash: md5
-      md5: c78d9297ff0dccaf96b4fbd0447ce92c.dir
-      size: 1617997
+      md5: 44bba6982c713ee05184d6b79948995a.dir
+      size: 1618204
       nfiles: 10
   page/movielens/ML10M/description:
     cmd: quarto render movielens/ML10M/description.qmd
     deps:
     - path: movielens/ML10M/description.qmd
       hash: md5
-      md5: 76cc570726b1322eab18dacbedfc368c
-      size: 156
+      md5: 10dd63f0dc2b930f10681093bf26b2e5
+      size: 165
     - path: movielens/ML10M/ratings.duckdb
       hash: md5
       md5: 1a8b11ed426f9ff718074d7ce44e3dcd
@@ -169,16 +169,16 @@ stages:
     outs:
     - path: _freeze/movielens/ML10M/description
       hash: md5
-      md5: 3f8620b4e4ba5a24d4fd6832ba598be4.dir
-      size: 1850154
+      md5: 7ed0d4a087ff09f3e489dd210a0dc388.dir
+      size: 1850363
       nfiles: 10
   page/movielens/ML1M/description:
     cmd: quarto render movielens/ML1M/description.qmd
     deps:
     - path: movielens/ML1M/description.qmd
       hash: md5
-      md5: 90e69d952522db203f63c4fe640ba9a3
-      size: 154
+      md5: 4b2d72d393f25bef932bf93b3f9e724d
+      size: 163
     - path: movielens/ML1M/ratings.duckdb
       hash: md5
       md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
@@ -190,16 +190,16 @@ stages:
     outs:
     - path: _freeze/movielens/ML1M/description
       hash: md5
-      md5: 625a3fa7b8e39f8ae2c16dfac0fd983e.dir
-      size: 1560114
+      md5: 116446967ad58b16c1ceb340a2a2968e.dir
+      size: 1560323
       nfiles: 10
   page/movielens/ML20M/description:
     cmd: quarto render movielens/ML20M/description.qmd
     deps:
     - path: movielens/ML20M/description.qmd
       hash: md5
-      md5: a4e7073b254b57c78dd03516046aaca5
-      size: 156
+      md5: e8ba9e62e4f685810fcaaf0de964f09b
+      size: 165
     - path: movielens/ML20M/ratings.duckdb
       hash: md5
       md5: cccd30242af2c39130c7e15a6e20a523
@@ -211,16 +211,16 @@ stages:
     outs:
     - path: _freeze/movielens/ML20M/description
       hash: md5
-      md5: 5e2a1f3e6e12f2123177de755e390296.dir
-      size: 1907130
+      md5: 023a0dfc0ed069b83774e003da158262.dir
+      size: 1907339
       nfiles: 10
   page/movielens/ML25M/description:
     cmd: quarto render movielens/ML25M/description.qmd
     deps:
     - path: movielens/ML25M/description.qmd
       hash: md5
-      md5: f2ccc4082b9c8f18fa5804fd47868add
-      size: 156
+      md5: fd59bc39147f55fd4012d6bda71459a2
+      size: 165
     - path: movielens/ML25M/ratings.duckdb
       hash: md5
       md5: 9463b4c41e34c62316f2518ffa78b1bd
@@ -232,8 +232,8 @@ stages:
     outs:
     - path: _freeze/movielens/ML25M/description
       hash: md5
-      md5: e925d1335a7b405a1b04840cf6b9b316.dir
-      size: 1944076
+      md5: 942b7931f9d8a8bf0916a376ac9b33b3.dir
+      size: 1944285
       nfiles: 10
   page/movielens/index:
     cmd: quarto render movielens/index.qmd
@@ -336,4 +336,38 @@ stages:
       hash: md5
       md5: d4bc94507a035bcaf6b342a8de348cd6.dir
       size: 157264
+      nfiles: 2
+  page/movielens/ML100K/als-biasedmf:
+    cmd: quarto render movielens/ML100K/als-biasedmf.qmd
+    deps:
+    - path: movielens/ML100K/als-biasedmf.qmd
+      hash: md5
+      md5: 8d87fd57ac89e263b18924a5e1126d01
+      size: 1288
+    - path: movielens/ML100K/sweeps/random/BiasedMF-ALS.duckdb
+      hash: md5
+      md5: d1701fae97158fae8bf82735d00231c9
+      size: 4993024
+    outs:
+    - path: _freeze/movielens/ML100K/als-biasedmf
+      hash: md5
+      md5: 369f680002ba949721ed7a4ba63f3da8.dir
+      size: 365719
+      nfiles: 3
+  page/movielens/ML100K/als-implicitmf:
+    cmd: quarto render movielens/ML100K/als-implicitmf.qmd
+    deps:
+    - path: movielens/ML100K/als-implicitmf.qmd
+      hash: md5
+      md5: 59cd7f316ddedbf76cffe61143d69a81
+      size: 911
+    - path: movielens/ML100K/sweeps/random/ImplicitMF-ALS.duckdb
+      hash: md5
+      md5: 2f65be5f2500468f58b48c6168c07736
+      size: 4730880
+    outs:
+    - path: _freeze/movielens/ML100K/als-implicitmf
+      hash: md5
+      md5: dd572412a7e63c103b09de3db4c8728e.dir
+      size: 313112
       nfiles: 2
