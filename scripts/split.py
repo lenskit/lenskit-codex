@@ -27,6 +27,7 @@ _log = logging.getLogger("codex.split")
 
 
 def main():
+    assert __doc__ is not None
     opts = docopt(__doc__)
     setup_logging(opts["--verbose"])
 
