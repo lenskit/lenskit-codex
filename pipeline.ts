@@ -9,6 +9,7 @@ type Notebook = {
   path: string;
   file: string;
   deps: string[];
+  outs?: string[];
 };
 
 async function collectNotebooks(): Promise<Notebook[]> {
@@ -29,11 +30,17 @@ async function collectNotebooks(): Promise<Notebook[]> {
       deps = (parsed.attrs.deps as string[]) ?? [];
     }
     deps = deps.map((p) => relative(cwd, normalize(joinPath(dir, p))));
+    let outs = undefined;
+    if (parsed.attrs.outs) {
+      outs = parsed.attrs.outs as string[];
+      outs = outs.map((p) => relative(cwd, normalize(joinPath(dir, p))));
+    }
     notebooks.push({
       dir,
       path: joinPath(dir, path.name),
       file: joinPath(dir, nbf.name),
       deps,
+      outs,
     });
   }
   return notebooks;
@@ -47,7 +54,7 @@ for (const nb of await collectNotebooks()) {
   pipeline.stages[`page/${nb.path}`] = {
     cmd: `quarto render ${nb.file}`,
     deps: [nb.file].concat(nb.deps),
-    outs: [`_freeze/${nb.path}`],
+    outs: [`_freeze/${nb.path}`].concat(nb.outs ?? []),
   };
 }
 
