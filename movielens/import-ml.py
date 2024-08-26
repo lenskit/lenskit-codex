@@ -18,7 +18,7 @@ from pathlib import Path
 import duckdb
 import numpy as np
 import pandas as pd
-from docopt import docopt
+from docopt import ParsedOptions, docopt
 from sandal import autoroot  # noqa: F401
 from sandal.cli import setup_logging
 
@@ -105,7 +105,7 @@ class MLCurrent(MLData):
         ).rename(columns={"userId": "user_id", "movieId": "item_id"})
 
 
-def main(options):
+def main(options: ParsedOptions):
     zipf = Path(options["ZIPFILE"])
     _log.info("importing %s", zipf)
 

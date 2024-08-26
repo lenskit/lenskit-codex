@@ -20,3 +20,19 @@ stages:
       hash: md5
       md5: bb6c15fab0f9f49d334babc97b3b3ef6
       size: 381693952
+  import:
+    cmd: python ../import-ml.py ml-32m.zip
+    deps:
+    - path: ../ml-stats.sql
+      hash: md5
+      md5: b016dc983a2156e0712a846097a968e7
+      size: 1307
+    - path: ml-32m.zip
+      hash: md5
+      md5: d472be332d4daa821edc399621853b57
+      size: 238950008
+    outs:
+    - path: ratings.duckdb
+      hash: md5
+      md5: bb6c15fab0f9f49d334babc97b3b3ef6
+      size: 381693952

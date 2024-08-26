@@ -191,3 +191,19 @@ stages:
       hash: md5
       md5: 955a00017d5762b62637235b20ec7949
       size: 259534848
+  import:
+    cmd: python ../import-ml.py ml-25m.zip
+    deps:
+    - path: ../ml-stats.sql
+      hash: md5
+      md5: b016dc983a2156e0712a846097a968e7
+      size: 1307
+    - path: ml-25m.zip
+      hash: md5
+      md5: 6b51fb2759a8657d3bfcbfc42b592ada
+      size: 261978986
+    outs:
+    - path: ratings.duckdb
+      hash: md5
+      md5: 9463b4c41e34c62316f2518ffa78b1bd
+      size: 299642880

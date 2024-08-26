@@ -20,7 +20,7 @@ export const datasets: Record<string, string> = {
 function ml_import(_name: string, fn: string): Stage {
   return {
     cmd: `python ../import-ml.py ${fn}.zip`,
-    deps: ["../import-ml.py", "../ml-stats.sql", fn + ".zip"],
+    deps: ["../ml-stats.sql", fn + ".zip"],
     outs: ["ratings.duckdb"],
   };
 }
@@ -75,7 +75,7 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
   return {
     stages: Object.assign(
       {
-        ["import-" + fn]: ml_import(name, fn),
+        ["import"]: ml_import(name, fn),
       },
       await ml_splits(name),
       ml_sweeps(name),

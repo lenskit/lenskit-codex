@@ -1,8 +1,7 @@
 stages:
-  import-ml-20m:
+  import:
     cmd: python ../import-ml.py ml-20m.zip
     deps:
-      - ../import-ml.py
       - ../ml-stats.sql
       - ml-20m.zip
     outs:
