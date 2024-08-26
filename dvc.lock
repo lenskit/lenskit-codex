@@ -240,8 +240,8 @@ stages:
     deps:
     - path: movielens/index.qmd
       hash: md5
-      md5: 13a3e3482e197a9878549c0b09a8f187
-      size: 2031
+      md5: 92e334fc9a0a4491720fd873f528e872
+      size: 2026
     - path: movielens/merged-stats.duckdb
       hash: md5
       md5: 70bf9ee4d5f5d03f4a58b19f87d30634
@@ -249,8 +249,8 @@ stages:
     outs:
     - path: _freeze/movielens/index
       hash: md5
-      md5: d769a1efa9933c790463d1458b31081e.dir
-      size: 364651
+      md5: fb67d2a398708def5a230ed1382ce2bd.dir
+      size: 364418
       nfiles: 2
   page/movielens/ML100K/bias:
     cmd: quarto render movielens/ML100K/bias.qmd
@@ -342,8 +342,8 @@ stages:
     deps:
     - path: movielens/ML100K/als-biasedmf.qmd
       hash: md5
-      md5: 8d87fd57ac89e263b18924a5e1126d01
-      size: 1288
+      md5: 3e050966257ef3b8a27baa8a64327bbc
+      size: 1896
     - path: movielens/ML100K/sweeps/random/BiasedMF-ALS.duckdb
       hash: md5
       md5: d1701fae97158fae8bf82735d00231c9
@@ -351,16 +351,16 @@ stages:
     outs:
     - path: _freeze/movielens/ML100K/als-biasedmf
       hash: md5
-      md5: 369f680002ba949721ed7a4ba63f3da8.dir
-      size: 365719
-      nfiles: 3
+      md5: 49762d1e8ae52eae0b291fa6498fb5af.dir
+      size: 591251
+      nfiles: 4
   page/movielens/ML100K/als-implicitmf:
     cmd: quarto render movielens/ML100K/als-implicitmf.qmd
     deps:
     - path: movielens/ML100K/als-implicitmf.qmd
       hash: md5
-      md5: 59cd7f316ddedbf76cffe61143d69a81
-      size: 911
+      md5: 1a9ba5aff9ce41ea1283dd1e5b7c6828
+      size: 1496
     - path: movielens/ML100K/sweeps/random/ImplicitMF-ALS.duckdb
       hash: md5
       md5: 2f65be5f2500468f58b48c6168c07736
@@ -368,6 +368,346 @@ stages:
     outs:
     - path: _freeze/movielens/ML100K/als-implicitmf
       hash: md5
-      md5: dd572412a7e63c103b09de3db4c8728e.dir
-      size: 313112
+      md5: ded88f86dcbd822f4510d748bb1da42e.dir
+      size: 538016
+      nfiles: 3
+  page/movielens/ML10M/als-biasedmf:
+    cmd: quarto render movielens/ML10M/als-biasedmf.qmd
+    deps:
+    - path: movielens/ML10M/als-biasedmf.qmd
+      hash: md5
+      md5: 7a8eb32125152fc1f9377b72b7cd174d
+      size: 1895
+    - path: movielens/ML10M/sweeps/random/BiasedMF-ALS.duckdb
+      hash: md5
+      md5: 9c03abcf3d36777ed11c497bd54c2af6
+      size: 303050752
+    outs:
+    - path: _freeze/movielens/ML10M/als-biasedmf
+      hash: md5
+      md5: 96cf12a5ce28e99bfd7960f91d26e3c1.dir
+      size: 589689
+      nfiles: 4
+  page/movielens/ML10M/als-implicitmf:
+    cmd: quarto render movielens/ML10M/als-implicitmf.qmd
+    deps:
+    - path: movielens/ML10M/als-implicitmf.qmd
+      hash: md5
+      md5: f7175438a67046b8bba0f8a900d824df
+      size: 1495
+    - path: movielens/ML10M/sweeps/random/ImplicitMF-ALS.duckdb
+      hash: md5
+      md5: badd872611dff9b248332935049a7e8e
+      size: 281030656
+    outs:
+    - path: _freeze/movielens/ML10M/als-implicitmf
+      hash: md5
+      md5: 20b34b620670ec9bc58fd4f67a0bab3c.dir
+      size: 458959
+      nfiles: 3
+  page/movielens/ML10M/bias:
+    cmd: quarto render movielens/ML10M/bias.qmd
+    deps:
+    - path: movielens/ML10M/bias.qmd
+      hash: md5
+      md5: a86e1c9dd343b8caa59ba0e3561131fd
+      size: 1273
+    - path: movielens/ML10M/sweeps/random/Bias.duckdb
+      hash: md5
+      md5: 7e554032ce3a8244daa34a283909405a
+      size: 159920128
+    outs:
+    - path: _freeze/movielens/ML10M/bias
+      hash: md5
+      md5: 7abe5f94f0ac3276d2dcbf7b03be2208.dir
+      size: 305569
+      nfiles: 3
+  page/movielens/ML10M/iknn-explicit:
+    cmd: quarto render movielens/ML10M/iknn-explicit.qmd
+    deps:
+    - path: movielens/ML10M/iknn-explicit.qmd
+      hash: md5
+      md5: 0dc1731408c5d28a53cb43533e26295d
+      size: 1326
+    - path: movielens/ML10M/sweeps/random/IKNN-Explicit.duckdb
+      hash: md5
+      md5: 616f39ffaa5dd90123a2aa94697ee17d
+      size: 120598528
+    outs:
+    - path: _freeze/movielens/ML10M/iknn-explicit
+      hash: md5
+      md5: 33ce92c23670e231ad4bc3b7363a4bd6.dir
+      size: 404043
+      nfiles: 3
+  page/movielens/ML10M/iknn-implicit:
+    cmd: quarto render movielens/ML10M/iknn-implicit.qmd
+    deps:
+    - path: movielens/ML10M/iknn-implicit.qmd
+      hash: md5
+      md5: 718b72e12c7db1c7e46241763eb95358
+      size: 926
+    - path: movielens/ML10M/sweeps/random/IKNN-Implicit.duckdb
+      hash: md5
+      md5: ccbf0cff15e9b93e5ff088f1b88a6814
+      size: 112996352
+    outs:
+    - path: _freeze/movielens/ML10M/iknn-implicit
+      hash: md5
+      md5: f6d72e1ee64f3e2331bfc145e022d71e.dir
+      size: 176136
+      nfiles: 2
+  page/movielens/ML1M/als-biasedmf:
+    cmd: quarto render movielens/ML1M/als-biasedmf.qmd
+    deps:
+    - path: movielens/ML1M/als-biasedmf.qmd
+      hash: md5
+      md5: 7a8eb32125152fc1f9377b72b7cd174d
+      size: 1895
+    - path: movielens/ML1M/sweeps/random/BiasedMF-ALS.duckdb
+      hash: md5
+      md5: a5493b8e9892e73c717688a8501447dc
+      size: 28323840
+    outs:
+    - path: _freeze/movielens/ML1M/als-biasedmf
+      hash: md5
+      md5: fcaf12d7fd7fc5c455c1f2aea2466d33.dir
+      size: 604414
+      nfiles: 4
+  page/movielens/ML1M/als-implicitmf:
+    cmd: quarto render movielens/ML1M/als-implicitmf.qmd
+    deps:
+    - path: movielens/ML1M/als-implicitmf.qmd
+      hash: md5
+      md5: f7175438a67046b8bba0f8a900d824df
+      size: 1495
+    - path: movielens/ML1M/sweeps/random/ImplicitMF-ALS.duckdb
+      hash: md5
+      md5: c169cc130ddbdddfb89c8fb8a77a6d01
+      size: 26488832
+    outs:
+    - path: _freeze/movielens/ML1M/als-implicitmf
+      hash: md5
+      md5: 3e3862f9f7e2dff4d1b2b257dc4e09e2.dir
+      size: 452906
+      nfiles: 3
+  page/movielens/ML1M/bias:
+    cmd: quarto render movielens/ML1M/bias.qmd
+    deps:
+    - path: movielens/ML1M/bias.qmd
+      hash: md5
+      md5: a86e1c9dd343b8caa59ba0e3561131fd
+      size: 1273
+    - path: movielens/ML1M/sweeps/random/Bias.duckdb
+      hash: md5
+      md5: 44a74618372d721974a5c7a771028de4
+      size: 16003072
+    outs:
+    - path: _freeze/movielens/ML1M/bias
+      hash: md5
+      md5: 451a1d9d32694f8a16f86338ed2cffb2.dir
+      size: 363779
+      nfiles: 3
+  page/movielens/ML1M/iknn-explicit:
+    cmd: quarto render movielens/ML1M/iknn-explicit.qmd
+    deps:
+    - path: movielens/ML1M/iknn-explicit.qmd
+      hash: md5
+      md5: 0dc1731408c5d28a53cb43533e26295d
+      size: 1326
+    - path: movielens/ML1M/sweeps/random/IKNN-Explicit.duckdb
+      hash: md5
+      md5: fdbc25179dc536fefdfe7d2521166668
+      size: 12333056
+    outs:
+    - path: _freeze/movielens/ML1M/iknn-explicit
+      hash: md5
+      md5: cfe80b9e133b7cb73e5d2e04f76c0500.dir
+      size: 488781
+      nfiles: 3
+  page/movielens/ML1M/iknn-implicit:
+    cmd: quarto render movielens/ML1M/iknn-implicit.qmd
+    deps:
+    - path: movielens/ML1M/iknn-implicit.qmd
+      hash: md5
+      md5: 718b72e12c7db1c7e46241763eb95358
+      size: 926
+    - path: movielens/ML1M/sweeps/random/IKNN-Implicit.duckdb
+      hash: md5
+      md5: 2f46d89b85cb9a0e7828aa8b78c8ff9d
+      size: 11546624
+    outs:
+    - path: _freeze/movielens/ML1M/iknn-implicit
+      hash: md5
+      md5: eb75120bc4ec70083f1f316cbe352e2d.dir
+      size: 169585
+      nfiles: 2
+  page/movielens/ML20M/als-biasedmf:
+    cmd: quarto render movielens/ML20M/als-biasedmf.qmd
+    deps:
+    - path: movielens/ML20M/als-biasedmf.qmd
+      hash: md5
+      md5: 7a8eb32125152fc1f9377b72b7cd174d
+      size: 1895
+    - path: movielens/ML20M/sweeps/random/BiasedMF-ALS.duckdb
+      hash: md5
+      md5: 47d1465d4d6dab1c5a4b8c533fa1511f
+      size: 591409152
+    outs:
+    - path: _freeze/movielens/ML20M/als-biasedmf
+      hash: md5
+      md5: 9b14bb11643359ae31e578ab7c99b4ac.dir
+      size: 586152
+      nfiles: 4
+  page/movielens/ML20M/als-implicitmf:
+    cmd: quarto render movielens/ML20M/als-implicitmf.qmd
+    deps:
+    - path: movielens/ML20M/als-implicitmf.qmd
+      hash: md5
+      md5: f7175438a67046b8bba0f8a900d824df
+      size: 1495
+    - path: movielens/ML20M/sweeps/random/ImplicitMF-ALS.duckdb
+      hash: md5
+      md5: 84526d1e1da9b1a36346286b10a81596
+      size: 545271808
+    outs:
+    - path: _freeze/movielens/ML20M/als-implicitmf
+      hash: md5
+      md5: 1a0bb6705ad4bd6c9959308e4162d553.dir
+      size: 451194
+      nfiles: 3
+  page/movielens/ML20M/bias:
+    cmd: quarto render movielens/ML20M/bias.qmd
+    deps:
+    - path: movielens/ML20M/bias.qmd
+      hash: md5
+      md5: a86e1c9dd343b8caa59ba0e3561131fd
+      size: 1273
+    - path: movielens/ML20M/sweeps/random/Bias.duckdb
+      hash: md5
+      md5: d4d43752ed9ea20fd6b91dd759d2351e
+      size: 281554944
+    outs:
+    - path: _freeze/movielens/ML20M/bias
+      hash: md5
+      md5: d60ea6d034b907c5d56b0dbd73eef7aa.dir
+      size: 308571
+      nfiles: 3
+  page/movielens/ML20M/iknn-explicit:
+    cmd: quarto render movielens/ML20M/iknn-explicit.qmd
+    deps:
+    - path: movielens/ML20M/iknn-explicit.qmd
+      hash: md5
+      md5: 0dc1731408c5d28a53cb43533e26295d
+      size: 1326
+    - path: movielens/ML20M/sweeps/random/IKNN-Explicit.duckdb
+      hash: md5
+      md5: 2f5edd066a321e95bb300f2bbd347cba
+      size: 237776896
+    outs:
+    - path: _freeze/movielens/ML20M/iknn-explicit
+      hash: md5
+      md5: 01449702036f701ce3322cbf0bc9ad1f.dir
+      size: 423276
+      nfiles: 3
+  page/movielens/ML20M/iknn-implicit:
+    cmd: quarto render movielens/ML20M/iknn-implicit.qmd
+    deps:
+    - path: movielens/ML20M/iknn-implicit.qmd
+      hash: md5
+      md5: 718b72e12c7db1c7e46241763eb95358
+      size: 926
+    - path: movielens/ML20M/sweeps/random/IKNN-Implicit.duckdb
+      hash: md5
+      md5: 222435bc78c0caf94d304a0b1fc7d39a
+      size: 219164672
+    outs:
+    - path: _freeze/movielens/ML20M/iknn-implicit
+      hash: md5
+      md5: bc2c778a65f609e7965564c626e7a162.dir
+      size: 167895
+      nfiles: 2
+  page/movielens/ML25M/als-biasedmf:
+    cmd: quarto render movielens/ML25M/als-biasedmf.qmd
+    deps:
+    - path: movielens/ML25M/als-biasedmf.qmd
+      hash: md5
+      md5: 7a8eb32125152fc1f9377b72b7cd174d
+      size: 1895
+    - path: movielens/ML25M/sweeps/random/BiasedMF-ALS.duckdb
+      hash: md5
+      md5: f16fe39296b9ab05ff9b5123239efbe2
+      size: 693907456
+    outs:
+    - path: _freeze/movielens/ML25M/als-biasedmf
+      hash: md5
+      md5: 863de73318ead470fbd60479c2bdde82.dir
+      size: 592710
+      nfiles: 4
+  page/movielens/ML25M/als-implicitmf:
+    cmd: quarto render movielens/ML25M/als-implicitmf.qmd
+    deps:
+    - path: movielens/ML25M/als-implicitmf.qmd
+      hash: md5
+      md5: f7175438a67046b8bba0f8a900d824df
+      size: 1495
+    - path: movielens/ML25M/sweeps/random/ImplicitMF-ALS.duckdb
+      hash: md5
+      md5: d706c45a8e0532c3ebc272b08fdbbb21
+      size: 644362240
+    outs:
+    - path: _freeze/movielens/ML25M/als-implicitmf
+      hash: md5
+      md5: ae0897385bb9eb3c158f69c9ebee42ed.dir
+      size: 436832
+      nfiles: 3
+  page/movielens/ML25M/bias:
+    cmd: quarto render movielens/ML25M/bias.qmd
+    deps:
+    - path: movielens/ML25M/bias.qmd
+      hash: md5
+      md5: a86e1c9dd343b8caa59ba0e3561131fd
+      size: 1273
+    - path: movielens/ML25M/sweeps/random/Bias.duckdb
+      hash: md5
+      md5: 59fa7f83f16fde496d8e5f0deaebe18b
+      size: 325332992
+    outs:
+    - path: _freeze/movielens/ML25M/bias
+      hash: md5
+      md5: 028c86a68684bd6208d09fa5e406aa56.dir
+      size: 309997
+      nfiles: 3
+  page/movielens/ML25M/iknn-explicit:
+    cmd: quarto render movielens/ML25M/iknn-explicit.qmd
+    deps:
+    - path: movielens/ML25M/iknn-explicit.qmd
+      hash: md5
+      md5: 0dc1731408c5d28a53cb43533e26295d
+      size: 1326
+    - path: movielens/ML25M/sweeps/random/IKNN-Explicit.duckdb
+      hash: md5
+      md5: 5a1ac51bdc4997cb1f497d7019365b7c
+      size: 278409216
+    outs:
+    - path: _freeze/movielens/ML25M/iknn-explicit
+      hash: md5
+      md5: bd69b539cdb1381650f1f630cf4308f9.dir
+      size: 445900
+      nfiles: 3
+  page/movielens/ML25M/iknn-implicit:
+    cmd: quarto render movielens/ML25M/iknn-implicit.qmd
+    deps:
+    - path: movielens/ML25M/iknn-implicit.qmd
+      hash: md5
+      md5: 718b72e12c7db1c7e46241763eb95358
+      size: 926
+    - path: movielens/ML25M/sweeps/random/IKNN-Implicit.duckdb
+      hash: md5
+      md5: 955a00017d5762b62637235b20ec7949
+      size: 259534848
+    outs:
+    - path: _freeze/movielens/ML25M/iknn-implicit
+      hash: md5
+      md5: 71ab9457f2ae2796f6a3673a52589e97.dir
+      size: 168998
       nfiles: 2
