@@ -65,6 +65,8 @@ function ml_sweeps(_name: string): Record<string, Stage> {
       ],
     };
   }
+
+  return results;
 }
 
 async function ml_pipeline(name: string): Promise<Pipeline> {
