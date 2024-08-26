@@ -43,6 +43,7 @@ from docopt import ParsedOptions, docopt
 from humanize import naturalsize
 from lenskit import batch
 from lenskit.algorithms import Algorithm, Recommender
+from sandal import autoroot  # noqa: F401
 from sandal.cli import setup_logging
 from sandal.project import here
 from seedbank import init_file
