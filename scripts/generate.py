@@ -36,6 +36,8 @@ Options:
 import json
 import logging
 import sys
+from inspect import Parameter, signature
+from pathlib import Path
 from typing import Iterator
 
 import pandas as pd
@@ -66,13 +68,24 @@ def main():
     if opts["--default"]:
         reco = mod.default()
         reco = Recommender.adapt(reco)
+    elif opts["--param-file"]:
+        pf = Path(opts["--param-file"])
+        params = json.loads(pf.read_text())
+        fc_sig = signature(mod.from_config)
+        has_kw = any(p.kind == Parameter.VAR_KEYWORD for p in fc_sig.parameters.values())
+        if not has_kw:
+            params = {p: v for (p, v) in params.items() if p in fc_sig.parameters.keys()}
+        reco = mod.from_config(**params)
+        reco = Recommender.adapt(reco)
     else:
-        _log.error("no model mode specified")
+        _log.error("no valid model mode specified")
         sys.exit(1)
 
     recs = [] if opts["--recommendations"] else None
     preds = [] if opts["--predictions"] else None
     if opts["--stats"]:
+        sp = Path(opts["--stats"])
+        sp.parent.mkdir(exist_ok=True, parents=True)
         stats = open(opts["--stats"], "w")
     else:
         stats = None
@@ -89,6 +102,8 @@ def main():
 
         with data.open_db() as db:
             test = data.test_ratings(db).to_df()
+            if len(test) == 0:
+                _log.error("no test data found")
 
         if recs is not None:
             recs.append(recommend(opts, reco, test))
@@ -100,6 +115,18 @@ def main():
             summary.update(metrics.dict())
             print(json.dumps(summary), file=stats)
 
+    if recs is not None:
+        recs = pd.concat(recs, ignore_index=True)
+        rec_f = opts["--recommendations"]
+        _log.info("saving %d recommendations to %s", len(recs), rec_f)
+        recs.to_parquet(rec_f, compression="zstd")
+
+    if preds is not None:
+        preds = pd.concat(preds, ignore_index=True)
+        pred_f = opts["--predictions"]
+        _log.info("saving %d predictions to %s", len(preds), pred_f)
+        preds.to_parquet(pred_f, compression="zstd")
+
 
 def test_sets(opts: ParsedOptions) -> Iterator[TrainTestData]:
     test_parts = parse_parts(opts["--test-part"])
@@ -109,17 +136,19 @@ def test_sets(opts: ParsedOptions) -> Iterator[TrainTestData]:
     for part in test_parts:
         if opts["--ratings"]:
             if train_parts is None:
+                _log.info("using crossfold partition %s", part)
                 yield partition_tt_data(opts["DB"], opts["--ratings"], int(part))
             else:
                 _log.error("unsupported configuration")
                 raise RuntimeError("unsupported configuration")
         else:
+            _log.info("using fixed test set %s", part)
             yield fixed_tt_data(opts["DB"], str(part), train=train_parts)
 
 
 def recommend(opts: ParsedOptions, reco: Algorithm, test: pd.DataFrame):
     _log.info("generating recommendations")
-    N = int(opts["-n"])
+    N = int(opts["--list-length"])
     test_users = test["user"].unique()
     n_jobs = 1 if len(test_users) < 1000 else None
     recs = batch.recommend(reco, test_users, N, n_jobs=n_jobs)

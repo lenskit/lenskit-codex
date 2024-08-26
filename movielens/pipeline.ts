@@ -84,7 +84,7 @@ function ml_runs(_name: string): Record<string, Stage> {
     let out_flags = Object.entries(outs).map(([k, f]) => `--${k}=${f}`).join(" ");
     runs[`run-random-default-${name}`] = {
       cmd:
-        `python ../../scripts/generate.py --default ${out_flags} --ratings ratings.duckdb --test-part 2-5 ${name} splits/random.duckdb`,
+        `python ../../scripts/generate.py --default ${out_flags} --ratings ratings.duckdb --test-part 1-4 ${name} splits/random.duckdb`,
       outs: Object.values(outs),
       deps: [
         "../../scripts/generate.py",
@@ -100,7 +100,7 @@ function ml_runs(_name: string): Record<string, Stage> {
     out_flags = Object.entries(outs).map(([k, f]) => `--${k}=${f}`).join(" ");
     runs[`run-random-sweep-best-${name}`] = {
       cmd:
-        `python ../../scripts/generate.py --param-file=sweeps/random/${name}.json ${out_flags} --ratings ratings.duckdb --test-part 2-5 ${name} splits/random.duckdb`,
+        `python ../../scripts/generate.py --param-file=sweeps/random/${name}.json ${out_flags} --ratings ratings.duckdb --test-part 1-4 ${name} splits/random.duckdb`,
       outs: Object.values(outs),
       deps: [
         "../../scripts/generate.py",

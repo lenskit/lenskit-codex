@@ -411,3 +411,41 @@ stages:
       hash: md5
       md5: a770a8e6c558a398515b74def824e7b8
       size: 2371584
+  run-random-sweep-best-Bias:
+    cmd: python ../../scripts/generate.py --param-file=sweeps/random/Bias.json --stats=runs/random-sweep-best/Bias.json
+      --recommendations=runs/random-sweep-best/Bias-recs.parquet --predictions=runs/random-sweep-best/Bias-preds.parquet
+      --ratings ratings.duckdb --test-part 1-4 Bias splits/random.duckdb
+    deps:
+    - path: ../../codex/models/Bias.py
+      hash: md5
+      md5: e35eac761bf892674a6fb8570132e7f1
+      size: 375
+    - path: ../../scripts/generate.py
+      hash: md5
+      md5: 8855b252d5b2281af766258761dc3c1a
+      size: 5428
+    - path: ratings.duckdb
+      hash: md5
+      md5: a770a8e6c558a398515b74def824e7b8
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 104d0924001308c5c1af255bea2d2825
+      size: 536576
+    - path: sweeps/random/Bias.json
+      hash: md5
+      md5: ba7caeebd59658d213a77efc95aaa599
+      size: 323
+    outs:
+    - path: runs/random-sweep-best/Bias-preds.parquet
+      hash: md5
+      md5: 82f6dc1d3d6e46ac4239aae16dc66522
+      size: 34172
+    - path: runs/random-sweep-best/Bias-recs.parquet
+      hash: md5
+      md5: 8d399f7135ab2d74011ac5139c35fa8a
+      size: 329316
+    - path: runs/random-sweep-best/Bias.json
+      hash: md5
+      md5: 0760d0d3ccaaab77399e91b74b7211c7
+      size: 676
