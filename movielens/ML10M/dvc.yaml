@@ -31,13 +31,14 @@ stages:
     outs:
       - sweeps/random/Bias.duckdb
   export-random-Bias:
-    cmd: python ../../scripts/sweep.py --export sweeps/random/Bias.duckdb
+    cmd: python ../../scripts/sweep.py --export sweeps/random/Bias.duckdb rmse
     deps:
       - ../../scripts/sweep.py
       - sweeps/random/Bias.duckdb
     outs:
       - sweeps/random/Bias.csv
-      - sweeps/random/Bias.json
+      - sweeps/random/Bias.json:
+          cache: false
   sweep-random-BiasedMF-ALS:
     cmd: >-
       python ../../scripts/sweep.py -p 1 BiasedMF-ALS splits/random.duckdb ratings.duckdb sweeps/random/BiasedMF-ALS.duckdb
@@ -51,13 +52,15 @@ stages:
     outs:
       - sweeps/random/BiasedMF-ALS.duckdb
   export-random-BiasedMF-ALS:
-    cmd: python ../../scripts/sweep.py --export sweeps/random/BiasedMF-ALS.duckdb
+    cmd: >-
+      python ../../scripts/sweep.py --export sweeps/random/BiasedMF-ALS.duckdb rmse
     deps:
       - ../../scripts/sweep.py
       - sweeps/random/BiasedMF-ALS.duckdb
     outs:
       - sweeps/random/BiasedMF-ALS.csv
-      - sweeps/random/BiasedMF-ALS.json
+      - sweeps/random/BiasedMF-ALS.json:
+          cache: false
   sweep-random-ImplicitMF-ALS:
     cmd: >-
       python ../../scripts/sweep.py -p 1 ImplicitMF-ALS splits/random.duckdb ratings.duckdb sweeps/random/ImplicitMF-ALS.duckdb
@@ -71,13 +74,15 @@ stages:
     outs:
       - sweeps/random/ImplicitMF-ALS.duckdb
   export-random-ImplicitMF-ALS:
-    cmd: python ../../scripts/sweep.py --export sweeps/random/ImplicitMF-ALS.duckdb
+    cmd: >-
+      python ../../scripts/sweep.py --export sweeps/random/ImplicitMF-ALS.duckdb ndcg
     deps:
       - ../../scripts/sweep.py
       - sweeps/random/ImplicitMF-ALS.duckdb
     outs:
       - sweeps/random/ImplicitMF-ALS.csv
-      - sweeps/random/ImplicitMF-ALS.json
+      - sweeps/random/ImplicitMF-ALS.json:
+          cache: false
   sweep-random-IKNN-Explicit:
     cmd: >-
       python ../../scripts/sweep.py -p 1 IKNN-Explicit splits/random.duckdb ratings.duckdb sweeps/random/IKNN-Explicit.duckdb
@@ -91,13 +96,15 @@ stages:
     outs:
       - sweeps/random/IKNN-Explicit.duckdb
   export-random-IKNN-Explicit:
-    cmd: python ../../scripts/sweep.py --export sweeps/random/IKNN-Explicit.duckdb
+    cmd: >-
+      python ../../scripts/sweep.py --export sweeps/random/IKNN-Explicit.duckdb rmse
     deps:
       - ../../scripts/sweep.py
       - sweeps/random/IKNN-Explicit.duckdb
     outs:
       - sweeps/random/IKNN-Explicit.csv
-      - sweeps/random/IKNN-Explicit.json
+      - sweeps/random/IKNN-Explicit.json:
+          cache: false
   sweep-random-IKNN-Implicit:
     cmd: >-
       python ../../scripts/sweep.py -p 1 IKNN-Implicit splits/random.duckdb ratings.duckdb sweeps/random/IKNN-Implicit.duckdb
@@ -111,10 +118,12 @@ stages:
     outs:
       - sweeps/random/IKNN-Implicit.duckdb
   export-random-IKNN-Implicit:
-    cmd: python ../../scripts/sweep.py --export sweeps/random/IKNN-Implicit.duckdb
+    cmd: >-
+      python ../../scripts/sweep.py --export sweeps/random/IKNN-Implicit.duckdb ndcg
     deps:
       - ../../scripts/sweep.py
       - sweeps/random/IKNN-Implicit.duckdb
     outs:
       - sweeps/random/IKNN-Implicit.csv
-      - sweeps/random/IKNN-Implicit.json
+      - sweeps/random/IKNN-Implicit.json:
+          cache: false

@@ -44,7 +44,7 @@ async function ml_splits(name: string): Promise<Record<string, Stage>> {
 function ml_sweeps(_name: string): Record<string, Stage> {
   const active = filterValues(MODELS, (m) => m.sweepable);
   const results: Record<string, Stage> = {};
-  for (const name of Object.keys(active)) {
+  for (const [name, info] of Object.entries(active)) {
     results[`sweep-random-${name}`] = {
       cmd:
         `python ../../scripts/sweep.py -p 1 ${name} splits/random.duckdb ratings.duckdb sweeps/random/${name}.duckdb`,
@@ -56,12 +56,13 @@ function ml_sweeps(_name: string): Record<string, Stage> {
       ],
       outs: [`sweeps/random/${name}.duckdb`],
     };
+    const metric = info.predictor ? "rmse" : "ndcg";
     results[`export-random-${name}`] = {
-      cmd: `python ../../scripts/sweep.py --export sweeps/random/${name}.duckdb`,
+      cmd: `python ../../scripts/sweep.py --export sweeps/random/${name}.duckdb ${metric}`,
       deps: ["../../scripts/sweep.py", `sweeps/random/${name}.duckdb`],
       outs: [
         `sweeps/random/${name}.csv`,
-        `sweeps/random/${name}.json`,
+        { [`sweeps/random/${name}.json`]: { cache: false } },
       ],
     };
   }
