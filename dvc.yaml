@@ -214,6 +214,14 @@ stages:
       - movielens/ML25M/sweeps/random/IKNN-Implicit.duckdb
     outs:
       - _freeze/movielens/ML25M/iknn-implicit
+  page/movielens/ML32M/description:
+    cmd: quarto render movielens/ML32M/description.qmd
+    deps:
+      - movielens/ML32M/description.qmd
+      - movielens/_ml_data.qmd
+      - movielens/ML32M/ratings.duckdb
+    outs:
+      - _freeze/movielens/ML32M/description
   page/movielens/index:
     cmd: quarto render movielens/index.qmd
     deps:

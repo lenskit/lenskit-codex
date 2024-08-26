@@ -14,6 +14,7 @@ export const datasets: Record<string, string> = {
   ML10M: "ml-10m",
   ML20M: "ml-20m",
   ML25M: "ml-25m",
+  ML32M: "ml-32m",
 };
 
 function ml_import(_name: string, fn: string): Stage {

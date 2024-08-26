@@ -2,7 +2,7 @@ stages:
   aggregate:
     cmd: >-
       python aggregate-ml.py -d merged-stats.duckdb ML100K ML1M ML10M ML20M
-      ML25M
+      ML25M ML32M
     deps:
       - aggregate-ml.py
       - ML100K/ratings.duckdb
@@ -10,5 +10,6 @@ stages:
       - ML10M/ratings.duckdb
       - ML20M/ratings.duckdb
       - ML25M/ratings.duckdb
+      - ML32M/ratings.duckdb
     outs:
       - merged-stats.duckdb
