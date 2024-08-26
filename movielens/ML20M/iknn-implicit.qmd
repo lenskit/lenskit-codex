@@ -1,0 +1,43 @@
+---
+title: Implicit Item KNN on ML25M
+echo: false
+deps:
+- sweeps/random/IKNN-Implicit.duckdb
+---
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotnine as pn
+import matplotlib.pyplot as plt
+import duckdb
+```
+
+```{python}
+from sandal import autoroot
+from codex.display import DEFAULTS
+```
+
+```{python}
+rnd_sweep = duckdb.connect('sweeps/random/IKNN-Implicit.duckdb', read_only=True)
+```
+
+## Parameter Sweeps
+
+For the per-user random crossfolding data split, we use the first partition of
+the fold for parameter tuning.
+
+```{python}
+cfg_ndcg = rnd_sweep.sql("""
+SELECT nnbrs, CAST(min_nbrs AS varchar) AS min_nbrs, AVG(ndcg) AS ndcg
+FROM run_specs JOIN user_metrics USING (rec_idx)
+GROUP BY nnbrs, min_nbrs
+""").to_df()
+(
+    pn.ggplot(cfg_ndcg)
+    + pn.aes(x='nnbrs', y='ndcg', color='min_nbrs', shape='min_nbrs')
+    + pn.geom_line()
+    + pn.ylab('Mean nDCG')
+    + pn.scale_color_brewer('qual', 'Dark2')
+)
+```

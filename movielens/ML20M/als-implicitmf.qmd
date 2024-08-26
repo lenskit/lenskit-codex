@@ -1,0 +1,67 @@
+---
+title: ALS ImplicitMF on ML25M
+echo: false
+deps:
+- sweeps/random/ImplicitMF-ALS.duckdb
+---
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotnine as pn
+import matplotlib.pyplot as plt
+import duckdb
+```
+
+```{python}
+from sandal import autoroot
+from codex.display import DEFAULTS
+```
+
+```{python}
+rnd_sweep = duckdb.connect('sweeps/random/ImplicitMF-ALS.duckdb', read_only=True)
+```
+
+## Parameter Sweeps
+
+For the per-user random crossfolding data split, we use the first partition of
+the fold for parameter tuning.
+
+### Top-N Ranking
+
+```{python}
+cfg_ndcg = rnd_sweep.sql("""
+SELECT features, CAST(reg AS varchar) AS reg, AVG(ndcg) AS ndcg
+FROM run_specs JOIN user_metrics USING (rec_idx)
+GROUP BY features, reg
+""").to_df()
+(
+    pn.ggplot(cfg_ndcg)
+    + pn.aes(x='features', y='ndcg', color='reg', shape='reg')
+    + pn.geom_line()
+    + pn.ylab('Mean nDCG')
+    + pn.scale_color_brewer('qual', 'Dark2')
+)
+```
+
+### Training Time
+
+How long does training take?
+
+```{python}
+nf_times = rnd_sweep.sql("""
+SELECT features, AVG(wall_time) AS wall, AVG(cpu_time) AS cpu
+FROM run_specs JOIN train_metrics USING (rec_idx)
+GROUP BY features
+""").to_df().melt('features', var_name='type')
+nf_times['value'] = pd.to_timedelta(nf_times['value'], unit='s')
+(
+    pn.ggplot(nf_times)
+    + pn.aes(x='features', y='value')
+    + pn.geom_line()
+    + pn.ylab('Training time')
+    + pn.xlab('Latent feature count')
+    + pn.scale_y_timedelta()
+    + pn.facet_wrap('type', scales='free_y')
+)
+```

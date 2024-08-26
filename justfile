@@ -10,9 +10,16 @@ render:
 upload-web-assets:
     dvc push -r web-assets --no-run-cache dvc.yaml
 
+# update the copied documents
+update-documents:
+    ./scripts/copy-docs.ts
+
 # update the DVC pipeline
 update-pipeline:
     ./scripts/render-pipeline.ts
+
+# update the whole layout
+rerender: update-documents update-pipeline
 
 # update the Conda lockfile
 update-deps:
