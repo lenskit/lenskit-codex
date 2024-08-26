@@ -39,6 +39,7 @@ GROUP BY features, reg
     + pn.aes(x='features', y='ndcg', color='reg', shape='reg')
     + pn.geom_line()
     + pn.ylab('Mean nDCG')
+    + pn.xlab('Latent feature count')
     + pn.scale_color_brewer('qual', 'Dark2')
 )
 ```
@@ -47,17 +48,19 @@ How long does training take?
 
 
 ```{python}
-nf_train = rnd_sweep.sql("""
-SELECT features, AVG(wall_time) / 60 AS wall, AVG(cpu_time) / 60 AS cpu
+nf_times = rnd_sweep.sql("""
+SELECT features, AVG(wall_time) AS wall, AVG(cpu_time) AS cpu
 FROM run_specs JOIN train_metrics USING (rec_idx)
 GROUP BY features
-""").to_df()
+""").to_df().melt('features', var_name='type')
+nf_times['value'] = pd.to_timedelta(nf_times['value'], unit='s')
 (
-    pn.ggplot(nf_train.melt('features', var_name='type'))
+    pn.ggplot(nf_times)
     + pn.aes(x='features', y='value')
     + pn.geom_line()
-    + pn.ylab('Time (minutes)')
+    + pn.ylab('Training time')
     + pn.xlab('Latent feature count')
+    + pn.scale_y_timedelta()
     + pn.facet_wrap('type', scales='free_y')
 )
 ```
