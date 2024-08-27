@@ -74,7 +74,7 @@ def collect_item_ids(db: duckdb.DuckDBPyConnection, files: list[Path]):
     db.execute("CREATE SEQUENCE iid_sequence START 1;")
     db.execute("""
         CREATE TABLE items (
-            item_id INT PRIMARY KEY DEFAULT nextval('uid_sequence'),
+            item_id INT PRIMARY KEY DEFAULT nextval('iid_sequence'),
             asin VARCHAR NOT NULL,
             item_cat VARCHAR NOT NULL,
         );
