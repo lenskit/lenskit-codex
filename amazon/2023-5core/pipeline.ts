@@ -1,27 +1,70 @@
 import { fromFileUrl } from "std/path/mod.ts";
-import { expandGlob, WalkEntry } from "std/fs/mod.ts";
-import * as ai from "aitertools";
+import { expandGlob } from "std/fs/mod.ts";
+import { action_cmd } from "../../codex/dvc.ts";
 
-const datasets = await ai.toArray(ai.map((e: WalkEntry) => {
-  return e.name.replace(/\.train.*/, "");
-}, expandGlob("data/*.train.csv.gz", { root: fromFileUrl(import.meta.resolve("./")) })));
+type SourceFile = {
+  path: string;
+  name: string;
+  cat: string;
+  part: string;
+};
+
+const sources: SourceFile[] = (await Array.fromAsync(
+  expandGlob("data/*.csv.gz.dvc", { root: fromFileUrl(import.meta.resolve("./")) }),
+)).map((e) => {
+  const m = e.name.match(/^(?<name>(?<cat>.+)\.(?<part>\w+)\.csv\.gz)\.dvc/);
+  if (!m) throw new Error(`invalid filename ${e.name}`);
+  return {
+    path: "data/" + m.groups!["name"],
+    name: m.groups!["name"],
+    cat: m.groups!["cat"],
+    part: m.groups!["part"],
+  };
+});
 
 export const pipeline = {
   stages: {
-    "import-bench": {
-      foreach: datasets,
+    "scan-bench-users": {
+      cmd: action_cmd(
+        import.meta.url,
+        "amazon collect-ids",
+        "--user",
+        "-D",
+        "user-ids.duckdb",
+        "data",
+      ),
+      deps: sources.map((s) => s.path),
+      outs: ["user-ids.duckdb"],
+    },
+    "scan-bench-items": {
+      cmd: action_cmd(
+        import.meta.url,
+        "amazon collect-ids",
+        "--item",
+        "-D",
+        "user-ids.duckdb",
+        "data",
+      ),
+      deps: sources.map((s) => s.path),
+      outs: ["item-ids.duckdb"],
+    },
+    "convert-ratings": {
+      foreach: sources.map((s) => `${s.cat}.${s.part}`),
       do: {
-        cmd: "python ../import-az.py --benchmark --stat-script az-bench-stats.sql data/${item}",
+        cmd: action_cmd(
+          import.meta.url,
+          "amazon import-bench",
+          "--users=user-ids.duckdb",
+          "--items=item-ids.duckdb",
+          "data/${item}.csv.gz",
+        ),
         deps: [
-          "../import-az.py",
-          "../schemas/benchmark.sql",
-          "az-bench-stats.sql",
-          "data/${item}.train.csv.gz",
-          "data/${item}.valid.csv.gz",
-          "data/${item}.test.csv.gz",
+          "user-ids.duckdb",
+          "item-ids.duckdb",
+          "data/${item}.csv.gz",
         ],
         outs: [
-          "data/${item}.duckdb",
+          "data/${item}.parquet",
         ],
       },
     },
