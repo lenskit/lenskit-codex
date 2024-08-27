@@ -42,7 +42,7 @@ export const pipeline = {
         "amazon collect-ids",
         "--item",
         "-D",
-        "user-ids.duckdb",
+        "item-ids.duckdb",
         "data",
       ),
       deps: sources.map((s) => s.path),

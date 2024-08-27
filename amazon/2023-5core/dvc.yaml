@@ -77,7 +77,7 @@ stages:
     outs:
       - user-ids.duckdb
   scan-bench-items:
-    cmd: python ../../action.py amazon collect-ids --item -D user-ids.duckdb data
+    cmd: python ../../action.py amazon collect-ids --item -D item-ids.duckdb data
     deps:
       - data/Arts_Crafts_and_Sewing.test.csv.gz
       - data/Arts_Crafts_and_Sewing.train.csv.gz
