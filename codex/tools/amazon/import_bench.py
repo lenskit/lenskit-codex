@@ -18,8 +18,8 @@ def import_bench(users, items, file: list[Path]):
     "Convert a pre-split benchmark data file."
 
     with duckdb.connect() as db:
-        db.execute("ATTACH ? AS udb (READ_ONLY)", [users])
-        db.execute("ATTACH ? AS idb (READ_ONLY)", [items])
+        db.execute(f"ATTACH '{users}' AS udb (READ_ONLY)")
+        db.execute(f"ATTACH '{items}' AS idb (READ_ONLY)")
 
         for src in file:
             dst = src.with_name(src.name.replace(".csv.gz", ".parquet"))
