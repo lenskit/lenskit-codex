@@ -20,7 +20,7 @@ stages:
       - random.duckdb
   sweep-random-Bias:
     cmd: >-
-      python ../../scripts/sweep.py -p 1 Bias splits/random.duckdb ratings.duckdb sweeps/random/Bias.duckdb
+      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb Bias sweeps/random/Bias.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -31,7 +31,7 @@ stages:
     outs:
       - sweeps/random/Bias.duckdb
   export-random-Bias:
-    cmd: python ../../scripts/sweep.py --export sweeps/random/Bias.duckdb rmse
+    cmd: python ../../action.py sweep export sweeps/random/Bias.duckdb rmse
     deps:
       - ../../scripts/sweep.py
       - sweeps/random/Bias.duckdb
@@ -41,7 +41,7 @@ stages:
           cache: false
   sweep-random-BiasedMF-ALS:
     cmd: >-
-      python ../../scripts/sweep.py -p 1 BiasedMF-ALS splits/random.duckdb ratings.duckdb sweeps/random/BiasedMF-ALS.duckdb
+      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb BiasedMF-ALS sweeps/random/BiasedMF-ALS.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -52,8 +52,7 @@ stages:
     outs:
       - sweeps/random/BiasedMF-ALS.duckdb
   export-random-BiasedMF-ALS:
-    cmd: >-
-      python ../../scripts/sweep.py --export sweeps/random/BiasedMF-ALS.duckdb rmse
+    cmd: python ../../action.py sweep export sweeps/random/BiasedMF-ALS.duckdb rmse
     deps:
       - ../../scripts/sweep.py
       - sweeps/random/BiasedMF-ALS.duckdb
@@ -63,7 +62,7 @@ stages:
           cache: false
   sweep-random-ImplicitMF-ALS:
     cmd: >-
-      python ../../scripts/sweep.py -p 1 ImplicitMF-ALS splits/random.duckdb ratings.duckdb sweeps/random/ImplicitMF-ALS.duckdb
+      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb ImplicitMF-ALS sweeps/random/ImplicitMF-ALS.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -75,7 +74,7 @@ stages:
       - sweeps/random/ImplicitMF-ALS.duckdb
   export-random-ImplicitMF-ALS:
     cmd: >-
-      python ../../scripts/sweep.py --export sweeps/random/ImplicitMF-ALS.duckdb ndcg
+      python ../../action.py sweep export sweeps/random/ImplicitMF-ALS.duckdb ndcg
     deps:
       - ../../scripts/sweep.py
       - sweeps/random/ImplicitMF-ALS.duckdb
@@ -85,7 +84,7 @@ stages:
           cache: false
   sweep-random-IKNN-Explicit:
     cmd: >-
-      python ../../scripts/sweep.py -p 1 IKNN-Explicit splits/random.duckdb ratings.duckdb sweeps/random/IKNN-Explicit.duckdb
+      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb IKNN-Explicit sweeps/random/IKNN-Explicit.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -97,7 +96,7 @@ stages:
       - sweeps/random/IKNN-Explicit.duckdb
   export-random-IKNN-Explicit:
     cmd: >-
-      python ../../scripts/sweep.py --export sweeps/random/IKNN-Explicit.duckdb rmse
+      python ../../action.py sweep export sweeps/random/IKNN-Explicit.duckdb rmse
     deps:
       - ../../scripts/sweep.py
       - sweeps/random/IKNN-Explicit.duckdb
@@ -107,7 +106,7 @@ stages:
           cache: false
   sweep-random-IKNN-Implicit:
     cmd: >-
-      python ../../scripts/sweep.py -p 1 IKNN-Implicit splits/random.duckdb ratings.duckdb sweeps/random/IKNN-Implicit.duckdb
+      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb IKNN-Implicit sweeps/random/IKNN-Implicit.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -119,7 +118,7 @@ stages:
       - sweeps/random/IKNN-Implicit.duckdb
   export-random-IKNN-Implicit:
     cmd: >-
-      python ../../scripts/sweep.py --export sweeps/random/IKNN-Implicit.duckdb ndcg
+      python ../../action.py sweep export sweeps/random/IKNN-Implicit.duckdb ndcg
     deps:
       - ../../scripts/sweep.py
       - sweeps/random/IKNN-Implicit.duckdb
