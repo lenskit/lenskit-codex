@@ -14,12 +14,12 @@ _log = logging.getLogger(__name__)
 @click.option("--users", help="User ID database", required=True)
 @click.option("--items", help="Item ID database", required=True)
 @click.argument("FILE", nargs=-1, type=Path)
-def import_bench(user_db, item_db, files: list[Path]):
+def import_bench(users, items, files: list[Path]):
     "Convert a pre-split benchmark data file."
 
     with duckdb.connect() as db:
-        db.execute("ATTACH ? AS udb (READ_ONLY)", [user_db])
-        db.execute("ATTACH ? AS idb (READ_ONLY)", [item_db])
+        db.execute("ATTACH ? AS udb (READ_ONLY)", [users])
+        db.execute("ATTACH ? AS idb (READ_ONLY)", [items])
 
         for src in files:
             dst = src.with_name(src.name.replace(".csv.gz", ".parquet"))
