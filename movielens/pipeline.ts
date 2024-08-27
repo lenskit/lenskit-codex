@@ -1,7 +1,7 @@
 import { parse as parsePath } from "std/path/mod.ts";
 import { expandGlob } from "std/fs/mod.ts";
 import * as toml from "std/toml/mod.ts";
-import { filterValues, mapEntries, mapValues } from "std/collections/mod.ts";
+import { filterValues, mapValues } from "std/collections/mod.ts";
 
 import * as ai from "aitertools";
 
@@ -31,7 +31,7 @@ async function ml_splits(name: string): Promise<Record<string, Stage>> {
     const path = parsePath(file.path);
     const split = toml.parse(await Deno.readTextFile(file.path));
     stages[`split-${path.name}`] = {
-      cmd: `python ../../../scripts/split.py ${path.base}`,
+      cmd: action_cmd(`movielens/${name}/splits`, "split", path.base),
       wdir: "splits",
       params: [{ "../../../config.toml": ["random.seed"] }],
       deps: [path.base, split.source as string],

@@ -11,8 +11,8 @@ def crossfold_ratings(db: DuckDBPyConnection, cross: CrossfoldSpec, hold: Holdou
         raise ValueError("invalid holdout")
 
     db.execute("""
-        CREATE OR REPLACE TABLE test (
-            part INTEGER NOT NULL,
+        CREATE OR REPLACE TABLE test_alloc (
+            partition INTEGER NOT NULL,
             user_id INTEGER NOT NULL,
             item_id INTEGER NOT NULL
         )
@@ -24,5 +24,5 @@ def crossfold_ratings(db: DuckDBPyConnection, cross: CrossfoldSpec, hold: Holdou
 
     for i, (_train_df, test_df) in enumerate(parts):
         db.execute(
-            "INSERT INTO test (part, user_id, item_id) SELECT ?, user, item FROM test_df", [i]
+            "INSERT INTO test_alloc (part, user_id, item_id) SELECT ?, user, item FROM test_df", [i]
         )

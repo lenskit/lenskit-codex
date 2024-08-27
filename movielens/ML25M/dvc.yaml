@@ -8,7 +8,7 @@ stages:
     outs:
       - ratings.duckdb
   split-random:
-    cmd: python ../../../scripts/split.py random.toml
+    cmd: python ../../../action.py split random.toml
     wdir: splits
     params:
       - ../../../config.toml:

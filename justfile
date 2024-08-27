@@ -17,6 +17,7 @@ update-documents:
 # update the DVC pipeline
 update-pipeline:
     ./scripts/render-pipeline.ts
+    pre-commit run --file $(find . -name dvc.yaml) || true
 
 # update the whole layout
 rerender: update-documents update-pipeline

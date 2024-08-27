@@ -21,4 +21,5 @@ def codex(verbose: bool = False):
 from . import (  # noqa: F401, E402
     amazon,
     generate,
+    split,
 )
