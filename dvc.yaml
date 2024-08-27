@@ -1,10 +1,4 @@
 stages:
-  page/amazon/2023-5core/index:
-    cmd: quarto render amazon/2023-5core/index.qmd
-    deps:
-      - amazon/2023-5core/index.qmd
-    outs:
-      - _freeze/amazon/2023-5core/index
   page/movielens/ML100K/als-biasedmf:
     cmd: quarto render movielens/ML100K/als-biasedmf.qmd
     deps:
