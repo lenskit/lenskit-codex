@@ -24,5 +24,9 @@ def crossfold_ratings(db: DuckDBPyConnection, cross: CrossfoldSpec, hold: Holdou
 
     for i, (_train_df, test_df) in enumerate(parts):
         db.execute(
-            "INSERT INTO test_alloc (part, user_id, item_id) SELECT ?, user, item FROM test_df", [i]
+            """
+            INSERT INTO test_alloc (partition, user_id, item_id)
+            SELECT ?, user, item FROM test_df
+            """,
+            [i],
         )
