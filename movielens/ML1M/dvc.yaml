@@ -129,132 +129,121 @@ stages:
           cache: false
   run-random-default-Bias:
     cmd: >-
-      python ../../scripts/generate.py --default --stats=runs/random-default/Bias.json --recommendations=runs/random-default/Bias-recs.parquet --predictions=runs/random-default/Bias-preds.parquet --ratings ratings.duckdb --test-part 1-4 Bias splits/random.duckdb
+      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-default/Bias.json --recommendations=runs/random-default/Bias-recs.parquet --predictions=runs/random-default/Bias-preds.parquet Bias
     outs:
       - runs/random-default/Bias.json
       - runs/random-default/Bias-recs.parquet
       - runs/random-default/Bias-preds.parquet
     deps:
-      - ../../scripts/generate.py
       - ../../codex/models/Bias.py
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-Bias:
     cmd: >-
-      python ../../scripts/generate.py --param-file=sweeps/random/Bias.json --stats=runs/random-sweep-best/Bias.json --recommendations=runs/random-sweep-best/Bias-recs.parquet --predictions=runs/random-sweep-best/Bias-preds.parquet --ratings ratings.duckdb --test-part 1-4 Bias splits/random.duckdb
+      python ../../action.py generate --param-file=sweeps/random/Bias.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-sweep-best/Bias.json --recommendations=runs/random-sweep-best/Bias-recs.parquet --predictions=runs/random-sweep-best/Bias-preds.parquet Bias
     outs:
       - runs/random-sweep-best/Bias.json
       - runs/random-sweep-best/Bias-recs.parquet
       - runs/random-sweep-best/Bias-preds.parquet
     deps:
-      - ../../scripts/generate.py
       - ../../codex/models/Bias.py
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/Bias.json
   run-random-default-Popular:
     cmd: >-
-      python ../../scripts/generate.py --default --stats=runs/random-default/Popular.json --recommendations=runs/random-default/Popular-recs.parquet --ratings ratings.duckdb --test-part 1-4 Popular splits/random.duckdb
+      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-default/Popular.json --recommendations=runs/random-default/Popular-recs.parquet Popular
     outs:
       - runs/random-default/Popular.json
       - runs/random-default/Popular-recs.parquet
     deps:
-      - ../../scripts/generate.py
       - ../../codex/models/Popular.py
       - ratings.duckdb
       - splits/random.duckdb
   run-random-default-BiasedMF-ALS:
     cmd: >-
-      python ../../scripts/generate.py --default --stats=runs/random-default/BiasedMF-ALS.json --recommendations=runs/random-default/BiasedMF-ALS-recs.parquet --predictions=runs/random-default/BiasedMF-ALS-preds.parquet --ratings ratings.duckdb --test-part 1-4 BiasedMF-ALS splits/random.duckdb
+      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-default/BiasedMF-ALS.json --recommendations=runs/random-default/BiasedMF-ALS-recs.parquet --predictions=runs/random-default/BiasedMF-ALS-preds.parquet BiasedMF-ALS
     outs:
       - runs/random-default/BiasedMF-ALS.json
       - runs/random-default/BiasedMF-ALS-recs.parquet
       - runs/random-default/BiasedMF-ALS-preds.parquet
     deps:
-      - ../../scripts/generate.py
       - ../../codex/models/BiasedMF_ALS.py
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-BiasedMF-ALS:
     cmd: >-
-      python ../../scripts/generate.py --param-file=sweeps/random/BiasedMF-ALS.json --stats=runs/random-sweep-best/BiasedMF-ALS.json --recommendations=runs/random-sweep-best/BiasedMF-ALS-recs.parquet --predictions=runs/random-sweep-best/BiasedMF-ALS-preds.parquet --ratings ratings.duckdb --test-part 1-4 BiasedMF-ALS splits/random.duckdb
+      python ../../action.py generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-sweep-best/BiasedMF-ALS.json --recommendations=runs/random-sweep-best/BiasedMF-ALS-recs.parquet --predictions=runs/random-sweep-best/BiasedMF-ALS-preds.parquet BiasedMF-ALS
     outs:
       - runs/random-sweep-best/BiasedMF-ALS.json
       - runs/random-sweep-best/BiasedMF-ALS-recs.parquet
       - runs/random-sweep-best/BiasedMF-ALS-preds.parquet
     deps:
-      - ../../scripts/generate.py
       - ../../codex/models/BiasedMF_ALS.py
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/BiasedMF-ALS.json
   run-random-default-ImplicitMF-ALS:
     cmd: >-
-      python ../../scripts/generate.py --default --stats=runs/random-default/ImplicitMF-ALS.json --recommendations=runs/random-default/ImplicitMF-ALS-recs.parquet --ratings ratings.duckdb --test-part 1-4 ImplicitMF-ALS splits/random.duckdb
+      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-default/ImplicitMF-ALS.json --recommendations=runs/random-default/ImplicitMF-ALS-recs.parquet ImplicitMF-ALS
     outs:
       - runs/random-default/ImplicitMF-ALS.json
       - runs/random-default/ImplicitMF-ALS-recs.parquet
     deps:
-      - ../../scripts/generate.py
       - ../../codex/models/ImplicitMF_ALS.py
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-ImplicitMF-ALS:
     cmd: >-
-      python ../../scripts/generate.py --param-file=sweeps/random/ImplicitMF-ALS.json --stats=runs/random-sweep-best/ImplicitMF-ALS.json --recommendations=runs/random-sweep-best/ImplicitMF-ALS-recs.parquet --ratings ratings.duckdb --test-part 1-4 ImplicitMF-ALS splits/random.duckdb
+      python ../../action.py generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-sweep-best/ImplicitMF-ALS.json --recommendations=runs/random-sweep-best/ImplicitMF-ALS-recs.parquet ImplicitMF-ALS
     outs:
       - runs/random-sweep-best/ImplicitMF-ALS.json
       - runs/random-sweep-best/ImplicitMF-ALS-recs.parquet
     deps:
-      - ../../scripts/generate.py
       - ../../codex/models/ImplicitMF_ALS.py
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/ImplicitMF-ALS.json
   run-random-default-IKNN-Explicit:
     cmd: >-
-      python ../../scripts/generate.py --default --stats=runs/random-default/IKNN-Explicit.json --recommendations=runs/random-default/IKNN-Explicit-recs.parquet --predictions=runs/random-default/IKNN-Explicit-preds.parquet --ratings ratings.duckdb --test-part 1-4 IKNN-Explicit splits/random.duckdb
+      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-default/IKNN-Explicit.json --recommendations=runs/random-default/IKNN-Explicit-recs.parquet --predictions=runs/random-default/IKNN-Explicit-preds.parquet IKNN-Explicit
     outs:
       - runs/random-default/IKNN-Explicit.json
       - runs/random-default/IKNN-Explicit-recs.parquet
       - runs/random-default/IKNN-Explicit-preds.parquet
     deps:
-      - ../../scripts/generate.py
       - ../../codex/models/IKNN_Explicit.py
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-IKNN-Explicit:
     cmd: >-
-      python ../../scripts/generate.py --param-file=sweeps/random/IKNN-Explicit.json --stats=runs/random-sweep-best/IKNN-Explicit.json --recommendations=runs/random-sweep-best/IKNN-Explicit-recs.parquet --predictions=runs/random-sweep-best/IKNN-Explicit-preds.parquet --ratings ratings.duckdb --test-part 1-4 IKNN-Explicit splits/random.duckdb
+      python ../../action.py generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-sweep-best/IKNN-Explicit.json --recommendations=runs/random-sweep-best/IKNN-Explicit-recs.parquet --predictions=runs/random-sweep-best/IKNN-Explicit-preds.parquet IKNN-Explicit
     outs:
       - runs/random-sweep-best/IKNN-Explicit.json
       - runs/random-sweep-best/IKNN-Explicit-recs.parquet
       - runs/random-sweep-best/IKNN-Explicit-preds.parquet
     deps:
-      - ../../scripts/generate.py
       - ../../codex/models/IKNN_Explicit.py
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/IKNN-Explicit.json
   run-random-default-IKNN-Implicit:
     cmd: >-
-      python ../../scripts/generate.py --default --stats=runs/random-default/IKNN-Implicit.json --recommendations=runs/random-default/IKNN-Implicit-recs.parquet --ratings ratings.duckdb --test-part 1-4 IKNN-Implicit splits/random.duckdb
+      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-default/IKNN-Implicit.json --recommendations=runs/random-default/IKNN-Implicit-recs.parquet IKNN-Implicit
     outs:
       - runs/random-default/IKNN-Implicit.json
       - runs/random-default/IKNN-Implicit-recs.parquet
     deps:
-      - ../../scripts/generate.py
       - ../../codex/models/IKNN_Implicit.py
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-IKNN-Implicit:
     cmd: >-
-      python ../../scripts/generate.py --param-file=sweeps/random/IKNN-Implicit.json --stats=runs/random-sweep-best/IKNN-Implicit.json --recommendations=runs/random-sweep-best/IKNN-Implicit-recs.parquet --ratings ratings.duckdb --test-part 1-4 IKNN-Implicit splits/random.duckdb
+      python ../../action.py generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-sweep-best/IKNN-Implicit.json --recommendations=runs/random-sweep-best/IKNN-Implicit-recs.parquet IKNN-Implicit
     outs:
       - runs/random-sweep-best/IKNN-Implicit.json
       - runs/random-sweep-best/IKNN-Implicit-recs.parquet
     deps:
-      - ../../scripts/generate.py
       - ../../codex/models/IKNN_Implicit.py
       - ratings.duckdb
       - splits/random.duckdb

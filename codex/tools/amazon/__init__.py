@@ -1,7 +1,7 @@
-import click
+from .. import codex
 
 
-@click.group()
+@codex.group()
 def amazon():
     "Commands for manipulating Amazon data."
 

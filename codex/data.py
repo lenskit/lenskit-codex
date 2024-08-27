@@ -1,6 +1,5 @@
 import logging
-import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from os import fspath
 from pathlib import Path
 
@@ -11,14 +10,14 @@ _log = logging.getLogger(__name__)
 
 @dataclass
 class TrainTestData:
-    db_path: Path
-    extra_dbs: dict[str, Path]
+    db_path: str
     train_query: str
     test_query: str
+    extra_dbs: dict[str, str] = field(default_factory=dict)
 
     def open_db(self, writable: bool = False) -> duckdb.DuckDBPyConnection:
         _log.debug("opening %s", self.db_path)
-        db = duckdb.connect(fspath(self.db_path), read_only=not writable)
+        db = duckdb.connect(self.db_path, read_only=not writable)
         try:
             for name, path in self.extra_dbs.items():
                 _log.debug("attaching %s: %s", name, path)
@@ -37,7 +36,7 @@ class TrainTestData:
 
 
 def partition_tt_data(
-    split: Path, src: Path, partition: int, *, alloc="test", ratings="src.ratings"
+    split: Path, src: Path, partition: int, *, alloc="test_alloc", ratings="src.ratings"
 ):
     test_q = f"""
 SELECT user_id AS user, item_id AS item, rating
@@ -52,36 +51,27 @@ FROM {ratings} LEFT JOIN {alloc} USING (user_id, item_id)
 WHERE partition IS NULL OR partition <> {partition}
 """
 
-    return TrainTestData(split, {"src": src}, train_q, test_q)
+    return TrainTestData(fspath(split), train_q, test_q, {"src": fspath(src)})
 
 
-def fixed_tt_data(db: Path, test: str, *, train: list[str] | None = None):
+def fixed_tt_data(test: Path, train: list[Path]):
+    """
+    "Create a train-test data pair from fixed files.
+    """
+
     test_q = f"""
-SELECT user_id AS user, item_id AS item, rating
-FROM ratings
-WHERE partition = '{test}'
-ORDER BY user, item
-"""
-    if train:
-        parts = ", ".join([f"'{s}'" for s in train])
-        train_q = f"""
-SELECT user_id AS user, item_id AS item, rating
-FROM ratings
-WHERE partition in ({parts})
-"""
-    else:
-        train_q = f"""
-SELECT user_id AS user, item_id AS item, rating
-FROM ratings
-WHERE partition IS NULL OR partition <> '{test}'
-"""
+        SELECT user_id AS user, item_id AS item, rating
+        FROM read_parquet('{test}')
+    """
 
-    return TrainTestData(db, {}, train_q, test_q)
+    train_q = " UNION ALL ".join(
+        [
+            f"""
+            SELECT user_id AS user, item_id AS item, rating
+            FROM read_parquet('{pqf}')
+        """
+            for pqf in train
+        ]
+    )
 
-
-def parse_parts(spec: str) -> list[str]:
-    m = re.match(r"^(\d+)-(\d+)$", spec)
-    if m:
-        return [str(i) for i in range(int(m[1]), int(m[2]) + 1)]
-    else:
-        return spec.split(",")
+    return TrainTestData(":memory:", train_q, test_q)

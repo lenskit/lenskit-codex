@@ -5,7 +5,7 @@ import { filterValues, mapEntries, mapValues } from "std/collections/mod.ts";
 
 import * as ai from "aitertools";
 
-import { Pipeline, Stage } from "../codex/dvc.ts";
+import { action_cmd, Pipeline, Stage } from "../codex/dvc.ts";
 import { MODELS } from "../codex/models/model-list.ts";
 
 export const datasets: Record<string, string> = {
@@ -70,7 +70,7 @@ function ml_sweeps(_name: string): Record<string, Stage> {
   return results;
 }
 
-function ml_runs(_name: string): Record<string, Stage> {
+function ml_runs(name: string): Record<string, Stage> {
   const runs: Record<string, Stage> = {};
 
   for (const [name, info] of Object.entries(MODELS)) {
@@ -81,13 +81,20 @@ function ml_runs(_name: string): Record<string, Stage> {
     if (info.predictor) {
       outs["predictions"] = `runs/random-default/${name}-preds.parquet`;
     }
-    let out_flags = Object.entries(outs).map(([k, f]) => `--${k}=${f}`).join(" ");
+    let out_flags = Object.entries(outs).map(([k, f]) => `--${k}=${f}`);
     runs[`run-random-default-${name}`] = {
-      cmd:
-        `python ../../scripts/generate.py --default ${out_flags} --ratings ratings.duckdb --test-part 1-4 ${name} splits/random.duckdb`,
+      cmd: action_cmd(
+        `movielens/${name}`,
+        "generate",
+        "--default",
+        "--test-part=-0",
+        "--assignments=splits/random.duckdb",
+        "--ratings=ratings.duckdb",
+        ...out_flags,
+        name,
+      ),
       outs: Object.values(outs),
       deps: [
-        "../../scripts/generate.py",
         `../../codex/models/${name.replaceAll("-", "_")}.py`,
         "ratings.duckdb",
         "splits/random.duckdb",
@@ -97,13 +104,20 @@ function ml_runs(_name: string): Record<string, Stage> {
     if (!info.sweepable) continue;
 
     outs = mapValues(outs, (v) => v.replace("default", "sweep-best"));
-    out_flags = Object.entries(outs).map(([k, f]) => `--${k}=${f}`).join(" ");
+    out_flags = Object.entries(outs).map(([k, f]) => `--${k}=${f}`);
     runs[`run-random-sweep-best-${name}`] = {
-      cmd:
-        `python ../../scripts/generate.py --param-file=sweeps/random/${name}.json ${out_flags} --ratings ratings.duckdb --test-part 1-4 ${name} splits/random.duckdb`,
+      cmd: action_cmd(
+        `movielens/${name}`,
+        "generate",
+        `--param-file=sweeps/random/${name}.json`,
+        "--test-part=-0",
+        "--assignments=splits/random.duckdb",
+        "--ratings=ratings.duckdb",
+        ...out_flags,
+        name,
+      ),
       outs: Object.values(outs),
       deps: [
-        "../../scripts/generate.py",
         `../../codex/models/${name.replaceAll("-", "_")}.py`,
         "ratings.duckdb",
         "splits/random.duckdb",

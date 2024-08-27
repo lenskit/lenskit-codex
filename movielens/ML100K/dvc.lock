@@ -69,7 +69,7 @@ stages:
     outs:
     - path: random.duckdb
       hash: md5
-      md5: 104d0924001308c5c1af255bea2d2825
+      md5: 833fa8536578481d066029058b1a6cf7
       size: 536576
   Bias:
     cmd: python ../../scripts/sweep.py -p 1 Bias splits/random.duckdb ratings.duckdb
@@ -523,39 +523,35 @@ stages:
       md5: 77aceaf085580405e78eb7f996630d6d
       size: 580
   run-random-default-Bias:
-    cmd: python ../../scripts/generate.py --default --stats=runs/random-default/Bias.json
-      --recommendations=runs/random-default/Bias-recs.parquet --predictions=runs/random-default/Bias-preds.parquet
-      --ratings ratings.duckdb --test-part 1-4 Bias splits/random.duckdb
+    cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb --stats=runs/random-default/Bias.json --recommendations=runs/random-default/Bias-recs.parquet
+      --predictions=runs/random-default/Bias-preds.parquet Bias
     deps:
     - path: ../../codex/models/Bias.py
       hash: md5
       md5: e35eac761bf892674a6fb8570132e7f1
       size: 375
-    - path: ../../scripts/generate.py
-      hash: md5
-      md5: 8855b252d5b2281af766258761dc3c1a
-      size: 5428
     - path: ratings.duckdb
       hash: md5
       md5: a770a8e6c558a398515b74def824e7b8
       size: 2371584
     - path: splits/random.duckdb
       hash: md5
-      md5: 104d0924001308c5c1af255bea2d2825
+      md5: 27e977f5727f7bb103fc14a7129e9fa7
       size: 536576
     outs:
     - path: runs/random-default/Bias-preds.parquet
       hash: md5
-      md5: 45df28cb2a9875e1f4130c256cb67aef
-      size: 49531
+      md5: 46541fa1539f07ee07049ad41cf688af
+      size: 49577
     - path: runs/random-default/Bias-recs.parquet
       hash: md5
-      md5: ee1bfade289ad0b502b59f279aec031e
-      size: 741452
+      md5: 52f5f55b7ff1ebc65910b133950c057c
+      size: 7683798
     - path: runs/random-default/Bias.json
       hash: md5
-      md5: 06a442413d0a4b04e4946f323fb0393a
-      size: 644
+      md5: 47d70d3252e5f16b8d5b23167f647855
+      size: 678
   run-random-default-Popular:
     cmd: python ../../scripts/generate.py --default --stats=runs/random-default/Popular.json
       --recommendations=runs/random-default/Popular-recs.parquet --ratings ratings.duckdb
