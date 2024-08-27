@@ -49,7 +49,7 @@ def collect_user_ids(db: duckdb.DuckDBPyConnection, files: list[Path]):
     db.execute("""
         CREATE TABLE users (
             user_id INT PRIMARY KEY DEFAULT nextval('uid_sequence'),
-            user_code VARCHAR NOT NULL UNIQUE,
+            user_code VARCHAR NOT NULL,
         );
     """)
 
@@ -66,6 +66,8 @@ def collect_user_ids(db: duckdb.DuckDBPyConnection, files: list[Path]):
             """,
         )
 
+    db.execute("CREATE UNIQUE INDEX user_code_idx ON users (user_code)")
+
 
 def collect_item_ids(db: duckdb.DuckDBPyConnection, files: list[Path]):
     _log.info("initializing item ID DB")
@@ -73,7 +75,7 @@ def collect_item_ids(db: duckdb.DuckDBPyConnection, files: list[Path]):
     db.execute("""
         CREATE TABLE items (
             item_id INT PRIMARY KEY DEFAULT nextval('uid_sequence'),
-            asin VARCHAR NOT NULL UNIQUE,
+            asin VARCHAR NOT NULL,
             item_cat VARCHAR NOT NULL,
         );
     """)
@@ -85,9 +87,11 @@ def collect_item_ids(db: duckdb.DuckDBPyConnection, files: list[Path]):
         rel.query(
             "ratings",
             f"""
-                INSERT INTO items (item_code, item_at)
+                INSERT INTO items (asin, item_cat)
                 SELECT DISTINCT parent_asin, '{cat}'
                 FROM ratings
                 WHERE parent_asin NOT IN (SELECT asin FROM items)
             """,
         )
+
+    db.execute("CREATE UNIQUE INDEX item_asin_idx ON items (asin)")
