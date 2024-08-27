@@ -22,7 +22,6 @@ stages:
   export-random-Bias:
     cmd: python ../../action.py sweep export sweeps/random/Bias.duckdb rmse
     deps:
-      - ../../scripts/sweep.py
       - sweeps/random/Bias.duckdb
     outs:
       - sweeps/random/Bias.csv
@@ -43,7 +42,6 @@ stages:
   export-random-BiasedMF-ALS:
     cmd: python ../../action.py sweep export sweeps/random/BiasedMF-ALS.duckdb rmse
     deps:
-      - ../../scripts/sweep.py
       - sweeps/random/BiasedMF-ALS.duckdb
     outs:
       - sweeps/random/BiasedMF-ALS.csv
@@ -65,7 +63,6 @@ stages:
     cmd: >-
       python ../../action.py sweep export sweeps/random/ImplicitMF-ALS.duckdb ndcg
     deps:
-      - ../../scripts/sweep.py
       - sweeps/random/ImplicitMF-ALS.duckdb
     outs:
       - sweeps/random/ImplicitMF-ALS.csv
@@ -87,7 +84,6 @@ stages:
     cmd: >-
       python ../../action.py sweep export sweeps/random/IKNN-Explicit.duckdb rmse
     deps:
-      - ../../scripts/sweep.py
       - sweeps/random/IKNN-Explicit.duckdb
     outs:
       - sweeps/random/IKNN-Explicit.csv
@@ -109,7 +105,6 @@ stages:
     cmd: >-
       python ../../action.py sweep export sweeps/random/IKNN-Implicit.duckdb ndcg
     deps:
-      - ../../scripts/sweep.py
       - sweeps/random/IKNN-Implicit.duckdb
     outs:
       - sweeps/random/IKNN-Implicit.csv

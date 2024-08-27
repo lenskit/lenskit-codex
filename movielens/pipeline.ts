@@ -66,7 +66,7 @@ function ml_sweeps(ds: string): Record<string, Stage> {
     const metric = info.predictor ? "rmse" : "ndcg";
     results[`export-random-${name}`] = {
       cmd: action_cmd(`movielens/${ds}`, "sweep export", `sweeps/random/${name}.duckdb`, metric),
-      deps: ["../../scripts/sweep.py", `sweeps/random/${name}.duckdb`],
+      deps: [`sweeps/random/${name}.duckdb`],
       outs: [
         `sweeps/random/${name}.csv`,
         { [`sweeps/random/${name}.json`]: { cache: false } },
