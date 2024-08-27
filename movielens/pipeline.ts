@@ -41,13 +41,20 @@ async function ml_splits(name: string): Promise<Record<string, Stage>> {
   return stages;
 }
 
-function ml_sweeps(_name: string): Record<string, Stage> {
+function ml_sweeps(ds: string): Record<string, Stage> {
   const active = filterValues(MODELS, (m) => m.sweepable);
   const results: Record<string, Stage> = {};
   for (const [name, info] of Object.entries(active)) {
     results[`sweep-random-${name}`] = {
-      cmd:
-        `python ../../scripts/sweep.py -p 1 ${name} splits/random.duckdb ratings.duckdb sweeps/random/${name}.duckdb`,
+      cmd: action_cmd(
+        `movielens/${ds}`,
+        "sweep run",
+        "-p 0",
+        "--ratings=ratings.duckdb",
+        "--assignments=splits/random.duckdb",
+        name,
+        `sweeps/random/${name}.duckdb`,
+      ),
       params: [{ "../../config.toml": ["random.seed"] }],
       deps: [
         "splits/random.duckdb",
@@ -58,7 +65,7 @@ function ml_sweeps(_name: string): Record<string, Stage> {
     };
     const metric = info.predictor ? "rmse" : "ndcg";
     results[`export-random-${name}`] = {
-      cmd: `python ../../scripts/sweep.py --export sweeps/random/${name}.duckdb ${metric}`,
+      cmd: action_cmd(`movielens/${ds}`, "sweep export", `sweeps/random/${name}.duckdb`, metric),
       deps: ["../../scripts/sweep.py", `sweeps/random/${name}.duckdb`],
       outs: [
         `sweeps/random/${name}.csv`,
@@ -70,7 +77,7 @@ function ml_sweeps(_name: string): Record<string, Stage> {
   return results;
 }
 
-function ml_runs(name: string): Record<string, Stage> {
+function ml_runs(ds: string): Record<string, Stage> {
   const runs: Record<string, Stage> = {};
 
   for (const [name, info] of Object.entries(MODELS)) {
@@ -84,7 +91,7 @@ function ml_runs(name: string): Record<string, Stage> {
     let out_flags = Object.entries(outs).map(([k, f]) => `--${k}=${f}`);
     runs[`run-random-default-${name}`] = {
       cmd: action_cmd(
-        `movielens/${name}`,
+        `movielens/${ds}`,
         "generate",
         "--default",
         "--test-part=-0",
