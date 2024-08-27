@@ -1,3 +1,22 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lenskit-codex"
+description = "Toolkit for recommender systems research, teaching, and more."
+dynamic = ["version"]
+
+[[project.authors]]
+name = "Michael Ekstrand"
+email = "mdekstrand@drexel.edu"
+
+[tool.setuptools.packages.find]
+include = ["lenskit/*"]
+
+[tool.setuptools_scm]
+version_scheme = "release-branch-semver"
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"

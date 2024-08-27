@@ -449,6 +449,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
   cuda-dev:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -907,6 +908,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
   default:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -1349,6 +1351,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/adal-1.2.7-pyhd8ed1ab_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/adlfs-2024.7.0-pyhd8ed1ab_0.conda
@@ -1771,6 +1774,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
   dev:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -2222,6 +2226,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/adal-1.2.7-pyhd8ed1ab_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/adlfs-2024.7.0-pyhd8ed1ab_0.conda
@@ -2653,6 +2658,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
   publish:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -3023,6 +3029,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/adal-1.2.7-pyhd8ed1ab_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/adlfs-2024.7.0-pyhd8ed1ab_0.conda
@@ -3375,6 +3382,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
 packages:
 - kind: conda
   name: _libgcc_mutex
@@ -8601,6 +8609,12 @@ packages:
   - pkg:pypi/lenskit?source=hash-mapping
   size: 62267
   timestamp: 1713448266509
+- kind: pypi
+  name: lenskit-codex
+  version: 0.1.0.dev177+g17b3e22.d20240827
+  path: .
+  sha256: c218e12d0c19c44ee47887591d432f5183e3b423801ea880dcf2b81ac5ad1da4
+  editable: true
 - kind: conda
   name: lerc
   version: 4.0.0
