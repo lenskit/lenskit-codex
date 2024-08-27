@@ -15,7 +15,7 @@ _log = logging.getLogger(__name__)
 @amazon.command("collect-ids")
 @click.option("--user", "mode", help="collect user IDs", flag_value="user")
 @click.option("--item", "mode", help="collect item IDs", flag_value="item")
-@click.option("-D", "--database", help="save IDs in DATABASE", required=True, type=Path)
+@click.option("-D", "--database", help="save IDs in DATABASE", required=True)
 @click.argument("FILE", nargs=-1, type=Path)
 def collect_ids(mode: Literal["user", "item"] | None, database: str, file: list[Path]):
     "Collect user and item identifiers for Amazon"
@@ -23,6 +23,7 @@ def collect_ids(mode: Literal["user", "item"] | None, database: str, file: list[
         _log.fatal("must specify one of --user or --item")
         sys.exit(2)
 
+    _log.info("opening database %s", database)
     with duckdb.connect(database) as db:
         match mode:
             case "user":
