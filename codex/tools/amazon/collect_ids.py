@@ -80,7 +80,7 @@ def collect_item_ids(db: duckdb.DuckDBPyConnection, files: list[Path]):
 
     for src in scan_files(files):
         _log.info("scanning %s", src)
-        cat, _tail = src.name.split(".", 2)
+        cat, _tail = src.name.split(".", 1)
         rel = db.read_csv(fspath(src))
         rel.query(
             "ratings",
