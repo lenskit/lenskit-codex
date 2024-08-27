@@ -53,7 +53,7 @@ stages:
       md5: 6dcc1794a0e0d90e2cdeb756c84d55b1
       size: 5255168
   split-random:
-    cmd: python ../../../scripts/split.py random.toml
+    cmd: python ../../../action.py split random.toml
     deps:
     - path: ../ratings.duckdb
       hash: md5
@@ -85,8 +85,8 @@ stages:
       size: 299642880
     - path: splits/random.duckdb
       hash: md5
-      md5: 4c11956e94e05d754121fc0c9bb3a017
-      size: 4993024
+      md5: 92e096f49f7567248cc05f3da698da1b
+      size: 4730880
     params:
       ../../config.toml:
         random.seed: 20240717
@@ -109,8 +109,8 @@ stages:
       size: 299642880
     - path: splits/random.duckdb
       hash: md5
-      md5: 4c11956e94e05d754121fc0c9bb3a017
-      size: 4993024
+      md5: 92e096f49f7567248cc05f3da698da1b
+      size: 4730880
     params:
       ../../config.toml:
         random.seed: 20240717
@@ -133,8 +133,8 @@ stages:
       size: 299642880
     - path: splits/random.duckdb
       hash: md5
-      md5: 4c11956e94e05d754121fc0c9bb3a017
-      size: 4993024
+      md5: 92e096f49f7567248cc05f3da698da1b
+      size: 4730880
     params:
       ../../config.toml:
         random.seed: 20240717
@@ -157,8 +157,8 @@ stages:
       size: 299642880
     - path: splits/random.duckdb
       hash: md5
-      md5: 4c11956e94e05d754121fc0c9bb3a017
-      size: 4993024
+      md5: 92e096f49f7567248cc05f3da698da1b
+      size: 4730880
     params:
       ../../config.toml:
         random.seed: 20240717
@@ -181,8 +181,8 @@ stages:
       size: 299642880
     - path: splits/random.duckdb
       hash: md5
-      md5: 4c11956e94e05d754121fc0c9bb3a017
-      size: 4993024
+      md5: 92e096f49f7567248cc05f3da698da1b
+      size: 4730880
     params:
       ../../config.toml:
         random.seed: 20240717
@@ -211,3 +211,107 @@ stages:
       hash: md5
       md5: 9463b4c41e34c62316f2518ffa78b1bd
       size: 299642880
+  export-random-Bias:
+    cmd: python ../../scripts/sweep.py --export sweeps/random/Bias.duckdb rmse
+    deps:
+    - path: ../../scripts/sweep.py
+      hash: md5
+      md5: f317b2b216223b72034e4e3b84dfd310
+      size: 7543
+    - path: sweeps/random/Bias.duckdb
+      hash: md5
+      md5: 59fa7f83f16fde496d8e5f0deaebe18b
+      size: 325332992
+    outs:
+    - path: sweeps/random/Bias.csv
+      hash: md5
+      md5: 7cffa48415a320856572517808c01197
+      size: 1960
+    - path: sweeps/random/Bias.json
+      hash: md5
+      md5: de5261d41666224378a4d860db15e9dc
+      size: 323
+  export-random-BiasedMF-ALS:
+    cmd: python ../../scripts/sweep.py --export sweeps/random/BiasedMF-ALS.duckdb
+      rmse
+    deps:
+    - path: ../../scripts/sweep.py
+      hash: md5
+      md5: f317b2b216223b72034e4e3b84dfd310
+      size: 7543
+    - path: sweeps/random/BiasedMF-ALS.duckdb
+      hash: md5
+      md5: f16fe39296b9ab05ff9b5123239efbe2
+      size: 693907456
+    outs:
+    - path: sweeps/random/BiasedMF-ALS.csv
+      hash: md5
+      md5: 705c8da85ebee6ea2bfcdd4474fac9db
+      size: 3973
+    - path: sweeps/random/BiasedMF-ALS.json
+      hash: md5
+      md5: 369970a9dc364c92617e7360448eccc1
+      size: 310
+  export-random-ImplicitMF-ALS:
+    cmd: python ../../scripts/sweep.py --export sweeps/random/ImplicitMF-ALS.duckdb
+      ndcg
+    deps:
+    - path: ../../scripts/sweep.py
+      hash: md5
+      md5: f317b2b216223b72034e4e3b84dfd310
+      size: 7543
+    - path: sweeps/random/ImplicitMF-ALS.duckdb
+      hash: md5
+      md5: d706c45a8e0532c3ebc272b08fdbbb21
+      size: 644362240
+    outs:
+    - path: sweeps/random/ImplicitMF-ALS.csv
+      hash: md5
+      md5: 2000e39673c444bda200cd942878c987
+      size: 2724
+    - path: sweeps/random/ImplicitMF-ALS.json
+      hash: md5
+      md5: 794b4fd49c21c734269719b9583c88bd
+      size: 252
+  export-random-IKNN-Explicit:
+    cmd: python ../../scripts/sweep.py --export sweeps/random/IKNN-Explicit.duckdb
+      rmse
+    deps:
+    - path: ../../scripts/sweep.py
+      hash: md5
+      md5: f317b2b216223b72034e4e3b84dfd310
+      size: 7543
+    - path: sweeps/random/IKNN-Explicit.duckdb
+      hash: md5
+      md5: 5a1ac51bdc4997cb1f497d7019365b7c
+      size: 278409216
+    outs:
+    - path: sweeps/random/IKNN-Explicit.csv
+      hash: md5
+      md5: 69a317925f0e1fded300520b2de6394f
+      size: 1623
+    - path: sweeps/random/IKNN-Explicit.json
+      hash: md5
+      md5: 7f6ae96446bb437d05ca0aecef287fba
+      size: 311
+  export-random-IKNN-Implicit:
+    cmd: python ../../scripts/sweep.py --export sweeps/random/IKNN-Implicit.duckdb
+      ndcg
+    deps:
+    - path: ../../scripts/sweep.py
+      hash: md5
+      md5: f317b2b216223b72034e4e3b84dfd310
+      size: 7543
+    - path: sweeps/random/IKNN-Implicit.duckdb
+      hash: md5
+      md5: 955a00017d5762b62637235b20ec7949
+      size: 259534848
+    outs:
+    - path: sweeps/random/IKNN-Implicit.csv
+      hash: md5
+      md5: d5ed7ede11d023ed9341b8c5a4173387
+      size: 1091
+    - path: sweeps/random/IKNN-Implicit.json
+      hash: md5
+      md5: 84af41a852d9de5384eee345ee735c67
+      size: 250
