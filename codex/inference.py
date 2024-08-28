@@ -14,6 +14,7 @@ from dataclasses import dataclass
 from typing import Iterator
 
 import ipyparallel as ipp
+import numpy as np
 import pandas as pd
 from lenskit.algorithms import Recommender
 from lenskit.algorithms.basic import TopN
@@ -47,34 +48,41 @@ def run_recommender(
     n_recs: int,
     predict: bool = False,
     *,
-    cluster: ipp.Cluster | None = None,
+    cluster: ipp.Cluster | ipp.Client | None = None,
 ) -> Iterator[UserResult]:
     with connect_cluster(cluster) as client:
         dv = client.direct_view()
         _log.info("sending model to workers")
         dv.apply_sync(_prepare_model, algo, JobOptions(n_recs, predict))
         try:
-            _log.info("running recommender for %d users", test["user"].nunique())
+            _log.info("running recommender for %d users (N=%d)", test["user"].nunique(), n_recs)
             lbv = client.load_balanced_view()
             jobs = test.groupby("user")
-            yield from lbv.imap(_run_for_user, jobs, ordered=False)
+            for res in lbv.imap(_run_for_user, jobs, ordered=False):
+                yield res
         finally:
             _log.info("cleaning up model in workers")
             dv.apply_sync(_cleanup_model)
 
 
 @contextmanager
-def connect_cluster(cluster: ipp.Cluster | None = None) -> Generator[ipp.Client]:
+def connect_cluster(cluster: ipp.Cluster | ipp.Client | None = None) -> Generator[ipp.Client]:
+    if isinstance(cluster, ipp.Client):
+        yield cluster
+        return
+
     count = os.environ.get("LK_NUM_PROCS", None)
     if count is not None:
         count = int(count)
+    else:
+        count = min(os.cpu_count(), 8)  # type: ignore
 
     if cluster is None:
         _log.info("starting cluster with %s workers", count)
         with ipp.Cluster(n=count) as client:
             yield client
     else:
-        return cluster.connect_client_sync()
+        yield cluster.connect_client_sync()
 
 
 def _prepare_model(model: PersistedModel, options: JobOptions):
@@ -90,17 +98,22 @@ def _cleanup_model():
     gc.collect()
 
 
-def _run_for_user(user: int, test: pd.DataFrame):
+def _run_for_user(job: tuple[int, pd.DataFrame]):
     global __model, __options
     assert __model is not None
     assert __options is not None
 
+    user, test = job
+
     watch = Stopwatch()
     recs = __model.recommend(user, __options.n_recs)
+    recs["rank"] = np.arange(0, len(recs), dtype=np.int16) + 1
 
     if __options.predict:
         assert isinstance(__model, TopN)
         preds = __model.predict_for_user(user, test["item"])
+        preds = preds.to_frame("prediction").reset_index()
+        preds = preds.join(test.set_index("item")["rating"], on="item", how="left")
 
     time = watch.elapsed()
 

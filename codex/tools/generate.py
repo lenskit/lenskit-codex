@@ -12,7 +12,7 @@ from humanize import naturalsize
 from lenskit.algorithms import Recommender
 
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
-from codex.inference import run_recommender
+from codex.inference import connect_cluster, run_recommender
 from codex.models import load_model, model_module
 from codex.resources import METRIC_COLUMN_DDL
 from codex.training import train_model
@@ -26,7 +26,12 @@ _log = logging.getLogger("codex.run")
 @click.option("--default", "config", help="use default configuration", flag_value="default")
 @click.option("--param-file", "config", metavar="FILE", help="configure model from FILE")
 @click.option(
-    "-n", "--list-length", type=int, metavar="N", help="control recommendation list length"
+    "-n",
+    "--list-length",
+    type=int,
+    metavar="N",
+    help="control recommendation list length",
+    default=100,
 )
 @click.option("-o", "--output", type=Path, metavar="N", help="specify output database")
 @click.option(
@@ -87,7 +92,7 @@ def generate(
 
     predict = "predictions" in mod.outputs
 
-    with duckdb.connect(fspath(output)) as db:
+    with duckdb.connect(fspath(output)) as db, connect_cluster() as cluster:
         create_tables(db, predict)
 
         for part, data in test_sets:
@@ -107,16 +112,24 @@ def generate(
                 if len(test) == 0:
                     _log.error("no test data found")
 
-            for result in run_recommender(trained, test, list_length, predict):
+            for result in run_recommender(trained, test, list_length, predict, cluster=cluster):
                 ntest = len(result.test)
                 nrecs = len(result.recommendations)
                 db.execute("BEGIN")
-                db.table("user_metrics").insert([part, result.user, result.wall_time, nrecs, ntest])
+                db.execute(
+                    """
+                    INSERT INTO user_metrics (part, user, wall_time, n_recs, n_truth)
+                    VALUES (?, ?, ?, ?, ?)
+                    """,
+                    [part, result.user, result.wall_time, nrecs, ntest],
+                )
+                # direct interpolation into sql is ok here, we know they are
+                # integers (and this is not a security-conscious application).
                 db.from_df(result.recommendations).query(
                     "u_recs",
                     f"""
                     INSERT INTO recommendations (part, user, item, rank, score)
-                    SELECT {part}, user, item, rank, score
+                    SELECT {part}, {result.user}, item, rank, score
                     FROM u_recs
                     """,
                 )
@@ -125,11 +138,13 @@ def generate(
                         "u_recs",
                         f"""
                         INSERT INTO predictions (part, user, item, prediction, rating)
-                        SELECT {part}, user, item, prediction, rating
+                        SELECT {part}, {result.user}, item, prediction, rating
                         FROM u_recs
                         """,
                     )
                 db.execute("COMMIT")
+
+            trained.close()
 
 
 def fixed_test_sets(test: Path, train: list[Path]) -> Generator[tuple[int, TrainTestData]]:
@@ -190,8 +205,8 @@ def create_tables(db: duckdb.DuckDBPyConnection, predict: bool):
             part TINYINT NOT NULL,
             user INT NOT NULL,
             wall_time FLOAT NOT NULL,
-            nrecs INT,
-            ntruth INT,
+            n_recs INT,
+            n_truth INT,
             recip_rank FLOAT NULL,
             ndcg FLOAT NULL,
         )

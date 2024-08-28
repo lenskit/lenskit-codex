@@ -489,8 +489,7 @@ stages:
       size: 580
   run-random-default-Bias:
     cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
-      --ratings=ratings.duckdb --stats=runs/random-default/Bias.json --recommendations=runs/random-default/Bias-recs.parquet
-      --predictions=runs/random-default/Bias-preds.parquet Bias
+      --ratings=ratings.duckdb -o runs/random-default/Bias.duckdb Bias
     deps:
     - path: ../../codex/models/Bias.py
       hash: md5
@@ -505,18 +504,10 @@ stages:
       md5: 0341a9b25f8c8d872957470e9f29df47
       size: 536576
     outs:
-    - path: runs/random-default/Bias-preds.parquet
+    - path: runs/random-default/Bias.duckdb
       hash: md5
-      md5: 46541fa1539f07ee07049ad41cf688af
-      size: 49577
-    - path: runs/random-default/Bias-recs.parquet
-      hash: md5
-      md5: 52f5f55b7ff1ebc65910b133950c057c
-      size: 7683798
-    - path: runs/random-default/Bias.json
-      hash: md5
-      md5: 47d70d3252e5f16b8d5b23167f647855
-      size: 678
+      md5: ffd5d5bc25557a94b14949086b1f6153
+      size: 1585152
   run-random-default-Popular:
     cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb --stats=runs/random-default/Popular.json --recommendations=runs/random-default/Popular-recs.parquet

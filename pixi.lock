@@ -463,6 +463,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
   cuda-dev:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -935,6 +936,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
   default:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -1392,6 +1394,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/adal-1.2.7-pyhd8ed1ab_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/adlfs-2024.7.0-pyhd8ed1ab_0.conda
@@ -1820,6 +1823,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
   dev:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -2286,6 +2290,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/adal-1.2.7-pyhd8ed1ab_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/adlfs-2024.7.0-pyhd8ed1ab_0.conda
@@ -2723,6 +2728,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
   publish:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -3097,6 +3103,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/adal-1.2.7-pyhd8ed1ab_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/adlfs-2024.7.0-pyhd8ed1ab_0.conda
@@ -3450,6 +3457,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/10/65bc09b3012728eac710e6e5676b0b69af7a6fd1404ace03637f7b14e678/prefixed-0.8.0-py2.py3-none-any.whl
       - pypi: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
       - pypi: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+      - pypi: .
 packages:
 - kind: conda
   name: _libgcc_mutex
@@ -8856,6 +8864,12 @@ packages:
   size: 62267
   timestamp: 1713448266509
 - kind: pypi
+  name: lenskit-codex
+  version: 0.1.0
+  path: .
+  sha256: 48f4e8046cb7de902bcdba1fa99bf4051f6fa792538acb991d9a8af4a7748cdb
+  editable: true
+- kind: pypi
   name: lenskit-hpf
   version: 0.14.0
   url: https://files.pythonhosted.org/packages/ea/b7/7cfeda469b4395e02df0d363125e5e17d3d283b12386b7f94ebb1a7560be/lenskit_hpf-0.14.0-py3-none-any.whl
@@ -13278,30 +13292,6 @@ packages:
   - tqdm ; extra == 'doc'
   - pytest>=7 ; extra == 'test'
   requires_python: '>=3.10'
-- kind: pypi
-  name: progress-api
-  version: 0.1.0a10.dev2+g870ee4c
-  url: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
-  requires_dist:
-  - setuptools>=64 ; extra == 'dev'
-  - setuptools-scm>=8 ; extra == 'dev'
-  - build==1.* ; extra == 'dev'
-  - ruff>=0.2 ; extra == 'dev'
-  - pyright ; extra == 'dev'
-  - copier==9.* ; extra == 'dev'
-  - unbeheader~=1.3 ; extra == 'dev'
-  - ipython ; extra == 'dev'
-  - pyproject2conda ; extra == 'dev'
-  - sphinx-autobuild ; extra == 'dev'
-  - enlighten==1.* ; extra == 'dev'
-  - tqdm==4.* ; extra == 'dev'
-  - sphinx>=4.2 ; extra == 'doc'
-  - sphinxext-opengraph>=0.5 ; extra == 'doc'
-  - furo ; extra == 'doc'
-  - enlighten ; extra == 'doc'
-  - tqdm ; extra == 'doc'
-  - pytest>=7 ; extra == 'test'
-  requires_python: '>=3.10'
 - kind: conda
   name: prometheus_client
   version: 0.20.0
@@ -14938,32 +14928,6 @@ packages:
   - pkg:pypi/s3transfer?source=hash-mapping
   size: 62933
   timestamp: 1719300262364
-- kind: pypi
-  name: sandal
-  version: 0.1.0a5
-  url: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
-  requires_dist:
-  - enlighten~=1.12
-  - colorlog==6.*
-  - progress-api>=0.1.0a9
-  - tomli~=2.0 ; python_full_version < '3.12'
-  - setuptools>=64 ; extra == 'dev'
-  - setuptools-scm>=8 ; extra == 'dev'
-  - build==1.* ; extra == 'dev'
-  - ruff>=0.2 ; extra == 'dev'
-  - pyright ; extra == 'dev'
-  - copier==9.* ; extra == 'dev'
-  - unbeheader~=1.3 ; extra == 'dev'
-  - ipython ; extra == 'dev'
-  - pyproject2conda ; extra == 'dev'
-  - sphinx-autobuild ; extra == 'dev'
-  - sphinx>=4.2 ; extra == 'doc'
-  - sphinxext-opengraph>=0.5 ; extra == 'doc'
-  - furo ; extra == 'doc'
-  - pytest>=7 ; extra == 'test'
-  - pytest-cov>=2.12 ; extra == 'test'
-  - coverage>=5 ; extra == 'test'
-  requires_python: '>=3.10'
 - kind: pypi
   name: sandal
   version: 0.1.0a5
