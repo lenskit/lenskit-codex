@@ -109,12 +109,15 @@ def _run_for_user(job: tuple[int, pd.DataFrame]):
     recs = __model.recommend(user, __options.n_recs)
     recs["rank"] = np.arange(0, len(recs), dtype=np.int16) + 1
 
+    result = UserResult(user, 0, test, recs)
+
     if __options.predict:
         assert isinstance(__model, TopN)
         preds = __model.predict_for_user(user, test["item"])
         preds = preds.to_frame("prediction").reset_index()
         preds = preds.join(test.set_index("item")["rating"], on="item", how="left")
+        result.predictions = preds
 
-    time = watch.elapsed()
+    result.wall_time = watch.elapsed()
 
-    return UserResult(user, time, test, recs, preds)
+    return result
