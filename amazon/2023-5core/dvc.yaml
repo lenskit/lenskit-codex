@@ -414,3 +414,15 @@ stages:
       outs:
         - 'runs/default/${item}/IKNN-Implicit.json'
         - 'runs/default/${item}/IKNN-Implicit-recs.parquet'
+  run-default-Implicit-BPR-test:
+    foreach: *ref_0
+    do:
+      cmd: >-
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/Implicit-BPR.json --recommendations=runs/default/${item}/Implicit-BPR-recs.parquet Implicit-BPR
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/Implicit-BPR.json'
+        - 'runs/default/${item}/Implicit-BPR-recs.parquet'

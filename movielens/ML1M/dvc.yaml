@@ -242,3 +242,13 @@ stages:
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/IKNN-Implicit.json
+  run-random-default-Implicit-BPR:
+    cmd: >-
+      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-default/Implicit-BPR.json --recommendations=runs/random-default/Implicit-BPR-recs.parquet Implicit-BPR
+    outs:
+      - runs/random-default/Implicit-BPR.json
+      - runs/random-default/Implicit-BPR-recs.parquet
+    deps:
+      - ../../codex/models/Implicit_BPR.py
+      - ratings.duckdb
+      - splits/random.duckdb
