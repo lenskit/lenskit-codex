@@ -112,10 +112,17 @@ def generate(
                 if len(test) == 0:
                     _log.error("no test data found")
 
+            n = 0
+            db.execute("BEGIN")
+
             for result in run_recommender(trained, test, list_length, predict, cluster=cluster):
+                n += 1
+                if n % 1000 == 0:
+                    db.execute("COMMIT")
+                    db.execute("BEGIN")
+
                 ntest = len(result.test)
                 nrecs = len(result.recommendations)
-                db.execute("BEGIN")
                 db.execute(
                     """
                     INSERT INTO user_metrics (part, user, wall_time, n_recs, n_truth)
@@ -142,8 +149,8 @@ def generate(
                         FROM u_recs
                         """,
                     )
-                db.execute("COMMIT")
 
+            db.execute("COMMIT")
             trained.close()
 
 
