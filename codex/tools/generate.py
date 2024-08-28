@@ -55,7 +55,6 @@ def generate(
     train_files: list[Path],
     list_length: int = 100,
     assign_file: Path | None = None,
-    stats_file: Path | None = None,
     ratings_db: Path | None = None,
     test_file: Path | None = None,
     test_part: str | None = None,
