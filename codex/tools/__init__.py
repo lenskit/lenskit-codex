@@ -23,4 +23,5 @@ from . import (  # noqa: F401, E402
     duckscript,
     generate,
     split,
+    trec,
 )
