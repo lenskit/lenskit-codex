@@ -16,7 +16,10 @@ update-documents:
 
 # update the DVC pipeline
 update-pipeline:
+    #!/usr/bin/env zsh
+    set -e
     ./scripts/render-pipeline.ts
+    pre-commit run --files **/dvc.yaml || true
 
 # update the whole layout
 rerender: update-documents update-pipeline
