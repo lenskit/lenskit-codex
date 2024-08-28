@@ -8,14 +8,7 @@ import { MODELS } from "../../codex/models/model-list.ts";
 import { categories } from "./pipe-sources.ts";
 import { ModelInfo } from "../../codex/models/model-list.ts";
 
-function defaultRunStage([name, info]: [string, ModelInfo]): [string, Stage] {
-  const outs: Record<string, string> = {
-    stats: `runs/default/\${item}/${name}.json`,
-    recommendations: `runs/default/\${item}/${name}-recs.parquet`,
-  };
-  if (info.predictor) {
-    outs["predictions"] = `runs/default/\${item}/${name}-preds.parquet`;
-  }
+function defaultRunStage([name, _info]: [string, ModelInfo]): [string, Stage] {
   return [
     `run-default-${name}-test`,
     {
@@ -28,7 +21,7 @@ function defaultRunStage([name, info]: [string, ModelInfo]): [string, Stage] {
           "--train=data/${item}.train.parquet",
           "--train=data/${item}.valid.parquet",
           "--test=data/${item}.test.parquet",
-          ...Object.entries(outs).map(([k, f]) => `--${k}=${f}`),
+          `-o runs/default/\${item}/${name}.duckdb`,
           name,
         ),
         deps: [
@@ -36,7 +29,7 @@ function defaultRunStage([name, info]: [string, ModelInfo]): [string, Stage] {
           "data/${item}.valid.parquet",
           "data/${item}.test.parquet",
         ],
-        outs: Object.values(outs),
+        outs: [`runs/default/\${item}/${name}.duckdb`],
       },
     },
   ];

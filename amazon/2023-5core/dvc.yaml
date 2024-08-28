@@ -343,98 +343,87 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/Bias.json --recommendations=runs/default/${item}/Bias-recs.parquet --predictions=runs/default/${item}/Bias-preds.parquet Bias
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/Bias.duckdb Bias
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/Bias.json'
-        - 'runs/default/${item}/Bias-recs.parquet'
-        - 'runs/default/${item}/Bias-preds.parquet'
+        - 'runs/default/${item}/Bias.duckdb'
   run-default-Popular-test:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/Popular.json --recommendations=runs/default/${item}/Popular-recs.parquet Popular
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/Popular.duckdb Popular
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/Popular.json'
-        - 'runs/default/${item}/Popular-recs.parquet'
+        - 'runs/default/${item}/Popular.duckdb'
   run-default-BiasedMF-ALS-test:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/BiasedMF-ALS.json --recommendations=runs/default/${item}/BiasedMF-ALS-recs.parquet --predictions=runs/default/${item}/BiasedMF-ALS-preds.parquet BiasedMF-ALS
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/BiasedMF-ALS.duckdb BiasedMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/BiasedMF-ALS.json'
-        - 'runs/default/${item}/BiasedMF-ALS-recs.parquet'
-        - 'runs/default/${item}/BiasedMF-ALS-preds.parquet'
+        - 'runs/default/${item}/BiasedMF-ALS.duckdb'
   run-default-ImplicitMF-ALS-test:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/ImplicitMF-ALS.json --recommendations=runs/default/${item}/ImplicitMF-ALS-recs.parquet ImplicitMF-ALS
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/ImplicitMF-ALS.duckdb ImplicitMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/ImplicitMF-ALS.json'
-        - 'runs/default/${item}/ImplicitMF-ALS-recs.parquet'
+        - 'runs/default/${item}/ImplicitMF-ALS.duckdb'
   run-default-IKNN-Explicit-test:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/IKNN-Explicit.json --recommendations=runs/default/${item}/IKNN-Explicit-recs.parquet --predictions=runs/default/${item}/IKNN-Explicit-preds.parquet IKNN-Explicit
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/IKNN-Explicit.duckdb IKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/IKNN-Explicit.json'
-        - 'runs/default/${item}/IKNN-Explicit-recs.parquet'
-        - 'runs/default/${item}/IKNN-Explicit-preds.parquet'
+        - 'runs/default/${item}/IKNN-Explicit.duckdb'
   run-default-IKNN-Implicit-test:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/IKNN-Implicit.json --recommendations=runs/default/${item}/IKNN-Implicit-recs.parquet IKNN-Implicit
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/IKNN-Implicit.duckdb IKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/IKNN-Implicit.json'
-        - 'runs/default/${item}/IKNN-Implicit-recs.parquet'
+        - 'runs/default/${item}/IKNN-Implicit.duckdb'
   run-default-Implicit-BPR-test:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/Implicit-BPR.json --recommendations=runs/default/${item}/Implicit-BPR-recs.parquet Implicit-BPR
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/Implicit-BPR.duckdb Implicit-BPR
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/Implicit-BPR.json'
-        - 'runs/default/${item}/Implicit-BPR-recs.parquet'
+        - 'runs/default/${item}/Implicit-BPR.duckdb'
   run-default-HPF-test:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/HPF.json --recommendations=runs/default/${item}/HPF-recs.parquet HPF
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/HPF.duckdb HPF
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/HPF.json'
-        - 'runs/default/${item}/HPF-recs.parquet'
+        - 'runs/default/${item}/HPF.duckdb'

@@ -2,6 +2,7 @@ import logging
 from typing import NamedTuple
 
 from lenskit.algorithms import Algorithm
+from lenskit.sharing import PersistedModel, persist
 from lenskit.util.parallel import run_sp
 
 from codex.data import TrainTestData
@@ -11,7 +12,7 @@ _log = logging.getLogger(__name__)
 
 
 class TrainResult(NamedTuple):
-    model: Algorithm
+    model: PersistedModel
     metrics: ResourceMetrics
 
 
@@ -31,4 +32,6 @@ def _train_worker(model: Algorithm, data: TrainTestData) -> TrainResult:
     with resource_monitor() as mon:
         model.fit(train)
 
-    return TrainResult(model, mon.metrics())
+    stored = persist(model)
+
+    return TrainResult(stored.transfer(), mon.metrics())

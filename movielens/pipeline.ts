@@ -1,7 +1,7 @@
 import { parse as parsePath } from "std/path/mod.ts";
 import { expandGlob } from "std/fs/mod.ts";
 import * as toml from "std/toml/mod.ts";
-import { filterValues, mapValues } from "std/collections/mod.ts";
+import { filterValues } from "std/collections/mod.ts";
 
 import * as ai from "aitertools";
 
@@ -81,14 +81,6 @@ function ml_runs(ds: string): Record<string, Stage> {
   const runs: Record<string, Stage> = {};
 
   for (const [name, info] of Object.entries(MODELS)) {
-    let outs: Record<string, string> = {
-      stats: `runs/random-default/${name}.json`,
-      recommendations: `runs/random-default/${name}-recs.parquet`,
-    };
-    if (info.predictor) {
-      outs["predictions"] = `runs/random-default/${name}-preds.parquet`;
-    }
-    let out_flags = Object.entries(outs).map(([k, f]) => `--${k}=${f}`);
     runs[`run-random-default-${name}`] = {
       cmd: action_cmd(
         `movielens/${ds}`,
@@ -97,10 +89,10 @@ function ml_runs(ds: string): Record<string, Stage> {
         "--test-part=-0",
         "--assignments=splits/random.duckdb",
         "--ratings=ratings.duckdb",
-        ...out_flags,
+        `-o runs/random-default/${name}.duckdb`,
         name,
       ),
-      outs: Object.values(outs),
+      outs: [`runs/random-default/${name}.duckdb`],
       deps: [
         `../../codex/models/${name.replaceAll("-", "_")}.py`,
         "ratings.duckdb",
@@ -110,8 +102,6 @@ function ml_runs(ds: string): Record<string, Stage> {
 
     if (!info.sweepable) continue;
 
-    outs = mapValues(outs, (v) => v.replace("default", "sweep-best"));
-    out_flags = Object.entries(outs).map(([k, f]) => `--${k}=${f}`);
     runs[`run-random-sweep-best-${name}`] = {
       cmd: action_cmd(
         `movielens/${name}`,
@@ -120,10 +110,10 @@ function ml_runs(ds: string): Record<string, Stage> {
         "--test-part=-0",
         "--assignments=splits/random.duckdb",
         "--ratings=ratings.duckdb",
-        ...out_flags,
+        `-o runs/random-sweep-best/${name}.duckdb`,
         name,
       ),
-      outs: Object.values(outs),
+      outs: [`runs/random-sweep-best/${name}.duckdb`],
       deps: [
         `../../codex/models/${name.replaceAll("-", "_")}.py`,
         "ratings.duckdb",

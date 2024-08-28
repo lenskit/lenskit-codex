@@ -1,20 +1,20 @@
-import json
 import logging
 import re
 import sys
+from collections.abc import Generator
 from os import fspath
 from pathlib import Path
-from typing import Iterator
 
 import click
-import pandas as pd
+import duckdb
 from duckdb import connect
 from humanize import naturalsize
-from lenskit import batch
-from lenskit.algorithms import Algorithm, Recommender
+from lenskit.algorithms import Recommender
 
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
-from codex.models import load_model
+from codex.inference import run_recommender
+from codex.models import load_model, model_module
+from codex.resources import METRIC_COLUMN_DDL
 from codex.training import train_model
 
 from . import codex
@@ -28,9 +28,7 @@ _log = logging.getLogger("codex.run")
 @click.option(
     "-n", "--list-length", type=int, metavar="N", help="control recommendation list length"
 )
-@click.option("--recommendations", "recs_file", type=Path, help="recommendation output file")
-@click.option("--predictions", "preds_file", type=Path, help="prediction output file")
-@click.option("--stats", "stats_file", type=Path, help="statistics output file")
+@click.option("-o", "--output", type=Path, metavar="N", help="specify output database")
 @click.option(
     "--ratings", "ratings_db", type=Path, help="second ratings file to go with main test DB"
 )
@@ -48,10 +46,9 @@ _log = logging.getLogger("codex.run")
 def generate(
     model: str,
     config: str | Path,
+    output: Path,
     train_files: list[Path],
     list_length: int = 100,
-    recs_file: Path | None = None,
-    preds_file: Path | None = None,
     assign_file: Path | None = None,
     stats_file: Path | None = None,
     ratings_db: Path | None = None,
@@ -64,16 +61,9 @@ def generate(
 
     if config != "default":
         config = Path(config)
+    mod = model_module(model)
     reco = load_model(model, config)
     reco = Recommender.adapt(reco)
-
-    recs = [] if recs_file else None
-    preds = [] if preds_file else None
-    if stats_file:
-        stats_file.parent.mkdir(exist_ok=True, parents=True)
-        stats = stats_file.open("w")
-    else:
-        stats = None
 
     if test_file:
         if assign_file or ratings_db or test_part:
@@ -95,58 +85,68 @@ def generate(
 
         test_sets = crossfold_test_sets(assign_file, ratings_db, test_part)
 
-    for data in test_sets:
-        _log.info("training model %s", reco)
-        reco, metrics = train_model(reco, data)
-        _log.info(
-            "finished in %.0fs (%.0fs CPU, %s max RSS)",
-            metrics.wall_time,
-            metrics.cpu_time,
-            naturalsize(metrics.rss_max_kb * 1024),
-        )
+    predict = "predictions" in mod.outputs
 
-        with data.open_db() as db:
-            test = data.test_ratings(db).to_df()
-            if len(test) == 0:
-                _log.error("no test data found")
+    with duckdb.connect(fspath(output)) as db:
+        create_tables(db, predict)
 
-        if recs is not None:
-            recs.append(recommend(reco, test, list_length))
-        if preds is not None:
-            preds.append(predict(reco, test))
+        for part, data in test_sets:
+            _log.info("training model %s", reco)
+            trained, metrics = train_model(reco, data)
+            _log.info(
+                "finished in %.0fs (%.0fs CPU, %s max RSS)",
+                metrics.wall_time,
+                metrics.cpu_time,
+                naturalsize(metrics.rss_max_kb * 1024),
+            )
+            db.table("train_stats").insert([part] + list(metrics.dict().values()))
 
-        if stats is not None:
-            summary = {"n_users": test["user"].nunique()}
-            summary.update(metrics.dict())
-            print(json.dumps(summary), file=stats)
+            _log.info("loading test data")
+            with data.open_db() as test_db:
+                test = data.test_ratings(test_db).to_df()
+                if len(test) == 0:
+                    _log.error("no test data found")
 
-    if recs is not None:
-        recs = pd.concat(recs, ignore_index=True)
-        _log.info("saving %d recommendations to %s", len(recs), recs_file)
-        recs.to_parquet(recs_file, compression="zstd")
+            for result in run_recommender(trained, test, list_length, predict):
+                ntest = len(result.test)
+                nrecs = len(result.recommendations)
+                db.execute("BEGIN")
+                db.table("user_metrics").insert([part, result.user, result.wall_time, nrecs, ntest])
+                db.from_df(result.recommendations).query(
+                    "u_recs",
+                    f"""
+                    INSERT INTO recommendations (part, user, item, rank, score)
+                    SELECT {part}, user, item, rank, score
+                    FROM u_recs
+                    """,
+                )
+                if result.predictions is not None:
+                    db.from_df(result.predictions).query(
+                        "u_recs",
+                        f"""
+                        INSERT INTO predictions (part, user, item, prediction, rating)
+                        SELECT {part}, user, item, prediction, rating
+                        FROM u_recs
+                        """,
+                    )
+                db.execute("COMMIT")
 
-    if preds is not None:
-        preds = pd.concat(preds, ignore_index=True)
-        _log.info("saving %d predictions to %s", len(preds), preds_file)
-        preds.to_parquet(preds_file, compression="zstd")
 
-    if stats is not None:
-        stats.close()
-
-
-def fixed_test_sets(test: Path, train: list[Path]) -> Iterator[TrainTestData]:
+def fixed_test_sets(test: Path, train: list[Path]) -> Generator[tuple[int, TrainTestData]]:
     # now figure out how to load things
     if test.suffix == ".parquet":
         # we should have training data, and no parts
         _log.info("using fixed test set %s", test)
         if not train:
             _log.error("must specify training data with test data")
-        yield fixed_tt_data(test, train)
+        yield 0, fixed_tt_data(test, train)
     else:
         raise ValueError(f"unsupported test file {test}")
 
 
-def crossfold_test_sets(assign: Path, ratings: Path, parts: str):
+def crossfold_test_sets(
+    assign: Path, ratings: Path, parts: str
+) -> Generator[tuple[int, TrainTestData]]:
     with connect(fspath(assign)) as db:
         db.execute(
             "SELECT DISTINCT partition FROM test_alloc",
@@ -166,19 +166,45 @@ def crossfold_test_sets(assign: Path, ratings: Path, parts: str):
         test_parts = [int(p) for p in parts.split(",")]
 
     for part in test_parts:
-        yield partition_tt_data(assign, ratings, part)
+        yield part, partition_tt_data(assign, ratings, part)
 
 
-def recommend(reco: Algorithm, test: pd.DataFrame, N: int):
-    _log.info("generating recommendations")
-    test_users = test["user"].unique()
-    n_jobs = 1 if len(test_users) < 1000 else None
-    recs = batch.recommend(reco, test_users, N, n_jobs=n_jobs)
-    return recs
+def create_tables(db: duckdb.DuckDBPyConnection, predict: bool):
+    db.execute("""
+        CREATE TABLE recommendations (
+            part TINYINT NOT NULL,
+            user INT NOT NULL,
+            item INT NOT NULL,
+            rank SMALLINT NOT NULL,
+            score FLOAT NULL
+        )
+    """)
+    db.execute(f"""
+        CREATE TABLE train_stats (
+            part TINYINT NOT NULL,
+            {METRIC_COLUMN_DDL}
+        )
+    """)
+    db.execute("""
+        CREATE TABLE user_metrics (
+            part TINYINT NOT NULL,
+            user INT NOT NULL,
+            wall_time FLOAT NOT NULL,
+            nrecs INT,
+            ntruth INT,
+            recip_rank FLOAT NULL,
+            ndcg FLOAT NULL,
+        )
+    """)
 
-
-def predict(reco: Algorithm, test: pd.DataFrame):
-    _log.info("predicting test ratings")
-    n_jobs = 1 if test["user"].nunique() < 1000 else None
-    preds = batch.predict(reco, test, n_jobs=n_jobs)
-    return preds
+    if predict:
+        db.execute("""
+            CREATE TABLE predictions(
+                part TINYINT NOT NULL,
+                user INT NOT NULL,
+                item INT NOT NULL,
+                prediction FLOAT NULL,
+                rating FLOAT,
+            )
+        """)
+        db.execute("ALTER TABLE user_metrics ADD COLUMN rmse FLOAT NULL")
