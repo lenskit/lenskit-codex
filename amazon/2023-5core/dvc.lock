@@ -3194,3 +3194,291 @@ stages:
       hash: md5
       md5: 6534734bb27fa49eadc4c109ae678143
       size: 63451136
+  export-qrels@Software.test:
+    cmd: python ../../action.py trec export qrels data/Software.test.parquet
+    deps:
+    - path: data/Software.test.parquet
+      hash: md5
+      md5: d0cb83d32ef8ce8d5ef3909136aead08
+      size: 179109
+    outs:
+    - path: data/Software.test.qrels.gz
+      hash: md5
+      md5: 7c4fefc48e995e771d31b6204c2f8f6a
+      size: 89137
+  export-qrels@Automotive.test:
+    cmd: python ../../action.py trec export qrels data/Automotive.test.parquet
+    deps:
+    - path: data/Automotive.test.parquet
+      hash: md5
+      md5: 514aa68f71fec5551542d891b044b7c3
+      size: 5778866
+    outs:
+    - path: data/Automotive.test.qrels.gz
+      hash: md5
+      md5: 126692f49a9d490f16e551133f235a8b
+      size: 3045351
+  export-qrels@Baby_Products.test:
+    cmd: python ../../action.py trec export qrels data/Baby_Products.test.parquet
+    deps:
+    - path: data/Baby_Products.test.parquet
+      hash: md5
+      md5: 15b613cb8a447cb085201b89aa221349
+      size: 874968
+    outs:
+    - path: data/Baby_Products.test.qrels.gz
+      hash: md5
+      md5: 7a25808d4f3caa4c382605754113ce1d
+      size: 425812
+  export-qrels@Cell_Phones_and_Accessories.test:
+    cmd: python ../../action.py trec export qrels data/Cell_Phones_and_Accessories.test.parquet
+    deps:
+    - path: data/Cell_Phones_and_Accessories.test.parquet
+      hash: md5
+      md5: 039077be5ede403e46369abb4fe547ec
+      size: 2804771
+    outs:
+    - path: data/Cell_Phones_and_Accessories.test.qrels.gz
+      hash: md5
+      md5: eb450d194092713e372222c633d07e15
+      size: 1511291
+  export-qrels@Toys_and_Games.test:
+    cmd: python ../../action.py trec export qrels data/Toys_and_Games.test.parquet
+    deps:
+    - path: data/Toys_and_Games.test.parquet
+      hash: md5
+      md5: 180ce508a077fdf4d600ac1d5f65e83c
+      size: 4106310
+    outs:
+    - path: data/Toys_and_Games.test.qrels.gz
+      hash: md5
+      md5: fe293ee923e02f572efc137518abe4e2
+      size: 2133756
+  export-qrels@Sports_and_Outdoors.test:
+    cmd: python ../../action.py trec export qrels data/Sports_and_Outdoors.test.parquet
+    deps:
+    - path: data/Sports_and_Outdoors.test.parquet
+      hash: md5
+      md5: f9376b7bf224561b9057770acdfc3fcb
+      size: 3257774
+    outs:
+    - path: data/Sports_and_Outdoors.test.qrels.gz
+      hash: md5
+      md5: 84da7a4f340b253ed71eb68e78433aa6
+      size: 1711860
+  export-qrels@Patio_Lawn_and_Garden.test:
+    cmd: python ../../action.py trec export qrels data/Patio_Lawn_and_Garden.test.parquet
+    deps:
+    - path: data/Patio_Lawn_and_Garden.test.parquet
+      hash: md5
+      md5: 28de56d1a8dc26c3e85639227a19b518
+      size: 4385791
+    outs:
+    - path: data/Patio_Lawn_and_Garden.test.qrels.gz
+      hash: md5
+      md5: 160daf182a895417c2ea2cd20e4c7bd7
+      size: 2363414
+  export-qrels@Arts_Crafts_and_Sewing.test:
+    cmd: python ../../action.py trec export qrels data/Arts_Crafts_and_Sewing.test.parquet
+    deps:
+    - path: data/Arts_Crafts_and_Sewing.test.parquet
+      hash: md5
+      md5: d6d84b55d31b55cd4d5ab7c6639997d4
+      size: 1875226
+    outs:
+    - path: data/Arts_Crafts_and_Sewing.test.qrels.gz
+      hash: md5
+      md5: 0199caa5cbd60a5f1f279b9a207b5362
+      size: 934621
+  export-qrels@Grocery_and_Gourmet_Food.test:
+    cmd: python ../../action.py trec export qrels data/Grocery_and_Gourmet_Food.test.parquet
+    deps:
+    - path: data/Grocery_and_Gourmet_Food.test.parquet
+      hash: md5
+      md5: 31b101b33f1a30834b375476f47779cd
+      size: 4149201
+    outs:
+    - path: data/Grocery_and_Gourmet_Food.test.qrels.gz
+      hash: md5
+      md5: 5ad1091b1c8a60a099af4109c3e0ceee
+      size: 2194748
+  export-qrels@Musical_Instruments.test:
+    cmd: python ../../action.py trec export qrels data/Musical_Instruments.test.parquet
+    deps:
+    - path: data/Musical_Instruments.test.parquet
+      hash: md5
+      md5: 71d11e25d4b9fa7283ba14ed460784e2
+      size: 401986
+    outs:
+    - path: data/Musical_Instruments.test.qrels.gz
+      hash: md5
+      md5: 57f8c9e12852718d5cb6dc00cced1ed9
+      size: 203122
+  export-qrels@Health_and_Household.test:
+    cmd: python ../../action.py trec export qrels data/Health_and_Household.test.parquet
+    deps:
+    - path: data/Health_and_Household.test.parquet
+      hash: md5
+      md5: 8093c3473274563199277a586380eb4e
+      size: 8535915
+    outs:
+    - path: data/Health_and_Household.test.qrels.gz
+      hash: md5
+      md5: 898b15a6de5a4b6b55e68738def89c34
+      size: 4569169
+  export-qrels@Home_and_Kitchen.test:
+    cmd: python ../../action.py trec export qrels data/Home_and_Kitchen.test.parquet
+    deps:
+    - path: data/Home_and_Kitchen.test.parquet
+      hash: md5
+      md5: 771429a77a9ea96019f676954c190a82
+      size: 33664803
+    outs:
+    - path: data/Home_and_Kitchen.test.qrels.gz
+      hash: md5
+      md5: 32db94afc73365ba03e727ba13766a4e
+      size: 18953229
+  export-qrels@Industrial_and_Scientific.test:
+    cmd: python ../../action.py trec export qrels data/Industrial_and_Scientific.test.parquet
+    deps:
+    - path: data/Industrial_and_Scientific.test.parquet
+      hash: md5
+      md5: 06f1c306da4e1dc19b94b4ac86d4ac29
+      size: 647371
+    outs:
+    - path: data/Industrial_and_Scientific.test.qrels.gz
+      hash: md5
+      md5: 2d965d3cb7c63f7d6fc81dec9dd5efee
+      size: 322992
+  export-qrels@Office_Products.test:
+    cmd: python ../../action.py trec export qrels data/Office_Products.test.parquet
+    deps:
+    - path: data/Office_Products.test.parquet
+      hash: md5
+      md5: ded4be5d0da49d359e0ebf836fc52024
+      size: 2030376
+    outs:
+    - path: data/Office_Products.test.qrels.gz
+      hash: md5
+      md5: 471df00afb9a5ba8698fe0fd31e93ae0
+      size: 1064571
+  export-qrels@Tools_and_Home_Improvement.test:
+    cmd: python ../../action.py trec export qrels data/Tools_and_Home_Improvement.test.parquet
+    deps:
+    - path: data/Tools_and_Home_Improvement.test.parquet
+      hash: md5
+      md5: b3ada0b0d34c3d3777729f3e501eade6
+      size: 9656405
+    outs:
+    - path: data/Tools_and_Home_Improvement.test.qrels.gz
+      hash: md5
+      md5: dbd9675b27457ed7fde792d37d79fc8c
+      size: 5234927
+  export-qrels@Pet_Supplies.test:
+    cmd: python ../../action.py trec export qrels data/Pet_Supplies.test.parquet
+    deps:
+    - path: data/Pet_Supplies.test.parquet
+      hash: md5
+      md5: 25ce281ed980172f6467088c85a996bd
+      size: 5508047
+    outs:
+    - path: data/Pet_Supplies.test.qrels.gz
+      hash: md5
+      md5: 7909e4e7872106384e2166a6ae65b903
+      size: 2976667
+  export-qrels@Books.test:
+    cmd: python ../../action.py trec export qrels data/Books.test.parquet
+    deps:
+    - path: data/Books.test.parquet
+      hash: md5
+      md5: dc4f3eb4887cc284f7a9745355c0653e
+      size: 3108988
+    outs:
+    - path: data/Books.test.qrels.gz
+      hash: md5
+      md5: a162c43d4b92d5c33e9bf77251bd992a
+      size: 1592989
+  export-qrels@Beauty_and_Personal_Care.test:
+    cmd: python ../../action.py trec export qrels data/Beauty_and_Personal_Care.test.parquet
+    deps:
+    - path: data/Beauty_and_Personal_Care.test.parquet
+      hash: md5
+      md5: 0f6cec80689a8508006b2cf2c66fd701
+      size: 9283829
+    outs:
+    - path: data/Beauty_and_Personal_Care.test.qrels.gz
+      hash: md5
+      md5: 748ec1965e75e9d5b82dbe55e14cb0b6
+      size: 4882932
+  export-qrels@Movies_and_TV.test:
+    cmd: python ../../action.py trec export qrels data/Movies_and_TV.test.parquet
+    deps:
+    - path: data/Movies_and_TV.test.parquet
+      hash: md5
+      md5: fad1fefda5fc96745bbd1b1104d19fda
+      size: 1446799
+    outs:
+    - path: data/Movies_and_TV.test.qrels.gz
+      hash: md5
+      md5: 19285157a3fe5c75579769cc0809657f
+      size: 733305
+  export-qrels@Clothing_Shoes_and_Jewelry.test:
+    cmd: python ../../action.py trec export qrels data/Clothing_Shoes_and_Jewelry.test.parquet
+    deps:
+    - path: data/Clothing_Shoes_and_Jewelry.test.parquet
+      hash: md5
+      md5: 1134f87abdb58984f1dbac526b730f0e
+      size: 30738479
+    outs:
+    - path: data/Clothing_Shoes_and_Jewelry.test.qrels.gz
+      hash: md5
+      md5: 1ee22fa6e4f9127a7668ecbddc3352c6
+      size: 17263313
+  export-qrels@CDs_and_Vinyl.test:
+    cmd: python ../../action.py trec export qrels data/CDs_and_Vinyl.test.parquet
+    deps:
+    - path: data/CDs_and_Vinyl.test.parquet
+      hash: md5
+      md5: 6a3156136a80f5bb86c80f29a08d7f08
+      size: 209333
+    outs:
+    - path: data/CDs_and_Vinyl.test.qrels.gz
+      hash: md5
+      md5: d26c4d0dac12e092ae90ac101fa9371d
+      size: 98153
+  export-qrels@Electronics.test:
+    cmd: python ../../action.py trec export qrels data/Electronics.test.parquet
+    deps:
+    - path: data/Electronics.test.parquet
+      hash: md5
+      md5: 255a9bc8cd282f53ffd06b5f01f35810
+      size: 11483773
+    outs:
+    - path: data/Electronics.test.qrels.gz
+      hash: md5
+      md5: d8f76c9c5e2ce47b76905f85840a9dcf
+      size: 6296144
+  export-qrels@Video_Games.test:
+    cmd: python ../../action.py trec export qrels data/Video_Games.test.parquet
+    deps:
+    - path: data/Video_Games.test.parquet
+      hash: md5
+      md5: f8e4c81bb6e5ff5b5d62e7466e7f65d1
+      size: 398580
+    outs:
+    - path: data/Video_Games.test.qrels.gz
+      hash: md5
+      md5: de0382a0718ea0770d2218921b508b69
+      size: 205446
+  export-qrels@Kindle_Store.test:
+    cmd: python ../../action.py trec export qrels data/Kindle_Store.test.parquet
+    deps:
+    - path: data/Kindle_Store.test.parquet
+      hash: md5
+      md5: d8132c08af10574d659dc54e3c1bf0d1
+      size: 9605838
+    outs:
+    - path: data/Kindle_Store.test.qrels.gz
+      hash: md5
+      md5: 7d943cd0088f638ec6ce702947f7f84e
+      size: 4868823
