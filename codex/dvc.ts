@@ -7,7 +7,7 @@ export type Pipeline = {
 
 export type OutRec = Record<string, { cache: boolean }>;
 
-export type Stage = {
+export type SingleStage = {
   cmd: string;
   wdir?: string;
   deps?: string[];
@@ -15,6 +15,11 @@ export type Stage = {
   params?: (string | Record<string, string[]>)[];
   metrics?: (string | OutRec)[];
 };
+export type MultiStage = {
+  foreach: string[];
+  do: SingleStage;
+};
+export type Stage = SingleStage | MultiStage;
 
 export function action_cmd(origin: string, ...args: string[]): string {
   const script = import.meta.resolve("../action.py");

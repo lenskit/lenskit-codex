@@ -236,3 +236,102 @@ stages:
         - 'data/${item}.csv.gz'
       outs:
         - 'data/${item}.parquet'
+  run-default-Bias-test:
+    foreach: &ref_0
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/Bias.json --recommendations=runs/default/${item}/Bias-recs.parquet --predictions=runs/default/${item}/Bias-preds.parquet Bias
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/Bias.json'
+        - 'runs/default/${item}/Bias-recs.parquet'
+        - 'runs/default/${item}/Bias-preds.parquet'
+  run-default-Popular-test:
+    foreach: *ref_0
+    do:
+      cmd: >-
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/Popular.json --recommendations=runs/default/${item}/Popular-recs.parquet Popular
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/Popular.json'
+        - 'runs/default/${item}/Popular-recs.parquet'
+  run-default-BiasedMF-ALS-test:
+    foreach: *ref_0
+    do:
+      cmd: >-
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/BiasedMF-ALS.json --recommendations=runs/default/${item}/BiasedMF-ALS-recs.parquet --predictions=runs/default/${item}/BiasedMF-ALS-preds.parquet BiasedMF-ALS
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/BiasedMF-ALS.json'
+        - 'runs/default/${item}/BiasedMF-ALS-recs.parquet'
+        - 'runs/default/${item}/BiasedMF-ALS-preds.parquet'
+  run-default-ImplicitMF-ALS-test:
+    foreach: *ref_0
+    do:
+      cmd: >-
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/ImplicitMF-ALS.json --recommendations=runs/default/${item}/ImplicitMF-ALS-recs.parquet ImplicitMF-ALS
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/ImplicitMF-ALS.json'
+        - 'runs/default/${item}/ImplicitMF-ALS-recs.parquet'
+  run-default-IKNN-Explicit-test:
+    foreach: *ref_0
+    do:
+      cmd: >-
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/IKNN-Explicit.json --recommendations=runs/default/${item}/IKNN-Explicit-recs.parquet --predictions=runs/default/${item}/IKNN-Explicit-preds.parquet IKNN-Explicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/IKNN-Explicit.json'
+        - 'runs/default/${item}/IKNN-Explicit-recs.parquet'
+        - 'runs/default/${item}/IKNN-Explicit-preds.parquet'
+  run-default-IKNN-Implicit-test:
+    foreach: *ref_0
+    do:
+      cmd: >-
+        python ../../action.py generate --default --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet --stats=runs/default/${item}/IKNN-Implicit.json --recommendations=runs/default/${item}/IKNN-Implicit-recs.parquet IKNN-Implicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/IKNN-Implicit.json'
+        - 'runs/default/${item}/IKNN-Implicit-recs.parquet'
