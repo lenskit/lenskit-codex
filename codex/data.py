@@ -17,7 +17,7 @@ class TrainTestData:
 
     def open_db(self, writable: bool = False) -> duckdb.DuckDBPyConnection:
         _log.debug("opening %s", self.db_path)
-        db = duckdb.connect(self.db_path, read_only=not writable)
+        db = duckdb.connect(self.db_path, read_only=self.db_path != ":memory:" and not writable)
         try:
             for name, path in self.extra_dbs.items():
                 _log.debug("attaching %s: %s", name, path)
