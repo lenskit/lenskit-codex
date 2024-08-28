@@ -14,7 +14,7 @@ from lenskit.algorithms import Recommender
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
 from codex.inference import connect_cluster, run_recommender
 from codex.models import load_model, model_module
-from codex.resources import METRIC_COLUMN_DDL
+from codex.results import create_result_tables
 from codex.training import train_model
 
 from . import codex
@@ -93,7 +93,7 @@ def generate(
     predict = "predictions" in mod.outputs
 
     with duckdb.connect(fspath(output)) as db, connect_cluster() as cluster:
-        create_tables(db, predict)
+        create_result_tables(db, predictions=predict)
 
         for part, data in test_sets:
             _log.info("training model %s", reco)
@@ -125,7 +125,7 @@ def generate(
                 nrecs = len(result.recommendations)
                 db.execute(
                     """
-                    INSERT INTO user_metrics (part, user, wall_time, n_recs, n_truth)
+                    INSERT INTO user_metrics (run, user, wall_time, nrecs, ntruth)
                     VALUES (?, ?, ?, ?, ?)
                     """,
                     [part, result.user, result.wall_time, nrecs, ntest],
@@ -135,7 +135,7 @@ def generate(
                 db.from_df(result.recommendations).query(
                     "u_recs",
                     f"""
-                    INSERT INTO recommendations (part, user, item, rank, score)
+                    INSERT INTO recommendations (run, user, item, rank, score)
                     SELECT {part}, {result.user}, item, rank, score
                     FROM u_recs
                     """,
@@ -144,7 +144,7 @@ def generate(
                     db.from_df(result.predictions).query(
                         "u_recs",
                         f"""
-                        INSERT INTO predictions (part, user, item, prediction, rating)
+                        INSERT INTO predictions (run, user, item, prediction, rating)
                         SELECT {part}, {result.user}, item, prediction, rating
                         FROM u_recs
                         """,
@@ -189,44 +189,3 @@ def crossfold_test_sets(
 
     for part in test_parts:
         yield part, partition_tt_data(assign, ratings, part)
-
-
-def create_tables(db: duckdb.DuckDBPyConnection, predict: bool):
-    db.execute("""
-        CREATE TABLE recommendations (
-            part TINYINT NOT NULL,
-            user INT NOT NULL,
-            item INT NOT NULL,
-            rank SMALLINT NOT NULL,
-            score FLOAT NULL
-        )
-    """)
-    db.execute(f"""
-        CREATE TABLE train_stats (
-            part TINYINT NOT NULL,
-            {METRIC_COLUMN_DDL}
-        )
-    """)
-    db.execute("""
-        CREATE TABLE user_metrics (
-            part TINYINT NOT NULL,
-            user INT NOT NULL,
-            wall_time FLOAT NOT NULL,
-            n_recs INT,
-            n_truth INT,
-            recip_rank FLOAT NULL,
-            ndcg FLOAT NULL,
-        )
-    """)
-
-    if predict:
-        db.execute("""
-            CREATE TABLE predictions(
-                part TINYINT NOT NULL,
-                user INT NOT NULL,
-                item INT NOT NULL,
-                prediction FLOAT NULL,
-                rating FLOAT,
-            )
-        """)
-        db.execute("ALTER TABLE user_metrics ADD COLUMN rmse FLOAT NULL")

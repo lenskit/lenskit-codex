@@ -16,7 +16,7 @@ def param_grid(params: dict[str, list[int] | list[float] | list[str]]) -> pd.Dat
         [i, param_id(dict(zip(params.keys(), vals)))] + list(vals)
         for (i, vals) in enumerate(product(*params.values()), 1)
     ]
-    return pd.DataFrame.from_records(records, columns=["rec_idx", "rec_id"] + list(params.keys()))
+    return pd.DataFrame.from_records(records, columns=["run", "rec_id"] + list(params.keys()))
 
 
 def param_id(params: dict[str, int | float | str]) -> UUID:

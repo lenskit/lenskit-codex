@@ -3,14 +3,6 @@ import time
 from dataclasses import dataclass, fields
 from typing import Self
 
-METRIC_COLUMN_DDL = """
-wall_time FLOAT,
-cpu_time FLOAT,
-cpu_usr FLOAT,
-cpu_sys FLOAT,
-rss_max_kb FLOAT,
-"""
-
 
 @dataclass
 class ResourceMetrics:

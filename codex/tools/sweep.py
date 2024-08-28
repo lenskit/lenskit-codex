@@ -18,7 +18,7 @@ from lenskit.metrics.predict import mae, rmse
 from codex.data import TrainTestData, partition_tt_data
 from codex.models import AlgoMod, model_module
 from codex.params import param_grid
-from codex.resources import METRIC_COLUMN_DDL
+from codex.results import create_result_tables
 from codex.training import train_model
 
 from . import codex
@@ -58,42 +58,13 @@ def run_sweep(
     if out.exists():
         _log.warning("%s already exists, removing", out)
         out.unlink()
+
     with duckdb.connect(fspath(out)) as db:
+        create_result_tables(db, predictions="predictions" in mod.outputs)
+
         db.execute(f"ATTACH '{assign_db}' AS split (READ_ONLY)")
         _log.info("saving run spec table")
         db.from_df(space).create("run_specs")
-        db.execute(f"CREATE TABLE train_metrics (rec_idx INT NOT NULL, {METRIC_COLUMN_DDL})")
-        db.execute("""
-            CREATE TABLE recommendations (
-                rec_idx INT NOT NULL,
-                user INT NOT NULL,
-                item INT NOT NULL,
-                rank SMALLINT NOT NULL,
-                score FLOAT NULL,
-            )
-        """)
-        db.execute("""
-            CREATE TABLE user_metrics (
-                rec_idx INT NOT NULL,
-                user INT NOT NULL,
-                nrecs INT,
-                ntruth INT,
-                recip_rank FLOAT,
-                ndcg FLOAT,
-            )
-        """)
-        if "predictions" in mod.outputs:
-            db.execute("""
-                CREATE TABLE predictions (
-                    rec_idx INT NOT NULL,
-                    user INT NOT NULL,
-                    item INT NOT NULL,
-                    prediction FLOAT NULL,
-                    rating FLOAT,
-                )
-            """)
-            db.execute("ALTER TABLE user_metrics ADD COLUMN rmse FLOAT")
-            db.execute("ALTER TABLE user_metrics ADD COLUMN mae FLOAT")
 
         tt = partition_tt_data(assign_db, rating_db, partition)
 
@@ -108,9 +79,7 @@ def export_best_results(database: Path, metric: str):
 
     with duckdb.connect(fspath(database), read_only=True) as db:
         um_cols = db.table("user_metrics").columns
-        um_aggs = ", ".join(
-            f"AVG({col}) AS {col}" for col in um_cols if col not in {"rec_idx", "user"}
-        )
+        um_aggs = ", ".join(f"AVG({col}) AS {col}" for col in um_cols if col not in {"run", "user"})
         _log.info("fetching output results")
         query = f"""
             SELECT COLUMNS(rs.* EXCLUDE rec_id),
@@ -119,8 +88,8 @@ def export_best_results(database: Path, metric: str):
                 rss_max_kb / 1024 AS TrainMemMB,
                 {um_aggs}
             FROM run_specs rs
-            JOIN train_metrics tm USING (rec_idx)
-            JOIN user_metrics um USING (rec_idx)
+            JOIN train_metrics tm USING (run)
+            JOIN user_metrics um USING (run)
             GROUP BY rs.*
             ORDER BY {metric} {order}
         """
@@ -158,14 +127,14 @@ def sweep_model(
             metrics.cpu_time,
             naturalsize(metrics.rss_max_kb * 1024),
         )
-        db.table("train_metrics").insert([point.rec_idx] + list(metrics.dict().values()))
+        db.table("train_metrics").insert([point.run] + list(metrics.dict().values()))
 
         _log.info("generating recommendations")
         n_jobs = 1 if len(test_users) < 1000 else None
         recs = batch.recommend(model, test_users, N, n_jobs=n_jobs)
-        db.from_df(
-            recs.assign(rec_idx=point.rec_idx)[db.table("recommendations").columns]
-        ).insert_into("recommendations")
+        db.from_df(recs.assign(run=point.run)[db.table("recommendations").columns]).insert_into(
+            "recommendations"
+        )
 
         _log.info("measuring recommendations")
         rla = topn.RecListAnalysis()
@@ -179,9 +148,7 @@ def sweep_model(
             _log.info("predicting test ratings")
             preds = batch.predict(model, test, n_jobs=n_jobs)
             db.from_df(
-                preds.assign(rec_idx=point.rec_idx)[
-                    ["rec_idx", "user", "item", "prediction", "rating"]
-                ]
+                preds.assign(run=point.run)[["run", "user", "item", "prediction", "rating"]]
             ).insert_into("predictions")
             u_pm = preds.groupby("user").apply(
                 lambda df: pd.Series(
@@ -195,6 +162,6 @@ def sweep_model(
             umetrics = umetrics.join(u_pm, how="outer")
             _log.info("avg. RMSE: %.3f", umetrics["rmse"].mean())
 
-        umetrics = umetrics.reset_index().assign(rec_idx=point.rec_idx)
+        umetrics = umetrics.reset_index().assign(run=point.run)
 
         db.from_df(umetrics[db.table("user_metrics").columns]).insert_into("user_metrics")
