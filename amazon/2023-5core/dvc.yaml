@@ -236,6 +236,38 @@ stages:
         - 'data/${item}.csv.gz'
       outs:
         - 'data/${item}.parquet'
+  export-qrels:
+    foreach:
+      - Arts_Crafts_and_Sewing.test.csv.gz
+      - Automotive.test.csv.gz
+      - Baby_Products.test.csv.gz
+      - Beauty_and_Personal_Care.test.csv.gz
+      - Books.test.csv.gz
+      - CDs_and_Vinyl.test.csv.gz
+      - Cell_Phones_and_Accessories.test.csv.gz
+      - Clothing_Shoes_and_Jewelry.test.csv.gz
+      - Electronics.test.csv.gz
+      - Grocery_and_Gourmet_Food.test.csv.gz
+      - Health_and_Household.test.csv.gz
+      - Home_and_Kitchen.test.csv.gz
+      - Industrial_and_Scientific.test.csv.gz
+      - Kindle_Store.test.csv.gz
+      - Movies_and_TV.test.csv.gz
+      - Musical_Instruments.test.csv.gz
+      - Office_Products.test.csv.gz
+      - Patio_Lawn_and_Garden.test.csv.gz
+      - Pet_Supplies.test.csv.gz
+      - Software.test.csv.gz
+      - Sports_and_Outdoors.test.csv.gz
+      - Tools_and_Home_Improvement.test.csv.gz
+      - Toys_and_Games.test.csv.gz
+      - Video_Games.test.csv.gz
+    do:
+      cmd: 'python ../../action.py trec export qrels data/${item}.parquet'
+      deps:
+        - 'data/${item}.parquet'
+      outs:
+        - 'data/${item}.qrels.gz'
   collect-stats:
     cmd: >-
       python ../../action.py run-duck-sql --database=stats.duckdb bench-stats.sql
