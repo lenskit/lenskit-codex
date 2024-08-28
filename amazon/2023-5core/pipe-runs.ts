@@ -18,6 +18,7 @@ function defaultRunStage([name, _info]: [string, ModelInfo]): [string, Stage] {
           import.meta.url,
           "generate",
           "--default",
+          "-n 2000",
           "--train=data/${item}.train.parquet",
           "--train=data/${item}.valid.parquet",
           "--test=data/${item}.test.parquet",
