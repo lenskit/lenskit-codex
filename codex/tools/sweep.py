@@ -88,7 +88,7 @@ def export_best_results(database: Path, metric: str):
                 rss_max_kb / 1024 AS TrainMemMB,
                 {um_aggs}
             FROM run_specs rs
-            JOIN train_metrics tm USING (run)
+            JOIN train_stats tm USING (run)
             JOIN user_metrics um USING (run)
             GROUP BY rs.*
             ORDER BY {metric} {order}
@@ -127,7 +127,7 @@ def sweep_model(
             metrics.cpu_time,
             naturalsize(metrics.rss_max_kb * 1024),
         )
-        db.table("train_metrics").insert([point.run] + list(metrics.dict().values()))
+        db.table("train_stats").insert([point.run] + list(metrics.dict().values()))
 
         _log.info("generating recommendations")
         n_jobs = 1 if len(test_users) < 1000 else None

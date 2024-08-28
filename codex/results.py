@@ -5,7 +5,7 @@ Database schemas and support for saving recommendation results.
 from duckdb import DuckDBPyConnection
 
 TRAIN_METRIC_DDL = """
-CREATE TABLE train_metrics (
+CREATE TABLE train_stats (
     run SMALLINT NOT NULL,
     wall_time FLOAT,
     cpu_time FLOAT,
