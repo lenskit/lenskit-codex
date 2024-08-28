@@ -1,29 +1,5 @@
 """
 Grid-sweep hyperparameter values.
-
-Usage:
-    sweep.py [-v] [-p N] [-n N] MODEL SPLIT RATINGS DATABASE
-    sweep.py [-v] --export DATABASE METRIC
-
-Options:
-    -v, --verbose
-        enable verbose logging
-    -p N, --partition=N
-        sweep on test partition N
-    -n N, --list-length=N
-        generate recommendation lists of length N [default: 100]
-    --export
-        export the final sweep results
-    MODEL
-        name of the model to sweep
-    SPLIT
-        database file of splits
-    RATINGS
-        database file of original rating data
-    DATABASE
-        sweep result database file
-    METRIC
-        the metric to use for selecting best results
 """
 
 import json
@@ -92,7 +68,7 @@ def run_sweep(
                 rec_idx INT NOT NULL,
                 user INT NOT NULL,
                 item INT NOT NULL,
-                rank INT NOT NULL,
+                rank SMALLINT NOT NULL,
                 score FLOAT NULL,
             )
         """)
