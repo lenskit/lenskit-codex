@@ -3172,3 +3172,25 @@ stages:
       hash: md5
       md5: 0505ce4d95b4c65db86a974fe4d9e315
       size: 720121856
+  run-default-Popular-test@Sports_and_Outdoors:
+    cmd: python ../../action.py generate --default --train=data/Sports_and_Outdoors.train.parquet
+      --train=data/Sports_and_Outdoors.valid.parquet --test=data/Sports_and_Outdoors.test.parquet
+      -o runs/default/Sports_and_Outdoors/Popular.duckdb Popular
+    deps:
+    - path: data/Sports_and_Outdoors.test.parquet
+      hash: md5
+      md5: f9376b7bf224561b9057770acdfc3fcb
+      size: 3257774
+    - path: data/Sports_and_Outdoors.train.parquet
+      hash: md5
+      md5: 27cef305d2b9570efa1f164702df06ec
+      size: 28245057
+    - path: data/Sports_and_Outdoors.valid.parquet
+      hash: md5
+      md5: 55ea7efc446ea500a4c9b36b309dfcc7
+      size: 2592454
+    outs:
+    - path: runs/default/Sports_and_Outdoors/Popular.duckdb
+      hash: md5
+      md5: 6534734bb27fa49eadc4c109ae678143
+      size: 63451136
