@@ -79,12 +79,14 @@ def export_best_results(database: Path, metric: str):
 
     with duckdb.connect(fspath(database), read_only=True) as db:
         um_cols = db.table("user_metrics").columns
-        um_aggs = ", ".join(f"AVG({col}) AS {col}" for col in um_cols if col not in {"run", "user"})
+        um_aggs = ", ".join(
+            f"AVG({col}) AS {col}" for col in um_cols if col not in {"run", "user", "wall_time"}
+        )
         _log.info("fetching output results")
         query = f"""
             SELECT COLUMNS(rs.* EXCLUDE rec_id),
-                wall_time AS TrainTime,
-                cpu_time AS TrainCPU,
+                tm.wall_time AS TrainTime,
+                tm.cpu_time AS TrainCPU,
                 rss_max_kb / 1024 AS TrainMemMB,
                 {um_aggs}
             FROM run_specs rs
@@ -162,6 +164,7 @@ def sweep_model(
             umetrics = umetrics.join(u_pm, how="outer")
             _log.info("avg. RMSE: %.3f", umetrics["rmse"].mean())
 
-        umetrics = umetrics.reset_index().assign(run=point.run)
+        # FIXME: measure time
+        umetrics = umetrics.reset_index().assign(run=point.run, wall_time=0)
 
         db.from_df(umetrics[db.table("user_metrics").columns]).insert_into("user_metrics")

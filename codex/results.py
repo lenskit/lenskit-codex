@@ -37,6 +37,7 @@ USER_METRIC_DDL = """
 CREATE TABLE user_metrics (
     run SMALLINT NOT NULL,
     user INT NOT NULL,
+    wall_time FLOAT NULL,
     nrecs INT,
     ntruth INT,
     recip_rank FLOAT NULL,
