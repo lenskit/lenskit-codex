@@ -5,7 +5,7 @@ from lenskit.algorithms import Algorithm
 from lenskit.util.parallel import run_sp
 
 from codex.data import TrainTestData
-from codex.measure import ResourceMetrics, resource_monitor
+from codex.resources import ResourceMetrics, resource_monitor
 
 _log = logging.getLogger(__name__)
 

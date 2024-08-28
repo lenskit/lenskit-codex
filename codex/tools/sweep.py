@@ -40,9 +40,9 @@ from lenskit.algorithms import Recommender
 from lenskit.metrics.predict import mae, rmse
 
 from codex.data import TrainTestData, partition_tt_data
-from codex.measure import METRIC_COLUMN_DDL
 from codex.models import AlgoMod, model_module
 from codex.params import param_grid
+from codex.resources import METRIC_COLUMN_DDL
 from codex.training import train_model
 
 from . import codex
