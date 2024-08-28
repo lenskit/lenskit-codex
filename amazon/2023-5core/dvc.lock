@@ -3482,3 +3482,47 @@ stages:
       hash: md5
       md5: 7d943cd0088f638ec6ce702947f7f84e
       size: 4868823
+  run-default-Bias-test@CDs_and_Vinyl:
+    cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
+      --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
+      -o runs/default/CDs_and_Vinyl/Bias.duckdb Bias
+    deps:
+    - path: data/CDs_and_Vinyl.test.parquet
+      hash: md5
+      md5: 6a3156136a80f5bb86c80f29a08d7f08
+      size: 209333
+    - path: data/CDs_and_Vinyl.train.parquet
+      hash: md5
+      md5: ddf8a5c085f35f91143f390dc5597718
+      size: 14290938
+    - path: data/CDs_and_Vinyl.valid.parquet
+      hash: md5
+      md5: e827f05b6543082c51eeabf83b60912f
+      size: 316087
+    outs:
+    - path: runs/default/CDs_and_Vinyl/Bias.duckdb
+      hash: md5
+      md5: 6766a9dec0288a77fb0d75dd44600ac1
+      size: 81276928
+  run-default-Popular-test@CDs_and_Vinyl:
+    cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
+      --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
+      -o runs/default/CDs_and_Vinyl/Popular.duckdb Popular
+    deps:
+    - path: data/CDs_and_Vinyl.test.parquet
+      hash: md5
+      md5: 6a3156136a80f5bb86c80f29a08d7f08
+      size: 209333
+    - path: data/CDs_and_Vinyl.train.parquet
+      hash: md5
+      md5: ddf8a5c085f35f91143f390dc5597718
+      size: 14290938
+    - path: data/CDs_and_Vinyl.valid.parquet
+      hash: md5
+      md5: e827f05b6543082c51eeabf83b60912f
+      size: 316087
+    outs:
+    - path: runs/default/CDs_and_Vinyl/Popular.duckdb
+      hash: md5
+      md5: 2091474a5246651cfa83e8a3456b2916
+      size: 98840576

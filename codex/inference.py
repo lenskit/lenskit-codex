@@ -48,8 +48,19 @@ def run_recommender(
     n_recs: int,
     predict: bool = False,
     *,
-    cluster: ipp.Cluster | ipp.Client | None = None,
+    cluster: ipp.Cluster | ipp.Client | None | bool = None,
 ) -> Iterator[UserResult]:
+    global __model, __options
+    if cluster == False:  # noqa: E712
+        __model = algo.get()
+        __options = JobOptions(n_recs, predict)
+        for job in test.groupby("user"):
+            yield _run_for_user(job)  # type: ignore
+        return
+
+    elif cluster == True:  # noqa: E712
+        cluster = None
+
     with connect_cluster(cluster) as client:
         dv = client.direct_view()
         _log.info("sending model to workers")
@@ -114,6 +125,7 @@ def _run_for_user(job: tuple[int, pd.DataFrame]):
     if __options.predict:
         assert isinstance(__model, TopN)
         preds = __model.predict_for_user(user, test["item"])
+        preds.index.name = "item"
         preds = preds.to_frame("prediction").reset_index()
         preds = preds.join(test.set_index("item")["rating"], on="item", how="left")
         result.predictions = preds
