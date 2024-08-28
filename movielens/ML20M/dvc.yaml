@@ -252,3 +252,13 @@ stages:
       - ../../codex/models/Implicit_BPR.py
       - ratings.duckdb
       - splits/random.duckdb
+  run-random-default-HPF:
+    cmd: >-
+      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb --stats=runs/random-default/HPF.json --recommendations=runs/random-default/HPF-recs.parquet HPF
+    outs:
+      - runs/random-default/HPF.json
+      - runs/random-default/HPF-recs.parquet
+    deps:
+      - ../../codex/models/HPF.py
+      - ratings.duckdb
+      - splits/random.duckdb
