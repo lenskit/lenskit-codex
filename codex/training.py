@@ -16,7 +16,7 @@ class TrainResult(NamedTuple):
 
 
 def train_model(model: Algorithm, data: TrainTestData) -> TrainResult:
-    "Train a recommendaiton model on input data."
+    "Train a recommendation model on input data."
 
     _log.info("spawning training process")
     return run_sp(_train_worker, model, data)
