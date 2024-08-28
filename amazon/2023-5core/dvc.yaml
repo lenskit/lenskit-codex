@@ -236,6 +236,85 @@ stages:
         - 'data/${item}.csv.gz'
       outs:
         - 'data/${item}.parquet'
+  collect-stats:
+    cmd: >-
+      python ../../action.py run-duck-sql --database=stats.duckdb bench-stats.sql
+    outs:
+      - stats.duckdb
+    deps:
+      - bench-stats.sql
+      - data/Arts_Crafts_and_Sewing.test.parquet
+      - data/Arts_Crafts_and_Sewing.train.parquet
+      - data/Arts_Crafts_and_Sewing.valid.parquet
+      - data/Automotive.test.parquet
+      - data/Automotive.train.parquet
+      - data/Automotive.valid.parquet
+      - data/Baby_Products.test.parquet
+      - data/Baby_Products.train.parquet
+      - data/Baby_Products.valid.parquet
+      - data/Beauty_and_Personal_Care.test.parquet
+      - data/Beauty_and_Personal_Care.train.parquet
+      - data/Beauty_and_Personal_Care.valid.parquet
+      - data/Books.test.parquet
+      - data/Books.train.parquet
+      - data/Books.valid.parquet
+      - data/CDs_and_Vinyl.test.parquet
+      - data/CDs_and_Vinyl.train.parquet
+      - data/CDs_and_Vinyl.valid.parquet
+      - data/Cell_Phones_and_Accessories.test.parquet
+      - data/Cell_Phones_and_Accessories.train.parquet
+      - data/Cell_Phones_and_Accessories.valid.parquet
+      - data/Clothing_Shoes_and_Jewelry.test.parquet
+      - data/Clothing_Shoes_and_Jewelry.train.parquet
+      - data/Clothing_Shoes_and_Jewelry.valid.parquet
+      - data/Electronics.test.parquet
+      - data/Electronics.train.parquet
+      - data/Electronics.valid.parquet
+      - data/Grocery_and_Gourmet_Food.test.parquet
+      - data/Grocery_and_Gourmet_Food.train.parquet
+      - data/Grocery_and_Gourmet_Food.valid.parquet
+      - data/Health_and_Household.test.parquet
+      - data/Health_and_Household.train.parquet
+      - data/Health_and_Household.valid.parquet
+      - data/Home_and_Kitchen.test.parquet
+      - data/Home_and_Kitchen.train.parquet
+      - data/Home_and_Kitchen.valid.parquet
+      - data/Industrial_and_Scientific.test.parquet
+      - data/Industrial_and_Scientific.train.parquet
+      - data/Industrial_and_Scientific.valid.parquet
+      - data/Kindle_Store.test.parquet
+      - data/Kindle_Store.train.parquet
+      - data/Kindle_Store.valid.parquet
+      - data/Movies_and_TV.test.parquet
+      - data/Movies_and_TV.train.parquet
+      - data/Movies_and_TV.valid.parquet
+      - data/Musical_Instruments.test.parquet
+      - data/Musical_Instruments.train.parquet
+      - data/Musical_Instruments.valid.parquet
+      - data/Office_Products.test.parquet
+      - data/Office_Products.train.parquet
+      - data/Office_Products.valid.parquet
+      - data/Patio_Lawn_and_Garden.test.parquet
+      - data/Patio_Lawn_and_Garden.train.parquet
+      - data/Patio_Lawn_and_Garden.valid.parquet
+      - data/Pet_Supplies.test.parquet
+      - data/Pet_Supplies.train.parquet
+      - data/Pet_Supplies.valid.parquet
+      - data/Software.test.parquet
+      - data/Software.train.parquet
+      - data/Software.valid.parquet
+      - data/Sports_and_Outdoors.test.parquet
+      - data/Sports_and_Outdoors.train.parquet
+      - data/Sports_and_Outdoors.valid.parquet
+      - data/Tools_and_Home_Improvement.test.parquet
+      - data/Tools_and_Home_Improvement.train.parquet
+      - data/Tools_and_Home_Improvement.valid.parquet
+      - data/Toys_and_Games.test.parquet
+      - data/Toys_and_Games.train.parquet
+      - data/Toys_and_Games.valid.parquet
+      - data/Video_Games.test.parquet
+      - data/Video_Games.train.parquet
+      - data/Video_Games.valid.parquet
   run-default-Bias-test:
     foreach: &ref_0
       - Arts_Crafts_and_Sewing

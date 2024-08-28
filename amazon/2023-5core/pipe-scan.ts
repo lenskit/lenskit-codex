@@ -47,4 +47,12 @@ export const scanStages = {
       ],
     },
   },
+  "collect-stats": {
+    cmd: action_cmd(import.meta.url, "run-duck-sql", "--database=stats.duckdb", "bench-stats.sql"),
+    outs: ["stats.duckdb"],
+    deps: [
+      "bench-stats.sql",
+      ...sourceFiles.map((s) => s.path.replace(".csv.gz", ".parquet")),
+    ],
+  },
 };
