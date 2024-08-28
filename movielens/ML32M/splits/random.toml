@@ -1,0 +1,10 @@
+source = "../ratings.duckdb"
+method = "crossfold"
+
+[crossfold]
+method = "users"
+partitions = 5
+
+[holdout]
+selection = "random"
+count = 5

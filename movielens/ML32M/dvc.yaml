@@ -7,6 +7,17 @@ stages:
       - ml-32m.zip
     outs:
       - ratings.duckdb
+  split-random:
+    cmd: python ../../../action.py split random.toml
+    wdir: splits
+    params:
+      - ../../../config.toml:
+          - random.seed
+    deps:
+      - random.toml
+      - ../ratings.duckdb
+    outs:
+      - random.duckdb
   sweep-random-Bias:
     cmd: >-
       python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb Bias sweeps/random/Bias.duckdb
