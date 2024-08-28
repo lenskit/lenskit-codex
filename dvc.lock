@@ -732,3 +732,20 @@ stages:
       md5: bfe4d98100a33d43eecbe7fa26348f76.dir
       size: 1933044
       nfiles: 10
+  page/amazon/2023-5core/index:
+    cmd: quarto render amazon/2023-5core/index.qmd
+    deps:
+    - path: amazon/2023-5core/index.qmd
+      hash: md5
+      md5: 6d781199ba3e1ff856362bf508145c91
+      size: 1308
+    - path: amazon/2023-5core/stats.duckdb
+      hash: md5
+      md5: 0505ce4d95b4c65db86a974fe4d9e315
+      size: 720121856
+    outs:
+    - path: _freeze/amazon/2023-5core/index
+      hash: md5
+      md5: 19019d85cf4a1611797af93df85641f1.dir
+      size: 22392
+      nfiles: 1

@@ -1,0 +1,58 @@
+---
+title: 2023 5-core
+echo: false
+deps:
+- stats.duckdb
+---
+
+[AZ]: https://amazon-reviews-2023.github.io/
+
+This section reports results for the [2023 Amazon Reviews data][AZ] provided by
+UCSD, using their absolute-timestamp 5-core benchmark files.  We have excluded
+data sets too small to be interesting (“All Beauty”, “Gift Cards”, and “Magazine
+Subscriptions”), as well as the large and nebulus “Unknown” category.
+
+```{python}
+from itertools import product
+```
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotnine as pn
+import duckdb
+```
+
+```{python}
+from sandal import autoroot
+import codex.display
+from IPython.display import Markdown
+from tabulate import tabulate
+from humanize import intcomma
+from si_prefix import si_format
+```
+
+```{python}
+stat_db = duckdb.connect('stats.duckdb', read_only=True)
+```
+
+## General Data Counts
+
+
+```{python}
+files = stat_db.query('''
+SELECT category, part,
+    n_ratings AS Ratings,
+    n_users AS Users,
+    n_items AS Items,
+FROM file_stats
+''').to_df()
+files = files.set_index(['category', 'part'])
+files = files.unstack('part').reorder_levels([1,0], axis=1)
+files = files.sort_index(axis=0)
+files = files.reindex(product(
+    ['train', 'valid', 'test'],
+    ['Users', 'Items', 'Ratings']
+), axis=1)
+files.style.format(si_format)
+```
