@@ -238,30 +238,30 @@ stages:
         - 'data/${item}.parquet'
   export-qrels:
     foreach:
-      - Arts_Crafts_and_Sewing.test.csv.gz
-      - Automotive.test.csv.gz
-      - Baby_Products.test.csv.gz
-      - Beauty_and_Personal_Care.test.csv.gz
-      - Books.test.csv.gz
-      - CDs_and_Vinyl.test.csv.gz
-      - Cell_Phones_and_Accessories.test.csv.gz
-      - Clothing_Shoes_and_Jewelry.test.csv.gz
-      - Electronics.test.csv.gz
-      - Grocery_and_Gourmet_Food.test.csv.gz
-      - Health_and_Household.test.csv.gz
-      - Home_and_Kitchen.test.csv.gz
-      - Industrial_and_Scientific.test.csv.gz
-      - Kindle_Store.test.csv.gz
-      - Movies_and_TV.test.csv.gz
-      - Musical_Instruments.test.csv.gz
-      - Office_Products.test.csv.gz
-      - Patio_Lawn_and_Garden.test.csv.gz
-      - Pet_Supplies.test.csv.gz
-      - Software.test.csv.gz
-      - Sports_and_Outdoors.test.csv.gz
-      - Tools_and_Home_Improvement.test.csv.gz
-      - Toys_and_Games.test.csv.gz
-      - Video_Games.test.csv.gz
+      - Arts_Crafts_and_Sewing.test
+      - Automotive.test
+      - Baby_Products.test
+      - Beauty_and_Personal_Care.test
+      - Books.test
+      - CDs_and_Vinyl.test
+      - Cell_Phones_and_Accessories.test
+      - Clothing_Shoes_and_Jewelry.test
+      - Electronics.test
+      - Grocery_and_Gourmet_Food.test
+      - Health_and_Household.test
+      - Home_and_Kitchen.test
+      - Industrial_and_Scientific.test
+      - Kindle_Store.test
+      - Movies_and_TV.test
+      - Musical_Instruments.test
+      - Office_Products.test
+      - Patio_Lawn_and_Garden.test
+      - Pet_Supplies.test
+      - Software.test
+      - Sports_and_Outdoors.test
+      - Tools_and_Home_Improvement.test
+      - Toys_and_Games.test
+      - Video_Games.test
     do:
       cmd: 'python ../../action.py trec export qrels data/${item}.parquet'
       deps:

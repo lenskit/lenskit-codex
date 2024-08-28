@@ -49,7 +49,7 @@ export const scanStages = {
     },
   },
   "export-qrels": {
-    foreach: mapNotNullish(sourceFiles, (s) => s.part == "test" ? s.name : null),
+    foreach: mapNotNullish(sourceFiles, (s) => s.part == "test" ? s.base : null),
     do: {
       cmd: action_cmd(
         import.meta.url,
