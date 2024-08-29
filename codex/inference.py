@@ -19,6 +19,7 @@ import pandas as pd
 from lenskit.algorithms import Recommender
 from lenskit.algorithms.basic import TopN
 from lenskit.sharing import PersistedModel
+from progress_api import Progress, make_progress
 
 from codex.resources import resource_monitor
 from codex.results import UserResult
@@ -58,11 +59,15 @@ def run_recommender(
         _log.info("sending model to workers")
         dv.apply_sync(_prepare_model, algo, JobOptions(n_recs, predict))
         try:
-            _log.info("running recommender for %d users (N=%d)", test["user"].nunique(), n_recs)
+            n_users = test["user"].nunique()
+            _log.info("running recommender for %d users (N=%d)", n_users, n_recs)
             lbv = client.load_balanced_view()
-            jobs = test.groupby("user")
-            for res in lbv.imap(_run_for_user, jobs, ordered=False):
-                yield res
+            with make_progress(
+                _log, "generate", total=n_users, unit="user", states=["finished", "dispatched"]
+            ) as pb:
+                for res in lbv.imap(_run_for_user, _test_jobs(test, pb), ordered=False):
+                    pb.update(state="finished", src_state="dispatched")
+                    yield res
         finally:
             _log.info("cleaning up model in workers")
             dv.apply_sync(_cleanup_model)
@@ -86,6 +91,12 @@ def connect_cluster(cluster: ipp.Cluster | ipp.Client | None = None) -> Generato
             yield client
     else:
         yield cluster.connect_client_sync()
+
+
+def _test_jobs(test: pd.DataFrame, pb: Progress) -> Generator[tuple[int, pd.DataFrame]]:
+    for group in test.groupby("user"):
+        pb.update(state="dispatched")
+        yield group  # type: ignore
 
 
 def _prepare_model(model: PersistedModel, options: JobOptions):
