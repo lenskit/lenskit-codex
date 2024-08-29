@@ -236,38 +236,6 @@ stages:
         - 'data/${item}.csv.gz'
       outs:
         - 'data/${item}.parquet'
-  export-qrels:
-    foreach:
-      - Arts_Crafts_and_Sewing.test
-      - Automotive.test
-      - Baby_Products.test
-      - Beauty_and_Personal_Care.test
-      - Books.test
-      - CDs_and_Vinyl.test
-      - Cell_Phones_and_Accessories.test
-      - Clothing_Shoes_and_Jewelry.test
-      - Electronics.test
-      - Grocery_and_Gourmet_Food.test
-      - Health_and_Household.test
-      - Home_and_Kitchen.test
-      - Industrial_and_Scientific.test
-      - Kindle_Store.test
-      - Movies_and_TV.test
-      - Musical_Instruments.test
-      - Office_Products.test
-      - Patio_Lawn_and_Garden.test
-      - Pet_Supplies.test
-      - Software.test
-      - Sports_and_Outdoors.test
-      - Tools_and_Home_Improvement.test
-      - Toys_and_Games.test
-      - Video_Games.test
-    do:
-      cmd: 'python ../../action.py trec export qrels data/${item}.parquet'
-      deps:
-        - 'data/${item}.parquet'
-      outs:
-        - 'data/${item}.qrels.gz'
   collect-stats:
     cmd: >-
       python ../../action.py run-duck-sql --database=stats.duckdb bench-stats.sql
@@ -539,3 +507,1580 @@ stages:
         - 'data/${item}.valid.parquet'
       outs:
         - 'runs/default/${item}/valid/HPF.duckdb'
+  export-qrels:
+    foreach:
+      - Arts_Crafts_and_Sewing.test
+      - Automotive.test
+      - Baby_Products.test
+      - Beauty_and_Personal_Care.test
+      - Books.test
+      - CDs_and_Vinyl.test
+      - Cell_Phones_and_Accessories.test
+      - Clothing_Shoes_and_Jewelry.test
+      - Electronics.test
+      - Grocery_and_Gourmet_Food.test
+      - Health_and_Household.test
+      - Home_and_Kitchen.test
+      - Industrial_and_Scientific.test
+      - Kindle_Store.test
+      - Movies_and_TV.test
+      - Musical_Instruments.test
+      - Office_Products.test
+      - Patio_Lawn_and_Garden.test
+      - Pet_Supplies.test
+      - Software.test
+      - Sports_and_Outdoors.test
+      - Tools_and_Home_Improvement.test
+      - Toys_and_Games.test
+      - Video_Games.test
+    do:
+      cmd: 'python ../../action.py trec export qrels data/${item}.parquet'
+      deps:
+        - 'data/${item}.parquet'
+      outs:
+        - 'data/${item}.qrels.gz'
+  export-default-runs:
+    foreach:
+      - model: Bias
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: valid
+      - model: Bias
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: test
+      - model: Popular
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: valid
+      - model: Popular
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: test
+      - model: HPF
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: valid
+      - model: HPF
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: test
+      - model: Bias
+        config: default
+        cat: Automotive
+        part: valid
+      - model: Bias
+        config: default
+        cat: Automotive
+        part: test
+      - model: Popular
+        config: default
+        cat: Automotive
+        part: valid
+      - model: Popular
+        config: default
+        cat: Automotive
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Automotive
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Automotive
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Automotive
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Automotive
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Automotive
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Automotive
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Automotive
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Automotive
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Automotive
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Automotive
+        part: test
+      - model: HPF
+        config: default
+        cat: Automotive
+        part: valid
+      - model: HPF
+        config: default
+        cat: Automotive
+        part: test
+      - model: Bias
+        config: default
+        cat: Baby_Products
+        part: valid
+      - model: Bias
+        config: default
+        cat: Baby_Products
+        part: test
+      - model: Popular
+        config: default
+        cat: Baby_Products
+        part: valid
+      - model: Popular
+        config: default
+        cat: Baby_Products
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Baby_Products
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Baby_Products
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Baby_Products
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Baby_Products
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Baby_Products
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Baby_Products
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Baby_Products
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Baby_Products
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Baby_Products
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Baby_Products
+        part: test
+      - model: HPF
+        config: default
+        cat: Baby_Products
+        part: valid
+      - model: HPF
+        config: default
+        cat: Baby_Products
+        part: test
+      - model: Bias
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: valid
+      - model: Bias
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: test
+      - model: Popular
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: valid
+      - model: Popular
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: test
+      - model: HPF
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: valid
+      - model: HPF
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: test
+      - model: Bias
+        config: default
+        cat: Books
+        part: valid
+      - model: Bias
+        config: default
+        cat: Books
+        part: test
+      - model: Popular
+        config: default
+        cat: Books
+        part: valid
+      - model: Popular
+        config: default
+        cat: Books
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Books
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Books
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Books
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Books
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Books
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Books
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Books
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Books
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Books
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Books
+        part: test
+      - model: HPF
+        config: default
+        cat: Books
+        part: valid
+      - model: HPF
+        config: default
+        cat: Books
+        part: test
+      - model: Bias
+        config: default
+        cat: CDs_and_Vinyl
+        part: valid
+      - model: Bias
+        config: default
+        cat: CDs_and_Vinyl
+        part: test
+      - model: Popular
+        config: default
+        cat: CDs_and_Vinyl
+        part: valid
+      - model: Popular
+        config: default
+        cat: CDs_and_Vinyl
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: CDs_and_Vinyl
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: CDs_and_Vinyl
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: CDs_and_Vinyl
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: CDs_and_Vinyl
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: CDs_and_Vinyl
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: CDs_and_Vinyl
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: CDs_and_Vinyl
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: CDs_and_Vinyl
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: CDs_and_Vinyl
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: CDs_and_Vinyl
+        part: test
+      - model: HPF
+        config: default
+        cat: CDs_and_Vinyl
+        part: valid
+      - model: HPF
+        config: default
+        cat: CDs_and_Vinyl
+        part: test
+      - model: Bias
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: valid
+      - model: Bias
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: test
+      - model: Popular
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: valid
+      - model: Popular
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: test
+      - model: HPF
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: valid
+      - model: HPF
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: test
+      - model: Bias
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: valid
+      - model: Bias
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: test
+      - model: Popular
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: valid
+      - model: Popular
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: test
+      - model: HPF
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: valid
+      - model: HPF
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: test
+      - model: Bias
+        config: default
+        cat: Electronics
+        part: valid
+      - model: Bias
+        config: default
+        cat: Electronics
+        part: test
+      - model: Popular
+        config: default
+        cat: Electronics
+        part: valid
+      - model: Popular
+        config: default
+        cat: Electronics
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Electronics
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Electronics
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Electronics
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Electronics
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Electronics
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Electronics
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Electronics
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Electronics
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Electronics
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Electronics
+        part: test
+      - model: HPF
+        config: default
+        cat: Electronics
+        part: valid
+      - model: HPF
+        config: default
+        cat: Electronics
+        part: test
+      - model: Bias
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: valid
+      - model: Bias
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: test
+      - model: Popular
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: valid
+      - model: Popular
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: test
+      - model: HPF
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: valid
+      - model: HPF
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: test
+      - model: Bias
+        config: default
+        cat: Health_and_Household
+        part: valid
+      - model: Bias
+        config: default
+        cat: Health_and_Household
+        part: test
+      - model: Popular
+        config: default
+        cat: Health_and_Household
+        part: valid
+      - model: Popular
+        config: default
+        cat: Health_and_Household
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Health_and_Household
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Health_and_Household
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Health_and_Household
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Health_and_Household
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Health_and_Household
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Health_and_Household
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Health_and_Household
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Health_and_Household
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Health_and_Household
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Health_and_Household
+        part: test
+      - model: HPF
+        config: default
+        cat: Health_and_Household
+        part: valid
+      - model: HPF
+        config: default
+        cat: Health_and_Household
+        part: test
+      - model: Bias
+        config: default
+        cat: Home_and_Kitchen
+        part: valid
+      - model: Bias
+        config: default
+        cat: Home_and_Kitchen
+        part: test
+      - model: Popular
+        config: default
+        cat: Home_and_Kitchen
+        part: valid
+      - model: Popular
+        config: default
+        cat: Home_and_Kitchen
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Home_and_Kitchen
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Home_and_Kitchen
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Home_and_Kitchen
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Home_and_Kitchen
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Home_and_Kitchen
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Home_and_Kitchen
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Home_and_Kitchen
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Home_and_Kitchen
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Home_and_Kitchen
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Home_and_Kitchen
+        part: test
+      - model: HPF
+        config: default
+        cat: Home_and_Kitchen
+        part: valid
+      - model: HPF
+        config: default
+        cat: Home_and_Kitchen
+        part: test
+      - model: Bias
+        config: default
+        cat: Industrial_and_Scientific
+        part: valid
+      - model: Bias
+        config: default
+        cat: Industrial_and_Scientific
+        part: test
+      - model: Popular
+        config: default
+        cat: Industrial_and_Scientific
+        part: valid
+      - model: Popular
+        config: default
+        cat: Industrial_and_Scientific
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Industrial_and_Scientific
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Industrial_and_Scientific
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Industrial_and_Scientific
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Industrial_and_Scientific
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Industrial_and_Scientific
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Industrial_and_Scientific
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Industrial_and_Scientific
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Industrial_and_Scientific
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Industrial_and_Scientific
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Industrial_and_Scientific
+        part: test
+      - model: HPF
+        config: default
+        cat: Industrial_and_Scientific
+        part: valid
+      - model: HPF
+        config: default
+        cat: Industrial_and_Scientific
+        part: test
+      - model: Bias
+        config: default
+        cat: Kindle_Store
+        part: valid
+      - model: Bias
+        config: default
+        cat: Kindle_Store
+        part: test
+      - model: Popular
+        config: default
+        cat: Kindle_Store
+        part: valid
+      - model: Popular
+        config: default
+        cat: Kindle_Store
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Kindle_Store
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Kindle_Store
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Kindle_Store
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Kindle_Store
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Kindle_Store
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Kindle_Store
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Kindle_Store
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Kindle_Store
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Kindle_Store
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Kindle_Store
+        part: test
+      - model: HPF
+        config: default
+        cat: Kindle_Store
+        part: valid
+      - model: HPF
+        config: default
+        cat: Kindle_Store
+        part: test
+      - model: Bias
+        config: default
+        cat: Movies_and_TV
+        part: valid
+      - model: Bias
+        config: default
+        cat: Movies_and_TV
+        part: test
+      - model: Popular
+        config: default
+        cat: Movies_and_TV
+        part: valid
+      - model: Popular
+        config: default
+        cat: Movies_and_TV
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Movies_and_TV
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Movies_and_TV
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Movies_and_TV
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Movies_and_TV
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Movies_and_TV
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Movies_and_TV
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Movies_and_TV
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Movies_and_TV
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Movies_and_TV
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Movies_and_TV
+        part: test
+      - model: HPF
+        config: default
+        cat: Movies_and_TV
+        part: valid
+      - model: HPF
+        config: default
+        cat: Movies_and_TV
+        part: test
+      - model: Bias
+        config: default
+        cat: Musical_Instruments
+        part: valid
+      - model: Bias
+        config: default
+        cat: Musical_Instruments
+        part: test
+      - model: Popular
+        config: default
+        cat: Musical_Instruments
+        part: valid
+      - model: Popular
+        config: default
+        cat: Musical_Instruments
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Musical_Instruments
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Musical_Instruments
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Musical_Instruments
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Musical_Instruments
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Musical_Instruments
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Musical_Instruments
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Musical_Instruments
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Musical_Instruments
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Musical_Instruments
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Musical_Instruments
+        part: test
+      - model: HPF
+        config: default
+        cat: Musical_Instruments
+        part: valid
+      - model: HPF
+        config: default
+        cat: Musical_Instruments
+        part: test
+      - model: Bias
+        config: default
+        cat: Office_Products
+        part: valid
+      - model: Bias
+        config: default
+        cat: Office_Products
+        part: test
+      - model: Popular
+        config: default
+        cat: Office_Products
+        part: valid
+      - model: Popular
+        config: default
+        cat: Office_Products
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Office_Products
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Office_Products
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Office_Products
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Office_Products
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Office_Products
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Office_Products
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Office_Products
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Office_Products
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Office_Products
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Office_Products
+        part: test
+      - model: HPF
+        config: default
+        cat: Office_Products
+        part: valid
+      - model: HPF
+        config: default
+        cat: Office_Products
+        part: test
+      - model: Bias
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: valid
+      - model: Bias
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: test
+      - model: Popular
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: valid
+      - model: Popular
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: test
+      - model: HPF
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: valid
+      - model: HPF
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: test
+      - model: Bias
+        config: default
+        cat: Pet_Supplies
+        part: valid
+      - model: Bias
+        config: default
+        cat: Pet_Supplies
+        part: test
+      - model: Popular
+        config: default
+        cat: Pet_Supplies
+        part: valid
+      - model: Popular
+        config: default
+        cat: Pet_Supplies
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Pet_Supplies
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Pet_Supplies
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Pet_Supplies
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Pet_Supplies
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Pet_Supplies
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Pet_Supplies
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Pet_Supplies
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Pet_Supplies
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Pet_Supplies
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Pet_Supplies
+        part: test
+      - model: HPF
+        config: default
+        cat: Pet_Supplies
+        part: valid
+      - model: HPF
+        config: default
+        cat: Pet_Supplies
+        part: test
+      - model: Bias
+        config: default
+        cat: Software
+        part: valid
+      - model: Bias
+        config: default
+        cat: Software
+        part: test
+      - model: Popular
+        config: default
+        cat: Software
+        part: valid
+      - model: Popular
+        config: default
+        cat: Software
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Software
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Software
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Software
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Software
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Software
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Software
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Software
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Software
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Software
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Software
+        part: test
+      - model: HPF
+        config: default
+        cat: Software
+        part: valid
+      - model: HPF
+        config: default
+        cat: Software
+        part: test
+      - model: Bias
+        config: default
+        cat: Sports_and_Outdoors
+        part: valid
+      - model: Bias
+        config: default
+        cat: Sports_and_Outdoors
+        part: test
+      - model: Popular
+        config: default
+        cat: Sports_and_Outdoors
+        part: valid
+      - model: Popular
+        config: default
+        cat: Sports_and_Outdoors
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Sports_and_Outdoors
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Sports_and_Outdoors
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Sports_and_Outdoors
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Sports_and_Outdoors
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Sports_and_Outdoors
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Sports_and_Outdoors
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Sports_and_Outdoors
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Sports_and_Outdoors
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Sports_and_Outdoors
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Sports_and_Outdoors
+        part: test
+      - model: HPF
+        config: default
+        cat: Sports_and_Outdoors
+        part: valid
+      - model: HPF
+        config: default
+        cat: Sports_and_Outdoors
+        part: test
+      - model: Bias
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: valid
+      - model: Bias
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: test
+      - model: Popular
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: valid
+      - model: Popular
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: test
+      - model: HPF
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: valid
+      - model: HPF
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: test
+      - model: Bias
+        config: default
+        cat: Toys_and_Games
+        part: valid
+      - model: Bias
+        config: default
+        cat: Toys_and_Games
+        part: test
+      - model: Popular
+        config: default
+        cat: Toys_and_Games
+        part: valid
+      - model: Popular
+        config: default
+        cat: Toys_and_Games
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Toys_and_Games
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Toys_and_Games
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Toys_and_Games
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Toys_and_Games
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Toys_and_Games
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Toys_and_Games
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Toys_and_Games
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Toys_and_Games
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Toys_and_Games
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Toys_and_Games
+        part: test
+      - model: HPF
+        config: default
+        cat: Toys_and_Games
+        part: valid
+      - model: HPF
+        config: default
+        cat: Toys_and_Games
+        part: test
+      - model: Bias
+        config: default
+        cat: Video_Games
+        part: valid
+      - model: Bias
+        config: default
+        cat: Video_Games
+        part: test
+      - model: Popular
+        config: default
+        cat: Video_Games
+        part: valid
+      - model: Popular
+        config: default
+        cat: Video_Games
+        part: test
+      - model: BiasedMF-ALS
+        config: default
+        cat: Video_Games
+        part: valid
+      - model: BiasedMF-ALS
+        config: default
+        cat: Video_Games
+        part: test
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Video_Games
+        part: valid
+      - model: ImplicitMF-ALS
+        config: default
+        cat: Video_Games
+        part: test
+      - model: IKNN-Explicit
+        config: default
+        cat: Video_Games
+        part: valid
+      - model: IKNN-Explicit
+        config: default
+        cat: Video_Games
+        part: test
+      - model: IKNN-Implicit
+        config: default
+        cat: Video_Games
+        part: valid
+      - model: IKNN-Implicit
+        config: default
+        cat: Video_Games
+        part: test
+      - model: Implicit-BPR
+        config: default
+        cat: Video_Games
+        part: valid
+      - model: Implicit-BPR
+        config: default
+        cat: Video_Games
+        part: test
+      - model: HPF
+        config: default
+        cat: Video_Games
+        part: valid
+      - model: HPF
+        config: default
+        cat: Video_Games
+        part: test
+    do:
+      cmd: >-
+        python ../../action.py trec export runs runs/${item.config}/${item.cat}/${item.part}/${item.model}.duckdb runs/${item.config}/${item.cat}/${item.part}/${item.model}.run.gz
+      deps:
+        - 'runs/${item.config}/${item.cat}/${item.part}/${item.model}.duckdb'
+      outs:
+        - 'runs/${item.config}/${item.cat}/${item.part}/${item.model}.run.gz'

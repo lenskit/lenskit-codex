@@ -48,22 +48,6 @@ export const scanStages = {
       ],
     },
   },
-  "export-qrels": {
-    foreach: mapNotNullish(sourceFiles, (s) => s.part == "test" ? s.base : null),
-    do: {
-      cmd: action_cmd(
-        import.meta.url,
-        "trec export qrels",
-        "data/${item}.parquet",
-      ),
-      deps: [
-        "data/${item}.parquet",
-      ],
-      outs: [
-        "data/${item}.qrels.gz",
-      ],
-    },
-  },
   "collect-stats": {
     cmd: action_cmd(import.meta.url, "run-duck-sql", "--database=stats.duckdb", "bench-stats.sql"),
     outs: ["stats.duckdb"],

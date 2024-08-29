@@ -16,10 +16,17 @@ export type SingleStage = {
   metrics?: (string | OutRec)[];
 };
 export type MultiStage = {
-  foreach: string[];
+  foreach: string[] | Record<string, string>[];
   do: SingleStage;
 };
 export type Stage = SingleStage | MultiStage;
+
+export function isSingleStage(obj: Stage): obj is SingleStage {
+  return Object.hasOwn(obj, "cmd");
+}
+export function isMultiStage(obj: Stage): obj is MultiStage {
+  return Object.hasOwn(obj, "foreach");
+}
 
 export function action_cmd(origin: string, ...args: string[]): string {
   const script = import.meta.resolve("../action.py");

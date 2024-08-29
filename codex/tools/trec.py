@@ -67,4 +67,4 @@ def export_runs(db: Path, out: Path, run: int | None = None):
             "run",
         )
         _log.info("saving run to %s", out)
-        rel.write_csv(fspath(out), sep="\t", header=False, compression="gzip")
+        rel.write_csv(fspath(out), sep="\t", header=False)

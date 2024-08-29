@@ -4186,3 +4186,16 @@ stages:
       hash: md5
       md5: cc0d1c8bf24ade8b2e2884d0f48dafe2
       size: 207630336
+  export-default-runs@383:
+    cmd: python ../../action.py trec export runs runs/default/Video_Games/test/HPF.duckdb
+      runs/default/Video_Games/test/HPF.run.gz
+    deps:
+    - path: runs/default/Video_Games/test/HPF.duckdb
+      hash: md5
+      md5: cc0d1c8bf24ade8b2e2884d0f48dafe2
+      size: 207630336
+    outs:
+    - path: runs/default/Video_Games/test/HPF.run.gz
+      hash: md5
+      md5: 027d1fcb9ac4bf0c40672c5c62a9e179
+      size: 255650111
