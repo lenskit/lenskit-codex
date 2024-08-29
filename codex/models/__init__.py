@@ -21,7 +21,7 @@ class AlgoMod(Protocol):
 
 def model_module(name: str) -> AlgoMod:
     mod = "codex.models." + name.replace("-", "_")
-    _log.info("importing mdoel module %s", mod)
+    _log.info("importing model module %s", mod)
     return cast(AlgoMod, import_module(mod))
 
 
