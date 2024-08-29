@@ -3526,3 +3526,91 @@ stages:
       hash: md5
       md5: 2091474a5246651cfa83e8a3456b2916
       size: 98840576
+  run-default-BiasedMF-ALS-test@CDs_and_Vinyl:
+    cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
+      --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
+      -o runs/default/CDs_and_Vinyl/BiasedMF-ALS.duckdb BiasedMF-ALS
+    deps:
+    - path: data/CDs_and_Vinyl.test.parquet
+      hash: md5
+      md5: 6a3156136a80f5bb86c80f29a08d7f08
+      size: 209333
+    - path: data/CDs_and_Vinyl.train.parquet
+      hash: md5
+      md5: ddf8a5c085f35f91143f390dc5597718
+      size: 14290938
+    - path: data/CDs_and_Vinyl.valid.parquet
+      hash: md5
+      md5: e827f05b6543082c51eeabf83b60912f
+      size: 316087
+    outs:
+    - path: runs/default/CDs_and_Vinyl/BiasedMF-ALS.duckdb
+      hash: md5
+      md5: 8aa9c4fdb5884335f92c9169980f1954
+      size: 107753472
+  run-default-ImplicitMF-ALS-test@CDs_and_Vinyl:
+    cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
+      --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
+      -o runs/default/CDs_and_Vinyl/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+    deps:
+    - path: data/CDs_and_Vinyl.test.parquet
+      hash: md5
+      md5: 6a3156136a80f5bb86c80f29a08d7f08
+      size: 209333
+    - path: data/CDs_and_Vinyl.train.parquet
+      hash: md5
+      md5: ddf8a5c085f35f91143f390dc5597718
+      size: 14290938
+    - path: data/CDs_and_Vinyl.valid.parquet
+      hash: md5
+      md5: e827f05b6543082c51eeabf83b60912f
+      size: 316087
+    outs:
+    - path: runs/default/CDs_and_Vinyl/ImplicitMF-ALS.duckdb
+      hash: md5
+      md5: 54609a36c7ae18349b263e6a1832ff98
+      size: 121647104
+  run-default-IKNN-Explicit-test@CDs_and_Vinyl:
+    cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
+      --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
+      -o runs/default/CDs_and_Vinyl/IKNN-Explicit.duckdb IKNN-Explicit
+    deps:
+    - path: data/CDs_and_Vinyl.test.parquet
+      hash: md5
+      md5: 6a3156136a80f5bb86c80f29a08d7f08
+      size: 209333
+    - path: data/CDs_and_Vinyl.train.parquet
+      hash: md5
+      md5: ddf8a5c085f35f91143f390dc5597718
+      size: 14290938
+    - path: data/CDs_and_Vinyl.valid.parquet
+      hash: md5
+      md5: e827f05b6543082c51eeabf83b60912f
+      size: 316087
+    outs:
+    - path: runs/default/CDs_and_Vinyl/IKNN-Explicit.duckdb
+      hash: md5
+      md5: 2780082a37217dd60dc6e626c7cf1199
+      size: 99627008
+  run-default-IKNN-Implicit-test@CDs_and_Vinyl:
+    cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
+      --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
+      -o runs/default/CDs_and_Vinyl/IKNN-Implicit.duckdb IKNN-Implicit
+    deps:
+    - path: data/CDs_and_Vinyl.test.parquet
+      hash: md5
+      md5: 6a3156136a80f5bb86c80f29a08d7f08
+      size: 209333
+    - path: data/CDs_and_Vinyl.train.parquet
+      hash: md5
+      md5: ddf8a5c085f35f91143f390dc5597718
+      size: 14290938
+    - path: data/CDs_and_Vinyl.valid.parquet
+      hash: md5
+      md5: e827f05b6543082c51eeabf83b60912f
+      size: 316087
+    outs:
+    - path: runs/default/CDs_and_Vinyl/IKNN-Implicit.duckdb
+      hash: md5
+      md5: 207520c66ab0073fed25d78ce38ce8af
+      size: 116404224
