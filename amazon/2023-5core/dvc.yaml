@@ -375,7 +375,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/Bias.duckdb Bias
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Bias.duckdb Bias
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -386,7 +386,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/Popular.duckdb Popular
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Popular.duckdb Popular
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -397,7 +397,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/BiasedMF-ALS.duckdb BiasedMF-ALS
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/BiasedMF-ALS.duckdb BiasedMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -408,7 +408,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -419,7 +419,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/IKNN-Explicit.duckdb IKNN-Explicit
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Explicit.duckdb IKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -430,7 +430,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/IKNN-Implicit.duckdb IKNN-Implicit
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Implicit.duckdb IKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -441,7 +441,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/Implicit-BPR.duckdb Implicit-BPR
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Implicit-BPR.duckdb Implicit-BPR
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -452,7 +452,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/HPF.duckdb HPF
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/HPF.duckdb HPF
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -463,7 +463,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/Bias.duckdb Bias
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Bias.duckdb Bias
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -473,7 +473,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/Popular.duckdb Popular
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Popular.duckdb Popular
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -483,7 +483,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/BiasedMF-ALS.duckdb BiasedMF-ALS
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/BiasedMF-ALS.duckdb BiasedMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -493,7 +493,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/ImplicitMF-ALS.duckdb ImplicitMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -503,7 +503,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/IKNN-Explicit.duckdb IKNN-Explicit
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Explicit.duckdb IKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -513,7 +513,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/IKNN-Implicit.duckdb IKNN-Implicit
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Implicit.duckdb IKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -523,7 +523,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/Implicit-BPR.duckdb Implicit-BPR
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Implicit-BPR.duckdb Implicit-BPR
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -533,7 +533,7 @@ stages:
     foreach: *ref_0
     do:
       cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/HPF.duckdb HPF
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/HPF.duckdb HPF
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'

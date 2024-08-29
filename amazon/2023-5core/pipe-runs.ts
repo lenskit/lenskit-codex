@@ -31,7 +31,7 @@ function defaultRunStage(
           "-n 2000",
           ...trainFiles.map((f) => `--train=${f}`),
           `--test=${testFile}`,
-          `-o runs/default/\${item}/${name}.duckdb`,
+          `-o runs/default/\${item}/${test}/${name}.duckdb`,
           name,
         ),
         deps: [
