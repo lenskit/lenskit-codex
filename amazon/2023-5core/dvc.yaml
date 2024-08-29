@@ -510,29 +510,53 @@ stages:
   export-qrels:
     foreach:
       - Arts_Crafts_and_Sewing.test
+      - Arts_Crafts_and_Sewing.valid
       - Automotive.test
+      - Automotive.valid
       - Baby_Products.test
+      - Baby_Products.valid
       - Beauty_and_Personal_Care.test
+      - Beauty_and_Personal_Care.valid
       - Books.test
+      - Books.valid
       - CDs_and_Vinyl.test
+      - CDs_and_Vinyl.valid
       - Cell_Phones_and_Accessories.test
+      - Cell_Phones_and_Accessories.valid
       - Clothing_Shoes_and_Jewelry.test
+      - Clothing_Shoes_and_Jewelry.valid
       - Electronics.test
+      - Electronics.valid
       - Grocery_and_Gourmet_Food.test
+      - Grocery_and_Gourmet_Food.valid
       - Health_and_Household.test
+      - Health_and_Household.valid
       - Home_and_Kitchen.test
+      - Home_and_Kitchen.valid
       - Industrial_and_Scientific.test
+      - Industrial_and_Scientific.valid
       - Kindle_Store.test
+      - Kindle_Store.valid
       - Movies_and_TV.test
+      - Movies_and_TV.valid
       - Musical_Instruments.test
+      - Musical_Instruments.valid
       - Office_Products.test
+      - Office_Products.valid
       - Patio_Lawn_and_Garden.test
+      - Patio_Lawn_and_Garden.valid
       - Pet_Supplies.test
+      - Pet_Supplies.valid
       - Software.test
+      - Software.valid
       - Sports_and_Outdoors.test
+      - Sports_and_Outdoors.valid
       - Tools_and_Home_Improvement.test
+      - Tools_and_Home_Improvement.valid
       - Toys_and_Games.test
+      - Toys_and_Games.valid
       - Video_Games.test
+      - Video_Games.valid
     do:
       cmd: 'python ../../action.py trec export qrels data/${item}.parquet'
       deps:
