@@ -94,7 +94,7 @@ def generate(
     with (
         duckdb.connect(fspath(output)) as db,
         connect_cluster() as cluster,
-        ResultDB(db) as results,
+        ResultDB(db, store_predictions=predict) as results,
     ):
         for part, data in test_sets:
             _log.info("training model %s", reco)
