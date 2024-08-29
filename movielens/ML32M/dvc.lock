@@ -21,12 +21,8 @@ stages:
       md5: bb6c15fab0f9f49d334babc97b3b3ef6
       size: 381693952
   import:
-    cmd: python ../import-ml.py ml-32m.zip
+    cmd: python ../../action.py movielens import --stat-sql=../ml-stats.sql ml-32m.zip
     deps:
-    - path: ../import-ml.py
-      hash: md5
-      md5: af82da24d16bfef7681fe0b7910d5069
-      size: 3678
     - path: ../ml-stats.sql
       hash: md5
       md5: b016dc983a2156e0712a846097a968e7

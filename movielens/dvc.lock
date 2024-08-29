@@ -1,8 +1,8 @@
 schema: '2.0'
 stages:
   aggregate:
-    cmd: python aggregate-ml.py -d merged-stats.duckdb ML100K ML1M ML10M ML20M ML25M
-      ML32M
+    cmd: python ../action.py movielens aggregate -d merged-stats.duckdb ML100K ML1M
+      ML10M ML20M ML25M ML32M
     deps:
     - path: ML100K/ratings.duckdb
       hash: md5
@@ -28,12 +28,8 @@ stages:
       hash: md5
       md5: bb6c15fab0f9f49d334babc97b3b3ef6
       size: 381693952
-    - path: aggregate-ml.py
-      hash: md5
-      md5: df277dd6355fbf0abfd84f57ecee8ea1
-      size: 1709
     outs:
     - path: merged-stats.duckdb
       hash: md5
-      md5: 604e5f2363907a3ba9d904ecf42cc96c
+      md5: 1ebb6fa6d0505ffb9dcb6438fe9def58
       size: 29372416

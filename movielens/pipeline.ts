@@ -154,7 +154,7 @@ export const pipeline: Pipeline = {
         "-d merged-stats.duckdb",
         ...Object.keys(datasets),
       ),
-      deps: ["aggregate-ml.py"].concat(Object.keys(datasets).map((n) => `${n}/ratings.duckdb`)),
+      deps: Object.keys(datasets).map((n) => `${n}/ratings.duckdb`),
       outs: ["merged-stats.duckdb"],
     },
   },
