@@ -9,16 +9,16 @@ from pathlib import Path
 
 import click
 import duckdb
+import ipyparallel as ipp
 import pandas as pd
 from humanize import naturalsize
-from lenskit import batch, topn
 from lenskit.algorithms import Recommender
-from lenskit.metrics.predict import mae, rmse
 
 from codex.data import TrainTestData, partition_tt_data
+from codex.inference import connect_cluster, run_recommender
 from codex.models import AlgoMod, model_module
 from codex.params import param_grid
-from codex.results import create_result_tables
+from codex.results import ResultDB
 from codex.training import train_model
 
 from . import codex
@@ -59,16 +59,19 @@ def run_sweep(
         _log.warning("%s already exists, removing", out)
         out.unlink()
 
-    with duckdb.connect(fspath(out)) as db:
-        create_result_tables(db, predictions="predictions" in mod.outputs)
-
+    predict = "predictions" in mod.outputs
+    with (
+        duckdb.connect(fspath(out)) as db,
+        ResultDB(db, store_predictions=predict) as results,
+        connect_cluster() as cluster,
+    ):
         db.execute(f"ATTACH '{assign_db}' AS split (READ_ONLY)")
         _log.info("saving run spec table")
         db.from_df(space).create("run_specs")
 
         tt = partition_tt_data(assign_db, rating_db, partition)
 
-        sweep_model(db, tt, mod, space, list_length)
+        sweep_model(results, tt, mod, space, list_length, cluster)
 
 
 @sweep.command("export")
@@ -111,11 +114,15 @@ def export_best_results(database: Path, metric: str):
 
 
 def sweep_model(
-    db: duckdb.DuckDBPyConnection, data: TrainTestData, mod: AlgoMod, space: pd.DataFrame, N: int
+    results: ResultDB,
+    data: TrainTestData,
+    mod: AlgoMod,
+    space: pd.DataFrame,
+    N: int,
+    cluster: ipp.Client,
 ):
     with data.open_db() as test_db:
         test = data.test_ratings(test_db).to_df()
-    test_users = test["user"].unique()
 
     for point in space.itertuples(index=False):
         _log.info("measuring at point %s", point)
@@ -129,42 +136,24 @@ def sweep_model(
             metrics.cpu_time,
             naturalsize(metrics.rss_max_kb * 1024),
         )
-        db.table("train_stats").insert([point.run] + list(metrics.dict().values()))
+        results.add_training(point.run, metrics)
 
-        _log.info("generating recommendations")
-        n_jobs = 1 if len(test_users) < 1000 else None
-        recs = batch.recommend(model, test_users, N, n_jobs=n_jobs)
-        db.from_df(recs.assign(run=point.run)[db.table("recommendations").columns]).insert_into(
-            "recommendations"
-        )
+        _log.info("running recommender")
+        for result in run_recommender(
+            model, test, N, "predictions" in mod.outputs, cluster=cluster
+        ):
+            results.add_result(point.run, result)
 
-        _log.info("measuring recommendations")
-        rla = topn.RecListAnalysis()
-        rla.add_metric(topn.recip_rank)
-        rla.add_metric(topn.ndcg)
-        umetrics = rla.compute(recs, test, include_missing=True)
-        assert umetrics.index.name == "user"
-        _log.info("avg. NDCG: %.3f", umetrics["ndcg"].mean())
-
+        _log.info("run finished")
+        aggs = "AVG(ndcg), AVG(recip_rank)"
         if "predictions" in mod.outputs:
-            _log.info("predicting test ratings")
-            preds = batch.predict(model, test, n_jobs=n_jobs)
-            db.from_df(
-                preds.assign(run=point.run)[["run", "user", "item", "prediction", "rating"]]
-            ).insert_into("predictions")
-            u_pm = preds.groupby("user").apply(
-                lambda df: pd.Series(
-                    {
-                        "rmse": rmse(df["prediction"], df["rating"]),
-                        "mae": mae(df["prediction"], df["rating"]),
-                    }
-                ),
-                include_groups=False,
-            )
-            umetrics = umetrics.join(u_pm, how="outer")
-            _log.info("avg. RMSE: %.3f", umetrics["rmse"].mean())
-
-        # FIXME: measure time
-        umetrics = umetrics.reset_index().assign(run=point.run, wall_time=0)
-
-        db.from_df(umetrics[db.table("user_metrics").columns]).insert_into("user_metrics")
+            aggs += " AVG(rmse)"
+        results.db.execute(f"SELECT {aggs} FROM user_metrics WHERE run = ?", [point.run])
+        row = results.db.fetchone()
+        assert row is not None
+        if "predictions" in mod.outputs:
+            ndcg, mrr, rmse = row
+            _log.info("avg. metrics: NDCG=%.3f, MRR=%.3f, RMSE=%.3f", ndcg, mrr, rmse)
+        else:
+            ndcg, mrr = row
+            _log.info("avg. metrics: NDCG=%.3f, MRR=%.3f", ndcg, mrr)

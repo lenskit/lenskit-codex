@@ -7,9 +7,7 @@ from __future__ import annotations
 
 import gc
 import logging
-import os
 from collections.abc import Generator
-from contextlib import contextmanager
 from dataclasses import dataclass
 from typing import Iterator
 
@@ -18,9 +16,12 @@ import numpy as np
 import pandas as pd
 from lenskit.algorithms import Recommender
 from lenskit.algorithms.basic import TopN
+from lenskit.metrics.predict import mae, rmse
+from lenskit.metrics.topn import ndcg, recip_rank
 from lenskit.sharing import PersistedModel
 from progress_api import Progress, make_progress
 
+from codex.cluster import connect_cluster
 from codex.resources import resource_monitor
 from codex.results import UserResult
 
@@ -73,26 +74,6 @@ def run_recommender(
             dv.apply_sync(_cleanup_model)
 
 
-@contextmanager
-def connect_cluster(cluster: ipp.Cluster | ipp.Client | None = None) -> Generator[ipp.Client]:
-    if isinstance(cluster, ipp.Client):
-        yield cluster
-        return
-
-    count = os.environ.get("LK_NUM_PROCS", None)
-    if count is not None:
-        count = int(count)
-    else:
-        count = min(os.cpu_count(), 8)  # type: ignore
-
-    if cluster is None:
-        _log.info("starting cluster with %s workers", count)
-        with ipp.Cluster(n=count) as client:
-            yield client
-    else:
-        yield cluster.connect_client_sync()
-
-
 def _test_jobs(test: pd.DataFrame, pb: Progress) -> Generator[tuple[int, pd.DataFrame]]:
     for group in test.groupby("user"):
         pb.update(state="dispatched")
@@ -120,10 +101,15 @@ def _run_for_user(job: tuple[int, pd.DataFrame]):
     user, test = job
 
     with resource_monitor() as mon:
+        result = UserResult(user, test)
+
         recs = __model.recommend(user, __options.n_recs)
         recs["rank"] = np.arange(0, len(recs), dtype=np.int16) + 1
 
-        result = UserResult(user, test, recs)
+        if len(recs) > 0:
+            result.recommendations = recs
+            result.metrics["ndcg"] = ndcg(recs, test.drop(columns="rating", errors="ignore"))
+            result.metrics["recip_rank"] = recip_rank(recs, test)
 
         if __options.predict:
             assert isinstance(__model, TopN)
@@ -132,6 +118,8 @@ def _run_for_user(job: tuple[int, pd.DataFrame]):
             preds = preds.to_frame("prediction").reset_index()
             preds = preds.join(test.set_index("item")["rating"], on="item", how="left")
             result.predictions = preds
+            result.metrics["rmse"] = rmse(preds["prediction"], test["rating"])
+            result.metrics["mae"] = mae(preds["prediction"], test["rating"])
 
     result.resources = mon.metrics()
 

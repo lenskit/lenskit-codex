@@ -14,7 +14,7 @@ from lenskit.algorithms import Recommender
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
 from codex.inference import connect_cluster, run_recommender
 from codex.models import load_model, model_module
-from codex.results import ResultDB, create_result_tables
+from codex.results import ResultDB
 from codex.training import train_model
 
 from . import codex
@@ -96,8 +96,6 @@ def generate(
         connect_cluster() as cluster,
         ResultDB(db) as results,
     ):
-        create_result_tables(db, predictions=predict)
-
         for part, data in test_sets:
             _log.info("training model %s", reco)
             trained, metrics = train_model(reco, data)
