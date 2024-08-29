@@ -132,25 +132,21 @@ def generate(
                 # direct interpolation into sql is ok here, we know they are
                 # integers (and this is not a security-conscious application).
                 rec_df = result.recommendations
-                if "score" not in rec_df.columns:
-                    rec_df["score"] = 0
-                db.from_df(rec_df).query(
-                    "u_recs",
-                    f"""
-                    INSERT INTO recommendations (run, user, item, rank, score)
-                    SELECT {part}, {result.user}, item, rank, score
-                    FROM u_recs
-                    """,
-                )
+                db.from_df(rec_df).select(
+                    duckdb.ConstantExpression(part),
+                    duckdb.ConstantExpression(result.user),
+                    "item",
+                    "rank",
+                    "score" if "score" in rec_df.columns else duckdb.ConstantExpression(None),
+                ).insert_into("recommendations")
                 if result.predictions is not None:
-                    db.from_df(result.predictions).query(
-                        "u_recs",
-                        f"""
-                        INSERT INTO predictions (run, user, item, prediction, rating)
-                        SELECT {part}, {result.user}, item, prediction, rating
-                        FROM u_recs
-                        """,
-                    )
+                    db.from_df(result.predictions).select(
+                        duckdb.ConstantExpression(part),
+                        duckdb.ConstantExpression(result.user),
+                        "item",
+                        "prediction",
+                        "rating",
+                    ).insert_into("predictions")
 
             db.execute("COMMIT")
             trained.close()
