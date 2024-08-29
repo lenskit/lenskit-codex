@@ -8,9 +8,19 @@ import { MODELS } from "../../codex/models/model-list.ts";
 import { categories } from "./pipe-sources.ts";
 import { ModelInfo } from "../../codex/models/model-list.ts";
 
-function defaultRunStage([name, _info]: [string, ModelInfo]): [string, Stage] {
+function defaultRunStage(
+  [name, _info]: [string, ModelInfo],
+  test: "test" | "valid",
+): [string, Stage] {
+  let trainFiles = ["data/${item}.train.parquet"];
+  let testFile = "data/${item}.valid.parquet";
+  if (test == "test") {
+    trainFiles.push(testFile);
+    testFile = "data/${item}.test.parquet";
+  }
+
   return [
-    `run-default-${name}-test`,
+    `run-default-${name}-${test}`,
     {
       foreach: categories,
       do: {
@@ -19,23 +29,22 @@ function defaultRunStage([name, _info]: [string, ModelInfo]): [string, Stage] {
           "generate",
           "--default",
           "-n 2000",
-          "--train=data/${item}.train.parquet",
-          "--train=data/${item}.valid.parquet",
-          "--test=data/${item}.test.parquet",
+          ...trainFiles.map((f) => `--train=${f}`),
+          `--test=${testFile}`,
           `-o runs/default/\${item}/${name}.duckdb`,
           name,
         ),
         deps: [
-          "data/${item}.train.parquet",
-          "data/${item}.valid.parquet",
-          "data/${item}.test.parquet",
+          ...trainFiles,
+          testFile,
         ],
-        outs: [`runs/default/\${item}/${name}.duckdb`],
+        outs: [`runs/default/\${item}/${test}/${name}.duckdb`],
       },
     },
   ];
 }
 
 export const runStages = {
-  ...mapEntries(MODELS, defaultRunStage),
+  ...mapEntries(MODELS, (m) => defaultRunStage(m, "test")),
+  ...mapEntries(MODELS, (m) => defaultRunStage(m, "valid")),
 };
