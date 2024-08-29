@@ -3,7 +3,7 @@ from os import fspath
 from pathlib import Path
 
 import click
-from duckdb import CoalesceOperator, ColumnExpression, ConstantExpression, connect
+from duckdb import connect
 
 from . import codex
 
@@ -54,17 +54,20 @@ def export_runs(db: Path, out: Path, run: int | None = None):
     # <query id><iteration><document id><rank><score>[<run id>]
 
     with connect(fspath(db), read_only=True) as cxn:
-        rel = cxn.table("recommendations")
         if run is not None:
-            rel = rel.filter(ColumnExpression("run") == ConstantExpression(run))
-        rel = rel.order("run, user, rank")
-        rel = rel.select(
-            "user",
-            ConstantExpression(0),
-            "item",
-            "rank",
-            CoalesceOperator(ColumnExpression("score"), ConstantExpression(0)),
-            "run",
-        )
+            params = [run]
+            filter = "WHERE run == ?"
+        else:
+            params = []
+            filter = ""
+
+        query = f"""
+            SELECT user, 0, item, rank, ROUND(COALESCE(score, 0), 4), run
+            FROM recommendations
+            {filter}
+            ORDER BY run, user, rank
+        """
         _log.info("saving run to %s", out)
-        rel.write_csv(fspath(out), sep="\t", header=False)
+        cxn.execute(
+            f"COPY ({query}) TO '{fspath(out)}' (FORMAT CSV, SEP '\\t', HEADER FALSE)", params
+        )
