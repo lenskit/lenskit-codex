@@ -118,8 +118,8 @@ def _run_for_user(job: tuple[int, pd.DataFrame]):
             preds = preds.to_frame("prediction").reset_index()
             preds = preds.join(test.set_index("item")["rating"], on="item", how="left")
             result.predictions = preds
-            result.metrics["rmse"] = rmse(preds["prediction"], test["rating"])
-            result.metrics["mae"] = mae(preds["prediction"], test["rating"])
+            result.metrics["rmse"] = rmse(preds["prediction"], preds["rating"])
+            result.metrics["mae"] = mae(preds["prediction"], preds["rating"])
 
     result.resources = mon.metrics()
 
