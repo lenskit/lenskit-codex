@@ -14,7 +14,7 @@ from lenskit.algorithms import Recommender
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
 from codex.inference import connect_cluster, run_recommender
 from codex.models import load_model, model_module
-from codex.results import create_result_tables
+from codex.results import ResultDB, create_result_tables
 from codex.training import train_model
 
 from . import codex
@@ -91,7 +91,11 @@ def generate(
 
     predict = "predictions" in mod.outputs
 
-    with duckdb.connect(fspath(output)) as db, connect_cluster() as cluster:
+    with (
+        duckdb.connect(fspath(output)) as db,
+        connect_cluster() as cluster,
+        ResultDB(db) as results,
+    ):
         create_result_tables(db, predictions=predict)
 
         for part, data in test_sets:
@@ -103,7 +107,7 @@ def generate(
                 metrics.cpu_time,
                 naturalsize(metrics.rss_max_kb * 1024),
             )
-            db.table("train_stats").insert([part] + list(metrics.dict().values()))
+            results.add_training(part, metrics)
 
             _log.info("loading test data")
             with data.open_db() as test_db:
@@ -111,44 +115,9 @@ def generate(
                 if len(test) == 0:
                     _log.error("no test data found")
 
-            n = 0
-            db.execute("BEGIN")
-
             for result in run_recommender(trained, test, list_length, predict, cluster=cluster):
-                n += 1
-                if n % 1000 == 0:
-                    db.execute("COMMIT")
-                    db.execute("BEGIN")
+                results.add_result(part, result)
 
-                ntest = len(result.test)
-                nrecs = len(result.recommendations)
-                db.execute(
-                    """
-                    INSERT INTO user_metrics (run, user, wall_time, nrecs, ntruth)
-                    VALUES (?, ?, ?, ?, ?)
-                    """,
-                    [part, result.user, result.wall_time, nrecs, ntest],
-                )
-                # direct interpolation into sql is ok here, we know they are
-                # integers (and this is not a security-conscious application).
-                rec_df = result.recommendations
-                db.from_df(rec_df).select(
-                    duckdb.ConstantExpression(part),
-                    duckdb.ConstantExpression(result.user),
-                    "item",
-                    "rank",
-                    "score" if "score" in rec_df.columns else duckdb.ConstantExpression(None),
-                ).insert_into("recommendations")
-                if result.predictions is not None:
-                    db.from_df(result.predictions).select(
-                        duckdb.ConstantExpression(part),
-                        duckdb.ConstantExpression(result.user),
-                        "item",
-                        "prediction",
-                        "rating",
-                    ).insert_into("predictions")
-
-            db.execute("COMMIT")
             trained.close()
 
 

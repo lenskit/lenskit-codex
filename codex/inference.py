@@ -19,21 +19,13 @@ import pandas as pd
 from lenskit.algorithms import Recommender
 from lenskit.algorithms.basic import TopN
 from lenskit.sharing import PersistedModel
-from lenskit.util import Stopwatch
+
+from codex.resources import resource_monitor
+from codex.results import UserResult
 
 _log = logging.getLogger(__name__)
 __model: Recommender | None
 __options: JobOptions | None
-
-
-@dataclass
-class UserResult:
-    user: int
-    wall_time: float
-
-    test: pd.DataFrame
-    recommendations: pd.DataFrame
-    predictions: pd.DataFrame | None = None
 
 
 @dataclass
@@ -116,20 +108,20 @@ def _run_for_user(job: tuple[int, pd.DataFrame]):
 
     user, test = job
 
-    watch = Stopwatch()
-    recs = __model.recommend(user, __options.n_recs)
-    recs["rank"] = np.arange(0, len(recs), dtype=np.int16) + 1
+    with resource_monitor() as mon:
+        recs = __model.recommend(user, __options.n_recs)
+        recs["rank"] = np.arange(0, len(recs), dtype=np.int16) + 1
 
-    result = UserResult(user, 0, test, recs)
+        result = UserResult(user, test, recs)
 
-    if __options.predict:
-        assert isinstance(__model, TopN)
-        preds = __model.predict_for_user(user, test["item"])
-        preds.index.name = "item"
-        preds = preds.to_frame("prediction").reset_index()
-        preds = preds.join(test.set_index("item")["rating"], on="item", how="left")
-        result.predictions = preds
+        if __options.predict:
+            assert isinstance(__model, TopN)
+            preds = __model.predict_for_user(user, test["item"])
+            preds.index.name = "item"
+            preds = preds.to_frame("prediction").reset_index()
+            preds = preds.join(test.set_index("item")["rating"], on="item", how="left")
+            result.predictions = preds
 
-    result.wall_time = watch.elapsed()
+    result.resources = mon.metrics()
 
     return result
