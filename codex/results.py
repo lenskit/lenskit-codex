@@ -142,14 +142,14 @@ class ResultDB:
             u_cols = [
                 "run",
                 "user",
-                "wall_time" if "wall_time" in users.columns else ConstantExpression(None),
+                _maybe_col("wall_time", users),
                 "nrecs",
                 "ntruth",
-                "ndcg",
-                "recip_rank",
+                _maybe_col("ndcg", users),
+                _maybe_col("recip_rank", users),
             ]
             if self.store_predictions:
-                u_cols += ["rmse", "mae"]
+                u_cols += [_maybe_col("rmse", users), _maybe_col("mae", users)]
             self.db.from_df(users).select(*u_cols).insert_into("user_metrics")
 
             recs = pd.concat(
@@ -187,3 +187,7 @@ class ResultDB:
     def __exit__(self, exc_type, exc_value, traceback):
         if exc_type is None:
             self.flush()
+
+
+def _maybe_col(name, df):
+    return name if name in df.columns else ConstantExpression(None)
