@@ -13,19 +13,19 @@ _log = logging.getLogger(__name__)
 
 @movielens.command("aggregate")
 @click.option("-d", "--database", type=Path, help="output database file")
-@click.option("SET", nargs=-1)
-def aggregate(database: Path, sets: list[str]):
+@click.argument("NAMES", nargs=-1, required=True)
+def aggregate(database: Path, names: list[str]):
     "Aggregate ML data statistics for an integrated view."
-    _log.info("summarizing %d data sets", len(sets))
+    _log.info("summarizing %d data names", len(names))
     if database.exists():
         _log.info("removing %s", database)
         os.unlink(database)
 
     with connect(fspath(database)) as db:
-        initialize_db(db, sets)
-        union_tables(db, "global_stats", sets)
-        union_tables(db, "item_stats", sets)
-        union_tables(db, "user_stats", sets)
+        initialize_db(db, names)
+        union_tables(db, "global_stats", names)
+        union_tables(db, "item_stats", names)
+        union_tables(db, "user_stats", names)
 
 
 def initialize_db(db: DuckDBPyConnection, sets: list[str]):
