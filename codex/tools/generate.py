@@ -131,7 +131,10 @@ def generate(
                 )
                 # direct interpolation into sql is ok here, we know they are
                 # integers (and this is not a security-conscious application).
-                db.from_df(result.recommendations).query(
+                rec_df = result.recommendations
+                if "score" not in rec_df.columns:
+                    rec_df["score"] = 0
+                db.from_df(rec_df).query(
                     "u_recs",
                     f"""
                     INSERT INTO recommendations (run, user, item, rank, score)
