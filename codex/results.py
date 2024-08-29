@@ -152,21 +152,20 @@ class ResultDB:
                 u_cols += [_maybe_col("rmse", users), _maybe_col("mae", users)]
             self.db.from_df(users).select(*u_cols).insert_into("user_metrics")
 
-            recs = pd.concat(
-                (
-                    r.result.recommendations.assign(run=r.run, user=r.result.user)
-                    for r in to_write
-                    if r.result.recommendations is not None
-                ),
-                ignore_index=True,
-            )
-            self.db.from_df(recs).select(
-                "run",
-                "user",
-                "item",
-                "rank",
-                "score" if "score" in recs.columns else ConstantExpression(None),
-            ).insert_into("recommendations")
+            rec_dfs = [
+                r.result.recommendations.assign(run=r.run, user=r.result.user)
+                for r in to_write
+                if r.result.recommendations is not None
+            ]
+            if rec_dfs:
+                recs = pd.concat(rec_dfs, ignore_index=True)
+                self.db.from_df(recs).select(
+                    "run",
+                    "user",
+                    "item",
+                    "rank",
+                    "score" if "score" in recs.columns else ConstantExpression(None),
+                ).insert_into("recommendations")
             pred_dfs = [
                 (r.run, r.result.user, r.result.predictions)
                 for r in to_write
