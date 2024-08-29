@@ -3485,7 +3485,7 @@ stages:
   run-default-Bias-test@CDs_and_Vinyl:
     cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
       --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
-      -o runs/default/CDs_and_Vinyl/Bias.duckdb Bias
+      -o runs/default/CDs_and_Vinyl/test/Bias.duckdb Bias
     deps:
     - path: data/CDs_and_Vinyl.test.parquet
       hash: md5
@@ -3507,7 +3507,7 @@ stages:
   run-default-Popular-test@CDs_and_Vinyl:
     cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
       --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
-      -o runs/default/CDs_and_Vinyl/Popular.duckdb Popular
+      -o runs/default/CDs_and_Vinyl/test/Popular.duckdb Popular
     deps:
     - path: data/CDs_and_Vinyl.test.parquet
       hash: md5
@@ -3529,7 +3529,7 @@ stages:
   run-default-BiasedMF-ALS-test@CDs_and_Vinyl:
     cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
       --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
-      -o runs/default/CDs_and_Vinyl/BiasedMF-ALS.duckdb BiasedMF-ALS
+      -o runs/default/CDs_and_Vinyl/test/BiasedMF-ALS.duckdb BiasedMF-ALS
     deps:
     - path: data/CDs_and_Vinyl.test.parquet
       hash: md5
@@ -3551,7 +3551,7 @@ stages:
   run-default-ImplicitMF-ALS-test@CDs_and_Vinyl:
     cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
       --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
-      -o runs/default/CDs_and_Vinyl/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      -o runs/default/CDs_and_Vinyl/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
     deps:
     - path: data/CDs_and_Vinyl.test.parquet
       hash: md5
@@ -3573,7 +3573,7 @@ stages:
   run-default-IKNN-Explicit-test@CDs_and_Vinyl:
     cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
       --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
-      -o runs/default/CDs_and_Vinyl/IKNN-Explicit.duckdb IKNN-Explicit
+      -o runs/default/CDs_and_Vinyl/test/IKNN-Explicit.duckdb IKNN-Explicit
     deps:
     - path: data/CDs_and_Vinyl.test.parquet
       hash: md5
@@ -3595,7 +3595,7 @@ stages:
   run-default-IKNN-Implicit-test@CDs_and_Vinyl:
     cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
       --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
-      -o runs/default/CDs_and_Vinyl/IKNN-Implicit.duckdb IKNN-Implicit
+      -o runs/default/CDs_and_Vinyl/test/IKNN-Implicit.duckdb IKNN-Implicit
     deps:
     - path: data/CDs_and_Vinyl.test.parquet
       hash: md5
@@ -3617,7 +3617,7 @@ stages:
   run-default-Implicit-BPR-test@CDs_and_Vinyl:
     cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
       --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
-      -o runs/default/CDs_and_Vinyl/Implicit-BPR.duckdb Implicit-BPR
+      -o runs/default/CDs_and_Vinyl/test/Implicit-BPR.duckdb Implicit-BPR
     deps:
     - path: data/CDs_and_Vinyl.test.parquet
       hash: md5
@@ -3639,7 +3639,7 @@ stages:
   run-default-HPF-test@CDs_and_Vinyl:
     cmd: python ../../action.py generate --default -n 2000 --train=data/CDs_and_Vinyl.train.parquet
       --train=data/CDs_and_Vinyl.valid.parquet --test=data/CDs_and_Vinyl.test.parquet
-      -o runs/default/CDs_and_Vinyl/HPF.duckdb HPF
+      -o runs/default/CDs_and_Vinyl/test/HPF.duckdb HPF
     deps:
     - path: data/CDs_and_Vinyl.test.parquet
       hash: md5
@@ -3660,7 +3660,7 @@ stages:
       size: 121909248
   run-default-Bias-test@Software:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Software.train.parquet
-      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/Bias.duckdb
+      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/test/Bias.duckdb
       Bias
     deps:
     - path: data/Software.test.parquet
@@ -3682,7 +3682,7 @@ stages:
       size: 119025664
   run-default-Popular-test@Software:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Software.train.parquet
-      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/Popular.duckdb
+      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/test/Popular.duckdb
       Popular
     deps:
     - path: data/Software.test.parquet
@@ -3704,7 +3704,7 @@ stages:
       size: 117714944
   run-default-BiasedMF-ALS-test@Software:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Software.train.parquet
-      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/BiasedMF-ALS.duckdb
+      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/test/BiasedMF-ALS.duckdb
       BiasedMF-ALS
     deps:
     - path: data/Software.test.parquet
@@ -3726,7 +3726,7 @@ stages:
       size: 108015616
   run-default-ImplicitMF-ALS-test@Software:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Software.train.parquet
-      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/ImplicitMF-ALS.duckdb
+      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/test/ImplicitMF-ALS.duckdb
       ImplicitMF-ALS
     deps:
     - path: data/Software.test.parquet
@@ -3748,7 +3748,7 @@ stages:
       size: 122957824
   run-default-IKNN-Explicit-test@Software:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Software.train.parquet
-      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/IKNN-Explicit.duckdb
+      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/test/IKNN-Explicit.duckdb
       IKNN-Explicit
     deps:
     - path: data/Software.test.parquet
@@ -3770,7 +3770,7 @@ stages:
       size: 109064192
   run-default-IKNN-Implicit-test@Software:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Software.train.parquet
-      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/IKNN-Implicit.duckdb
+      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/test/IKNN-Implicit.duckdb
       IKNN-Implicit
     deps:
     - path: data/Software.test.parquet
@@ -3792,7 +3792,7 @@ stages:
       size: 118763520
   run-default-Implicit-BPR-test@Software:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Software.train.parquet
-      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/Implicit-BPR.duckdb
+      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/test/Implicit-BPR.duckdb
       Implicit-BPR
     deps:
     - path: data/Software.test.parquet
@@ -3814,7 +3814,7 @@ stages:
       size: 114307072
   run-default-HPF-test@Software:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Software.train.parquet
-      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/HPF.duckdb
+      --train=data/Software.valid.parquet --test=data/Software.test.parquet -o runs/default/Software/test/HPF.duckdb
       HPF
     deps:
     - path: data/Software.test.parquet
@@ -3837,7 +3837,7 @@ stages:
   run-default-Bias-test@Musical_Instruments:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Musical_Instruments.train.parquet
       --train=data/Musical_Instruments.valid.parquet --test=data/Musical_Instruments.test.parquet
-      -o runs/default/Musical_Instruments/Bias.duckdb Bias
+      -o runs/default/Musical_Instruments/test/Bias.duckdb Bias
     deps:
     - path: data/Musical_Instruments.test.parquet
       hash: md5
@@ -3859,7 +3859,7 @@ stages:
   run-default-Popular-test@Musical_Instruments:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Musical_Instruments.train.parquet
       --train=data/Musical_Instruments.valid.parquet --test=data/Musical_Instruments.test.parquet
-      -o runs/default/Musical_Instruments/Popular.duckdb Popular
+      -o runs/default/Musical_Instruments/test/Popular.duckdb Popular
     deps:
     - path: data/Musical_Instruments.test.parquet
       hash: md5
@@ -3881,7 +3881,7 @@ stages:
   run-default-BiasedMF-ALS-test@Musical_Instruments:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Musical_Instruments.train.parquet
       --train=data/Musical_Instruments.valid.parquet --test=data/Musical_Instruments.test.parquet
-      -o runs/default/Musical_Instruments/BiasedMF-ALS.duckdb BiasedMF-ALS
+      -o runs/default/Musical_Instruments/test/BiasedMF-ALS.duckdb BiasedMF-ALS
     deps:
     - path: data/Musical_Instruments.test.parquet
       hash: md5
@@ -3903,7 +3903,7 @@ stages:
   run-default-ImplicitMF-ALS-test@Musical_Instruments:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Musical_Instruments.train.parquet
       --train=data/Musical_Instruments.valid.parquet --test=data/Musical_Instruments.test.parquet
-      -o runs/default/Musical_Instruments/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      -o runs/default/Musical_Instruments/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
     deps:
     - path: data/Musical_Instruments.test.parquet
       hash: md5
@@ -3925,7 +3925,7 @@ stages:
   run-default-IKNN-Explicit-test@Musical_Instruments:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Musical_Instruments.train.parquet
       --train=data/Musical_Instruments.valid.parquet --test=data/Musical_Instruments.test.parquet
-      -o runs/default/Musical_Instruments/IKNN-Explicit.duckdb IKNN-Explicit
+      -o runs/default/Musical_Instruments/test/IKNN-Explicit.duckdb IKNN-Explicit
     deps:
     - path: data/Musical_Instruments.test.parquet
       hash: md5
@@ -3947,7 +3947,7 @@ stages:
   run-default-IKNN-Implicit-test@Musical_Instruments:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Musical_Instruments.train.parquet
       --train=data/Musical_Instruments.valid.parquet --test=data/Musical_Instruments.test.parquet
-      -o runs/default/Musical_Instruments/IKNN-Implicit.duckdb IKNN-Implicit
+      -o runs/default/Musical_Instruments/test/IKNN-Implicit.duckdb IKNN-Implicit
     deps:
     - path: data/Musical_Instruments.test.parquet
       hash: md5
@@ -3969,7 +3969,7 @@ stages:
   run-default-Implicit-BPR-test@Musical_Instruments:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Musical_Instruments.train.parquet
       --train=data/Musical_Instruments.valid.parquet --test=data/Musical_Instruments.test.parquet
-      -o runs/default/Musical_Instruments/Implicit-BPR.duckdb Implicit-BPR
+      -o runs/default/Musical_Instruments/test/Implicit-BPR.duckdb Implicit-BPR
     deps:
     - path: data/Musical_Instruments.test.parquet
       hash: md5
@@ -3991,7 +3991,7 @@ stages:
   run-default-HPF-test@Musical_Instruments:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Musical_Instruments.train.parquet
       --train=data/Musical_Instruments.valid.parquet --test=data/Musical_Instruments.test.parquet
-      -o runs/default/Musical_Instruments/HPF.duckdb HPF
+      -o runs/default/Musical_Instruments/test/HPF.duckdb HPF
     deps:
     - path: data/Musical_Instruments.test.parquet
       hash: md5
@@ -4013,7 +4013,7 @@ stages:
   run-default-Bias-test@Video_Games:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Video_Games.train.parquet
       --train=data/Video_Games.valid.parquet --test=data/Video_Games.test.parquet
-      -o runs/default/Video_Games/Bias.duckdb Bias
+      -o runs/default/Video_Games/test/Bias.duckdb Bias
     deps:
     - path: data/Video_Games.test.parquet
       hash: md5
@@ -4035,7 +4035,7 @@ stages:
   run-default-Popular-test@Video_Games:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Video_Games.train.parquet
       --train=data/Video_Games.valid.parquet --test=data/Video_Games.test.parquet
-      -o runs/default/Video_Games/Popular.duckdb Popular
+      -o runs/default/Video_Games/test/Popular.duckdb Popular
     deps:
     - path: data/Video_Games.test.parquet
       hash: md5
@@ -4057,7 +4057,7 @@ stages:
   run-default-BiasedMF-ALS-test@Video_Games:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Video_Games.train.parquet
       --train=data/Video_Games.valid.parquet --test=data/Video_Games.test.parquet
-      -o runs/default/Video_Games/BiasedMF-ALS.duckdb BiasedMF-ALS
+      -o runs/default/Video_Games/test/BiasedMF-ALS.duckdb BiasedMF-ALS
     deps:
     - path: data/Video_Games.test.parquet
       hash: md5
@@ -4079,7 +4079,7 @@ stages:
   run-default-ImplicitMF-ALS-test@Video_Games:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Video_Games.train.parquet
       --train=data/Video_Games.valid.parquet --test=data/Video_Games.test.parquet
-      -o runs/default/Video_Games/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      -o runs/default/Video_Games/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
     deps:
     - path: data/Video_Games.test.parquet
       hash: md5
@@ -4101,7 +4101,7 @@ stages:
   run-default-IKNN-Explicit-test@Video_Games:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Video_Games.train.parquet
       --train=data/Video_Games.valid.parquet --test=data/Video_Games.test.parquet
-      -o runs/default/Video_Games/IKNN-Explicit.duckdb IKNN-Explicit
+      -o runs/default/Video_Games/test/IKNN-Explicit.duckdb IKNN-Explicit
     deps:
     - path: data/Video_Games.test.parquet
       hash: md5
@@ -4123,7 +4123,7 @@ stages:
   run-default-IKNN-Implicit-test@Video_Games:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Video_Games.train.parquet
       --train=data/Video_Games.valid.parquet --test=data/Video_Games.test.parquet
-      -o runs/default/Video_Games/IKNN-Implicit.duckdb IKNN-Implicit
+      -o runs/default/Video_Games/test/IKNN-Implicit.duckdb IKNN-Implicit
     deps:
     - path: data/Video_Games.test.parquet
       hash: md5
@@ -4145,7 +4145,7 @@ stages:
   run-default-Implicit-BPR-test@Video_Games:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Video_Games.train.parquet
       --train=data/Video_Games.valid.parquet --test=data/Video_Games.test.parquet
-      -o runs/default/Video_Games/Implicit-BPR.duckdb Implicit-BPR
+      -o runs/default/Video_Games/test/Implicit-BPR.duckdb Implicit-BPR
     deps:
     - path: data/Video_Games.test.parquet
       hash: md5
@@ -4167,7 +4167,7 @@ stages:
   run-default-HPF-test@Video_Games:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Video_Games.train.parquet
       --train=data/Video_Games.valid.parquet --test=data/Video_Games.test.parquet
-      -o runs/default/Video_Games/HPF.duckdb HPF
+      -o runs/default/Video_Games/test/HPF.duckdb HPF
     deps:
     - path: data/Video_Games.test.parquet
       hash: md5
