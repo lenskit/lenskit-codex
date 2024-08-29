@@ -742,6 +742,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libxcrypt-4.4.36-hd590300_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libxml2-2.12.7-he7c6b58_4.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libzlib-1.3.1-h4ab18f5_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/line_profiler-4.1.1-py311h9547e67_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/llvm-openmp-18.1.8-hf5423f3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/llvmlite-0.41.1-py311ha6695c7_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/lz4-c-1.9.4-hcb278e6_0.conda
@@ -2098,6 +2099,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libxcrypt-4.4.36-hd590300_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libxml2-2.12.7-he7c6b58_4.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libzlib-1.3.1-h4ab18f5_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/line_profiler-4.1.1-py311h9547e67_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/llvm-openmp-18.1.8-hf5423f3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/llvmlite-0.41.1-py311ha6695c7_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/lz4-c-1.9.4-hcb278e6_0.conda
@@ -2547,6 +2549,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libxcb-1.16-hc9fafa5_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libxml2-2.12.7-h01dff8b_4.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libzlib-1.3.1-hfb2fe0b_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/line_profiler-4.1.1-py311he4fd1f5_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/llvm-openmp-18.1.8-hde57baf_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/llvmlite-0.41.1-py311hf5d242d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/lz4-c-1.9.4-hb7217d7_0.conda
@@ -11529,6 +11532,48 @@ packages:
   size: 46921
   timestamp: 1716874262512
 - kind: conda
+  name: line_profiler
+  version: 4.1.1
+  build: py311h9547e67_1
+  build_number: 1
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/line_profiler-4.1.1-py311h9547e67_1.conda
+  sha256: f1845d02de28311bc4d9da118b0fe1c6e009b13d02575884b65e340576be0a99
+  md5: 8b02edd94f3126276b9939300e3ca2a7
+  depends:
+  - ipython >=0.13
+  - libgcc-ng >=12
+  - libstdcxx-ng >=12
+  - python >=3.11,<3.12.0a0
+  - python_abi 3.11.* *_cp311
+  license: BSD-3-Clause
+  license_family: BSD
+  purls:
+  - pkg:pypi/line-profiler?source=hash-mapping
+  size: 153521
+  timestamp: 1695847488387
+- kind: conda
+  name: line_profiler
+  version: 4.1.1
+  build: py311he4fd1f5_1
+  build_number: 1
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/line_profiler-4.1.1-py311he4fd1f5_1.conda
+  sha256: a593074615059ddef0edf5211fd10785f376a535a49213fa7ca21332d7e9bbc6
+  md5: 1c9639c8fd4426c2f2f2f111826cc6c2
+  depends:
+  - ipython >=0.13
+  - libcxx >=15.0.7
+  - python >=3.11,<3.12.0a0
+  - python >=3.11,<3.12.0a0 *_cpython
+  - python_abi 3.11.* *_cp311
+  license: BSD-3-Clause
+  license_family: BSD
+  purls:
+  - pkg:pypi/line-profiler?source=hash-mapping
+  size: 141003
+  timestamp: 1695847823475
+- kind: conda
   name: llvm-openmp
   version: 18.1.8
   build: hde57baf_1
@@ -13292,6 +13337,30 @@ packages:
   - tqdm ; extra == 'doc'
   - pytest>=7 ; extra == 'test'
   requires_python: '>=3.10'
+- kind: pypi
+  name: progress-api
+  version: 0.1.0a10.dev2+g870ee4c
+  url: git+https://github.com/lenskit/progress-api@870ee4cc90a18afa19b59f20102a3ed83035fc9e
+  requires_dist:
+  - setuptools>=64 ; extra == 'dev'
+  - setuptools-scm>=8 ; extra == 'dev'
+  - build==1.* ; extra == 'dev'
+  - ruff>=0.2 ; extra == 'dev'
+  - pyright ; extra == 'dev'
+  - copier==9.* ; extra == 'dev'
+  - unbeheader~=1.3 ; extra == 'dev'
+  - ipython ; extra == 'dev'
+  - pyproject2conda ; extra == 'dev'
+  - sphinx-autobuild ; extra == 'dev'
+  - enlighten==1.* ; extra == 'dev'
+  - tqdm==4.* ; extra == 'dev'
+  - sphinx>=4.2 ; extra == 'doc'
+  - sphinxext-opengraph>=0.5 ; extra == 'doc'
+  - furo ; extra == 'doc'
+  - enlighten ; extra == 'doc'
+  - tqdm ; extra == 'doc'
+  - pytest>=7 ; extra == 'test'
+  requires_python: '>=3.10'
 - kind: conda
   name: prometheus_client
   version: 0.20.0
@@ -14928,6 +14997,32 @@ packages:
   - pkg:pypi/s3transfer?source=hash-mapping
   size: 62933
   timestamp: 1719300262364
+- kind: pypi
+  name: sandal
+  version: 0.1.0a5
+  url: git+https://github.com/mdekstrand/sandal@b776741bcec1417df438416a1af0cf262554a2a0
+  requires_dist:
+  - enlighten~=1.12
+  - colorlog==6.*
+  - progress-api>=0.1.0a9
+  - tomli~=2.0 ; python_full_version < '3.12'
+  - setuptools>=64 ; extra == 'dev'
+  - setuptools-scm>=8 ; extra == 'dev'
+  - build==1.* ; extra == 'dev'
+  - ruff>=0.2 ; extra == 'dev'
+  - pyright ; extra == 'dev'
+  - copier==9.* ; extra == 'dev'
+  - unbeheader~=1.3 ; extra == 'dev'
+  - ipython ; extra == 'dev'
+  - pyproject2conda ; extra == 'dev'
+  - sphinx-autobuild ; extra == 'dev'
+  - sphinx>=4.2 ; extra == 'doc'
+  - sphinxext-opengraph>=0.5 ; extra == 'doc'
+  - furo ; extra == 'doc'
+  - pytest>=7 ; extra == 'test'
+  - pytest-cov>=2.12 ; extra == 'test'
+  - coverage>=5 ; extra == 'test'
+  requires_python: '>=3.10'
 - kind: pypi
   name: sandal
   version: 0.1.0a5
