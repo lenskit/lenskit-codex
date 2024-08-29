@@ -148,7 +148,12 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
 export const pipeline: Pipeline = {
   stages: {
     aggregate: {
-      cmd: "python aggregate-ml.py -d merged-stats.duckdb " + Object.keys(datasets).join(" "),
+      cmd: action_cmd(
+        import.meta.url,
+        "movielens aggregate",
+        "-d merged-stats.duckdb",
+        ...Object.keys(datasets),
+      ),
       deps: ["aggregate-ml.py"].concat(Object.keys(datasets).map((n) => `${n}/ratings.duckdb`)),
       outs: ["merged-stats.duckdb"],
     },
