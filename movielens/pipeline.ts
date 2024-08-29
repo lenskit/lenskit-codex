@@ -17,10 +17,15 @@ export const datasets: Record<string, string> = {
   ML32M: "ml-32m",
 };
 
-function ml_import(_name: string, fn: string): Stage {
+function ml_import(name: string, fn: string): Stage {
   return {
-    cmd: `python ../import-ml.py ${fn}.zip`,
-    deps: ["../import-ml.py", "../ml-stats.sql", fn + ".zip"],
+    cmd: action_cmd(
+      `movielens/${name}`,
+      "movielens import",
+      "--stat-sql=../ml-stats.sql",
+      `${fn}.zip`,
+    ),
+    deps: ["../ml-stats.sql", fn + ".zip"],
     outs: ["ratings.duckdb"],
   };
 }

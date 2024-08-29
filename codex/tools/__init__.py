@@ -22,6 +22,7 @@ from . import (  # noqa: F401, E402
     amazon,
     duckscript,
     generate,
+    movielens,
     split,
     trec,
 )

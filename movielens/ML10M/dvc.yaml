@@ -1,8 +1,8 @@
 stages:
   import:
-    cmd: python ../import-ml.py ml-10m.zip
+    cmd: >-
+      python ../../action.py movielens import --stat-sql=../ml-stats.sql ml-10m.zip
     deps:
-      - ../import-ml.py
       - ../ml-stats.sql
       - ml-10m.zip
     outs:

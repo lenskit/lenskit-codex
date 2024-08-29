@@ -1,12 +1,4 @@
-"""
-Import MovieLens data.
-
-Usage:
-    ml-import.py [options] ZIPFILE
-
-Options:
-    -v, --verbose   Include verbose logging output.
-"""
+from __future__ import annotations
 
 import logging
 import os.path
@@ -15,15 +7,42 @@ from abc import ABC, abstractmethod
 from os import fspath
 from pathlib import Path
 
+import click
 import duckdb
 import numpy as np
 import pandas as pd
-from docopt import ParsedOptions, docopt
-from sandal import autoroot  # noqa: F401
-from sandal.cli import setup_logging
 
-ml_dir = Path(__file__).parent
-_log = logging.getLogger("codex.import-ml")
+from . import movielens
+
+_log = logging.getLogger(__name__)
+
+
+@movielens.command("import")
+@click.option("--stat-sql", type=Path, help="statistics SQL script")
+@click.argument("ZIPFILE", type=Path)
+def import_ml(zipfile: Path, stat_sql: Path | None = None):
+    _log.info("importing %s", zipfile)
+
+    data = open_data(zipfile)
+
+    dbf = zipfile.with_name("ratings.duckdb")
+
+    with data:
+        dirname = data.get_dirname()
+        with data.archive.open(os.path.join(dirname, data.rating_file)) as rf:
+            rate_df = data.read_ratings(rf)
+        _log.info("read %d ratings", len(rate_df))
+
+        rate_df["timestamp"] = pd.to_datetime(rate_df["timestamp"], unit="s")
+
+        _log.info("saving %s", dbf)
+        with duckdb.connect(fspath(dbf)) as db:
+            rel = db.from_df(rate_df)
+            rel.create("ratings")
+            if stat_sql:
+                _log.info("computing stats with %s", stat_sql)
+                sql = stat_sql.read_text()
+                db.execute(sql)
 
 
 class MLData(ABC):
@@ -51,6 +70,16 @@ class MLData(ABC):
 
     def __exit__(self, *args, **kwargs):
         self.archive.__exit__(*args, **kwargs)
+
+
+def open_data(file: Path) -> MLData:
+    name = file.stem
+    if name == "ml-100k":
+        return ML100K(file)
+    elif name == "ml-1m" or name == "ml-10m":
+        return MLM(file)
+    else:
+        return MLCurrent(file)
 
 
 class ML100K(MLData):
@@ -103,43 +132,3 @@ class MLCurrent(MLData):
                 "timestamp": np.int32,
             },
         ).rename(columns={"userId": "user_id", "movieId": "item_id"})
-
-
-def main(options: ParsedOptions):
-    zipf = Path(options["ZIPFILE"])
-    _log.info("importing %s", zipf)
-
-    data = open_data(zipf)
-
-    dbf = zipf.with_name("ratings.duckdb")
-
-    with data:
-        dirname = data.get_dirname()
-        with data.archive.open(os.path.join(dirname, data.rating_file)) as rf:
-            rate_df = data.read_ratings(rf)
-        _log.info("read %d ratings", len(rate_df))
-
-        rate_df["timestamp"] = pd.to_datetime(rate_df["timestamp"], unit="s")
-        sql = (ml_dir / "ml-stats.sql").read_text()
-
-        _log.info("saving %s", dbf)
-        with duckdb.connect(fspath(dbf)) as db:
-            rel = db.from_df(rate_df)
-            rel.create("ratings")
-            db.execute(sql)
-
-
-def open_data(file: Path) -> MLData:
-    name = file.stem
-    if name == "ml-100k":
-        return ML100K(file)
-    elif name == "ml-1m" or name == "ml-10m":
-        return MLM(file)
-    else:
-        return MLCurrent(file)
-
-
-if __name__ == "__main__":
-    args = docopt(__doc__)
-    setup_logging(args["--verbose"])
-    main(args)
