@@ -26,7 +26,10 @@ function* exportableRuns(models: [string, unknown][], categories: string[]) {
 
 export const exportStages = {
   "export-qrels": {
-    foreach: mapNotNullish(sourceFiles, (s) => s.part == "test" ? s.base : null),
+    foreach: mapNotNullish(
+      sourceFiles,
+      (s) => (s.part == "test" || s.part == "valid") ? s.base : null,
+    ),
     do: {
       cmd: action_cmd(
         import.meta.url,
