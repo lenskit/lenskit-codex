@@ -25,8 +25,8 @@ _log = logging.getLogger(__name__)
 
 
 @codex.command("run-duck-sql")
-@click.option("--read-only", help="open database read-only")
-@click.option("--keep-going", help="keep running even if the script fails")
+@click.option("--read-only", help="open database read-only", is_flag=True)
+@click.option("--keep-going", help="keep running even if the script fails", is_flag=True)
 @click.option("-f", "--file", "sql", type=Path, help="script file to run")
 @click.argument("DBFILES", nargs=-1)
 def duckdb_sql(sql: Path, dbfiles: list[str], read_only: bool = False, keep_going: bool = False):
