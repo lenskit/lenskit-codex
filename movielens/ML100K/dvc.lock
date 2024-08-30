@@ -407,3 +407,24 @@ stages:
       size: 323
     outs:
     - path: runs/random-sweep-best/Bias-preds.parquet
+  run-random-default-ImplicitMF-ALS:
+    cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb -o runs/random-default/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+    deps:
+    - path: ../../codex/models/ImplicitMF_ALS.py
+      hash: md5
+      md5: f88cb5bd1014e55b8c0d9a1650863c94
+      size: 359
+    - path: ratings.duckdb
+      hash: md5
+      md5: a770a8e6c558a398515b74def824e7b8
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 0341a9b25f8c8d872957470e9f29df47
+      size: 536576
+    outs:
+    - path: runs/random-default/ImplicitMF-ALS.duckdb
+      hash: md5
+      md5: b82eb915327d765576016a9612189256
+      size: 1323008
