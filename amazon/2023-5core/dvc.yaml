@@ -351,7 +351,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/Bias.duckdb Bias
+        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet Bias sweeps/${item}/Bias.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -365,6 +365,28 @@ stages:
       - Video_Games
     do:
       cmd: 'python ../../action.py sweep export sweeps/${item}/Bias.duckdb rmse'
+      deps:
+        - 'sweeps/${item}/Bias.duckdb'
+      outs:
+        - 'sweeps/${item}/Bias.csv'
+        - 'sweeps/${item}/Bias.json':
+            cache: false
+  run-sweep-best-Bias-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --param-file sweeps/${item}/Bias.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/Bias.duckdb Bias
+      deps:
+        - 'sweeps/${item}/Bias.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/Bias.duckdb'
   run-default-Popular-test:
     foreach:
       - CDs_and_Vinyl
@@ -431,7 +453,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/BiasedMF-ALS.duckdb BiasedMF-ALS
+        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet BiasedMF-ALS sweeps/${item}/BiasedMF-ALS.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -446,6 +468,28 @@ stages:
     do:
       cmd: >-
         python ../../action.py sweep export sweeps/${item}/BiasedMF-ALS.duckdb rmse
+      deps:
+        - 'sweeps/${item}/BiasedMF-ALS.duckdb'
+      outs:
+        - 'sweeps/${item}/BiasedMF-ALS.csv'
+        - 'sweeps/${item}/BiasedMF-ALS.json':
+            cache: false
+  run-sweep-best-BiasedMF-ALS-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --param-file sweeps/${item}/BiasedMF-ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/BiasedMF-ALS.duckdb BiasedMF-ALS
+      deps:
+        - 'sweeps/${item}/BiasedMF-ALS.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/BiasedMF-ALS.duckdb'
   run-default-ImplicitMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
@@ -483,7 +527,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet ImplicitMF-ALS sweeps/${item}/ImplicitMF-ALS.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -498,6 +542,28 @@ stages:
     do:
       cmd: >-
         python ../../action.py sweep export sweeps/${item}/ImplicitMF-ALS.duckdb ndcg
+      deps:
+        - 'sweeps/${item}/ImplicitMF-ALS.duckdb'
+      outs:
+        - 'sweeps/${item}/ImplicitMF-ALS.csv'
+        - 'sweeps/${item}/ImplicitMF-ALS.json':
+            cache: false
+  run-sweep-best-ImplicitMF-ALS-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --param-file sweeps/${item}/ImplicitMF-ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      deps:
+        - 'sweeps/${item}/ImplicitMF-ALS.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/ImplicitMF-ALS.duckdb'
   run-default-IKNN-Explicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -535,7 +601,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/IKNN-Explicit.duckdb IKNN-Explicit
+        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet IKNN-Explicit sweeps/${item}/IKNN-Explicit.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -550,6 +616,28 @@ stages:
     do:
       cmd: >-
         python ../../action.py sweep export sweeps/${item}/IKNN-Explicit.duckdb rmse
+      deps:
+        - 'sweeps/${item}/IKNN-Explicit.duckdb'
+      outs:
+        - 'sweeps/${item}/IKNN-Explicit.csv'
+        - 'sweeps/${item}/IKNN-Explicit.json':
+            cache: false
+  run-sweep-best-IKNN-Explicit-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --param-file sweeps/${item}/IKNN-Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN-Explicit.duckdb IKNN-Explicit
+      deps:
+        - 'sweeps/${item}/IKNN-Explicit.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/IKNN-Explicit.duckdb'
   run-default-IKNN-Implicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -587,7 +675,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/IKNN-Implicit.duckdb IKNN-Implicit
+        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet IKNN-Implicit sweeps/${item}/IKNN-Implicit.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -602,6 +690,28 @@ stages:
     do:
       cmd: >-
         python ../../action.py sweep export sweeps/${item}/IKNN-Implicit.duckdb ndcg
+      deps:
+        - 'sweeps/${item}/IKNN-Implicit.duckdb'
+      outs:
+        - 'sweeps/${item}/IKNN-Implicit.csv'
+        - 'sweeps/${item}/IKNN-Implicit.json':
+            cache: false
+  run-sweep-best-IKNN-Implicit-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --param-file sweeps/${item}/IKNN-Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN-Implicit.duckdb IKNN-Implicit
+      deps:
+        - 'sweeps/${item}/IKNN-Implicit.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/IKNN-Implicit.duckdb'
   run-default-UKNN-Explicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -639,7 +749,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/UKNN-Explicit.duckdb UKNN-Explicit
+        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet UKNN-Explicit sweeps/${item}/UKNN-Explicit.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -654,6 +764,28 @@ stages:
     do:
       cmd: >-
         python ../../action.py sweep export sweeps/${item}/UKNN-Explicit.duckdb rmse
+      deps:
+        - 'sweeps/${item}/UKNN-Explicit.duckdb'
+      outs:
+        - 'sweeps/${item}/UKNN-Explicit.csv'
+        - 'sweeps/${item}/UKNN-Explicit.json':
+            cache: false
+  run-sweep-best-UKNN-Explicit-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --param-file sweeps/${item}/UKNN-Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN-Explicit.duckdb UKNN-Explicit
+      deps:
+        - 'sweeps/${item}/UKNN-Explicit.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/UKNN-Explicit.duckdb'
   run-default-UKNN-Implicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -691,7 +823,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/UKNN-Implicit.duckdb UKNN-Implicit
+        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet UKNN-Implicit sweeps/${item}/UKNN-Implicit.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -706,6 +838,28 @@ stages:
     do:
       cmd: >-
         python ../../action.py sweep export sweeps/${item}/UKNN-Implicit.duckdb ndcg
+      deps:
+        - 'sweeps/${item}/UKNN-Implicit.duckdb'
+      outs:
+        - 'sweeps/${item}/UKNN-Implicit.csv'
+        - 'sweeps/${item}/UKNN-Implicit.json':
+            cache: false
+  run-sweep-best-UKNN-Implicit-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --param-file sweeps/${item}/UKNN-Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN-Implicit.duckdb UKNN-Implicit
+      deps:
+        - 'sweeps/${item}/UKNN-Implicit.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/UKNN-Implicit.duckdb'
   run-default-Implicit-BPR-test:
     foreach:
       - CDs_and_Vinyl
@@ -743,7 +897,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/Implicit-BPR.duckdb Implicit-BPR
+        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet Implicit-BPR sweeps/${item}/Implicit-BPR.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -758,6 +912,28 @@ stages:
     do:
       cmd: >-
         python ../../action.py sweep export sweeps/${item}/Implicit-BPR.duckdb ndcg
+      deps:
+        - 'sweeps/${item}/Implicit-BPR.duckdb'
+      outs:
+        - 'sweeps/${item}/Implicit-BPR.csv'
+        - 'sweeps/${item}/Implicit-BPR.json':
+            cache: false
+  run-sweep-best-Implicit-BPR-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --param-file sweeps/${item}/Implicit-BPR.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/Implicit-BPR.duckdb Implicit-BPR
+      deps:
+        - 'sweeps/${item}/Implicit-BPR.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/Implicit-BPR.duckdb'
   run-default-HPF-test:
     foreach:
       - CDs_and_Vinyl
@@ -795,7 +971,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/HPF.duckdb HPF
+        python ../../action.py sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet HPF sweeps/${item}/HPF.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -809,6 +985,28 @@ stages:
       - Video_Games
     do:
       cmd: 'python ../../action.py sweep export sweeps/${item}/HPF.duckdb ndcg'
+      deps:
+        - 'sweeps/${item}/HPF.duckdb'
+      outs:
+        - 'sweeps/${item}/HPF.csv'
+        - 'sweeps/${item}/HPF.json':
+            cache: false
+  run-sweep-best-HPF-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --param-file sweeps/${item}/HPF.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/HPF.duckdb HPF
+      deps:
+        - 'sweeps/${item}/HPF.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/HPF.duckdb'
   export-qrels:
     foreach:
       - CDs_and_Vinyl.test

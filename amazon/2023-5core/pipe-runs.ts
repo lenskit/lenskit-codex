@@ -6,9 +6,10 @@ import { MODELS } from "../../codex/models/model-list.ts";
 
 import { categories } from "./pipe-sources.ts";
 
-function defaultRunStage(
+function runStage(
   name: string,
   test: "test" | "valid",
+  config: "default" | "sweep-best" = "default",
 ): Stage {
   let trainFiles = ["data/${item}.train.parquet"];
   let testFile = "data/${item}.valid.parquet";
@@ -17,24 +18,37 @@ function defaultRunStage(
     testFile = "data/${item}.test.parquet";
   }
 
+  let cfgArgs = [];
+  let cfgDeps = [];
+  if (config == "default") {
+    cfgArgs = ["--default"];
+  } else if (config == "sweep-best") {
+    let f = `sweeps/\${item}/${name}.json`;
+    cfgArgs = ["--param-file", f];
+    cfgDeps.push(f);
+  } else {
+    throw new Error("invalid configuration");
+  }
+
   return {
     foreach: categories,
     do: {
       cmd: action_cmd(
         import.meta.url,
         "generate",
-        "--default",
+        ...cfgArgs,
         "-n 2000",
         ...trainFiles.map((f) => `--train=${f}`),
         `--test=${testFile}`,
-        `-o runs/default/\${item}/${test}/${name}.duckdb`,
+        `-o runs/${config}/\${item}/${test}/${name}.duckdb`,
         name,
       ),
       deps: [
+        ...cfgDeps,
         ...trainFiles,
         testFile,
       ],
-      outs: [`runs/default/\${item}/${test}/${name}.duckdb`],
+      outs: [`runs/${config}/\${item}/${test}/${name}.duckdb`],
     },
   };
 }
@@ -53,8 +67,8 @@ function sweepStage(name: string) {
         "-n 1000",
         `--train=${trainFile}`,
         `--test=${testFile}`,
-        `-o ${outFile}`,
         name,
+        outFile,
       ),
       deps: [
         trainFile,
@@ -69,10 +83,11 @@ export const runStages: Record<string, Stage> = generateStages(
   Object.entries(MODELS),
   ([name, info]) => {
     let result: Record<string, Stage> = {
-      [`run-default-${name}-test`]: defaultRunStage(name, "test"),
-      [`run-default-${name}-valid`]: defaultRunStage(name, "valid"),
+      [`run-default-${name}-test`]: runStage(name, "test"),
+      [`run-default-${name}-valid`]: runStage(name, "valid"),
     };
     if (info.sweepable) {
+      let sweepDb = `sweeps/\${item}/${name}.duckdb`;
       result[`sweep-${name}`] = sweepStage(name);
       result[`export-sweep-${name}`] = {
         foreach: categories,
@@ -80,11 +95,23 @@ export const runStages: Record<string, Stage> = generateStages(
           cmd: action_cmd(
             import.meta.url,
             "sweep export",
-            `sweeps/\${item}/${name}.duckdb`,
+            sweepDb,
             info.predictor ? "rmse" : "ndcg",
           ),
+          deps: [
+            sweepDb,
+          ],
+          outs: [
+            sweepDb.replace(/\.duckdb$/, ".csv"),
+            { [sweepDb.replace(/\.duckdb$/, ".json")]: { cache: false } },
+          ],
         },
       };
+      result[`run-sweep-best-${name}-test`] = runStage(
+        name,
+        "test",
+        "sweep-best",
+      );
     }
     return result;
   },
