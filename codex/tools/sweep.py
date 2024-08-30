@@ -84,7 +84,7 @@ def export_best_results(database: Path, metric: str):
     with duckdb.connect(fspath(database), read_only=True) as db:
         um_cols = db.table("user_metrics").columns
         um_aggs = ", ".join(
-            f"AVG({col}) AS {col}" for col in um_cols if col not in {"run", "user", "wall_time"}
+            f"AVG({col}) AS {col}" for col in um_cols if col not in {"run", "user_id", "wall_time"}
         )
         _log.info("fetching output results")
         query = f"""
