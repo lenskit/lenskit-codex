@@ -118,6 +118,9 @@ def generate(
 
             trained.close()
 
+            results.log_metrics(part)
+
+        _log.info("finished all parts")
         results.log_metrics()
 
 
