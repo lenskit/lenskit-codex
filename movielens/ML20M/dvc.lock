@@ -93,7 +93,7 @@ stages:
     outs:
     - path: sweeps/random/Bias.duckdb
       hash: md5
-      md5: a73e297f4be81c1a163f73754bc68c57
+      md5: c9c650c2aa9527fb7ac1118d6e3c0372
       size: 281554944
   sweep-random-BiasedMF-ALS:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
@@ -117,7 +117,7 @@ stages:
     outs:
     - path: sweeps/random/BiasedMF-ALS.duckdb
       hash: md5
-      md5: 126ff5c1ccc94133056eedc6fc734d46
+      md5: f667d9e1df5677a4d3656cdcaa83b0bc
       size: 591409152
   sweep-random-ImplicitMF-ALS:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
@@ -141,7 +141,7 @@ stages:
     outs:
     - path: sweeps/random/ImplicitMF-ALS.duckdb
       hash: md5
-      md5: 46fd8bdc671c637a2850f02cfee4941c
+      md5: d5745ada950a74f65a4680235ee152cc
       size: 545271808
   sweep-random-IKNN-Explicit:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
@@ -165,7 +165,7 @@ stages:
     outs:
     - path: sweeps/random/IKNN-Explicit.duckdb
       hash: md5
-      md5: 91371bf0ccd9e0bea31af356d70b8f2d
+      md5: 1457d8a5d0b3acda4fbb58491f41d8ff
       size: 237776896
   sweep-random-IKNN-Implicit:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
@@ -189,7 +189,7 @@ stages:
     outs:
     - path: sweeps/random/IKNN-Implicit.duckdb
       hash: md5
-      md5: d33c15c2a758f17ac4b7e1c5dbc8eb24
+      md5: b1840d89dc964f2f5d4e7101d57076cc
       size: 219164672
   import:
     cmd: python ../../action.py movielens import --stat-sql=../ml-stats.sql ml-20m.zip

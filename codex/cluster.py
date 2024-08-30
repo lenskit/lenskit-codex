@@ -10,11 +10,17 @@ _log = logging.getLogger(__name__)
 
 @contextmanager
 def connect_cluster(cluster: ipp.Cluster | ipp.Client | None = None) -> Generator[ipp.Client]:
+    count = os.environ.get("LK_NUM_PROCS", None)
+    config = os.environ.get("LK_IPP_CLUSTER", None)
+
     if isinstance(cluster, ipp.Client):
         yield cluster
         return
+    elif cluster is None and config is not None:
+        _log.info("connecting to cluster profile %s", config)
+        with ipp.Client(profile=config) as client:
+            yield client
 
-    count = os.environ.get("LK_NUM_PROCS", None)
     if count is not None:
         count = int(count)
     else:
@@ -25,4 +31,5 @@ def connect_cluster(cluster: ipp.Cluster | ipp.Client | None = None) -> Generato
         with ipp.Cluster(n=count) as client:
             yield client
     else:
-        yield cluster.connect_client_sync()
+        with cluster.connect_client_sync() as client:
+            yield client

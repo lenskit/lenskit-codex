@@ -13,15 +13,17 @@ Options:
 """
 
 import logging
+import re
 from pathlib import Path
 
 import click
-from duckdb import connect
+from duckdb import DuckDBPyConnection, connect
 from lenskit.util import Stopwatch
 
 from . import codex
 
 _log = logging.getLogger(__name__)
+SEGMENT_RE = re.compile(r"^--#segment\s+(.*?)\s*$", re.MULTILINE)
 
 
 @codex.command("run-duck-sql")
@@ -39,11 +41,8 @@ def duckdb_sql(sql: Path, dbfiles: list[str], read_only: bool = False, keep_goin
         with connect(dbf, read_only=read_only) as db:
             db.create_function("log_msg", log_msg)
             try:
-                db.begin()
-                db.execute(script)
-                db.commit()
+                run_script(db, script)
             except Exception as e:
-                db.rollback()
                 _log.error("script failed: %s", e)
                 if not keep_going:
                     raise e
@@ -54,3 +53,46 @@ def duckdb_sql(sql: Path, dbfiles: list[str], read_only: bool = False, keep_goin
 def log_msg(text: str) -> bool:
     _log.info("%s", text)
     return True
+
+
+def run_script(db: DuckDBPyConnection, script: str):
+    pos = 0
+    options = {}
+    while (m := SEGMENT_RE.search(script, pos)) is not None:
+        sp = m.start()
+        _log.debug("found segment at position %d", sp)
+        if script[pos:sp].strip():
+            run_segment(db, script[pos:sp], options)
+        options = parse_options(m.group(1))
+        _log.debug("segment options: %s", options)
+        pos = m.end() + 1
+
+    if script[pos:].strip():
+        run_segment(db, script[pos:], options)
+
+
+def run_segment(db: DuckDBPyConnection, segment: str, options: dict[str, bool | str]):
+    try:
+        db.begin()
+        db.execute(segment)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        if options.get("err", "fail") == "continue":
+            _log.info("segment failed, continuing: %s", e)
+        else:
+            _log.error("segment failed: %s", e)
+            raise e
+
+
+def parse_options(options: str) -> dict[str, bool | str]:
+    parts = re.split(r"\s+", options)
+    opts = {}
+    for p in parts:
+        m = re.match(r"(\w+)=(.*)", p)
+        if m:
+            opts[m.group(1)] = m.group(2)
+        else:
+            opts[p] = True
+
+    return opts
