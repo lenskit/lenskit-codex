@@ -2873,7 +2873,7 @@ stages:
       md5: d8132c08af10574d659dc54e3c1bf0d1
       size: 9605838
   collect-stats:
-    cmd: python ../../action.py run-duck-sql --database=stats.duckdb bench-stats.sql
+    cmd: python ../../action.py run-duck-sql -f bench-stats.sql stats.duckdb
     deps:
     - path: bench-stats.sql
       hash: md5
@@ -3170,7 +3170,7 @@ stages:
     outs:
     - path: stats.duckdb
       hash: md5
-      md5: 0505ce4d95b4c65db86a974fe4d9e315
+      md5: 53ad468caca13606e069d8d69894a8d9
       size: 720121856
   run-default-Popular-test@Sports_and_Outdoors:
     cmd: python ../../action.py generate --default --train=data/Sports_and_Outdoors.train.parquet
