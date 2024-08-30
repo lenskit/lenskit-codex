@@ -101,7 +101,6 @@ def run_sweep(
         ResultDB(db, store_predictions=predict) as results,
         connect_cluster() as cluster,
     ):
-        db.execute(f"ATTACH '{assign_db}' AS split (READ_ONLY)")
         _log.info("saving run spec table")
         db.from_df(space).create("run_specs")
 
