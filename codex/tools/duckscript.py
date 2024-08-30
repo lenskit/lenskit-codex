@@ -26,9 +26,10 @@ _log = logging.getLogger(__name__)
 
 @codex.command("run-duck-sql")
 @click.option("--read-only", help="open database read-only")
+@click.option("--keep-going", help="keep running even if the script fails")
 @click.option("-f", "--file", "sql", type=Path, help="script file to run")
 @click.argument("DBFILES", nargs=-1)
-def duckdb_sql(sql: Path, dbfiles: list[str], read_only: bool = False):
+def duckdb_sql(sql: Path, dbfiles: list[str], read_only: bool = False, keep_going: bool = False):
     _log.info("reading script from %s", sql)
     script = sql.read_text()
 
@@ -37,7 +38,15 @@ def duckdb_sql(sql: Path, dbfiles: list[str], read_only: bool = False):
         timer = Stopwatch()
         with connect(dbf, read_only=read_only) as db:
             db.create_function("log_msg", log_msg)
-            db.execute(script)
+            try:
+                db.begin()
+                db.execute(script)
+                db.commit()
+            except Exception as e:
+                db.rollback()
+                _log.error("script failed: %s", e)
+                if not keep_going:
+                    raise e
 
         _log.info("executed %s in %s", sql, timer)
 
