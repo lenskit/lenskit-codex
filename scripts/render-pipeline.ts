@@ -14,7 +14,7 @@ for await (const pipe of expandGlob("**/pipeline.ts", { exclude: [".pixi/**"] })
     for (const [n, p] of mod.subdirs) {
       dvcfn = joinPath(dir, n, "dvc.yaml");
       console.info("writing DVC pipe %s", dvcfn);
-      await Deno.writeTextFile(dvcfn, yaml.stringify(p));
+      await Deno.writeTextFile(dvcfn, yaml.stringify(p, { noRefs: true }));
     }
   }
 }

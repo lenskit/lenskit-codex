@@ -36,8 +36,7 @@ stages:
       - sweeps/random/Bias.duckdb
     outs:
       - sweeps/random/Bias.csv
-      - &ref_0
-        sweeps/random/Bias.json:
+      - sweeps/random/Bias.json:
           cache: false
   sweep-random-BiasedMF-ALS:
     cmd: >-
@@ -57,8 +56,7 @@ stages:
       - sweeps/random/BiasedMF-ALS.duckdb
     outs:
       - sweeps/random/BiasedMF-ALS.csv
-      - &ref_1
-        sweeps/random/BiasedMF-ALS.json:
+      - sweeps/random/BiasedMF-ALS.json:
           cache: false
   sweep-random-ImplicitMF-ALS:
     cmd: >-
@@ -79,8 +77,7 @@ stages:
       - sweeps/random/ImplicitMF-ALS.duckdb
     outs:
       - sweeps/random/ImplicitMF-ALS.csv
-      - &ref_2
-        sweeps/random/ImplicitMF-ALS.json:
+      - sweeps/random/ImplicitMF-ALS.json:
           cache: false
   sweep-random-IKNN-Explicit:
     cmd: >-
@@ -101,8 +98,7 @@ stages:
       - sweeps/random/IKNN-Explicit.duckdb
     outs:
       - sweeps/random/IKNN-Explicit.csv
-      - &ref_3
-        sweeps/random/IKNN-Explicit.json:
+      - sweeps/random/IKNN-Explicit.json:
           cache: false
   sweep-random-IKNN-Implicit:
     cmd: >-
@@ -123,8 +119,7 @@ stages:
       - sweeps/random/IKNN-Implicit.duckdb
     outs:
       - sweeps/random/IKNN-Implicit.csv
-      - &ref_4
-        sweeps/random/IKNN-Implicit.json:
+      - sweeps/random/IKNN-Implicit.json:
           cache: false
   run-random-default-Bias:
     cmd: >-
@@ -254,18 +249,23 @@ stages:
     deps:
       - sweeps/random/Bias.duckdb
       - sweeps/random/Bias.csv
-      - *ref_0
+      - sweeps/random/Bias.json:
+          cache: false
       - sweeps/random/BiasedMF-ALS.duckdb
       - sweeps/random/BiasedMF-ALS.csv
-      - *ref_1
+      - sweeps/random/BiasedMF-ALS.json:
+          cache: false
       - sweeps/random/ImplicitMF-ALS.duckdb
       - sweeps/random/ImplicitMF-ALS.csv
-      - *ref_2
+      - sweeps/random/ImplicitMF-ALS.json:
+          cache: false
       - sweeps/random/IKNN-Explicit.duckdb
       - sweeps/random/IKNN-Explicit.csv
-      - *ref_3
+      - sweeps/random/IKNN-Explicit.json:
+          cache: false
       - sweeps/random/IKNN-Implicit.duckdb
       - sweeps/random/IKNN-Implicit.csv
-      - *ref_4
+      - sweeps/random/IKNN-Implicit.json:
+          cache: false
     outs:
       - run-metrics.duckdb
