@@ -99,6 +99,7 @@ def _run_for_user(job: tuple[int, pd.DataFrame]):
     assert __options is not None
 
     user, test = job
+    test = test.set_index("item")
 
     with resource_monitor() as mon:
         result = UserResult(user, test)
@@ -113,10 +114,10 @@ def _run_for_user(job: tuple[int, pd.DataFrame]):
 
         if __options.predict:
             assert isinstance(__model, TopN)
-            preds = __model.predict_for_user(user, test["item"])
+            preds = __model.predict_for_user(user, test.index.values)
             preds.index.name = "item"
             preds = preds.to_frame("prediction").reset_index()
-            preds = preds.join(test.set_index("item")["rating"], on="item", how="left")
+            preds = preds.join(test["rating"], on="item", how="left")
             result.predictions = preds
             result.metrics["rmse"] = rmse(preds["prediction"], preds["rating"])
             result.metrics["mae"] = mae(preds["prediction"], preds["rating"])
