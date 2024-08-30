@@ -62,7 +62,7 @@ def export_runs(db: Path, out: Path, run: int | None = None):
             filter = ""
 
         query = f"""
-            SELECT user, 0, item, rank, ROUND(COALESCE(score, 0), 4), run
+            SELECT user_id, 0, item_id, rank, ROUND(COALESCE(score, 0), 4), run
             FROM recommendations
             {filter}
             ORDER BY run, user, rank

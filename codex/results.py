@@ -30,8 +30,8 @@ REC_DDL = """
 DROP TABLE IF EXISTS recommendations;
 CREATE TABLE recommendations (
     run SMALLINT NOT NULL,
-    user INT NOT NULL,
-    item INT NOT NULL,
+    user_id INT NOT NULL,
+    item_id INT NOT NULL,
     rank SMALLINT NOT NULL,
     score FLOAT NULL,
 );
@@ -40,8 +40,8 @@ PRED_DDL = """
 DROP TABLE IF EXISTS predictions;
 CREATE TABLE predictions (
     run SMALLINT NOT NULL,
-    user INT NOT NULL,
-    item INT NOT NULL,
+    user_id INT NOT NULL,
+    item_id INT NOT NULL,
     prediction FLOAT NULL,
     rating FLOAT,
 );
@@ -51,7 +51,7 @@ USER_METRIC_DDL = """
 DROP TABLE IF EXISTS user_metrics;
 CREATE TABLE user_metrics (
     run SMALLINT NOT NULL,
-    user INT NOT NULL,
+    user_id INT NOT NULL,
     wall_time FLOAT NULL,
     nrecs INT,
     ntruth INT,
@@ -75,7 +75,7 @@ class UserResult:
 
     def as_dict(self):
         row: dict[str, float | int | str | None] = {
-            "user": self.user,
+            "user_id": self.user,
             "nrecs": len(self.recommendations) if self.recommendations is not None else 0,
             "ntruth": len(self.test),
         }
@@ -141,7 +141,7 @@ class ResultDB:
             users = pd.DataFrame.from_records({"run": r.run} | r.result.as_dict() for r in to_write)
             u_cols = [
                 "run",
-                "user",
+                "user_id",
                 _maybe_col("wall_time", users),
                 "nrecs",
                 "ntruth",
