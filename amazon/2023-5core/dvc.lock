@@ -8282,3 +8282,20 @@ stages:
       hash: md5
       md5: 99874bc666602ac9ad1a21a120d64393
       size: 216749652
+  sweep-Bias@Software:
+    cmd: python ../../action.py sweep run -n 1000 --train=data/Software.train.parquet
+      --test=data/Software.valid.parquet Bias sweeps/Software/Bias.duckdb
+    deps:
+    - path: data/Software.train.parquet
+      hash: md5
+      md5: a9123aff8e7860b2579c94a8a89b6980
+      size: 11599871
+    - path: data/Software.valid.parquet
+      hash: md5
+      md5: 4654424c5915654dc73f8532d0a41e42
+      size: 324676
+    outs:
+    - path: sweeps/Software/Bias.duckdb
+      hash: md5
+      md5: 9909685e9277268a351ece20e3b2ce83
+      size: 1425289216
