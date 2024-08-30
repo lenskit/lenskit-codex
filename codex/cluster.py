@@ -20,6 +20,7 @@ def connect_cluster(cluster: ipp.Cluster | ipp.Client | None = None) -> Generato
         _log.info("connecting to cluster profile %s", config)
         with ipp.Client(profile=config) as client:
             yield client
+        return
 
     if count is not None:
         count = int(count)
