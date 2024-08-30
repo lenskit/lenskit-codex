@@ -30,7 +30,7 @@ the fold for parameter tuning.
 ```{python}
 cfg_rmse = rnd_sweep.sql("""
 SELECT item_damping, CAST(user_damping AS varchar) AS user_damping, AVG(rmse) AS rmse
-FROM run_specs JOIN user_metrics USING (rec_idx)
+FROM run_specs JOIN user_metrics USING (run)
 GROUP BY item_damping, user_damping
 """).to_df()
 (
@@ -47,7 +47,7 @@ User damping will have no effect on rankings.
 ```{python}
 cfg_ndcg = rnd_sweep.sql("""
 SELECT item_damping, AVG(ndcg) AS ndcg
-FROM run_specs JOIN user_metrics USING (rec_idx)
+FROM run_specs JOIN user_metrics USING (run)
 GROUP BY item_damping
 """).to_df()
 (

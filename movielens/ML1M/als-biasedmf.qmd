@@ -32,7 +32,7 @@ the fold for parameter tuning.
 ```{python}
 cfg_rmse = rnd_sweep.sql("""
 SELECT features, CAST(reg AS varchar) AS reg, AVG(rmse) AS rmse
-FROM run_specs JOIN user_metrics USING (rec_idx)
+FROM run_specs JOIN user_metrics USING (run)
 GROUP BY features, reg
 """).to_df()
 (
@@ -49,7 +49,7 @@ GROUP BY features, reg
 ```{python}
 cfg_ndcg = rnd_sweep.sql("""
 SELECT features, CAST(reg AS varchar) AS reg, AVG(ndcg) AS ndcg
-FROM run_specs JOIN user_metrics USING (rec_idx)
+FROM run_specs JOIN user_metrics USING (run)
 GROUP BY features, reg
 """).to_df()
 (
@@ -68,7 +68,7 @@ How long does training take?
 ```{python}
 nf_times = rnd_sweep.sql("""
 SELECT features, AVG(wall_time) AS wall, AVG(cpu_time) AS cpu
-FROM run_specs JOIN train_metrics USING (rec_idx)
+FROM run_specs JOIN train_metrics USING (run)
 GROUP BY features
 """).to_df().melt('features', var_name='type')
 nf_times['value'] = pd.to_timedelta(nf_times['value'], unit='s')

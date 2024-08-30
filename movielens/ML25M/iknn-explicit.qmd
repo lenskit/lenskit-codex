@@ -30,7 +30,7 @@ the fold for parameter tuning.
 ```{python}
 cfg_rmse = rnd_sweep.sql("""
 SELECT nnbrs, CAST(min_nbrs AS varchar) AS min_nbrs, AVG(rmse) AS rmse
-FROM run_specs JOIN user_metrics USING (rec_idx)
+FROM run_specs JOIN user_metrics USING (run)
 GROUP BY nnbrs, min_nbrs
 """).to_df()
 (
@@ -46,7 +46,7 @@ GROUP BY nnbrs, min_nbrs
 ```{python}
 cfg_ndcg = rnd_sweep.sql("""
 SELECT nnbrs, CAST(min_nbrs AS varchar) AS min_nbrs, AVG(ndcg) AS ndcg
-FROM run_specs JOIN user_metrics USING (rec_idx)
+FROM run_specs JOIN user_metrics USING (run)
 GROUP BY nnbrs, min_nbrs
 """).to_df()
 (
