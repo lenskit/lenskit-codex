@@ -1,25 +1,16 @@
 import { mapNotNullish } from "std/collections/mod.ts";
 
-import { action_cmd } from "../../codex/dvc.ts";
+import { action_cmd, isSingleStage } from "../../codex/dvc.ts";
 import { categories, sourceFiles } from "./pipe-sources.ts";
 import { MODELS } from "../../codex/models/model-list.ts";
-export { runStages } from "./pipe-runs.ts";
+import { runStages } from "./pipe-runs.ts";
+import { assert } from "std/assert/assert.ts";
 
 function* exportableRuns(models: [string, unknown][], categories: string[]) {
   for (let cat of categories) {
     for (let [model, _info] of models) {
-      yield {
-        model,
-        config: "default",
-        cat,
-        part: "valid",
-      };
-      yield {
-        model,
-        config: "default",
-        cat,
-        part: "test",
-      };
+      yield `runs/default/${cat}/valid/${model}`;
+      yield `runs/default/${cat}/test/${model}`;
     }
   }
 }
@@ -50,11 +41,11 @@ export const exportStages = {
       cmd: action_cmd(
         import.meta.url,
         "trec export runs",
-        "runs/${item.config}/${item.cat}/${item.part}/${item.model}.duckdb",
-        "runs/${item.config}/${item.cat}/${item.part}/${item.model}.run.gz",
+        "${item}.duckdb",
+        "${item}.run.gz",
       ),
-      deps: ["runs/${item.config}/${item.cat}/${item.part}/${item.model}.duckdb"],
-      outs: ["runs/${item.config}/${item.cat}/${item.part}/${item.model}.run.gz"],
+      deps: ["${item}.duckdb"],
+      outs: ["${item}.run.gz"],
     },
   },
 };

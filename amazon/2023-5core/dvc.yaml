@@ -329,6 +329,34 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/default/${item}/test/Bias.duckdb'
+  run-default-Bias-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Bias.duckdb Bias
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/Bias.duckdb'
+  sweep-Bias:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py sweep -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/Bias.duckdb Bias
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/Bias.duckdb'
   run-default-Popular-test:
     foreach:
       - CDs_and_Vinyl
@@ -344,6 +372,20 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/default/${item}/test/Popular.duckdb'
+  run-default-Popular-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Popular.duckdb Popular
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/Popular.duckdb'
   run-default-BiasedMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
@@ -359,6 +401,34 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/default/${item}/test/BiasedMF-ALS.duckdb'
+  run-default-BiasedMF-ALS-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/BiasedMF-ALS.duckdb BiasedMF-ALS
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/BiasedMF-ALS.duckdb'
+  sweep-BiasedMF-ALS:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py sweep -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/BiasedMF-ALS.duckdb BiasedMF-ALS
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/BiasedMF-ALS.duckdb'
   run-default-ImplicitMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
@@ -374,6 +444,34 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/default/${item}/test/ImplicitMF-ALS.duckdb'
+  run-default-ImplicitMF-ALS-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/ImplicitMF-ALS.duckdb'
+  sweep-ImplicitMF-ALS:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py sweep -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/ImplicitMF-ALS.duckdb'
   run-default-IKNN-Explicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -389,6 +487,34 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/default/${item}/test/IKNN-Explicit.duckdb'
+  run-default-IKNN-Explicit-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Explicit.duckdb IKNN-Explicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/IKNN-Explicit.duckdb'
+  sweep-IKNN-Explicit:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py sweep -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/IKNN-Explicit.duckdb IKNN-Explicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/IKNN-Explicit.duckdb'
   run-default-IKNN-Implicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -404,6 +530,34 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/default/${item}/test/IKNN-Implicit.duckdb'
+  run-default-IKNN-Implicit-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Implicit.duckdb IKNN-Implicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/IKNN-Implicit.duckdb'
+  sweep-IKNN-Implicit:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py sweep -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/IKNN-Implicit.duckdb IKNN-Implicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/IKNN-Implicit.duckdb'
   run-default-UKNN-Explicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -419,6 +573,34 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/default/${item}/test/UKNN-Explicit.duckdb'
+  run-default-UKNN-Explicit-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Explicit.duckdb UKNN-Explicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/UKNN-Explicit.duckdb'
+  sweep-UKNN-Explicit:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py sweep -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/UKNN-Explicit.duckdb UKNN-Explicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/UKNN-Explicit.duckdb'
   run-default-UKNN-Implicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -434,6 +616,34 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/default/${item}/test/UKNN-Implicit.duckdb'
+  run-default-UKNN-Implicit-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Implicit.duckdb UKNN-Implicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/UKNN-Implicit.duckdb'
+  sweep-UKNN-Implicit:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py sweep -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/UKNN-Implicit.duckdb UKNN-Implicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/UKNN-Implicit.duckdb'
   run-default-Implicit-BPR-test:
     foreach:
       - CDs_and_Vinyl
@@ -449,6 +659,34 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/default/${item}/test/Implicit-BPR.duckdb'
+  run-default-Implicit-BPR-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Implicit-BPR.duckdb Implicit-BPR
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/Implicit-BPR.duckdb'
+  sweep-Implicit-BPR:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py sweep -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/Implicit-BPR.duckdb Implicit-BPR
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/Implicit-BPR.duckdb'
   run-default-HPF-test:
     foreach:
       - CDs_and_Vinyl
@@ -464,132 +702,6 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/default/${item}/test/HPF.duckdb'
-  run-default-Bias-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Bias.duckdb Bias
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/Bias.duckdb'
-  run-default-Popular-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Popular.duckdb Popular
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/Popular.duckdb'
-  run-default-BiasedMF-ALS-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/BiasedMF-ALS.duckdb BiasedMF-ALS
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/BiasedMF-ALS.duckdb'
-  run-default-ImplicitMF-ALS-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/ImplicitMF-ALS.duckdb ImplicitMF-ALS
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/ImplicitMF-ALS.duckdb'
-  run-default-IKNN-Explicit-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Explicit.duckdb IKNN-Explicit
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/IKNN-Explicit.duckdb'
-  run-default-IKNN-Implicit-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Implicit.duckdb IKNN-Implicit
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/IKNN-Implicit.duckdb'
-  run-default-UKNN-Explicit-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Explicit.duckdb UKNN-Explicit
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/UKNN-Explicit.duckdb'
-  run-default-UKNN-Implicit-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Implicit.duckdb UKNN-Implicit
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/UKNN-Implicit.duckdb'
-  run-default-Implicit-BPR-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Implicit-BPR.duckdb Implicit-BPR
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/Implicit-BPR.duckdb'
   run-default-HPF-valid:
     foreach:
       - CDs_and_Vinyl
@@ -604,6 +716,20 @@ stages:
         - 'data/${item}.valid.parquet'
       outs:
         - 'runs/default/${item}/valid/HPF.duckdb'
+  sweep-HPF:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py sweep -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o sweeps/${item}/HPF.duckdb HPF
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/HPF.duckdb'
   export-qrels:
     foreach:
       - CDs_and_Vinyl.test
@@ -622,330 +748,89 @@ stages:
         - 'data/${item}.qrels.gz'
   export-default-runs:
     foreach:
-      - model: Bias
-        config: default
-        cat: CDs_and_Vinyl
-        part: valid
-      - model: Bias
-        config: default
-        cat: CDs_and_Vinyl
-        part: test
-      - model: Popular
-        config: default
-        cat: CDs_and_Vinyl
-        part: valid
-      - model: Popular
-        config: default
-        cat: CDs_and_Vinyl
-        part: test
-      - model: BiasedMF-ALS
-        config: default
-        cat: CDs_and_Vinyl
-        part: valid
-      - model: BiasedMF-ALS
-        config: default
-        cat: CDs_and_Vinyl
-        part: test
-      - model: ImplicitMF-ALS
-        config: default
-        cat: CDs_and_Vinyl
-        part: valid
-      - model: ImplicitMF-ALS
-        config: default
-        cat: CDs_and_Vinyl
-        part: test
-      - model: IKNN-Explicit
-        config: default
-        cat: CDs_and_Vinyl
-        part: valid
-      - model: IKNN-Explicit
-        config: default
-        cat: CDs_and_Vinyl
-        part: test
-      - model: IKNN-Implicit
-        config: default
-        cat: CDs_and_Vinyl
-        part: valid
-      - model: IKNN-Implicit
-        config: default
-        cat: CDs_and_Vinyl
-        part: test
-      - model: UKNN-Explicit
-        config: default
-        cat: CDs_and_Vinyl
-        part: valid
-      - model: UKNN-Explicit
-        config: default
-        cat: CDs_and_Vinyl
-        part: test
-      - model: UKNN-Implicit
-        config: default
-        cat: CDs_and_Vinyl
-        part: valid
-      - model: UKNN-Implicit
-        config: default
-        cat: CDs_and_Vinyl
-        part: test
-      - model: Implicit-BPR
-        config: default
-        cat: CDs_and_Vinyl
-        part: valid
-      - model: Implicit-BPR
-        config: default
-        cat: CDs_and_Vinyl
-        part: test
-      - model: HPF
-        config: default
-        cat: CDs_and_Vinyl
-        part: valid
-      - model: HPF
-        config: default
-        cat: CDs_and_Vinyl
-        part: test
-      - model: Bias
-        config: default
-        cat: Musical_Instruments
-        part: valid
-      - model: Bias
-        config: default
-        cat: Musical_Instruments
-        part: test
-      - model: Popular
-        config: default
-        cat: Musical_Instruments
-        part: valid
-      - model: Popular
-        config: default
-        cat: Musical_Instruments
-        part: test
-      - model: BiasedMF-ALS
-        config: default
-        cat: Musical_Instruments
-        part: valid
-      - model: BiasedMF-ALS
-        config: default
-        cat: Musical_Instruments
-        part: test
-      - model: ImplicitMF-ALS
-        config: default
-        cat: Musical_Instruments
-        part: valid
-      - model: ImplicitMF-ALS
-        config: default
-        cat: Musical_Instruments
-        part: test
-      - model: IKNN-Explicit
-        config: default
-        cat: Musical_Instruments
-        part: valid
-      - model: IKNN-Explicit
-        config: default
-        cat: Musical_Instruments
-        part: test
-      - model: IKNN-Implicit
-        config: default
-        cat: Musical_Instruments
-        part: valid
-      - model: IKNN-Implicit
-        config: default
-        cat: Musical_Instruments
-        part: test
-      - model: UKNN-Explicit
-        config: default
-        cat: Musical_Instruments
-        part: valid
-      - model: UKNN-Explicit
-        config: default
-        cat: Musical_Instruments
-        part: test
-      - model: UKNN-Implicit
-        config: default
-        cat: Musical_Instruments
-        part: valid
-      - model: UKNN-Implicit
-        config: default
-        cat: Musical_Instruments
-        part: test
-      - model: Implicit-BPR
-        config: default
-        cat: Musical_Instruments
-        part: valid
-      - model: Implicit-BPR
-        config: default
-        cat: Musical_Instruments
-        part: test
-      - model: HPF
-        config: default
-        cat: Musical_Instruments
-        part: valid
-      - model: HPF
-        config: default
-        cat: Musical_Instruments
-        part: test
-      - model: Bias
-        config: default
-        cat: Software
-        part: valid
-      - model: Bias
-        config: default
-        cat: Software
-        part: test
-      - model: Popular
-        config: default
-        cat: Software
-        part: valid
-      - model: Popular
-        config: default
-        cat: Software
-        part: test
-      - model: BiasedMF-ALS
-        config: default
-        cat: Software
-        part: valid
-      - model: BiasedMF-ALS
-        config: default
-        cat: Software
-        part: test
-      - model: ImplicitMF-ALS
-        config: default
-        cat: Software
-        part: valid
-      - model: ImplicitMF-ALS
-        config: default
-        cat: Software
-        part: test
-      - model: IKNN-Explicit
-        config: default
-        cat: Software
-        part: valid
-      - model: IKNN-Explicit
-        config: default
-        cat: Software
-        part: test
-      - model: IKNN-Implicit
-        config: default
-        cat: Software
-        part: valid
-      - model: IKNN-Implicit
-        config: default
-        cat: Software
-        part: test
-      - model: UKNN-Explicit
-        config: default
-        cat: Software
-        part: valid
-      - model: UKNN-Explicit
-        config: default
-        cat: Software
-        part: test
-      - model: UKNN-Implicit
-        config: default
-        cat: Software
-        part: valid
-      - model: UKNN-Implicit
-        config: default
-        cat: Software
-        part: test
-      - model: Implicit-BPR
-        config: default
-        cat: Software
-        part: valid
-      - model: Implicit-BPR
-        config: default
-        cat: Software
-        part: test
-      - model: HPF
-        config: default
-        cat: Software
-        part: valid
-      - model: HPF
-        config: default
-        cat: Software
-        part: test
-      - model: Bias
-        config: default
-        cat: Video_Games
-        part: valid
-      - model: Bias
-        config: default
-        cat: Video_Games
-        part: test
-      - model: Popular
-        config: default
-        cat: Video_Games
-        part: valid
-      - model: Popular
-        config: default
-        cat: Video_Games
-        part: test
-      - model: BiasedMF-ALS
-        config: default
-        cat: Video_Games
-        part: valid
-      - model: BiasedMF-ALS
-        config: default
-        cat: Video_Games
-        part: test
-      - model: ImplicitMF-ALS
-        config: default
-        cat: Video_Games
-        part: valid
-      - model: ImplicitMF-ALS
-        config: default
-        cat: Video_Games
-        part: test
-      - model: IKNN-Explicit
-        config: default
-        cat: Video_Games
-        part: valid
-      - model: IKNN-Explicit
-        config: default
-        cat: Video_Games
-        part: test
-      - model: IKNN-Implicit
-        config: default
-        cat: Video_Games
-        part: valid
-      - model: IKNN-Implicit
-        config: default
-        cat: Video_Games
-        part: test
-      - model: UKNN-Explicit
-        config: default
-        cat: Video_Games
-        part: valid
-      - model: UKNN-Explicit
-        config: default
-        cat: Video_Games
-        part: test
-      - model: UKNN-Implicit
-        config: default
-        cat: Video_Games
-        part: valid
-      - model: UKNN-Implicit
-        config: default
-        cat: Video_Games
-        part: test
-      - model: Implicit-BPR
-        config: default
-        cat: Video_Games
-        part: valid
-      - model: Implicit-BPR
-        config: default
-        cat: Video_Games
-        part: test
-      - model: HPF
-        config: default
-        cat: Video_Games
-        part: valid
-      - model: HPF
-        config: default
-        cat: Video_Games
-        part: test
+      - runs/default/CDs_and_Vinyl/valid/Bias
+      - runs/default/CDs_and_Vinyl/test/Bias
+      - runs/default/CDs_and_Vinyl/valid/Popular
+      - runs/default/CDs_and_Vinyl/test/Popular
+      - runs/default/CDs_and_Vinyl/valid/BiasedMF-ALS
+      - runs/default/CDs_and_Vinyl/test/BiasedMF-ALS
+      - runs/default/CDs_and_Vinyl/valid/ImplicitMF-ALS
+      - runs/default/CDs_and_Vinyl/test/ImplicitMF-ALS
+      - runs/default/CDs_and_Vinyl/valid/IKNN-Explicit
+      - runs/default/CDs_and_Vinyl/test/IKNN-Explicit
+      - runs/default/CDs_and_Vinyl/valid/IKNN-Implicit
+      - runs/default/CDs_and_Vinyl/test/IKNN-Implicit
+      - runs/default/CDs_and_Vinyl/valid/UKNN-Explicit
+      - runs/default/CDs_and_Vinyl/test/UKNN-Explicit
+      - runs/default/CDs_and_Vinyl/valid/UKNN-Implicit
+      - runs/default/CDs_and_Vinyl/test/UKNN-Implicit
+      - runs/default/CDs_and_Vinyl/valid/Implicit-BPR
+      - runs/default/CDs_and_Vinyl/test/Implicit-BPR
+      - runs/default/CDs_and_Vinyl/valid/HPF
+      - runs/default/CDs_and_Vinyl/test/HPF
+      - runs/default/Musical_Instruments/valid/Bias
+      - runs/default/Musical_Instruments/test/Bias
+      - runs/default/Musical_Instruments/valid/Popular
+      - runs/default/Musical_Instruments/test/Popular
+      - runs/default/Musical_Instruments/valid/BiasedMF-ALS
+      - runs/default/Musical_Instruments/test/BiasedMF-ALS
+      - runs/default/Musical_Instruments/valid/ImplicitMF-ALS
+      - runs/default/Musical_Instruments/test/ImplicitMF-ALS
+      - runs/default/Musical_Instruments/valid/IKNN-Explicit
+      - runs/default/Musical_Instruments/test/IKNN-Explicit
+      - runs/default/Musical_Instruments/valid/IKNN-Implicit
+      - runs/default/Musical_Instruments/test/IKNN-Implicit
+      - runs/default/Musical_Instruments/valid/UKNN-Explicit
+      - runs/default/Musical_Instruments/test/UKNN-Explicit
+      - runs/default/Musical_Instruments/valid/UKNN-Implicit
+      - runs/default/Musical_Instruments/test/UKNN-Implicit
+      - runs/default/Musical_Instruments/valid/Implicit-BPR
+      - runs/default/Musical_Instruments/test/Implicit-BPR
+      - runs/default/Musical_Instruments/valid/HPF
+      - runs/default/Musical_Instruments/test/HPF
+      - runs/default/Software/valid/Bias
+      - runs/default/Software/test/Bias
+      - runs/default/Software/valid/Popular
+      - runs/default/Software/test/Popular
+      - runs/default/Software/valid/BiasedMF-ALS
+      - runs/default/Software/test/BiasedMF-ALS
+      - runs/default/Software/valid/ImplicitMF-ALS
+      - runs/default/Software/test/ImplicitMF-ALS
+      - runs/default/Software/valid/IKNN-Explicit
+      - runs/default/Software/test/IKNN-Explicit
+      - runs/default/Software/valid/IKNN-Implicit
+      - runs/default/Software/test/IKNN-Implicit
+      - runs/default/Software/valid/UKNN-Explicit
+      - runs/default/Software/test/UKNN-Explicit
+      - runs/default/Software/valid/UKNN-Implicit
+      - runs/default/Software/test/UKNN-Implicit
+      - runs/default/Software/valid/Implicit-BPR
+      - runs/default/Software/test/Implicit-BPR
+      - runs/default/Software/valid/HPF
+      - runs/default/Software/test/HPF
+      - runs/default/Video_Games/valid/Bias
+      - runs/default/Video_Games/test/Bias
+      - runs/default/Video_Games/valid/Popular
+      - runs/default/Video_Games/test/Popular
+      - runs/default/Video_Games/valid/BiasedMF-ALS
+      - runs/default/Video_Games/test/BiasedMF-ALS
+      - runs/default/Video_Games/valid/ImplicitMF-ALS
+      - runs/default/Video_Games/test/ImplicitMF-ALS
+      - runs/default/Video_Games/valid/IKNN-Explicit
+      - runs/default/Video_Games/test/IKNN-Explicit
+      - runs/default/Video_Games/valid/IKNN-Implicit
+      - runs/default/Video_Games/test/IKNN-Implicit
+      - runs/default/Video_Games/valid/UKNN-Explicit
+      - runs/default/Video_Games/test/UKNN-Explicit
+      - runs/default/Video_Games/valid/UKNN-Implicit
+      - runs/default/Video_Games/test/UKNN-Implicit
+      - runs/default/Video_Games/valid/Implicit-BPR
+      - runs/default/Video_Games/test/Implicit-BPR
+      - runs/default/Video_Games/valid/HPF
+      - runs/default/Video_Games/test/HPF
     do:
-      cmd: >-
-        python ../../action.py trec export runs runs/${item.config}/${item.cat}/${item.part}/${item.model}.duckdb runs/${item.config}/${item.cat}/${item.part}/${item.model}.run.gz
+      cmd: 'python ../../action.py trec export runs ${item}.duckdb ${item}.run.gz'
       deps:
-        - 'runs/${item.config}/${item.cat}/${item.part}/${item.model}.duckdb'
+        - '${item}.duckdb'
       outs:
-        - 'runs/${item.config}/${item.cat}/${item.part}/${item.model}.run.gz'
+        - '${item}.run.gz'
