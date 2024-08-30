@@ -1,6 +1,6 @@
 import { action_cmd } from "../../codex/dvc.ts";
 
-import { sourceFiles } from "./pipe-sources.ts";
+import { allSourceFiles } from "./pipe-sources.ts";
 
 export const scanStages = {
   "scan-bench-users": {
@@ -12,7 +12,7 @@ export const scanStages = {
       "user-ids.duckdb",
       "data",
     ),
-    deps: sourceFiles.map((s) => s.path),
+    deps: allSourceFiles.map((s) => s.path),
     outs: ["user-ids.duckdb"],
   },
   "scan-bench-items": {
@@ -24,11 +24,11 @@ export const scanStages = {
       "item-ids.duckdb",
       "data",
     ),
-    deps: sourceFiles.map((s) => s.path),
+    deps: allSourceFiles.map((s) => s.path),
     outs: ["item-ids.duckdb"],
   },
   "convert-ratings": {
-    foreach: sourceFiles.map((s) => `${s.cat}.${s.part}`),
+    foreach: allSourceFiles.map((s) => `${s.cat}.${s.part}`),
     do: {
       cmd: action_cmd(
         import.meta.url,
@@ -52,7 +52,7 @@ export const scanStages = {
     outs: ["stats.duckdb"],
     deps: [
       "bench-stats.sql",
-      ...sourceFiles.map((s) => s.path.replace(".csv.gz", ".parquet")),
+      ...allSourceFiles.map((s) => s.path.replace(".csv.gz", ".parquet")),
     ],
   },
 };

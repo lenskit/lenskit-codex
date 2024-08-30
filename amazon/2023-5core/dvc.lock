@@ -5882,3 +5882,25 @@ stages:
       hash: md5
       md5: 1307c87e53b8d84863c8bdc708889414
       size: 198835166
+  run-default-UKNN-Implicit-test@Video_Games:
+    cmd: python ../../action.py generate --default -n 2000 --train=data/Video_Games.train.parquet
+      --train=data/Video_Games.valid.parquet --test=data/Video_Games.test.parquet
+      -o runs/default/Video_Games/test/UKNN-Implicit.duckdb UKNN-Implicit
+    deps:
+    - path: data/Video_Games.test.parquet
+      hash: md5
+      md5: f8e4c81bb6e5ff5b5d62e7466e7f65d1
+      size: 398580
+    - path: data/Video_Games.train.parquet
+      hash: md5
+      md5: 5475b668edf0565b692ad38a7f4ed689
+      size: 7100136
+    - path: data/Video_Games.valid.parquet
+      hash: md5
+      md5: 617b20a1ce6ba6ea485b35bb9b09ba21
+      size: 331826
+    outs:
+    - path: runs/default/Video_Games/test/UKNN-Implicit.duckdb
+      hash: md5
+      md5: aac35b95629bbead6fcb516c87644383
+      size: 178794496
