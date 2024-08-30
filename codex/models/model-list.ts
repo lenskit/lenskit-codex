@@ -12,6 +12,6 @@ export const MODELS: Record<string, ModelInfo> = {
   "IKNN-Implicit": { sweepable: true },
   "UKNN-Explicit": { sweepable: true, predictor: true },
   "UKNN-Implicit": { sweepable: true },
-  "Implicit-BPR": { sweepable: false },
-  "HPF": { sweepable: false },
+  "Implicit-BPR": { sweepable: true },
+  "HPF": { sweepable: true },
 };
