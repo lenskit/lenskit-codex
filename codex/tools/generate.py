@@ -118,18 +118,7 @@ def generate(
 
             trained.close()
 
-        aggs = "AVG(ndcg), AVG(recip_rank)"
-        if predict:
-            aggs += " AVG(rmse)"
-        results.db.execute(f"SELECT {aggs} FROM user_metrics")
-        row = results.db.fetchone()
-        assert row is not None
-        if predict:
-            ndcg, mrr, rmse = row
-            _log.info("avg. metrics: NDCG=%.3f, MRR=%.3f, RMSE=%.3f", ndcg, mrr, rmse)
-        else:
-            ndcg, mrr = row
-            _log.info("avg. metrics: NDCG=%.3f, MRR=%.3f", ndcg, mrr)
+        results.log_metrics()
 
 
 def fixed_test_sets(test: Path, train: list[Path]) -> Generator[tuple[int, TrainTestData]]:

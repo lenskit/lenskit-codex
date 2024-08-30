@@ -6,6 +6,7 @@ import json
 import logging
 from os import fspath
 from pathlib import Path
+from typing import cast
 
 import click
 import duckdb
@@ -136,24 +137,14 @@ def sweep_model(
             metrics.cpu_time,
             naturalsize(metrics.rss_max_kb * 1024),
         )
-        results.add_training(point.run, metrics)
+        run = cast(int, point.run)
+        results.add_training(run, metrics)
 
         _log.info("running recommender")
         for result in run_recommender(
             model, test, N, "predictions" in mod.outputs, cluster=cluster
         ):
-            results.add_result(point.run, result)
+            results.add_result(run, result)
 
         _log.info("run finished")
-        aggs = "AVG(ndcg), AVG(recip_rank)"
-        if "predictions" in mod.outputs:
-            aggs += " AVG(rmse)"
-        results.db.execute(f"SELECT {aggs} FROM user_metrics WHERE run = ?", [point.run])
-        row = results.db.fetchone()
-        assert row is not None
-        if "predictions" in mod.outputs:
-            ndcg, mrr, rmse = row
-            _log.info("avg. metrics: NDCG=%.3f, MRR=%.3f, RMSE=%.3f", ndcg, mrr, rmse)
-        else:
-            ndcg, mrr = row
-            _log.info("avg. metrics: NDCG=%.3f, MRR=%.3f", ndcg, mrr)
+        results.log_metrics(run)

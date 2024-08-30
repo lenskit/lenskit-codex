@@ -129,6 +129,25 @@ class ResultDB:
         if len(self.queued) >= self.batch_size:
             self.flush()
 
+    def log_metrics(self, run: int | None = None):
+        "Log aggregate metrics."
+        self.flush()
+        aggs = "AVG(ndcg), AVG(recip_rank)"
+        if self.store_predictions:
+            aggs += ", AVG(rmse)"
+        if run is not None:
+            self.db.execute(f"SELECT {aggs} FROM user_metrics WHERE run = ?", [run])
+        else:
+            self.db.execute(f"SELECT {aggs} FROM user_metrics")
+        row = self.db.fetchone()
+        assert row is not None
+        if self.store_predictions:
+            ndcg, mrr, rmse = row
+            _log.info("avg. metrics: NDCG=%.3f, MRR=%.3f, RMSE=%.3f", ndcg, mrr, rmse)
+        else:
+            ndcg, mrr = row
+            _log.info("avg. metrics: NDCG=%.3f, MRR=%.3f", ndcg, mrr)
+
     def flush(self) -> None:
         if not self.queued:
             return
