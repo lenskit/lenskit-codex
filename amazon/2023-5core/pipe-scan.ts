@@ -48,7 +48,7 @@ export const scanStages = {
     },
   },
   "collect-stats": {
-    cmd: action_cmd(import.meta.url, "run-duck-sql", "--database=stats.duckdb", "bench-stats.sql"),
+    cmd: action_cmd(import.meta.url, "run-duck-sql", "-f bench-stats.sql", "stats.duckdb"),
     outs: ["stats.duckdb"],
     deps: [
       "bench-stats.sql",

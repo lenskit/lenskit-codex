@@ -237,8 +237,7 @@ stages:
       outs:
         - 'data/${item}.parquet'
   collect-stats:
-    cmd: >-
-      python ../../action.py run-duck-sql --database=stats.duckdb bench-stats.sql
+    cmd: python ../../action.py run-duck-sql -f bench-stats.sql stats.duckdb
     outs:
       - stats.duckdb
     deps:

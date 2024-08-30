@@ -25,25 +25,21 @@ _log = logging.getLogger(__name__)
 
 
 @codex.command("run-duck-sql")
-@click.option("-D", "--database", "db_file", help="database file to open")
-@click.argument("SQL", type=Path)
-def duckdb_sql(sql: Path, db_file: str | None = None):
+@click.option("--read-only", help="open database read-only")
+@click.option("-f", "--file", "sql", type=Path, help="script file to run")
+@click.argument("DBFILES", nargs=-1)
+def duckdb_sql(sql: Path, dbfiles: list[str], read_only: bool = False):
     _log.info("reading script from %s", sql)
     script = sql.read_text()
 
-    if db_file:
-        _log.info("opening database file %s", db_file)
-        db = connect(db_file)
-    else:
-        _log.info("opening in-memory database")
-        db = connect()
+    for dbf in dbfiles:
+        _log.info("opening database file %s", dbf)
+        timer = Stopwatch()
+        with connect(dbf, read_only=read_only) as db:
+            db.create_function("log_msg", log_msg)
+            db.execute(script)
 
-    timer = Stopwatch()
-    with db:
-        db.create_function("log_msg", log_msg)
-        db.execute(script)
-
-    _log.info("executed %s in %s", sql, timer)
+        _log.info("executed %s in %s", sql, timer)
 
 
 def log_msg(text: str) -> bool:

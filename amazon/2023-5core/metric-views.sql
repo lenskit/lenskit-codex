@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS metrics;
 CREATE VIEW metrics AS
 SELECT
     regexp_extract(file, '^runs/\w+/(\w+)/', 1) AS category,
