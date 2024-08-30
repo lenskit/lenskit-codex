@@ -11,14 +11,33 @@ from . import collect
 _log = logging.getLogger(__name__)
 
 METRIC_AGG_DDL = """
+DROP TABLE IF EXISTS run_files;
+DROP SEQUENCE IF EXISTS run_fileno;
+CREATE SEQUENCE run_fileno START 1;
+CREATE TABLE run_files (
+    fileno INT PRIMARY KEY DEFAULT nextval('run_fileno'),
+    filename VARCHAR NOT NULL UNIQUE,
+);
 DROP TABLE IF EXISTS run_metrics;
 CREATE TABLE run_metrics (
-    file VARCHAR NOT NULL,
+    fileno INT NOT NULL,
     run TINYINT NOT NULL,
     ndcg FLOAT,
     mrr FLOAT,
     user_rmse FLOAT
-)
+);
+DROP TABLE IF EXISTS user_metrics;
+CREATE TABLE user_metrics (
+    fileno INT NOT NULL,
+    run TINYINT NOT NULL,
+    wall_time FLOAT,
+    nrecs INT,
+    ntruth INT,
+    ndcg FLOAT,
+    recip_rank FLOAT,
+    rmse FLOAT,
+    mae FLOAT,
+);
 """
 
 
@@ -38,6 +57,13 @@ def collect_metrics(
             _log.info("reading %s", src_db)
             db.execute(f"ATTACH '{src_db}' AS src (READ_ONLY)")
 
+            db.execute(
+                "INSERT INTO run_files (filename) VALUES (?) RETURNING fileno", [src_db.as_posix()]
+            )
+            fnrow = db.fetchone()
+            assert fnrow is not None
+            (fileno,) = fnrow
+
             db.execute("""
                 SELECT column_name FROM duckdb_columns()
                 WHERE database_name = 'src'
@@ -45,20 +71,31 @@ def collect_metrics(
             """)
             src_cols = [r[0] for r in db.fetchall()]
 
+            ucols = "ndcg, recip_rank"
             cols = "ndcg, mrr"
             agg = "AVG(ndcg) AS ndcg, AVG(recip_rank) AS mrr"
             if "rmse" in src_cols:
+                ucols += ", rmse, mae"
                 cols += ", user_rmse"
                 agg += ", AVG(rmse) AS user_rmse"
 
             db.execute(
                 f"""
-                    INSERT INTO run_metrics (file, run, {cols})
+                    INSERT INTO run_metrics (fileno, run, {cols})
                     SELECT ?, run, {agg}
                     FROM src.user_metrics
                     GROUP BY run
                 """,
-                [str(src_db)],
+                [fileno],
+            )
+
+            db.execute(
+                f"""
+                    INSERT INTO user_metrics (fileno, run, {ucols})
+                    SELECT ?, run, {ucols}
+                    FROM src.user_metrics
+                """,
+                [fileno],
             )
 
             _log.debug("detaching source database")

@@ -38,18 +38,18 @@ run_db = duckdb.connect('run-metrics.duckdb', read_only=True)
 
 ```{python}
 rnd_rmse = run_db.query('''
-SELECT model, config, AVG(user_rmse) AS user_rmse FROM metrics
-WHERE split = 'random' AND user_rmse IS NOT NULL
-GROUP BY model, config
+SELECT model, config, rmse, mae
+FROM variants JOIN user_metrics USING (fileno)
+WHERE split = 'random' AND rmse IS NOT NULL
 ''').to_df()
 ```
 
 ```{python}
 (
     pn.ggplot(rnd_rmse)
-    + pn.aes(x='model', y='user_rmse', fill='config')
-    + pn.geom_col(position='dodge')
-    + pn.scale_fill_brewer('qual', 'Dark2')
+    + pn.aes(x='model', y='rmse', color='config')
+    + pn.geom_boxplot(position='dodge')
+    + pn.scale_color_brewer('qual', 'Dark2')
 )
 ```
 
@@ -58,18 +58,18 @@ GROUP BY model, config
 
 ```{python}
 rnd_topn = run_db.query('''
-SELECT model, config, AVG(ndcg) AS ndcg, AVG(mrr) AS mrr FROM metrics
+SELECT model, config, ndcg, recip_rank
+FROM variants JOIN user_metrics USING (fileno)
 WHERE split = 'random'
-GROUP BY model, config
 ''').to_df()
 ```
 
 ```{python}
 (
     pn.ggplot(rnd_topn)
-    + pn.aes(x='model', y='ndcg', fill='config')
-    + pn.geom_col(position='dodge', )
-    + pn.scale_fill_brewer('qual', 'Dark2')
+    + pn.aes(x='model', y='ndcg', color='config')
+    + pn.geom_boxplot()
+    + pn.scale_color_brewer('qual', 'Dark2')
     + pn.coord_flip()
 )
 ```
