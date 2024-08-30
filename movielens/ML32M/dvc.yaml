@@ -121,6 +121,48 @@ stages:
       - sweeps/random/IKNN-Implicit.csv
       - sweeps/random/IKNN-Implicit.json:
           cache: false
+  sweep-random-UKNN-Explicit:
+    cmd: >-
+      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb UKNN-Explicit sweeps/random/UKNN-Explicit.duckdb
+    params:
+      - ../../config.toml:
+          - random.seed
+    deps:
+      - splits/random.duckdb
+      - ratings.duckdb
+      - ../../codex/models/UKNN_Explicit.py
+    outs:
+      - sweeps/random/UKNN-Explicit.duckdb
+  export-random-UKNN-Explicit:
+    cmd: >-
+      python ../../action.py sweep export sweeps/random/UKNN-Explicit.duckdb rmse
+    deps:
+      - sweeps/random/UKNN-Explicit.duckdb
+    outs:
+      - sweeps/random/UKNN-Explicit.csv
+      - sweeps/random/UKNN-Explicit.json:
+          cache: false
+  sweep-random-UKNN-Implicit:
+    cmd: >-
+      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb UKNN-Implicit sweeps/random/UKNN-Implicit.duckdb
+    params:
+      - ../../config.toml:
+          - random.seed
+    deps:
+      - splits/random.duckdb
+      - ratings.duckdb
+      - ../../codex/models/UKNN_Implicit.py
+    outs:
+      - sweeps/random/UKNN-Implicit.duckdb
+  export-random-UKNN-Implicit:
+    cmd: >-
+      python ../../action.py sweep export sweeps/random/UKNN-Implicit.duckdb ndcg
+    deps:
+      - sweeps/random/UKNN-Implicit.duckdb
+    outs:
+      - sweeps/random/UKNN-Implicit.csv
+      - sweeps/random/UKNN-Implicit.json:
+          cache: false
   run-random-default-Bias:
     cmd: >-
       python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Bias.duckdb Bias
@@ -225,6 +267,44 @@ stages:
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/IKNN-Implicit.json
+  run-random-default-UKNN-Explicit:
+    cmd: >-
+      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Explicit.duckdb UKNN-Explicit
+    outs:
+      - runs/random-default/UKNN-Explicit.duckdb
+    deps:
+      - ../../codex/models/UKNN_Explicit.py
+      - ratings.duckdb
+      - splits/random.duckdb
+  run-random-sweep-best-UKNN-Explicit:
+    cmd: >-
+      python ../../action.py generate --param-file=sweeps/random/UKNN-Explicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/UKNN-Explicit.duckdb UKNN-Explicit
+    outs:
+      - runs/random-sweep-best/UKNN-Explicit.duckdb
+    deps:
+      - ../../codex/models/UKNN_Explicit.py
+      - ratings.duckdb
+      - splits/random.duckdb
+      - sweeps/random/UKNN-Explicit.json
+  run-random-default-UKNN-Implicit:
+    cmd: >-
+      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Implicit.duckdb UKNN-Implicit
+    outs:
+      - runs/random-default/UKNN-Implicit.duckdb
+    deps:
+      - ../../codex/models/UKNN_Implicit.py
+      - ratings.duckdb
+      - splits/random.duckdb
+  run-random-sweep-best-UKNN-Implicit:
+    cmd: >-
+      python ../../action.py generate --param-file=sweeps/random/UKNN-Implicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/UKNN-Implicit.duckdb UKNN-Implicit
+    outs:
+      - runs/random-sweep-best/UKNN-Implicit.duckdb
+    deps:
+      - ../../codex/models/UKNN_Implicit.py
+      - ratings.duckdb
+      - splits/random.duckdb
+      - sweeps/random/UKNN-Implicit.json
   run-random-default-Implicit-BPR:
     cmd: >-
       python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Implicit-BPR.duckdb Implicit-BPR
@@ -258,6 +338,10 @@ stages:
       - runs/random-sweep-best/IKNN-Explicit.duckdb
       - runs/random-default/IKNN-Implicit.duckdb
       - runs/random-sweep-best/IKNN-Implicit.duckdb
+      - runs/random-default/UKNN-Explicit.duckdb
+      - runs/random-sweep-best/UKNN-Explicit.duckdb
+      - runs/random-default/UKNN-Implicit.duckdb
+      - runs/random-sweep-best/UKNN-Implicit.duckdb
       - runs/random-default/Implicit-BPR.duckdb
       - runs/random-default/HPF.duckdb
     outs:

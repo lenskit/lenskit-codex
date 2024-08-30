@@ -524,6 +524,76 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/default/${item}/test/IKNN-Implicit.duckdb'
+  run-default-UKNN-Explicit-test:
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN-Explicit.duckdb UKNN-Explicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/test/UKNN-Explicit.duckdb'
+  run-default-UKNN-Implicit-test:
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN-Implicit.duckdb UKNN-Implicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/test/UKNN-Implicit.duckdb'
   run-default-Implicit-BPR-test:
     foreach:
       - Arts_Crafts_and_Sewing
@@ -798,6 +868,74 @@ stages:
         - 'data/${item}.valid.parquet'
       outs:
         - 'runs/default/${item}/valid/IKNN-Implicit.duckdb'
+  run-default-UKNN-Explicit-valid:
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Explicit.duckdb UKNN-Explicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/UKNN-Explicit.duckdb'
+  run-default-UKNN-Implicit-valid:
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
+    do:
+      cmd: >-
+        python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Implicit.duckdb UKNN-Implicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/UKNN-Implicit.duckdb'
   run-default-Implicit-BPR-valid:
     foreach:
       - Arts_Crafts_and_Sewing
@@ -972,6 +1110,22 @@ stages:
         config: default
         cat: Arts_Crafts_and_Sewing
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Arts_Crafts_and_Sewing
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Arts_Crafts_and_Sewing
@@ -1036,6 +1190,22 @@ stages:
         config: default
         cat: Automotive
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Automotive
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Automotive
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Automotive
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Automotive
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Automotive
@@ -1100,6 +1270,22 @@ stages:
         config: default
         cat: Baby_Products
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Baby_Products
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Baby_Products
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Baby_Products
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Baby_Products
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Baby_Products
@@ -1164,6 +1350,22 @@ stages:
         config: default
         cat: Beauty_and_Personal_Care
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Beauty_and_Personal_Care
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Beauty_and_Personal_Care
@@ -1228,6 +1430,22 @@ stages:
         config: default
         cat: Books
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Books
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Books
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Books
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Books
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Books
@@ -1292,6 +1510,22 @@ stages:
         config: default
         cat: CDs_and_Vinyl
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: CDs_and_Vinyl
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: CDs_and_Vinyl
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: CDs_and_Vinyl
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: CDs_and_Vinyl
+        part: test
       - model: Implicit-BPR
         config: default
         cat: CDs_and_Vinyl
@@ -1356,6 +1590,22 @@ stages:
         config: default
         cat: Cell_Phones_and_Accessories
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Cell_Phones_and_Accessories
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Cell_Phones_and_Accessories
@@ -1420,6 +1670,22 @@ stages:
         config: default
         cat: Clothing_Shoes_and_Jewelry
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Clothing_Shoes_and_Jewelry
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Clothing_Shoes_and_Jewelry
@@ -1484,6 +1750,22 @@ stages:
         config: default
         cat: Electronics
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Electronics
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Electronics
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Electronics
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Electronics
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Electronics
@@ -1548,6 +1830,22 @@ stages:
         config: default
         cat: Grocery_and_Gourmet_Food
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Grocery_and_Gourmet_Food
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Grocery_and_Gourmet_Food
@@ -1612,6 +1910,22 @@ stages:
         config: default
         cat: Health_and_Household
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Health_and_Household
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Health_and_Household
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Health_and_Household
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Health_and_Household
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Health_and_Household
@@ -1676,6 +1990,22 @@ stages:
         config: default
         cat: Home_and_Kitchen
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Home_and_Kitchen
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Home_and_Kitchen
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Home_and_Kitchen
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Home_and_Kitchen
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Home_and_Kitchen
@@ -1740,6 +2070,22 @@ stages:
         config: default
         cat: Industrial_and_Scientific
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Industrial_and_Scientific
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Industrial_and_Scientific
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Industrial_and_Scientific
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Industrial_and_Scientific
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Industrial_and_Scientific
@@ -1804,6 +2150,22 @@ stages:
         config: default
         cat: Kindle_Store
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Kindle_Store
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Kindle_Store
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Kindle_Store
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Kindle_Store
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Kindle_Store
@@ -1868,6 +2230,22 @@ stages:
         config: default
         cat: Movies_and_TV
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Movies_and_TV
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Movies_and_TV
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Movies_and_TV
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Movies_and_TV
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Movies_and_TV
@@ -1932,6 +2310,22 @@ stages:
         config: default
         cat: Musical_Instruments
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Musical_Instruments
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Musical_Instruments
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Musical_Instruments
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Musical_Instruments
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Musical_Instruments
@@ -1996,6 +2390,22 @@ stages:
         config: default
         cat: Office_Products
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Office_Products
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Office_Products
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Office_Products
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Office_Products
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Office_Products
@@ -2060,6 +2470,22 @@ stages:
         config: default
         cat: Patio_Lawn_and_Garden
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Patio_Lawn_and_Garden
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Patio_Lawn_and_Garden
@@ -2124,6 +2550,22 @@ stages:
         config: default
         cat: Pet_Supplies
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Pet_Supplies
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Pet_Supplies
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Pet_Supplies
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Pet_Supplies
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Pet_Supplies
@@ -2188,6 +2630,22 @@ stages:
         config: default
         cat: Software
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Software
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Software
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Software
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Software
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Software
@@ -2252,6 +2710,22 @@ stages:
         config: default
         cat: Sports_and_Outdoors
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Sports_and_Outdoors
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Sports_and_Outdoors
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Sports_and_Outdoors
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Sports_and_Outdoors
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Sports_and_Outdoors
@@ -2316,6 +2790,22 @@ stages:
         config: default
         cat: Tools_and_Home_Improvement
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Tools_and_Home_Improvement
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Tools_and_Home_Improvement
@@ -2380,6 +2870,22 @@ stages:
         config: default
         cat: Toys_and_Games
         part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Toys_and_Games
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Toys_and_Games
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Toys_and_Games
+        part: valid
+      - model: UKNN-Implicit
+        config: default
+        cat: Toys_and_Games
+        part: test
       - model: Implicit-BPR
         config: default
         cat: Toys_and_Games
@@ -2441,6 +2947,22 @@ stages:
         cat: Video_Games
         part: valid
       - model: IKNN-Implicit
+        config: default
+        cat: Video_Games
+        part: test
+      - model: UKNN-Explicit
+        config: default
+        cat: Video_Games
+        part: valid
+      - model: UKNN-Explicit
+        config: default
+        cat: Video_Games
+        part: test
+      - model: UKNN-Implicit
+        config: default
+        cat: Video_Games
+        part: valid
+      - model: UKNN-Implicit
         config: default
         cat: Video_Games
         part: test
