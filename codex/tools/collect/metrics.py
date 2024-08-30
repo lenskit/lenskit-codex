@@ -1,4 +1,5 @@
 import logging
+from collections.abc import Generator
 from os import fspath
 from pathlib import Path
 
@@ -23,15 +24,18 @@ CREATE TABLE run_metrics (
 
 @collect.command("metrics")
 @click.option("--view-script", type=Path, help="SQL script to create derived views")
+@click.argument("-g", "--glob", help="Glob to select files from directories.")
 @click.argument("DBFILE", type=Path)
 @click.argument("INPUTS", type=Path, nargs=-1, required=True)
-def collect_metrics(dbfile: Path, inputs: list[Path], view_script: Path | None = None):
+def collect_metrics(
+    dbfile: Path, inputs: list[Path], view_script: Path | None = None, glob: str | None = None
+):
     "Collect metrics from runs across DB files."
 
     _log.info("opening output database %s", dbfile)
     with connect(fspath(dbfile)) as db:
         db.execute(METRIC_AGG_DDL)
-        for src_db in inputs:
+        for src_db in find_inputs(inputs, glob):
             _log.info("reading %s", src_db)
             db.execute(f"ATTACH '{src_db}' AS src (READ_ONLY)")
 
@@ -65,3 +69,14 @@ def collect_metrics(dbfile: Path, inputs: list[Path], view_script: Path | None =
             _log.info("running %s", view_script)
             sql = view_script.read_text()
             db.execute(sql)
+
+
+def find_inputs(inputs: list[Path], glob: str | None) -> Generator[Path]:
+    for src in inputs:
+        if src.is_dir():
+            if glob is None:
+                _log.warn("no glob specified, defaulting to **/*.duckdb")
+                glob = "**/*.duckdb"
+            yield from src.glob(glob)
+        else:
+            yield src

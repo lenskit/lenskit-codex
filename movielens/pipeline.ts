@@ -133,15 +133,31 @@ function ml_runs(ds: string): Record<string, Stage> {
 
 async function ml_pipeline(name: string): Promise<Pipeline> {
   const fn = datasets[name];
+  let splits = await ml_splits(name);
+  let sweeps = ml_sweeps(name);
+  let runs = ml_runs(name);
+
   return {
-    stages: Object.assign(
-      {
-        ["import"]: ml_import(name, fn),
+    stages: {
+      import: ml_import(name, fn),
+
+      ...splits,
+      ...sweeps,
+      ...runs,
+
+      "collect-metrics": {
+        cmd: action_cmd(
+          `movielens/${name}`,
+          "collect metrics",
+          "-o run-metrics.duckdb",
+          "--view-script=../ml-run-metrics.sql",
+          "runs/*/*.duckdb",
+        ),
+        // @ts-ignore i'm lazy
+        deps: Object.values(sweeps).map((s) => s.outs).flat(),
+        outs: ["run-metrics.duckdb"],
       },
-      await ml_splits(name),
-      ml_sweeps(name),
-      ml_runs(name),
-    ),
+    },
   };
 }
 

@@ -315,7 +315,7 @@ stages:
       - data/Video_Games.train.parquet
       - data/Video_Games.valid.parquet
   run-default-Bias-test:
-    foreach: &ref_0
+    foreach:
       - Arts_Crafts_and_Sewing
       - Automotive
       - Baby_Products
@@ -350,7 +350,31 @@ stages:
       outs:
         - 'runs/default/${item}/test/Bias.duckdb'
   run-default-Popular-test:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Popular.duckdb Popular
@@ -361,7 +385,31 @@ stages:
       outs:
         - 'runs/default/${item}/test/Popular.duckdb'
   run-default-BiasedMF-ALS-test:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/BiasedMF-ALS.duckdb BiasedMF-ALS
@@ -372,7 +420,31 @@ stages:
       outs:
         - 'runs/default/${item}/test/BiasedMF-ALS.duckdb'
   run-default-ImplicitMF-ALS-test:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
@@ -383,7 +455,31 @@ stages:
       outs:
         - 'runs/default/${item}/test/ImplicitMF-ALS.duckdb'
   run-default-IKNN-Explicit-test:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Explicit.duckdb IKNN-Explicit
@@ -394,7 +490,31 @@ stages:
       outs:
         - 'runs/default/${item}/test/IKNN-Explicit.duckdb'
   run-default-IKNN-Implicit-test:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Implicit.duckdb IKNN-Implicit
@@ -405,7 +525,31 @@ stages:
       outs:
         - 'runs/default/${item}/test/IKNN-Implicit.duckdb'
   run-default-Implicit-BPR-test:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Implicit-BPR.duckdb Implicit-BPR
@@ -416,7 +560,31 @@ stages:
       outs:
         - 'runs/default/${item}/test/Implicit-BPR.duckdb'
   run-default-HPF-test:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/HPF.duckdb HPF
@@ -427,7 +595,31 @@ stages:
       outs:
         - 'runs/default/${item}/test/HPF.duckdb'
   run-default-Bias-valid:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Bias.duckdb Bias
@@ -437,7 +629,31 @@ stages:
       outs:
         - 'runs/default/${item}/valid/Bias.duckdb'
   run-default-Popular-valid:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Popular.duckdb Popular
@@ -447,7 +663,31 @@ stages:
       outs:
         - 'runs/default/${item}/valid/Popular.duckdb'
   run-default-BiasedMF-ALS-valid:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/BiasedMF-ALS.duckdb BiasedMF-ALS
@@ -457,7 +697,31 @@ stages:
       outs:
         - 'runs/default/${item}/valid/BiasedMF-ALS.duckdb'
   run-default-ImplicitMF-ALS-valid:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/ImplicitMF-ALS.duckdb ImplicitMF-ALS
@@ -467,7 +731,31 @@ stages:
       outs:
         - 'runs/default/${item}/valid/ImplicitMF-ALS.duckdb'
   run-default-IKNN-Explicit-valid:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Explicit.duckdb IKNN-Explicit
@@ -477,7 +765,31 @@ stages:
       outs:
         - 'runs/default/${item}/valid/IKNN-Explicit.duckdb'
   run-default-IKNN-Implicit-valid:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Implicit.duckdb IKNN-Implicit
@@ -487,7 +799,31 @@ stages:
       outs:
         - 'runs/default/${item}/valid/IKNN-Implicit.duckdb'
   run-default-Implicit-BPR-valid:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Implicit-BPR.duckdb Implicit-BPR
@@ -497,7 +833,31 @@ stages:
       outs:
         - 'runs/default/${item}/valid/Implicit-BPR.duckdb'
   run-default-HPF-valid:
-    foreach: *ref_0
+    foreach:
+      - Arts_Crafts_and_Sewing
+      - Automotive
+      - Baby_Products
+      - Beauty_and_Personal_Care
+      - Books
+      - CDs_and_Vinyl
+      - Cell_Phones_and_Accessories
+      - Clothing_Shoes_and_Jewelry
+      - Electronics
+      - Grocery_and_Gourmet_Food
+      - Health_and_Household
+      - Home_and_Kitchen
+      - Industrial_and_Scientific
+      - Kindle_Store
+      - Movies_and_TV
+      - Musical_Instruments
+      - Office_Products
+      - Patio_Lawn_and_Garden
+      - Pet_Supplies
+      - Software
+      - Sports_and_Outdoors
+      - Tools_and_Home_Improvement
+      - Toys_and_Games
+      - Video_Games
     do:
       cmd: >-
         python ../../action.py generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/HPF.duckdb HPF
