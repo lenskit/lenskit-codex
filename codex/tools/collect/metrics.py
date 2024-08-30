@@ -24,14 +24,13 @@ CREATE TABLE run_metrics (
 
 @collect.command("metrics")
 @click.option("--view-script", type=Path, help="SQL script to create derived views")
-@click.argument("-g", "--glob", help="Glob to select files from directories.")
+@click.option("-g", "--glob", help="Glob to select files from directories.")
 @click.argument("DBFILE", type=Path)
 @click.argument("INPUTS", type=Path, nargs=-1, required=True)
 def collect_metrics(
     dbfile: Path, inputs: list[Path], view_script: Path | None = None, glob: str | None = None
 ):
     "Collect metrics from runs across DB files."
-
     _log.info("opening output database %s", dbfile)
     with connect(fspath(dbfile)) as db:
         db.execute(METRIC_AGG_DDL)

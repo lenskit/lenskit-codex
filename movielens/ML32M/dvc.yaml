@@ -245,27 +245,20 @@ stages:
       - splits/random.duckdb
   collect-metrics:
     cmd: >-
-      python ../../action.py collect metrics -o run-metrics.duckdb --view-script=../ml-run-metrics.sql runs/*/*.duckdb
+      python ../../action.py collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql runs
     deps:
-      - sweeps/random/Bias.duckdb
-      - sweeps/random/Bias.csv
-      - sweeps/random/Bias.json:
-          cache: false
-      - sweeps/random/BiasedMF-ALS.duckdb
-      - sweeps/random/BiasedMF-ALS.csv
-      - sweeps/random/BiasedMF-ALS.json:
-          cache: false
-      - sweeps/random/ImplicitMF-ALS.duckdb
-      - sweeps/random/ImplicitMF-ALS.csv
-      - sweeps/random/ImplicitMF-ALS.json:
-          cache: false
-      - sweeps/random/IKNN-Explicit.duckdb
-      - sweeps/random/IKNN-Explicit.csv
-      - sweeps/random/IKNN-Explicit.json:
-          cache: false
-      - sweeps/random/IKNN-Implicit.duckdb
-      - sweeps/random/IKNN-Implicit.csv
-      - sweeps/random/IKNN-Implicit.json:
-          cache: false
+      - runs/random-default/Bias.duckdb
+      - runs/random-sweep-best/Bias.duckdb
+      - runs/random-default/Popular.duckdb
+      - runs/random-default/BiasedMF-ALS.duckdb
+      - runs/random-sweep-best/BiasedMF-ALS.duckdb
+      - runs/random-default/ImplicitMF-ALS.duckdb
+      - runs/random-sweep-best/ImplicitMF-ALS.duckdb
+      - runs/random-default/IKNN-Explicit.duckdb
+      - runs/random-sweep-best/IKNN-Explicit.duckdb
+      - runs/random-default/IKNN-Implicit.duckdb
+      - runs/random-sweep-best/IKNN-Implicit.duckdb
+      - runs/random-default/Implicit-BPR.duckdb
+      - runs/random-default/HPF.duckdb
     outs:
       - run-metrics.duckdb

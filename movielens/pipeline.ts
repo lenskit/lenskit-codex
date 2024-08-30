@@ -149,12 +149,14 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
         cmd: action_cmd(
           `movielens/${name}`,
           "collect metrics",
-          "-o run-metrics.duckdb",
+          "run-metrics.duckdb",
           "--view-script=../ml-run-metrics.sql",
-          "runs/*/*.duckdb",
+          "runs",
         ),
         // @ts-ignore i'm lazy
-        deps: Object.values(sweeps).map((s) => s.outs).flat(),
+        deps: Object.values(runs).map((s) => s.outs).flat().filter((d) =>
+          typeof d == "string" && d.endsWith(".duckdb")
+        ),
         outs: ["run-metrics.duckdb"],
       },
     },

@@ -428,3 +428,32 @@ stages:
       hash: md5
       md5: b82eb915327d765576016a9612189256
       size: 1323008
+  collect-metrics:
+    cmd: python ../../action.py collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql
+      runs
+    deps:
+    - path: sweeps/random/Bias.duckdb
+      hash: md5
+      md5: 5b1ba50481c39e8f30416cd0ede19b81
+      size: 3158016
+    - path: sweeps/random/BiasedMF-ALS.duckdb
+      hash: md5
+      md5: 52395d75f7e0526aaf5a5ac52c464d89
+      size: 4993024
+    - path: sweeps/random/IKNN-Explicit.duckdb
+      hash: md5
+      md5: 0f19ec808b288ee65bd70f3505dd1d63
+      size: 2633728
+    - path: sweeps/random/IKNN-Implicit.duckdb
+      hash: md5
+      md5: fb29f0ec82bda4503d1bf5bc08a1a753
+      size: 2371584
+    - path: sweeps/random/ImplicitMF-ALS.duckdb
+      hash: md5
+      md5: cd633e066ef53bced486c2bd29a8e8ce
+      size: 4730880
+    outs:
+    - path: run-metrics.duckdb
+      hash: md5
+      md5: 614c6479d7d3a7b48ee3df0eb2fab844
+      size: 536576
