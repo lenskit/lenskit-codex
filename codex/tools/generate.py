@@ -76,15 +76,15 @@ def generate(
         test_sets = fixed_test_sets(test_file, train_files)
     elif assign_file:
         if ratings_db is None:
-            _log.error("must specify --ratings with --alloc")
+            _log.error("must specify --ratings with --assignments")
             sys.exit(2)
 
         if not test_part:
-            _log.error("must specify --test-part with --alloc")
+            _log.error("must specify --test-part with --assignments")
             sys.exit(2)
 
         if test_file or train_files:
-            _log.error("--train and --test incompatible with --alloc")
+            _log.error("--train and --test incompatible with --assignments")
             sys.exit(2)
 
         test_sets = crossfold_test_sets(assign_file, ratings_db, test_part)

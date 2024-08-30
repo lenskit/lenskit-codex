@@ -4,6 +4,7 @@ Grid-sweep hyperparameter values.
 
 import json
 import logging
+import sys
 from os import fspath
 from pathlib import Path
 from typing import cast
@@ -15,7 +16,7 @@ import pandas as pd
 from humanize import naturalsize
 from lenskit.algorithms import Recommender
 
-from codex.data import TrainTestData, partition_tt_data
+from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
 from codex.inference import connect_cluster, run_recommender
 from codex.models import AlgoMod, model_module
 from codex.params import param_grid
@@ -34,19 +35,32 @@ def sweep():
 
 
 @sweep.command("run")
-@click.option("-p", "--partition", type=int, metavar="N", help="sweep on test partition N")
 @click.option("-n", "--list-length", type=int, metavar="N", help="generate lists of length N")
 @click.option("--ratings", "rating_db", type=Path, metavar="FILE", help="load ratings from FILE")
 @click.option(
     "--assignments", "assign_db", type=Path, metavar="FILE", help="load test allocations from FILE"
 )
+@click.option(
+    "-p", "--partition", type=int, metavar="N", help="sweep on test partition N", default=0
+)
+@click.option("--test", "test_file", type=Path, metavar="FILE", help="Parquet file of test data")
+@click.option(
+    "--train",
+    "train_files",
+    type=Path,
+    metavar="FILE",
+    help="Parquet file of training data",
+    multiple=True,
+)
 @click.argument("MODEL")
 @click.argument("OUT", type=Path)
 def run_sweep(
-    rating_db: Path,
-    assign_db: Path,
     model: str,
     out: Path,
+    train_file: list[Path],
+    test_file: Path | None = None,
+    rating_db: Path | None = None,
+    assign_db: Path | None = None,
     partition: int = 0,
     list_length: int = 100,
 ):
@@ -54,6 +68,27 @@ def run_sweep(
 
     space = param_grid(mod.sweep_space)
     _log.debug("parameter search space:\n%s", space)
+
+    if test_file:
+        if assign_db or rating_db:
+            _log.error("--train/--test not compatible with alloc options")
+            sys.exit(2)
+        if not train_file:
+            _log.error("--test specified without training data")
+            sys.exit(2)
+
+        data = fixed_tt_data(test_file, train_file)
+
+    elif assign_db:
+        if rating_db is None:
+            _log.error("must specify --ratings with --assignments")
+            sys.exit(2)
+
+        if test_file or train_file:
+            _log.error("--train and --test incompatible with --assignments")
+            sys.exit(2)
+
+        data = partition_tt_data(assign_db, rating_db, partition)
 
     out.parent.mkdir(exist_ok=True, parents=True)
     if out.exists():
@@ -70,9 +105,7 @@ def run_sweep(
         _log.info("saving run spec table")
         db.from_df(space).create("run_specs")
 
-        tt = partition_tt_data(assign_db, rating_db, partition)
-
-        sweep_model(results, tt, mod, space, list_length, cluster)
+        sweep_model(results, data, mod, space, list_length, cluster)
 
 
 @sweep.command("export")

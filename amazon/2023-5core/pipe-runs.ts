@@ -49,7 +49,7 @@ function sweepStage(name: string) {
     do: {
       cmd: action_cmd(
         import.meta.url,
-        "sweep",
+        "sweep run",
         "-n 1000",
         `--train=${trainFile}`,
         `--test=${testFile}`,
@@ -74,6 +74,17 @@ export const runStages: Record<string, Stage> = generateStages(
     };
     if (info.sweepable) {
       result[`sweep-${name}`] = sweepStage(name);
+      result[`export-sweep-${name}`] = {
+        foreach: categories,
+        do: {
+          cmd: action_cmd(
+            import.meta.url,
+            "sweep export",
+            `sweeps/\${item}/${name}.duckdb`,
+            info.predictor ? "rmse" : "ndcg",
+          ),
+        },
+      };
     }
     return result;
   },

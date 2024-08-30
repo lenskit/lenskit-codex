@@ -163,6 +163,46 @@ stages:
       - sweeps/random/UKNN-Implicit.csv
       - sweeps/random/UKNN-Implicit.json:
           cache: false
+  sweep-random-Implicit-BPR:
+    cmd: >-
+      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb Implicit-BPR sweeps/random/Implicit-BPR.duckdb
+    params:
+      - ../../config.toml:
+          - random.seed
+    deps:
+      - splits/random.duckdb
+      - ratings.duckdb
+      - ../../codex/models/Implicit_BPR.py
+    outs:
+      - sweeps/random/Implicit-BPR.duckdb
+  export-random-Implicit-BPR:
+    cmd: python ../../action.py sweep export sweeps/random/Implicit-BPR.duckdb ndcg
+    deps:
+      - sweeps/random/Implicit-BPR.duckdb
+    outs:
+      - sweeps/random/Implicit-BPR.csv
+      - sweeps/random/Implicit-BPR.json:
+          cache: false
+  sweep-random-HPF:
+    cmd: >-
+      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb HPF sweeps/random/HPF.duckdb
+    params:
+      - ../../config.toml:
+          - random.seed
+    deps:
+      - splits/random.duckdb
+      - ratings.duckdb
+      - ../../codex/models/HPF.py
+    outs:
+      - sweeps/random/HPF.duckdb
+  export-random-HPF:
+    cmd: python ../../action.py sweep export sweeps/random/HPF.duckdb ndcg
+    deps:
+      - sweeps/random/HPF.duckdb
+    outs:
+      - sweeps/random/HPF.csv
+      - sweeps/random/HPF.json:
+          cache: false
   run-random-default-Bias:
     cmd: >-
       python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Bias.duckdb Bias
@@ -314,6 +354,16 @@ stages:
       - ../../codex/models/Implicit_BPR.py
       - ratings.duckdb
       - splits/random.duckdb
+  run-random-sweep-best-Implicit-BPR:
+    cmd: >-
+      python ../../action.py generate --param-file=sweeps/random/Implicit-BPR.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/Implicit-BPR.duckdb Implicit-BPR
+    outs:
+      - runs/random-sweep-best/Implicit-BPR.duckdb
+    deps:
+      - ../../codex/models/Implicit_BPR.py
+      - ratings.duckdb
+      - splits/random.duckdb
+      - sweeps/random/Implicit-BPR.json
   run-random-default-HPF:
     cmd: >-
       python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/HPF.duckdb HPF
@@ -323,6 +373,16 @@ stages:
       - ../../codex/models/HPF.py
       - ratings.duckdb
       - splits/random.duckdb
+  run-random-sweep-best-HPF:
+    cmd: >-
+      python ../../action.py generate --param-file=sweeps/random/HPF.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/HPF.duckdb HPF
+    outs:
+      - runs/random-sweep-best/HPF.duckdb
+    deps:
+      - ../../codex/models/HPF.py
+      - ratings.duckdb
+      - splits/random.duckdb
+      - sweeps/random/HPF.json
   collect-metrics:
     cmd: >-
       python ../../action.py collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql runs
@@ -343,6 +403,8 @@ stages:
       - runs/random-default/UKNN-Implicit.duckdb
       - runs/random-sweep-best/UKNN-Implicit.duckdb
       - runs/random-default/Implicit-BPR.duckdb
+      - runs/random-sweep-best/Implicit-BPR.duckdb
       - runs/random-default/HPF.duckdb
+      - runs/random-sweep-best/HPF.duckdb
     outs:
       - run-metrics.duckdb
