@@ -57,7 +57,7 @@ def sweep():
 def run_sweep(
     model: str,
     out: Path,
-    train_file: list[Path],
+    train_files: list[Path],
     test_file: Path | None = None,
     rating_db: Path | None = None,
     assign_db: Path | None = None,
@@ -73,18 +73,18 @@ def run_sweep(
         if assign_db or rating_db:
             _log.error("--train/--test not compatible with alloc options")
             sys.exit(2)
-        if not train_file:
+        if not train_files:
             _log.error("--test specified without training data")
             sys.exit(2)
 
-        data = fixed_tt_data(test_file, train_file)
+        data = fixed_tt_data(test_file, train_files)
 
     elif assign_db:
         if rating_db is None:
             _log.error("must specify --ratings with --assignments")
             sys.exit(2)
 
-        if test_file or train_file:
+        if test_file or train_files:
             _log.error("--train and --test incompatible with --assignments")
             sys.exit(2)
 
