@@ -43,7 +43,7 @@ def sweep():
     "--assignments", "assign_db", type=Path, metavar="FILE", help="load test allocations from FILE"
 )
 @click.option(
-    "-p", "--partition", type=int, metavar="N", help="sweep on test partition N", default=0
+    "-p", "--partition", type=int, metavar="N", default=0, help="sweep on test partition N"
 )
 @click.option("--test", "test_file", type=Path, metavar="FILE", help="Parquet file of test data")
 @click.option(
@@ -60,11 +60,11 @@ def run_sweep(
     model: str,
     out: Path,
     train_files: list[Path],
+    partition: int,
+    list_length: int,
     test_file: Path | None = None,
     rating_db: Path | None = None,
     assign_db: Path | None = None,
-    partition: int = 0,
-    list_length: int = 100,
 ):
     mod = model_module(model)
 
