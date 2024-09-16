@@ -36,7 +36,7 @@ def sweep():
 
 @sweep.command("run")
 @click.option(
-    "-n", "--list-length", type=int, metavar="N", default=100, help="generate lists of length N"
+    "-n", "--list-length", type=int, metavar="N", default=500, help="generate lists of length N"
 )
 @click.option("--ratings", "rating_db", type=Path, metavar="FILE", help="load ratings from FILE")
 @click.option(
