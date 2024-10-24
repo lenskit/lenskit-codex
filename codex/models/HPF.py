@@ -15,5 +15,5 @@ def default():
     return HPF(50)
 
 
-def from_config(features, regularization):
-    return HPF(features, regularization=regularization)
+def from_config(features):
+    return HPF(features)
