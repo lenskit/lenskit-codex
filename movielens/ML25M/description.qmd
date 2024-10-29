@@ -14,6 +14,8 @@ NAME = 'ML25M'
 import pandas as pd
 import numpy as np
 import plotnine as pn
+import matplotlib.pyplot as plt
+from distfit import distfit
 import duckdb
 ```
 
@@ -60,9 +62,11 @@ Markdown(tabulate([
 
 ## Item Statistics
 
+This section describes the distribution of various item statistics from the data set.
 
-Now let's look at the distributions of item statistics.  What is the
-distribution of popularity?
+### Item Popularity
+
+What is the distribution of popularity?
 
 ```{python}
 (
@@ -90,6 +94,36 @@ item_stats['cf_ratings'] = item_stats['n_ratings'].cumsum() / item_stats['n_rati
 )
 ```
 
+We'll now fit a distribution.
+
+```{python}
+ipop_dfit = distfit(distr=['pareto', 'powerlaw', 'expon', 'lognorm'])
+ipop_dist = ipop_dfit.fit_transform(item_stats['n_ratings'])
+ipop_hist = item_stats['n_ratings'].value_counts().reset_index()
+ipop_hist['frac'] = ipop_hist['count'] / ipop_hist['count'].sum()
+ipop_hist['fdens'] = ipop_dfit.model['model'].pdf(ipop_hist['n_ratings'])
+(
+    pn.ggplot(ipop_hist, pn.aes(x='n_ratings', y='frac'))
+    + pn.geom_point(color=DEFAULTS.line_color)
+    + pn.geom_line(pn.aes(y='fdens'))
+    + pn.xlab('# of Ratings')
+    + pn.ylab('# of Items')
+    + pn.scale_x_log10()
+    + pn.ggtitle(
+        f'Distribution of {NAME} item popularity',
+        ipop_dfit._make_title().strip()
+    )
+)
+```
+
+Summary of fits:
+
+```{python}
+ipop_dfit.summary[['name', 'score', 'loc', 'scale', 'arg']]
+```
+
+### Item Average Rating
+
 What is the distribution of average ratings?
 
 ```{python}
@@ -103,6 +137,10 @@ What is the distribution of average ratings?
 
 ## User Statistics
 
+We now turn to the distribution of various user statistics.
+
+### User Average Ratings
+
 How are user averages distributed?
 
 ```{python}
@@ -114,6 +152,8 @@ How are user averages distributed?
     + pn.ggtitle(f'Distribution of Average Ratings by User ({NAME})')
 )
 ```
+
+### User Activity Level
 
 And what is the distribution of user activity levels (# of ratings)?
 
