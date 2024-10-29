@@ -10,6 +10,10 @@ render:
 upload-web-assets:
     dvc push --no-run-cache -r assets-publish dvc.yaml
 
+# fetch web assets from the cloud
+fetch-web-assets:
+    dvc pull --no-run-cache -r assets-publish dvc.yaml
+
 # update the copied documents
 update-documents:
     ./scripts/copy-docs.ts
