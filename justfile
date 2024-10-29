@@ -25,8 +25,8 @@ update-pipeline:
     ./scripts/render-pipeline.ts
     pre-commit run --files **/dvc.yaml || true
 
-# update the whole layout
-rerender: update-documents update-pipeline
+# update the whole project layout
+update-layout: update-documents update-pipeline
 
 # update the Conda lockfile
 update-deps:
