@@ -17,6 +17,7 @@ if TYPE_CHECKING:
 
 class DisplayOptions(NamedTuple):
     line_color: RGBHexColor
+    popint_color: RGBHexColor
     fill_color: RGBHexColor
 
     @classmethod
@@ -27,7 +28,7 @@ class DisplayOptions(NamedTuple):
         set2 = brewer_pal("qual", "Set2")
         fc = set2(2)[1]
         assert fc
-        return cls(lc, fc)
+        return cls(lc, lc, fc)
 
 
 def init_plotting():
