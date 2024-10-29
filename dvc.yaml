@@ -97,13 +97,6 @@ stages:
       - movielens/ML10M/sweeps/random/IKNN-Implicit.duckdb
     outs:
       - _freeze/movielens/ML10M/iknn-implicit
-  page/movielens/ML10M/summary:
-    cmd: quarto render movielens/ML10M/summary.qmd
-    deps:
-      - movielens/ML10M/summary.qmd
-      - movielens/ML10M/run-metrics.duckdb
-    outs:
-      - _freeze/movielens/ML10M/summary
   page/movielens/ML1M/als-biasedmf:
     cmd: quarto render movielens/ML1M/als-biasedmf.qmd
     deps:
@@ -146,13 +139,6 @@ stages:
       - movielens/ML1M/sweeps/random/IKNN-Implicit.duckdb
     outs:
       - _freeze/movielens/ML1M/iknn-implicit
-  page/movielens/ML1M/summary:
-    cmd: quarto render movielens/ML1M/summary.qmd
-    deps:
-      - movielens/ML1M/summary.qmd
-      - movielens/ML1M/run-metrics.duckdb
-    outs:
-      - _freeze/movielens/ML1M/summary
   page/movielens/ML20M/als-biasedmf:
     cmd: quarto render movielens/ML20M/als-biasedmf.qmd
     deps:
@@ -195,13 +181,6 @@ stages:
       - movielens/ML20M/sweeps/random/IKNN-Implicit.duckdb
     outs:
       - _freeze/movielens/ML20M/iknn-implicit
-  page/movielens/ML20M/summary:
-    cmd: quarto render movielens/ML20M/summary.qmd
-    deps:
-      - movielens/ML20M/summary.qmd
-      - movielens/ML20M/run-metrics.duckdb
-    outs:
-      - _freeze/movielens/ML20M/summary
   page/movielens/ML25M/als-biasedmf:
     cmd: quarto render movielens/ML25M/als-biasedmf.qmd
     deps:
@@ -244,13 +223,6 @@ stages:
       - movielens/ML25M/sweeps/random/IKNN-Implicit.duckdb
     outs:
       - _freeze/movielens/ML25M/iknn-implicit
-  page/movielens/ML25M/summary:
-    cmd: quarto render movielens/ML25M/summary.qmd
-    deps:
-      - movielens/ML25M/summary.qmd
-      - movielens/ML25M/run-metrics.duckdb
-    outs:
-      - _freeze/movielens/ML25M/summary
   page/movielens/ML32M/description:
     cmd: quarto render movielens/ML32M/description.qmd
     deps:
