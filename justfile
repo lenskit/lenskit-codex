@@ -8,7 +8,7 @@ render:
 
 # push web assets to the cloud
 upload-web-assets:
-    dvc push --no-run-cache dvc.yaml
+    dvc push --no-run-cache -r assets-publish dvc.yaml
 
 # update the copied documents
 update-documents:
