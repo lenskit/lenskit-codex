@@ -68,7 +68,7 @@ How long does training take?
 ```{python}
 nf_times = rnd_sweep.sql("""
 SELECT features, AVG(wall_time) AS wall, AVG(cpu_time) AS cpu
-FROM run_specs JOIN train_metrics USING (run)
+FROM run_specs JOIN train_stats USING (run)
 GROUP BY features
 """).to_df().melt('features', var_name='type')
 nf_times['value'] = pd.to_timedelta(nf_times['value'], unit='s')
