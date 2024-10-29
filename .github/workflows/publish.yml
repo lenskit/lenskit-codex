@@ -29,14 +29,15 @@ jobs:
         with:
           pixi-version: v0.27.1
           environments: publish
+          locked: true
 
       - name: Fetch site assets
-        run: pixi run -e publish dvc pull dvc.yaml
+        run: pixi run -e publish just fetch-web-assets
         env:
           AZURE_STORAGE_SAS_TOKEN: ${{secrets.AZURE_STORAGE_SAS_TOKEN}}
 
       - name: Render site content
-        run: pixi run -e publish quarto render
+        run: pixi run -e publish just render
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
