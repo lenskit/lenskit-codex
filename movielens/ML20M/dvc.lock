@@ -746,3 +746,24 @@ stages:
       hash: md5
       md5: 8df2713879d60f66966309adaa11d131
       size: 1109929984
+  run-random-default-Implicit-BPR:
+    cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb -o runs/random-default/Implicit-BPR.duckdb Implicit-BPR
+    deps:
+    - path: ../../codex/models/Implicit_BPR.py
+      hash: md5
+      md5: ead16dddccd03e2611e9e0bef3e4686c
+      size: 360
+    - path: ratings.duckdb
+      hash: md5
+      md5: cccd30242af2c39130c7e15a6e20a523
+      size: 239874048
+    - path: splits/random.duckdb
+      hash: md5
+      md5: a82c2ba5fa6de4e71538a26dca72079d
+      size: 3944448
+    outs:
+    - path: runs/random-default/Implicit-BPR.duckdb
+      hash: md5
+      md5: 125bffbec91de2cc818dfe5a81393bef
+      size: 82325504
