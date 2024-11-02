@@ -31,8 +31,11 @@ Idle power draw
 
 ## Notes
 
-This machine is hungry; it has dynamic CPU frequency scaling disabled, so it is
-constantly at full power.
+- This machine is hungry; it has dynamic CPU frequency scaling disabled, so it
+  is constantly at full power.
 
-The actual execution environment is also virtualized, which may add a slight
-overhead.
+- The actual execution environment is also virtualized, which may add a slight
+  overhead.
+
+- This is a shared machine, so power consumption records are not always
+  well-isolated from other workloads.
