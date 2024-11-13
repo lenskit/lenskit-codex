@@ -22,8 +22,7 @@ import duckdb
 ```{python}
 from IPython.display import Markdown
 from tabulate import tabulate
-from humanize import intcomma
-from si_prefix import si_format
+from humanize import intcomma, metric
 ```
 
 ```{python}
@@ -192,7 +191,7 @@ months['cum_ratings'] = months['n_ratings'].cumsum()
     + pn.aes(x='fracyear', y='cum_ratings')
     + pn.geom_area(fill=DEFAULTS.fill_color)
     + pn.scale_y_continuous(labels=lambda ns: [
-        si_format(n, precision=1) for n in ns
+        metric(n) for n in ns
     ])
     + pn.xlab('Year')
     + pn.ylab('Total Cumulative Ratings')
@@ -208,7 +207,7 @@ How many ratings are we getting each month through the life of the data set?
     + pn.aes(x='fracyear', y='n_ratings')
     + pn.geom_line()
     + pn.scale_y_continuous(labels=lambda ns: [
-        si_format(n, precision=1) for n in ns
+        metric(n) for n in ns
     ])
     + pn.xlab('Year')
     + pn.ylab('Monthly # of Ratings')
@@ -226,7 +225,7 @@ Monthly unique users is a good measure of user activity.
     + pn.aes(x='fracyear', y='n_users')
     + pn.geom_line(color=DEFAULTS.line_color)
     + pn.scale_y_continuous(labels=lambda ns: [
-        si_format(n, precision=1) for n in ns
+        metric(n) for n in ns
     ])
     + pn.xlab('Year')
     + pn.ylab('Unique Users per Month')
