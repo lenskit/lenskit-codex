@@ -24,7 +24,7 @@ from sandal import autoroot
 import codex.display
 from IPython.display import Markdown
 from tabulate import tabulate
-from humanize import intcomma
+from humanize import intcomma, metric
 from si_prefix import si_format
 ```
 
@@ -36,24 +36,30 @@ stat_db = duckdb.connect('merged-stats.duckdb', read_only=True)
 ```{python}
 #| tbl-cap: MovieLens data set statistics.
 stats_q = stat_db.query('''
-SELECT dataset, n_ratings, n_users, n_items,
-    n_ratings / (n_users * n_items) AS density,
-    first_rating, last_rating
+SELECT dataset AS Set, n_ratings AS Ratings,
+    n_users AS Users,
+    n_items AS Items,
+    n_ratings / (n_users * n_items) AS Density,
+    first_rating AS Start,
+    last_rating AS End
 FROM global_stats
 ORDER BY n_ratings
 ''')
-stats = stats_q.fetchall()
-Markdown(tabulate(
-    stats,
-    headers=['Set', 'Ratings', 'Users', 'Items', 'Density', 'Start', 'End'],
-    intfmt=',',
-    floatfmt='.3%'
-))
+stats_df = stats_q.df()
+stats_df.style.format({
+    'Ratings': metric,
+    'Users': metric,
+    'Items': metric,
+    'Start': lambda t: t.date().isoformat(),
+    'End': lambda t: t.date().isoformat(),
+}).set_table_styles([
+    {'selector': '.col0, .col5, .col6',  'props': 'text-align: center'}
+])
 ```
 
 ```{python}
 # we want to order the data sets for other analyses
-ml_order = [row[0] for row in stats]
+ml_order = stats_df['Set'].tolist()
 ```
 
 ```{python}
