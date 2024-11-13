@@ -28,8 +28,7 @@ from sandal import autoroot
 import codex.display
 from IPython.display import Markdown
 from tabulate import tabulate
-from humanize import intcomma
-from si_prefix import si_format
+from humanize import intcomma, metric
 ```
 
 ```{python}
@@ -54,5 +53,5 @@ files = files.reindex(product(
     ['train', 'valid', 'test'],
     ['Users', 'Items', 'Ratings']
 ), axis=1)
-files.style.format(si_format)
+files.style.format(metric)
 ```

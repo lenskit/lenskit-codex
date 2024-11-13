@@ -46,14 +46,14 @@ FROM global_stats
 ORDER BY n_ratings
 ''')
 stats_df = stats_q.df()
-stats_df.style.format({
+stats_df.set_index('Set').style.format({
     'Ratings': metric,
     'Users': metric,
     'Items': metric,
     'Start': lambda t: t.date().isoformat(),
     'End': lambda t: t.date().isoformat(),
 }).set_table_styles([
-    {'selector': '.col0, .col5, .col6',  'props': 'text-align: center'}
+    {'selector': '.col4, .col5',  'props': 'text-align: center'}
 ])
 ```
 
