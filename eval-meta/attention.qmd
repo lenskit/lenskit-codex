@@ -1,0 +1,48 @@
+---
+title: Rank-Biasing Attention Models
+---
+
+Rank-discounted metrics weigh recommended items by their ranking position using
+a discount or *position attention* (or exposure) model approximating the amount
+attention users pay to different ranking positions.  Some metrics have a model
+inherent to their design, while others (such as RBP) have pluggable attention models.
+
+This document describes the behavior of those attention models.
+
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotnine as pn
+import matplotlib.pyplot as plt
+```
+
+```{python}
+from codex.display import DEFAULTS
+```
+
+## Core Attention Models
+
+- Logarithmic discounting (typically base-2, used in NDCG)
+- Reciprocal rank (used by MRR)
+- Geometric cascade (default for RBP, which is reconfigurable)
+
+```{python}
+ranks = np.arange(10, dtype=np.float32) + 1
+attn = pd.DataFrame({
+    'rank': ranks,
+    r'$\log_2$': np.reciprocal(np.log2(np.maximum(ranks, 2))),
+    'Recip': np.reciprocal(ranks),
+    r'$\mathrm{RBP}_{0.5}$': np.power(0.5, ranks - 1),
+    r'$\mathrm{RBP}_{0.2}$': np.power(0.2, ranks - 1),
+    r'$\mathrm{RBP}_{0.8}$': np.power(0.8, ranks - 1),
+    r'$\mathrm{HL}_5$': np.power(2, -(ranks - 1) / 4),
+})
+attn = attn.melt(['rank'], var_name='Model', value_name='discount')
+(
+    pn.ggplot(attn)
+    + pn.aes(x='rank', y='discount', color='Model')
+    + pn.geom_line()
+    + pn.scale_color_brewer('qual', 'Dark2')
+)
+```
