@@ -742,3 +742,16 @@ stages:
       md5: 519020e90e53e5f8de925d405106dce0.dir
       size: 368125
       nfiles: 3
+  page/eval-meta/attention:
+    cmd: quarto render eval-meta/attention.qmd
+    deps:
+    - path: eval-meta/attention.qmd
+      hash: md5
+      md5: 5634f3273a196830028458c0ec4d806d
+      size: 1413
+    outs:
+    - path: _freeze/eval-meta/attention
+      hash: md5
+      md5: cee5bb220d09679940ba118df868c507.dir
+      size: 32621
+      nfiles: 2

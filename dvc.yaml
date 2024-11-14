@@ -6,6 +6,12 @@ stages:
       - amazon/2023-5core/stats.duckdb
     outs:
       - _freeze/amazon/2023-5core/index
+  page/eval-meta/attention:
+    cmd: quarto render eval-meta/attention.qmd
+    deps:
+      - eval-meta/attention.qmd
+    outs:
+      - _freeze/eval-meta/attention
   page/movielens/ML100K/als-biasedmf:
     cmd: quarto render movielens/ML100K/als-biasedmf.qmd
     deps:
