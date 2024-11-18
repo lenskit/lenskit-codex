@@ -4,7 +4,7 @@ list:
 
 # render the website
 render:
-    quarto render
+    quarto render --to html
 
 # push web assets to the cloud
 upload-web-assets:
