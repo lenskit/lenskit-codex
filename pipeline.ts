@@ -53,8 +53,8 @@ export const pipeline: Pipeline = {
 for (const nb of await collectNotebooks()) {
   pipeline.stages[`page/${nb.path}`] = {
     cmd: `quarto render ${nb.file} --profile prerender`,
-    deps: [nb.file].concat(nb.deps),
-    outs: ["_quarto-prerender.yml", "_quarto.yml", `_freeze/${nb.path}`].concat(nb.outs ?? []),
+    deps: ["_quarto-prerender.yml", "_quarto.yml", nb.file].concat(nb.deps),
+    outs: [`_freeze/${nb.path}`].concat(nb.outs ?? []),
   };
 }
 
