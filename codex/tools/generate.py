@@ -104,6 +104,7 @@ def generate(
             with Run(tags=["lenskit", "train"]):
                 trained, record = train_model(reco, data)
 
+            _log.debug("run record: %s", record.model_dump_json(indent=2))
             _log.info(
                 "finished in %.0fs (%.0fs CPU, %s peak RSS)",
                 record.time.wall,
