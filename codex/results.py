@@ -5,6 +5,7 @@ Database schemas and support for saving recommendation results.
 import logging
 from dataclasses import dataclass, field
 from typing import NamedTuple, Self
+from uuid import UUID
 
 import pandas as pd
 from duckdb import ConstantExpression, DuckDBPyConnection
@@ -15,15 +16,12 @@ from codex.resources import ResourceMetrics
 _log = logging.getLogger(__name__)
 DEFAULT_BATCH_SIZE = 2500
 
-TRAIN_METRIC_DDL = """
-DROP TABLE IF EXISTS train_stats;
-CREATE TABLE train_stats (
+RUN_META_DDL = """
+DROP TABLE IF EXISTS run_meta;
+CREATE TABLE run_meta (
     run SMALLINT NOT NULL,
-    wall_time FLOAT,
-    cpu_time FLOAT,
-    cpu_usr FLOAT,
-    cpu_sys FLOAT,
-    rss_max_kb FLOAT,
+    train_run_id UUID NULL,
+    eval_run_id UUID NULL,
 );
 """
 REC_DDL = """
@@ -109,7 +107,7 @@ class ResultDB:
         self.batch_size = batch_size
 
     def initialize(self):
-        self.db.execute(TRAIN_METRIC_DDL)
+        self.db.execute(RUN_META_DDL)
         self.db.execute(USER_METRIC_DDL)
 
         self.db.execute(REC_DDL)
@@ -118,20 +116,23 @@ class ResultDB:
             self.db.execute("ALTER TABLE user_metrics ADD COLUMN rmse FLOAT")
             self.db.execute("ALTER TABLE user_metrics ADD COLUMN mae FLOAT")
 
-    def add_training(self, run: int, metrics: ResourceMetrics) -> None:
+    def add_training(self, run: int, train_id: UUID) -> None:
         # at new training, we write out the current user metrics
         self.flush()
 
-        self.db.table("train_stats").insert([run] + list(metrics.dict().values()))
+        self.db.execute("INSERT INTO run_meta (run, train_run_id) VALUES (?, ?)", [run, train_id])
 
     def add_result(self, run: int, result: UserResult) -> None:
         self.queued.append(QueuedResult(run, result))
         if len(self.queued) >= self.batch_size:
             self.flush()
 
-    def log_metrics(self, run: int | None = None):
+    def log_metrics(self, run: int | None = None, eval_id: UUID | None = None):
         "Log aggregate metrics."
         self.flush()
+        if run is not None and eval_id is not None:
+            self.db.execute("UPDATE run_meta SET eval_run_id = ? WHERE run = ?", [eval_id, run])
+
         aggs = "AVG(ndcg), AVG(recip_rank)"
         if self.store_predictions:
             aggs += ", AVG(rmse)"

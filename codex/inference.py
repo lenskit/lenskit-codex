@@ -20,6 +20,8 @@ from lenskit.metrics.predict import mae, rmse
 from lenskit.metrics.topn import ndcg, recip_rank
 from lenskit.sharing import PersistedModel
 from progress_api import Progress, make_progress
+from sandal.project import project_root
+from xshaper import Monitor, Run, configure
 
 from codex.cluster import connect_cluster
 from codex.resources import resource_monitor
@@ -28,6 +30,8 @@ from codex.results import UserResult
 _log = logging.getLogger(__name__)
 __model: Recommender | None
 __options: JobOptions | None
+__monitor: Monitor
+__run: Run
 
 
 @dataclass
@@ -81,13 +85,22 @@ def _test_jobs(test: pd.DataFrame, pb: Progress) -> Generator[tuple[int, pd.Data
 
 
 def _prepare_model(model: PersistedModel, options: JobOptions):
-    global __model, __options
+    global __model, __options, __monitor, __run
+    configure(project_root() / "run-log")
     __model = model.get()
     __options = options
+    __monitor = Monitor()
+    __run = Run(tags=["lenskit", "recommend", "worker"], concurrent=True)
+    __run.begin()
 
 
 def _cleanup_model():
-    global __model, __options
+    global __model, __options, __monitor, __run
+    __run.end()
+    del __run
+    __monitor.shutdown()
+    del __monitor
+
     __model = None
     __options = None
     gc.collect()

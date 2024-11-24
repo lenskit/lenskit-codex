@@ -10,6 +10,7 @@ import duckdb
 from duckdb import connect
 from humanize import naturalsize
 from lenskit.algorithms import Recommender
+from xshaper import Monitor, Run
 
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
 from codex.inference import connect_cluster, run_recommender
@@ -92,20 +93,24 @@ def generate(
     predict = "predictions" in mod.outputs
 
     with (
+        Monitor(),
         duckdb.connect(fspath(output)) as db,
         connect_cluster() as cluster,
         ResultDB(db, store_predictions=predict) as results,
+        Run(tags=["lenskit", "generate"]),
     ):
         for part, data in test_sets:
             _log.info("training model %s", reco)
-            trained, metrics = train_model(reco, data)
+            with Run(tags=["lenskit", "train"]):
+                trained, record = train_model(reco, data)
+
             _log.info(
-                "finished in %.0fs (%.0fs CPU, %s max RSS)",
-                metrics.wall_time,
-                metrics.cpu_time,
-                naturalsize(metrics.rss_max_kb * 1024),
+                "finished in %.0fs (%.0fs CPU, %s peak RSS)",
+                record.time.wall,
+                record.time.self_cpu,
+                naturalsize(record.memory.peak_rss),  # type: ignore
             )
-            results.add_training(part, metrics)
+            results.add_training(part, record.run_id)
 
             _log.info("loading test data")
             with data.open_db() as test_db:
@@ -113,12 +118,13 @@ def generate(
                 if len(test) == 0:
                     _log.error("no test data found")
 
-            for result in run_recommender(trained, test, list_length, predict, cluster=cluster):
-                results.add_result(part, result)
+            with Run(tags=["lenskit", "recommend"]) as erun:
+                for result in run_recommender(trained, test, list_length, predict, cluster=cluster):
+                    results.add_result(part, result)
 
             trained.close()
 
-            results.log_metrics(part)
+            results.log_metrics(part, erun.record.run_id)
 
         _log.info("finished all parts")
         results.log_metrics()
