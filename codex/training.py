@@ -29,7 +29,7 @@ def _train_worker(model: Algorithm, data: TrainTestData) -> TrainResult:
     _log.info("loading training data")
     # FIXME: sprinkling this everywhere is suboptimal
     configure(project_root() / "run-log")
-    with Monitor(), Run(tags=["lenskit", "train", "worker"], concurrent=True):
+    with Monitor(), Run(tags=["lenskit", "train", "worker"], subprocess=True):
         with data.open_db() as db:
             train = data.train_ratings(db).to_df()
 

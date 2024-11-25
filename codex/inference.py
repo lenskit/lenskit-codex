@@ -90,7 +90,7 @@ def _prepare_model(model: PersistedModel, options: JobOptions):
     __model = model.get()
     __options = options
     __monitor = Monitor()
-    __run = Run(tags=["lenskit", "recommend", "worker"], concurrent=True)
+    __run = Run(tags=["lenskit", "recommend", "worker"], subprocess=True)
     __run.begin()
 
 
