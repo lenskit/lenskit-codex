@@ -20,11 +20,11 @@ Memory
 GPU
 :   NVidia A40 (48GB)
 
-Operating system
-:   Ubuntu 22.04 (Jammy Dodger)
-
 Storage
 :   Network-attached SSD (home directory + software), network-attached redundant spinning disks (experiment data)
+
+Operating system
+:   Ubuntu 22.04 (Jammy Dodger)
 
 Idle power draw
 :   295 watts

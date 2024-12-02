@@ -12,7 +12,7 @@ Informatics][cci].
 ## Specs
 
 CPU
-:   Intel i9 14900K (24 cores, 3.2GHz base, 6 GHz turbo, liquid cooled)
+:   Intel i9 14900K (8 performance cores, 16 efficiency cores, 3.2GHz base, 6 GHz turbo, liquid cooled)
 
 Memory
 :   64 GiB
