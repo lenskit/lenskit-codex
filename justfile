@@ -14,7 +14,7 @@ upload-web-assets:
 # fetch web assets from the cloud
 fetch-web-assets:
     dvc pull --no-run-cache -r assets dvc.yaml
-    dvc pull --no-run-cache -r assets-publish -R images
+    dvc pull --no-run-cache -r assets -R images
 
 # update the copied documents
 update-documents:
