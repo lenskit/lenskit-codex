@@ -5,7 +5,7 @@ title: Screamer
 [inertial]: https://inertial.science
 [cci]: https://drexel.edu/cci/
 
-![Photo of Screamer](../images/screamer.jpg)
+![Photo of Screamer](../images/screamer.jpg){.compact.right}
 
 Screamer is an HP Omen 45L gaming tower owned by the [INTERTIA Lab][inertial],
 housed in Michael's office in the [Drexel College of Computing and
