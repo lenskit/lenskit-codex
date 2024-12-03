@@ -8,8 +8,8 @@ render:
 
 # push web assets to the cloud
 upload-web-assets:
-    dvc push --no-run-cache -r assets-publish dvc.yaml
-    dvc push --no-run-cache -r assets-publish -R images
+    dvc push --no-run-cache -r assets dvc.yaml
+    dvc push --no-run-cache -r assets -R images
 
 # fetch web assets from the cloud
 fetch-web-assets:
