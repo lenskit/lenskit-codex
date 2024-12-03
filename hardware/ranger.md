@@ -2,7 +2,7 @@
 title: MBP2
 ---
 
-This is Michael's laptop, a 14" MacBook Pro from 2023.
+Ranger is Michael's laptop, a 14" MacBook Pro from 2023.
 
 ## Specs
 
