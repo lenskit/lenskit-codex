@@ -27,3 +27,6 @@ Storage
 
 Operating system
 :   Ubuntu 24.04 (Noble Numbat)
+
+Idle power draw
+:   75 watts
