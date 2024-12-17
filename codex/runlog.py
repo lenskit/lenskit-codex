@@ -15,7 +15,7 @@ import structlog
 from deepmerge import always_merger
 from humanize import metric
 from lenskit.logging import Task
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, JsonValue
 from pyprojroot import find_root, has_file
 from typing_extensions import override
 
@@ -89,6 +89,7 @@ class CodexTask(Task):
     tags: list[str] = Field(default_factory=list)
 
     model: str | None = None
+    model_config: str | dict[str, JsonValue] | None = None
 
     cpu_power: float | None = None
     gpu_power: float | None = None

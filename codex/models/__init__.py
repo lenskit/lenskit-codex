@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Protocol, cast
 
 from lenskit.pipeline import Component
+from pydantic import JsonValue
 
 _log = logging.getLogger(__name__)
 
@@ -25,11 +26,11 @@ def model_module(name: str) -> ModelMod:
     return cast(ModelMod, import_module(mod))
 
 
-def load_model(name, config: str | Path) -> Component:
+def load_model(name, config: str | Path) -> tuple[Component, str | dict[str, JsonValue]]:
     mod = model_module(name)
     if config == "default":
         _log.info("%s: using default config", name)
-        return mod.default()
+        return mod.default(), "default"
     elif isinstance(config, Path):
         _log.info("%s: loading config from %s", name, config)
         params = json.loads(config.read_text())
@@ -37,7 +38,7 @@ def load_model(name, config: str | Path) -> Component:
         has_kw = any(p.kind == Parameter.VAR_KEYWORD for p in fc_sig.parameters.values())
         if not has_kw:
             params = {p: v for (p, v) in params.items() if p in fc_sig.parameters.keys()}
-        return mod.from_config(**params)
+        return mod.from_config(**params), params
     else:
         _log.error("no valid model mode specified")
         raise RuntimeError("cannot load model")

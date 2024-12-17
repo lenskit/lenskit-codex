@@ -1,4 +1,3 @@
-import logging
 import re
 import sys
 from collections.abc import Generator
@@ -7,6 +6,7 @@ from pathlib import Path
 
 import click
 import duckdb
+import structlog
 from duckdb import connect
 from humanize import naturalsize
 
@@ -19,7 +19,7 @@ from codex.runlog import CodexTask
 
 from . import codex
 
-_log = logging.getLogger(__name__)
+_log = structlog.stdlib.get_logger(__name__)
 
 
 @codex.command("generate")
@@ -66,7 +66,7 @@ def generate(
     if config != "default":
         config = Path(config)
     mod = model_module(model)
-    reco = load_model(model, config)
+    reco, cfg = load_model(model, config)
     pipe = base_pipeline(model, reco)
 
     if test_file:
@@ -95,16 +95,26 @@ def generate(
         duckdb.connect(fspath(output)) as db,
         connect_cluster() as cluster,
         ResultDB(db, store_predictions=predict) as results,
-        CodexTask(label=f"generate-{model}", tags=["generate"], model=model),
+        CodexTask(
+            label=f"generate-{model}", tags=["generate"], model=model, model_config=cfg
+        ) as root_task,
     ):
+        log = _log.bind(task_id=root_task.task_id)
         for part, data in test_sets:
-            _log.info("training model %s", reco)
+            plog = log.bind(part=part)
+            plog.info("training model %s", reco)
             trainable = pipe.clone()
-            with CodexTask(label=f"generate-{model}/train", tags=["train"], reset_hwm=True) as task:
+            with CodexTask(
+                label=f"generate-{model}/train",
+                tags=["train"],
+                reset_hwm=True,
+                model=model,
+                model_config=cfg,
+            ) as task:
                 trainable.train(data.train_data(db))
 
-            _log.debug("run record: %s", task.model_dump_json(indent=2))
-            _log.info(
+            plog.debug("run record: %s", task.model_dump_json(indent=2))
+            plog.info(
                 "finished in %.0fs (%.0fs CPU, %s peak RSS)",
                 task.duration,
                 task.cpu_time,
@@ -112,11 +122,11 @@ def generate(
             )
             results.add_training(part, task.task_id)
 
-            _log.info("loading test data")
+            plog.info("loading test data")
             with data.open_db() as test_db:
                 test = data.test_ratings(test_db).to_df()
                 if len(test) == 0:
-                    _log.error("no test data found")
+                    plog.error("no test data found")
 
             with CodexTask(
                 label=f"generate-{model}/recommend", tags=["recommend"], reset_hwm=True
@@ -128,7 +138,7 @@ def generate(
 
             results.log_metrics(part, task.task_id)
 
-        _log.info("finished all parts")
+        log.info("finished all parts")
         results.log_metrics()
 
 
