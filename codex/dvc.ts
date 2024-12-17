@@ -32,8 +32,6 @@ export function isStage(obj: object): obj is Stage {
 }
 
 export function action_cmd(origin: string, ...args: string[]): string {
-  const script = import.meta.resolve("../action.py");
-
   if (origin.startsWith("file://")) {
     origin = fromFileUrl(new URL(origin));
   }
@@ -41,9 +39,7 @@ export function action_cmd(origin: string, ...args: string[]): string {
     origin = dirname(origin);
   }
 
-  const sloc = relative(origin, fromFileUrl(script));
-
-  let cmd = `python ${sloc}`;
+  let cmd = 'codex-tool';
   for (const arg of args) {
     cmd += " " + arg;
   }

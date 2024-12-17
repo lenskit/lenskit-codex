@@ -1,14 +1,13 @@
 stages:
   import:
-    cmd: >-
-      python ../../action.py movielens import --stat-sql=../ml-stats.sql ml-100k.zip
+    cmd: codex-tool movielens import --stat-sql=../ml-stats.sql ml-100k.zip
     deps:
       - ../ml-stats.sql
       - ml-100k.zip
     outs:
       - ratings.duckdb
   split-random:
-    cmd: python ../../../action.py split random.toml
+    cmd: codex-tool split random.toml
     wdir: splits
     params:
       - ../../../config.toml:
@@ -20,7 +19,7 @@ stages:
       - random.duckdb
   sweep-random-Bias:
     cmd: >-
-      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb Bias sweeps/random/Bias.duckdb
+      codex-tool sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb Bias sweeps/random/Bias.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -31,7 +30,7 @@ stages:
     outs:
       - sweeps/random/Bias.duckdb
   export-random-Bias:
-    cmd: python ../../action.py sweep export sweeps/random/Bias.duckdb rmse
+    cmd: codex-tool sweep export sweeps/random/Bias.duckdb rmse
     deps:
       - sweeps/random/Bias.duckdb
     outs:
@@ -40,7 +39,7 @@ stages:
           cache: false
   sweep-random-BiasedMF-ALS:
     cmd: >-
-      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb BiasedMF-ALS sweeps/random/BiasedMF-ALS.duckdb
+      codex-tool sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb BiasedMF-ALS sweeps/random/BiasedMF-ALS.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -51,7 +50,7 @@ stages:
     outs:
       - sweeps/random/BiasedMF-ALS.duckdb
   export-random-BiasedMF-ALS:
-    cmd: python ../../action.py sweep export sweeps/random/BiasedMF-ALS.duckdb rmse
+    cmd: codex-tool sweep export sweeps/random/BiasedMF-ALS.duckdb rmse
     deps:
       - sweeps/random/BiasedMF-ALS.duckdb
     outs:
@@ -60,7 +59,7 @@ stages:
           cache: false
   sweep-random-ImplicitMF-ALS:
     cmd: >-
-      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb ImplicitMF-ALS sweeps/random/ImplicitMF-ALS.duckdb
+      codex-tool sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb ImplicitMF-ALS sweeps/random/ImplicitMF-ALS.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -71,8 +70,7 @@ stages:
     outs:
       - sweeps/random/ImplicitMF-ALS.duckdb
   export-random-ImplicitMF-ALS:
-    cmd: >-
-      python ../../action.py sweep export sweeps/random/ImplicitMF-ALS.duckdb ndcg
+    cmd: codex-tool sweep export sweeps/random/ImplicitMF-ALS.duckdb ndcg
     deps:
       - sweeps/random/ImplicitMF-ALS.duckdb
     outs:
@@ -81,7 +79,7 @@ stages:
           cache: false
   sweep-random-IKNN-Explicit:
     cmd: >-
-      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb IKNN-Explicit sweeps/random/IKNN-Explicit.duckdb
+      codex-tool sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb IKNN-Explicit sweeps/random/IKNN-Explicit.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -92,8 +90,7 @@ stages:
     outs:
       - sweeps/random/IKNN-Explicit.duckdb
   export-random-IKNN-Explicit:
-    cmd: >-
-      python ../../action.py sweep export sweeps/random/IKNN-Explicit.duckdb rmse
+    cmd: codex-tool sweep export sweeps/random/IKNN-Explicit.duckdb rmse
     deps:
       - sweeps/random/IKNN-Explicit.duckdb
     outs:
@@ -102,7 +99,7 @@ stages:
           cache: false
   sweep-random-IKNN-Implicit:
     cmd: >-
-      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb IKNN-Implicit sweeps/random/IKNN-Implicit.duckdb
+      codex-tool sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb IKNN-Implicit sweeps/random/IKNN-Implicit.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -113,8 +110,7 @@ stages:
     outs:
       - sweeps/random/IKNN-Implicit.duckdb
   export-random-IKNN-Implicit:
-    cmd: >-
-      python ../../action.py sweep export sweeps/random/IKNN-Implicit.duckdb ndcg
+    cmd: codex-tool sweep export sweeps/random/IKNN-Implicit.duckdb ndcg
     deps:
       - sweeps/random/IKNN-Implicit.duckdb
     outs:
@@ -123,7 +119,7 @@ stages:
           cache: false
   sweep-random-UKNN-Explicit:
     cmd: >-
-      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb UKNN-Explicit sweeps/random/UKNN-Explicit.duckdb
+      codex-tool sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb UKNN-Explicit sweeps/random/UKNN-Explicit.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -134,8 +130,7 @@ stages:
     outs:
       - sweeps/random/UKNN-Explicit.duckdb
   export-random-UKNN-Explicit:
-    cmd: >-
-      python ../../action.py sweep export sweeps/random/UKNN-Explicit.duckdb rmse
+    cmd: codex-tool sweep export sweeps/random/UKNN-Explicit.duckdb rmse
     deps:
       - sweeps/random/UKNN-Explicit.duckdb
     outs:
@@ -144,7 +139,7 @@ stages:
           cache: false
   sweep-random-UKNN-Implicit:
     cmd: >-
-      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb UKNN-Implicit sweeps/random/UKNN-Implicit.duckdb
+      codex-tool sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb UKNN-Implicit sweeps/random/UKNN-Implicit.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -155,8 +150,7 @@ stages:
     outs:
       - sweeps/random/UKNN-Implicit.duckdb
   export-random-UKNN-Implicit:
-    cmd: >-
-      python ../../action.py sweep export sweeps/random/UKNN-Implicit.duckdb ndcg
+    cmd: codex-tool sweep export sweeps/random/UKNN-Implicit.duckdb ndcg
     deps:
       - sweeps/random/UKNN-Implicit.duckdb
     outs:
@@ -165,7 +159,7 @@ stages:
           cache: false
   sweep-random-Implicit-BPR:
     cmd: >-
-      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb Implicit-BPR sweeps/random/Implicit-BPR.duckdb
+      codex-tool sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb Implicit-BPR sweeps/random/Implicit-BPR.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -176,7 +170,7 @@ stages:
     outs:
       - sweeps/random/Implicit-BPR.duckdb
   export-random-Implicit-BPR:
-    cmd: python ../../action.py sweep export sweeps/random/Implicit-BPR.duckdb ndcg
+    cmd: codex-tool sweep export sweeps/random/Implicit-BPR.duckdb ndcg
     deps:
       - sweeps/random/Implicit-BPR.duckdb
     outs:
@@ -185,7 +179,7 @@ stages:
           cache: false
   sweep-random-HPF:
     cmd: >-
-      python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb HPF sweeps/random/HPF.duckdb
+      codex-tool sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb HPF sweeps/random/HPF.duckdb
     params:
       - ../../config.toml:
           - random.seed
@@ -196,7 +190,7 @@ stages:
     outs:
       - sweeps/random/HPF.duckdb
   export-random-HPF:
-    cmd: python ../../action.py sweep export sweeps/random/HPF.duckdb ndcg
+    cmd: codex-tool sweep export sweeps/random/HPF.duckdb ndcg
     deps:
       - sweeps/random/HPF.duckdb
     outs:
@@ -205,7 +199,7 @@ stages:
           cache: false
   run-random-default-Bias:
     cmd: >-
-      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Bias.duckdb Bias
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Bias.duckdb Bias
     outs:
       - runs/random-default/Bias.duckdb
     deps:
@@ -214,7 +208,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-Bias:
     cmd: >-
-      python ../../action.py generate --param-file=sweeps/random/Bias.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/Bias.duckdb Bias
+      codex-tool generate --param-file=sweeps/random/Bias.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/Bias.duckdb Bias
     outs:
       - runs/random-sweep-best/Bias.duckdb
     deps:
@@ -224,7 +218,7 @@ stages:
       - sweeps/random/Bias.json
   run-random-default-Popular:
     cmd: >-
-      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Popular.duckdb Popular
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Popular.duckdb Popular
     outs:
       - runs/random-default/Popular.duckdb
     deps:
@@ -233,7 +227,7 @@ stages:
       - splits/random.duckdb
   run-random-default-BiasedMF-ALS:
     cmd: >-
-      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/BiasedMF-ALS.duckdb BiasedMF-ALS
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/BiasedMF-ALS.duckdb BiasedMF-ALS
     outs:
       - runs/random-default/BiasedMF-ALS.duckdb
     deps:
@@ -242,7 +236,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-BiasedMF-ALS:
     cmd: >-
-      python ../../action.py generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/BiasedMF-ALS.duckdb BiasedMF-ALS
+      codex-tool generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/BiasedMF-ALS.duckdb BiasedMF-ALS
     outs:
       - runs/random-sweep-best/BiasedMF-ALS.duckdb
     deps:
@@ -252,7 +246,7 @@ stages:
       - sweeps/random/BiasedMF-ALS.json
   run-random-default-ImplicitMF-ALS:
     cmd: >-
-      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/ImplicitMF-ALS.duckdb ImplicitMF-ALS
     outs:
       - runs/random-default/ImplicitMF-ALS.duckdb
     deps:
@@ -261,7 +255,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-ImplicitMF-ALS:
     cmd: >-
-      python ../../action.py generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      codex-tool generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/ImplicitMF-ALS.duckdb ImplicitMF-ALS
     outs:
       - runs/random-sweep-best/ImplicitMF-ALS.duckdb
     deps:
@@ -271,7 +265,7 @@ stages:
       - sweeps/random/ImplicitMF-ALS.json
   run-random-default-IKNN-Explicit:
     cmd: >-
-      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/IKNN-Explicit.duckdb IKNN-Explicit
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/IKNN-Explicit.duckdb IKNN-Explicit
     outs:
       - runs/random-default/IKNN-Explicit.duckdb
     deps:
@@ -280,7 +274,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-IKNN-Explicit:
     cmd: >-
-      python ../../action.py generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/IKNN-Explicit.duckdb IKNN-Explicit
+      codex-tool generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/IKNN-Explicit.duckdb IKNN-Explicit
     outs:
       - runs/random-sweep-best/IKNN-Explicit.duckdb
     deps:
@@ -290,7 +284,7 @@ stages:
       - sweeps/random/IKNN-Explicit.json
   run-random-default-IKNN-Implicit:
     cmd: >-
-      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/IKNN-Implicit.duckdb IKNN-Implicit
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/IKNN-Implicit.duckdb IKNN-Implicit
     outs:
       - runs/random-default/IKNN-Implicit.duckdb
     deps:
@@ -299,7 +293,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-IKNN-Implicit:
     cmd: >-
-      python ../../action.py generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/IKNN-Implicit.duckdb IKNN-Implicit
+      codex-tool generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/IKNN-Implicit.duckdb IKNN-Implicit
     outs:
       - runs/random-sweep-best/IKNN-Implicit.duckdb
     deps:
@@ -309,7 +303,7 @@ stages:
       - sweeps/random/IKNN-Implicit.json
   run-random-default-UKNN-Explicit:
     cmd: >-
-      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Explicit.duckdb UKNN-Explicit
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Explicit.duckdb UKNN-Explicit
     outs:
       - runs/random-default/UKNN-Explicit.duckdb
     deps:
@@ -318,7 +312,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-UKNN-Explicit:
     cmd: >-
-      python ../../action.py generate --param-file=sweeps/random/UKNN-Explicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/UKNN-Explicit.duckdb UKNN-Explicit
+      codex-tool generate --param-file=sweeps/random/UKNN-Explicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/UKNN-Explicit.duckdb UKNN-Explicit
     outs:
       - runs/random-sweep-best/UKNN-Explicit.duckdb
     deps:
@@ -328,7 +322,7 @@ stages:
       - sweeps/random/UKNN-Explicit.json
   run-random-default-UKNN-Implicit:
     cmd: >-
-      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Implicit.duckdb UKNN-Implicit
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Implicit.duckdb UKNN-Implicit
     outs:
       - runs/random-default/UKNN-Implicit.duckdb
     deps:
@@ -337,7 +331,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-UKNN-Implicit:
     cmd: >-
-      python ../../action.py generate --param-file=sweeps/random/UKNN-Implicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/UKNN-Implicit.duckdb UKNN-Implicit
+      codex-tool generate --param-file=sweeps/random/UKNN-Implicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/UKNN-Implicit.duckdb UKNN-Implicit
     outs:
       - runs/random-sweep-best/UKNN-Implicit.duckdb
     deps:
@@ -347,7 +341,7 @@ stages:
       - sweeps/random/UKNN-Implicit.json
   run-random-default-Implicit-BPR:
     cmd: >-
-      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Implicit-BPR.duckdb Implicit-BPR
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Implicit-BPR.duckdb Implicit-BPR
     outs:
       - runs/random-default/Implicit-BPR.duckdb
     deps:
@@ -356,7 +350,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-Implicit-BPR:
     cmd: >-
-      python ../../action.py generate --param-file=sweeps/random/Implicit-BPR.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/Implicit-BPR.duckdb Implicit-BPR
+      codex-tool generate --param-file=sweeps/random/Implicit-BPR.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/Implicit-BPR.duckdb Implicit-BPR
     outs:
       - runs/random-sweep-best/Implicit-BPR.duckdb
     deps:
@@ -366,7 +360,7 @@ stages:
       - sweeps/random/Implicit-BPR.json
   run-random-default-HPF:
     cmd: >-
-      python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/HPF.duckdb HPF
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/HPF.duckdb HPF
     outs:
       - runs/random-default/HPF.duckdb
     deps:
@@ -375,7 +369,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-HPF:
     cmd: >-
-      python ../../action.py generate --param-file=sweeps/random/HPF.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/HPF.duckdb HPF
+      codex-tool generate --param-file=sweeps/random/HPF.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/HPF.duckdb HPF
     outs:
       - runs/random-sweep-best/HPF.duckdb
     deps:
@@ -385,7 +379,7 @@ stages:
       - sweeps/random/HPF.json
   collect-metrics:
     cmd: >-
-      python ../../action.py collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql runs
+      codex-tool collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql runs
     deps:
       - runs/random-default/Bias.duckdb
       - runs/random-sweep-best/Bias.duckdb
