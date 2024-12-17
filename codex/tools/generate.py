@@ -96,7 +96,7 @@ def generate(
         connect_cluster() as cluster,
         ResultDB(db, store_predictions=predict) as results,
         CodexTask(
-            label=f"generate-{model}", tags=["generate"], model=model, model_config=cfg
+            label=f"generate-{model}", tags=["generate"], score_model=model, score_model_config=cfg
         ) as root_task,
     ):
         log = _log.bind(task_id=root_task.task_id)
@@ -108,10 +108,10 @@ def generate(
                 label=f"generate-{model}/train",
                 tags=["train"],
                 reset_hwm=True,
-                model=model,
-                model_config=cfg,
+                score_model=model,
+                score_model_config=cfg,
             ) as task:
-                trainable.train(data.train_data(db))
+                trainable.train(data.train_data(ratings_db))
 
             plog.debug("run record: %s", task.model_dump_json(indent=2))
             plog.info(
@@ -129,7 +129,11 @@ def generate(
                     plog.error("no test data found")
 
             with CodexTask(
-                label=f"generate-{model}/recommend", tags=["recommend"], reset_hwm=True
+                label=f"generate-{model}/recommend",
+                tags=["recommend"],
+                reset_hwm=True,
+                score_model=model,
+                score_model_config=cfg,
             ) as task:
                 for result in run_recommender(
                     trainable, test, list_length, predict, cluster=cluster
@@ -157,7 +161,7 @@ def fixed_test_sets(test: Path, train: list[Path]) -> Generator[tuple[int, Train
 def crossfold_test_sets(
     assign: Path, ratings: Path, parts: str
 ) -> Generator[tuple[int, TrainTestData]]:
-    with connect(fspath(assign)) as db:
+    with connect(fspath(assign), read_only=True) as db:
         db.execute(
             "SELECT DISTINCT partition FROM test_alloc",
         )

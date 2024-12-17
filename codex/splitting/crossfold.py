@@ -29,7 +29,7 @@ def crossfold_ratings(db: DuckDBPyConnection, cross: CrossfoldSpec, hold: Holdou
         db.execute(
             """
             INSERT INTO test_alloc (partition, user_id, item_id)
-            SELECT ?, user, item FROM test_df
+            SELECT ?, user_id, item_id FROM test_df
             """,
             [i],
         )

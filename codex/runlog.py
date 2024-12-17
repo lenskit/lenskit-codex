@@ -88,8 +88,8 @@ class CodexTask(Task):
     lenskit_version: str = lenskit.__version__  # type: ignore
     tags: list[str] = Field(default_factory=list)
 
-    model: str | None = None
-    model_config: str | dict[str, JsonValue] | None = None
+    score_model: str | None = None
+    score_model_config: str | dict[str, JsonValue] | None = None
 
     cpu_power: float | None = None
     gpu_power: float | None = None
