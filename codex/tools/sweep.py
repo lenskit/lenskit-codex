@@ -3,7 +3,6 @@ Grid-sweep hyperparameter values.
 """
 
 import json
-import logging
 import sys
 from os import fspath
 from pathlib import Path
@@ -13,19 +12,19 @@ import click
 import duckdb
 import ipyparallel as ipp
 import pandas as pd
-from humanize import naturalsize
-from lenskit.algorithms import Recommender
+import structlog
+from lenskit.pipeline import Trainable
 
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
 from codex.inference import connect_cluster, run_recommender
 from codex.models import ModelMod, model_module
 from codex.params import param_grid
+from codex.pipeline import base_pipeline
 from codex.results import ResultDB
-from codex.training import train_model
 
 from . import codex
 
-_log = logging.getLogger("codex.split")
+_log = structlog.stdlib.get_logger(__name__)
 
 
 @codex.group("sweep")
@@ -106,7 +105,7 @@ def run_sweep(
         _log.info("saving run spec table")
         db.from_df(space).create("run_specs")
 
-        sweep_model(results, data, mod, space, list_length, cluster)
+        sweep_model(results, data, model, mod, space, list_length, cluster)
 
 
 @sweep.command("export")
@@ -151,33 +150,36 @@ def export_best_results(database: Path, metric: str):
 def sweep_model(
     results: ResultDB,
     data: TrainTestData,
+    name: str,
     mod: ModelMod,
     space: pd.DataFrame,
     N: int,
     cluster: ipp.Client,
 ):
+    log = _log.bind(model=name)
+
     with data.open_db() as test_db:
-        test = data.test_ratings(test_db).to_df()
+        test = data.test_data(test_db)
+        train = data.train_data(test_db)
+
+    pipe = base_pipeline(name)
+    log.info("training base pipeline")
+    pipe.train(train)
 
     for point in space.itertuples(index=False):
-        _log.info("measuring at point %s", point)
+        plog = log.bind(**point._asdict())
+        plog.info("preparing for measurement", point)
         model = mod.from_config(*point[2:])
-        model = Recommender.adapt(model)
-        _log.info("training model %s", model)
-        model, metrics = train_model(model, data)
-        _log.info(
-            "finished in %.0fs (%.0fs CPU, %s max RSS)",
-            metrics.wall_time,
-            metrics.cpu_time,
-            naturalsize(metrics.rss_max_kb * 1024),
-        )
+        if isinstance(model, Trainable):
+            plog.info("training model", point)
+            model.train(train)
+        pipe.replace_component("scorer", model)
+
         run = cast(int, point.run)
-        results.add_training(run, metrics)
+        results.add_training(run)
 
         _log.info("running recommender")
-        for result in run_recommender(
-            model, test, N, "predictions" in mod.outputs, cluster=cluster
-        ):
+        for result in run_recommender(pipe, test, N, "predictions" in mod.outputs, cluster=cluster):
             results.add_result(run, result)
 
         _log.info("run finished")

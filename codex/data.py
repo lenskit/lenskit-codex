@@ -4,6 +4,7 @@ from os import fspath
 from pathlib import Path
 
 import duckdb
+from lenskit.data import Dataset, ItemListCollection, UserIDKey, from_interactions_df
 
 _log = logging.getLogger(__name__)
 
@@ -31,8 +32,18 @@ class TrainTestData:
     def train_ratings(self, db: duckdb.DuckDBPyConnection) -> duckdb.DuckDBPyRelation:
         return db.query(self.train_query)
 
+    def train_data(self, db: duckdb.DuckDBPyConnection) -> Dataset:
+        df = self.train_ratings(db).to_df()
+        _log.info("loaded %d train ratings", len(df))
+        return from_interactions_df(df)
+
     def test_ratings(self, db: duckdb.DuckDBPyConnection) -> duckdb.DuckDBPyRelation:
         return db.query(self.test_query)
+
+    def test_data(self, db: duckdb.DuckDBPyConnection) -> ItemListCollection[UserIDKey]:
+        df = self.test_ratings(db).to_df()
+        _log.info("loaded %d test ratings", len(df))
+        return ItemListCollection.from_df(df, UserIDKey)
 
 
 def partition_tt_data(

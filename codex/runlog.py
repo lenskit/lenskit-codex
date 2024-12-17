@@ -9,6 +9,7 @@ import socket
 import tomllib
 from pathlib import Path
 
+import lenskit
 import requests
 import structlog
 from deepmerge import always_merger
@@ -44,6 +45,7 @@ def configure():
             always_merger.merge(cfg, contrib)
 
     _config = RunlogConfig.model_validate(cfg)
+    _config.lobby_dir.mkdir(exist_ok=True)
 
 
 def get_config() -> RunlogConfig:
@@ -83,6 +85,7 @@ class CodexTask(Task):
 
     hostname: str = Field(default_factory=socket.gethostname)
     machine_name: str | None = Field(default_factory=lambda: os.environ.get("LK_MACHINE", None))
+    lenskit_version: str = lenskit.__version__  # type: ignore
     tags: list[str] = Field(default_factory=list)
 
     model: str | None = None
@@ -97,13 +100,16 @@ class CodexTask(Task):
             cfg = get_config()
             self.save_to_file(cfg.lobby_dir / f"{self.task_id}.json", monitor=False)
 
+        super().start()
+
     @override
     def update_resources(self):
-        super().update_resources()
+        res = super().update_resources()
 
         config = get_config()
         if prom := config.prometheus:
             url = config.prometheus.url + "/api/v1/query"
+            assert self.duration is not None
             time_ms = int(self.duration * 1000)
             if "cpu_power" in prom.queries:
                 self.cpu_power = _get_prometheus_metric(url, prom.queries["cpu_power"], time_ms)
@@ -114,6 +120,8 @@ class CodexTask(Task):
                     url, prom.queries["chassis_power"], time_ms
                 )
 
+        return res
+
 
 def _get_prometheus_metric(url: str, query: str, time_ms: int) -> float | None:
     query = query.format(time_ms)
@@ -122,6 +130,11 @@ def _get_prometheus_metric(url: str, query: str, time_ms: int) -> float | None:
         res = requests.get(url, {"query": query}).json()
     except Exception as e:
         _log.warning("Prometheus query error", url=url, exception=e)
+        return None
+
+    log.debug("received response: %s", res)
+    if res["status"] == "error":
+        log.error("Prometheus query error: %s", res["error"], type=res["errorType"])
         return None
 
     results = res["data"]["result"]

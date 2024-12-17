@@ -9,14 +9,13 @@ import click
 import duckdb
 from duckdb import connect
 from humanize import naturalsize
-from lenskit.algorithms import Recommender
-from xshaper import Monitor, Run
 
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
 from codex.inference import connect_cluster, run_recommender
 from codex.models import load_model, model_module
+from codex.pipeline import base_pipeline
 from codex.results import ResultDB
-from codex.training import train_model
+from codex.runlog import CodexTask
 
 from . import codex
 
@@ -68,7 +67,7 @@ def generate(
         config = Path(config)
     mod = model_module(model)
     reco = load_model(model, config)
-    reco = Recommender.adapt(reco)
+    pipe = base_pipeline(model, reco)
 
     if test_file:
         if assign_file or ratings_db or test_part:
@@ -93,25 +92,25 @@ def generate(
     predict = "predictions" in mod.outputs
 
     with (
-        Monitor(),
         duckdb.connect(fspath(output)) as db,
         connect_cluster() as cluster,
         ResultDB(db, store_predictions=predict) as results,
-        Run(tags=["lenskit", "generate"]),
+        CodexTask(label=f"generate-{model}", tags=["generate"], model=model),
     ):
         for part, data in test_sets:
             _log.info("training model %s", reco)
-            with Run(tags=["lenskit", "train"]):
-                trained, record = train_model(reco, data)
+            trainable = pipe.clone()
+            with CodexTask(label=f"generate-{model}/train", tags=["train"], reset_hwm=True) as task:
+                trainable.train(data.train_data(db))
 
-            _log.debug("run record: %s", record.model_dump_json(indent=2))
+            _log.debug("run record: %s", task.model_dump_json(indent=2))
             _log.info(
                 "finished in %.0fs (%.0fs CPU, %s peak RSS)",
-                record.time.wall,
-                record.time.self_cpu,
-                naturalsize(record.memory.peak_rss),  # type: ignore
+                task.duration,
+                task.cpu_time,
+                naturalsize(task.peak_memory) if task.peak_memory else "unknown",
             )
-            results.add_training(part, record.run_id)
+            results.add_training(part, task.task_id)
 
             _log.info("loading test data")
             with data.open_db() as test_db:
@@ -119,13 +118,15 @@ def generate(
                 if len(test) == 0:
                     _log.error("no test data found")
 
-            with Run(tags=["lenskit", "recommend"]) as erun:
-                for result in run_recommender(trained, test, list_length, predict, cluster=cluster):
+            with CodexTask(
+                label=f"generate-{model}/recommend", tags=["recommend"], reset_hwm=True
+            ) as task:
+                for result in run_recommender(
+                    trainable, test, list_length, predict, cluster=cluster
+                ):
                     results.add_result(part, result)
 
-            trained.close()
-
-            results.log_metrics(part, erun.record.run_id)
+            results.log_metrics(part, task.task_id)
 
         _log.info("finished all parts")
         results.log_metrics()

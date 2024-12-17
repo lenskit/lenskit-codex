@@ -7,31 +7,26 @@ from __future__ import annotations
 
 import gc
 import logging
-from collections.abc import Generator
+import time
 from dataclasses import dataclass
 from typing import Iterator
 
 import ipyparallel as ipp
-import numpy as np
-import pandas as pd
-from lenskit.algorithms import Recommender
-from lenskit.algorithms.basic import TopN
-from lenskit.metrics.predict import mae, rmse
-from lenskit.metrics.topn import ndcg, recip_rank
-from lenskit.sharing import PersistedModel
-from progress_api import Progress, make_progress
-from sandal.project import project_root
-from xshaper import Monitor, Run, configure
+from lenskit import Pipeline, predict, recommend
+from lenskit.data import ItemList, ItemListCollection, UserIDKey
+from lenskit.logging import Task, item_progress
+from lenskit.logging.worker import WorkerContext, WorkerLogConfig
+from lenskit.metrics import MAE, NDCG, RBP, RMSE, RecipRank, call_metric
+from lenskit.parallel.serialize import SHMData, shm_deserialize, shm_serialize
 
 from codex.cluster import connect_cluster
-from codex.resources import resource_monitor
 from codex.results import UserResult
 
 _log = logging.getLogger(__name__)
-__model: Recommender | None
+__pipeline: Pipeline | None
 __options: JobOptions | None
-__monitor: Monitor
-__run: Run
+__context: WorkerContext
+__task: Task
 
 
 @dataclass
@@ -41,19 +36,19 @@ class JobOptions:
 
 
 def run_recommender(
-    algo: PersistedModel,
-    test: pd.DataFrame,
+    pipe: Pipeline,
+    test: ItemListCollection[UserIDKey],
     n_recs: int,
     predict: bool = False,
     *,
     cluster: ipp.Cluster | ipp.Client | None | bool = None,
 ) -> Iterator[UserResult]:
-    global __model, __options
+    global __pipeline, __options
     if cluster == False:  # noqa: E712
-        __model = algo.get()
+        __pipeline = pipe
         __options = JobOptions(n_recs, predict)
-        for job in test.groupby("user"):
-            yield _run_for_user(job)  # type: ignore
+        for job in test:
+            yield _run_for_user(job)
         return
 
     elif cluster == True:  # noqa: E712
@@ -62,15 +57,14 @@ def run_recommender(
     with connect_cluster(cluster) as client:
         dv = client.direct_view()
         _log.info("sending model to workers")
-        dv.apply_sync(_prepare_model, algo, JobOptions(n_recs, predict))
+        data = shm_serialize(pipe)
+        dv.apply_sync(_prepare_model, data, JobOptions(n_recs, predict), WorkerLogConfig.current())
         try:
-            n_users = test["user"].nunique()
+            n_users = len(test)
             _log.info("running recommender for %d users (N=%d)", n_users, n_recs)
             lbv = client.load_balanced_view()
-            with make_progress(
-                _log, "generate", total=n_users, unit="user", states=["finished", "dispatched"]
-            ) as pb:
-                for res in lbv.imap(_run_for_user, _test_jobs(test, pb), ordered=False):
+            with item_progress("generate", n_users) as pb:
+                for res in lbv.imap(_run_for_user, test, ordered=False):
                     pb.update(state="finished", src_state="dispatched")
                     yield res
         finally:
@@ -78,63 +72,56 @@ def run_recommender(
             dv.apply_sync(_cleanup_model)
 
 
-def _test_jobs(test: pd.DataFrame, pb: Progress) -> Generator[tuple[int, pd.DataFrame]]:
-    for group in test.groupby("user"):
-        pb.update(state="dispatched")
-        yield group  # type: ignore
-
-
-def _prepare_model(model: PersistedModel, options: JobOptions):
-    global __model, __options, __monitor, __run
-    configure(project_root() / "run-log")
-    __model = model.get()
+def _prepare_model(model: SHMData, options: JobOptions, logging: WorkerLogConfig):
+    global __pipeline, __options, __task
+    __context = WorkerContext(logging)
+    __context.start()
+    __pipeline = shm_deserialize(model)
     __options = options
-    __monitor = Monitor()
-    __run = Run(tags=["lenskit", "recommend", "worker"], subprocess=True)
-    __run.begin()
+    __task = Task("recommend worker", subprocess=True)
+    __task.start()
 
 
 def _cleanup_model():
-    global __model, __options, __monitor, __run
-    __run.end()
-    del __run
-    __monitor.shutdown()
-    del __monitor
+    global __pipeline, __options, __task, __context
+    __task.finish()
+    __context.send_task(__task)
+    del __task
 
-    __model = None
+    __pipeline = None
     __options = None
+
+    __context.shutdown()
+    del __context
     gc.collect()
 
 
-def _run_for_user(job: tuple[int, pd.DataFrame]):
-    global __model, __options
-    assert __model is not None
+def _run_for_user(job: tuple[UserIDKey, ItemList]):
+    global __pipeline, __options
+    assert __pipeline is not None
     assert __options is not None
 
-    user, test = job
-    test = test.set_index("item")
+    key, test = job
+    user = key.user_id
 
-    with resource_monitor() as mon:
-        result = UserResult(user, test)
+    start = time.perf_counter()
 
-        recs = __model.recommend(user, __options.n_recs)
-        recs["rank"] = np.arange(0, len(recs), dtype=np.int16) + 1
+    result = UserResult(user, test)
 
-        if len(recs) > 0:
-            result.recommendations = recs
-            result.metrics["ndcg"] = ndcg(recs, test.drop(columns="rating", errors="ignore"))
-            result.metrics["recip_rank"] = recip_rank(recs, test)
+    recs = recommend(__pipeline, user, __options.n_recs)
+    result.recommendations = recs
 
-        if __options.predict:
-            assert isinstance(__model, TopN)
-            preds = __model.predict_for_user(user, test.index.values)
-            preds.index.name = "item"
-            preds = preds.to_frame("prediction").reset_index()
-            preds = preds.join(test["rating"], on="item", how="left")
-            result.predictions = preds
-            result.metrics["rmse"] = rmse(preds["prediction"], preds["rating"])
-            result.metrics["mae"] = mae(preds["prediction"], preds["rating"])
+    if len(recs) > 0:
+        result.metrics["ndcg"] = call_metric(NDCG, recs, test)
+        result.metrics["recip_rank"] = call_metric(RecipRank, recs, test)
+        result.metrics["rbp"] = call_metric(RBP, recs, test, patience=0.8)
 
-    result.resources = mon.metrics()
+    if __options.predict:
+        preds = predict(__pipeline, user, test)
+        result.predictions = preds
+        result.metrics["rmse"] = call_metric(RMSE, preds, test)
+        result.metrics["mae"] = call_metric(MAE, preds, test)
+
+    result.time = time.perf_counter() - start
 
     return result

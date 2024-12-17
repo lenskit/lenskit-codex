@@ -9,9 +9,9 @@ from uuid import UUID
 
 import pandas as pd
 from duckdb import ConstantExpression, DuckDBPyConnection
+from lenskit.data import ItemList
 
 from codex.dbutil import transaction
-from codex.resources import ResourceMetrics
 
 _log = logging.getLogger(__name__)
 DEFAULT_BATCH_SIZE = 2500
@@ -50,11 +50,12 @@ DROP TABLE IF EXISTS user_metrics;
 CREATE TABLE user_metrics (
     run SMALLINT NOT NULL,
     user_id INT NOT NULL,
-    wall_time FLOAT NULL,
+    time FLOAT NULL,
     nrecs INT,
     ntruth INT,
     ndcg FLOAT NULL,
     recip_rank FLOAT NULL,
+    rbp FLOAT NULL,
 )
 """
 
@@ -63,22 +64,20 @@ CREATE TABLE user_metrics (
 class UserResult:
     user: int
 
-    test: pd.DataFrame
-    recommendations: pd.DataFrame | None = None
-    predictions: pd.DataFrame | None = None
+    test: ItemList
+    recommendations: ItemList | None = None
+    predictions: ItemList | None = None
 
+    time: float | None = None
     metrics: dict[str, float] = field(default_factory=dict)
-
-    resources: ResourceMetrics | None = None
 
     def as_dict(self):
         row: dict[str, float | int | str | None] = {
             "user_id": self.user,
             "nrecs": len(self.recommendations) if self.recommendations is not None else 0,
             "ntruth": len(self.test),
+            "time": self.time,
         }
-        if self.resources:
-            row["wall_time"] = self.resources.wall_time
         row.update(self.metrics)
         return row
 
@@ -173,7 +172,7 @@ class ResultDB:
             self.db.from_df(users).select(*u_cols).insert_into("user_metrics")
 
             rec_dfs = [
-                r.result.recommendations.assign(run=r.run, user=r.result.user)
+                r.result.recommendations.to_df().assign(run=r.run, user=r.result.user)
                 for r in to_write
                 if r.result.recommendations is not None
             ]
@@ -187,7 +186,7 @@ class ResultDB:
                     "score" if "score" in recs.columns else ConstantExpression(None),
                 ).insert_into("recommendations")
             pred_dfs = [
-                (r.run, r.result.user, r.result.predictions)
+                (r.run, r.result.user, r.result.predictions.to_df())
                 for r in to_write
                 if r.result.predictions is not None
             ]
