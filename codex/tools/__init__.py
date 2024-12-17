@@ -5,21 +5,21 @@ Codex CLI tools.
 import logging
 
 import click
-import seedbank
-from sandal.cli import setup_logging
-from sandal.project import project_root
-from xshaper import configure
+from lenskit.logging import LoggingConfig
 
-root = project_root()
+from .. import runlog
 
 
 @click.group("codex-tool")
 @click.option("-v", "--verbose", is_flag=True, help="enable debug logging output")
 def codex(verbose: bool = False):
-    setup_logging(verbose)
+    lc = LoggingConfig()
+    if verbose:
+        lc.set_verbose()
+
+    lc.apply()
     logging.getLogger("numba").setLevel(logging.INFO)
-    seedbank.init_file(root / "config.toml")
-    configure(root / "run-log")
+    runlog.configure()
 
 
 from . import (  # noqa: F401, E402
@@ -30,5 +30,6 @@ from . import (  # noqa: F401, E402
     movielens,
     split,
     sweep,
+    test_measure,
     trec,
 )
