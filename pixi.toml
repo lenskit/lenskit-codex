@@ -8,6 +8,7 @@ platforms = ["linux-64", "osx-arm64"]
 python = "~=3.11.0"
 click = "~=8.0"
 pydantic = ">=2.8,<3"
+docopt-ng = ">=0.9s"
 humanize = "~=4.0"
 tabulate = ">=0.9"
 statsmodels = "~=0.14.4"
@@ -29,9 +30,6 @@ quarto = "1.5.*"
 tectonic = ">=0.15.0,<0.16"
 
 [pypi-dependencies]
-sandal = { git = "https://github.com/mdekstrand/sandal" }
-progress-api = { git = "https://github.com/lenskit/progress-api" }
-docopt-ng = ">=0.9"
 lenskit-codex = { path = ".", editable = true }
 
 # exclude MKL for smaller environments in some cases
@@ -48,14 +46,16 @@ pyarrow = ">=16"
 # dependencies to run the recommender algorithms
 [feature.run.dependencies]
 pytorch = "~=2.1"
-tbb = "*"
-lenskit = "~=0.14.4"
-lenskit-implicit = "~=0.14.0"
-hpfrec = "~=0.2.13"
+numpy = "~=2.0"
+pandas = "~=2.0"
+scipy = "~=1.10"
+# hpfrec = "~=0.2.13"
+implicit = "~=0.7.0"
 
 [feature.run.pypi-dependencies]
-lenskit-hpf = "~=0.14.0"
-xshaper = { git = "https://github.com/lenskit/xshaper.git" }
+lenskit = { git = "https://github.com/lenskit/lkpy.git", subdirectory = "lenskit" }
+lenskit-implicit = { git = "https://github.com/lenskit/lkpy.git", subdirectory = "lenskit-implicit" }
+# lenskit-hpf = { git = "https://github.com/lenskit/lkpy.git", subdirectory = "lenskit-hpf" }
 
 [feature.run.target.linux.dependencies]
 libblas = { build = "*mkl*" }
