@@ -18,7 +18,7 @@ from lenskit.algorithms import Recommender
 
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
 from codex.inference import connect_cluster, run_recommender
-from codex.models import AlgoMod, model_module
+from codex.models import ModelMod, model_module
 from codex.params import param_grid
 from codex.results import ResultDB
 from codex.training import train_model
@@ -151,7 +151,7 @@ def export_best_results(database: Path, metric: str):
 def sweep_model(
     results: ResultDB,
     data: TrainTestData,
-    mod: AlgoMod,
+    mod: ModelMod,
     space: pd.DataFrame,
     N: int,
     cluster: ipp.Client,

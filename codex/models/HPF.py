@@ -2,7 +2,7 @@
 HPF from the hpfrec library.
 """
 
-from lenskit_hpf import HPF
+from lenskit.hpf import HPF
 
 outputs = ["recommendations"]
 

@@ -2,7 +2,7 @@
 Explicit-feedback Item KNN.
 """
 
-from lenskit.algorithms.item_knn import ItemItem
+from lenskit.knn import ItemKNNScorer
 
 outputs = ["recommendations"]
 
@@ -13,8 +13,8 @@ sweep_space = {
 
 
 def default():
-    return ItemItem(20, feedback="implicit")
+    return ItemKNNScorer(20, feedback="implicit")
 
 
 def from_config(nnbrs, min_nbrs):
-    return ItemItem(nnbrs, min_nbrs=min_nbrs, feedback="implicit")
+    return ItemKNNScorer(nnbrs, min_nbrs=min_nbrs, feedback="implicit")

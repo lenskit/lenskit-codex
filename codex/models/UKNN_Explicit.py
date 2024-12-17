@@ -2,7 +2,7 @@
 Explicit-feedback Item KNN.
 """
 
-from lenskit.algorithms.user_knn import UserUser
+from lenskit.knn import UserKNNScorer
 
 outputs = ["recommendations", "predictions"]
 
@@ -13,8 +13,8 @@ sweep_space = {
 
 
 def default():
-    return UserUser(20, feedback="explicit")
+    return UserKNNScorer(20, feedback="explicit")
 
 
 def from_config(nnbrs, min_nbrs):
-    return UserUser(nnbrs, min_nbrs=min_nbrs, feedback="explicit")
+    return UserKNNScorer(nnbrs, min_nbrs=min_nbrs, feedback="explicit")

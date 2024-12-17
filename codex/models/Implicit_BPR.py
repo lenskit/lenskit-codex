@@ -2,7 +2,7 @@
 BPR from the Implicit library.
 """
 
-from lenskit_implicit import BPR
+from lenskit.implicit import BPR
 
 outputs = ["recommendations"]
 

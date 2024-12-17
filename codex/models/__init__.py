@@ -5,27 +5,27 @@ from inspect import Parameter, signature
 from pathlib import Path
 from typing import Protocol, cast
 
-from lenskit.algorithms import Algorithm
+from lenskit.pipeline import Component
 
 _log = logging.getLogger(__name__)
 
 
-class AlgoMod(Protocol):
+class ModelMod(Protocol):
     outputs: list[str]
     sweep_space: dict[str, list[int] | list[float] | list[str]]
 
-    def default(self) -> Algorithm: ...
+    def default(self) -> Component: ...
 
-    def from_config(self, *args, **kwargs) -> Algorithm: ...
+    def from_config(self, *args, **kwargs) -> Component: ...
 
 
-def model_module(name: str) -> AlgoMod:
+def model_module(name: str) -> ModelMod:
     mod = "codex.models." + name.replace("-", "_")
     _log.info("importing model module %s", mod)
-    return cast(AlgoMod, import_module(mod))
+    return cast(ModelMod, import_module(mod))
 
 
-def load_model(name, config: str | Path) -> Algorithm:
+def load_model(name, config: str | Path) -> Component:
     mod = model_module(name)
     if config == "default":
         _log.info("%s: using default config", name)

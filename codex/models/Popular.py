@@ -2,7 +2,7 @@
 Explicit-feedback Item KNN.
 """
 
-from lenskit.algorithms.basic import PopScore
+from lenskit.basic import PopScorer
 
 outputs = ["recommendations"]
 
@@ -10,7 +10,7 @@ sweep_space = {}
 
 
 def default():
-    return PopScore()
+    return PopScorer()
 
 
 def from_config():

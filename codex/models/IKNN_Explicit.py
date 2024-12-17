@@ -2,7 +2,7 @@
 Explicit-feedback Item KNN.
 """
 
-from lenskit.algorithms.item_knn import ItemItem
+from lenskit.knn import ItemKNNScorer
 
 outputs = ["recommendations", "predictions"]
 

@@ -2,7 +2,7 @@
 Explicit-feedback Item KNN.
 """
 
-from lenskit.algorithms.als import BiasedMF
+from lenskit.als import BiasedMF
 
 outputs = ["recommendations", "predictions"]
 
