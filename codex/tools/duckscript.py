@@ -1,15 +1,6 @@
 #!/usr/bin/env python3
 """
 Run a DuckDB SQL script.
-
-Usage:
-    duckdb-sql.py [options] [-d DATABASE] SQL
-
-Options:
-    -v, --verbose   enable verbose logging
-    -d DATABASE, --database=DATABASE
-                    connect to specified database
-    SQL             the SQL script file to run
 """
 
 import logging
