@@ -1,12 +1,13 @@
-import lenskit.crossfold as xf
 from duckdb import DuckDBPyConnection
+from lenskit.data import from_interactions_df
+from lenskit.splitting import SampleN, crossfold_users
 
 from codex.splitting.spec import CrossfoldSpec, HoldoutSpec
 
 
 def crossfold_ratings(db: DuckDBPyConnection, cross: CrossfoldSpec, hold: HoldoutSpec):
     if hold.selection == "random":
-        hf = xf.SampleN(hold.count)
+        hf = SampleN(hold.count)
     else:
         raise ValueError("invalid holdout")
 
@@ -18,11 +19,13 @@ def crossfold_ratings(db: DuckDBPyConnection, cross: CrossfoldSpec, hold: Holdou
         )
     """)
 
-    df = db.sql("SELECT user_id AS user, item_id AS item, rating FROM rf.ratings").to_df()
+    df = db.sql("SELECT user_id, item_id, rating FROM rf.ratings").to_df()
+    ds = from_interactions_df(df)
     if cross.method == "users":
-        parts = xf.partition_users(df, cross.partitions, hf)
+        parts = crossfold_users(ds, cross.partitions, hf, test_only=True)
 
-    for i, (_train_df, test_df) in enumerate(parts):
+    for i, split in enumerate(parts):
+        test_df = split.test_df  # noqa: F841
         db.execute(
             """
             INSERT INTO test_alloc (partition, user_id, item_id)
