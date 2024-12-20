@@ -90,6 +90,7 @@ class CodexTask(Task):
 
     score_model: str | None = None
     score_model_config: str | dict[str, JsonValue] | None = None
+    data: DataModel | None = None
 
     cpu_power: float | None = None
     gpu_power: float | None = None
@@ -122,6 +123,12 @@ class CodexTask(Task):
                 )
 
         return res
+
+
+class DataModel(BaseModel):
+    dataset: str
+    split: str | None = None
+    part: str | int | None = None
 
 
 def _get_prometheus_metric(url: str, query: str, time_ms: int) -> float | None:
