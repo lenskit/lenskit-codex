@@ -142,4 +142,4 @@ class InferenceActor(CodexActor):
                 for rb in self.pred_batch._iter_record_batches(5000, self.PRED_FIELDS):
                     self.pred_writer.write_batch(rb)
 
-        super().finish()
+        return super().finish()

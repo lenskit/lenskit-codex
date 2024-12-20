@@ -33,9 +33,8 @@ class CodexActor:
         initialize(parallel)
         self.task = Task(f"codex worker {pid} {self}", reset_hwm=True)
         self.task.start()
-        return self.task
 
-    def finish(self):
+    def finish(self) -> Task:
         self.task.finish()
         self.context.shutdown()
         return self.task
