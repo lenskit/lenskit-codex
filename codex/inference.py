@@ -37,9 +37,9 @@ def recommend_and_save(
     pipe_h = ray.put(pipe)
     del pipe
     with (
-        CodexTask(f"recommend-{name}", tags=["generate"], reset_hwm=True) as task,
+        CodexTask(label=f"recommend {name}", tags=["recommend"], reset_hwm=True) as task,  # type: ignore
         worker_pool(
-            InferenceActor,
+            InferenceActor,  # type: ignore
             subprocess_config(),
             WorkerLogConfig.current(),
             pipe_h,

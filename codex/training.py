@@ -1,20 +1,23 @@
 import logging
 
 from lenskit.pipeline import Component, Pipeline
+from pydantic import JsonValue
 
 from codex.data import TrainTestData
 from codex.pipeline import base_pipeline
-from codex.runlog import CodexTask
+from codex.runlog import CodexTask, PipelineModel
 
 _log = logging.getLogger(__name__)
 
 
 def train_and_wrap_model(
-    name: str,
     model: Component,
     data: TrainTestData,
     pipe: Pipeline | None = None,
     predicts_ratings: bool = False,
+    *,
+    name: str = "unnamed",
+    config: dict[str, JsonValue] | None = None,
 ) -> tuple[Pipeline, CodexTask]:
     "Train a recommendation model on input data."
     with data.open_db() as db:
@@ -30,9 +33,10 @@ def train_and_wrap_model(
         )
 
     with CodexTask(
-        label=f"generate-{model}/train",
+        label=f"train {name}",
         tags=["train"],
         reset_hwm=True,
+        pipeline=PipelineModel(scorer_name=name, scorer_config=config),
     ) as task:
         pipe.train(train, retrain=False)
 

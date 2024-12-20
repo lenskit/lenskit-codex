@@ -93,6 +93,11 @@ class DataModel(BaseModel):
     part: str | int | None = None
 
 
+class PipelineModel(BaseModel):
+    scorer_name: str | None = None
+    scorer_config: dict[str, JsonValue] | None = None
+
+
 class CodexTask(Task):
     """
     Extended task with additional codex-specific logging information.
@@ -103,8 +108,7 @@ class CodexTask(Task):
     lenskit_version: str = lenskit.__version__  # type: ignore
     tags: list[str] = Field(default_factory=list)
 
-    score_model: str | None = None
-    score_model_config: str | dict[str, JsonValue] | None = None
+    pipeline: PipelineModel = Field(default_factory=PipelineModel)
     data: DataModel = Field(default_factory=DataModel)
 
     cpu_power: float | None = None

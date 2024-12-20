@@ -26,11 +26,11 @@ def model_module(name: str) -> ModelMod:
     return cast(ModelMod, import_module(mod))
 
 
-def load_model(name, config: str | Path) -> tuple[Component, str | dict[str, JsonValue]]:
+def load_model(name, config: str | Path) -> tuple[Component, dict[str, JsonValue]]:
     mod = model_module(name)
     if config == "default":
         _log.info("%s: using default config", name)
-        return mod.default(), "default"
+        return mod.default(), {}
     elif isinstance(config, Path):
         _log.info("%s: loading config from %s", name, config)
         params = json.loads(config.read_text())

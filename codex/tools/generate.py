@@ -13,7 +13,7 @@ from humanize import naturalsize
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
 from codex.inference import recommend_and_save
 from codex.models import load_model, model_module
-from codex.runlog import CodexTask
+from codex.runlog import CodexTask, PipelineModel
 from codex.training import train_and_wrap_model
 
 from . import codex
@@ -65,7 +65,6 @@ def generate(
     if config != "default":
         config = Path(config)
     mod = model_module(model)
-    reco, cfg = load_model(model, config)
 
     if test_file:
         if assign_file or ratings_db or test_part:
@@ -96,14 +95,17 @@ def generate(
 
     with (
         CodexTask(
-            label=f"generate-{model}", tags=["generate"], score_model=model, score_model_config=cfg
+            label=f"generate {model}", tags=["generate"], pipeline=PipelineModel(scorer_name=model)
         ) as root_task,
     ):
         log = _log.bind(task_id=root_task.task_id)
         for part, data in test_sets:
             plog = log.bind(part=part)
-            plog.info("training model %s", reco)
-            pipe, task = train_and_wrap_model(model, reco, data, predicts_ratings=predict)
+            reco, cfg = load_model(model, config)
+            plog.info("training model", name=model, config=cfg)
+            pipe, task = train_and_wrap_model(
+                reco, data, predicts_ratings=predict, name=model, config=cfg
+            )
             task.data.part = part
 
             plog.debug("run record: %s", task.model_dump_json(indent=2))
