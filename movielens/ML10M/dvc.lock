@@ -53,12 +53,12 @@ stages:
       md5: 59d6961bed0bbe6c0822c4999a29cb09
       size: 2895872
   split-random:
-    cmd: python ../../../action.py split random.toml
+    cmd: codex-tool split random.toml
     deps:
     - path: ../ratings.duckdb
       hash: md5
-      md5: 1a8b11ed426f9ff718074d7ce44e3dcd
-      size: 120598528
+      md5: 7349474ee48f494ac0962a71fa910efa
+      size: 120074240
     - path: random.toml
       hash: md5
       md5: 276ffa520abcf2243c9ffee115774a98
@@ -69,8 +69,8 @@ stages:
     outs:
     - path: random.duckdb
       hash: md5
-      md5: 2fe28eddcd080083e5bc510e507ed33d
-      size: 1323008
+      md5: 33dca1306e8297d339f31cc6181c4acf
+      size: 1847296
   sweep-random-Bias:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
       Bias sweeps/random/Bias.duckdb
@@ -192,7 +192,7 @@ stages:
       md5: 907adc92b96bac73e5ebc8e03a98711b
       size: 591147008
   import:
-    cmd: python ../../action.py movielens import --stat-sql=../ml-stats.sql ml-10m.zip
+    cmd: codex-tool movielens import --stat-sql=../ml-stats.sql ml-10m.zip
     deps:
     - path: ../ml-stats.sql
       hash: md5
@@ -205,8 +205,8 @@ stages:
     outs:
     - path: ratings.duckdb
       hash: md5
-      md5: 1a8b11ed426f9ff718074d7ce44e3dcd
-      size: 120598528
+      md5: 7349474ee48f494ac0962a71fa910efa
+      size: 120074240
   export-random-Bias:
     cmd: python ../../action.py sweep export sweeps/random/Bias.duckdb rmse
     deps:
