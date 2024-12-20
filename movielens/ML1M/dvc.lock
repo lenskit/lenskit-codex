@@ -53,11 +53,11 @@ stages:
       md5: 411a11e707d9b0f0281e2d8e6a64b1c2
       size: 1323008
   split-random:
-    cmd: python ../../../action.py split random.toml
+    cmd: lenskit-codex split random.toml
     deps:
     - path: ../ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: random.toml
       hash: md5
@@ -69,7 +69,7 @@ stages:
     outs:
     - path: random.duckdb
       hash: md5
-      md5: 23c62fcd51a637d1109d93c6341e9ec0
+      md5: 383d2778a4d6f26f1518f2c648049df3
       size: 536576
   sweep-random-Bias:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
@@ -192,7 +192,7 @@ stages:
       md5: 083810c3fe680f9ab94fc3c4e649b4b5
       size: 51130368
   import:
-    cmd: python ../../action.py movielens import --stat-sql=../ml-stats.sql ml-1m.zip
+    cmd: lenskit-codex movielens import --stat-sql=../ml-stats.sql ml-1m.zip
     deps:
     - path: ../ml-stats.sql
       hash: md5
@@ -205,7 +205,7 @@ stages:
     outs:
     - path: ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
   export-random-Bias:
     cmd: python ../../action.py sweep export sweeps/random/Bias.duckdb rmse
@@ -356,26 +356,27 @@ stages:
       md5: ea613f15de821f6c7bd06a13c00b5bf3
       size: 3944448
   run-random-default-BiasedMF-ALS:
-    cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
-      --ratings=ratings.duckdb -o runs/random-default/BiasedMF-ALS.duckdb BiasedMF-ALS
+    cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
     deps:
     - path: ../../codex/models/BiasedMF_ALS.py
       hash: md5
-      md5: 70b01ec78dc3f1c3d09190c032bc05a6
-      size: 349
+      md5: b1e2858de432b3ae84206b65d3f92599
+      size: 338
     - path: ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: splits/random.duckdb
       hash: md5
-      md5: 23c62fcd51a637d1109d93c6341e9ec0
+      md5: 383d2778a4d6f26f1518f2c648049df3
       size: 536576
     outs:
-    - path: runs/random-default/BiasedMF-ALS.duckdb
+    - path: runs/random-default/BiasedMF-ALS
       hash: md5
-      md5: 4f77cd0a33fa9d81d26983065f3cc6d4
-      size: 4206592
+      md5: ba76b9f0302595ced19f15545dc4c40f.dir
+      size: 3325627
+      nfiles: 34
   run-random-sweep-best-BiasedMF-ALS:
     cmd: python ../../action.py generate --param-file=sweeps/random/BiasedMF-ALS.json
       --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
@@ -403,26 +404,27 @@ stages:
       md5: f2bc116f64b550eda0afa8a5a561d170
       size: 4206592
   run-random-default-ImplicitMF-ALS:
-    cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
-      --ratings=ratings.duckdb -o runs/random-default/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+    cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
     deps:
     - path: ../../codex/models/ImplicitMF_ALS.py
       hash: md5
-      md5: f88cb5bd1014e55b8c0d9a1650863c94
-      size: 359
+      md5: e9578e84370030be5865ea9c33aad05b
+      size: 348
     - path: ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: splits/random.duckdb
       hash: md5
-      md5: 23c62fcd51a637d1109d93c6341e9ec0
+      md5: 383d2778a4d6f26f1518f2c648049df3
       size: 536576
     outs:
-    - path: runs/random-default/ImplicitMF-ALS.duckdb
+    - path: runs/random-default/ImplicitMF-ALS
       hash: md5
-      md5: c09d8b93aae4f1ddc85ab3898d2edf93
-      size: 3944448
+      md5: 12efea781942ec539fcdd0c3a4b40a16.dir
+      size: 3342402
+      nfiles: 18
   run-random-sweep-best-ImplicitMF-ALS:
     cmd: python ../../action.py generate --param-file=sweeps/random/ImplicitMF-ALS.json
       --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
