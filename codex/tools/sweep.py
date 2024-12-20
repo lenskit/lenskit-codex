@@ -10,13 +10,13 @@ from typing import cast
 
 import click
 import duckdb
-import ipyparallel as ipp
 import pandas as pd
+import ray
 import structlog
 from lenskit.pipeline import Trainable
 
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
-from codex.inference import connect_cluster, run_recommender
+from codex.inference import run_recommender
 from codex.models import ModelMod, model_module
 from codex.params import param_grid
 from codex.pipeline import base_pipeline
@@ -96,16 +96,16 @@ def run_sweep(
         _log.warning("%s already exists, removing", out)
         out.unlink()
 
+    ray.init()
     predict = "predictions" in mod.outputs
     with (
         duckdb.connect(fspath(out)) as db,
         ResultDB(db, store_predictions=predict) as results,
-        connect_cluster() as cluster,
     ):
         _log.info("saving run spec table")
         db.from_df(space).create("run_specs")
 
-        sweep_model(results, data, model, mod, space, list_length, cluster)
+        sweep_model(results, data, model, mod, space, list_length)
 
 
 @sweep.command("export")
@@ -154,7 +154,6 @@ def sweep_model(
     mod: ModelMod,
     space: pd.DataFrame,
     N: int,
-    cluster: ipp.Client,
 ):
     log = _log.bind(model=name)
 
@@ -179,7 +178,7 @@ def sweep_model(
         results.add_training(run)
 
         _log.info("running recommender")
-        for result in run_recommender(pipe, test, N, "predictions" in mod.outputs, cluster=cluster):
+        for result in run_recommender(pipe, test, N, "predictions" in mod.outputs):
             results.add_result(run, result)
 
         _log.info("run finished")

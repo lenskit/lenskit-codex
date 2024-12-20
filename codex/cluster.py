@@ -1,36 +1,84 @@
-import logging
 import os
-from collections.abc import Generator
-from contextlib import contextmanager
 
-import ipyparallel as ipp
+import ray
+import torch
+from lenskit.logging import Task
+from lenskit.logging.worker import WorkerContext, WorkerLogConfig
+from lenskit.parallel.config import (
+    ParallelConfig,
+    ensure_parallel_init,
+    get_parallel_config,
+    initialize,
+)
 
-_log = logging.getLogger(__name__)
+
+class CodexActor:
+    """
+    Base class for Codex actors, with resource management.
+    """
+
+    context: WorkerContext
+    task: Task
+
+    def __init__(self, parallel: ParallelConfig, logging: WorkerLogConfig):
+        pid = os.getpid()
+        self.context = WorkerContext(logging)
+        self.context.start()
+        initialize(parallel)
+        self.task = Task(f"codex worker {pid} {self}", reset_hwm=True)
+        self.task.start()
+        return self.task
+
+    def finish(self):
+        self.task.finish()
+        self.context.shutdown()
+        return self.task
+
+    def __str__(self):
+        return self.__class__.__name__
 
 
-@contextmanager
-def connect_cluster(cluster: ipp.Cluster | ipp.Client | None = None) -> Generator[ipp.Client]:
-    count = os.environ.get("LK_NUM_PROCS", None)
-    config = os.environ.get("LK_IPP_CLUSTER", None)
+def create_pool(actor, *args, n_jobs: int | None = None):
+    ensure_parallel_init()
+    if n_jobs is None:
+        cfg = get_parallel_config()
+        n_jobs = cfg.processes
 
-    if isinstance(cluster, ipp.Client):
-        yield cluster
-        return
-    elif cluster is None and config is not None:
-        _log.info("connecting to cluster profile %s", config)
-        with ipp.Client(profile=config) as client:
-            yield client
-        return
+    workers = [actor.remote(*args) for i in range(n_jobs)]
 
-    if count is not None:
-        count = int(count)
+    pool = ray.util.ActorPool(workers)
+    return pool, workers
+
+
+def serialize_tensor(tensor: torch.Tensor):
+    if tensor.is_sparse_csr:
+        return "csr", (
+            tensor.crow_indices().cpu().numpy(),
+            tensor.col_indices().cpu().numpy(),
+            tensor.values().cpu().numpy(),
+            tensor.shape,
+        )
+    elif tensor.is_sparse:
+        return "coo", (tensor.indices().cpu().numpy(), tensor.values().cpu().numpy(), tensor.shape)
     else:
-        count = min(os.cpu_count(), 8)  # type: ignore
+        return "dense", tensor.cpu().numpy()
 
-    if cluster is None:
-        _log.info("starting cluster with %s workers", count)
-        with ipp.Cluster(n=count) as client:
-            yield client
-    else:
-        with cluster.connect_client_sync() as client:
-            yield client
+
+def deserialize_tensor(data):
+    tag, array = data
+    match tag:
+        case "dense":
+            return torch.from_numpy(array)
+        case "csr":
+            ri, ci, vs, shape = array
+            return torch.sparse_csr_tensor(crow_indices=ri, col_indices=ci, values=vs, size=shape)
+        case "coo":
+            indices, vs, shape = array
+            return torch.sparse_coo_tensor(indices=indices, values=vs, size=shape)
+        case _:
+            raise ValueError(f"invalid tensor type {tag}")
+
+
+ray.util.register_serializer(
+    torch.Tensor, serializer=serialize_tensor, deserializer=deserialize_tensor
+)

@@ -9,7 +9,7 @@ from uuid import UUID
 
 import pandas as pd
 from duckdb import ConstantExpression, DuckDBPyConnection
-from lenskit.data import ItemList
+from lenskit.data import ID, ItemList
 
 from codex.dbutil import transaction
 
@@ -62,7 +62,7 @@ CREATE TABLE user_metrics (
 
 @dataclass
 class UserResult:
-    user: int
+    user: ID
 
     test: ItemList
     recommendations: ItemList | None = None
@@ -72,7 +72,7 @@ class UserResult:
     metrics: dict[str, float] = field(default_factory=dict)
 
     def as_dict(self):
-        row: dict[str, float | int | str | None] = {
+        row: dict[str, float | int | str | bytes | None] = {
             "user_id": self.user,
             "nrecs": len(self.recommendations) if self.recommendations is not None else 0,
             "ntruth": len(self.test),

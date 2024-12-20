@@ -5,21 +5,20 @@ Batch inference code. Eventually this will probably move into LensKit.
 # pyright: basic
 from __future__ import annotations
 
-import gc
 import logging
 import time
 from dataclasses import dataclass
 from typing import Iterator
 
-import ipyparallel as ipp
+import ray
 from lenskit import Pipeline, predict, recommend
 from lenskit.data import ItemList, ItemListCollection, UserIDKey
 from lenskit.logging import Task, item_progress
 from lenskit.logging.worker import WorkerContext, WorkerLogConfig
 from lenskit.metrics import MAE, NDCG, RBP, RMSE, RecipRank, call_metric
-from lenskit.parallel.serialize import SHMData, shm_deserialize, shm_serialize
+from lenskit.parallel.config import ParallelConfig, subprocess_config
 
-from codex.cluster import connect_cluster
+from codex.cluster import CodexActor, create_pool
 from codex.results import UserResult
 
 _log = logging.getLogger(__name__)
@@ -40,88 +39,74 @@ def run_recommender(
     test: ItemListCollection[UserIDKey],
     n_recs: int,
     predict: bool = False,
-    *,
-    cluster: ipp.Cluster | ipp.Client | None | bool = None,
 ) -> Iterator[UserResult]:
-    global __pipeline, __options
-    if cluster == False:  # noqa: E712
-        __pipeline = pipe
-        __options = JobOptions(n_recs, predict)
-        for job in test:
-            yield _run_for_user(job)
-        return
-
-    elif cluster == True:  # noqa: E712
-        cluster = None
-
-    with connect_cluster(cluster) as client:
-        dv = client.direct_view()
-        _log.info("sending model to workers")
-        data = shm_serialize(pipe)
-        dv.apply_sync(_prepare_model, data, JobOptions(n_recs, predict), WorkerLogConfig.current())
-        try:
-            n_users = len(test)
-            _log.info("running recommender for %d users (N=%d)", n_users, n_recs)
-            lbv = client.load_balanced_view()
-            with item_progress("generate", n_users) as pb:
-                for res in lbv.imap(_run_for_user, test, ordered=False):
-                    pb.update(state="finished", src_state="dispatched")
-                    yield res
-        finally:
-            _log.info("cleaning up model in workers")
-            dv.apply_sync(_cleanup_model)
+    task = Task.current()
+    if not ray.is_initialized():
+        ray.init()
+    _log.info("sending pipeline to cluster")
+    pipe_h = ray.put(pipe)
+    del pipe
+    pool, workers = create_pool(
+        InferenceActor, subprocess_config(), WorkerLogConfig.current(), pipe_h, n_recs, predict
+    )
+    try:
+        n_users = len(test)
+        _log.info("running recommender for %d users (N=%d)", n_users, n_recs)
+        with item_progress("generate", n_users) as pb:
+            for res in pool.map_unordered(_call_actor, test._lists):
+                pb.update()
+                yield ray.get(res)
+    finally:
+        for w in workers:
+            st = ray.get(w.finish())
+            if task is not None:
+                task.add_subtask(st)
 
 
-def _prepare_model(model: SHMData, options: JobOptions, logging: WorkerLogConfig):
-    global __pipeline, __options, __task
-    __context = WorkerContext(logging)
-    __context.start()
-    __pipeline = shm_deserialize(model)
-    __options = options
-    __task = Task("recommend worker", subprocess=True)
-    __task.start()
+def _call_actor(actor, query):
+    actor.run_pipeline(**query)
 
 
-def _cleanup_model():
-    global __pipeline, __options, __task, __context
-    __task.finish()
-    __context.send_task(__task)
-    del __task
+@ray.remote
+class InferenceActor(CodexActor):
+    pipeline: Pipeline
+    n_recs: int | None
+    predict: bool
 
-    __pipeline = None
-    __options = None
+    def __init__(
+        self,
+        parallel: ParallelConfig,
+        logging: WorkerLogConfig,
+        pipeline_ref: ray.ObjectRef,
+        n: int | None,
+        predict: bool,
+    ):
+        super().__init__(parallel, logging)
+        self.pipeline = ray.get(pipeline_ref)
+        self.n_recs = n
+        self.predict = predict
 
-    __context.shutdown()
-    del __context
-    gc.collect()
+    def run_pipeline(self, key: UserIDKey, test: ItemList):
+        user = key.user_id
 
+        start = time.perf_counter()
 
-def _run_for_user(job: tuple[UserIDKey, ItemList]):
-    global __pipeline, __options
-    assert __pipeline is not None
-    assert __options is not None
+        result = UserResult(user, test)
 
-    key, test = job
-    user = key.user_id
+        recs = recommend(self.pipeline, user, self.n_recs)
+        result.recommendations = recs
 
-    start = time.perf_counter()
+        if len(recs) > 0:
+            result.metrics["ndcg"] = call_metric(NDCG, recs, test)
+            result.metrics["recip_rank"] = call_metric(RecipRank, recs, test)
+            result.metrics["rbp"] = call_metric(RBP, recs, test, patience=0.8)
 
-    result = UserResult(user, test)
+        if self.predict:
+            preds = predict(self.pipeline, user, test)
+            result.predictions = preds
+            result.metrics["rmse"] = call_metric(RMSE, preds, test)
+            result.metrics["mae"] = call_metric(MAE, preds, test)
 
-    recs = recommend(__pipeline, user, __options.n_recs)
-    result.recommendations = recs
+        result.time = time.perf_counter() - start
 
-    if len(recs) > 0:
-        result.metrics["ndcg"] = call_metric(NDCG, recs, test)
-        result.metrics["recip_rank"] = call_metric(RecipRank, recs, test)
-        result.metrics["rbp"] = call_metric(RBP, recs, test, patience=0.8)
-
-    if __options.predict:
-        preds = predict(__pipeline, user, test)
-        result.predictions = preds
-        result.metrics["rmse"] = call_metric(RMSE, preds, test)
-        result.metrics["mae"] = call_metric(MAE, preds, test)
-
-    result.time = time.perf_counter() - start
-
-    return result
+        return result

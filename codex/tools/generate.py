@@ -6,12 +6,13 @@ from pathlib import Path
 
 import click
 import duckdb
+import ray
 import structlog
 from duckdb import connect
 from humanize import naturalsize
 
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
-from codex.inference import connect_cluster, run_recommender
+from codex.inference import run_recommender
 from codex.models import load_model, model_module
 from codex.pipeline import base_pipeline
 from codex.results import ResultDB
@@ -90,10 +91,10 @@ def generate(
         test_sets = crossfold_test_sets(assign_file, ratings_db, test_part)
 
     predict = "predictions" in mod.outputs
+    ray.init()
 
     with (
         duckdb.connect(fspath(output)) as db,
-        connect_cluster() as cluster,
         ResultDB(db, store_predictions=predict) as results,
         CodexTask(
             label=f"generate-{model}", tags=["generate"], score_model=model, score_model_config=cfg
@@ -135,9 +136,7 @@ def generate(
                 score_model=model,
                 score_model_config=cfg,
             ) as task:
-                for result in run_recommender(
-                    trainable, test, list_length, predict, cluster=cluster
-                ):
+                for result in run_recommender(trainable, test, list_length, predict):
                     results.add_result(part, result)
 
             results.log_metrics(part, task.task_id)
