@@ -1,6 +1,6 @@
 stages:
   scan-bench-users:
-    cmd: codex-tool amazon collect-ids --user -D user-ids.duckdb data
+    cmd: lenskit-codex amazon collect-ids --user -D user-ids.duckdb data
     deps:
       - data/Arts_Crafts_and_Sewing.test.csv.gz
       - data/Arts_Crafts_and_Sewing.train.csv.gz
@@ -77,7 +77,7 @@ stages:
     outs:
       - user-ids.duckdb
   scan-bench-items:
-    cmd: codex-tool amazon collect-ids --item -D item-ids.duckdb data
+    cmd: lenskit-codex amazon collect-ids --item -D item-ids.duckdb data
     deps:
       - data/Arts_Crafts_and_Sewing.test.csv.gz
       - data/Arts_Crafts_and_Sewing.train.csv.gz
@@ -229,7 +229,7 @@ stages:
       - Video_Games.valid
     do:
       cmd: >-
-        codex-tool amazon import-bench --users=user-ids.duckdb --items=item-ids.duckdb data/${item}.csv.gz
+        lenskit-codex amazon import-bench --users=user-ids.duckdb --items=item-ids.duckdb data/${item}.csv.gz
       deps:
         - user-ids.duckdb
         - item-ids.duckdb
@@ -237,7 +237,7 @@ stages:
       outs:
         - 'data/${item}.parquet'
   collect-stats:
-    cmd: codex-tool run-duck-sql -f bench-stats.sql stats.duckdb
+    cmd: lenskit-codex run-duck-sql -f bench-stats.sql stats.duckdb
     outs:
       - stats.duckdb
     deps:
@@ -322,7 +322,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Bias.duckdb Bias
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Bias.duckdb Bias
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -337,7 +337,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Bias.duckdb Bias
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Bias.duckdb Bias
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -351,7 +351,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet Bias sweeps/${item}/Bias.duckdb
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet Bias sweeps/${item}/Bias.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -364,7 +364,7 @@ stages:
       - Software
       - Video_Games
     do:
-      cmd: 'codex-tool sweep export sweeps/${item}/Bias.duckdb rmse'
+      cmd: 'lenskit-codex sweep export sweeps/${item}/Bias.duckdb rmse'
       deps:
         - 'sweeps/${item}/Bias.duckdb'
       outs:
@@ -379,7 +379,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --param-file sweeps/${item}/Bias.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/Bias.duckdb Bias
+        lenskit-codex generate --param-file sweeps/${item}/Bias.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/Bias.duckdb Bias
       deps:
         - 'sweeps/${item}/Bias.json'
         - 'data/${item}.train.parquet'
@@ -395,7 +395,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Popular.duckdb Popular
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Popular.duckdb Popular
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -410,7 +410,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Popular.duckdb Popular
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Popular.duckdb Popular
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -424,7 +424,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/BiasedMF-ALS.duckdb BiasedMF-ALS
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/BiasedMF-ALS.duckdb BiasedMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -439,7 +439,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/BiasedMF-ALS.duckdb BiasedMF-ALS
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/BiasedMF-ALS.duckdb BiasedMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -453,7 +453,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet BiasedMF-ALS sweeps/${item}/BiasedMF-ALS.duckdb
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet BiasedMF-ALS sweeps/${item}/BiasedMF-ALS.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -466,7 +466,7 @@ stages:
       - Software
       - Video_Games
     do:
-      cmd: 'codex-tool sweep export sweeps/${item}/BiasedMF-ALS.duckdb rmse'
+      cmd: 'lenskit-codex sweep export sweeps/${item}/BiasedMF-ALS.duckdb rmse'
       deps:
         - 'sweeps/${item}/BiasedMF-ALS.duckdb'
       outs:
@@ -481,7 +481,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --param-file sweeps/${item}/BiasedMF-ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/BiasedMF-ALS.duckdb BiasedMF-ALS
+        lenskit-codex generate --param-file sweeps/${item}/BiasedMF-ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/BiasedMF-ALS.duckdb BiasedMF-ALS
       deps:
         - 'sweeps/${item}/BiasedMF-ALS.json'
         - 'data/${item}.train.parquet'
@@ -497,7 +497,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -512,7 +512,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/ImplicitMF-ALS.duckdb ImplicitMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -526,7 +526,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet ImplicitMF-ALS sweeps/${item}/ImplicitMF-ALS.duckdb
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet ImplicitMF-ALS sweeps/${item}/ImplicitMF-ALS.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -539,7 +539,7 @@ stages:
       - Software
       - Video_Games
     do:
-      cmd: 'codex-tool sweep export sweeps/${item}/ImplicitMF-ALS.duckdb ndcg'
+      cmd: 'lenskit-codex sweep export sweeps/${item}/ImplicitMF-ALS.duckdb ndcg'
       deps:
         - 'sweeps/${item}/ImplicitMF-ALS.duckdb'
       outs:
@@ -554,7 +554,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --param-file sweeps/${item}/ImplicitMF-ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+        lenskit-codex generate --param-file sweeps/${item}/ImplicitMF-ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
       deps:
         - 'sweeps/${item}/ImplicitMF-ALS.json'
         - 'data/${item}.train.parquet'
@@ -570,7 +570,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Explicit.duckdb IKNN-Explicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Explicit.duckdb IKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -585,7 +585,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Explicit.duckdb IKNN-Explicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Explicit.duckdb IKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -599,7 +599,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet IKNN-Explicit sweeps/${item}/IKNN-Explicit.duckdb
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet IKNN-Explicit sweeps/${item}/IKNN-Explicit.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -612,7 +612,7 @@ stages:
       - Software
       - Video_Games
     do:
-      cmd: 'codex-tool sweep export sweeps/${item}/IKNN-Explicit.duckdb rmse'
+      cmd: 'lenskit-codex sweep export sweeps/${item}/IKNN-Explicit.duckdb rmse'
       deps:
         - 'sweeps/${item}/IKNN-Explicit.duckdb'
       outs:
@@ -627,7 +627,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --param-file sweeps/${item}/IKNN-Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN-Explicit.duckdb IKNN-Explicit
+        lenskit-codex generate --param-file sweeps/${item}/IKNN-Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN-Explicit.duckdb IKNN-Explicit
       deps:
         - 'sweeps/${item}/IKNN-Explicit.json'
         - 'data/${item}.train.parquet'
@@ -643,7 +643,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Implicit.duckdb IKNN-Implicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Implicit.duckdb IKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -658,7 +658,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Implicit.duckdb IKNN-Implicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Implicit.duckdb IKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -672,7 +672,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet IKNN-Implicit sweeps/${item}/IKNN-Implicit.duckdb
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet IKNN-Implicit sweeps/${item}/IKNN-Implicit.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -685,7 +685,7 @@ stages:
       - Software
       - Video_Games
     do:
-      cmd: 'codex-tool sweep export sweeps/${item}/IKNN-Implicit.duckdb ndcg'
+      cmd: 'lenskit-codex sweep export sweeps/${item}/IKNN-Implicit.duckdb ndcg'
       deps:
         - 'sweeps/${item}/IKNN-Implicit.duckdb'
       outs:
@@ -700,7 +700,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --param-file sweeps/${item}/IKNN-Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN-Implicit.duckdb IKNN-Implicit
+        lenskit-codex generate --param-file sweeps/${item}/IKNN-Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN-Implicit.duckdb IKNN-Implicit
       deps:
         - 'sweeps/${item}/IKNN-Implicit.json'
         - 'data/${item}.train.parquet'
@@ -716,7 +716,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN-Explicit.duckdb UKNN-Explicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN-Explicit.duckdb UKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -731,7 +731,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Explicit.duckdb UKNN-Explicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Explicit.duckdb UKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -745,7 +745,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet UKNN-Explicit sweeps/${item}/UKNN-Explicit.duckdb
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet UKNN-Explicit sweeps/${item}/UKNN-Explicit.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -758,7 +758,7 @@ stages:
       - Software
       - Video_Games
     do:
-      cmd: 'codex-tool sweep export sweeps/${item}/UKNN-Explicit.duckdb rmse'
+      cmd: 'lenskit-codex sweep export sweeps/${item}/UKNN-Explicit.duckdb rmse'
       deps:
         - 'sweeps/${item}/UKNN-Explicit.duckdb'
       outs:
@@ -773,7 +773,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --param-file sweeps/${item}/UKNN-Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN-Explicit.duckdb UKNN-Explicit
+        lenskit-codex generate --param-file sweeps/${item}/UKNN-Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN-Explicit.duckdb UKNN-Explicit
       deps:
         - 'sweeps/${item}/UKNN-Explicit.json'
         - 'data/${item}.train.parquet'
@@ -789,7 +789,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN-Implicit.duckdb UKNN-Implicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN-Implicit.duckdb UKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -804,7 +804,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Implicit.duckdb UKNN-Implicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Implicit.duckdb UKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -818,7 +818,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet UKNN-Implicit sweeps/${item}/UKNN-Implicit.duckdb
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet UKNN-Implicit sweeps/${item}/UKNN-Implicit.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -831,7 +831,7 @@ stages:
       - Software
       - Video_Games
     do:
-      cmd: 'codex-tool sweep export sweeps/${item}/UKNN-Implicit.duckdb ndcg'
+      cmd: 'lenskit-codex sweep export sweeps/${item}/UKNN-Implicit.duckdb ndcg'
       deps:
         - 'sweeps/${item}/UKNN-Implicit.duckdb'
       outs:
@@ -846,7 +846,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --param-file sweeps/${item}/UKNN-Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN-Implicit.duckdb UKNN-Implicit
+        lenskit-codex generate --param-file sweeps/${item}/UKNN-Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN-Implicit.duckdb UKNN-Implicit
       deps:
         - 'sweeps/${item}/UKNN-Implicit.json'
         - 'data/${item}.train.parquet'
@@ -862,7 +862,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Implicit-BPR.duckdb Implicit-BPR
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Implicit-BPR.duckdb Implicit-BPR
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -877,7 +877,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Implicit-BPR.duckdb Implicit-BPR
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Implicit-BPR.duckdb Implicit-BPR
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -891,7 +891,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet Implicit-BPR sweeps/${item}/Implicit-BPR.duckdb
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet Implicit-BPR sweeps/${item}/Implicit-BPR.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -904,7 +904,7 @@ stages:
       - Software
       - Video_Games
     do:
-      cmd: 'codex-tool sweep export sweeps/${item}/Implicit-BPR.duckdb ndcg'
+      cmd: 'lenskit-codex sweep export sweeps/${item}/Implicit-BPR.duckdb ndcg'
       deps:
         - 'sweeps/${item}/Implicit-BPR.duckdb'
       outs:
@@ -919,7 +919,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --param-file sweeps/${item}/Implicit-BPR.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/Implicit-BPR.duckdb Implicit-BPR
+        lenskit-codex generate --param-file sweeps/${item}/Implicit-BPR.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/Implicit-BPR.duckdb Implicit-BPR
       deps:
         - 'sweeps/${item}/Implicit-BPR.json'
         - 'data/${item}.train.parquet'
@@ -935,7 +935,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/HPF.duckdb HPF
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/HPF.duckdb HPF
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -950,7 +950,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/HPF.duckdb HPF
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/HPF.duckdb HPF
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -964,7 +964,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet HPF sweeps/${item}/HPF.duckdb
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet HPF sweeps/${item}/HPF.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -977,7 +977,7 @@ stages:
       - Software
       - Video_Games
     do:
-      cmd: 'codex-tool sweep export sweeps/${item}/HPF.duckdb ndcg'
+      cmd: 'lenskit-codex sweep export sweeps/${item}/HPF.duckdb ndcg'
       deps:
         - 'sweeps/${item}/HPF.duckdb'
       outs:
@@ -992,7 +992,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        codex-tool generate --param-file sweeps/${item}/HPF.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/HPF.duckdb HPF
+        lenskit-codex generate --param-file sweeps/${item}/HPF.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/HPF.duckdb HPF
       deps:
         - 'sweeps/${item}/HPF.json'
         - 'data/${item}.train.parquet'
@@ -1011,7 +1011,7 @@ stages:
       - Video_Games.test
       - Video_Games.valid
     do:
-      cmd: 'codex-tool trec export qrels data/${item}.parquet'
+      cmd: 'lenskit-codex trec export qrels data/${item}.parquet'
       deps:
         - 'data/${item}.parquet'
       outs:
@@ -1099,7 +1099,7 @@ stages:
       - runs/default/Video_Games/valid/HPF
       - runs/default/Video_Games/test/HPF
     do:
-      cmd: 'codex-tool trec export runs ${item}.duckdb ${item}.run.gz'
+      cmd: 'lenskit-codex trec export runs ${item}.duckdb ${item}.run.gz'
       deps:
         - '${item}.duckdb'
       outs:
