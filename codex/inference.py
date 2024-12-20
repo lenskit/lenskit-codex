@@ -151,6 +151,7 @@ class InferenceActor(CodexActor):
         return super().finish()
 
     def _write_batch(self):
+        _log.info("writing output batch", size=len(self.rec_batch))
         for rb in self.rec_batch._iter_record_batches(5000, self.REC_FIELDS):
             self.rec_writer.write_batch(rb)
         if self.pred_writer is not None:

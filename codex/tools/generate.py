@@ -100,7 +100,7 @@ def generate(
         ) as root_task,
         NDJSONCollector(output / "user-metrics.ndjson.zst") as metric_out,
     ):
-        log = _log.bind(task_id=root_task.task_id)
+        log = _log.bind(task_id=str(root_task.task_id))
         for part, data in test_sets:
             plog = log.bind(part=part)
             reco, cfg = load_model(model, config)
