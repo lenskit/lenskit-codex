@@ -13,8 +13,8 @@ sweep_space = {
 
 
 def default():
-    return ItemItem(20, feedback="explicit")
+    return ItemKNNScorer(20, feedback="explicit")
 
 
 def from_config(nnbrs, min_nbrs):
-    return ItemItem(nnbrs, min_nbrs=min_nbrs, feedback="explicit")
+    return ItemKNNScorer(nnbrs, min_nbrs=min_nbrs, feedback="explicit")
