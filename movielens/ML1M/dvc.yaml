@@ -199,9 +199,9 @@ stages:
           cache: false
   run-random-default-Bias:
     cmd: >-
-      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Bias.duckdb Bias
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Bias Bias
     outs:
-      - runs/random-default/Bias.duckdb
+      - runs/random-default/Bias
     deps:
       - ../../codex/models/Bias.py
       - ratings.duckdb
@@ -218,18 +218,18 @@ stages:
       - sweeps/random/Bias.json
   run-random-default-Popular:
     cmd: >-
-      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Popular.duckdb Popular
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Popular Popular
     outs:
-      - runs/random-default/Popular.duckdb
+      - runs/random-default/Popular
     deps:
       - ../../codex/models/Popular.py
       - ratings.duckdb
       - splits/random.duckdb
   run-random-default-BiasedMF-ALS:
     cmd: >-
-      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/BiasedMF-ALS.duckdb BiasedMF-ALS
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
     outs:
-      - runs/random-default/BiasedMF-ALS.duckdb
+      - runs/random-default/BiasedMF-ALS
     deps:
       - ../../codex/models/BiasedMF_ALS.py
       - ratings.duckdb
@@ -246,9 +246,9 @@ stages:
       - sweeps/random/BiasedMF-ALS.json
   run-random-default-ImplicitMF-ALS:
     cmd: >-
-      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
     outs:
-      - runs/random-default/ImplicitMF-ALS.duckdb
+      - runs/random-default/ImplicitMF-ALS
     deps:
       - ../../codex/models/ImplicitMF_ALS.py
       - ratings.duckdb
@@ -265,9 +265,9 @@ stages:
       - sweeps/random/ImplicitMF-ALS.json
   run-random-default-IKNN-Explicit:
     cmd: >-
-      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/IKNN-Explicit.duckdb IKNN-Explicit
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/IKNN-Explicit IKNN-Explicit
     outs:
-      - runs/random-default/IKNN-Explicit.duckdb
+      - runs/random-default/IKNN-Explicit
     deps:
       - ../../codex/models/IKNN_Explicit.py
       - ratings.duckdb
@@ -284,9 +284,9 @@ stages:
       - sweeps/random/IKNN-Explicit.json
   run-random-default-IKNN-Implicit:
     cmd: >-
-      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/IKNN-Implicit.duckdb IKNN-Implicit
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/IKNN-Implicit IKNN-Implicit
     outs:
-      - runs/random-default/IKNN-Implicit.duckdb
+      - runs/random-default/IKNN-Implicit
     deps:
       - ../../codex/models/IKNN_Implicit.py
       - ratings.duckdb
@@ -303,9 +303,9 @@ stages:
       - sweeps/random/IKNN-Implicit.json
   run-random-default-UKNN-Explicit:
     cmd: >-
-      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Explicit.duckdb UKNN-Explicit
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Explicit UKNN-Explicit
     outs:
-      - runs/random-default/UKNN-Explicit.duckdb
+      - runs/random-default/UKNN-Explicit
     deps:
       - ../../codex/models/UKNN_Explicit.py
       - ratings.duckdb
@@ -322,9 +322,9 @@ stages:
       - sweeps/random/UKNN-Explicit.json
   run-random-default-UKNN-Implicit:
     cmd: >-
-      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Implicit.duckdb UKNN-Implicit
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Implicit UKNN-Implicit
     outs:
-      - runs/random-default/UKNN-Implicit.duckdb
+      - runs/random-default/UKNN-Implicit
     deps:
       - ../../codex/models/UKNN_Implicit.py
       - ratings.duckdb
@@ -341,9 +341,9 @@ stages:
       - sweeps/random/UKNN-Implicit.json
   run-random-default-Implicit-BPR:
     cmd: >-
-      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Implicit-BPR.duckdb Implicit-BPR
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Implicit-BPR Implicit-BPR
     outs:
-      - runs/random-default/Implicit-BPR.duckdb
+      - runs/random-default/Implicit-BPR
     deps:
       - ../../codex/models/Implicit_BPR.py
       - ratings.duckdb
@@ -360,9 +360,9 @@ stages:
       - sweeps/random/Implicit-BPR.json
   run-random-default-HPF:
     cmd: >-
-      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/HPF.duckdb HPF
+      codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/HPF HPF
     outs:
-      - runs/random-default/HPF.duckdb
+      - runs/random-default/HPF
     deps:
       - ../../codex/models/HPF.py
       - ratings.duckdb
@@ -381,24 +381,14 @@ stages:
     cmd: >-
       codex-tool collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql runs
     deps:
-      - runs/random-default/Bias.duckdb
       - runs/random-sweep-best/Bias.duckdb
-      - runs/random-default/Popular.duckdb
-      - runs/random-default/BiasedMF-ALS.duckdb
       - runs/random-sweep-best/BiasedMF-ALS.duckdb
-      - runs/random-default/ImplicitMF-ALS.duckdb
       - runs/random-sweep-best/ImplicitMF-ALS.duckdb
-      - runs/random-default/IKNN-Explicit.duckdb
       - runs/random-sweep-best/IKNN-Explicit.duckdb
-      - runs/random-default/IKNN-Implicit.duckdb
       - runs/random-sweep-best/IKNN-Implicit.duckdb
-      - runs/random-default/UKNN-Explicit.duckdb
       - runs/random-sweep-best/UKNN-Explicit.duckdb
-      - runs/random-default/UKNN-Implicit.duckdb
       - runs/random-sweep-best/UKNN-Implicit.duckdb
-      - runs/random-default/Implicit-BPR.duckdb
       - runs/random-sweep-best/Implicit-BPR.duckdb
-      - runs/random-default/HPF.duckdb
       - runs/random-sweep-best/HPF.duckdb
     outs:
       - run-metrics.duckdb

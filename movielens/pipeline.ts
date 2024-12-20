@@ -94,10 +94,10 @@ function ml_runs(ds: string): Record<string, Stage> {
         "--test-part=-0",
         "--assignments=splits/random.duckdb",
         "--ratings=ratings.duckdb",
-        `-o runs/random-default/${name}.duckdb`,
+        `-o runs/random-default/${name}`,
         name,
       ),
-      outs: [`runs/random-default/${name}.duckdb`],
+      outs: [`runs/random-default/${name}`],
       deps: [
         `../../codex/models/${name.replaceAll("-", "_")}.py`,
         "ratings.duckdb",
