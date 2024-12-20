@@ -6,61 +6,55 @@ Batch inference code. Eventually this will probably move into LensKit.
 from __future__ import annotations
 
 import logging
-import time
-from dataclasses import dataclass
-from typing import Iterator
+from pathlib import Path
 
+import pyarrow as pa
 import ray
 from lenskit import Pipeline, predict, recommend
 from lenskit.data import ItemList, ItemListCollection, UserIDKey
-from lenskit.logging import Task, item_progress
-from lenskit.logging.worker import WorkerContext, WorkerLogConfig
-from lenskit.metrics import MAE, NDCG, RBP, RMSE, RecipRank, call_metric
+from lenskit.logging import item_progress
+from lenskit.logging.worker import WorkerLogConfig
 from lenskit.parallel.config import ParallelConfig, subprocess_config
+from pyarrow.parquet import ParquetWriter
 
-from codex.cluster import CodexActor, create_pool
-from codex.results import UserResult
+from codex.cluster import CodexActor, worker_pool
+from codex.runlog import CodexTask
 
 _log = logging.getLogger(__name__)
-__pipeline: Pipeline | None
-__options: JobOptions | None
-__context: WorkerContext
-__task: Task
 
 
-@dataclass
-class JobOptions:
-    n_recs: int
-    predict: bool
-
-
-def run_recommender(
+def recommend_and_save(
     pipe: Pipeline,
     test: ItemListCollection[UserIDKey],
     n_recs: int,
-    predict: bool = False,
-) -> Iterator[UserResult]:
-    task = Task.current()
+    rec_output: Path,
+    pred_output: Path | None,
+) -> CodexTask:
     if not ray.is_initialized():
         ray.init()
     _log.info("sending pipeline to cluster")
+    name = pipe.name
     pipe_h = ray.put(pipe)
     del pipe
-    pool, workers = create_pool(
-        InferenceActor, subprocess_config(), WorkerLogConfig.current(), pipe_h, n_recs, predict
-    )
-    try:
+    with (
+        CodexTask(f"recommend-{name}", tags=["generate"], reset_hwm=True) as task,
+        worker_pool(
+            InferenceActor,
+            subprocess_config(),
+            WorkerLogConfig.current(),
+            pipe_h,
+            n_recs,
+            rec_output,
+            pred_output,
+        ) as pool,
+    ):
         n_users = len(test)
         _log.info("running recommender for %d users (N=%d)", n_users, n_recs)
         with item_progress("generate", n_users) as pb:
-            for res in pool.map_unordered(_call_actor, test._lists):
+            for _res in pool.map_unordered(_call_actor, test._lists):
                 pb.update()
-                yield ray.get(res)
-    finally:
-        for w in workers:
-            st = ray.get(w.finish())
-            if task is not None:
-                task.add_subtask(st)
+
+    return task
 
 
 def _call_actor(actor, query):
@@ -69,9 +63,17 @@ def _call_actor(actor, query):
 
 @ray.remote
 class InferenceActor(CodexActor):
+    REC_FIELDS = {"item_id": pa.int32, "rank": pa.int32, "score": pa.float32()}
+    PRED_FIELDS = {"item_id": pa.int32, "score": pa.float32()}
+
     pipeline: Pipeline
     n_recs: int | None
     predict: bool
+    rec_writer: ParquetWriter
+    pred_writer: ParquetWriter | None = None
+
+    rec_batch: ItemListCollection[UserIDKey]
+    pred_batch: ItemListCollection[UserIDKey]
 
     def __init__(
         self,
@@ -79,34 +81,52 @@ class InferenceActor(CodexActor):
         logging: WorkerLogConfig,
         pipeline_ref: ray.ObjectRef,
         n: int | None,
-        predict: bool,
+        rec_output: Path,
+        pred_output: Path | None,
     ):
         super().__init__(parallel, logging)
         self.pipeline = ray.get(pipeline_ref)
         self.n_recs = n
-        self.predict = predict
+        self.rec_writer = ParquetWriter(
+            rec_output,
+            pa.schema({"user_id": pa.int32, "items": pa.list_(pa.struct(self.REC_FIELDS))}),
+        )
+        if pred_output is not None:
+            self.pred_writer = ParquetWriter(
+                pred_output,
+                pa.schema({"user_id": pa.int32, "items": pa.list_(pa.struct(self.PRED_FIELDS))}),
+            )
+        else:
+            self.pred_writer = None
+
+        self.rec_batch = ItemListCollection(UserIDKey)
+        self.pred_batch = ItemListCollection(UserIDKey)
 
     def run_pipeline(self, key: UserIDKey, test: ItemList):
         user = key.user_id
 
-        start = time.perf_counter()
-
-        result = UserResult(user, test)
+        # start = time.perf_counter()
 
         recs = recommend(self.pipeline, user, self.n_recs)
-        result.recommendations = recs
+        self.rec_batch.add(recs, *key)
 
-        if len(recs) > 0:
-            result.metrics["ndcg"] = call_metric(NDCG, recs, test)
-            result.metrics["recip_rank"] = call_metric(RecipRank, recs, test)
-            result.metrics["rbp"] = call_metric(RBP, recs, test, patience=0.8)
-
-        if self.predict:
+        if self.pred_writer is not None:
             preds = predict(self.pipeline, user, test)
-            result.predictions = preds
-            result.metrics["rmse"] = call_metric(RMSE, preds, test)
-            result.metrics["mae"] = call_metric(MAE, preds, test)
+            self.pred_batch.add(preds, *key)
 
-        result.time = time.perf_counter() - start
+        if len(self.rec_batch) >= 5000:
+            for rb in self.rec_batch._iter_record_batches(5000, self.REC_FIELDS):
+                self.rec_writer.write_batch(rb)
+            if self.pred_writer is not None:
+                for rb in self.pred_batch._iter_record_batches(5000, self.PRED_FIELDS):
+                    self.pred_writer.write_batch(rb)
 
-        return result
+    def finish(self):
+        if len(self.rec_batch):
+            for rb in self.rec_batch._iter_record_batches(5000, self.REC_FIELDS):
+                self.rec_writer.write_batch(rb)
+            if self.pred_writer is not None:
+                for rb in self.pred_batch._iter_record_batches(5000, self.PRED_FIELDS):
+                    self.pred_writer.write_batch(rb)
+
+        super().finish()

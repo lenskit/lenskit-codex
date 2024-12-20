@@ -5,18 +5,16 @@ from os import fspath
 from pathlib import Path
 
 import click
-import duckdb
 import ray
 import structlog
 from duckdb import connect
 from humanize import naturalsize
 
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
-from codex.inference import run_recommender
+from codex.inference import recommend_and_save
 from codex.models import load_model, model_module
-from codex.pipeline import base_pipeline
-from codex.results import ResultDB
 from codex.runlog import CodexTask
+from codex.training import train_and_wrap_model
 
 from . import codex
 
@@ -68,7 +66,6 @@ def generate(
         config = Path(config)
     mod = model_module(model)
     reco, cfg = load_model(model, config)
-    pipe = base_pipeline(model, reco)
 
     if test_file:
         if assign_file or ratings_db or test_part:
@@ -94,8 +91,6 @@ def generate(
     ray.init()
 
     with (
-        duckdb.connect(fspath(output)) as db,
-        ResultDB(db, store_predictions=predict) as results,
         CodexTask(
             label=f"generate-{model}", tags=["generate"], score_model=model, score_model_config=cfg
         ) as root_task,
@@ -104,15 +99,7 @@ def generate(
         for part, data in test_sets:
             plog = log.bind(part=part)
             plog.info("training model %s", reco)
-            trainable = pipe.clone()
-            with CodexTask(
-                label=f"generate-{model}/train",
-                tags=["train"],
-                reset_hwm=True,
-                score_model=model,
-                score_model_config=cfg,
-            ) as task:
-                trainable.train(data.train_data(ratings_db))
+            pipe, task = train_and_wrap_model(model, reco, data, predicts_ratings=predict)
 
             plog.debug("run record: %s", task.model_dump_json(indent=2))
             plog.info(
@@ -121,28 +108,24 @@ def generate(
                 task.cpu_time,
                 naturalsize(task.peak_memory) if task.peak_memory else "unknown",
             )
-            results.add_training(part, task.task_id)
+            (output / "training.json").write_text(task.model_dump_json() + "\n")
 
-            plog.info("loading test data")
             with data.open_db() as test_db:
-                test = data.test_ratings(test_db).to_df()
+                test = data.test_data(test_db)
                 if len(test) == 0:
                     plog.error("no test data found")
 
-            with CodexTask(
-                label=f"generate-{model}/recommend",
-                tags=["recommend"],
-                reset_hwm=True,
-                score_model=model,
-                score_model_config=cfg,
-            ) as task:
-                for result in run_recommender(trainable, test, list_length, predict):
-                    results.add_result(part, result)
-
-            results.log_metrics(part, task.task_id)
+            shard = f"part={part}"
+            task = recommend_and_save(
+                pipe,
+                test,
+                list_length,
+                output / "recommendations" / shard,
+                output / "predictions" / shard if predict else None,
+            )
+            (output / "inference.json").write_text(task.model_dump_json() + "\n")
 
         log.info("finished all parts")
-        results.log_metrics()
 
 
 def fixed_test_sets(test: Path, train: list[Path]) -> Generator[tuple[int, TrainTestData]]:

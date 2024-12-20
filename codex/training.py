@@ -1,42 +1,39 @@
 import logging
-from typing import NamedTuple
 
-from lenskit.algorithms import Algorithm
-from lenskit.sharing import PersistedModel, persist
-from lenskit.util.parallel import run_sp
-from sandal.project import project_root
-from xshaper import Monitor, Run, configure
-from xshaper.model import RunRecord
+from lenskit.pipeline import Component, Pipeline
 
 from codex.data import TrainTestData
+from codex.pipeline import base_pipeline
+from codex.runlog import CodexTask
 
 _log = logging.getLogger(__name__)
 
 
-class TrainResult(NamedTuple):
-    model: PersistedModel
-    record: RunRecord
-
-
-def train_model(model: Algorithm, data: TrainTestData) -> TrainResult:
+def train_and_wrap_model(
+    name: str,
+    model: Component,
+    data: TrainTestData,
+    pipe: Pipeline | None = None,
+    predicts_ratings: bool = False,
+) -> tuple[Pipeline, CodexTask]:
     "Train a recommendation model on input data."
+    with data.open_db() as db:
+        train = data.train_data(db)
 
-    _log.info("spawning training process")
-    return run_sp(_train_worker, model, data)
+    if pipe is None:
+        _log.info("creating recommendation pipeline %s", name)
+        pipe = base_pipeline(name, model, predicts_ratings)
+    else:
+        _log.debug("reusing recommendation pipeline")
+        pipe.replace_component(
+            "scorer", model, query=pipe.node("query"), items=pipe.node("candidate-selector")
+        )
 
+    with CodexTask(
+        label=f"generate-{model}/train",
+        tags=["train"],
+        reset_hwm=True,
+    ) as task:
+        pipe.train(train, retrain=False)
 
-def _train_worker(model: Algorithm, data: TrainTestData) -> TrainResult:
-    _log.info("loading training data")
-    # FIXME: sprinkling this everywhere is suboptimal
-    configure(project_root() / "run-log")
-    with Monitor(), Run(tags=["lenskit", "train", "worker"], subprocess=True):
-        with data.open_db() as db:
-            train = data.train_ratings(db).to_df()
-
-        _log.info("preparing to train model %s", model)
-        with Run(tags=["lenskit", "train", "worker", "fit"]) as run:
-            model.fit(train)
-
-        stored = persist(model)
-
-    return TrainResult(stored.transfer(), run.record)
+    return pipe, task

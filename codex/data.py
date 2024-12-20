@@ -80,7 +80,7 @@ def fixed_tt_data(test: Path, train: list[Path]):
             f"""
             SELECT user_id AS user, item_id AS item, rating
             FROM read_parquet('{pqf}')
-        """
+            """
             for pqf in train
         ]
     )
