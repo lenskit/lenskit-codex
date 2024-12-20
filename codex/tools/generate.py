@@ -88,7 +88,7 @@ def generate(
         test_sets = crossfold_test_sets(assign_file, ratings_db, test_part)
 
     predict = "predictions" in mod.outputs
-    ray.init()
+    ray.init(configure_logging=False)
 
     output.mkdir(exist_ok=True, parents=False)
     (output / "training.json").unlink(missing_ok=True)

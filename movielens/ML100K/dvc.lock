@@ -657,26 +657,27 @@ stages:
       md5: 4a5d925ad8ddfdc55cf34b2463b6c7a6
       size: 1585152
   run-random-default-Bias:
-    cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
-      --ratings=ratings.duckdb -o runs/random-default/Bias.duckdb Bias
+    cmd: codex-tool generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb -o runs/random-default/Bias Bias
     deps:
     - path: ../../codex/models/Bias.py
       hash: md5
-      md5: e35eac761bf892674a6fb8570132e7f1
-      size: 375
+      md5: 117b6cd0fbd71ad6cb3937b8bcf62848
+      size: 382
     - path: ratings.duckdb
       hash: md5
-      md5: a770a8e6c558a398515b74def824e7b8
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
       size: 2371584
     - path: splits/random.duckdb
       hash: md5
-      md5: 0341a9b25f8c8d872957470e9f29df47
+      md5: fe0d9fe7dfc64cbfe9080e48bab6f90e
       size: 536576
     outs:
-    - path: runs/random-default/Bias.duckdb
+    - path: runs/random-default/Bias
       hash: md5
-      md5: 510410d851c75a71479ed5b27a2959c2
-      size: 1585152
+      md5: e6a34322a89e0544d31c9e56db5bd2c7.dir
+      size: 450922
+      nfiles: 34
   run-random-default-Popular:
     cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/Popular.duckdb Popular

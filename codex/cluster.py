@@ -4,6 +4,7 @@ from contextlib import contextmanager
 
 import ray
 import ray.actor
+import structlog
 import torch
 from lenskit.logging import Task
 from lenskit.logging.worker import WorkerContext, WorkerLogConfig
@@ -13,6 +14,8 @@ from lenskit.parallel.config import (
     get_parallel_config,
     initialize,
 )
+
+_log = structlog.stdlib.get_logger(__name__)
 
 
 class CodexActor:
@@ -45,23 +48,29 @@ class CodexActor:
 def worker_pool(
     actor: ray.actor.ActorClass, *args, n_jobs: int | None = None
 ) -> Generator[ray.util.ActorPool, None, None]:
+    log = _log.bind()
     ensure_parallel_init()
     if n_jobs is None:
         cfg = get_parallel_config()
         n_jobs = cfg.processes
 
+    log = log.bind(n_jobs=n_jobs)
+    log.info("creating actor pool")
     workers = [actor.remote(*args) for i in range(n_jobs)]
 
     pool = ray.util.ActorPool(workers)
     try:
         yield pool
     finally:
-        task = Task.current()
+        log.info("shutting down pool")
+        current = Task.current()
         done = [w.finish.remote() for w in workers]
         for task in done:
             st = ray.get(task)
-            if task is not None:
-                task.add_subtask(st)
+            if st is None:
+                log.warn("task result %r has no task", task)
+            elif current is not None:
+                current.add_subtask(st)
 
 
 def serialize_tensor(tensor: torch.Tensor):

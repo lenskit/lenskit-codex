@@ -5,11 +5,11 @@ Batch inference code. Eventually this will probably move into LensKit.
 # pyright: basic
 from __future__ import annotations
 
-import logging
 from pathlib import Path
 
 import pyarrow as pa
 import ray
+import structlog
 from lenskit import Pipeline, predict, recommend
 from lenskit.data import ItemList, ItemListCollection, UserIDKey
 from lenskit.logging import item_progress
@@ -20,7 +20,7 @@ from pyarrow.parquet import ParquetWriter
 from codex.cluster import CodexActor, worker_pool
 from codex.runlog import CodexTask
 
-_log = logging.getLogger(__name__)
+_log = structlog.stdlib.get_logger(__name__)
 
 
 def recommend_and_save(
@@ -58,7 +58,7 @@ def recommend_and_save(
 
 
 def _call_actor(actor, query):
-    actor.run_pipeline.remote(**query)
+    return actor.run_pipeline.remote(*query)
 
 
 @ray.remote
@@ -88,23 +88,24 @@ class InferenceActor(CodexActor):
         assert isinstance(pipeline, Pipeline)
         self.pipeline = pipeline
         self.n_recs = n
-        rec_output.mkdir(parents=True, exist_ok=True)
 
         work_id = ray.get_runtime_context().get_worker_id()
 
         fn = f"worker-{work_id}.parquet"
-        _log.debug("opening output %s", rec_output / fn)
+        _log.debug("opening recommendation output", file=rec_output / fn)
+        rec_output.mkdir(parents=True, exist_ok=True)
         self.rec_writer = ParquetWriter(
             rec_output / fn,
-            pa.schema({"user_id": pa.int32(), "items": pa.list_(pa.struct(self.REC_FIELDS))}),
+            pa.schema({"user_id": pa.int64(), "items": pa.list_(pa.struct(self.REC_FIELDS))}),
             compression="zstd",
             compression_level=6,
         )
         if pred_output is not None:
-            _log.debug("opening output %s", pred_output / fn)
+            _log.debug("opening prediction output", file=pred_output / fn)
+            pred_output.mkdir(parents=True, exist_ok=True)
             self.pred_writer = ParquetWriter(
                 pred_output / fn,
-                pa.schema({"user_id": pa.int32(), "items": pa.list_(pa.struct(self.PRED_FIELDS))}),
+                pa.schema({"user_id": pa.int64(), "items": pa.list_(pa.struct(self.PRED_FIELDS))}),
                 compression="zstd",
                 compression_level=6,
             )
