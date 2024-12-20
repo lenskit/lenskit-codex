@@ -104,6 +104,7 @@ def generate(
             plog = log.bind(part=part)
             plog.info("training model %s", reco)
             pipe, task = train_and_wrap_model(model, reco, data, predicts_ratings=predict)
+            task.data.part = part
 
             plog.debug("run record: %s", task.model_dump_json(indent=2))
             plog.info(
@@ -128,6 +129,7 @@ def generate(
                 output / "recommendations" / shard,
                 output / "predictions" / shard if predict else None,
             )
+            task.data.part = part
             with open(output / "inference.json", "a") as jsf:
                 print(task.model_dump_json(), file=jsf)
 

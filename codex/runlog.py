@@ -78,6 +78,12 @@ class PrometheusConfig(BaseModel):
     queries: dict[str, str] = Field(default_factory=dict)
 
 
+class DataModel(BaseModel):
+    dataset: str | None = None
+    split: str | None = None
+    part: str | int | None = None
+
+
 class CodexTask(Task):
     """
     Extended task with additional codex-specific logging information.
@@ -90,7 +96,7 @@ class CodexTask(Task):
 
     score_model: str | None = None
     score_model_config: str | dict[str, JsonValue] | None = None
-    data: DataModel | None = None
+    data: DataModel = Field(default_factory=DataModel)
 
     cpu_power: float | None = None
     gpu_power: float | None = None
@@ -123,12 +129,6 @@ class CodexTask(Task):
                 )
 
         return res
-
-
-class DataModel(BaseModel):
-    dataset: str
-    split: str | None = None
-    part: str | int | None = None
 
 
 def _get_prometheus_metric(url: str, query: str, time_ms: int) -> float | None:
