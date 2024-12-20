@@ -93,9 +93,9 @@ class DataModel(BaseModel):
     part: str | int | None = None
 
 
-class PipelineModel(BaseModel):
-    scorer_name: str | None = None
-    scorer_config: dict[str, JsonValue] | None = None
+class ScorerModel(BaseModel):
+    name: str | None = None
+    config: dict[str, JsonValue] | None = None
 
 
 class CodexTask(Task):
@@ -108,7 +108,7 @@ class CodexTask(Task):
     lenskit_version: str = lenskit.__version__  # type: ignore
     tags: list[str] = Field(default_factory=list)
 
-    pipeline: PipelineModel = Field(default_factory=PipelineModel)
+    scorer: ScorerModel = Field(default_factory=ScorerModel)
     data: DataModel = Field(default_factory=DataModel)
 
     cpu_power: float | None = None

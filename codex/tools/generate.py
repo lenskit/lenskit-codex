@@ -5,15 +5,16 @@ from os import fspath
 from pathlib import Path
 
 import click
-import ray
 import structlog
 from duckdb import connect
 from humanize import naturalsize
 
+from codex.cluster import ensure_cluster_init
+from codex.collect import NDJSONCollector
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
 from codex.inference import recommend_and_save
 from codex.models import load_model, model_module
-from codex.runlog import CodexTask, PipelineModel
+from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.training import train_and_wrap_model
 
 from . import codex
@@ -87,7 +88,7 @@ def generate(
         test_sets = crossfold_test_sets(assign_file, ratings_db, test_part)
 
     predict = "predictions" in mod.outputs
-    ray.init(configure_logging=False)
+    ensure_cluster_init()
 
     output.mkdir(exist_ok=True, parents=False)
     (output / "training.json").unlink(missing_ok=True)
@@ -95,17 +96,23 @@ def generate(
 
     with (
         CodexTask(
-            label=f"generate {model}", tags=["generate"], pipeline=PipelineModel(scorer_name=model)
+            label=f"generate {model}", tags=["generate"], scorer=ScorerModel(name=model)
         ) as root_task,
+        NDJSONCollector(output / "user-metrics.ndjson.zst") as metric_out,
     ):
         log = _log.bind(task_id=root_task.task_id)
         for part, data in test_sets:
             plog = log.bind(part=part)
             reco, cfg = load_model(model, config)
             plog.info("training model", name=model, config=cfg)
-            pipe, task = train_and_wrap_model(
-                reco, data, predicts_ratings=predict, name=model, config=cfg
-            )
+            with CodexTask(
+                label=f"train {model}",
+                tags=["train"],
+                reset_hwm=True,
+                scorer=ScorerModel(name=model, config=cfg),
+                data=DataModel(part=part),
+            ) as task:
+                pipe = train_and_wrap_model(reco, data, predicts_ratings=predict, name=model)
             task.data.part = part
 
             plog.debug("run record: %s", task.model_dump_json(indent=2))
@@ -124,14 +131,23 @@ def generate(
                     plog.error("no test data found")
 
             shard = f"part={part}"
-            task = recommend_and_save(
-                pipe,
-                test,
-                list_length,
-                output / "recommendations" / shard,
-                output / "predictions" / shard if predict else None,
-            )
-            task.data.part = part
+            with CodexTask(
+                label=f"recommend {model}",
+                tags=["recommend"],
+                reset_hwm=True,
+                scorer=ScorerModel(name=model, config=cfg),
+                data=DataModel(part=part),
+            ) as task:
+                recommend_and_save(
+                    pipe,
+                    test,
+                    list_length,
+                    output / "recommendations" / shard,
+                    output / "predictions" / shard if predict else None,
+                    metric_out,
+                    meta={"part": part},
+                )
+
             with open(output / "inference.json", "a") as jsf:
                 print(task.model_dump_json(), file=jsf)
 
