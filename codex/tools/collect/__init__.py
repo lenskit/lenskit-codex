@@ -6,6 +6,4 @@ def collect():
     "Commands for collecting metrics and other data."
 
 
-from . import (  # noqa: E402, F401
-    metrics,
-)
+from . import metrics, runs  # noqa: E402, F401

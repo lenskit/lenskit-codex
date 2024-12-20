@@ -31,7 +31,7 @@ class CodexActor:
         self.context = WorkerContext(logging)
         self.context.start()
         initialize(parallel)
-        self.task = Task(f"codex worker {pid} {self}", reset_hwm=True)
+        self.task = Task(f"codex worker {pid} {self}", reset_hwm=True, subprocess=True)
         self.task.start()
 
     def finish(self) -> Task:

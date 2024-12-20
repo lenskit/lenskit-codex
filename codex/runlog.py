@@ -4,14 +4,19 @@ Implementation of the log of all runs.
 
 from __future__ import annotations
 
+import datetime as dt
 import os
 import socket
+import subprocess as sp
 import tomllib
+from collections.abc import Iterable
 from pathlib import Path
+from uuid import UUID
 
 import lenskit
 import requests
 import structlog
+import zstandard
 from deepmerge import always_merger
 from humanize import metric
 from lenskit.logging import Task
@@ -67,6 +72,10 @@ class RunlogConfig(BaseModel):
     @property
     def lobby_dir(self):
         return self.base_dir / "lobby"
+
+    @property
+    def db_dir(self):
+        return self.base_dir / "db"
 
 
 class PrometheusConfig(BaseModel):
@@ -131,13 +140,100 @@ class CodexTask(Task):
         return res
 
 
+class RunLogDB:
+    config: RunlogConfig
+    open_files: dict[str, RunLogDBFile]
+
+    def __init__(self):
+        self.config = get_config()
+        self.open_files = {}
+
+    def get_file(self, date: dt.date) -> RunLogDBFile:
+        key = "{:4d}-{:02d}".format(date.year, date.month)
+        dbf = self.open_files.get(key, None)
+        if dbf is None:
+            path = self.config.db_dir / f"{key}.ndjson.zst"
+            if path.exists():
+                dbf = RunLogDBFile.read_db(path)
+            else:
+                dbf = RunLogDBFile(path)
+            self.open_files[key] = dbf
+
+        return dbf
+
+    def save_all(self):
+        for dbf in self.open_files.values():
+            dbf.save_db()
+
+
+class RunLogDBFile:
+    """
+    A single file of run log data (representing one month).
+
+    Tasks are stored *flattened*: each subtask — except for subprocess subtasks
+    — is a distinct entry, and its subtasks is empty (except for the subprocess
+    subtasks).
+    """
+
+    path: Path
+    log_entries: dict[UUID, Task]
+
+    def __init__(self, path: Path, entries: Iterable[CodexTask] | None = None) -> None:
+        self.path = path
+        if entries is None:
+            self.log_entries = {}
+        else:
+            self.log_entries = {t.task_id: t for t in entries}
+
+    def add_task(self, task: Task):
+        """
+        Add a task and its subtasks to the codex run log.
+        """
+        log = _log.bind(task_id=task.task_id.hex)
+        if task.task_id in self.log_entries:
+            log.debug("task already in log, updating")
+        else:
+            log.debug("adding task to log")
+        sp_tasks = [t for t in task.subtasks if t.subprocess]
+        self.log_entries[task.task_id] = task.model_copy(update={"subtasks": sp_tasks})
+        for t in task.subtasks:
+            if not t.subprocess:
+                self.add_task(t)
+
+    def save_db(self, *, path: Path | None = None):
+        if path is None:
+            path = self.path
+        log = _log.bind(file=path.as_posix(), n=len(self.log_entries))
+        log.debug("sorting task entries")
+        entries = sorted(self.log_entries.values(), key=lambda t: t.start_time or 0)
+        log.info("saving task database")
+        path.parent.mkdir(exist_ok=True, parents=True)
+        pid = os.getpid()
+        tmpfile = path.with_name(f"{path.name}.{pid}.tmp")
+        with zstandard.open(tmpfile, "wt", zstandard.ZstdCompressor(level=6)) as outf:
+            for e in entries:
+                print(e.model_dump_json(), file=outf)
+        os.rename(tmpfile, path)
+        log.debug("adding DB file to DVC")
+        sp.check_call(["dvc", "add", path])
+
+    @classmethod
+    def read_db(cls, path: Path) -> RunLogDBFile:
+        log = _log.bind(file=path)
+        log.debug("reading task database")
+        with zstandard.open(path, "rt") as inf:
+            db = cls(path, (CodexTask.model_validate_json(line) for line in inf))
+            log.info("read task database", n=len(db.log_entries))
+        return db
+
+
 def _get_prometheus_metric(url: str, query: str, time_ms: int) -> float | None:
     query = query.format(time_ms)
     log = _log.bind(url=url, query=query)
     try:
         res = requests.get(url, {"query": query}).json()
     except Exception as e:
-        _log.warning("Prometheus query error", url=url, exception=e)
+        _log.warning("Prometheus query error", url=url, exc_info=e)
         return None
 
     log.debug("received response: %s", res)
