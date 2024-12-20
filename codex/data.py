@@ -50,14 +50,14 @@ def partition_tt_data(
     split: Path, src: Path, partition: int, *, alloc="test_alloc", ratings="src.ratings"
 ):
     test_q = f"""
-SELECT user_id AS user, item_id AS item, rating
+SELECT user_id, item_id, rating
 FROM {ratings}
 JOIN {alloc} USING (user_id, item_id)
 WHERE partition = {partition}
-ORDER BY user, item
+ORDER BY user_id, item_id
 """
     train_q = f"""
-SELECT user_id AS user, item_id AS item, rating
+SELECT user_id, item_id, rating
 FROM {ratings} LEFT JOIN {alloc} USING (user_id, item_id)
 WHERE partition IS NULL OR partition <> {partition}
 """
@@ -71,14 +71,14 @@ def fixed_tt_data(test: Path, train: list[Path]):
     """
 
     test_q = f"""
-        SELECT user_id AS user, item_id AS item, rating
+        SELECT user_id, item_id, rating
         FROM read_parquet('{test}')
     """
 
     train_q = " UNION ALL ".join(
         [
             f"""
-            SELECT user_id AS user, item_id AS item, rating
+            SELECT user_id, item_id, rating
             FROM read_parquet('{pqf}')
             """
             for pqf in train

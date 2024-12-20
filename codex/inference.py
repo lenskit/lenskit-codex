@@ -58,13 +58,13 @@ def recommend_and_save(
 
 
 def _call_actor(actor, query):
-    actor.run_pipeline(**query)
+    actor.run_pipeline.remote(**query)
 
 
 @ray.remote
 class InferenceActor(CodexActor):
-    REC_FIELDS = {"item_id": pa.int32, "rank": pa.int32, "score": pa.float32()}
-    PRED_FIELDS = {"item_id": pa.int32, "score": pa.float32()}
+    REC_FIELDS = {"item_id": pa.int32(), "rank": pa.int32(), "score": pa.float32()}
+    PRED_FIELDS = {"item_id": pa.int32(), "score": pa.float32()}
 
     pipeline: Pipeline
     n_recs: int | None
@@ -79,22 +79,34 @@ class InferenceActor(CodexActor):
         self,
         parallel: ParallelConfig,
         logging: WorkerLogConfig,
-        pipeline_ref: ray.ObjectRef,
+        pipeline: Pipeline,
         n: int | None,
         rec_output: Path,
         pred_output: Path | None,
     ):
         super().__init__(parallel, logging)
-        self.pipeline = ray.get(pipeline_ref)
+        assert isinstance(pipeline, Pipeline)
+        self.pipeline = pipeline
         self.n_recs = n
+        rec_output.mkdir(parents=True, exist_ok=True)
+
+        work_id = ray.get_runtime_context().get_worker_id()
+
+        fn = f"worker-{work_id}.parquet"
+        _log.debug("opening output %s", rec_output / fn)
         self.rec_writer = ParquetWriter(
-            rec_output,
-            pa.schema({"user_id": pa.int32, "items": pa.list_(pa.struct(self.REC_FIELDS))}),
+            rec_output / fn,
+            pa.schema({"user_id": pa.int32(), "items": pa.list_(pa.struct(self.REC_FIELDS))}),
+            compression="zstd",
+            compression_level=6,
         )
         if pred_output is not None:
+            _log.debug("opening output %s", pred_output / fn)
             self.pred_writer = ParquetWriter(
-                pred_output,
-                pa.schema({"user_id": pa.int32, "items": pa.list_(pa.struct(self.PRED_FIELDS))}),
+                pred_output / fn,
+                pa.schema({"user_id": pa.int32(), "items": pa.list_(pa.struct(self.PRED_FIELDS))}),
+                compression="zstd",
+                compression_level=6,
             )
         else:
             self.pred_writer = None

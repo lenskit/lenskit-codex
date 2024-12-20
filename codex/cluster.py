@@ -57,7 +57,7 @@ def worker_pool(
         yield pool
     finally:
         task = Task.current()
-        done = [w.finish() for w in workers]
+        done = [w.finish.remote() for w in workers]
         for task in done:
             st = ray.get(task)
             if task is not None:

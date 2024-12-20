@@ -90,6 +90,10 @@ def generate(
     predict = "predictions" in mod.outputs
     ray.init()
 
+    output.mkdir(exist_ok=True, parents=False)
+    (output / "training.json").unlink(missing_ok=True)
+    (output / "inference.json").unlink(missing_ok=True)
+
     with (
         CodexTask(
             label=f"generate-{model}", tags=["generate"], score_model=model, score_model_config=cfg
@@ -108,7 +112,8 @@ def generate(
                 task.cpu_time,
                 naturalsize(task.peak_memory) if task.peak_memory else "unknown",
             )
-            (output / "training.json").write_text(task.model_dump_json() + "\n")
+            with open(output / "training.json", "a") as jsf:
+                print(task.model_dump_json(), file=jsf)
 
             with data.open_db() as test_db:
                 test = data.test_data(test_db)
@@ -123,7 +128,8 @@ def generate(
                 output / "recommendations" / shard,
                 output / "predictions" / shard if predict else None,
             )
-            (output / "inference.json").write_text(task.model_dump_json() + "\n")
+            with open(output / "inference.json", "a") as jsf:
+                print(task.model_dump_json(), file=jsf)
 
         log.info("finished all parts")
 
