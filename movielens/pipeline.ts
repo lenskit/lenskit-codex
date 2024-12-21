@@ -64,7 +64,7 @@ function ml_sweeps(ds: string): Record<string, Stage> {
       deps: [
         "splits/random.duckdb",
         "ratings.duckdb",
-        `../../codex/models/${name.replaceAll("-", "_")}.py`,
+        `../../models/${name}.toml`,
       ],
       outs: [`sweeps/random/${name}.duckdb`],
     };
