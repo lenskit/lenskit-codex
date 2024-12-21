@@ -726,26 +726,27 @@ stages:
       md5: 488f024339cf2a7e6124b784383d1114
       size: 1323008
   run-random-default-HPF:
-    cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
-      --ratings=ratings.duckdb -o runs/random-default/HPF.duckdb HPF
+    cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb -o runs/random-default/HPF HPF
     deps:
     - path: ../../codex/models/HPF.py
       hash: md5
-      md5: c407b5a94b468225c08eb86a9642d513
+      md5: 55203953da5adcab9435c016b242bf1d
       size: 266
     - path: ratings.duckdb
       hash: md5
-      md5: a770a8e6c558a398515b74def824e7b8
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
       size: 2371584
     - path: splits/random.duckdb
       hash: md5
-      md5: 0341a9b25f8c8d872957470e9f29df47
+      md5: 796dd13b48c8a99435002d3d68ab8d0b
       size: 536576
     outs:
-    - path: runs/random-default/HPF.duckdb
+    - path: runs/random-default/HPF
       hash: md5
-      md5: bb061b7142641aba73fa5f5474cf5936
-      size: 1323008
+      md5: f6e825c312a56737c2e457a7e76311a9.dir
+      size: 581287
+      nfiles: 35
   run-random-sweep-best-ImplicitMF-ALS:
     cmd: python ../../action.py generate --param-file=sweeps/random/ImplicitMF-ALS.json
       --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
