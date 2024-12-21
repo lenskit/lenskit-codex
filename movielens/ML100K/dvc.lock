@@ -413,10 +413,10 @@ stages:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
     deps:
-    - path: ../../codex/models/ImplicitMF_ALS.py
+    - path: ../../models/ImplicitMF-ALS.toml
       hash: md5
-      md5: e9578e84370030be5865ea9c33aad05b
-      size: 348
+      md5: e3b0120ab5820325128a9eb87d851e7f
+      size: 151
     - path: ratings.duckdb
       hash: md5
       md5: 4ebfe15a3b3072086408fdc861bf37ae
@@ -428,9 +428,9 @@ stages:
     outs:
     - path: runs/random-default/ImplicitMF-ALS
       hash: md5
-      md5: 1ed55dadefc3092a8944f15bafcefc5c.dir
-      size: 549454
-      nfiles: 19
+      md5: d21c12492bc35da2afa6c7d5ff4746f5.dir
+      size: 578258
+      nfiles: 35
   collect-metrics:
     cmd: python ../../action.py collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql
       runs
@@ -620,10 +620,10 @@ stages:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
     deps:
-    - path: ../../codex/models/BiasedMF_ALS.py
+    - path: ../../models/BiasedMF-ALS.toml
       hash: md5
-      md5: b1e2858de432b3ae84206b65d3f92599
-      size: 338
+      md5: d6a4dc846449f893683a847940f9c176
+      size: 166
     - path: ratings.duckdb
       hash: md5
       md5: 4ebfe15a3b3072086408fdc861bf37ae
@@ -635,17 +635,17 @@ stages:
     outs:
     - path: runs/random-default/BiasedMF-ALS
       hash: md5
-      md5: aa0a47793fda44932f468b64c5780ead.dir
-      size: 565818
-      nfiles: 35
+      md5: c6bf94c4aa0a3902adf945cc6717cc5c.dir
+      size: 590712
+      nfiles: 67
   run-random-default-IKNN-Explicit:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/IKNN-Explicit IKNN-Explicit
     deps:
-    - path: ../../codex/models/IKNN_Explicit.py
+    - path: ../../models/IKNN-Explicit.toml
       hash: md5
-      md5: eec6278481b44a68e433d7f00b20a441
-      size: 377
+      md5: cb85c79c654c8e897015241c0f670c0d
+      size: 169
     - path: ratings.duckdb
       hash: md5
       md5: 4ebfe15a3b3072086408fdc861bf37ae
@@ -657,8 +657,8 @@ stages:
     outs:
     - path: runs/random-default/IKNN-Explicit
       hash: md5
-      md5: 6f630f30cfc14c2dcbda75fde4feed6a.dir
-      size: 587623
+      md5: d12cac60ca04b936ad6bfa855e893a75.dir
+      size: 587063
       nfiles: 67
   run-random-default-Bias:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
@@ -729,10 +729,10 @@ stages:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/HPF HPF
     deps:
-    - path: ../../codex/models/HPF.py
+    - path: ../../models/HPF.toml
       hash: md5
-      md5: 55203953da5adcab9435c016b242bf1d
-      size: 266
+      md5: 30b7ea7799d7508c2b12b4769f8afe16
+      size: 144
     - path: ratings.duckdb
       hash: md5
       md5: 4ebfe15a3b3072086408fdc861bf37ae
@@ -744,8 +744,8 @@ stages:
     outs:
     - path: runs/random-default/HPF
       hash: md5
-      md5: f6e825c312a56737c2e457a7e76311a9.dir
-      size: 581287
+      md5: bca6d9446803e3e66e4392b074473055.dir
+      size: 581784
       nfiles: 35
   run-random-sweep-best-ImplicitMF-ALS:
     cmd: python ../../action.py generate --param-file=sweeps/random/ImplicitMF-ALS.json
@@ -777,10 +777,10 @@ stages:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/UKNN-Explicit UKNN-Explicit
     deps:
-    - path: ../../codex/models/UKNN_Explicit.py
+    - path: ../../models/UKNN-Explicit.toml
       hash: md5
-      md5: 79cf60348aca97ccef600d366367cd02
-      size: 377
+      md5: 89a00ff4388a0c347c22d09854f61dd0
+      size: 169
     - path: ratings.duckdb
       hash: md5
       md5: 4ebfe15a3b3072086408fdc861bf37ae
@@ -792,9 +792,9 @@ stages:
     outs:
     - path: runs/random-default/UKNN-Explicit
       hash: md5
-      md5: 3dac4a15e63de7069c64fbf2cc29f767.dir
-      size: 549641
-      nfiles: 35
+      md5: 33b629b658c1d955def10b9e6978c1ca.dir
+      size: 573439
+      nfiles: 67
   sweep-random-UKNN-Explicit:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
       UKNN-Explicit sweeps/random/UKNN-Explicit.duckdb
