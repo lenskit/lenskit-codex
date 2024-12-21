@@ -133,6 +133,15 @@ stages:
       - movielens/ML10M/sweeps/random/IKNN-Implicit.duckdb
     outs:
       - _freeze/movielens/ML10M/iknn-implicit
+  page/movielens/ML10M/splitting:
+    cmd: quarto render movielens/ML10M/splitting.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML10M/splitting.qmd
+      - movielens/ML10M/ratings.duckdb
+    outs:
+      - _freeze/movielens/ML10M/splitting
   page/movielens/ML1M/als-biasedmf:
     cmd: quarto render movielens/ML1M/als-biasedmf.qmd --profile prerender
     deps:

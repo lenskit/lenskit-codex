@@ -1110,3 +1110,28 @@ stages:
       md5: 52f60e3026f502bb118466660d8ae357.dir
       size: 8911
       nfiles: 2
+  page/movielens/ML10M/splitting:
+    cmd: quarto render movielens/ML10M/splitting.qmd --profile prerender
+    deps:
+    - path: _quarto-prerender.yml
+      hash: md5
+      md5: fe1f6b982acadfdd675d7bf14a819ab8
+      size: 40
+    - path: _quarto.yml
+      hash: md5
+      md5: 97356d9c9d3ad8ce685d8954d36ec42d
+      size: 1299
+    - path: movielens/ML10M/ratings.duckdb
+      hash: md5
+      md5: 5b61a4ef8958fb6559b0e697ed88c453
+      size: 119549952
+    - path: movielens/ML10M/splitting.qmd
+      hash: md5
+      md5: c3d2baaade5d0fe7b83abd4c68308da3
+      size: 1919
+    outs:
+    - path: _freeze/movielens/ML10M/splitting
+      hash: md5
+      md5: 9e50d99eaa5c6b205e770defa1c8d654.dir
+      size: 8855
+      nfiles: 2
