@@ -639,26 +639,27 @@ stages:
       size: 565818
       nfiles: 35
   run-random-default-IKNN-Explicit:
-    cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
-      --ratings=ratings.duckdb -o runs/random-default/IKNN-Explicit.duckdb IKNN-Explicit
+    cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb -o runs/random-default/IKNN-Explicit IKNN-Explicit
     deps:
     - path: ../../codex/models/IKNN_Explicit.py
       hash: md5
-      md5: d7b6a1734bea39997f94df4fa0c4900e
-      size: 378
+      md5: eec6278481b44a68e433d7f00b20a441
+      size: 377
     - path: ratings.duckdb
       hash: md5
-      md5: a770a8e6c558a398515b74def824e7b8
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
       size: 2371584
     - path: splits/random.duckdb
       hash: md5
-      md5: 0341a9b25f8c8d872957470e9f29df47
+      md5: 796dd13b48c8a99435002d3d68ab8d0b
       size: 536576
     outs:
-    - path: runs/random-default/IKNN-Explicit.duckdb
+    - path: runs/random-default/IKNN-Explicit
       hash: md5
-      md5: 4a5d925ad8ddfdc55cf34b2463b6c7a6
-      size: 1585152
+      md5: 6f630f30cfc14c2dcbda75fde4feed6a.dir
+      size: 587623
+      nfiles: 67
   run-random-default-Bias:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/Bias Bias
