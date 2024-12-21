@@ -428,8 +428,8 @@ stages:
     outs:
     - path: runs/random-default/ImplicitMF-ALS
       hash: md5
-      md5: d21c12492bc35da2afa6c7d5ff4746f5.dir
-      size: 578258
+      md5: 4980451522ab7452acf36a1f255b0672.dir
+      size: 612738
       nfiles: 35
   collect-metrics:
     cmd: python ../../action.py collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql
@@ -561,8 +561,8 @@ stages:
     outs:
     - path: runs/random-default/IKNN-Implicit
       hash: md5
-      md5: 6ce90b9211ad7b8fed3ae23c1c857433.dir
-      size: 544051
+      md5: 1e71f6c234e0d0363189775c119a2046.dir
+      size: 580635
       nfiles: 35
   run-random-sweep-best-IKNN-Explicit:
     cmd: python ../../action.py generate --param-file=sweeps/random/IKNN-Explicit.json
@@ -635,8 +635,8 @@ stages:
     outs:
     - path: runs/random-default/BiasedMF-ALS
       hash: md5
-      md5: c6bf94c4aa0a3902adf945cc6717cc5c.dir
-      size: 590712
+      md5: 3b6d38143c4e90c8e859ab44cc8b2183.dir
+      size: 656245
       nfiles: 67
   run-random-default-IKNN-Explicit:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
@@ -657,8 +657,8 @@ stages:
     outs:
     - path: runs/random-default/IKNN-Explicit
       hash: md5
-      md5: d12cac60ca04b936ad6bfa855e893a75.dir
-      size: 587063
+      md5: dc4ae363dfd23a84f14f1b5c1a5d5de8.dir
+      size: 653655
       nfiles: 67
   run-random-default-Bias:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
@@ -679,8 +679,8 @@ stages:
     outs:
     - path: runs/random-default/Bias
       hash: md5
-      md5: b236bfbb6f1a7f5d096e59e550f348f6.dir
-      size: 522135
+      md5: efa9278563bdc48a51e67df09a3add32.dir
+      size: 586773
       nfiles: 67
   run-random-default-Popular:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
@@ -701,8 +701,8 @@ stages:
     outs:
     - path: runs/random-default/Popular
       hash: md5
-      md5: 1cda8cae8930970ce2c42fcd9a91f147.dir
-      size: 200543
+      md5: c005645507021beca6e72c6c6727046e.dir
+      size: 240028
       nfiles: 35
   run-random-default-Implicit-BPR:
     cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
@@ -744,8 +744,8 @@ stages:
     outs:
     - path: runs/random-default/HPF
       hash: md5
-      md5: bca6d9446803e3e66e4392b074473055.dir
-      size: 581784
+      md5: 7194546a58dc931254db1099fde90ef9.dir
+      size: 617074
       nfiles: 35
   run-random-sweep-best-ImplicitMF-ALS:
     cmd: python ../../action.py generate --param-file=sweeps/random/ImplicitMF-ALS.json
@@ -792,8 +792,8 @@ stages:
     outs:
     - path: runs/random-default/UKNN-Explicit
       hash: md5
-      md5: 33b629b658c1d955def10b9e6978c1ca.dir
-      size: 573439
+      md5: 558321ce637b18bf6674950e216028f6.dir
+      size: 639593
       nfiles: 67
   sweep-random-UKNN-Explicit:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
@@ -880,8 +880,8 @@ stages:
     outs:
     - path: runs/random-default/UKNN-Implicit
       hash: md5
-      md5: 368b67df1d8a7dbc5ff42d1c6abb33b4.dir
-      size: 573512
+      md5: 64e4b24df87904ccfb3374c33e6788cc.dir
+      size: 609406
       nfiles: 35
   sweep-random-UKNN-Implicit:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb

@@ -148,6 +148,10 @@ class InferenceActor(CodexActor):
         if len(self.rec_batch):
             self._write_batch()
 
+        self.rec_writer.close()
+        if self.pred_writer is not None:
+            self.pred_writer.close()
+
         return super().finish()
 
     def _write_batch(self):
