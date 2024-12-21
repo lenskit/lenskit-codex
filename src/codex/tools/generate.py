@@ -92,7 +92,7 @@ def generate(
 
     ensure_cluster_init()
 
-    output.mkdir(exist_ok=True, parents=False)
+    output.mkdir(exist_ok=True, parents=True)
     (output / "training.json").unlink(missing_ok=True)
     (output / "inference.json").unlink(missing_ok=True)
 
