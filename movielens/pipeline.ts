@@ -99,7 +99,7 @@ function ml_runs(ds: string): Record<string, Stage> {
       ),
       outs: [`runs/random-default/${name}`],
       deps: [
-        `../../codex/models/${name.replaceAll("-", "_")}.py`,
+        `../../models/${name}.toml`,
         "ratings.duckdb",
         "splits/random.duckdb",
       ],

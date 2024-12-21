@@ -203,7 +203,7 @@ stages:
     outs:
       - runs/random-default/Bias
     deps:
-      - ../../codex/models/Bias.py
+      - ../../models/Bias.toml
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-Bias:
@@ -222,7 +222,7 @@ stages:
     outs:
       - runs/random-default/HPF
     deps:
-      - ../../codex/models/HPF.py
+      - ../../models/HPF.toml
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-HPF:
@@ -241,7 +241,7 @@ stages:
     outs:
       - runs/random-default/Popular
     deps:
-      - ../../codex/models/Popular.py
+      - ../../models/Popular.toml
       - ratings.duckdb
       - splits/random.duckdb
   run-random-default-BiasedMF-ALS:
@@ -250,7 +250,7 @@ stages:
     outs:
       - runs/random-default/BiasedMF-ALS
     deps:
-      - ../../codex/models/BiasedMF_ALS.py
+      - ../../models/BiasedMF-ALS.toml
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-BiasedMF-ALS:
@@ -269,7 +269,7 @@ stages:
     outs:
       - runs/random-default/IKNN-Explicit
     deps:
-      - ../../codex/models/IKNN_Explicit.py
+      - ../../models/IKNN-Explicit.toml
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-IKNN-Explicit:
@@ -288,7 +288,7 @@ stages:
     outs:
       - runs/random-default/IKNN-Implicit
     deps:
-      - ../../codex/models/IKNN_Implicit.py
+      - ../../models/IKNN-Implicit.toml
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-IKNN-Implicit:
@@ -307,7 +307,7 @@ stages:
     outs:
       - runs/random-default/UKNN-Explicit
     deps:
-      - ../../codex/models/UKNN_Explicit.py
+      - ../../models/UKNN-Explicit.toml
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-UKNN-Explicit:
@@ -326,7 +326,7 @@ stages:
     outs:
       - runs/random-default/UKNN-Implicit
     deps:
-      - ../../codex/models/UKNN_Implicit.py
+      - ../../models/UKNN-Implicit.toml
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-UKNN-Implicit:
@@ -345,7 +345,7 @@ stages:
     outs:
       - runs/random-default/ImplicitMF-ALS
     deps:
-      - ../../codex/models/ImplicitMF_ALS.py
+      - ../../models/ImplicitMF-ALS.toml
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-ImplicitMF-ALS:
@@ -364,7 +364,7 @@ stages:
     outs:
       - runs/random-default/Implicit-BPR
     deps:
-      - ../../codex/models/Implicit_BPR.py
+      - ../../models/Implicit-BPR.toml
       - ratings.duckdb
       - splits/random.duckdb
   run-random-sweep-best-Implicit-BPR:
