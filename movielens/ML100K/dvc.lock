@@ -546,10 +546,10 @@ stages:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/IKNN-Implicit IKNN-Implicit
     deps:
-    - path: ../../codex/models/IKNN_Implicit.py
+    - path: ../../models/IKNN-Implicit.toml
       hash: md5
-      md5: 895e8e16fd0e6e00fdbf49d0476c9d8e
-      size: 362
+      md5: 2bfec2d4beb12854e5e7d632f0fd6396
+      size: 152
     - path: ratings.duckdb
       hash: md5
       md5: 4ebfe15a3b3072086408fdc861bf37ae
@@ -561,9 +561,9 @@ stages:
     outs:
     - path: runs/random-default/IKNN-Implicit
       hash: md5
-      md5: 7bf9b354b5c0a22697c935e7d8779258.dir
-      size: 524259
-      nfiles: 19
+      md5: 6ce90b9211ad7b8fed3ae23c1c857433.dir
+      size: 544051
+      nfiles: 35
   run-random-sweep-best-IKNN-Explicit:
     cmd: python ../../action.py generate --param-file=sweeps/random/IKNN-Explicit.json
       --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
@@ -664,10 +664,10 @@ stages:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/Bias Bias
     deps:
-    - path: ../../codex/models/Bias.py
+    - path: ../../models/Bias.toml
       hash: md5
-      md5: 117b6cd0fbd71ad6cb3937b8bcf62848
-      size: 382
+      md5: 97f305e8c04fb52cff715d59711b5eed
+      size: 146
     - path: ratings.duckdb
       hash: md5
       md5: 4ebfe15a3b3072086408fdc861bf37ae
@@ -679,17 +679,17 @@ stages:
     outs:
     - path: runs/random-default/Bias
       hash: md5
-      md5: cd6158a61da2d5004e4ad1173c8b2a6f.dir
-      size: 484440
-      nfiles: 35
+      md5: b236bfbb6f1a7f5d096e59e550f348f6.dir
+      size: 522135
+      nfiles: 67
   run-random-default-Popular:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/Popular Popular
     deps:
-    - path: ../../codex/models/Popular.py
+    - path: ../../models/Popular.toml
       hash: md5
-      md5: 552235616ae50fa42c08566ddc050c59
-      size: 215
+      md5: c25817c7ea3901786434261d27af0aad
+      size: 35
     - path: ratings.duckdb
       hash: md5
       md5: 4ebfe15a3b3072086408fdc861bf37ae
@@ -701,9 +701,9 @@ stages:
     outs:
     - path: runs/random-default/Popular
       hash: md5
-      md5: 18696c7f8cedb8b28a878ae4332576da.dir
-      size: 171229
-      nfiles: 19
+      md5: 1cda8cae8930970ce2c42fcd9a91f147.dir
+      size: 200543
+      nfiles: 35
   run-random-default-Implicit-BPR:
     cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/Implicit-BPR.duckdb Implicit-BPR
@@ -865,10 +865,10 @@ stages:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/UKNN-Implicit UKNN-Implicit
     deps:
-    - path: ../../codex/models/UKNN_Implicit.py
+    - path: ../../models/UKNN-Implicit.toml
       hash: md5
-      md5: 1ecc8007e1e350f966afe0f315aca861
-      size: 362
+      md5: a58a3e7ad35116cb737f895bab17c799
+      size: 152
     - path: ratings.duckdb
       hash: md5
       md5: 4ebfe15a3b3072086408fdc861bf37ae
@@ -880,9 +880,9 @@ stages:
     outs:
     - path: runs/random-default/UKNN-Implicit
       hash: md5
-      md5: 874b99aedc85e1d56d01611860949cb5.dir
-      size: 549433
-      nfiles: 19
+      md5: 368b67df1d8a7dbc5ff42d1c6abb33b4.dir
+      size: 573512
+      nfiles: 35
   sweep-random-UKNN-Implicit:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
       UKNN-Implicit sweeps/random/UKNN-Implicit.duckdb

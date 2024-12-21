@@ -22,7 +22,10 @@ export async function scanModels(): Promise<Record<string, ModelConfig>> {
     let pp = parse(ent.name);
     let text = await Deno.readTextFile(join(model_dir, ent.name));
     let cfg = parseToml(text);
-    models[pp.name] = MODEL_CONFIG_SCHEMA.parse(cfg);
+    let mod = MODEL_CONFIG_SCHEMA.parse(cfg);
+    if (mod.enabled) {
+      models[pp.name] = mod;
+    }
   }
   return models;
 }

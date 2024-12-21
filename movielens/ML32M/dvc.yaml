@@ -177,26 +177,6 @@ stages:
       - sweeps/random/ImplicitMF-ALS.csv
       - sweeps/random/ImplicitMF-ALS.json:
           cache: false
-  sweep-random-Implicit-BPR:
-    cmd: >-
-      lenskit-codex sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb Implicit-BPR sweeps/random/Implicit-BPR.duckdb
-    params:
-      - ../../config.toml:
-          - random.seed
-    deps:
-      - splits/random.duckdb
-      - ratings.duckdb
-      - ../../models/Implicit-BPR.toml
-    outs:
-      - sweeps/random/Implicit-BPR.duckdb
-  export-random-Implicit-BPR:
-    cmd: lenskit-codex sweep export sweeps/random/Implicit-BPR.duckdb ndcg
-    deps:
-      - sweeps/random/Implicit-BPR.duckdb
-    outs:
-      - sweeps/random/Implicit-BPR.csv
-      - sweeps/random/Implicit-BPR.json:
-          cache: false
   run-random-default-Bias:
     cmd: >-
       lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Bias Bias
@@ -358,25 +338,6 @@ stages:
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/ImplicitMF-ALS.json
-  run-random-default-Implicit-BPR:
-    cmd: >-
-      lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Implicit-BPR Implicit-BPR
-    outs:
-      - runs/random-default/Implicit-BPR
-    deps:
-      - ../../models/Implicit-BPR.toml
-      - ratings.duckdb
-      - splits/random.duckdb
-  run-random-sweep-best-Implicit-BPR:
-    cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/Implicit-BPR.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/Implicit-BPR.duckdb Implicit-BPR
-    outs:
-      - runs/random-sweep-best/Implicit-BPR.duckdb
-    deps:
-      - ../../codex/models/Implicit_BPR.py
-      - ratings.duckdb
-      - splits/random.duckdb
-      - sweeps/random/Implicit-BPR.json
   collect-metrics:
     cmd: >-
       lenskit-codex collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql runs
@@ -389,6 +350,5 @@ stages:
       - runs/random-sweep-best/UKNN-Explicit.duckdb
       - runs/random-sweep-best/UKNN-Implicit.duckdb
       - runs/random-sweep-best/ImplicitMF-ALS.duckdb
-      - runs/random-sweep-best/Implicit-BPR.duckdb
     outs:
       - run-metrics.duckdb
