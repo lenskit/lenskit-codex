@@ -1,0 +1,12 @@
+scorer = "lenskit.knn:ItemKNNScorer"
+predictor = true
+
+[constant]
+feedback = "explicit"
+
+[default]
+nnbrs = 20
+
+[sweep]
+nnbrs = [5, 10, 15, 25, 35, 50]
+min_nbrs = [1, 2]
