@@ -1,0 +1,82 @@
+---
+title: ML25M Data Splitting
+order: 1
+deps:
+- ratings.duckdb
+---
+
+This page describes the analysis done to select the cutoffs for temporally-splitting the ML25M data set.
+
+```{python}
+import duckdb
+db = duckdb.connect('ratings.duckdb', read_only=True)
+```
+
+## Split Windows
+
+Following [@mengExploringDataSplitting2020], we are going to prepare a global temporal split of the rating data.  We will target a 70/15/15 train/validation/test split, but round the timestamps so our test splits are at clean calendar dates.
+Searching for quantiles will get us this.
+
+```{python}
+db.query('''
+SELECT quantile_cont(timestamp, 0.7) AS t_valid,
+    quantile_cont(timestamp, 0.85) AS t_test,
+FROM ratings
+''').df()
+```
+
+This suggests that Jan. 2015 is a reasonable validation set cutoff, and March/April 2017 a reasonable test set cutoff.
+
+```{python}
+t_valid = '2015-01-01'
+t_test = '2017-04-01'
+```
+
+```{python}
+db.query(f'''
+SELECT
+    CASE WHEN timestamp < '{t_valid}' THEN 'train'
+         WHEN timestamp < '{t_test}' THEN 'valid'
+         ELSE 'test'
+    END AS part,
+    count(*) AS n_ratings,
+    count(distinct user_id) AS n_users,
+    count(distinct item_id) AS n_items
+FROM ratings
+GROUP BY part
+''').df()
+```
+
+How many users can we use for collaborative filtering in the testing set?
+
+```{python}
+db.query(f'''
+SELECT COUNT(DISTINCT user_id) n_users, COUNT(*) n_ratings
+FROM ratings
+WHERE user_id IN (
+    SELECT DISTINCT user_id FROM ratings
+    WHERE timestamp < '{t_test}'
+    GROUP BY user_id
+    HAVING count(*) >= 5
+)
+AND timestamp >= '{t_test}'
+''').df()
+```
+
+And for validation?
+
+```{python}
+db.query(f'''
+SELECT COUNT(DISTINCT user_id) n_users, COUNT(*) n_ratings
+FROM ratings
+WHERE user_id IN (
+    SELECT DISTINCT user_id FROM ratings
+    WHERE timestamp < '{t_valid}'
+    GROUP BY user_id
+    HAVING count(*) >= 5
+)
+AND timestamp >= '{t_valid}'
+''').df()
+```
+
+This does lose a lot of users, but it's enough we should have reasonably useful results.
