@@ -1,8 +1,8 @@
 /**
  * Model run stages for the Amazon pipeline.
  */
-import { action_cmd, generateStages, Stage } from "../../codex/dvc.ts";
-import { MODELS } from "../../codex/models/model-list.ts";
+import { action_cmd, generateStages, Stage } from "../../src/dvc.ts";
+import { MODELS } from "../../src/pipeline/model-config.ts";
 
 import { categories } from "./pipe-sources.ts";
 
@@ -86,7 +86,7 @@ export const runStages: Record<string, Stage> = generateStages(
       [`run-default-${name}-test`]: runStage(name, "test"),
       [`run-default-${name}-valid`]: runStage(name, "valid"),
     };
-    if (info.sweepable) {
+    if (info.sweep) {
       let sweepDb = `sweeps/\${item}/${name}.duckdb`;
       result[`sweep-${name}`] = sweepStage(name);
       result[`export-sweep-${name}`] = {

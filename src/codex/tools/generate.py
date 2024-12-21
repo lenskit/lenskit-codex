@@ -13,7 +13,7 @@ from codex.cluster import ensure_cluster_init
 from codex.collect import NDJSONCollector
 from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
 from codex.inference import recommend_and_save
-from codex.models import load_model, model_module
+from codex.modelcfg import load_config
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.training import train_and_wrap_model
 
@@ -63,9 +63,12 @@ def generate(
     Generate recommendations using a default or configured algorithm.
     """
 
-    if config != "default":
-        config = Path(config)
-    mod = model_module(model)
+    if config == "default":
+        cfg_path = None
+    else:
+        cfg_path = Path(config)
+
+    mod_cfg = load_config(model)
 
     if test_file:
         if assign_file or ratings_db or test_part:
@@ -87,7 +90,6 @@ def generate(
 
         test_sets = crossfold_test_sets(assign_file, ratings_db, test_part)
 
-    predict = "predictions" in mod.outputs
     ensure_cluster_init()
 
     output.mkdir(exist_ok=True, parents=False)
@@ -103,16 +105,18 @@ def generate(
         log = _log.bind(task_id=str(root_task.task_id))
         for part, data in test_sets:
             plog = log.bind(part=part)
-            reco, cfg = load_model(model, config)
-            plog.info("training model", name=model, config=cfg)
+            instance = mod_cfg.instantiate(cfg_path)
+            plog.info("training model", name=instance.name, config=instance.params)
             with CodexTask(
                 label=f"train {model}",
                 tags=["train"],
                 reset_hwm=True,
-                scorer=ScorerModel(name=model, config=cfg),
+                scorer=ScorerModel(name=model, config=instance.params),
                 data=DataModel(part=part),
             ) as task:
-                pipe = train_and_wrap_model(reco, data, predicts_ratings=predict, name=model)
+                pipe = train_and_wrap_model(
+                    instance.scorer, data, predicts_ratings=mod_cfg.predictor, name=model
+                )
             task.data.part = part
 
             plog.debug("run record: %s", task.model_dump_json(indent=2))
@@ -135,7 +139,7 @@ def generate(
                 label=f"recommend {model}",
                 tags=["recommend"],
                 reset_hwm=True,
-                scorer=ScorerModel(name=model, config=cfg),
+                scorer=ScorerModel(name=model, config=instance.params),
                 data=DataModel(part=part),
             ) as task:
                 recommend_and_save(
@@ -143,7 +147,7 @@ def generate(
                     test,
                     list_length,
                     output / "recommendations" / shard,
-                    output / "predictions" / shard if predict else None,
+                    output / "predictions" / shard if mod_cfg.predictor else None,
                     metric_out,
                     meta={"part": part},
                 )

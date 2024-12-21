@@ -39,7 +39,7 @@ export function action_cmd(origin: string, ...args: string[]): string {
     origin = dirname(origin);
   }
 
-  let cmd = 'lenskit-codex';
+  let cmd = "lenskit-codex";
   for (const arg of args) {
     cmd += " " + arg;
   }

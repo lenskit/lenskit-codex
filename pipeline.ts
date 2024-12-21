@@ -2,7 +2,7 @@ import { join as joinPath, normalize, parse as parsePath, relative } from "std/p
 import { expandGlob } from "std/fs/mod.ts";
 import { extract } from "std/front_matter/yaml.ts";
 
-import { Pipeline } from "./codex/dvc.ts";
+import { Pipeline } from "./src/dvc.ts";
 
 type Notebook = {
   dir: string;

@@ -1,8 +1,8 @@
 import { mapNotNullish } from "std/collections/mod.ts";
 
-import { action_cmd } from "../../codex/dvc.ts";
+import { action_cmd } from "../../src/dvc.ts";
 import { categories, sourceFiles } from "./pipe-sources.ts";
-import { MODELS } from "../../codex/models/model-list.ts";
+import { MODELS } from "../../src/pipeline/model-config.ts";
 
 function* exportableRuns(models: [string, unknown][], categories: string[]) {
   for (let cat of categories) {

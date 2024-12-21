@@ -5,8 +5,8 @@ import { filterValues } from "std/collections/mod.ts";
 
 import * as ai from "aitertools";
 
-import { action_cmd, Pipeline, Stage } from "../codex/dvc.ts";
-import { MODELS } from "../codex/models/model-list.ts";
+import { action_cmd, Pipeline, Stage } from "../src/dvc.ts";
+import { MODELS } from "../src/pipeline/model-config.ts";
 
 export const datasets: Record<string, string> = {
   ML100K: "ml-100k",
@@ -47,7 +47,7 @@ async function ml_splits(name: string): Promise<Record<string, Stage>> {
 }
 
 function ml_sweeps(ds: string): Record<string, Stage> {
-  const active = filterValues(MODELS, (m) => m.sweepable);
+  const active = filterValues(MODELS, (m) => m.sweep != null);
   const results: Record<string, Stage> = {};
   for (const [name, info] of Object.entries(active)) {
     results[`sweep-random-${name}`] = {
@@ -105,7 +105,7 @@ function ml_runs(ds: string): Record<string, Stage> {
       ],
     };
 
-    if (!info.sweepable) continue;
+    if (info.sweep == null) continue;
 
     runs[`run-random-sweep-best-${name}`] = {
       cmd: action_cmd(

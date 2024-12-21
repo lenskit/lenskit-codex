@@ -1,4 +1,4 @@
-import { action_cmd } from "../../codex/dvc.ts";
+import { action_cmd } from "../../src/dvc.ts";
 
 import { allSourceFiles } from "./pipe-sources.ts";
 
