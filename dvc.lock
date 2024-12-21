@@ -1035,3 +1035,78 @@ stages:
       md5: 8162f5a95a5499ff167ff1bcf96ca7bd.dir
       size: 65226
       nfiles: 4
+  page/movielens/ML20M/splitting:
+    cmd: quarto render movielens/ML20M/splitting.qmd --profile prerender
+    deps:
+    - path: _quarto-prerender.yml
+      hash: md5
+      md5: fe1f6b982acadfdd675d7bf14a819ab8
+      size: 40
+    - path: _quarto.yml
+      hash: md5
+      md5: 97356d9c9d3ad8ce685d8954d36ec42d
+      size: 1299
+    - path: movielens/ML20M/ratings.duckdb
+      hash: md5
+      md5: 635c81f0f1854b8fe09b9acecbdd7f51
+      size: 239349760
+    - path: movielens/ML20M/splitting.qmd
+      hash: md5
+      md5: 84b23c6571b6bee3b7e78277ce62fd18
+      size: 1906
+    outs:
+    - path: _freeze/movielens/ML20M/splitting
+      hash: md5
+      md5: 8a5a97a84861b6fed0d882701c5d10d2.dir
+      size: 8803
+      nfiles: 2
+  page/movielens/ML32M/splitting:
+    cmd: quarto render movielens/ML32M/splitting.qmd --profile prerender
+    deps:
+    - path: _quarto-prerender.yml
+      hash: md5
+      md5: fe1f6b982acadfdd675d7bf14a819ab8
+      size: 40
+    - path: _quarto.yml
+      hash: md5
+      md5: 97356d9c9d3ad8ce685d8954d36ec42d
+      size: 1299
+    - path: movielens/ML32M/ratings.duckdb
+      hash: md5
+      md5: a81c61d4b9ee0568294bdec12ad5a7de
+      size: 383004672
+    - path: movielens/ML32M/splitting.qmd
+      hash: md5
+      md5: 73a6a28eb14ec9817e2b1abbd9c6ec30
+      size: 1954
+    outs:
+    - path: _freeze/movielens/ML32M/splitting
+      hash: md5
+      md5: 43736aae0ece8c2839251bbebcbe101c.dir
+      size: 8893
+      nfiles: 2
+  page/movielens/ML25M/splitting:
+    cmd: quarto render movielens/ML25M/splitting.qmd --profile prerender
+    deps:
+    - path: _quarto-prerender.yml
+      hash: md5
+      md5: fe1f6b982acadfdd675d7bf14a819ab8
+      size: 40
+    - path: _quarto.yml
+      hash: md5
+      md5: 97356d9c9d3ad8ce685d8954d36ec42d
+      size: 1299
+    - path: movielens/ML25M/ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: movielens/ML25M/splitting.qmd
+      hash: md5
+      md5: 893e9f774b85ecc9097d7451f26aeed1
+      size: 1964
+    outs:
+    - path: _freeze/movielens/ML25M/splitting
+      hash: md5
+      md5: 52f60e3026f502bb118466660d8ae357.dir
+      size: 8911
+      nfiles: 2

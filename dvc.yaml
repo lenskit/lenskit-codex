@@ -241,6 +241,15 @@ stages:
       - movielens/ML20M/sweeps/random/IKNN-Implicit.duckdb
     outs:
       - _freeze/movielens/ML20M/iknn-implicit
+  page/movielens/ML20M/splitting:
+    cmd: quarto render movielens/ML20M/splitting.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML20M/splitting.qmd
+      - movielens/ML20M/ratings.duckdb
+    outs:
+      - _freeze/movielens/ML20M/splitting
   page/movielens/ML25M/als-biasedmf:
     cmd: quarto render movielens/ML25M/als-biasedmf.qmd --profile prerender
     deps:
@@ -295,6 +304,15 @@ stages:
       - movielens/ML25M/sweeps/random/IKNN-Implicit.duckdb
     outs:
       - _freeze/movielens/ML25M/iknn-implicit
+  page/movielens/ML25M/splitting:
+    cmd: quarto render movielens/ML25M/splitting.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML25M/splitting.qmd
+      - movielens/ML25M/ratings.duckdb
+    outs:
+      - _freeze/movielens/ML25M/splitting
   page/movielens/ML32M/description:
     cmd: quarto render movielens/ML32M/description.qmd --profile prerender
     deps:
@@ -304,6 +322,15 @@ stages:
       - movielens/ML32M/ratings.duckdb
     outs:
       - _freeze/movielens/ML32M/description
+  page/movielens/ML32M/splitting:
+    cmd: quarto render movielens/ML32M/splitting.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML32M/splitting.qmd
+      - movielens/ML32M/ratings.duckdb
+    outs:
+      - _freeze/movielens/ML32M/splitting
   page/movielens/index:
     cmd: quarto render movielens/index.qmd --profile prerender
     deps:
