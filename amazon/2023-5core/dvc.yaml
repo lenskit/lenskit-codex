@@ -314,79 +314,6 @@ stages:
       - data/Video_Games.test.parquet
       - data/Video_Games.train.parquet
       - data/Video_Games.valid.parquet
-  run-default-BiasedMF_ALS-test:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/BiasedMF_ALS.duckdb BiasedMF_ALS
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
-      outs:
-        - 'runs/default/${item}/test/BiasedMF_ALS.duckdb'
-  run-default-BiasedMF_ALS-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/BiasedMF_ALS.duckdb BiasedMF_ALS
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/BiasedMF_ALS.duckdb'
-  sweep-BiasedMF_ALS:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet BiasedMF_ALS sweeps/${item}/BiasedMF_ALS.duckdb
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'sweeps/${item}/BiasedMF_ALS.duckdb'
-  export-sweep-BiasedMF_ALS:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: 'lenskit-codex sweep export sweeps/${item}/BiasedMF_ALS.duckdb rmse'
-      deps:
-        - 'sweeps/${item}/BiasedMF_ALS.duckdb'
-      outs:
-        - 'sweeps/${item}/BiasedMF_ALS.csv'
-        - 'sweeps/${item}/BiasedMF_ALS.json':
-            cache: false
-  run-sweep-best-BiasedMF_ALS-test:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/BiasedMF_ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/BiasedMF_ALS.duckdb BiasedMF_ALS
-      deps:
-        - 'sweeps/${item}/BiasedMF_ALS.json'
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
-      outs:
-        - 'runs/sweep-best/${item}/test/BiasedMF_ALS.duckdb'
   run-default-Bias-test:
     foreach:
       - CDs_and_Vinyl
@@ -533,298 +460,6 @@ stages:
         - 'data/${item}.test.parquet'
       outs:
         - 'runs/sweep-best/${item}/test/HPF.duckdb'
-  run-default-IKNN_Explicit-test:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN_Explicit.duckdb IKNN_Explicit
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
-      outs:
-        - 'runs/default/${item}/test/IKNN_Explicit.duckdb'
-  run-default-IKNN_Explicit-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN_Explicit.duckdb IKNN_Explicit
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/IKNN_Explicit.duckdb'
-  sweep-IKNN_Explicit:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet IKNN_Explicit sweeps/${item}/IKNN_Explicit.duckdb
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'sweeps/${item}/IKNN_Explicit.duckdb'
-  export-sweep-IKNN_Explicit:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: 'lenskit-codex sweep export sweeps/${item}/IKNN_Explicit.duckdb rmse'
-      deps:
-        - 'sweeps/${item}/IKNN_Explicit.duckdb'
-      outs:
-        - 'sweeps/${item}/IKNN_Explicit.csv'
-        - 'sweeps/${item}/IKNN_Explicit.json':
-            cache: false
-  run-sweep-best-IKNN_Explicit-test:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/IKNN_Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN_Explicit.duckdb IKNN_Explicit
-      deps:
-        - 'sweeps/${item}/IKNN_Explicit.json'
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
-      outs:
-        - 'runs/sweep-best/${item}/test/IKNN_Explicit.duckdb'
-  run-default-IKNN_Implicit-test:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN_Implicit.duckdb IKNN_Implicit
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
-      outs:
-        - 'runs/default/${item}/test/IKNN_Implicit.duckdb'
-  run-default-IKNN_Implicit-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN_Implicit.duckdb IKNN_Implicit
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/IKNN_Implicit.duckdb'
-  sweep-IKNN_Implicit:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet IKNN_Implicit sweeps/${item}/IKNN_Implicit.duckdb
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'sweeps/${item}/IKNN_Implicit.duckdb'
-  export-sweep-IKNN_Implicit:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: 'lenskit-codex sweep export sweeps/${item}/IKNN_Implicit.duckdb ndcg'
-      deps:
-        - 'sweeps/${item}/IKNN_Implicit.duckdb'
-      outs:
-        - 'sweeps/${item}/IKNN_Implicit.csv'
-        - 'sweeps/${item}/IKNN_Implicit.json':
-            cache: false
-  run-sweep-best-IKNN_Implicit-test:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/IKNN_Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN_Implicit.duckdb IKNN_Implicit
-      deps:
-        - 'sweeps/${item}/IKNN_Implicit.json'
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
-      outs:
-        - 'runs/sweep-best/${item}/test/IKNN_Implicit.duckdb'
-  run-default-Implicit_BPR-test:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Implicit_BPR.duckdb Implicit_BPR
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
-      outs:
-        - 'runs/default/${item}/test/Implicit_BPR.duckdb'
-  run-default-Implicit_BPR-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Implicit_BPR.duckdb Implicit_BPR
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/Implicit_BPR.duckdb'
-  sweep-Implicit_BPR:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet Implicit_BPR sweeps/${item}/Implicit_BPR.duckdb
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'sweeps/${item}/Implicit_BPR.duckdb'
-  export-sweep-Implicit_BPR:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: 'lenskit-codex sweep export sweeps/${item}/Implicit_BPR.duckdb ndcg'
-      deps:
-        - 'sweeps/${item}/Implicit_BPR.duckdb'
-      outs:
-        - 'sweeps/${item}/Implicit_BPR.csv'
-        - 'sweeps/${item}/Implicit_BPR.json':
-            cache: false
-  run-sweep-best-Implicit_BPR-test:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/Implicit_BPR.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/Implicit_BPR.duckdb Implicit_BPR
-      deps:
-        - 'sweeps/${item}/Implicit_BPR.json'
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
-      outs:
-        - 'runs/sweep-best/${item}/test/Implicit_BPR.duckdb'
-  run-default-ImplicitMF_ALS-test:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/ImplicitMF_ALS.duckdb ImplicitMF_ALS
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
-      outs:
-        - 'runs/default/${item}/test/ImplicitMF_ALS.duckdb'
-  run-default-ImplicitMF_ALS-valid:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/ImplicitMF_ALS.duckdb ImplicitMF_ALS
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'runs/default/${item}/valid/ImplicitMF_ALS.duckdb'
-  sweep-ImplicitMF_ALS:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet ImplicitMF_ALS sweeps/${item}/ImplicitMF_ALS.duckdb
-      deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-      outs:
-        - 'sweeps/${item}/ImplicitMF_ALS.duckdb'
-  export-sweep-ImplicitMF_ALS:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: 'lenskit-codex sweep export sweeps/${item}/ImplicitMF_ALS.duckdb ndcg'
-      deps:
-        - 'sweeps/${item}/ImplicitMF_ALS.duckdb'
-      outs:
-        - 'sweeps/${item}/ImplicitMF_ALS.csv'
-        - 'sweeps/${item}/ImplicitMF_ALS.json':
-            cache: false
-  run-sweep-best-ImplicitMF_ALS-test:
-    foreach:
-      - CDs_and_Vinyl
-      - Musical_Instruments
-      - Software
-      - Video_Games
-    do:
-      cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/ImplicitMF_ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/ImplicitMF_ALS.duckdb ImplicitMF_ALS
-      deps:
-        - 'sweeps/${item}/ImplicitMF_ALS.json'
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
-      outs:
-        - 'runs/sweep-best/${item}/test/ImplicitMF_ALS.duckdb'
   run-default-Popular-test:
     foreach:
       - CDs_and_Vinyl
@@ -854,7 +489,7 @@ stages:
         - 'data/${item}.valid.parquet'
       outs:
         - 'runs/default/${item}/valid/Popular.duckdb'
-  run-default-UKNN_Explicit-test:
+  run-default-BiasedMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -862,14 +497,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN_Explicit.duckdb UKNN_Explicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/BiasedMF-ALS.duckdb BiasedMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/UKNN_Explicit.duckdb'
-  run-default-UKNN_Explicit-valid:
+        - 'runs/default/${item}/test/BiasedMF-ALS.duckdb'
+  run-default-BiasedMF-ALS-valid:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -877,13 +512,13 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN_Explicit.duckdb UKNN_Explicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/BiasedMF-ALS.duckdb BiasedMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/UKNN_Explicit.duckdb'
-  sweep-UKNN_Explicit:
+        - 'runs/default/${item}/valid/BiasedMF-ALS.duckdb'
+  sweep-BiasedMF-ALS:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -891,27 +526,27 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet UKNN_Explicit sweeps/${item}/UKNN_Explicit.duckdb
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet BiasedMF-ALS sweeps/${item}/BiasedMF-ALS.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'sweeps/${item}/UKNN_Explicit.duckdb'
-  export-sweep-UKNN_Explicit:
+        - 'sweeps/${item}/BiasedMF-ALS.duckdb'
+  export-sweep-BiasedMF-ALS:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
       - Software
       - Video_Games
     do:
-      cmd: 'lenskit-codex sweep export sweeps/${item}/UKNN_Explicit.duckdb rmse'
+      cmd: 'lenskit-codex sweep export sweeps/${item}/BiasedMF-ALS.duckdb rmse'
       deps:
-        - 'sweeps/${item}/UKNN_Explicit.duckdb'
+        - 'sweeps/${item}/BiasedMF-ALS.duckdb'
       outs:
-        - 'sweeps/${item}/UKNN_Explicit.csv'
-        - 'sweeps/${item}/UKNN_Explicit.json':
+        - 'sweeps/${item}/BiasedMF-ALS.csv'
+        - 'sweeps/${item}/BiasedMF-ALS.json':
             cache: false
-  run-sweep-best-UKNN_Explicit-test:
+  run-sweep-best-BiasedMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -919,15 +554,15 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/UKNN_Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN_Explicit.duckdb UKNN_Explicit
+        lenskit-codex generate --param-file sweeps/${item}/BiasedMF-ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/BiasedMF-ALS.duckdb BiasedMF-ALS
       deps:
-        - 'sweeps/${item}/UKNN_Explicit.json'
+        - 'sweeps/${item}/BiasedMF-ALS.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/UKNN_Explicit.duckdb'
-  run-default-UKNN_Implicit-test:
+        - 'runs/sweep-best/${item}/test/BiasedMF-ALS.duckdb'
+  run-default-IKNN-Explicit-test:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -935,14 +570,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN_Implicit.duckdb UKNN_Implicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Explicit.duckdb IKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/UKNN_Implicit.duckdb'
-  run-default-UKNN_Implicit-valid:
+        - 'runs/default/${item}/test/IKNN-Explicit.duckdb'
+  run-default-IKNN-Explicit-valid:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -950,13 +585,13 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN_Implicit.duckdb UKNN_Implicit
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Explicit.duckdb IKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/UKNN_Implicit.duckdb'
-  sweep-UKNN_Implicit:
+        - 'runs/default/${item}/valid/IKNN-Explicit.duckdb'
+  sweep-IKNN-Explicit:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -964,27 +599,27 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet UKNN_Implicit sweeps/${item}/UKNN_Implicit.duckdb
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet IKNN-Explicit sweeps/${item}/IKNN-Explicit.duckdb
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'sweeps/${item}/UKNN_Implicit.duckdb'
-  export-sweep-UKNN_Implicit:
+        - 'sweeps/${item}/IKNN-Explicit.duckdb'
+  export-sweep-IKNN-Explicit:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
       - Software
       - Video_Games
     do:
-      cmd: 'lenskit-codex sweep export sweeps/${item}/UKNN_Implicit.duckdb ndcg'
+      cmd: 'lenskit-codex sweep export sweeps/${item}/IKNN-Explicit.duckdb rmse'
       deps:
-        - 'sweeps/${item}/UKNN_Implicit.duckdb'
+        - 'sweeps/${item}/IKNN-Explicit.duckdb'
       outs:
-        - 'sweeps/${item}/UKNN_Implicit.csv'
-        - 'sweeps/${item}/UKNN_Implicit.json':
+        - 'sweeps/${item}/IKNN-Explicit.csv'
+        - 'sweeps/${item}/IKNN-Explicit.json':
             cache: false
-  run-sweep-best-UKNN_Implicit-test:
+  run-sweep-best-IKNN-Explicit-test:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -992,14 +627,379 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/UKNN_Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN_Implicit.duckdb UKNN_Implicit
+        lenskit-codex generate --param-file sweeps/${item}/IKNN-Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN-Explicit.duckdb IKNN-Explicit
       deps:
-        - 'sweeps/${item}/UKNN_Implicit.json'
+        - 'sweeps/${item}/IKNN-Explicit.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/UKNN_Implicit.duckdb'
+        - 'runs/sweep-best/${item}/test/IKNN-Explicit.duckdb'
+  run-default-IKNN-Implicit-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Implicit.duckdb IKNN-Implicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/test/IKNN-Implicit.duckdb'
+  run-default-IKNN-Implicit-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Implicit.duckdb IKNN-Implicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/IKNN-Implicit.duckdb'
+  sweep-IKNN-Implicit:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet IKNN-Implicit sweeps/${item}/IKNN-Implicit.duckdb
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/IKNN-Implicit.duckdb'
+  export-sweep-IKNN-Implicit:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: 'lenskit-codex sweep export sweeps/${item}/IKNN-Implicit.duckdb ndcg'
+      deps:
+        - 'sweeps/${item}/IKNN-Implicit.duckdb'
+      outs:
+        - 'sweeps/${item}/IKNN-Implicit.csv'
+        - 'sweeps/${item}/IKNN-Implicit.json':
+            cache: false
+  run-sweep-best-IKNN-Implicit-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --param-file sweeps/${item}/IKNN-Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN-Implicit.duckdb IKNN-Implicit
+      deps:
+        - 'sweeps/${item}/IKNN-Implicit.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/IKNN-Implicit.duckdb'
+  run-default-UKNN-Explicit-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN-Explicit.duckdb UKNN-Explicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/test/UKNN-Explicit.duckdb'
+  run-default-UKNN-Explicit-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Explicit.duckdb UKNN-Explicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/UKNN-Explicit.duckdb'
+  sweep-UKNN-Explicit:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet UKNN-Explicit sweeps/${item}/UKNN-Explicit.duckdb
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/UKNN-Explicit.duckdb'
+  export-sweep-UKNN-Explicit:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: 'lenskit-codex sweep export sweeps/${item}/UKNN-Explicit.duckdb rmse'
+      deps:
+        - 'sweeps/${item}/UKNN-Explicit.duckdb'
+      outs:
+        - 'sweeps/${item}/UKNN-Explicit.csv'
+        - 'sweeps/${item}/UKNN-Explicit.json':
+            cache: false
+  run-sweep-best-UKNN-Explicit-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --param-file sweeps/${item}/UKNN-Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN-Explicit.duckdb UKNN-Explicit
+      deps:
+        - 'sweeps/${item}/UKNN-Explicit.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/UKNN-Explicit.duckdb'
+  run-default-UKNN-Implicit-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN-Implicit.duckdb UKNN-Implicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/test/UKNN-Implicit.duckdb'
+  run-default-UKNN-Implicit-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Implicit.duckdb UKNN-Implicit
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/UKNN-Implicit.duckdb'
+  sweep-UKNN-Implicit:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet UKNN-Implicit sweeps/${item}/UKNN-Implicit.duckdb
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/UKNN-Implicit.duckdb'
+  export-sweep-UKNN-Implicit:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: 'lenskit-codex sweep export sweeps/${item}/UKNN-Implicit.duckdb ndcg'
+      deps:
+        - 'sweeps/${item}/UKNN-Implicit.duckdb'
+      outs:
+        - 'sweeps/${item}/UKNN-Implicit.csv'
+        - 'sweeps/${item}/UKNN-Implicit.json':
+            cache: false
+  run-sweep-best-UKNN-Implicit-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --param-file sweeps/${item}/UKNN-Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN-Implicit.duckdb UKNN-Implicit
+      deps:
+        - 'sweeps/${item}/UKNN-Implicit.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/UKNN-Implicit.duckdb'
+  run-default-ImplicitMF-ALS-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/test/ImplicitMF-ALS.duckdb'
+  run-default-ImplicitMF-ALS-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/ImplicitMF-ALS.duckdb'
+  sweep-ImplicitMF-ALS:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet ImplicitMF-ALS sweeps/${item}/ImplicitMF-ALS.duckdb
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/ImplicitMF-ALS.duckdb'
+  export-sweep-ImplicitMF-ALS:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: 'lenskit-codex sweep export sweeps/${item}/ImplicitMF-ALS.duckdb ndcg'
+      deps:
+        - 'sweeps/${item}/ImplicitMF-ALS.duckdb'
+      outs:
+        - 'sweeps/${item}/ImplicitMF-ALS.csv'
+        - 'sweeps/${item}/ImplicitMF-ALS.json':
+            cache: false
+  run-sweep-best-ImplicitMF-ALS-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --param-file sweeps/${item}/ImplicitMF-ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      deps:
+        - 'sweeps/${item}/ImplicitMF-ALS.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/ImplicitMF-ALS.duckdb'
+  run-default-Implicit-BPR-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Implicit-BPR.duckdb Implicit-BPR
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/default/${item}/test/Implicit-BPR.duckdb'
+  run-default-Implicit-BPR-valid:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Implicit-BPR.duckdb Implicit-BPR
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'runs/default/${item}/valid/Implicit-BPR.duckdb'
+  sweep-Implicit-BPR:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex sweep run -n 1000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet Implicit-BPR sweeps/${item}/Implicit-BPR.duckdb
+      deps:
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+      outs:
+        - 'sweeps/${item}/Implicit-BPR.duckdb'
+  export-sweep-Implicit-BPR:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: 'lenskit-codex sweep export sweeps/${item}/Implicit-BPR.duckdb ndcg'
+      deps:
+        - 'sweeps/${item}/Implicit-BPR.duckdb'
+      outs:
+        - 'sweeps/${item}/Implicit-BPR.csv'
+        - 'sweeps/${item}/Implicit-BPR.json':
+            cache: false
+  run-sweep-best-Implicit-BPR-test:
+    foreach:
+      - CDs_and_Vinyl
+      - Musical_Instruments
+      - Software
+      - Video_Games
+    do:
+      cmd: >-
+        lenskit-codex generate --param-file sweeps/${item}/Implicit-BPR.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/Implicit-BPR.duckdb Implicit-BPR
+      deps:
+        - 'sweeps/${item}/Implicit-BPR.json'
+        - 'data/${item}.train.parquet'
+        - 'data/${item}.valid.parquet'
+        - 'data/${item}.test.parquet'
+      outs:
+        - 'runs/sweep-best/${item}/test/Implicit-BPR.duckdb'
   export-qrels:
     foreach:
       - CDs_and_Vinyl.test
@@ -1018,86 +1018,86 @@ stages:
         - 'data/${item}.qrels.gz'
   export-default-runs:
     foreach:
-      - runs/default/CDs_and_Vinyl/valid/BiasedMF_ALS
-      - runs/default/CDs_and_Vinyl/test/BiasedMF_ALS
       - runs/default/CDs_and_Vinyl/valid/Bias
       - runs/default/CDs_and_Vinyl/test/Bias
       - runs/default/CDs_and_Vinyl/valid/HPF
       - runs/default/CDs_and_Vinyl/test/HPF
-      - runs/default/CDs_and_Vinyl/valid/IKNN_Explicit
-      - runs/default/CDs_and_Vinyl/test/IKNN_Explicit
-      - runs/default/CDs_and_Vinyl/valid/IKNN_Implicit
-      - runs/default/CDs_and_Vinyl/test/IKNN_Implicit
-      - runs/default/CDs_and_Vinyl/valid/Implicit_BPR
-      - runs/default/CDs_and_Vinyl/test/Implicit_BPR
-      - runs/default/CDs_and_Vinyl/valid/ImplicitMF_ALS
-      - runs/default/CDs_and_Vinyl/test/ImplicitMF_ALS
       - runs/default/CDs_and_Vinyl/valid/Popular
       - runs/default/CDs_and_Vinyl/test/Popular
-      - runs/default/CDs_and_Vinyl/valid/UKNN_Explicit
-      - runs/default/CDs_and_Vinyl/test/UKNN_Explicit
-      - runs/default/CDs_and_Vinyl/valid/UKNN_Implicit
-      - runs/default/CDs_and_Vinyl/test/UKNN_Implicit
-      - runs/default/Musical_Instruments/valid/BiasedMF_ALS
-      - runs/default/Musical_Instruments/test/BiasedMF_ALS
+      - runs/default/CDs_and_Vinyl/valid/BiasedMF-ALS
+      - runs/default/CDs_and_Vinyl/test/BiasedMF-ALS
+      - runs/default/CDs_and_Vinyl/valid/IKNN-Explicit
+      - runs/default/CDs_and_Vinyl/test/IKNN-Explicit
+      - runs/default/CDs_and_Vinyl/valid/IKNN-Implicit
+      - runs/default/CDs_and_Vinyl/test/IKNN-Implicit
+      - runs/default/CDs_and_Vinyl/valid/UKNN-Explicit
+      - runs/default/CDs_and_Vinyl/test/UKNN-Explicit
+      - runs/default/CDs_and_Vinyl/valid/UKNN-Implicit
+      - runs/default/CDs_and_Vinyl/test/UKNN-Implicit
+      - runs/default/CDs_and_Vinyl/valid/ImplicitMF-ALS
+      - runs/default/CDs_and_Vinyl/test/ImplicitMF-ALS
+      - runs/default/CDs_and_Vinyl/valid/Implicit-BPR
+      - runs/default/CDs_and_Vinyl/test/Implicit-BPR
       - runs/default/Musical_Instruments/valid/Bias
       - runs/default/Musical_Instruments/test/Bias
       - runs/default/Musical_Instruments/valid/HPF
       - runs/default/Musical_Instruments/test/HPF
-      - runs/default/Musical_Instruments/valid/IKNN_Explicit
-      - runs/default/Musical_Instruments/test/IKNN_Explicit
-      - runs/default/Musical_Instruments/valid/IKNN_Implicit
-      - runs/default/Musical_Instruments/test/IKNN_Implicit
-      - runs/default/Musical_Instruments/valid/Implicit_BPR
-      - runs/default/Musical_Instruments/test/Implicit_BPR
-      - runs/default/Musical_Instruments/valid/ImplicitMF_ALS
-      - runs/default/Musical_Instruments/test/ImplicitMF_ALS
       - runs/default/Musical_Instruments/valid/Popular
       - runs/default/Musical_Instruments/test/Popular
-      - runs/default/Musical_Instruments/valid/UKNN_Explicit
-      - runs/default/Musical_Instruments/test/UKNN_Explicit
-      - runs/default/Musical_Instruments/valid/UKNN_Implicit
-      - runs/default/Musical_Instruments/test/UKNN_Implicit
-      - runs/default/Software/valid/BiasedMF_ALS
-      - runs/default/Software/test/BiasedMF_ALS
+      - runs/default/Musical_Instruments/valid/BiasedMF-ALS
+      - runs/default/Musical_Instruments/test/BiasedMF-ALS
+      - runs/default/Musical_Instruments/valid/IKNN-Explicit
+      - runs/default/Musical_Instruments/test/IKNN-Explicit
+      - runs/default/Musical_Instruments/valid/IKNN-Implicit
+      - runs/default/Musical_Instruments/test/IKNN-Implicit
+      - runs/default/Musical_Instruments/valid/UKNN-Explicit
+      - runs/default/Musical_Instruments/test/UKNN-Explicit
+      - runs/default/Musical_Instruments/valid/UKNN-Implicit
+      - runs/default/Musical_Instruments/test/UKNN-Implicit
+      - runs/default/Musical_Instruments/valid/ImplicitMF-ALS
+      - runs/default/Musical_Instruments/test/ImplicitMF-ALS
+      - runs/default/Musical_Instruments/valid/Implicit-BPR
+      - runs/default/Musical_Instruments/test/Implicit-BPR
       - runs/default/Software/valid/Bias
       - runs/default/Software/test/Bias
       - runs/default/Software/valid/HPF
       - runs/default/Software/test/HPF
-      - runs/default/Software/valid/IKNN_Explicit
-      - runs/default/Software/test/IKNN_Explicit
-      - runs/default/Software/valid/IKNN_Implicit
-      - runs/default/Software/test/IKNN_Implicit
-      - runs/default/Software/valid/Implicit_BPR
-      - runs/default/Software/test/Implicit_BPR
-      - runs/default/Software/valid/ImplicitMF_ALS
-      - runs/default/Software/test/ImplicitMF_ALS
       - runs/default/Software/valid/Popular
       - runs/default/Software/test/Popular
-      - runs/default/Software/valid/UKNN_Explicit
-      - runs/default/Software/test/UKNN_Explicit
-      - runs/default/Software/valid/UKNN_Implicit
-      - runs/default/Software/test/UKNN_Implicit
-      - runs/default/Video_Games/valid/BiasedMF_ALS
-      - runs/default/Video_Games/test/BiasedMF_ALS
+      - runs/default/Software/valid/BiasedMF-ALS
+      - runs/default/Software/test/BiasedMF-ALS
+      - runs/default/Software/valid/IKNN-Explicit
+      - runs/default/Software/test/IKNN-Explicit
+      - runs/default/Software/valid/IKNN-Implicit
+      - runs/default/Software/test/IKNN-Implicit
+      - runs/default/Software/valid/UKNN-Explicit
+      - runs/default/Software/test/UKNN-Explicit
+      - runs/default/Software/valid/UKNN-Implicit
+      - runs/default/Software/test/UKNN-Implicit
+      - runs/default/Software/valid/ImplicitMF-ALS
+      - runs/default/Software/test/ImplicitMF-ALS
+      - runs/default/Software/valid/Implicit-BPR
+      - runs/default/Software/test/Implicit-BPR
       - runs/default/Video_Games/valid/Bias
       - runs/default/Video_Games/test/Bias
       - runs/default/Video_Games/valid/HPF
       - runs/default/Video_Games/test/HPF
-      - runs/default/Video_Games/valid/IKNN_Explicit
-      - runs/default/Video_Games/test/IKNN_Explicit
-      - runs/default/Video_Games/valid/IKNN_Implicit
-      - runs/default/Video_Games/test/IKNN_Implicit
-      - runs/default/Video_Games/valid/Implicit_BPR
-      - runs/default/Video_Games/test/Implicit_BPR
-      - runs/default/Video_Games/valid/ImplicitMF_ALS
-      - runs/default/Video_Games/test/ImplicitMF_ALS
       - runs/default/Video_Games/valid/Popular
       - runs/default/Video_Games/test/Popular
-      - runs/default/Video_Games/valid/UKNN_Explicit
-      - runs/default/Video_Games/test/UKNN_Explicit
-      - runs/default/Video_Games/valid/UKNN_Implicit
-      - runs/default/Video_Games/test/UKNN_Implicit
+      - runs/default/Video_Games/valid/BiasedMF-ALS
+      - runs/default/Video_Games/test/BiasedMF-ALS
+      - runs/default/Video_Games/valid/IKNN-Explicit
+      - runs/default/Video_Games/test/IKNN-Explicit
+      - runs/default/Video_Games/valid/IKNN-Implicit
+      - runs/default/Video_Games/test/IKNN-Implicit
+      - runs/default/Video_Games/valid/UKNN-Explicit
+      - runs/default/Video_Games/test/UKNN-Explicit
+      - runs/default/Video_Games/valid/UKNN-Implicit
+      - runs/default/Video_Games/test/UKNN-Implicit
+      - runs/default/Video_Games/valid/ImplicitMF-ALS
+      - runs/default/Video_Games/test/ImplicitMF-ALS
+      - runs/default/Video_Games/valid/Implicit-BPR
+      - runs/default/Video_Games/test/Implicit-BPR
     do:
       cmd: 'lenskit-codex trec export runs ${item}.duckdb ${item}.run.gz'
       deps:
