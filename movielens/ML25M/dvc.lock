@@ -53,12 +53,12 @@ stages:
       md5: 6dcc1794a0e0d90e2cdeb756c84d55b1
       size: 5255168
   split-random:
-    cmd: python ../../../action.py split random.toml
+    cmd: lenskit-codex split random.toml
     deps:
     - path: ../ratings.duckdb
       hash: md5
-      md5: 9463b4c41e34c62316f2518ffa78b1bd
-      size: 299642880
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
     - path: random.toml
       hash: md5
       md5: 276ffa520abcf2243c9ffee115774a98
@@ -69,8 +69,8 @@ stages:
     outs:
     - path: random.duckdb
       hash: md5
-      md5: 92e096f49f7567248cc05f3da698da1b
-      size: 4730880
+      md5: eeaed1b39ae10a1f857f71871d334914
+      size: 6828032
   sweep-random-Bias:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
       Bias sweeps/random/Bias.duckdb
@@ -192,7 +192,7 @@ stages:
       md5: 998ba5aa3fe3bef41fe099d62e306c55
       size: 259534848
   import:
-    cmd: python ../../action.py movielens import --stat-sql=../ml-stats.sql ml-25m.zip
+    cmd: lenskit-codex movielens import --stat-sql=../ml-stats.sql ml-25m.zip
     deps:
     - path: ../ml-stats.sql
       hash: md5
@@ -205,8 +205,8 @@ stages:
     outs:
     - path: ratings.duckdb
       hash: md5
-      md5: 9463b4c41e34c62316f2518ffa78b1bd
-      size: 299642880
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
   export-random-Bias:
     cmd: python ../../action.py sweep export sweeps/random/Bias.duckdb rmse
     deps:
@@ -496,3 +496,25 @@ stages:
       hash: md5
       md5: 16673391828b328276e351e3628a7f45
       size: 103559168
+  run-random-default-UKNN-Implicit:
+    cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb -o runs/random-default/UKNN-Implicit UKNN-Implicit
+    deps:
+    - path: ../../codex/models/UKNN_Implicit.py
+      hash: md5
+      md5: 1ecc8007e1e350f966afe0f315aca861
+      size: 362
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/random.duckdb
+      hash: md5
+      md5: eeaed1b39ae10a1f857f71871d334914
+      size: 6828032
+    outs:
+    - path: runs/random-default/UKNN-Implicit
+      hash: md5
+      md5: c89c011c87f0fe010c2772c2cf74049c.dir
+      size: 87539337
+      nfiles: 35

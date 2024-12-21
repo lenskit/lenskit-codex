@@ -288,26 +288,27 @@ stages:
       md5: d58675b3abf7d10b9e36d0d3a82746b3
       size: 246
   run-random-default-Bias:
-    cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
-      --ratings=ratings.duckdb -o runs/random-default/Bias.duckdb Bias
+    cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb -o runs/random-default/Bias Bias
     deps:
     - path: ../../codex/models/Bias.py
       hash: md5
-      md5: e35eac761bf892674a6fb8570132e7f1
-      size: 375
+      md5: 117b6cd0fbd71ad6cb3937b8bcf62848
+      size: 382
     - path: ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: splits/random.duckdb
       hash: md5
-      md5: 23c62fcd51a637d1109d93c6341e9ec0
+      md5: 383d2778a4d6f26f1518f2c648049df3
       size: 536576
     outs:
-    - path: runs/random-default/Bias.duckdb
+    - path: runs/random-default/Bias
       hash: md5
-      md5: 00ec41c2c2207f34af27bdadb3d29b11
-      size: 4206592
+      md5: 655ebc76a5f24ba6ab93fc5242cede58.dir
+      size: 2990563
+      nfiles: 67
   run-random-sweep-best-Bias:
     cmd: python ../../action.py generate --param-file=sweeps/random/Bias.json --test-part=-0
       --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/Bias.duckdb
@@ -335,26 +336,27 @@ stages:
       md5: 510092cd795b8f38f7893819128c75e5
       size: 4206592
   run-random-default-Popular:
-    cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
-      --ratings=ratings.duckdb -o runs/random-default/Popular.duckdb Popular
+    cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb -o runs/random-default/Popular Popular
     deps:
     - path: ../../codex/models/Popular.py
       hash: md5
-      md5: 6e8ad3acdea3e26808c9796209279f35
-      size: 224
+      md5: 552235616ae50fa42c08566ddc050c59
+      size: 215
     - path: ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: splits/random.duckdb
       hash: md5
-      md5: 23c62fcd51a637d1109d93c6341e9ec0
+      md5: 383d2778a4d6f26f1518f2c648049df3
       size: 536576
     outs:
-    - path: runs/random-default/Popular.duckdb
+    - path: runs/random-default/Popular
       hash: md5
-      md5: ea613f15de821f6c7bd06a13c00b5bf3
-      size: 3944448
+      md5: 0f2eca38f94fd9a422fd98c3b9d88ffd.dir
+      size: 775614
+      nfiles: 35
   run-random-default-BiasedMF-ALS:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
