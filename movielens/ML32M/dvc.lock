@@ -55,3 +55,25 @@ stages:
       hash: md5
       md5: 28811d3c9cca0f3d1606042b4b5321e9
       size: 5517312
+  run-random-default-Popular:
+    cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
+      --ratings=ratings.duckdb -o runs/random-default/Popular Popular
+    deps:
+    - path: ../../models/Popular.toml
+      hash: md5
+      md5: c25817c7ea3901786434261d27af0aad
+      size: 35
+    - path: ratings.duckdb
+      hash: md5
+      md5: a81c61d4b9ee0568294bdec12ad5a7de
+      size: 383004672
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 28811d3c9cca0f3d1606042b4b5321e9
+      size: 5517312
+    outs:
+    - path: runs/random-default/Popular
+      hash: md5
+      md5: 6f8af1a042f598fa9a195af1b6bdea5a.dir
+      size: 12874047
+      nfiles: 35
