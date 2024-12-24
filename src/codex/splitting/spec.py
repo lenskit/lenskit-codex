@@ -1,24 +1,34 @@
 from __future__ import annotations
 
+import datetime as dt
 import tomllib
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Literal
 
 from pydantic import BaseModel
 
 
 class SplitSpec(BaseModel):
     source: str
-    method: Literal["crossfold"]
+    method: Literal["crossfold", "temporal"]
 
-    crossfold: Optional[CrossfoldSpec]
-    holdout: Optional[HoldoutSpec]
+    temporal: TemporalSpec | None = None
+    crossfold: CrossfoldSpec | None = None
+    holdout: HoldoutSpec | None = None
+
+
+class TemporalSpec(BaseModel):
+    """
+    Configuration for a global temporal split.
+    """
+
+    valid: dt.date
+    test: dt.date
 
 
 class CrossfoldSpec(BaseModel):
     method: Literal["users"]
     partitions: int
-    assign_db: str
 
 
 class HoldoutSpec(BaseModel):
