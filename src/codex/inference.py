@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pandas as pd
 import pyarrow as pa
 import ray
 import structlog
@@ -14,7 +15,7 @@ from lenskit import Pipeline, predict, recommend
 from lenskit.data import ItemList, ItemListCollection, UserIDKey
 from lenskit.logging import item_progress
 from lenskit.logging.worker import WorkerLogConfig
-from lenskit.metrics import MAE, NDCG, RBP, RMSE, Hit, RecipRank, call_metric
+from lenskit.metrics import MAE, NDCG, RBP, RMSE, Hit, RecipRank, RunAnalysisResult, call_metric
 from lenskit.parallel.config import ParallelConfig, subprocess_config
 from pyarrow.parquet import ParquetWriter
 from pydantic import JsonValue
@@ -33,13 +34,15 @@ def recommend_and_save(
     pred_output: Path | None,
     metric_collector: NDJSONCollector | None = None,
     meta: dict[str, JsonValue] | None = None,
-) -> None:
+) -> RunAnalysisResult:
     _log.info("sending pipeline to cluster")
     pipe_h = ray.put(pipe)
     del pipe
 
     if meta is None:
         meta = {}
+
+    metric_list = []
 
     with (
         worker_pool(
@@ -56,9 +59,22 @@ def recommend_and_save(
         _log.info("running recommender for %d users (N=%d)", n_users, n_recs)
         with item_progress("generate", n_users) as pb:
             for metrics in pool.map_unordered(_call_actor, test._lists):
+                metric_list.append(metrics)
                 if metric_collector is not None:
                     metric_collector.write_object(meta | metrics)  # type: ignore
                 pb.update()
+
+    df = pd.DataFrame.from_records(metric_list)
+    return RunAnalysisResult(
+        df,
+        pd.Series(),
+        defaults={
+            "RBP": 0,
+            "NDCG": 0,
+            "RecipRank": 0,
+            "Hit": 0,
+        },
+    )
 
 
 def _call_actor(actor, query):

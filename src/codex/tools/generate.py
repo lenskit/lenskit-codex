@@ -2,7 +2,6 @@ from pathlib import Path
 
 import click
 import structlog
-from humanize import naturalsize
 
 from codex.cluster import ensure_cluster_init
 from codex.collect import NDJSONCollector
@@ -10,7 +9,7 @@ from codex.inference import recommend_and_save
 from codex.modelcfg import load_config
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.splitting import SplitSet, load_split_set
-from codex.training import train_and_wrap_model
+from codex.training import train_task
 
 from . import codex
 
@@ -29,6 +28,7 @@ _log = structlog.stdlib.get_logger(__name__)
     default=100,
 )
 @click.option("-o", "--output", type=Path, metavar="N", help="specify output database")
+@click.option("--ds-name", help="name of the dataset")
 @click.option("--split", "split", type=Path, help="path to the split spec (or base file)")
 @click.option(
     "-p",
@@ -42,6 +42,7 @@ def generate(
     config: str | Path,
     output: Path,
     split: Path,
+    ds_name: str | None = None,
     test_part: str | None = None,
     list_length: int = 100,
 ):
@@ -62,11 +63,15 @@ def generate(
     (output / "training.json").unlink(missing_ok=True)
     (output / "inference.json").unlink(missing_ok=True)
 
+    data_info = DataModel(dataset=ds_name, split=split.stem, part=test_part)
     with (
-        load_split_set(split) as split_set,
         CodexTask(
-            label=f"generate {model}", tags=["generate"], scorer=ScorerModel(name=model)
+            label=f"generate {model}",
+            tags=["generate"],
+            scorer=ScorerModel(name=model),
+            data=data_info,
         ) as root_task,
+        load_split_set(split) as split_set,
         NDJSONCollector(output / "user-metrics.ndjson.zst") as metric_out,
     ):
         parts = select_parts(split_set, test_part)
@@ -77,26 +82,7 @@ def generate(
             plog.info("loading data")
             data = split_set.get_part(part)
             instance = mod_cfg.instantiate(cfg_path)
-            plog.info("training model", name=instance.name, config=instance.params)
-            with CodexTask(
-                label=f"train {model}",
-                tags=["train"],
-                reset_hwm=True,
-                scorer=ScorerModel(name=model, config=instance.params),
-                data=DataModel(part=part),
-            ) as task:
-                pipe = train_and_wrap_model(
-                    instance.scorer, data.train, predicts_ratings=mod_cfg.predictor, name=model
-                )
-            task.data.part = part
-
-            plog.debug("run record: %s", task.model_dump_json(indent=2))
-            plog.info(
-                "finished in %.0fs (%.0fs CPU, %s peak RSS)",
-                task.duration,
-                task.cpu_time,
-                naturalsize(task.peak_memory) if task.peak_memory else "unknown",
-            )
+            pipe, task = train_task(instance, data.train, data_info)
             with open(output / "training.json", "a") as jsf:
                 print(task.model_dump_json(), file=jsf)
 
@@ -106,7 +92,7 @@ def generate(
                 tags=["recommend"],
                 reset_hwm=True,
                 scorer=ScorerModel(name=model, config=instance.params),
-                data=DataModel(part=part),
+                data=data_info,
             ) as task:
                 recommend_and_save(
                     pipe,

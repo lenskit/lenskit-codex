@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 import os
 import tomllib
@@ -17,6 +19,7 @@ class ModelInstance(NamedTuple):
     name: str
     scorer: Component
     params: dict[str, JsonValue]
+    config: ModelConfig
 
 
 class ModelConfig(BaseModel, extra="forbid"):
@@ -59,7 +62,7 @@ class ModelConfig(BaseModel, extra="forbid"):
 
         cls = self.scorer_class
         scorer = cls.from_config(params)
-        return ModelInstance(self.name or cls.__name__, scorer, params)
+        return ModelInstance(self.name or cls.__name__, scorer, params, self)
 
 
 def load_config(name: str):

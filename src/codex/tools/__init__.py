@@ -29,7 +29,7 @@ from . import (  # noqa: F401, E402
     generate,
     movielens,
     split,
-    # sweep,
+    sweep,
     test_measure,
     trec,
 )

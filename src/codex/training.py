@@ -1,11 +1,45 @@
-import logging
-
+import structlog
+from humanize import metric, naturalsize
 from lenskit.data import Dataset
 from lenskit.pipeline import Component, Pipeline
 
+from codex.modelcfg import ModelInstance
 from codex.pipeline import base_pipeline
+from codex.runlog import CodexTask, DataModel, ScorerModel
 
-_log = logging.getLogger(__name__)
+_log = structlog.stdlib.get_logger(__name__)
+
+
+def train_task(
+    model: ModelInstance, data: Dataset, data_info: DataModel
+) -> tuple[Pipeline, CodexTask]:
+    log = _log.bind(name=model.name, config=model.params)
+    log.info("training model")
+    with CodexTask(
+        label=f"train {model.name}",
+        tags=["train"],
+        reset_hwm=True,
+        scorer=ScorerModel(name=model.name, config=model.params),
+        data=data_info,
+    ) as task:
+        pipe = train_and_wrap_model(
+            model.scorer,
+            data,
+            predicts_ratings=model.config.predictor,
+            name=model.name,
+        )
+
+    log.debug("run record: %s", task.model_dump_json(indent=2))
+    log.info(
+        "finished in %.0fs (%.0fs CPU, %s, %s peak RSS)",
+        task.duration,
+        task.cpu_time,
+        metric(task.chassis_power / 3600, "W")
+        if task.chassis_power is not None
+        else "power unknown",
+        naturalsize(task.peak_memory) if task.peak_memory else "unknown",
+    )
+    return pipe, task
 
 
 def train_and_wrap_model(

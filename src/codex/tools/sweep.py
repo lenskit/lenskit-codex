@@ -3,24 +3,26 @@ Grid-sweep hyperparameter values.
 """
 
 import json
+import shutil
 import sys
+from itertools import product
 from os import fspath
 from pathlib import Path
-from typing import cast
 
 import click
 import duckdb
-import pandas as pd
-import ray
 import structlog
-from lenskit.pipeline import Trainable
+from lenskit.logging import item_progress
 
-from codex.data import TrainTestData, fixed_tt_data, partition_tt_data
-from codex.inference import run_recommender
-from codex.models import ModelMod, model_module
+from codex.cfgid import config_id
+from codex.cluster import ensure_cluster_init
+from codex.collect import NDJSONCollector
+from codex.inference import recommend_and_save
+from codex.modelcfg import load_config
 from codex.params import param_grid
-from codex.pipeline import base_pipeline
-from codex.results import ResultDB
+from codex.runlog import CodexTask, DataModel, ScorerModel
+from codex.splitting import load_split_set
+from codex.training import train_task
 
 from . import codex
 
@@ -37,75 +39,106 @@ def sweep():
 @click.option(
     "-n", "--list-length", type=int, metavar="N", default=500, help="generate lists of length N"
 )
-@click.option("--ratings", "rating_db", type=Path, metavar="FILE", help="load ratings from FILE")
+@click.option("--split", "split", type=Path, help="path to the split spec (or base file)")
+@click.option("-N", "--ds-name", help="name of the dataset to split")
 @click.option(
-    "--assignments", "assign_db", type=Path, metavar="FILE", help="load test allocations from FILE"
-)
-@click.option(
-    "-p", "--partition", type=int, metavar="N", default=0, help="sweep on test partition N"
-)
-@click.option("--test", "test_file", type=Path, metavar="FILE", help="Parquet file of test data")
-@click.option(
-    "--train",
-    "train_files",
-    type=Path,
-    metavar="FILE",
-    help="Parquet file of training data",
-    multiple=True,
+    "-p",
+    "--test-part",
+    metavar="PART",
+    help="validate on PART",
 )
 @click.argument("MODEL")
 @click.argument("OUT", type=Path)
 def run_sweep(
     model: str,
     out: Path,
-    train_files: list[Path],
-    partition: int,
     list_length: int,
-    test_file: Path | None = None,
-    rating_db: Path | None = None,
-    assign_db: Path | None = None,
+    split: Path,
+    ds_name: str | None = None,
+    test_part: str = "valid",
 ):
-    mod = model_module(model)
+    log = _log.bind(model=model)
+    mod_cfg = load_config(model)
+    if not mod_cfg.sweep:
+        log.error("model is not sweepable")
+        sys.exit(5)
 
-    space = param_grid(mod.sweep_space)
+    space = param_grid(mod_cfg.sweep)
     _log.debug("parameter search space:\n%s", space)
 
-    if test_file:
-        if assign_db or rating_db:
-            _log.error("--train/--test not compatible with alloc options")
-            sys.exit(2)
-        if not train_files:
-            _log.error("--test specified without training data")
-            sys.exit(2)
-
-        data = fixed_tt_data(test_file, train_files)
-
-    elif assign_db:
-        if rating_db is None:
-            _log.error("must specify --ratings with --assignments")
-            sys.exit(2)
-
-        if test_file or train_files:
-            _log.error("--train and --test incompatible with --assignments")
-            sys.exit(2)
-
-        data = partition_tt_data(assign_db, rating_db, partition)
-
-    out.parent.mkdir(exist_ok=True, parents=True)
     if out.exists():
-        _log.warning("%s already exists, removing", out)
-        out.unlink()
+        log.warning("output already exists, removing", out=str(out))
+        shutil.rmtree(out)
+    out.mkdir(exist_ok=True, parents=True)
 
-    ray.init()
-    predict = "predictions" in mod.outputs
+    ensure_cluster_init()
+
+    names = list(mod_cfg.sweep.keys())
+    points = list(product(*mod_cfg.sweep.values()))
+    log.info("sweeping %d points", len(points))
+    data_info = DataModel(dataset=ds_name, split=split.stem, part=test_part)
+
     with (
-        duckdb.connect(fspath(out)) as db,
-        ResultDB(db, store_predictions=predict) as results,
+        item_progress("points", len(points)) as pb,
+        CodexTask(
+            label=f"sweep {model}",
+            tags=["sweep"],
+            scorer=ScorerModel(name=model),
+            data=data_info,
+        ),
+        load_split_set(split) as split_set,
+        NDJSONCollector(out / "run-user-metrics.ndjson.zst") as metric_out,
     ):
-        _log.info("saving run spec table")
-        db.from_df(space).create("run_specs")
+        data = split_set.get_part(test_part)
+        for i, point in enumerate(points, 1):
+            point = dict(zip(names, point))
+            plog = log.bind(**point)
+            run_id = config_id(
+                {
+                    "model": mod_cfg.name,
+                    "dataset": ds_name,
+                    "params": "point",
+                }
+            )
+            plog.info("training and evaluating")
+            mod_inst = mod_cfg.instantiate(point)
+            pipe, tr_task = train_task(mod_inst, data.train, data_info)
+            with open(out / "training.json", "a") as jsf:
+                print(tr_task.model_dump_json(), file=jsf)
 
-        sweep_model(results, data, model, mod, space, list_length)
+            shard = f"run={i}"
+            with CodexTask(
+                label=f"recommend {model}",
+                tags=["recommend"],
+                reset_hwm=True,
+                scorer=ScorerModel(name=model, config=mod_inst.params),
+                data=data_info,
+            ) as test_task:
+                result = recommend_and_save(
+                    pipe,
+                    data.test,
+                    list_length,
+                    out / "recommendations" / shard,
+                    out / "predictions" / shard if mod_cfg.predictor else None,
+                    metric_out,
+                    meta={"run": i},
+                )
+
+            with open(out / "inference.json", "a") as jsf:
+                print(test_task.model_dump_json(), file=jsf)
+
+            with open(out / "runs.json", "a") as jsf:
+                run = {
+                    "run": i,
+                    "run_id": str(run_id),
+                    "train_task": tr_task.model_dump(mode="json"),
+                    "test_task": test_task.model_dump(mode="json"),
+                    "metrics": result.list_summary()["mean"].to_dict(),
+                }
+                print(json.dumps(run), file=jsf)
+
+            plog.info("run finished, RBP=%.4f", result.list_summary().loc["RBP", "mean"])
+            pb.update()
 
 
 @sweep.command("export")
@@ -145,41 +178,3 @@ def export_best_results(database: Path, metric: str):
         assert best_row is not None
         best = dict(zip(top.columns, best_row))
         json_fn.write_text(json.dumps(best, indent=2) + "\n")
-
-
-def sweep_model(
-    results: ResultDB,
-    data: TrainTestData,
-    name: str,
-    mod: ModelMod,
-    space: pd.DataFrame,
-    N: int,
-):
-    log = _log.bind(model=name)
-
-    with data.open_db() as test_db:
-        test = data.test_data(test_db)
-        train = data.train_data(test_db)
-
-    pipe = base_pipeline(name)
-    log.info("training base pipeline")
-    pipe.train(train)
-
-    for point in space.itertuples(index=False):
-        plog = log.bind(**point._asdict())
-        plog.info("preparing for measurement", point)
-        model = mod.from_config(*point[2:])
-        if isinstance(model, Trainable):
-            plog.info("training model", point)
-            model.train(train)
-        pipe.replace_component("scorer", model)
-
-        run = cast(int, point.run)
-        results.add_training(run)
-
-        _log.info("running recommender")
-        for result in run_recommender(pipe, test, N, "predictions" in mod.outputs):
-            results.add_result(run, result)
-
-        _log.info("run finished")
-        results.log_metrics(run)
