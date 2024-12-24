@@ -18,6 +18,7 @@ class SplitSpec(BaseModel):
 class CrossfoldSpec(BaseModel):
     method: Literal["users"]
     partitions: int
+    assign_db: str
 
 
 class HoldoutSpec(BaseModel):
