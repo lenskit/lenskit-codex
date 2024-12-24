@@ -322,13 +322,13 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Bias.duckdb Bias
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Bias Bias
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/Bias.duckdb'
+        - 'runs/default/${item}/test/Bias'
   run-default-Bias-valid:
     foreach:
       - CDs_and_Vinyl
@@ -337,12 +337,12 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Bias.duckdb Bias
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Bias Bias
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/Bias.duckdb'
+        - 'runs/default/${item}/valid/Bias'
   sweep-Bias:
     foreach:
       - CDs_and_Vinyl
@@ -379,14 +379,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/Bias.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/Bias.duckdb Bias
+        lenskit-codex generate --param-file sweeps/${item}/Bias.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/Bias Bias
       deps:
         - 'sweeps/${item}/Bias.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/Bias.duckdb'
+        - 'runs/sweep-best/${item}/test/Bias'
   run-default-HPF-test:
     foreach:
       - CDs_and_Vinyl
@@ -395,13 +395,13 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/HPF.duckdb HPF
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/HPF HPF
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/HPF.duckdb'
+        - 'runs/default/${item}/test/HPF'
   run-default-HPF-valid:
     foreach:
       - CDs_and_Vinyl
@@ -410,12 +410,12 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/HPF.duckdb HPF
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/HPF HPF
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/HPF.duckdb'
+        - 'runs/default/${item}/valid/HPF'
   sweep-HPF:
     foreach:
       - CDs_and_Vinyl
@@ -452,14 +452,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/HPF.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/HPF.duckdb HPF
+        lenskit-codex generate --param-file sweeps/${item}/HPF.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/HPF HPF
       deps:
         - 'sweeps/${item}/HPF.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/HPF.duckdb'
+        - 'runs/sweep-best/${item}/test/HPF'
   run-default-Popular-test:
     foreach:
       - CDs_and_Vinyl
@@ -468,13 +468,13 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/Popular.duckdb Popular
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Popular Popular
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/Popular.duckdb'
+        - 'runs/default/${item}/test/Popular'
   run-default-Popular-valid:
     foreach:
       - CDs_and_Vinyl
@@ -483,12 +483,12 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/Popular.duckdb Popular
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Popular Popular
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/Popular.duckdb'
+        - 'runs/default/${item}/valid/Popular'
   run-default-BiasedMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
@@ -497,13 +497,13 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/BiasedMF-ALS.duckdb BiasedMF-ALS
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/BiasedMF-ALS BiasedMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/BiasedMF-ALS.duckdb'
+        - 'runs/default/${item}/test/BiasedMF-ALS'
   run-default-BiasedMF-ALS-valid:
     foreach:
       - CDs_and_Vinyl
@@ -512,12 +512,12 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/BiasedMF-ALS.duckdb BiasedMF-ALS
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/BiasedMF-ALS BiasedMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/BiasedMF-ALS.duckdb'
+        - 'runs/default/${item}/valid/BiasedMF-ALS'
   sweep-BiasedMF-ALS:
     foreach:
       - CDs_and_Vinyl
@@ -554,14 +554,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/BiasedMF-ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/BiasedMF-ALS.duckdb BiasedMF-ALS
+        lenskit-codex generate --param-file sweeps/${item}/BiasedMF-ALS.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/BiasedMF-ALS BiasedMF-ALS
       deps:
         - 'sweeps/${item}/BiasedMF-ALS.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/BiasedMF-ALS.duckdb'
+        - 'runs/sweep-best/${item}/test/BiasedMF-ALS'
   run-default-IKNN-Explicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -570,13 +570,13 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Explicit.duckdb IKNN-Explicit
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/IKNN-Explicit IKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/IKNN-Explicit.duckdb'
+        - 'runs/default/${item}/test/IKNN-Explicit'
   run-default-IKNN-Explicit-valid:
     foreach:
       - CDs_and_Vinyl
@@ -585,12 +585,12 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Explicit.duckdb IKNN-Explicit
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/IKNN-Explicit IKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/IKNN-Explicit.duckdb'
+        - 'runs/default/${item}/valid/IKNN-Explicit'
   sweep-IKNN-Explicit:
     foreach:
       - CDs_and_Vinyl
@@ -627,14 +627,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/IKNN-Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN-Explicit.duckdb IKNN-Explicit
+        lenskit-codex generate --param-file sweeps/${item}/IKNN-Explicit.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/IKNN-Explicit IKNN-Explicit
       deps:
         - 'sweeps/${item}/IKNN-Explicit.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/IKNN-Explicit.duckdb'
+        - 'runs/sweep-best/${item}/test/IKNN-Explicit'
   run-default-IKNN-Implicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -643,13 +643,13 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/IKNN-Implicit.duckdb IKNN-Implicit
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/IKNN-Implicit IKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/IKNN-Implicit.duckdb'
+        - 'runs/default/${item}/test/IKNN-Implicit'
   run-default-IKNN-Implicit-valid:
     foreach:
       - CDs_and_Vinyl
@@ -658,12 +658,12 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/IKNN-Implicit.duckdb IKNN-Implicit
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/IKNN-Implicit IKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/IKNN-Implicit.duckdb'
+        - 'runs/default/${item}/valid/IKNN-Implicit'
   sweep-IKNN-Implicit:
     foreach:
       - CDs_and_Vinyl
@@ -700,14 +700,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/IKNN-Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/IKNN-Implicit.duckdb IKNN-Implicit
+        lenskit-codex generate --param-file sweeps/${item}/IKNN-Implicit.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/IKNN-Implicit IKNN-Implicit
       deps:
         - 'sweeps/${item}/IKNN-Implicit.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/IKNN-Implicit.duckdb'
+        - 'runs/sweep-best/${item}/test/IKNN-Implicit'
   run-default-UKNN-Explicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -716,13 +716,13 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN-Explicit.duckdb UKNN-Explicit
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/UKNN-Explicit UKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/UKNN-Explicit.duckdb'
+        - 'runs/default/${item}/test/UKNN-Explicit'
   run-default-UKNN-Explicit-valid:
     foreach:
       - CDs_and_Vinyl
@@ -731,12 +731,12 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Explicit.duckdb UKNN-Explicit
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/UKNN-Explicit UKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/UKNN-Explicit.duckdb'
+        - 'runs/default/${item}/valid/UKNN-Explicit'
   sweep-UKNN-Explicit:
     foreach:
       - CDs_and_Vinyl
@@ -773,14 +773,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/UKNN-Explicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN-Explicit.duckdb UKNN-Explicit
+        lenskit-codex generate --param-file sweeps/${item}/UKNN-Explicit.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/UKNN-Explicit UKNN-Explicit
       deps:
         - 'sweeps/${item}/UKNN-Explicit.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/UKNN-Explicit.duckdb'
+        - 'runs/sweep-best/${item}/test/UKNN-Explicit'
   run-default-UKNN-Implicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -789,13 +789,13 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/UKNN-Implicit.duckdb UKNN-Implicit
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/UKNN-Implicit UKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/UKNN-Implicit.duckdb'
+        - 'runs/default/${item}/test/UKNN-Implicit'
   run-default-UKNN-Implicit-valid:
     foreach:
       - CDs_and_Vinyl
@@ -804,12 +804,12 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/UKNN-Implicit.duckdb UKNN-Implicit
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/UKNN-Implicit UKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/UKNN-Implicit.duckdb'
+        - 'runs/default/${item}/valid/UKNN-Implicit'
   sweep-UKNN-Implicit:
     foreach:
       - CDs_and_Vinyl
@@ -846,14 +846,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/UKNN-Implicit.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/UKNN-Implicit.duckdb UKNN-Implicit
+        lenskit-codex generate --param-file sweeps/${item}/UKNN-Implicit.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/UKNN-Implicit UKNN-Implicit
       deps:
         - 'sweeps/${item}/UKNN-Implicit.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/UKNN-Implicit.duckdb'
+        - 'runs/sweep-best/${item}/test/UKNN-Implicit'
   run-default-ImplicitMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
@@ -862,13 +862,13 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/default/${item}/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/ImplicitMF-ALS ImplicitMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/ImplicitMF-ALS.duckdb'
+        - 'runs/default/${item}/test/ImplicitMF-ALS'
   run-default-ImplicitMF-ALS-valid:
     foreach:
       - CDs_and_Vinyl
@@ -877,12 +877,12 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --train=data/${item}.train.parquet --test=data/${item}.valid.parquet -o runs/default/${item}/valid/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/ImplicitMF-ALS ImplicitMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/ImplicitMF-ALS.duckdb'
+        - 'runs/default/${item}/valid/ImplicitMF-ALS'
   sweep-ImplicitMF-ALS:
     foreach:
       - CDs_and_Vinyl
@@ -919,14 +919,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/ImplicitMF-ALS.json -n 2000 --train=data/${item}.train.parquet --train=data/${item}.valid.parquet --test=data/${item}.test.parquet -o runs/sweep-best/${item}/test/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+        lenskit-codex generate --param-file sweeps/${item}/ImplicitMF-ALS.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/ImplicitMF-ALS ImplicitMF-ALS
       deps:
         - 'sweeps/${item}/ImplicitMF-ALS.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/ImplicitMF-ALS.duckdb'
+        - 'runs/sweep-best/${item}/test/ImplicitMF-ALS'
   export-qrels:
     foreach:
       - CDs_and_Vinyl.test

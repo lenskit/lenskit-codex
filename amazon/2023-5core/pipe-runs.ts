@@ -11,11 +11,9 @@ function runStage(
   test: "test" | "valid",
   config: "default" | "sweep-best" = "default",
 ): Stage {
-  let trainFiles = ["data/${item}.train.parquet"];
-  let testFile = "data/${item}.valid.parquet";
+  let depFiles = ["data/${item}.train.parquet", "data/${item}.valid.parquet"];
   if (test == "test") {
-    trainFiles.push(testFile);
-    testFile = "data/${item}.test.parquet";
+    depFiles.push("data/${item}.test.parquet");
   }
 
   let cfgArgs = [];
@@ -38,17 +36,16 @@ function runStage(
         "generate",
         ...cfgArgs,
         "-n 2000",
-        ...trainFiles.map((f) => `--train=${f}`),
-        `--test=${testFile}`,
-        `-o runs/${config}/\${item}/${test}/${name}.duckdb`,
+        "--split=data/${item}",
+        `--test-part=${test}`,
+        `-o runs/${config}/\${item}/${test}/${name}`,
         name,
       ),
       deps: [
         ...cfgDeps,
-        ...trainFiles,
-        testFile,
+        ...depFiles,
       ],
-      outs: [`runs/${config}/\${item}/${test}/${name}.duckdb`],
+      outs: [`runs/${config}/\${item}/${test}/${name}`],
     },
   };
 }

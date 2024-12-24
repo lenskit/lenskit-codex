@@ -769,7 +769,7 @@ stages:
       md5: 270651d018a2c86258b257ab874072cb
       size: 987770880
   scan-bench-users:
-    cmd: python ../../action.py amazon collect-ids --user -D user-ids.duckdb data
+    cmd: lenskit-codex amazon collect-ids --user -D user-ids.duckdb data
     deps:
     - path: data/Arts_Crafts_and_Sewing.test.csv.gz
       hash: md5
@@ -1062,10 +1062,10 @@ stages:
     outs:
     - path: user-ids.duckdb
       hash: md5
-      md5: c4f9533b3415850754f8729952041bb7
-      size: 1439969280
+      md5: 8f6981818facbf4bd273062ba1c58478
+      size: 881078272
   scan-bench-items:
-    cmd: python ../../action.py amazon collect-ids --item -D item-ids.duckdb data
+    cmd: lenskit-codex amazon collect-ids --item -D item-ids.duckdb data
     deps:
     - path: data/Arts_Crafts_and_Sewing.test.csv.gz
       hash: md5
@@ -1358,8 +1358,8 @@ stages:
     outs:
     - path: item-ids.duckdb
       hash: md5
-      md5: add22161ab6c1b34495ada4bd5b7ea53
-      size: 365178880
+      md5: e3282feaf709ebc6d46dcd26032d001c
+      size: 362033152
   convert-ratings@Beauty_and_Personal_Care.valid:
     cmd: python ../../action.py amazon import-bench --users=user-ids.duckdb --items=item-ids.duckdb
       data/Beauty_and_Personal_Care.valid.csv.gz
@@ -1550,7 +1550,7 @@ stages:
       md5: d47eaeb9da6fe2cce605158b4cbbb2cc
       size: 4129918
   convert-ratings@Video_Games.valid:
-    cmd: python ../../action.py amazon import-bench --users=user-ids.duckdb --items=item-ids.duckdb
+    cmd: lenskit-codex amazon import-bench --users=user-ids.duckdb --items=item-ids.duckdb
       data/Video_Games.valid.csv.gz
     deps:
     - path: data/Video_Games.valid.csv.gz
@@ -1559,17 +1559,17 @@ stages:
       size: 1558363
     - path: item-ids.duckdb
       hash: md5
-      md5: add22161ab6c1b34495ada4bd5b7ea53
-      size: 365178880
+      md5: e3282feaf709ebc6d46dcd26032d001c
+      size: 362033152
     - path: user-ids.duckdb
       hash: md5
-      md5: c4f9533b3415850754f8729952041bb7
-      size: 1439969280
+      md5: 8f6981818facbf4bd273062ba1c58478
+      size: 881078272
     outs:
     - path: data/Video_Games.valid.parquet
       hash: md5
-      md5: 617b20a1ce6ba6ea485b35bb9b09ba21
-      size: 331826
+      md5: c7a783a8c76237588c36b3492cb177ac
+      size: 333591
   convert-ratings@Arts_Crafts_and_Sewing.valid:
     cmd: python ../../action.py amazon import-bench --users=user-ids.duckdb --items=item-ids.duckdb
       data/Arts_Crafts_and_Sewing.valid.csv.gz
@@ -2012,7 +2012,7 @@ stages:
       md5: f8e4c81bb6e5ff5b5d62e7466e7f65d1
       size: 398580
   convert-ratings@Video_Games.train:
-    cmd: python ../../action.py amazon import-bench --users=user-ids.duckdb --items=item-ids.duckdb
+    cmd: lenskit-codex amazon import-bench --users=user-ids.duckdb --items=item-ids.duckdb
       data/Video_Games.train.csv.gz
     deps:
     - path: data/Video_Games.train.csv.gz
@@ -2021,17 +2021,17 @@ stages:
       size: 15690763
     - path: item-ids.duckdb
       hash: md5
-      md5: add22161ab6c1b34495ada4bd5b7ea53
-      size: 365178880
+      md5: e3282feaf709ebc6d46dcd26032d001c
+      size: 362033152
     - path: user-ids.duckdb
       hash: md5
-      md5: c4f9533b3415850754f8729952041bb7
-      size: 1439969280
+      md5: 8f6981818facbf4bd273062ba1c58478
+      size: 881078272
     outs:
     - path: data/Video_Games.train.parquet
       hash: md5
-      md5: 5475b668edf0565b692ad38a7f4ed689
-      size: 7100136
+      md5: 0dadcf947e6da761cef79cf8bf48b0a2
+      size: 7056173
   convert-ratings@Industrial_and_Scientific.test:
     cmd: python ../../action.py amazon import-bench --users=user-ids.duckdb --items=item-ids.duckdb
       data/Industrial_and_Scientific.test.csv.gz
@@ -5323,23 +5323,23 @@ stages:
       md5: b60543c399e3f3f233721610b0f01880
       size: 241971200
   run-default-Bias-valid@Video_Games:
-    cmd: python ../../action.py generate --default -n 2000 --train=data/Video_Games.train.parquet
-      --test=data/Video_Games.valid.parquet -o runs/default/Video_Games/valid/Bias.duckdb
-      Bias
+    cmd: lenskit-codex generate --default -n 2000 --split=data/Video_Games --test-part=valid
+      -o runs/default/Video_Games/valid/Bias Bias
     deps:
     - path: data/Video_Games.train.parquet
       hash: md5
-      md5: 5475b668edf0565b692ad38a7f4ed689
-      size: 7100136
+      md5: 0dadcf947e6da761cef79cf8bf48b0a2
+      size: 7056173
     - path: data/Video_Games.valid.parquet
       hash: md5
-      md5: 617b20a1ce6ba6ea485b35bb9b09ba21
-      size: 331826
+      md5: c7a783a8c76237588c36b3492cb177ac
+      size: 333591
     outs:
-    - path: runs/default/Video_Games/valid/Bias.duckdb
+    - path: runs/default/Video_Games/valid/Bias
       hash: md5
-      md5: 4c4805e173b588525c1778a940552824
-      size: 204484608
+      md5: 713569f08800bee93d6fcc9676b48fdb.dir
+      size: 77135324
+      nfiles: 19
   run-default-Popular-valid@Video_Games:
     cmd: python ../../action.py generate --default -n 2000 --train=data/Video_Games.train.parquet
       --test=data/Video_Games.valid.parquet -o runs/default/Video_Games/valid/Popular.duckdb
