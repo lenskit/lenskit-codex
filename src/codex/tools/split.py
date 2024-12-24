@@ -16,6 +16,9 @@ _log = logging.getLogger("codex.split")
 @codex.command("split")
 @click.argument("FILE", type=Path)
 def split_data(file: Path):
+    """
+    Split data for cross-validation and other randomized splitting designs.
+    """
     _log.info("loading spec from %s", file)
     split = load_split_spec(file)
     _log.debug("loaded split config: %s", split)
