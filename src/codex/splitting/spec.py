@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import datetime as dt
 import tomllib
 from pathlib import Path
 from typing import Literal, Optional
@@ -12,18 +11,8 @@ class SplitSpec(BaseModel):
     source: str
     method: Literal["crossfold"]
 
-    temporal: Optional[TemporalSpec]
     crossfold: Optional[CrossfoldSpec]
     holdout: Optional[HoldoutSpec]
-
-
-class TemporalSpec(BaseModel):
-    """
-    Configuration for a global temporal split.
-    """
-
-    valid: dt.date
-    test: dt.date
 
 
 class CrossfoldSpec(BaseModel):
