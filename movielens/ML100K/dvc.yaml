@@ -179,7 +179,7 @@ stages:
           cache: false
   run-random-default-Bias:
     cmd: >-
-      lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Bias Bias
+      lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/Bias Bias
     outs:
       - runs/random-default/Bias
     deps:
@@ -198,7 +198,7 @@ stages:
       - sweeps/random/Bias.json
   run-random-default-HPF:
     cmd: >-
-      lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/HPF HPF
+      lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/HPF HPF
     outs:
       - runs/random-default/HPF
     deps:
@@ -217,7 +217,7 @@ stages:
       - sweeps/random/HPF.json
   run-random-default-Popular:
     cmd: >-
-      lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/Popular Popular
+      lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/Popular Popular
     outs:
       - runs/random-default/Popular
     deps:
@@ -226,7 +226,7 @@ stages:
       - splits/random.duckdb
   run-random-default-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
+      lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
     outs:
       - runs/random-default/BiasedMF-ALS
     deps:
@@ -245,7 +245,7 @@ stages:
       - sweeps/random/BiasedMF-ALS.json
   run-random-default-IKNN-Explicit:
     cmd: >-
-      lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/IKNN-Explicit IKNN-Explicit
+      lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/IKNN-Explicit IKNN-Explicit
     outs:
       - runs/random-default/IKNN-Explicit
     deps:
@@ -264,7 +264,7 @@ stages:
       - sweeps/random/IKNN-Explicit.json
   run-random-default-IKNN-Implicit:
     cmd: >-
-      lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/IKNN-Implicit IKNN-Implicit
+      lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/IKNN-Implicit IKNN-Implicit
     outs:
       - runs/random-default/IKNN-Implicit
     deps:
@@ -283,7 +283,7 @@ stages:
       - sweeps/random/IKNN-Implicit.json
   run-random-default-UKNN-Explicit:
     cmd: >-
-      lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Explicit UKNN-Explicit
+      lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/UKNN-Explicit UKNN-Explicit
     outs:
       - runs/random-default/UKNN-Explicit
     deps:
@@ -302,7 +302,7 @@ stages:
       - sweeps/random/UKNN-Explicit.json
   run-random-default-UKNN-Implicit:
     cmd: >-
-      lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/UKNN-Implicit UKNN-Implicit
+      lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/UKNN-Implicit UKNN-Implicit
     outs:
       - runs/random-default/UKNN-Implicit
     deps:
@@ -321,7 +321,7 @@ stages:
       - sweeps/random/UKNN-Implicit.json
   run-random-default-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
+      lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
     outs:
       - runs/random-default/ImplicitMF-ALS
     deps:

@@ -61,15 +61,15 @@ stages:
       size: 2371584
     - path: random.toml
       hash: md5
-      md5: 276ffa520abcf2243c9ffee115774a98
-      size: 137
+      md5: 9d1d0dfd07c3cea4845016496b4294a5
+      size: 165
     params:
       ../../../config.toml:
         random.seed: 20240717
     outs:
     - path: random.duckdb
       hash: md5
-      md5: 796dd13b48c8a99435002d3d68ab8d0b
+      md5: 521fdd73e436db6dfb4295eba802dddd
       size: 536576
   Bias:
     cmd: python ../../scripts/sweep.py -p 1 Bias splits/random.duckdb ratings.duckdb
@@ -661,8 +661,8 @@ stages:
       size: 653655
       nfiles: 67
   run-random-default-Bias:
-    cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
-      --ratings=ratings.duckdb -o runs/random-default/Bias Bias
+    cmd: lenskit-codex generate --default --split=splits/random.toml --test-part=-0
+      -o runs/random-default/Bias Bias
     deps:
     - path: ../../models/Bias.toml
       hash: md5
@@ -674,13 +674,13 @@ stages:
       size: 2371584
     - path: splits/random.duckdb
       hash: md5
-      md5: 796dd13b48c8a99435002d3d68ab8d0b
+      md5: 521fdd73e436db6dfb4295eba802dddd
       size: 536576
     outs:
     - path: runs/random-default/Bias
       hash: md5
-      md5: efa9278563bdc48a51e67df09a3add32.dir
-      size: 586773
+      md5: 61eaa02c4a971ad5c62cb8f5469615c7.dir
+      size: 587096
       nfiles: 67
   run-random-default-Popular:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
