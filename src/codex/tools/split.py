@@ -33,3 +33,5 @@ def split_data(file: Path):
             assert split.crossfold
             assert split.holdout
             crossfold_ratings(db, split.crossfold, split.holdout)
+        else:
+            _log.error("unsupported split method %s", split.method)
