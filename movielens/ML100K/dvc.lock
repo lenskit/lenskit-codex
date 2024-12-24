@@ -168,29 +168,30 @@ stages:
       md5: bc1e581e78bc92089c1ff4ea78b8459d
       size: 1585152
   sweep-random-Bias:
-    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
-      Bias sweeps/random/Bias.duckdb
+    cmd: lenskit-codex sweep run --ds-name=ML100K --split=splits/random.toml --test-part=0
+      Bias sweeps/random/Bias
     deps:
-    - path: ../../codex/models/Bias.py
+    - path: ../../models/Bias.toml
       hash: md5
-      md5: e35eac761bf892674a6fb8570132e7f1
-      size: 375
+      md5: 97f305e8c04fb52cff715d59711b5eed
+      size: 146
     - path: ratings.duckdb
       hash: md5
-      md5: a770a8e6c558a398515b74def824e7b8
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
       size: 2371584
     - path: splits/random.duckdb
       hash: md5
-      md5: 0341a9b25f8c8d872957470e9f29df47
+      md5: 521fdd73e436db6dfb4295eba802dddd
       size: 536576
     params:
       ../../config.toml:
         random.seed: 20240717
     outs:
-    - path: sweeps/random/Bias.duckdb
+    - path: sweeps/random/Bias
       hash: md5
-      md5: 5baffc1250e0eeb6bfe5e41b97970ce3
-      size: 12333056
+      md5: 4826c71d50951a900c57991dbc200813.dir
+      size: 8601469
+      nfiles: 260
   sweep-random-BiasedMF-ALS:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
       BiasedMF-ALS sweeps/random/BiasedMF-ALS.duckdb

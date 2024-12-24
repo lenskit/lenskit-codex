@@ -54,11 +54,11 @@ function ml_sweeps(ds: string): Record<string, Stage> {
       cmd: action_cmd(
         `movielens/${ds}`,
         "sweep run",
-        "-p 0",
-        "--ratings=ratings.duckdb",
-        "--assignments=splits/random.duckdb",
+        `--ds-name=${ds}`,
+        "--split=splits/random.toml",
+        "--test-part=0",
         name,
-        `sweeps/random/${name}.duckdb`,
+        `sweeps/random/${name}`,
       ),
       params: [{ "../../config.toml": ["random.seed"] }],
       deps: [
@@ -66,7 +66,7 @@ function ml_sweeps(ds: string): Record<string, Stage> {
         "ratings.duckdb",
         `../../models/${name}.toml`,
       ],
-      outs: [`sweeps/random/${name}.duckdb`],
+      outs: [`sweeps/random/${name}`],
     };
     const metric = info.predictor ? "rmse" : "ndcg";
     results[`export-random-${name}`] = {
