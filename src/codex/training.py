@@ -22,12 +22,16 @@ def train_task(
         scorer=ScorerModel(name=model.name, config=model.params),
         data=data_info,
     ) as task:
-        pipe = train_and_wrap_model(
-            model.scorer,
-            data,
-            predicts_ratings=model.config.predictor,
-            name=model.name,
-        )
+        try:
+            pipe = train_and_wrap_model(
+                model.scorer,
+                data,
+                predicts_ratings=model.config.predictor,
+                name=model.name,
+            )
+        except Exception as e:
+            log.error("model training failed", exc_info=e)
+            raise e
 
     log.debug("run record: %s", task.model_dump_json(indent=2))
     log.info(
