@@ -91,14 +91,14 @@ def run_sweep(
         data = split_set.get_part(test_part)
         for i, point in enumerate(points, 1):
             point = dict(zip(names, point))
-            plog = log.bind(**point)
             run_id = config_id(
                 {
                     "model": mod_cfg.name,
                     "dataset": ds_name,
-                    "params": "point",
+                    "params": point,
                 }
             )
+            plog = log.bind(run_id=run_id, **point)
             plog.info("training and evaluating")
             mod_inst = mod_cfg.instantiate(point)
             pipe, tr_task = train_task(mod_inst, data.train, data_info)
@@ -156,9 +156,11 @@ def export_best_results(sweep: Path, metric: str, output: Path):
     run_ids = data["run_id"]
     params = pd.json_normalize(data["params"].tolist()).assign(run_id=run_ids).set_index("run_id")
     metrics = pd.json_normalize(data["metrics"].tolist()).assign(run_id=run_ids).set_index("run_id")
+    print(metrics)
 
     if order == "DESC":
         top = metrics.nlargest(5, metric)
+        print(top)
     else:
         top = metrics.nsmallest(5, metric)
 

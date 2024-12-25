@@ -35,34 +35,43 @@ def recommend_and_save(
     metric_collector: NDJSONCollector | None = None,
     meta: dict[str, JsonValue] | None = None,
 ) -> RunAnalysisResult:
-    _log.info("sending pipeline to cluster")
-    pipe_h = ray.put(pipe)
-    del pipe
-
     if meta is None:
         meta = {}
 
     metric_list = []
 
-    with (
-        worker_pool(
-            InferenceActor,  # type: ignore
-            subprocess_config(),
-            WorkerLogConfig.current(),
-            pipe_h,
-            n_recs,
-            rec_output,
-            pred_output,
-        ) as pool,
-    ):
-        n_users = len(test)
-        _log.info("running recommender for %d users (N=%d)", n_users, n_recs)
+    n_users = len(test)
+    _log.info("running recommender for %d users (N=%d)", n_users, n_recs)
+    if n_users < 500:
+        runner = InferenceRunner(pipe, n_recs, rec_output, pred_output)
         with item_progress("generate", n_users) as pb:
-            for metrics in pool.map_unordered(_call_actor, test._lists):
+            for user, data in test:
+                metrics = runner.run_pipeline(user, data)
                 metric_list.append(metrics)
                 if metric_collector is not None:
                     metric_collector.write_object(meta | metrics)  # type: ignore
                 pb.update()
+    else:
+        _log.info("sending pipeline to cluster")
+        pipe_h = ray.put(pipe)
+        del pipe
+        with (
+            worker_pool(
+                InferenceActor,  # type: ignore
+                subprocess_config(),
+                WorkerLogConfig.current(),
+                pipe_h,
+                n_recs,
+                rec_output,
+                pred_output,
+            ) as pool,
+        ):
+            with item_progress("generate", n_users) as pb:
+                for metrics in pool.map_unordered(_call_actor, test._lists):
+                    metric_list.append(metrics)
+                    if metric_collector is not None:
+                        metric_collector.write_object(meta | metrics)  # type: ignore
+                    pb.update()
 
     df = pd.DataFrame.from_records(metric_list)
     return RunAnalysisResult(
@@ -81,8 +90,30 @@ def _call_actor(actor, query):
     return actor.run_pipeline.remote(*query)
 
 
-@ray.remote
 class InferenceActor(CodexActor):
+    runner: InferenceRunner
+
+    def __init__(
+        self,
+        parallel: ParallelConfig,
+        logging: WorkerLogConfig,
+        pipeline: Pipeline,
+        n: int | None,
+        rec_output: Path,
+        pred_output: Path | None,
+    ):
+        super().__init__(parallel, logging)
+        self.runner = InferenceRunner(pipeline, n, rec_output, pred_output)
+
+    def run_pipeline(self, key: UserIDKey, test: ItemList):
+        return self.runner.run_pipeline(key, test)
+
+    def finish(self):
+        self.runner.finish()
+        return super().finish()
+
+
+class InferenceRunner:
     REC_FIELDS = {"item_id": pa.int32(), "rank": pa.int32(), "score": pa.float32()}
     PRED_FIELDS = {"item_id": pa.int32(), "score": pa.float32()}
 
@@ -97,14 +128,11 @@ class InferenceActor(CodexActor):
 
     def __init__(
         self,
-        parallel: ParallelConfig,
-        logging: WorkerLogConfig,
         pipeline: Pipeline,
         n: int | None,
         rec_output: Path,
         pred_output: Path | None,
     ):
-        super().__init__(parallel, logging)
         assert isinstance(pipeline, Pipeline)
         self.pipeline = pipeline
         self.n_recs = n
@@ -167,8 +195,6 @@ class InferenceActor(CodexActor):
         self.rec_writer.close()
         if self.pred_writer is not None:
             self.pred_writer.close()
-
-        return super().finish()
 
     def _write_batch(self):
         _log.info("writing output batch", size=len(self.rec_batch))

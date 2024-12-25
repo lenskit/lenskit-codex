@@ -14,7 +14,7 @@ NS_CONFIG = uuid5(NAMESPACE_URL, "https://ns.lenskit.org/config")
 def config_id(config: dict[str, JsonValue]) -> UUID:
     h = sha512()
     _hash_object(config, h)
-    return uuid5(NS_CONFIG, h.digest())
+    return uuid5(NS_CONFIG, h.hexdigest())
 
 
 def _hash_object(data: JsonValue, h: Any):
