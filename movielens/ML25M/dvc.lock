@@ -540,3 +540,47 @@ stages:
       md5: 909b859e1519769eb2a3952c91c8bb9a.dir
       size: 3236969
       nfiles: 11
+  run-temporal-default-ImplicitMF-ALS:
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
+      -o runs/temporal-default/ImplicitMF-ALS ImplicitMF-ALS
+    deps:
+    - path: ../../models/ImplicitMF-ALS.toml
+      hash: md5
+      md5: e3b0120ab5820325128a9eb87d851e7f
+      size: 151
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 17df579e48f44e9f33b81b4520246231
+      size: 116
+    outs:
+    - path: runs/temporal-default/ImplicitMF-ALS
+      hash: md5
+      md5: 157a92649b4e70f2d5956bc63576e711.dir
+      size: 4838743
+      nfiles: 11
+  run-temporal-default-BiasedMF-ALS:
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
+      -o runs/temporal-default/BiasedMF-ALS BiasedMF-ALS
+    deps:
+    - path: ../../models/BiasedMF-ALS.toml
+      hash: md5
+      md5: d6a4dc846449f893683a847940f9c176
+      size: 166
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 17df579e48f44e9f33b81b4520246231
+      size: 116
+    outs:
+    - path: runs/temporal-default/BiasedMF-ALS
+      hash: md5
+      md5: f77701a5d6e36e8efcad1510f40d448f.dir
+      size: 9119666
+      nfiles: 19

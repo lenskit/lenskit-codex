@@ -819,11 +819,33 @@ stages:
       size: 119549952
     - path: splits/temporal.toml
       hash: md5
-      md5: 925c74553a24772967c0b46318d1552d
+      md5: 1842eba13a75bc5e29dfd7b471ac18b6
       size: 116
     outs:
     - path: runs/temporal-default/Bias
       hash: md5
-      md5: 7f5770eb3b9834089a63a820962de4ab.dir
-      size: 4609969
+      md5: aba462cdd5b3c92434c006b7c0d04827.dir
+      size: 3652057
       nfiles: 19
+  run-temporal-default-Popular:
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
+      -o runs/temporal-default/Popular Popular
+    deps:
+    - path: ../../models/Popular.toml
+      hash: md5
+      md5: c25817c7ea3901786434261d27af0aad
+      size: 35
+    - path: ratings.duckdb
+      hash: md5
+      md5: 5b61a4ef8958fb6559b0e697ed88c453
+      size: 119549952
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 1842eba13a75bc5e29dfd7b471ac18b6
+      size: 116
+    outs:
+    - path: runs/temporal-default/Popular
+      hash: md5
+      md5: 132e7e4c6d5b2e11a3fa07b4380b6b6a.dir
+      size: 544782
+      nfiles: 11

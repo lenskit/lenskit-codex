@@ -767,3 +767,47 @@ stages:
       hash: md5
       md5: 125bffbec91de2cc818dfe5a81393bef
       size: 82325504
+  run-temporal-valid-default-IKNN-Implicit:
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
+      -o runs/temporal-valid-default/IKNN-Implicit IKNN-Implicit
+    deps:
+    - path: ../../models/IKNN-Implicit.toml
+      hash: md5
+      md5: 2bfec2d4beb12854e5e7d632f0fd6396
+      size: 152
+    - path: ratings.duckdb
+      hash: md5
+      md5: 635c81f0f1854b8fe09b9acecbdd7f51
+      size: 239349760
+    - path: splits/temporal.toml
+      hash: md5
+      md5: c8f3e64e1c7841dd27b87a48f4a52b7d
+      size: 116
+    outs:
+    - path: runs/temporal-valid-default/IKNN-Implicit
+      hash: md5
+      md5: 4e596a68e7c4806e8a14ca49d0e7c200.dir
+      size: 3389032
+      nfiles: 11
+  run-temporal-valid-default-IKNN-Explicit:
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
+      -o runs/temporal-valid-default/IKNN-Explicit IKNN-Explicit
+    deps:
+    - path: ../../models/IKNN-Explicit.toml
+      hash: md5
+      md5: cb85c79c654c8e897015241c0f670c0d
+      size: 169
+    - path: ratings.duckdb
+      hash: md5
+      md5: 635c81f0f1854b8fe09b9acecbdd7f51
+      size: 239349760
+    - path: splits/temporal.toml
+      hash: md5
+      md5: c8f3e64e1c7841dd27b87a48f4a52b7d
+      size: 116
+    outs:
+    - path: runs/temporal-valid-default/IKNN-Explicit
+      hash: md5
+      md5: d94eb4027eae03af8becb3213dfc77d1.dir
+      size: 6681993
+      nfiles: 19
