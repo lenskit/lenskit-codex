@@ -805,3 +805,25 @@ stages:
       md5: 91f483253bf781206213a812cf82891b.dir
       size: 41317884
       nfiles: 35
+  run-temporal-default-Bias:
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
+      -o runs/temporal-default/Bias Bias
+    deps:
+    - path: ../../models/Bias.toml
+      hash: md5
+      md5: 97f305e8c04fb52cff715d59711b5eed
+      size: 146
+    - path: ratings.duckdb
+      hash: md5
+      md5: 5b61a4ef8958fb6559b0e697ed88c453
+      size: 119549952
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 9daf60fe655329001f688e5f55710a60
+      size: 102
+    outs:
+    - path: runs/temporal-default/Bias
+      hash: md5
+      md5: a4194770b82cb04216726f0849cca8e4.dir
+      size: 11898991
+      nfiles: 19

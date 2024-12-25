@@ -15,7 +15,7 @@ export function mlCrossfoldRuns(ds: string, split: string): Record<string, Stage
         `-o runs/${split}-default/${name}`,
         name,
       ),
-      outs: [`runs/random-default/${name}`],
+      outs: [`runs/${split}-default/${name}`],
       deps: [
         `../../models/${name}.toml`,
         "ratings.duckdb",
@@ -29,18 +29,18 @@ export function mlCrossfoldRuns(ds: string, split: string): Record<string, Stage
       cmd: action_cmd(
         `movielens/${name}`,
         "generate",
-        `--param-file=sweeps/random/${name}.json`,
+        `--param-file=sweeps/${split}/${name}.json`,
         `--split=splits/${split}.toml`,
         "--test-part=-0",
         `-o runs/${split}-sweep-best/${name}`,
         name,
       ),
-      outs: [`runs/random-sweep-best/${name}`],
+      outs: [`runs/${split}-sweep-best/${name}`],
       deps: [
         `../../models/${name}.toml`,
         "ratings.duckdb",
         `splits/${split}.duckdb`,
-        `sweeps/random/${name}.json`,
+        `sweeps/${split}/${name}.json`,
       ],
     };
   }
@@ -62,7 +62,7 @@ export function mlSplitRuns(ds: string, split: string): Record<string, Stage> {
         `-o runs/${split}-valid-default/${name}`,
         name,
       ),
-      outs: [`runs/random-valid-default/${name}`],
+      outs: [`runs/${split}-valid-default/${name}`],
       deps: [
         `../../models/${name}.toml`,
         "ratings.duckdb",
@@ -80,7 +80,7 @@ export function mlSplitRuns(ds: string, split: string): Record<string, Stage> {
         `-o runs/${split}-default/${name}`,
         name,
       ),
-      outs: [`runs/random-default/${name}`],
+      outs: [`runs/${split}-default/${name}`],
       deps: [
         `../../models/${name}.toml`,
         "ratings.duckdb",
@@ -94,18 +94,18 @@ export function mlSplitRuns(ds: string, split: string): Record<string, Stage> {
       cmd: action_cmd(
         `movielens/${name}`,
         "generate",
-        `--param-file=sweeps/random/${name}.json`,
+        `--param-file=sweeps/${split}/${name}.json`,
         `--split=splits/${split}.toml`,
         "--test-part=-0",
         `-o runs/${split}-sweep-best/${name}`,
         name,
       ),
-      outs: [`runs/random-sweep-best/${name}`],
+      outs: [`runs/${split}-sweep-best/${name}`],
       deps: [
         `../../models/${name}.toml`,
         "ratings.duckdb",
         `splits/${split}.toml`,
-        `sweeps/random/${name}.json`,
+        `sweeps/${split}/${name}.json`,
       ],
     };
   }

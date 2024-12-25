@@ -24,7 +24,7 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
         "ratings.duckdb",
         `../../models/${name}.toml`,
       ],
-      outs: [split_dep],
+      outs: [`sweeps/${split}/${name}`],
     };
     const metric = info.predictor ? "RMSE" : "RBP";
     results[`export-random-${name}`] = {
@@ -35,7 +35,7 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
         `sweeps/${split}/${name}`,
         metric,
       ),
-      deps: [split_dep],
+      deps: [`sweeps/${split}/${name}`],
       outs: [
         { [`sweeps/random/${name}.json`]: { cache: false } },
       ],
