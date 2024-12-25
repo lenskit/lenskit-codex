@@ -61,15 +61,15 @@ stages:
       size: 11284480
     - path: random.toml
       hash: md5
-      md5: 276ffa520abcf2243c9ffee115774a98
-      size: 137
+      md5: 9d1d0dfd07c3cea4845016496b4294a5
+      size: 165
     params:
       ../../../config.toml:
         random.seed: 20240717
     outs:
     - path: random.duckdb
       hash: md5
-      md5: 383d2778a4d6f26f1518f2c648049df3
+      md5: 73e24193c1454e73ad0845182e86782d
       size: 536576
   sweep-random-Bias:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
@@ -120,29 +120,30 @@ stages:
       md5: 4e7da75e7f993816b40d2dea7d7bf40e
       size: 122957824
   sweep-random-ImplicitMF-ALS:
-    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
-      ImplicitMF-ALS sweeps/random/ImplicitMF-ALS.duckdb
+    cmd: lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0
+      ImplicitMF-ALS sweeps/random/ImplicitMF-ALS
     deps:
-    - path: ../../codex/models/ImplicitMF_ALS.py
+    - path: ../../models/ImplicitMF-ALS.toml
       hash: md5
-      md5: f88cb5bd1014e55b8c0d9a1650863c94
-      size: 359
+      md5: e3b0120ab5820325128a9eb87d851e7f
+      size: 151
     - path: ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: splits/random.duckdb
       hash: md5
-      md5: 23c62fcd51a637d1109d93c6341e9ec0
+      md5: 73e24193c1454e73ad0845182e86782d
       size: 536576
     params:
       ../../config.toml:
         random.seed: 20240717
     outs:
-    - path: sweeps/random/ImplicitMF-ALS.duckdb
+    - path: sweeps/random/ImplicitMF-ALS
       hash: md5
-      md5: a0392cfb5597fa23057220101f883c53
-      size: 132919296
+      md5: a3b8a81e10f19fb673debd15bfa3aa16.dir
+      size: 132550980
+      nfiles: 244
   sweep-random-IKNN-Explicit:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
       IKNN-Explicit sweeps/random/IKNN-Explicit.duckdb
@@ -168,29 +169,30 @@ stages:
       md5: a2e4e0517bf97b0ff1d5583892546696
       size: 50868224
   sweep-random-IKNN-Implicit:
-    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
-      IKNN-Implicit sweeps/random/IKNN-Implicit.duckdb
+    cmd: lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0
+      IKNN-Implicit sweeps/random/IKNN-Implicit
     deps:
-    - path: ../../codex/models/IKNN_Implicit.py
+    - path: ../../models/IKNN-Implicit.toml
       hash: md5
-      md5: 3ca2f37d6c1983760fcd2ff03a0a57cb
-      size: 363
+      md5: 2bfec2d4beb12854e5e7d632f0fd6396
+      size: 152
     - path: ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: splits/random.duckdb
       hash: md5
-      md5: 23c62fcd51a637d1109d93c6341e9ec0
+      md5: 73e24193c1454e73ad0845182e86782d
       size: 536576
     params:
       ../../config.toml:
         random.seed: 20240717
     outs:
-    - path: sweeps/random/IKNN-Implicit.duckdb
+    - path: sweeps/random/IKNN-Implicit
       hash: md5
-      md5: 083810c3fe680f9ab94fc3c4e649b4b5
-      size: 51130368
+      md5: 461028756c06063fdd317c5b2ff89a46.dir
+      size: 51013404
+      nfiles: 100
   import:
     cmd: lenskit-codex movielens import --stat-sql=../ml-stats.sql ml-1m.zip
     deps:
@@ -240,21 +242,19 @@ stages:
       md5: b8bf7a1adfe95aa88df9f39e90d75a57
       size: 308
   export-random-ImplicitMF-ALS:
-    cmd: python ../../action.py sweep export sweeps/random/ImplicitMF-ALS.duckdb ndcg
+    cmd: lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS.json sweeps/random/ImplicitMF-ALS
+      RBP
     deps:
-    - path: sweeps/random/ImplicitMF-ALS.duckdb
+    - path: sweeps/random/ImplicitMF-ALS
       hash: md5
-      md5: 7d8decc5bdd0536917cede0ca0af2219
-      size: 26488832
+      md5: a3b8a81e10f19fb673debd15bfa3aa16.dir
+      size: 132550980
+      nfiles: 244
     outs:
-    - path: sweeps/random/ImplicitMF-ALS.csv
-      hash: md5
-      md5: f68e6384b3502d2d6f786869a389fc82
-      size: 2727
     - path: sweeps/random/ImplicitMF-ALS.json
       hash: md5
-      md5: 1c8832a6d45b50c70859949cc32d4e29
-      size: 250
+      md5: 5a73327bf0ab3abc56f7789477ba4cb8
+      size: 222
   export-random-IKNN-Explicit:
     cmd: python ../../action.py sweep export sweeps/random/IKNN-Explicit.duckdb rmse
     deps:
