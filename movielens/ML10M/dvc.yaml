@@ -178,7 +178,7 @@ stages:
           cache: false
   sweep-temporal-Bias:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 Bias sweeps/temporal/Bias
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid Bias sweeps/temporal/Bias
     params:
       - ../../config.toml:
           - random.seed
@@ -198,7 +198,7 @@ stages:
           cache: false
   sweep-temporal-HPF:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 HPF sweeps/temporal/HPF
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid HPF sweeps/temporal/HPF
     params:
       - ../../config.toml:
           - random.seed
@@ -218,7 +218,7 @@ stages:
           cache: false
   sweep-temporal-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 BiasedMF-ALS sweeps/temporal/BiasedMF-ALS
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid BiasedMF-ALS sweeps/temporal/BiasedMF-ALS
     params:
       - ../../config.toml:
           - random.seed
@@ -238,7 +238,7 @@ stages:
           cache: false
   sweep-temporal-IKNN-Explicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 IKNN-Explicit sweeps/temporal/IKNN-Explicit
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid IKNN-Explicit sweeps/temporal/IKNN-Explicit
     params:
       - ../../config.toml:
           - random.seed
@@ -258,7 +258,7 @@ stages:
           cache: false
   sweep-temporal-IKNN-Implicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 IKNN-Implicit sweeps/temporal/IKNN-Implicit
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid IKNN-Implicit sweeps/temporal/IKNN-Implicit
     params:
       - ../../config.toml:
           - random.seed
@@ -278,7 +278,7 @@ stages:
           cache: false
   sweep-temporal-UKNN-Explicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 UKNN-Explicit sweeps/temporal/UKNN-Explicit
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid UKNN-Explicit sweeps/temporal/UKNN-Explicit
     params:
       - ../../config.toml:
           - random.seed
@@ -298,7 +298,7 @@ stages:
           cache: false
   sweep-temporal-UKNN-Implicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 UKNN-Implicit sweeps/temporal/UKNN-Implicit
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid UKNN-Implicit sweeps/temporal/UKNN-Implicit
     params:
       - ../../config.toml:
           - random.seed
@@ -318,7 +318,7 @@ stages:
           cache: false
   sweep-temporal-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 ImplicitMF-ALS sweeps/temporal/ImplicitMF-ALS
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid ImplicitMF-ALS sweeps/temporal/ImplicitMF-ALS
     params:
       - ../../config.toml:
           - random.seed

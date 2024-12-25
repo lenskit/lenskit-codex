@@ -7,6 +7,7 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
   const active = filterValues(MODELS, (m) => m.sweep != null);
   const results: Record<string, Stage> = {};
   let split_dep = split == "random" ? "splits/random.duckdb" : `splits/${split}.toml`;
+  let test_part = split == "random" ? "0" : "valid";
   for (const [name, info] of Object.entries(active)) {
     results[`sweep-${split}-${name}`] = {
       cmd: action_cmd(
@@ -14,7 +15,7 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
         "sweep run",
         `--ds-name=${ds}`,
         `--split=splits/${split}.toml`,
-        "--test-part=0",
+        `--test-part=${test_part}`,
         name,
         `sweeps/${split}/${name}`,
       ),
