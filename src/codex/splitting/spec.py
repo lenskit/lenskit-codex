@@ -24,6 +24,7 @@ class TemporalSpec(BaseModel):
 
     valid: dt.date
     test: dt.date
+    min_train: int | None = None
 
 
 class CrossfoldSpec(BaseModel):
