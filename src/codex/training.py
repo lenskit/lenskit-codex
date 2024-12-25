@@ -38,7 +38,7 @@ def train_task(
         "finished in %.0fs (%.0fs CPU, %s, %s peak RSS)",
         task.duration,
         task.cpu_time,
-        metric(task.chassis_power / 3600, "W")
+        metric(task.chassis_power / 3600, "Wh")
         if task.chassis_power is not None
         else "power unknown",
         naturalsize(task.peak_memory) if task.peak_memory else "unknown",
