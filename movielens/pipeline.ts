@@ -1,14 +1,20 @@
 import { parse as parsePath } from "std/path/mod.ts";
 import { expandGlob } from "std/fs/mod.ts";
 import * as toml from "std/toml/mod.ts";
-import { filterValues } from "std/collections/mod.ts";
 
 import * as ai from "aitertools";
 
 import { action_cmd, Pipeline, Stage } from "../src/dvc.ts";
-import { MODELS } from "../src/pipeline/model-config.ts";
 
-export const datasets: Record<string, string> = {
+import { mlCrossfoldRuns, mlSplitRuns } from "./pipe-run.ts";
+import { mlSweep } from "./pipe-sweep.ts";
+
+type SplitSpec = {
+  source: string;
+  method: string;
+};
+
+const datasets: Record<string, string> = {
   ML100K: "ml-100k",
   ML1M: "ml-1m",
   ML10M: "ml-10m",
@@ -16,6 +22,16 @@ export const datasets: Record<string, string> = {
   ML25M: "ml-25m",
   ML32M: "ml-32m",
 };
+
+async function scanSplits(name: string): Promise<Record<string, SplitSpec>> {
+  let splits: Record<string, SplitSpec> = {};
+  for await (const file of expandGlob(`movielens/${name}/splits/*.toml`)) {
+    const spec = toml.parse(await Deno.readTextFile(file.path));
+    const path = parsePath(file.path);
+    splits[path.name] = spec as SplitSpec;
+  }
+  return splits;
+}
 
 function ml_import(name: string, fn: string): Stage {
   return {
@@ -30,123 +46,51 @@ function ml_import(name: string, fn: string): Stage {
   };
 }
 
-async function ml_splits(name: string): Promise<Record<string, Stage>> {
-  const stages: Record<string, Stage> = {};
-  for await (const file of expandGlob(`movielens/${name}/splits/*.toml`)) {
-    const path = parsePath(file.path);
-    const split = toml.parse(await Deno.readTextFile(file.path));
-    stages[`split-${path.name}`] = {
-      cmd: action_cmd(`movielens/${name}/splits`, "split", path.base),
-      wdir: "splits",
-      params: [{ "../../../config.toml": ["random.seed"] }],
-      deps: [path.base, split.source as string],
-      outs: [`${path.name}.duckdb`],
+function mlSplit(
+  name: string,
+  split: string,
+  spec: SplitSpec,
+): Record<string, Stage> {
+  if (spec.method == "crossfold") {
+    return {
+      [`split-${split}`]: {
+        cmd: action_cmd(`movielens/${name}/splits`, "split", `${split}.toml`),
+        wdir: "splits",
+        params: [{ "../../../config.toml": ["random.seed"] }],
+        deps: [`${split}.toml`, spec.source as string],
+        outs: [`${split}.duckdb`],
+      },
     };
+  } else {
+    return {};
   }
-  return stages;
-}
-
-function ml_sweeps(ds: string): Record<string, Stage> {
-  const active = filterValues(MODELS, (m) => m.sweep != null);
-  const results: Record<string, Stage> = {};
-  for (const [name, info] of Object.entries(active)) {
-    results[`sweep-random-${name}`] = {
-      cmd: action_cmd(
-        `movielens/${ds}`,
-        "sweep run",
-        `--ds-name=${ds}`,
-        "--split=splits/random.toml",
-        "--test-part=0",
-        name,
-        `sweeps/random/${name}`,
-      ),
-      params: [{ "../../config.toml": ["random.seed"] }],
-      deps: [
-        "splits/random.duckdb",
-        "ratings.duckdb",
-        `../../models/${name}.toml`,
-      ],
-      outs: [`sweeps/random/${name}`],
-    };
-    const metric = info.predictor ? "RMSE" : "RBP";
-    results[`export-random-${name}`] = {
-      cmd: action_cmd(
-        `movielens/${ds}`,
-        "sweep export",
-        `-o sweeps/random/${name}.json`,
-        `sweeps/random/${name}`,
-        metric,
-      ),
-      deps: [`sweeps/random/${name}`],
-      outs: [
-        { [`sweeps/random/${name}.json`]: { cache: false } },
-      ],
-    };
-  }
-
-  return results;
-}
-
-function ml_runs(ds: string): Record<string, Stage> {
-  const runs: Record<string, Stage> = {};
-
-  for (const [name, info] of Object.entries(MODELS)) {
-    runs[`run-random-default-${name}`] = {
-      cmd: action_cmd(
-        `movielens/${ds}`,
-        "generate",
-        "--default",
-        "--split=splits/random.toml",
-        "--test-part=-0",
-        `-o runs/random-default/${name}`,
-        name,
-      ),
-      outs: [`runs/random-default/${name}`],
-      deps: [
-        `../../models/${name}.toml`,
-        "ratings.duckdb",
-        "splits/random.duckdb",
-      ],
-    };
-
-    if (info.sweep == null) continue;
-
-    runs[`run-random-sweep-best-${name}`] = {
-      cmd: action_cmd(
-        `movielens/${name}`,
-        "generate",
-        `--param-file=sweeps/random/${name}.json`,
-        "--split=splits/random.toml",
-        "--test-part=-0",
-        `-o runs/random-sweep-best/${name}`,
-        name,
-      ),
-      outs: [`runs/random-sweep-best/${name}`],
-      deps: [
-        `../../models/${name}.toml`,
-        "ratings.duckdb",
-        "splits/random.duckdb",
-        `sweeps/random/${name}.json`,
-      ],
-    };
-  }
-
-  return runs;
 }
 
 async function ml_pipeline(name: string): Promise<Pipeline> {
   const fn = datasets[name];
-  let splits = await ml_splits(name);
-  let sweeps = ml_sweeps(name);
-  let runs = ml_runs(name);
+
+  let splits = await scanSplits(name);
+
+  let split_stages: Record<string, Stage> = {};
+  let sweep_stages: Record<string, Stage> = {};
+  let run_stages: Record<string, Stage> = {};
+  for (let [split, spec] of Object.entries(splits)) {
+    Object.assign(split_stages, mlSplit(name, split, spec));
+    Object.assign(sweep_stages, mlSweep(name, split));
+    if (spec.method == "crossfold") {
+      Object.assign(run_stages, mlCrossfoldRuns(name, split));
+    } else {
+      Object.assign(run_stages, mlSplitRuns(name, split));
+    }
+  }
 
   return {
     stages: {
       import: ml_import(name, fn),
 
-      ...splits,
-      ...sweeps,
-      ...runs,
+      ...split_stages,
+      ...sweep_stages,
+      ...run_stages,
 
       "collect-metrics": {
         cmd: action_cmd(
@@ -157,7 +101,7 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
           "runs",
         ),
         // @ts-ignore i'm lazy
-        deps: Object.values(runs).map((s) => s.outs).flat().filter((d) =>
+        deps: Object.values(run_stages).map((s) => s.outs).flat().filter((d) =>
           typeof d == "string" && d.endsWith(".duckdb")
         ),
         outs: ["run-metrics.duckdb"],

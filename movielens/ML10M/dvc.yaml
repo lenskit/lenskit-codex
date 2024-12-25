@@ -17,20 +17,9 @@ stages:
       - ../ratings.duckdb
     outs:
       - random.duckdb
-  split-temporal:
-    cmd: lenskit-codex split temporal.toml
-    wdir: splits
-    params:
-      - ../../../config.toml:
-          - random.seed
-    deps:
-      - temporal.toml
-      - ../ratings.duckdb
-    outs:
-      - temporal.duckdb
   sweep-random-Bias:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml --test-part=0 Bias sweeps/random/Bias
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 Bias sweeps/temporal/Bias
     params:
       - ../../config.toml:
           - random.seed
@@ -39,18 +28,18 @@ stages:
       - ratings.duckdb
       - ../../models/Bias.toml
     outs:
-      - sweeps/random/Bias
+      - splits/temporal.toml
   export-random-Bias:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/Bias.json sweeps/random/Bias RMSE
+      lenskit-codex sweep export -o sweeps/temporal/Bias.json sweeps/temporal/Bias RMSE
     deps:
-      - sweeps/random/Bias
+      - splits/temporal.toml
     outs:
       - sweeps/random/Bias.json:
           cache: false
   sweep-random-HPF:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml --test-part=0 HPF sweeps/random/HPF
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 HPF sweeps/temporal/HPF
     params:
       - ../../config.toml:
           - random.seed
@@ -59,17 +48,18 @@ stages:
       - ratings.duckdb
       - ../../models/HPF.toml
     outs:
-      - sweeps/random/HPF
+      - splits/temporal.toml
   export-random-HPF:
-    cmd: lenskit-codex sweep export -o sweeps/random/HPF.json sweeps/random/HPF RBP
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/temporal/HPF.json sweeps/temporal/HPF RBP
     deps:
-      - sweeps/random/HPF
+      - splits/temporal.toml
     outs:
       - sweeps/random/HPF.json:
           cache: false
   sweep-random-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml --test-part=0 BiasedMF-ALS sweeps/random/BiasedMF-ALS
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 BiasedMF-ALS sweeps/temporal/BiasedMF-ALS
     params:
       - ../../config.toml:
           - random.seed
@@ -78,18 +68,18 @@ stages:
       - ratings.duckdb
       - ../../models/BiasedMF-ALS.toml
     outs:
-      - sweeps/random/BiasedMF-ALS
+      - splits/temporal.toml
   export-random-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/BiasedMF-ALS.json sweeps/random/BiasedMF-ALS RMSE
+      lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS.json sweeps/temporal/BiasedMF-ALS RMSE
     deps:
-      - sweeps/random/BiasedMF-ALS
+      - splits/temporal.toml
     outs:
       - sweeps/random/BiasedMF-ALS.json:
           cache: false
   sweep-random-IKNN-Explicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml --test-part=0 IKNN-Explicit sweeps/random/IKNN-Explicit
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 IKNN-Explicit sweeps/temporal/IKNN-Explicit
     params:
       - ../../config.toml:
           - random.seed
@@ -98,18 +88,18 @@ stages:
       - ratings.duckdb
       - ../../models/IKNN-Explicit.toml
     outs:
-      - sweeps/random/IKNN-Explicit
+      - splits/temporal.toml
   export-random-IKNN-Explicit:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/IKNN-Explicit.json sweeps/random/IKNN-Explicit RMSE
+      lenskit-codex sweep export -o sweeps/temporal/IKNN-Explicit.json sweeps/temporal/IKNN-Explicit RMSE
     deps:
-      - sweeps/random/IKNN-Explicit
+      - splits/temporal.toml
     outs:
       - sweeps/random/IKNN-Explicit.json:
           cache: false
   sweep-random-IKNN-Implicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml --test-part=0 IKNN-Implicit sweeps/random/IKNN-Implicit
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 IKNN-Implicit sweeps/temporal/IKNN-Implicit
     params:
       - ../../config.toml:
           - random.seed
@@ -118,18 +108,18 @@ stages:
       - ratings.duckdb
       - ../../models/IKNN-Implicit.toml
     outs:
-      - sweeps/random/IKNN-Implicit
+      - splits/temporal.toml
   export-random-IKNN-Implicit:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/IKNN-Implicit.json sweeps/random/IKNN-Implicit RBP
+      lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit.json sweeps/temporal/IKNN-Implicit RBP
     deps:
-      - sweeps/random/IKNN-Implicit
+      - splits/temporal.toml
     outs:
       - sweeps/random/IKNN-Implicit.json:
           cache: false
   sweep-random-UKNN-Explicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml --test-part=0 UKNN-Explicit sweeps/random/UKNN-Explicit
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 UKNN-Explicit sweeps/temporal/UKNN-Explicit
     params:
       - ../../config.toml:
           - random.seed
@@ -138,18 +128,18 @@ stages:
       - ratings.duckdb
       - ../../models/UKNN-Explicit.toml
     outs:
-      - sweeps/random/UKNN-Explicit
+      - splits/temporal.toml
   export-random-UKNN-Explicit:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/UKNN-Explicit.json sweeps/random/UKNN-Explicit RMSE
+      lenskit-codex sweep export -o sweeps/temporal/UKNN-Explicit.json sweeps/temporal/UKNN-Explicit RMSE
     deps:
-      - sweeps/random/UKNN-Explicit
+      - splits/temporal.toml
     outs:
       - sweeps/random/UKNN-Explicit.json:
           cache: false
   sweep-random-UKNN-Implicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml --test-part=0 UKNN-Implicit sweeps/random/UKNN-Implicit
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 UKNN-Implicit sweeps/temporal/UKNN-Implicit
     params:
       - ../../config.toml:
           - random.seed
@@ -158,18 +148,18 @@ stages:
       - ratings.duckdb
       - ../../models/UKNN-Implicit.toml
     outs:
-      - sweeps/random/UKNN-Implicit
+      - splits/temporal.toml
   export-random-UKNN-Implicit:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/UKNN-Implicit.json sweeps/random/UKNN-Implicit RBP
+      lenskit-codex sweep export -o sweeps/temporal/UKNN-Implicit.json sweeps/temporal/UKNN-Implicit RBP
     deps:
-      - sweeps/random/UKNN-Implicit
+      - splits/temporal.toml
     outs:
       - sweeps/random/UKNN-Implicit.json:
           cache: false
   sweep-random-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml --test-part=0 ImplicitMF-ALS sweeps/random/ImplicitMF-ALS
+      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=0 ImplicitMF-ALS sweeps/temporal/ImplicitMF-ALS
     params:
       - ../../config.toml:
           - random.seed
@@ -178,12 +168,12 @@ stages:
       - ratings.duckdb
       - ../../models/ImplicitMF-ALS.toml
     outs:
-      - sweeps/random/ImplicitMF-ALS
+      - splits/temporal.toml
   export-random-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS.json sweeps/random/ImplicitMF-ALS RBP
+      lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS.json sweeps/temporal/ImplicitMF-ALS RBP
     deps:
-      - sweeps/random/ImplicitMF-ALS
+      - splits/temporal.toml
     outs:
       - sweeps/random/ImplicitMF-ALS.json:
           cache: false
@@ -347,6 +337,248 @@ stages:
       - ../../models/ImplicitMF-ALS.toml
       - ratings.duckdb
       - splits/random.duckdb
+      - sweeps/random/ImplicitMF-ALS.json
+  run-temporal-valid-default-Bias:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid -o runs/temporal-valid-default/Bias Bias
+    outs:
+      - runs/random-valid-default/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-default-Bias:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=test -o runs/temporal-default/Bias Bias
+    outs:
+      - runs/random-default/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-Bias:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/Bias.json --split=splits/temporal.toml --test-part=-0 -o runs/temporal-sweep-best/Bias Bias
+    outs:
+      - runs/random-sweep-best/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/random/Bias.json
+  run-temporal-valid-default-HPF:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid -o runs/temporal-valid-default/HPF HPF
+    outs:
+      - runs/random-valid-default/HPF
+    deps:
+      - ../../models/HPF.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-default-HPF:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=test -o runs/temporal-default/HPF HPF
+    outs:
+      - runs/random-default/HPF
+    deps:
+      - ../../models/HPF.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-HPF:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/HPF.json --split=splits/temporal.toml --test-part=-0 -o runs/temporal-sweep-best/HPF HPF
+    outs:
+      - runs/random-sweep-best/HPF
+    deps:
+      - ../../models/HPF.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/random/HPF.json
+  run-temporal-valid-default-Popular:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid -o runs/temporal-valid-default/Popular Popular
+    outs:
+      - runs/random-valid-default/Popular
+    deps:
+      - ../../models/Popular.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-default-Popular:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=test -o runs/temporal-default/Popular Popular
+    outs:
+      - runs/random-default/Popular
+    deps:
+      - ../../models/Popular.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-valid-default-BiasedMF-ALS:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid -o runs/temporal-valid-default/BiasedMF-ALS BiasedMF-ALS
+    outs:
+      - runs/random-valid-default/BiasedMF-ALS
+    deps:
+      - ../../models/BiasedMF-ALS.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-default-BiasedMF-ALS:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=test -o runs/temporal-default/BiasedMF-ALS BiasedMF-ALS
+    outs:
+      - runs/random-default/BiasedMF-ALS
+    deps:
+      - ../../models/BiasedMF-ALS.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-BiasedMF-ALS:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --split=splits/temporal.toml --test-part=-0 -o runs/temporal-sweep-best/BiasedMF-ALS BiasedMF-ALS
+    outs:
+      - runs/random-sweep-best/BiasedMF-ALS
+    deps:
+      - ../../models/BiasedMF-ALS.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/random/BiasedMF-ALS.json
+  run-temporal-valid-default-IKNN-Explicit:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid -o runs/temporal-valid-default/IKNN-Explicit IKNN-Explicit
+    outs:
+      - runs/random-valid-default/IKNN-Explicit
+    deps:
+      - ../../models/IKNN-Explicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-default-IKNN-Explicit:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=test -o runs/temporal-default/IKNN-Explicit IKNN-Explicit
+    outs:
+      - runs/random-default/IKNN-Explicit
+    deps:
+      - ../../models/IKNN-Explicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-IKNN-Explicit:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --split=splits/temporal.toml --test-part=-0 -o runs/temporal-sweep-best/IKNN-Explicit IKNN-Explicit
+    outs:
+      - runs/random-sweep-best/IKNN-Explicit
+    deps:
+      - ../../models/IKNN-Explicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/random/IKNN-Explicit.json
+  run-temporal-valid-default-IKNN-Implicit:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid -o runs/temporal-valid-default/IKNN-Implicit IKNN-Implicit
+    outs:
+      - runs/random-valid-default/IKNN-Implicit
+    deps:
+      - ../../models/IKNN-Implicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-default-IKNN-Implicit:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=test -o runs/temporal-default/IKNN-Implicit IKNN-Implicit
+    outs:
+      - runs/random-default/IKNN-Implicit
+    deps:
+      - ../../models/IKNN-Implicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-IKNN-Implicit:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --split=splits/temporal.toml --test-part=-0 -o runs/temporal-sweep-best/IKNN-Implicit IKNN-Implicit
+    outs:
+      - runs/random-sweep-best/IKNN-Implicit
+    deps:
+      - ../../models/IKNN-Implicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/random/IKNN-Implicit.json
+  run-temporal-valid-default-UKNN-Explicit:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid -o runs/temporal-valid-default/UKNN-Explicit UKNN-Explicit
+    outs:
+      - runs/random-valid-default/UKNN-Explicit
+    deps:
+      - ../../models/UKNN-Explicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-default-UKNN-Explicit:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=test -o runs/temporal-default/UKNN-Explicit UKNN-Explicit
+    outs:
+      - runs/random-default/UKNN-Explicit
+    deps:
+      - ../../models/UKNN-Explicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-UKNN-Explicit:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/UKNN-Explicit.json --split=splits/temporal.toml --test-part=-0 -o runs/temporal-sweep-best/UKNN-Explicit UKNN-Explicit
+    outs:
+      - runs/random-sweep-best/UKNN-Explicit
+    deps:
+      - ../../models/UKNN-Explicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/random/UKNN-Explicit.json
+  run-temporal-valid-default-UKNN-Implicit:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid -o runs/temporal-valid-default/UKNN-Implicit UKNN-Implicit
+    outs:
+      - runs/random-valid-default/UKNN-Implicit
+    deps:
+      - ../../models/UKNN-Implicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-default-UKNN-Implicit:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=test -o runs/temporal-default/UKNN-Implicit UKNN-Implicit
+    outs:
+      - runs/random-default/UKNN-Implicit
+    deps:
+      - ../../models/UKNN-Implicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-UKNN-Implicit:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/UKNN-Implicit.json --split=splits/temporal.toml --test-part=-0 -o runs/temporal-sweep-best/UKNN-Implicit UKNN-Implicit
+    outs:
+      - runs/random-sweep-best/UKNN-Implicit
+    deps:
+      - ../../models/UKNN-Implicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/random/UKNN-Implicit.json
+  run-temporal-valid-default-ImplicitMF-ALS:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid -o runs/temporal-valid-default/ImplicitMF-ALS ImplicitMF-ALS
+    outs:
+      - runs/random-valid-default/ImplicitMF-ALS
+    deps:
+      - ../../models/ImplicitMF-ALS.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-default-ImplicitMF-ALS:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml --test-part=test -o runs/temporal-default/ImplicitMF-ALS ImplicitMF-ALS
+    outs:
+      - runs/random-default/ImplicitMF-ALS
+    deps:
+      - ../../models/ImplicitMF-ALS.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-ImplicitMF-ALS:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --split=splits/temporal.toml --test-part=-0 -o runs/temporal-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
+    outs:
+      - runs/random-sweep-best/ImplicitMF-ALS
+    deps:
+      - ../../models/ImplicitMF-ALS.toml
+      - ratings.duckdb
+      - splits/temporal.toml
       - sweeps/random/ImplicitMF-ALS.json
   collect-metrics:
     cmd: >-

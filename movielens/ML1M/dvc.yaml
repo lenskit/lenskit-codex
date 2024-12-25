@@ -28,12 +28,12 @@ stages:
       - ratings.duckdb
       - ../../models/Bias.toml
     outs:
-      - sweeps/random/Bias
+      - splits/random.duckdb
   export-random-Bias:
     cmd: >-
       lenskit-codex sweep export -o sweeps/random/Bias.json sweeps/random/Bias RMSE
     deps:
-      - sweeps/random/Bias
+      - splits/random.duckdb
     outs:
       - sweeps/random/Bias.json:
           cache: false
@@ -48,11 +48,11 @@ stages:
       - ratings.duckdb
       - ../../models/HPF.toml
     outs:
-      - sweeps/random/HPF
+      - splits/random.duckdb
   export-random-HPF:
     cmd: lenskit-codex sweep export -o sweeps/random/HPF.json sweeps/random/HPF RBP
     deps:
-      - sweeps/random/HPF
+      - splits/random.duckdb
     outs:
       - sweeps/random/HPF.json:
           cache: false
@@ -67,12 +67,12 @@ stages:
       - ratings.duckdb
       - ../../models/BiasedMF-ALS.toml
     outs:
-      - sweeps/random/BiasedMF-ALS
+      - splits/random.duckdb
   export-random-BiasedMF-ALS:
     cmd: >-
       lenskit-codex sweep export -o sweeps/random/BiasedMF-ALS.json sweeps/random/BiasedMF-ALS RMSE
     deps:
-      - sweeps/random/BiasedMF-ALS
+      - splits/random.duckdb
     outs:
       - sweeps/random/BiasedMF-ALS.json:
           cache: false
@@ -87,12 +87,12 @@ stages:
       - ratings.duckdb
       - ../../models/IKNN-Explicit.toml
     outs:
-      - sweeps/random/IKNN-Explicit
+      - splits/random.duckdb
   export-random-IKNN-Explicit:
     cmd: >-
       lenskit-codex sweep export -o sweeps/random/IKNN-Explicit.json sweeps/random/IKNN-Explicit RMSE
     deps:
-      - sweeps/random/IKNN-Explicit
+      - splits/random.duckdb
     outs:
       - sweeps/random/IKNN-Explicit.json:
           cache: false
@@ -107,12 +107,12 @@ stages:
       - ratings.duckdb
       - ../../models/IKNN-Implicit.toml
     outs:
-      - sweeps/random/IKNN-Implicit
+      - splits/random.duckdb
   export-random-IKNN-Implicit:
     cmd: >-
       lenskit-codex sweep export -o sweeps/random/IKNN-Implicit.json sweeps/random/IKNN-Implicit RBP
     deps:
-      - sweeps/random/IKNN-Implicit
+      - splits/random.duckdb
     outs:
       - sweeps/random/IKNN-Implicit.json:
           cache: false
@@ -127,12 +127,12 @@ stages:
       - ratings.duckdb
       - ../../models/UKNN-Explicit.toml
     outs:
-      - sweeps/random/UKNN-Explicit
+      - splits/random.duckdb
   export-random-UKNN-Explicit:
     cmd: >-
       lenskit-codex sweep export -o sweeps/random/UKNN-Explicit.json sweeps/random/UKNN-Explicit RMSE
     deps:
-      - sweeps/random/UKNN-Explicit
+      - splits/random.duckdb
     outs:
       - sweeps/random/UKNN-Explicit.json:
           cache: false
@@ -147,12 +147,12 @@ stages:
       - ratings.duckdb
       - ../../models/UKNN-Implicit.toml
     outs:
-      - sweeps/random/UKNN-Implicit
+      - splits/random.duckdb
   export-random-UKNN-Implicit:
     cmd: >-
       lenskit-codex sweep export -o sweeps/random/UKNN-Implicit.json sweeps/random/UKNN-Implicit RBP
     deps:
-      - sweeps/random/UKNN-Implicit
+      - splits/random.duckdb
     outs:
       - sweeps/random/UKNN-Implicit.json:
           cache: false
@@ -167,12 +167,12 @@ stages:
       - ratings.duckdb
       - ../../models/ImplicitMF-ALS.toml
     outs:
-      - sweeps/random/ImplicitMF-ALS
+      - splits/random.duckdb
   export-random-ImplicitMF-ALS:
     cmd: >-
       lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS.json sweeps/random/ImplicitMF-ALS RBP
     deps:
-      - sweeps/random/ImplicitMF-ALS
+      - splits/random.duckdb
     outs:
       - sweeps/random/ImplicitMF-ALS.json:
           cache: false
