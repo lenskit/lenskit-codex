@@ -518,3 +518,25 @@ stages:
       md5: c89c011c87f0fe010c2772c2cf74049c.dir
       size: 87539337
       nfiles: 35
+  run-temporal-default-UKNN-Implicit:
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
+      -o runs/temporal-default/UKNN-Implicit UKNN-Implicit
+    deps:
+    - path: ../../models/UKNN-Implicit.toml
+      hash: md5
+      md5: a58a3e7ad35116cb737f895bab17c799
+      size: 152
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 2fdcc833a811d24cbbf8a142383f2df9
+      size: 116
+    outs:
+    - path: runs/temporal-default/UKNN-Implicit
+      hash: md5
+      md5: 909b859e1519769eb2a3952c91c8bb9a.dir
+      size: 3236969
+      nfiles: 11

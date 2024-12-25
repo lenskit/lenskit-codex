@@ -77,3 +77,11 @@ stages:
       md5: 6f8af1a042f598fa9a195af1b6bdea5a.dir
       size: 12874047
       nfiles: 35
+  collect-metrics:
+    cmd: lenskit-codex collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql
+      runs
+    outs:
+    - path: run-metrics.duckdb
+      hash: md5
+      md5: c2a8970f70fa35e84daa208593b39b5a
+      size: 274432
