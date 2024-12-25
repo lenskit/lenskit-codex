@@ -20,7 +20,7 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
       ),
       params: [{ "../../config.toml": ["random.seed"] }],
       deps: [
-        "splits/${split}.duckdb",
+        `splits/${split}.duckdb`,
         "ratings.duckdb",
         `../../models/${name}.toml`,
       ],
