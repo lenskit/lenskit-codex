@@ -73,7 +73,7 @@ def recommend_and_save(
                         metric_collector.write_object(meta | metrics)  # type: ignore
                     pb.update()
 
-    df = pd.DataFrame.from_records(metric_list)
+    df = pd.DataFrame.from_records(metric_list).set_index("user_id")
     return RunAnalysisResult(
         df,
         pd.Series(),
