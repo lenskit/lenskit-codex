@@ -6,11 +6,10 @@ import json
 import shutil
 import sys
 from itertools import product
-from os import fspath
 from pathlib import Path
 
 import click
-import duckdb
+import pandas as pd
 import structlog
 from lenskit.logging import item_progress
 
@@ -133,6 +132,7 @@ def run_sweep(
                     "run_id": str(run_id),
                     "train_task": tr_task.model_dump(mode="json"),
                     "test_task": test_task.model_dump(mode="json"),
+                    "params": mod_inst.params,
                     "metrics": result.list_summary()["mean"].to_dict(),
                 }
                 print(json.dumps(run), file=jsf)
@@ -142,39 +142,35 @@ def run_sweep(
 
 
 @sweep.command("export")
-@click.argument("DATABASE", type=Path)
+@click.option("-o", "--output", type=Path, metavar="FILE", help="write output to FILE")
+@click.argument("SWEEP", type=Path)
 @click.argument("METRIC")
-def export_best_results(database: Path, metric: str):
-    order = "ASC" if metric == "rmse" else "DESC"
+def export_best_results(sweep: Path, metric: str, output: Path):
+    log = _log.bind(results=str(sweep))
+    order = "ASC" if metric in ("RMSE", "MAE") else "DESC"
 
-    with duckdb.connect(fspath(database), read_only=True) as db:
-        um_cols = db.table("user_metrics").columns
-        um_aggs = ", ".join(
-            f"AVG({col}) AS {col}" for col in um_cols if col not in {"run", "user_id", "wall_time"}
-        )
-        _log.info("fetching output results")
-        query = f"""
-            SELECT COLUMNS(rs.* EXCLUDE rec_id),
-                tm.wall_time AS TrainTime,
-                tm.cpu_time AS TrainCPU,
-                rss_max_kb / 1024 AS TrainMemMB,
-                {um_aggs}
-            FROM run_specs rs
-            JOIN train_stats tm USING (run)
-            JOIN user_metrics um USING (run)
-            GROUP BY rs.*
-            ORDER BY {metric} {order}
-        """
-        top = db.sql(query)
-        print(top.limit(5).to_df())
+    log.info("reading runs.json")
+    run_file = sweep / "runs.json"
+    data = pd.read_json(run_file, lines=True)
 
-        csv_fn = database.with_suffix(".csv")
-        _log.info("writing results to %s", csv_fn)
-        top.write_csv(fspath(csv_fn))
+    run_ids = data["run_id"]
+    params = pd.json_normalize(data["params"].tolist()).assign(run_id=run_ids).set_index("run_id")
+    metrics = pd.json_normalize(data["metrics"].tolist()).assign(run_id=run_ids).set_index("run_id")
 
-        json_fn = database.with_suffix(".json")
-        _log.info("writing best configuration to %s", json_fn)
-        best_row = top.fetchone()
-        assert best_row is not None
-        best = dict(zip(top.columns, best_row))
-        json_fn.write_text(json.dumps(best, indent=2) + "\n")
+    if order == "DESC":
+        top = metrics.nlargest(5, metric)
+    else:
+        top = metrics.nsmallest(5, metric)
+
+    log.info("best results:\n%s", top.join(params, how="left"))
+
+    best_id = top.index[0]
+    best = {
+        "run_id": best_id,
+        "metrics": metrics.loc[best_id].to_dict(),
+        "params": params.loc[best_id].to_dict(),
+    }
+    log.info("found best configuration", config=best)
+
+    output.parent.mkdir(exist_ok=True, parents=True)
+    output.write_text(json.dumps(best) + "\n")

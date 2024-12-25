@@ -42,23 +42,32 @@ class ModelConfig(BaseModel, extra="forbid"):
         """
         Instantiate the configured model.
         """
+        log = _log.bind(model=self.name)
         params = self.constant
 
         if config is None:
+            log.info("instantiating with default parameters")
             params = params | self.default
         elif isinstance(config, dict):
+            log.info("instantiating with provided parameters")
             params = params | config
         else:
             path = Path(config)
-            _log.info("reading parameters from file", file=path.as_posix())
+            log = log.bind(file=str(config))
+            _log.info("reading parameters from file")
             if path.suffix == ".json":
                 with open(config) as jsf:
-                    params = params | json.load(jsf)
+                    fdata = json.load(jsf)
             elif path.suffix == ".toml":
                 with open(config, "rb") as inf:
-                    params = params | tomllib.load(inf)
+                    fdata = tomllib.load(inf)
             else:
                 raise ValueError(f"unsupported file type for {path}")
+
+            if "params" in fdata:
+                log.debug("using params object")
+                fdata = fdata["params"]
+            params = params | fdata
 
         cls = self.scorer_class
         scorer = cls.from_config(params)
