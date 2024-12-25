@@ -189,9 +189,9 @@ stages:
     outs:
     - path: sweeps/random/Bias
       hash: md5
-      md5: 4826c71d50951a900c57991dbc200813.dir
-      size: 8601469
-      nfiles: 260
+      md5: f86102ebd41a1bfd13a9dbb20bc13657.dir
+      size: 171005
+      nfiles: 36
   sweep-random-BiasedMF-ALS:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
       BiasedMF-ALS sweeps/random/BiasedMF-ALS.duckdb
@@ -321,21 +321,19 @@ stages:
       md5: 61bb1e8e867780d64dc111e0bdaedbb1
       size: 247
   export-random-Bias:
-    cmd: python ../../action.py sweep export sweeps/random/Bias.duckdb rmse
+    cmd: lenskit-codex sweep export -o sweeps/random/Bias.json sweeps/random/Bias
+      RMSE
     deps:
-    - path: sweeps/random/Bias.duckdb
+    - path: sweeps/random/Bias
       hash: md5
-      md5: 5baffc1250e0eeb6bfe5e41b97970ce3
-      size: 12333056
+      md5: f86102ebd41a1bfd13a9dbb20bc13657.dir
+      size: 171005
+      nfiles: 36
     outs:
-    - path: sweeps/random/Bias.csv
-      hash: md5
-      md5: 6247ac8d27015c13516f5e9a3f88ab12
-      size: 2082
     - path: sweeps/random/Bias.json
       hash: md5
-      md5: 67377580a8e87923a85043db83f7236d
-      size: 318
+      md5: 9ba5f36681b22dfc8da204e40e4d795b
+      size: 313
   export-random-IKNN-Explicit:
     cmd: python ../../action.py sweep export sweeps/random/IKNN-Explicit.duckdb rmse
     deps:
@@ -385,31 +383,31 @@ stages:
       md5: 4ebfe15a3b3072086408fdc861bf37ae
       size: 2371584
   run-random-sweep-best-Bias:
-    cmd: python ../../action.py generate --param-file=sweeps/random/Bias.json --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/Bias.duckdb
-      Bias
+    cmd: lenskit-codex generate --param-file=sweeps/random/Bias.json --split=splits/random.toml
+      --test-part=-0 -o runs/random-sweep-best/Bias Bias
     deps:
-    - path: ../../codex/models/Bias.py
+    - path: ../../models/Bias.toml
       hash: md5
-      md5: e35eac761bf892674a6fb8570132e7f1
-      size: 375
+      md5: 97f305e8c04fb52cff715d59711b5eed
+      size: 146
     - path: ratings.duckdb
       hash: md5
-      md5: a770a8e6c558a398515b74def824e7b8
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
       size: 2371584
     - path: splits/random.duckdb
       hash: md5
-      md5: 0341a9b25f8c8d872957470e9f29df47
+      md5: 521fdd73e436db6dfb4295eba802dddd
       size: 536576
     - path: sweeps/random/Bias.json
       hash: md5
-      md5: 67377580a8e87923a85043db83f7236d
-      size: 318
+      md5: 9ba5f36681b22dfc8da204e40e4d795b
+      size: 313
     outs:
-    - path: runs/random-sweep-best/Bias.duckdb
+    - path: runs/random-sweep-best/Bias
       hash: md5
-      md5: 7110e3c903476b66478df4a521b46766
-      size: 1585152
+      md5: 02f27e6411a94f84421088a815b8cee6.dir
+      size: 36964
+      nfiles: 11
   run-random-default-ImplicitMF-ALS:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS

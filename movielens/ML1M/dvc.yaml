@@ -30,11 +30,11 @@ stages:
     outs:
       - sweeps/random/Bias
   export-random-Bias:
-    cmd: lenskit-codex sweep export sweeps/random/Bias.duckdb rmse
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/random/Bias.json sweeps/random/Bias RMSE
     deps:
-      - sweeps/random/Bias.duckdb
+      - sweeps/random/Bias
     outs:
-      - sweeps/random/Bias.csv
       - sweeps/random/Bias.json:
           cache: false
   sweep-random-HPF:
@@ -50,11 +50,10 @@ stages:
     outs:
       - sweeps/random/HPF
   export-random-HPF:
-    cmd: lenskit-codex sweep export sweeps/random/HPF.duckdb ndcg
+    cmd: lenskit-codex sweep export -o sweeps/random/HPF.json sweeps/random/HPF RBP
     deps:
-      - sweeps/random/HPF.duckdb
+      - sweeps/random/HPF
     outs:
-      - sweeps/random/HPF.csv
       - sweeps/random/HPF.json:
           cache: false
   sweep-random-BiasedMF-ALS:
@@ -70,11 +69,11 @@ stages:
     outs:
       - sweeps/random/BiasedMF-ALS
   export-random-BiasedMF-ALS:
-    cmd: lenskit-codex sweep export sweeps/random/BiasedMF-ALS.duckdb rmse
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/random/BiasedMF-ALS.json sweeps/random/BiasedMF-ALS RMSE
     deps:
-      - sweeps/random/BiasedMF-ALS.duckdb
+      - sweeps/random/BiasedMF-ALS
     outs:
-      - sweeps/random/BiasedMF-ALS.csv
       - sweeps/random/BiasedMF-ALS.json:
           cache: false
   sweep-random-IKNN-Explicit:
@@ -90,11 +89,11 @@ stages:
     outs:
       - sweeps/random/IKNN-Explicit
   export-random-IKNN-Explicit:
-    cmd: lenskit-codex sweep export sweeps/random/IKNN-Explicit.duckdb rmse
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/random/IKNN-Explicit.json sweeps/random/IKNN-Explicit RMSE
     deps:
-      - sweeps/random/IKNN-Explicit.duckdb
+      - sweeps/random/IKNN-Explicit
     outs:
-      - sweeps/random/IKNN-Explicit.csv
       - sweeps/random/IKNN-Explicit.json:
           cache: false
   sweep-random-IKNN-Implicit:
@@ -110,11 +109,11 @@ stages:
     outs:
       - sweeps/random/IKNN-Implicit
   export-random-IKNN-Implicit:
-    cmd: lenskit-codex sweep export sweeps/random/IKNN-Implicit.duckdb ndcg
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/random/IKNN-Implicit.json sweeps/random/IKNN-Implicit RBP
     deps:
-      - sweeps/random/IKNN-Implicit.duckdb
+      - sweeps/random/IKNN-Implicit
     outs:
-      - sweeps/random/IKNN-Implicit.csv
       - sweeps/random/IKNN-Implicit.json:
           cache: false
   sweep-random-UKNN-Explicit:
@@ -130,11 +129,11 @@ stages:
     outs:
       - sweeps/random/UKNN-Explicit
   export-random-UKNN-Explicit:
-    cmd: lenskit-codex sweep export sweeps/random/UKNN-Explicit.duckdb rmse
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/random/UKNN-Explicit.json sweeps/random/UKNN-Explicit RMSE
     deps:
-      - sweeps/random/UKNN-Explicit.duckdb
+      - sweeps/random/UKNN-Explicit
     outs:
-      - sweeps/random/UKNN-Explicit.csv
       - sweeps/random/UKNN-Explicit.json:
           cache: false
   sweep-random-UKNN-Implicit:
@@ -150,11 +149,11 @@ stages:
     outs:
       - sweeps/random/UKNN-Implicit
   export-random-UKNN-Implicit:
-    cmd: lenskit-codex sweep export sweeps/random/UKNN-Implicit.duckdb ndcg
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/random/UKNN-Implicit.json sweeps/random/UKNN-Implicit RBP
     deps:
-      - sweeps/random/UKNN-Implicit.duckdb
+      - sweeps/random/UKNN-Implicit
     outs:
-      - sweeps/random/UKNN-Implicit.csv
       - sweeps/random/UKNN-Implicit.json:
           cache: false
   sweep-random-ImplicitMF-ALS:
@@ -170,11 +169,11 @@ stages:
     outs:
       - sweeps/random/ImplicitMF-ALS
   export-random-ImplicitMF-ALS:
-    cmd: lenskit-codex sweep export sweeps/random/ImplicitMF-ALS.duckdb ndcg
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS.json sweeps/random/ImplicitMF-ALS RBP
     deps:
-      - sweeps/random/ImplicitMF-ALS.duckdb
+      - sweeps/random/ImplicitMF-ALS
     outs:
-      - sweeps/random/ImplicitMF-ALS.csv
       - sweeps/random/ImplicitMF-ALS.json:
           cache: false
   run-random-default-Bias:
@@ -188,11 +187,11 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-Bias:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/Bias.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/Bias.duckdb Bias
+      lenskit-codex generate --param-file=sweeps/random/Bias.json --split=splits/random.toml --test-part=-0 -o runs/random-sweep-best/Bias Bias
     outs:
-      - runs/random-sweep-best/Bias.duckdb
+      - runs/random-sweep-best/Bias
     deps:
-      - ../../codex/models/Bias.py
+      - ../../models/Bias.toml
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/Bias.json
@@ -207,11 +206,11 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-HPF:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/HPF.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/HPF.duckdb HPF
+      lenskit-codex generate --param-file=sweeps/random/HPF.json --split=splits/random.toml --test-part=-0 -o runs/random-sweep-best/HPF HPF
     outs:
-      - runs/random-sweep-best/HPF.duckdb
+      - runs/random-sweep-best/HPF
     deps:
-      - ../../codex/models/HPF.py
+      - ../../models/HPF.toml
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/HPF.json
@@ -235,11 +234,11 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/BiasedMF-ALS.duckdb BiasedMF-ALS
+      lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --split=splits/random.toml --test-part=-0 -o runs/random-sweep-best/BiasedMF-ALS BiasedMF-ALS
     outs:
-      - runs/random-sweep-best/BiasedMF-ALS.duckdb
+      - runs/random-sweep-best/BiasedMF-ALS
     deps:
-      - ../../codex/models/BiasedMF_ALS.py
+      - ../../models/BiasedMF-ALS.toml
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/BiasedMF-ALS.json
@@ -254,11 +253,11 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-IKNN-Explicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/IKNN-Explicit.duckdb IKNN-Explicit
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --split=splits/random.toml --test-part=-0 -o runs/random-sweep-best/IKNN-Explicit IKNN-Explicit
     outs:
-      - runs/random-sweep-best/IKNN-Explicit.duckdb
+      - runs/random-sweep-best/IKNN-Explicit
     deps:
-      - ../../codex/models/IKNN_Explicit.py
+      - ../../models/IKNN-Explicit.toml
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/IKNN-Explicit.json
@@ -273,11 +272,11 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-IKNN-Implicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/IKNN-Implicit.duckdb IKNN-Implicit
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --split=splits/random.toml --test-part=-0 -o runs/random-sweep-best/IKNN-Implicit IKNN-Implicit
     outs:
-      - runs/random-sweep-best/IKNN-Implicit.duckdb
+      - runs/random-sweep-best/IKNN-Implicit
     deps:
-      - ../../codex/models/IKNN_Implicit.py
+      - ../../models/IKNN-Implicit.toml
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/IKNN-Implicit.json
@@ -292,11 +291,11 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-UKNN-Explicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/UKNN-Explicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/UKNN-Explicit.duckdb UKNN-Explicit
+      lenskit-codex generate --param-file=sweeps/random/UKNN-Explicit.json --split=splits/random.toml --test-part=-0 -o runs/random-sweep-best/UKNN-Explicit UKNN-Explicit
     outs:
-      - runs/random-sweep-best/UKNN-Explicit.duckdb
+      - runs/random-sweep-best/UKNN-Explicit
     deps:
-      - ../../codex/models/UKNN_Explicit.py
+      - ../../models/UKNN-Explicit.toml
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/UKNN-Explicit.json
@@ -311,11 +310,11 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-UKNN-Implicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/UKNN-Implicit.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/UKNN-Implicit.duckdb UKNN-Implicit
+      lenskit-codex generate --param-file=sweeps/random/UKNN-Implicit.json --split=splits/random.toml --test-part=-0 -o runs/random-sweep-best/UKNN-Implicit UKNN-Implicit
     outs:
-      - runs/random-sweep-best/UKNN-Implicit.duckdb
+      - runs/random-sweep-best/UKNN-Implicit
     deps:
-      - ../../codex/models/UKNN_Implicit.py
+      - ../../models/UKNN-Implicit.toml
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/UKNN-Implicit.json
@@ -330,25 +329,17 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/ImplicitMF-ALS.duckdb ImplicitMF-ALS
+      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --split=splits/random.toml --test-part=-0 -o runs/random-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
     outs:
-      - runs/random-sweep-best/ImplicitMF-ALS.duckdb
+      - runs/random-sweep-best/ImplicitMF-ALS
     deps:
-      - ../../codex/models/ImplicitMF_ALS.py
+      - ../../models/ImplicitMF-ALS.toml
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/ImplicitMF-ALS.json
   collect-metrics:
     cmd: >-
       lenskit-codex collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql runs
-    deps:
-      - runs/random-sweep-best/Bias.duckdb
-      - runs/random-sweep-best/HPF.duckdb
-      - runs/random-sweep-best/BiasedMF-ALS.duckdb
-      - runs/random-sweep-best/IKNN-Explicit.duckdb
-      - runs/random-sweep-best/IKNN-Implicit.duckdb
-      - runs/random-sweep-best/UKNN-Explicit.duckdb
-      - runs/random-sweep-best/UKNN-Implicit.duckdb
-      - runs/random-sweep-best/ImplicitMF-ALS.duckdb
+    deps: []
     outs:
       - run-metrics.duckdb

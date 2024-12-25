@@ -68,12 +68,17 @@ function ml_sweeps(ds: string): Record<string, Stage> {
       ],
       outs: [`sweeps/random/${name}`],
     };
-    const metric = info.predictor ? "rmse" : "ndcg";
+    const metric = info.predictor ? "RMSE" : "RBP";
     results[`export-random-${name}`] = {
-      cmd: action_cmd(`movielens/${ds}`, "sweep export", `sweeps/random/${name}.duckdb`, metric),
-      deps: [`sweeps/random/${name}.duckdb`],
+      cmd: action_cmd(
+        `movielens/${ds}`,
+        "sweep export",
+        `-o sweeps/random/${name}.json`,
+        `sweeps/random/${name}`,
+        metric,
+      ),
+      deps: [`sweeps/random/${name}`],
       outs: [
-        `sweeps/random/${name}.csv`,
         { [`sweeps/random/${name}.json`]: { cache: false } },
       ],
     };
@@ -111,15 +116,14 @@ function ml_runs(ds: string): Record<string, Stage> {
         `movielens/${name}`,
         "generate",
         `--param-file=sweeps/random/${name}.json`,
+        "--split=splits/random.toml",
         "--test-part=-0",
-        "--assignments=splits/random.duckdb",
-        "--ratings=ratings.duckdb",
-        `-o runs/random-sweep-best/${name}.duckdb`,
+        `-o runs/random-sweep-best/${name}`,
         name,
       ),
-      outs: [`runs/random-sweep-best/${name}.duckdb`],
+      outs: [`runs/random-sweep-best/${name}`],
       deps: [
-        `../../codex/models/${name.replaceAll("-", "_")}.py`,
+        `../../models/${name}.toml`,
         "ratings.duckdb",
         "splits/random.duckdb",
         `sweeps/random/${name}.json`,
