@@ -72,29 +72,30 @@ stages:
       md5: 73e24193c1454e73ad0845182e86782d
       size: 536576
   sweep-random-Bias:
-    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
-      Bias sweeps/random/Bias.duckdb
+    cmd: lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0
+      Bias sweeps/random/Bias
     deps:
-    - path: ../../codex/models/Bias.py
+    - path: ../../models/Bias.toml
       hash: md5
-      md5: e35eac761bf892674a6fb8570132e7f1
-      size: 375
+      md5: 97f305e8c04fb52cff715d59711b5eed
+      size: 146
     - path: ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: splits/random.duckdb
       hash: md5
-      md5: 23c62fcd51a637d1109d93c6341e9ec0
+      md5: 73e24193c1454e73ad0845182e86782d
       size: 536576
     params:
       ../../config.toml:
         random.seed: 20240717
     outs:
-    - path: sweeps/random/Bias.duckdb
+    - path: sweeps/random/Bias
       hash: md5
-      md5: 751b966172555905c2aad2145f80ce16
-      size: 67121152
+      md5: 6d82967b30379fa7491901ab69cc7226.dir
+      size: 55178140
+      nfiles: 260
   sweep-random-BiasedMF-ALS:
     cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
       BiasedMF-ALS sweeps/random/BiasedMF-ALS.duckdb
@@ -210,21 +211,19 @@ stages:
       md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
   export-random-Bias:
-    cmd: python ../../action.py sweep export sweeps/random/Bias.duckdb rmse
+    cmd: lenskit-codex sweep export -o sweeps/random/Bias.json sweeps/random/Bias
+      RMSE
     deps:
-    - path: sweeps/random/Bias.duckdb
+    - path: sweeps/random/Bias
       hash: md5
-      md5: c8925a5780e228470ffbe15b1670857e
-      size: 16003072
+      md5: 6d82967b30379fa7491901ab69cc7226.dir
+      size: 55178140
+      nfiles: 260
     outs:
-    - path: sweeps/random/Bias.csv
-      hash: md5
-      md5: 214d0cd60669e8f13b0be941b6aa4bea
-      size: 2100
     - path: sweeps/random/Bias.json
       hash: md5
-      md5: acdb07cbbec917be8939b3d7018070af
-      size: 318
+      md5: bf9d967ab063e4605ca42abce936d3b1
+      size: 287
   export-random-BiasedMF-ALS:
     cmd: python ../../action.py sweep export sweeps/random/BiasedMF-ALS.duckdb rmse
     deps:
@@ -310,31 +309,31 @@ stages:
       size: 2990563
       nfiles: 67
   run-random-sweep-best-Bias:
-    cmd: python ../../action.py generate --param-file=sweeps/random/Bias.json --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o runs/random-sweep-best/Bias.duckdb
-      Bias
+    cmd: lenskit-codex generate --param-file=sweeps/random/Bias.json --split=splits/random.toml
+      --test-part=-0 -o runs/random-sweep-best/Bias Bias
     deps:
-    - path: ../../codex/models/Bias.py
+    - path: ../../models/Bias.toml
       hash: md5
-      md5: e35eac761bf892674a6fb8570132e7f1
-      size: 375
+      md5: 97f305e8c04fb52cff715d59711b5eed
+      size: 146
     - path: ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: splits/random.duckdb
       hash: md5
-      md5: 23c62fcd51a637d1109d93c6341e9ec0
+      md5: 73e24193c1454e73ad0845182e86782d
       size: 536576
     - path: sweeps/random/Bias.json
       hash: md5
-      md5: acdb07cbbec917be8939b3d7018070af
-      size: 318
+      md5: bf9d967ab063e4605ca42abce936d3b1
+      size: 287
     outs:
-    - path: runs/random-sweep-best/Bias.duckdb
+    - path: runs/random-sweep-best/Bias
       hash: md5
-      md5: 510092cd795b8f38f7893819128c75e5
-      size: 4206592
+      md5: 1c7ee97cb14ac9b59edb68c5a82dc2f3.dir
+      size: 3065711
+      nfiles: 67
   run-random-default-Popular:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/Popular Popular

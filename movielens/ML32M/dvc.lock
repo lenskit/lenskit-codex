@@ -85,3 +85,47 @@ stages:
       hash: md5
       md5: c2a8970f70fa35e84daa208593b39b5a
       size: 274432
+  run-temporal-valid-default-ImplicitMF-ALS:
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
+      -o runs/temporal-valid-default/ImplicitMF-ALS ImplicitMF-ALS
+    deps:
+    - path: ../../models/ImplicitMF-ALS.toml
+      hash: md5
+      md5: e3b0120ab5820325128a9eb87d851e7f
+      size: 151
+    - path: ratings.duckdb
+      hash: md5
+      md5: a81c61d4b9ee0568294bdec12ad5a7de
+      size: 383004672
+    - path: splits/temporal.toml
+      hash: md5
+      md5: fb7e01165c4c72af87a6a499697e4d33
+      size: 116
+    outs:
+    - path: runs/temporal-valid-default/ImplicitMF-ALS
+      hash: md5
+      md5: 570f24cea40a1c1a157aa1dfd54e0a0a.dir
+      size: 5223357
+      nfiles: 11
+  run-temporal-valid-default-UKNN-Implicit:
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
+      -o runs/temporal-valid-default/UKNN-Implicit UKNN-Implicit
+    deps:
+    - path: ../../models/UKNN-Implicit.toml
+      hash: md5
+      md5: a58a3e7ad35116cb737f895bab17c799
+      size: 152
+    - path: ratings.duckdb
+      hash: md5
+      md5: a81c61d4b9ee0568294bdec12ad5a7de
+      size: 383004672
+    - path: splits/temporal.toml
+      hash: md5
+      md5: fb7e01165c4c72af87a6a499697e4d33
+      size: 116
+    outs:
+    - path: runs/temporal-valid-default/UKNN-Implicit
+      hash: md5
+      md5: 12cbe30aef1485aa66823cf28e793906.dir
+      size: 5054679
+      nfiles: 11
