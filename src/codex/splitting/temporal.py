@@ -19,14 +19,15 @@ class TemporalSplitSet(SplitSet):
     """
 
     source: Path
-    db: duckdb.DuckDBPyConnection
     spec: TemporalSpec
+    db: duckdb.DuckDBPyConnection
     log: structlog.stdlib.BoundLogger
 
     parts = ["valid", "test"]
 
     def __init__(self, source: Path, spec: TemporalSpec):
         self.source = source
+        self.spec = spec
         self.db = duckdb.connect(fspath(source), read_only=True)
         self.log = _log.bind(file=str(source))
 
@@ -47,21 +48,24 @@ class TemporalSplitSet(SplitSet):
             FROM ratings
             WHERE timestamp < $lb
         """
+        train_params = {"lb": lb}
         test_query = """
             SELECT user_id, item_id, rating, timestamp
             FROM ratings
             WHERE timestamp >= $lb
         """
+        test_params = {"lb": lb}
         if ub is not None:
             test_query += " AND timestamp < $ub"
+            test_params["ub"] = ub
 
         self.log.debug("fetching train data")
-        self.db.execute(train_query, {"lb": lb, "ub": ub})
+        self.db.execute(train_query, train_params)
         train_df = self.db.fetch_df()
         train = from_interactions_df(train_df)
 
         self.log.debug("fetching test data")
-        self.db.execute(test_query, {"lb": lb, "ub": ub})
+        self.db.execute(test_query, test_params)
         test_df = self.db.fetch_df()
         test = ItemListCollection.from_df(test_df, UserIDKey)
 

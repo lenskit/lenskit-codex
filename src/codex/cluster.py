@@ -1,6 +1,7 @@
 import os
 from collections.abc import Generator
 from contextlib import contextmanager
+from typing import Callable
 
 import ray
 import ray.actor
@@ -49,18 +50,18 @@ class CodexActor:
 
 
 @contextmanager
-def worker_pool(
-    actor: ray.actor.ActorClass, *args, n_jobs: int | None = None
+def worker_pool[T, **P](
+    actor: Callable[P, T], *args: P.args, **kwargs: P.kwargs
 ) -> Generator[ray.util.ActorPool, None, None]:
     log = _log.bind()
     ensure_parallel_init()
-    if n_jobs is None:
-        cfg = get_parallel_config()
-        n_jobs = cfg.processes
+    cfg = get_parallel_config()
+    n_jobs = cfg.processes
 
     log = log.bind(n_jobs=n_jobs)
     log.info("creating actor pool")
-    workers = [actor.remote(*args) for i in range(n_jobs)]
+    actor = ray.remote(actor)  # type: ignore
+    workers = [actor.remote(*args, **kwargs) for i in range(n_jobs)]
 
     pool = ray.util.ActorPool(workers)
     try:
