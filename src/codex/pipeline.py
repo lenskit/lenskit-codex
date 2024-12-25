@@ -18,10 +18,7 @@ def base_pipeline(
         scorer = DummyScorer()
     builder.scorer(scorer)
     if predicts_ratings:
-        if isinstance(scorer, BiasScorer):
-            builder.predicts_ratings()
-        else:
-            builder.predicts_ratings(BiasScorer())
+        builder.predicts_ratings(fallback=BiasScorer())
 
     return builder.build(name)
 
