@@ -8,7 +8,7 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
   const results: Record<string, Stage> = {};
   let split_dep = split == "random" ? "splits/random.duckdb" : `splits/${split}.toml`;
   for (const [name, info] of Object.entries(active)) {
-    results[`sweep-random-${name}`] = {
+    results[`sweep-${split}-${name}`] = {
       cmd: action_cmd(
         `movielens/${ds}`,
         "sweep run",
@@ -20,14 +20,14 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
       ),
       params: [{ "../../config.toml": ["random.seed"] }],
       deps: [
-        "splits/random.duckdb",
+        "splits/${split}.duckdb",
         "ratings.duckdb",
         `../../models/${name}.toml`,
       ],
       outs: [`sweeps/${split}/${name}`],
     };
     const metric = info.predictor ? "RMSE" : "RBP";
-    results[`export-random-${name}`] = {
+    results[`export-${split}-${name}`] = {
       cmd: action_cmd(
         `movielens/${ds}`,
         "sweep export",
@@ -37,7 +37,7 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
       ),
       deps: [`sweeps/${split}/${name}`],
       outs: [
-        { [`sweeps/random/${name}.json`]: { cache: false } },
+        { [`sweeps/${split}/${name}.json`]: { cache: false } },
       ],
     };
   }

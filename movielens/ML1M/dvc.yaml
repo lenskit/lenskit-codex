@@ -24,7 +24,7 @@ stages:
       - ../../config.toml:
           - random.seed
     deps:
-      - splits/random.duckdb
+      - 'splits/${split}.duckdb'
       - ratings.duckdb
       - ../../models/Bias.toml
     outs:
@@ -44,7 +44,7 @@ stages:
       - ../../config.toml:
           - random.seed
     deps:
-      - splits/random.duckdb
+      - 'splits/${split}.duckdb'
       - ratings.duckdb
       - ../../models/HPF.toml
     outs:
@@ -63,7 +63,7 @@ stages:
       - ../../config.toml:
           - random.seed
     deps:
-      - splits/random.duckdb
+      - 'splits/${split}.duckdb'
       - ratings.duckdb
       - ../../models/BiasedMF-ALS.toml
     outs:
@@ -83,7 +83,7 @@ stages:
       - ../../config.toml:
           - random.seed
     deps:
-      - splits/random.duckdb
+      - 'splits/${split}.duckdb'
       - ratings.duckdb
       - ../../models/IKNN-Explicit.toml
     outs:
@@ -103,7 +103,7 @@ stages:
       - ../../config.toml:
           - random.seed
     deps:
-      - splits/random.duckdb
+      - 'splits/${split}.duckdb'
       - ratings.duckdb
       - ../../models/IKNN-Implicit.toml
     outs:
@@ -123,7 +123,7 @@ stages:
       - ../../config.toml:
           - random.seed
     deps:
-      - splits/random.duckdb
+      - 'splits/${split}.duckdb'
       - ratings.duckdb
       - ../../models/UKNN-Explicit.toml
     outs:
@@ -143,7 +143,7 @@ stages:
       - ../../config.toml:
           - random.seed
     deps:
-      - splits/random.duckdb
+      - 'splits/${split}.duckdb'
       - ratings.duckdb
       - ../../models/UKNN-Implicit.toml
     outs:
@@ -163,7 +163,7 @@ stages:
       - ../../config.toml:
           - random.seed
     deps:
-      - splits/random.duckdb
+      - 'splits/${split}.duckdb'
       - ratings.duckdb
       - ../../models/ImplicitMF-ALS.toml
     outs:
