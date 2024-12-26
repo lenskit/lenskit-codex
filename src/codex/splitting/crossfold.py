@@ -4,7 +4,8 @@ from typing import override
 
 import duckdb
 import structlog
-from lenskit.data import ItemListCollection, UserIDKey, from_interactions_df
+from lenskit.data import ItemListCollection, UserIDKey, Vocabulary, from_interactions_df
+from lenskit.data.matrix import MatrixDataset
 from lenskit.splitting import SampleN, TTSplit, crossfold_users
 
 from ._base import SplitSet
@@ -80,7 +81,17 @@ class CrossfoldSplitSet(SplitSet):
         log.debug("querying for train ratings")
         self.db.execute(train_query, [part])
         train_df = self.db.fetch_df()
-        ds = from_interactions_df(train_df)
+
+        log.debug("fetching entity IDs")
+        self.db.execute("SELECT DISTINCT user_id FROM src.ratings")
+        users = self.db.fetchnumpy()["user_id"]
+        users = Vocabulary(users)
+        self.db.execute("SELECT DISTINCT item_id FROM src.ratings")
+        items = self.db.fetchnumpy()["item_id"]
+        items = Vocabulary(items)
+
+        ds = MatrixDataset(users, items, train_df)
+
         log.info("loaded %d training interactions", ds.interaction_count)
         return TTSplit(ds, test)
 
