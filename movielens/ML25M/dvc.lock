@@ -992,3 +992,73 @@ stages:
       md5: 2256ace7240ad45516405fc74fab7b7f.dir
       size: 5445176
       nfiles: 19
+  run-temporal-default-IKNN-Implicit:
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
+      -o runs/temporal-default/IKNN-Implicit IKNN-Implicit
+    deps:
+    - path: ../../models/IKNN-Implicit.toml
+      hash: md5
+      md5: 2bfec2d4beb12854e5e7d632f0fd6396
+      size: 152
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 17df579e48f44e9f33b81b4520246231
+      size: 116
+    outs:
+    - path: runs/temporal-default/IKNN-Implicit
+      hash: md5
+      md5: fd1ac98c99ffe1fe1240319b847c7515.dir
+      size: 4549250
+      nfiles: 11
+  run-temporal-sweep-best-IKNN-Explicit:
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit.json --split=splits/temporal.toml
+      --test-part=-0 -o runs/temporal-sweep-best/IKNN-Explicit IKNN-Explicit
+    deps:
+    - path: ../../models/IKNN-Explicit.toml
+      hash: md5
+      md5: cb85c79c654c8e897015241c0f670c0d
+      size: 169
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 17df579e48f44e9f33b81b4520246231
+      size: 116
+    - path: sweeps/temporal/IKNN-Explicit.json
+      hash: md5
+      md5: 316cecb9d522523b7ad0c8a5b180aa4d
+      size: 301
+    outs:
+    - path: runs/temporal-sweep-best/IKNN-Explicit
+      hash: md5
+      md5: d213c1d5e16f9d88228175616d8dac7e.dir
+      size: 14800998
+      nfiles: 35
+  run-temporal-valid-default-IKNN-Implicit:
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
+      -o runs/temporal-valid-default/IKNN-Implicit IKNN-Implicit
+    deps:
+    - path: ../../models/IKNN-Implicit.toml
+      hash: md5
+      md5: 2bfec2d4beb12854e5e7d632f0fd6396
+      size: 152
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 17df579e48f44e9f33b81b4520246231
+      size: 116
+    outs:
+    - path: runs/temporal-valid-default/IKNN-Implicit
+      hash: md5
+      md5: 21ad1d396f00fcd580234d05e492810a.dir
+      size: 2781967
+      nfiles: 11
