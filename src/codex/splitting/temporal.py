@@ -75,7 +75,26 @@ class TemporalSplitSet(SplitSet):
         self.log.debug("fetching train data")
         self.db.execute(train_query, train_params)
         train_df = self.db.fetch_df()
-        train = from_interactions_df(train_df)
+
+        self.log.debug("fetching item IDs")
+        if ub is None:
+            self.db.execute("SELECT DISTINCT item_id FROM ratings")
+        else:
+            self.db.execute(
+                "SELECT DISTINCT item_id FROM ratings WHERE timestamp < $ub", {"ub": ub}
+            )
+        items = self.db.fetchnumpy()["item_id"]
+
+        self.log.debug("fetching user IDs")
+        if ub is None:
+            self.db.execute("SELECT DISTINCT user_id FROM ratings")
+        else:
+            self.db.execute(
+                "SELECT DISTINCT user_id FROM ratings WHERE timestamp < $ub", {"ub": ub}
+            )
+        users = self.db.fetchnumpy()["user_id"]
+
+        train = from_interactions_df(train_df, items=items, users=users)
 
         self.log.debug("fetching test data")
         self.db.execute(test_query, test_params)
