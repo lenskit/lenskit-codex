@@ -357,27 +357,27 @@ stages:
       size: 775614
       nfiles: 35
   run-random-default-BiasedMF-ALS:
-    cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
-      --ratings=ratings.duckdb -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
+    cmd: lenskit-codex generate --default --split=splits/random.toml --test-part=-0
+      -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
     deps:
-    - path: ../../codex/models/BiasedMF_ALS.py
+    - path: ../../models/BiasedMF-ALS.toml
       hash: md5
-      md5: b1e2858de432b3ae84206b65d3f92599
-      size: 338
+      md5: d6a4dc846449f893683a847940f9c176
+      size: 166
     - path: ratings.duckdb
       hash: md5
       md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: splits/random.duckdb
       hash: md5
-      md5: 383d2778a4d6f26f1518f2c648049df3
+      md5: 73e24193c1454e73ad0845182e86782d
       size: 536576
     outs:
     - path: runs/random-default/BiasedMF-ALS
       hash: md5
-      md5: d71d2860d2c587a0163456af419bb872.dir
-      size: 3475169
-      nfiles: 35
+      md5: c0835bb17b2973a5fc6e325199751259.dir
+      size: 3545287
+      nfiles: 67
   run-random-sweep-best-BiasedMF-ALS:
     cmd: python ../../action.py generate --param-file=sweeps/random/BiasedMF-ALS.json
       --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
@@ -568,29 +568,30 @@ stages:
       md5: a86a1afe43b08d29a9f368772149ee92
       size: 4206592
   sweep-random-UKNN-Explicit:
-    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
-      UKNN-Explicit sweeps/random/UKNN-Explicit.duckdb
+    cmd: lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0
+      UKNN-Explicit sweeps/random/UKNN-Explicit
     deps:
-    - path: ../../codex/models/UKNN_Explicit.py
+    - path: ../../models/UKNN-Explicit.toml
       hash: md5
-      md5: ef4186443ab61ef9d7ddfc2d71b86fb4
-      size: 378
+      md5: 89a00ff4388a0c347c22d09854f61dd0
+      size: 169
     - path: ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: splits/random.duckdb
       hash: md5
-      md5: 23c62fcd51a637d1109d93c6341e9ec0
+      md5: 73e24193c1454e73ad0845182e86782d
       size: 536576
     params:
       ../../config.toml:
         random.seed: 20240717
     outs:
-    - path: sweeps/random/UKNN-Explicit.duckdb
+    - path: sweeps/random/UKNN-Explicit
       hash: md5
-      md5: b981d565fa4e167c747608406d021cde
-      size: 50081792
+      md5: d77e3a1485e49dce7d8a635a071ded85.dir
+      size: 51588877
+      nfiles: 196
   export-random-UKNN-Explicit:
     cmd: python ../../action.py sweep export sweeps/random/UKNN-Explicit.duckdb rmse
     deps:
@@ -829,26 +830,27 @@ stages:
       md5: e3c82406099442c76d735750d51b3cdf
       size: 4206592
   sweep-random-HPF:
-    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb --assignments=splits/random.duckdb
-      HPF sweeps/random/HPF.duckdb
+    cmd: lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0
+      HPF sweeps/random/HPF
     deps:
-    - path: ../../codex/models/HPF.py
+    - path: ../../models/HPF.toml
       hash: md5
-      md5: c407b5a94b468225c08eb86a9642d513
-      size: 266
+      md5: 0b2c295f5f53e6c0e41cddc0f31b85b2
+      size: 146
     - path: ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: splits/random.duckdb
       hash: md5
-      md5: 23c62fcd51a637d1109d93c6341e9ec0
+      md5: 73e24193c1454e73ad0845182e86782d
       size: 536576
     params:
       ../../config.toml:
         random.seed: 20240717
     outs:
-    - path: sweeps/random/HPF.duckdb
+    - path: sweeps/random/HPF
       hash: md5
-      md5: 9d14c8554b6afc6814c6cf8c958ff068
-      size: 51392512
+      md5: ae9c390d51640754269df375e3ba28ab.dir
+      size: 44601340
+      nfiles: 84
