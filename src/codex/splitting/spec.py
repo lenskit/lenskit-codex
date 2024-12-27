@@ -11,6 +11,7 @@ from pydantic import BaseModel
 class SplitSpec(BaseModel):
     source: str
     method: Literal["crossfold", "temporal"]
+    version: int | str | None = None
 
     temporal: TemporalSpec | None = None
     crossfold: CrossfoldSpec | None = None
