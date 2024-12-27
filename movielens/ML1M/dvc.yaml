@@ -116,46 +116,6 @@ stages:
     outs:
       - sweeps/random/IKNN-Implicit.json:
           cache: false
-  sweep-random-UKNN-Explicit:
-    cmd: >-
-      lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0 UKNN-Explicit sweeps/random/UKNN-Explicit
-    params:
-      - ../../config.toml:
-          - random.seed
-    deps:
-      - splits/random.duckdb
-      - ratings.duckdb
-      - ../../models/UKNN-Explicit.toml
-    outs:
-      - sweeps/random/UKNN-Explicit
-  export-random-UKNN-Explicit:
-    cmd: >-
-      lenskit-codex sweep export -o sweeps/random/UKNN-Explicit.json sweeps/random/UKNN-Explicit RMSE
-    deps:
-      - sweeps/random/UKNN-Explicit
-    outs:
-      - sweeps/random/UKNN-Explicit.json:
-          cache: false
-  sweep-random-UKNN-Implicit:
-    cmd: >-
-      lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0 UKNN-Implicit sweeps/random/UKNN-Implicit
-    params:
-      - ../../config.toml:
-          - random.seed
-    deps:
-      - splits/random.duckdb
-      - ratings.duckdb
-      - ../../models/UKNN-Implicit.toml
-    outs:
-      - sweeps/random/UKNN-Implicit
-  export-random-UKNN-Implicit:
-    cmd: >-
-      lenskit-codex sweep export -o sweeps/random/UKNN-Implicit.json sweeps/random/UKNN-Implicit RBP
-    deps:
-      - sweeps/random/UKNN-Implicit
-    outs:
-      - sweeps/random/UKNN-Implicit.json:
-          cache: false
   sweep-random-ImplicitMF-ALS:
     cmd: >-
       lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0 ImplicitMF-ALS sweeps/random/ImplicitMF-ALS
@@ -280,44 +240,6 @@ stages:
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/IKNN-Implicit.json
-  run-random-default-UKNN-Explicit:
-    cmd: >-
-      lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/UKNN-Explicit UKNN-Explicit
-    outs:
-      - runs/random-default/UKNN-Explicit
-    deps:
-      - ../../models/UKNN-Explicit.toml
-      - ratings.duckdb
-      - splits/random.duckdb
-  run-random-sweep-best-UKNN-Explicit:
-    cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/UKNN-Explicit.json --split=splits/random.toml --test-part=-0 -o runs/random-sweep-best/UKNN-Explicit UKNN-Explicit
-    outs:
-      - runs/random-sweep-best/UKNN-Explicit
-    deps:
-      - ../../models/UKNN-Explicit.toml
-      - ratings.duckdb
-      - splits/random.duckdb
-      - sweeps/random/UKNN-Explicit.json
-  run-random-default-UKNN-Implicit:
-    cmd: >-
-      lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/UKNN-Implicit UKNN-Implicit
-    outs:
-      - runs/random-default/UKNN-Implicit
-    deps:
-      - ../../models/UKNN-Implicit.toml
-      - ratings.duckdb
-      - splits/random.duckdb
-  run-random-sweep-best-UKNN-Implicit:
-    cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/UKNN-Implicit.json --split=splits/random.toml --test-part=-0 -o runs/random-sweep-best/UKNN-Implicit UKNN-Implicit
-    outs:
-      - runs/random-sweep-best/UKNN-Implicit
-    deps:
-      - ../../models/UKNN-Implicit.toml
-      - ratings.duckdb
-      - splits/random.duckdb
-      - sweeps/random/UKNN-Implicit.json
   run-random-default-ImplicitMF-ALS:
     cmd: >-
       lenskit-codex generate --default --split=splits/random.toml --test-part=-0 -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
