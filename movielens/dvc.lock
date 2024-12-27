@@ -1,35 +1,35 @@
 schema: '2.0'
 stages:
   aggregate:
-    cmd: python ../action.py movielens aggregate -d merged-stats.duckdb ML100K ML1M
-      ML10M ML20M ML25M ML32M
+    cmd: lenskit-codex movielens aggregate -d merged-stats.duckdb ML100K ML1M ML10M
+      ML20M ML25M ML32M
     deps:
     - path: ML100K/ratings.duckdb
       hash: md5
-      md5: a770a8e6c558a398515b74def824e7b8
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
       size: 2371584
     - path: ML10M/ratings.duckdb
       hash: md5
-      md5: 1a8b11ed426f9ff718074d7ce44e3dcd
-      size: 120598528
+      md5: 5b61a4ef8958fb6559b0e697ed88c453
+      size: 119549952
     - path: ML1M/ratings.duckdb
       hash: md5
-      md5: 4c71c11bc9aa7b5f7fb561c7570e3a48
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
       size: 11284480
     - path: ML20M/ratings.duckdb
       hash: md5
-      md5: cccd30242af2c39130c7e15a6e20a523
-      size: 239874048
+      md5: 635c81f0f1854b8fe09b9acecbdd7f51
+      size: 239349760
     - path: ML25M/ratings.duckdb
       hash: md5
-      md5: 9463b4c41e34c62316f2518ffa78b1bd
-      size: 299642880
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
     - path: ML32M/ratings.duckdb
       hash: md5
-      md5: bb6c15fab0f9f49d334babc97b3b3ef6
-      size: 381693952
+      md5: a81c61d4b9ee0568294bdec12ad5a7de
+      size: 383004672
     outs:
     - path: merged-stats.duckdb
       hash: md5
-      md5: 1ebb6fa6d0505ffb9dcb6438fe9def58
+      md5: bd6157a86d399ec27b6447d617be0da7
       size: 29372416

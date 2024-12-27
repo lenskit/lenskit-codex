@@ -271,21 +271,19 @@ stages:
       md5: 75c7966e1b1602abd3c2eeda7aeba7d9
       size: 306
   export-random-IKNN-Implicit:
-    cmd: python ../../action.py sweep export sweeps/random/IKNN-Implicit.duckdb ndcg
+    cmd: lenskit-codex sweep export -o sweeps/random/IKNN-Implicit.json sweeps/random/IKNN-Implicit
+      RBP
     deps:
-    - path: sweeps/random/IKNN-Implicit.duckdb
+    - path: sweeps/random/IKNN-Implicit
       hash: md5
-      md5: 13f47bed22d529022e5829c3024a32c4
-      size: 11546624
+      md5: 461028756c06063fdd317c5b2ff89a46.dir
+      size: 51013404
+      nfiles: 100
     outs:
-    - path: sweeps/random/IKNN-Implicit.csv
-      hash: md5
-      md5: 62fd5269551936c2e51eaf025a318479
-      size: 1105
     - path: sweeps/random/IKNN-Implicit.json
       hash: md5
-      md5: d58675b3abf7d10b9e36d0d3a82746b3
-      size: 246
+      md5: 5b30716985cf5505118dad723f6ba9b1
+      size: 244
   run-random-default-Bias:
     cmd: lenskit-codex generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/Bias Bias
@@ -854,3 +852,24 @@ stages:
       md5: ae9c390d51640754269df375e3ba28ab.dir
       size: 44601340
       nfiles: 84
+  export-random-HPF:
+    cmd: lenskit-codex sweep export -o sweeps/random/HPF.json sweeps/random/HPF RBP
+    deps:
+    - path: sweeps/random/HPF
+      hash: md5
+      md5: ae9c390d51640754269df375e3ba28ab.dir
+      size: 44601340
+      nfiles: 84
+    outs:
+    - path: sweeps/random/HPF.json
+      hash: md5
+      md5: 00c4d37992b0eb319365699b8a42572b
+      size: 204
+  collect-metrics:
+    cmd: lenskit-codex collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql
+      runs
+    outs:
+    - path: run-metrics.duckdb
+      hash: md5
+      md5: c2a8970f70fa35e84daa208593b39b5a
+      size: 274432
