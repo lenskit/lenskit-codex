@@ -586,8 +586,8 @@ stages:
       size: 10095819
       nfiles: 19
   run-temporal-default-Bias:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
-      -o runs/temporal-default/Bias Bias
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/Bias
+      Bias
     deps:
     - path: ../../models/Bias.toml
       hash: md5
@@ -604,9 +604,9 @@ stages:
     outs:
     - path: runs/temporal-default/Bias
       hash: md5
-      md5: 872c4f0c10739a37412b5355b3889218.dir
-      size: 11066530
-      nfiles: 19
+      md5: 51aac9c58219ae3da32e693bcc381d12.dir
+      size: 20547488
+      nfiles: 35
   run-temporal-sweep-best-IKNN-Implicit:
     cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit.json --split=splits/temporal.toml
       --test-part=-0 -o runs/temporal-sweep-best/IKNN-Implicit IKNN-Implicit
