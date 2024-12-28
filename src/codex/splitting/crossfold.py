@@ -72,6 +72,7 @@ class CrossfoldSplitSet(SplitSet):
             WITH test_pairs AS (SELECT user_id, item_id FROM test_alloc WHERE partition = ?)
             SELECT user_id, item_id, rating, timestamp
             FROM src.ratings ANTI JOIN test_pairs USING (user_id, item_id)
+            SORT BY user_id, item_id
         """
         log.debug("querying for test ratings")
         self.db.execute(test_query, [part])
