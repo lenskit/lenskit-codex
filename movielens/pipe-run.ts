@@ -96,7 +96,7 @@ export function mlSplitRuns(ds: string, split: string): Record<string, Stage> {
         "generate",
         `--param-file=sweeps/${split}/${name}.json`,
         `--split=splits/${split}.toml`,
-        "--test-part=-0",
+        "--test-part=test",
         `-o runs/${split}-sweep-best/${name}`,
         name,
       ),
