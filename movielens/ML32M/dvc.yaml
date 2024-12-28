@@ -26,26 +26,6 @@ stages:
     outs:
       - sweeps/temporal/Bias.json:
           cache: false
-  sweep-temporal-HPF:
-    cmd: >-
-      lenskit-codex sweep run --ds-name=ML32M --split=splits/temporal.toml --test-part=valid HPF sweeps/temporal/HPF
-    params:
-      - ../../config.toml:
-          - random.seed
-    deps:
-      - splits/temporal.toml
-      - ratings.duckdb
-      - ../../models/HPF.toml
-    outs:
-      - sweeps/temporal/HPF
-  export-temporal-HPF:
-    cmd: >-
-      lenskit-codex sweep export -o sweeps/temporal/HPF.json sweeps/temporal/HPF RBP
-    deps:
-      - sweeps/temporal/HPF
-    outs:
-      - sweeps/temporal/HPF.json:
-          cache: false
   sweep-temporal-BiasedMF-ALS:
     cmd: >-
       lenskit-codex sweep run --ds-name=ML32M --split=splits/temporal.toml --test-part=valid BiasedMF-ALS sweeps/temporal/BiasedMF-ALS
@@ -154,34 +134,6 @@ stages:
       - ratings.duckdb
       - splits/temporal.toml
       - sweeps/temporal/Bias.json
-  run-temporal-valid-default-HPF:
-    cmd: >-
-      lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid -o runs/temporal-valid-default/HPF HPF
-    outs:
-      - runs/temporal-valid-default/HPF
-    deps:
-      - ../../models/HPF.toml
-      - ratings.duckdb
-      - splits/temporal.toml
-  run-temporal-default-HPF:
-    cmd: >-
-      lenskit-codex generate --default --split=splits/temporal.toml --test-part=test -o runs/temporal-default/HPF HPF
-    outs:
-      - runs/temporal-default/HPF
-    deps:
-      - ../../models/HPF.toml
-      - ratings.duckdb
-      - splits/temporal.toml
-  run-temporal-sweep-best-HPF:
-    cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/HPF.json --split=splits/temporal.toml --test-part=-0 -o runs/temporal-sweep-best/HPF HPF
-    outs:
-      - runs/temporal-sweep-best/HPF
-    deps:
-      - ../../models/HPF.toml
-      - ratings.duckdb
-      - splits/temporal.toml
-      - sweeps/temporal/HPF.json
   run-temporal-valid-default-Popular:
     cmd: >-
       lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid -o runs/temporal-valid-default/Popular Popular
