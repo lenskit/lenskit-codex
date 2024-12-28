@@ -634,8 +634,8 @@ stages:
       size: 10423307
       nfiles: 19
   run-temporal-default-Popular:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
-      -o runs/temporal-default/Popular Popular
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/Popular
+      Popular
     deps:
     - path: ../../models/Popular.toml
       hash: md5
@@ -652,9 +652,9 @@ stages:
     outs:
     - path: runs/temporal-default/Popular
       hash: md5
-      md5: c27cbc819a345b2b8ac13ba59d230c6a.dir
-      size: 1080551
-      nfiles: 11
+      md5: de6c3b116b985b3922990afe1a2ecc94.dir
+      size: 2048031
+      nfiles: 19
   run-temporal-default-ImplicitMF-ALS:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
       -o runs/temporal-default/ImplicitMF-ALS ImplicitMF-ALS

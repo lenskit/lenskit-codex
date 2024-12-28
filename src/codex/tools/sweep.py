@@ -3,7 +3,6 @@ Grid-sweep hyperparameter values.
 """
 
 import json
-import shutil
 import sys
 from itertools import product
 from pathlib import Path
@@ -15,9 +14,9 @@ from lenskit.logging import item_progress
 
 from codex.cfgid import config_id
 from codex.cluster import ensure_cluster_init
-from codex.collect import NDJSONCollector
 from codex.inference import recommend_and_save
 from codex.modelcfg import load_config
+from codex.outputs import RunOutput
 from codex.params import param_grid
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.splitting import load_split_set
@@ -65,10 +64,8 @@ def run_sweep(
     space = param_grid(mod_cfg.sweep)
     _log.debug("parameter search space:\n%s", space)
 
-    if out.exists():
-        log.warning("output already exists, removing", out=str(out))
-        shutil.rmtree(out)
-    out.mkdir(exist_ok=True, parents=True)
+    output = RunOutput(out)
+    output.initialize()
 
     ensure_cluster_init()
 
@@ -86,7 +83,7 @@ def run_sweep(
             data=data_info,
         ),
         load_split_set(split) as split_set,
-        NDJSONCollector(out / "run-user-metrics.ndjson.zst") as metric_out,
+        output.user_metric_collector() as metric_out,
     ):
         data = split_set.get_part(test_part)
         for i, point in enumerate(points, 1):
@@ -102,8 +99,7 @@ def run_sweep(
             plog.info("training and evaluating")
             mod_inst = mod_cfg.instantiate(point)
             pipe, tr_task = train_task(mod_inst, data.train, data_info)
-            with open(out / "training.json", "a") as jsf:
-                print(tr_task.model_dump_json(), file=jsf)
+            output.record_log("training", tr_task)
 
             shard = f"run={i}"
             with CodexTask(
@@ -117,25 +113,25 @@ def run_sweep(
                     pipe,
                     data.test,
                     list_length,
-                    out / "recommendations" / shard,
-                    out / "predictions" / shard if mod_cfg.predictor else None,
+                    output.recommendations_hive_path / shard,
+                    output.predictions_hive_path / shard if mod_cfg.predictor else None,
                     metric_out,
                     meta={"run": i},
                 )
 
-            with open(out / "inference.json", "a") as jsf:
-                print(test_task.model_dump_json(), file=jsf)
+            output.record_log("inference", test_task)
 
-            with open(out / "runs.json", "a") as jsf:
-                run = {
+            output.record_log(
+                "run",
+                {
                     "run": i,
                     "run_id": str(run_id),
                     "train_task": tr_task.model_dump(mode="json"),
                     "test_task": test_task.model_dump(mode="json"),
                     "params": mod_inst.params,
                     "metrics": result.list_summary()["mean"].to_dict(),
-                }
-                print(json.dumps(run), file=jsf)
+                },
+            )
 
             plog.info("run finished, RBP=%.4f", result.list_summary().loc["RBP", "mean"])
             pb.update()

@@ -4,9 +4,9 @@ import click
 import structlog
 
 from codex.cluster import ensure_cluster_init
-from codex.collect import NDJSONCollector
 from codex.inference import recommend_and_save
 from codex.modelcfg import load_config
+from codex.outputs import RunOutput
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.splitting import SplitSet, load_split_set
 from codex.training import train_task
@@ -27,7 +27,7 @@ _log = structlog.stdlib.get_logger(__name__)
     help="control recommendation list length",
     default=100,
 )
-@click.option("-o", "--output", type=Path, metavar="N", help="specify output database")
+@click.option("-o", "--output", "out_dir", type=Path, metavar="N", help="specify output database")
 @click.option("--ds-name", help="name of the dataset")
 @click.option("--split", "split", type=Path, help="path to the split spec (or base file)")
 @click.option(
@@ -40,7 +40,7 @@ _log = structlog.stdlib.get_logger(__name__)
 def generate(
     model: str,
     config: str | Path,
-    output: Path,
+    out_dir: Path,
     split: Path,
     ds_name: str | None = None,
     test_part: str | None = None,
@@ -59,9 +59,8 @@ def generate(
 
     ensure_cluster_init()
 
-    output.mkdir(exist_ok=True, parents=True)
-    (output / "training.json").unlink(missing_ok=True)
-    (output / "inference.json").unlink(missing_ok=True)
+    output = RunOutput(out_dir)
+    output.initialize()
 
     data_info = DataModel(dataset=ds_name, split=split.stem, part=test_part)
     with (
@@ -72,7 +71,7 @@ def generate(
             data=data_info,
         ) as root_task,
         load_split_set(split) as split_set,
-        NDJSONCollector(output / "user-metrics.ndjson.zst") as metric_out,
+        output.user_metric_collector() as metric_out,
     ):
         parts = select_parts(split_set, test_part)
 
@@ -83,8 +82,7 @@ def generate(
             data = split_set.get_part(part)
             instance = mod_cfg.instantiate(cfg_path)
             pipe, task = train_task(instance, data.train, data_info)
-            with open(output / "training.json", "a") as jsf:
-                print(task.model_dump_json(), file=jsf)
+            output.record_log("training", task)
 
             shard = f"part={part}"
             with CodexTask(
@@ -98,14 +96,13 @@ def generate(
                     pipe,
                     data.test,
                     list_length,
-                    output / "recommendations" / shard,
-                    output / "predictions" / shard if mod_cfg.predictor else None,
+                    output.recommendations_hive_path / shard,
+                    output.predictions_hive_path / shard if mod_cfg.predictor else None,
                     metric_out,
                     meta={"part": part},
                 )
 
-            with open(output / "inference.json", "a") as jsf:
-                print(task.model_dump_json(), file=jsf)
+            output.record_log("inference", task)
 
         log.info("finished all parts")
 

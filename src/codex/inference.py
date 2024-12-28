@@ -21,7 +21,7 @@ from pyarrow.parquet import ParquetWriter
 from pydantic import JsonValue
 
 from codex.cluster import CodexActor, worker_pool
-from codex.collect import NDJSONCollector
+from codex.outputs import NDJSONCollector
 
 _log = structlog.stdlib.get_logger(__name__)
 
