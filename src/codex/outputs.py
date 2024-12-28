@@ -9,13 +9,19 @@ import shutil
 from pathlib import Path
 from typing import IO, Literal
 
+import pyarrow as pa
 import structlog
 import zstandard
+from lenskit.data import ID, ItemList, ItemListCollection, UserIDKey
+from pyarrow.parquet import ParquetWriter
 from pydantic import BaseModel, JsonValue
 
 _log = structlog.stdlib.get_logger(__name__)
 
 type RunLog = Literal["run", "inference", "training"]
+
+REC_FIELDS = {"item_id": pa.int32(), "rank": pa.int32(), "score": pa.float32()}
+PRED_FIELDS = {"item_id": pa.int32(), "score": pa.float32()}
 
 
 class RunOutput:
@@ -116,3 +122,52 @@ class NDJSONCollector:
 
     def __exit__(self, *args):
         self.close()
+
+
+class ItemListCollector:
+    """
+    Collect item lists into a Parquet file.  Can be used as a Ray actor.
+    """
+
+    path: Path
+    batch_size: int
+    batch: ItemListCollection[UserIDKey]
+    writer: ParquetWriter
+    key_fields: list[str]
+    list_fields: dict[str, pa.DataType]
+
+    def __init__(
+        self,
+        path: Path,
+        key_fields: dict[str, pa.DataType],
+        list_fields: dict[str, pa.DataType],
+        batch_size: int = 5000,
+    ):
+        self.path = path
+        self.batch_size = batch_size
+        self.key_fields = list(key_fields.keys())
+        self.list_fields = list_fields
+
+        self.batch = ItemListCollection(self.key_fields)
+        fields = key_fields | {"items": pa.list_(pa.struct(list_fields))}
+        self.writer = ParquetWriter(
+            self.path,
+            pa.schema(fields),
+            compression="zstd",
+            compression_level=6,
+        )
+
+    def write_list(self, list: ItemList, *key: ID, **kw: ID):
+        self.batch.add(list, *key, **kw)
+        if len(self.batch) >= self.batch_size:
+            self._write_batch()
+
+    def finish(self):
+        self._write_batch()
+        self.writer.close()
+
+    def _write_batch(self):
+        if len(self.batch):
+            for rb in self.batch._iter_record_batches(self.batch_size, self.list_fields):
+                self.writer.write_batch(rb)
+            self.batch = ItemListCollection(self.key_fields)
