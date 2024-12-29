@@ -8,7 +8,7 @@ import { action_cmd, Pipeline, Stage } from "../src/dvc.ts";
 
 import { mlRuns } from "./pipe-run.ts";
 import { mlSweep } from "./pipe-sweep.ts";
-import { encodeRunList, runPath, runStages } from "../src/pipeline/run.ts";
+import { encodeRunList, Run, runPath, runStages } from "../src/pipeline/run.ts";
 
 type SplitSpec = {
   source: string;
@@ -72,12 +72,13 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
 
   let split_stages: Record<string, Stage> = {};
   let sweep_stages: Record<string, Stage> = {};
-  let run_stages: Record<string, Stage> = {};
+  let runs: Run[] = [];
   for (let [split, spec] of Object.entries(splits)) {
     Object.assign(split_stages, mlSplit(split, spec));
     Object.assign(sweep_stages, mlSweep(name, split));
-    Object.assign(run_stages, runStages(`movielens/${name}`, mlRuns(split, spec)));
+    runs.push(...mlRuns(split, spec));
   }
+  let run_stages = runStages(`movielens/${name}`, runs);
 
   return {
     stages: {
@@ -90,15 +91,13 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
       "collect-metrics": {
         cmd: action_cmd(
           "collect metrics",
-          "run-metrics.duckdb",
-          "--view-script=../ml-run-metrics.sql",
-          "runs",
+          "-S run-summary.csv",
+          "-U run-user-metrics.parquet",
+          "-L runs/manifest.csv",
         ),
         // @ts-ignore i'm lazy
-        deps: Object.values(run_stages).map((s) => s.outs).flat().filter((d) =>
-          typeof d == "string" && d.endsWith(".duckdb")
-        ),
-        outs: ["run-metrics.duckdb"],
+        deps: Object.values(runs).map((r) => "runs/" + runPath(r)),
+        outs: ["run-summary.csv", "run-user-metrics.parquet"],
       },
     },
   };

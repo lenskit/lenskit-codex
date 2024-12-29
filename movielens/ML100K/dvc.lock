@@ -427,13 +427,73 @@ stages:
       size: 25932
       nfiles: 4
   collect-metrics:
-    cmd: lenskit-codex collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql
-      runs
-    outs:
-    - path: run-metrics.duckdb
+    cmd: lenskit-codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
+      -L runs/manifest.csv
+    deps:
+    - path: runs/random-default/Bias
       hash: md5
-      md5: 073567bfe9ab23edc69ba21e48956b7f
-      size: 1060864
+      md5: 9f6295c785d22b2c36d339ab9daa2891.dir
+      size: 43468
+      nfiles: 5
+    - path: runs/random-default/BiasedMF-ALS
+      hash: md5
+      md5: 0af5c691df7f1bc57bf25d5e433186d7.dir
+      size: 36568
+      nfiles: 5
+    - path: runs/random-default/IKNN-Explicit
+      hash: md5
+      md5: e5cd24870df4aeebf387843c0d0b7cf1.dir
+      size: 35537
+      nfiles: 5
+    - path: runs/random-default/IKNN-Implicit
+      hash: md5
+      md5: b9f96e7d3faa3c845118148fb8437adc.dir
+      size: 23551
+      nfiles: 4
+    - path: runs/random-default/ImplicitMF-ALS
+      hash: md5
+      md5: 2da1f95cee4cc680f3fdd49030cf1bcf.dir
+      size: 25932
+      nfiles: 4
+    - path: runs/random-default/Popular
+      hash: md5
+      md5: 4ef404da31e15763114100030c890bcc.dir
+      size: 27073
+      nfiles: 4
+    - path: runs/random-sweep-best/Bias
+      hash: md5
+      md5: dbf333689ed99ec5a0de83c66a078593.dir
+      size: 34115
+      nfiles: 5
+    - path: runs/random-sweep-best/BiasedMF-ALS
+      hash: md5
+      md5: 3428267f151673f5ac3dff8ff52b17f7.dir
+      size: 34027
+      nfiles: 5
+    - path: runs/random-sweep-best/IKNN-Explicit
+      hash: md5
+      md5: d4e21d6cd56ecb23c8ea0b2a40902391.dir
+      size: 33479
+      nfiles: 5
+    - path: runs/random-sweep-best/IKNN-Implicit
+      hash: md5
+      md5: e7c0bbe881053c4a1f9768fc2a7d79d2.dir
+      size: 23550
+      nfiles: 4
+    - path: runs/random-sweep-best/ImplicitMF-ALS
+      hash: md5
+      md5: 1bd6f88533d82bc54c68f53333bd5d90.dir
+      size: 23478
+      nfiles: 4
+    outs:
+    - path: run-summary.csv
+      hash: md5
+      md5: f40f42c11efa89f222c4e7e6ccf02093
+      size: 8599
+    - path: run-user-metrics.parquet
+      hash: md5
+      md5: f813ef76eec647fbad5b38055b8ce5f1
+      size: 166085
   run-random-sweep-best-IKNN-Implicit:
     cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0
       --split=splits/random.toml -o runs/random-sweep-best/IKNN-Implicit IKNN-Implicit
@@ -619,8 +679,8 @@ stages:
     outs:
     - path: runs/random-default/Popular
       hash: md5
-      md5: e5ae7480ef8451e18d6f251ec577125c.dir
-      size: 22145
+      md5: 4ef404da31e15763114100030c890bcc.dir
+      size: 27073
       nfiles: 4
   run-random-default-Implicit-BPR:
     cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb

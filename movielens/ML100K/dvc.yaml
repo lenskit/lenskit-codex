@@ -223,7 +223,19 @@ stages:
       - sweeps/random/ImplicitMF-ALS.json
   collect-metrics:
     cmd: >-
-      lenskit-codex collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql runs
-    deps: []
+      lenskit-codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
+    deps:
+      - runs/random-default/Bias
+      - runs/random-sweep-best/Bias
+      - runs/random-default/Popular
+      - runs/random-default/BiasedMF-ALS
+      - runs/random-sweep-best/BiasedMF-ALS
+      - runs/random-default/IKNN-Explicit
+      - runs/random-sweep-best/IKNN-Explicit
+      - runs/random-default/IKNN-Implicit
+      - runs/random-sweep-best/IKNN-Implicit
+      - runs/random-default/ImplicitMF-ALS
+      - runs/random-sweep-best/ImplicitMF-ALS
     outs:
-      - run-metrics.duckdb
+      - run-summary.csv
+      - run-user-metrics.parquet
