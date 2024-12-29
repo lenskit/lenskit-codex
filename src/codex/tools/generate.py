@@ -62,7 +62,7 @@ def generate(
     output = RunOutput(out_dir)
     output.initialize()
 
-    data_info = DataModel(dataset=ds_name, split=split.stem, part=test_part)
+    data_info = DataModel(dataset=ds_name, split=split.stem)
     with (
         CodexTask(
             label=f"generate {model}",
@@ -77,6 +77,7 @@ def generate(
 
         log = _log.bind(task_id=str(root_task.task_id))
         for part in parts:
+            data_info.part = part
             plog = log.bind(part=part)
             plog.info("loading data")
             data = split_set.get_part(part)
