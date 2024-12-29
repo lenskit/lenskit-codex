@@ -5,7 +5,6 @@ import { allSourceFiles } from "./pipe-sources.ts";
 export const scanStages = {
   "scan-bench-users": {
     cmd: action_cmd(
-      import.meta.url,
       "amazon collect-ids",
       "--user",
       "-D",
@@ -17,7 +16,6 @@ export const scanStages = {
   },
   "scan-bench-items": {
     cmd: action_cmd(
-      import.meta.url,
       "amazon collect-ids",
       "--item",
       "-D",
@@ -31,7 +29,6 @@ export const scanStages = {
     foreach: allSourceFiles.map((s) => `${s.cat}.${s.part}`),
     do: {
       cmd: action_cmd(
-        import.meta.url,
         "amazon import-bench",
         "--users=user-ids.duckdb",
         "--items=item-ids.duckdb",
@@ -48,7 +45,7 @@ export const scanStages = {
     },
   },
   "collect-stats": {
-    cmd: action_cmd(import.meta.url, "run-duck-sql", "-f bench-stats.sql", "stats.duckdb"),
+    cmd: action_cmd("run-duck-sql", "-f bench-stats.sql", "stats.duckdb"),
     outs: ["stats.duckdb"],
     deps: [
       "bench-stats.sql",

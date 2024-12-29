@@ -32,7 +32,6 @@ function runStage(
     foreach: categories,
     do: {
       cmd: action_cmd(
-        import.meta.url,
         "generate",
         ...cfgArgs,
         "-n 2000",
@@ -59,7 +58,6 @@ function sweepStage(name: string) {
     foreach: categories,
     do: {
       cmd: action_cmd(
-        import.meta.url,
         "sweep run",
         "-n 1000",
         `--train=${trainFile}`,
@@ -90,7 +88,6 @@ export const runStages: Record<string, Stage> = generateStages(
         foreach: categories,
         do: {
           cmd: action_cmd(
-            import.meta.url,
             "sweep export",
             sweepDb,
             info.predictor ? "rmse" : "ndcg",

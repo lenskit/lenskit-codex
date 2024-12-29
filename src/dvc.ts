@@ -1,5 +1,3 @@
-import { dirname, fromFileUrl, relative } from "std/path/mod.ts";
-
 export type Pipeline = {
   params?: string[];
   stages: Record<string, Stage>;
@@ -31,14 +29,7 @@ export function isStage(obj: object): obj is Stage {
   return Object.hasOwn(obj, "cmd") || Object.hasOwn(obj, "foreach");
 }
 
-export function action_cmd(origin: string, ...args: string[]): string {
-  if (origin.startsWith("file://")) {
-    origin = fromFileUrl(new URL(origin));
-  }
-  if (origin.endsWith(".ts")) {
-    origin = dirname(origin);
-  }
-
+export function action_cmd(...args: string[]): string {
   let cmd = "lenskit-codex";
   for (const arg of args) {
     cmd += " " + arg;

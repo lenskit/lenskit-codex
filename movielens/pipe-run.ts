@@ -1,94 +1,66 @@
-import { action_cmd, Stage } from "../src/dvc.ts";
 import { MODELS } from "../src/pipeline/model-config.ts";
+import { Run } from "../src/pipeline/run.ts";
 
-export function mlCrossfoldRuns(ds: string, split: string): Record<string, Stage> {
-  const runs: Record<string, Stage> = {};
+export function mlCrossfoldRuns(split: string): Run[] {
+  const runs: Run[] = [];
 
   for (const [name, info] of Object.entries(MODELS)) {
-    runs[`run-${split}-default-${name}`] = {
-      cmd: action_cmd(
-        `movielens/${ds}`,
-        "generate",
-        "--default",
-        `--split=splits/${split}.toml`,
-        `-o runs/${split}-default/${name}`,
-        name,
-      ),
-      outs: [`runs/${split}-default/${name}`],
-      deps: [
-        `../../models/${name}.toml`,
-        "ratings.duckdb",
-        `splits/${split}.duckdb`,
-      ],
-    };
+    runs.push({
+      name: `run-${split}-default-${name}`,
+      args: ["--default"],
+      model: name,
+      split,
+      variant: "default",
+      deps: ["ratings.duckdb", `splits/${split}.duckdb`],
+    });
 
     if (info.sweep == null) continue;
 
-    runs[`run-${split}-sweep-best-${name}`] = {
-      cmd: action_cmd(
-        `movielens/${name}`,
-        "generate",
-        `--param-file=sweeps/${split}/${name}.json`,
-        `--split=splits/${split}.toml`,
-        "--test-part=-0",
-        `-o runs/${split}-sweep-best/${name}`,
-        name,
-      ),
-      outs: [`runs/${split}-sweep-best/${name}`],
-      deps: [
-        `../../models/${name}.toml`,
-        "ratings.duckdb",
-        `splits/${split}.duckdb`,
-        `sweeps/${split}/${name}.json`,
-      ],
-    };
+    runs.push({
+      name: `run-${split}-default-${name}`,
+      args: [`--param-file=sweeps/${split}/${name}.json`, "--test-part=-0"],
+      model: name,
+      split,
+      variant: "sweep-best",
+      deps: ["ratings.duckdb", `splits/${split}.duckdb`, `sweeps/${split}/${name}.json`],
+    });
   }
 
   return runs;
 }
 
-export function mlSplitRuns(ds: string, split: string): Record<string, Stage> {
-  const runs: Record<string, Stage> = {};
+export function mlSplitRuns(split: string): Run[] {
+  const runs: Run[] = [];
 
   for (const [name, info] of Object.entries(MODELS)) {
-    runs[`run-${split}-default-${name}`] = {
-      cmd: action_cmd(
-        `movielens/${ds}`,
-        "generate",
-        "--default",
-        `--split=splits/${split}.toml`,
-        `-o runs/${split}-default/${name}`,
-        name,
-      ),
-      outs: [`runs/${split}-default/${name}`],
-      deps: [
-        `../../models/${name}.toml`,
-        "ratings.duckdb",
-        `splits/${split}.toml`,
-      ],
-    };
+    runs.push({
+      name: `run-${split}-default-${name}`,
+      args: ["--default"],
+      model: name,
+      split,
+      variant: "default",
+      deps: ["ratings.duckdb", `splits/${split}.toml`],
+    });
 
     if (info.sweep == null) continue;
 
-    runs[`run-${split}-sweep-best-${name}`] = {
-      cmd: action_cmd(
-        `movielens/${name}`,
-        "generate",
-        `--param-file=sweeps/${split}/${name}.json`,
-        `--split=splits/${split}.toml`,
-        "--test-part=test",
-        `-o runs/${split}-sweep-best/${name}`,
-        name,
-      ),
-      outs: [`runs/${split}-sweep-best/${name}`],
-      deps: [
-        `../../models/${name}.toml`,
-        "ratings.duckdb",
-        `splits/${split}.toml`,
-        `sweeps/${split}/${name}.json`,
-      ],
-    };
+    runs.push({
+      name: `run-${split}-default-${name}`,
+      args: [`--param-file=sweeps/${split}/${name}.json`, "--test-part=-0"],
+      model: name,
+      split,
+      variant: "sweep-best",
+      deps: ["ratings.duckdb", `splits/${split}.toml`, `sweeps/${split}/${name}.json`],
+    });
   }
 
   return runs;
+}
+
+export function mlRuns(split: string, spec: { method: string }): Run[] {
+  if (spec.method == "crossfold") {
+    return mlCrossfoldRuns(split);
+  } else {
+    return mlSplitRuns(split);
+  }
 }

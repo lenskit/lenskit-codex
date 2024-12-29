@@ -6,8 +6,9 @@ import * as ai from "aitertools";
 
 import { action_cmd, Pipeline, Stage } from "../src/dvc.ts";
 
-import { mlCrossfoldRuns, mlSplitRuns } from "./pipe-run.ts";
+import { mlRuns } from "./pipe-run.ts";
 import { mlSweep } from "./pipe-sweep.ts";
+import { runPath, runStages } from "../src/pipeline/run.ts";
 
 type SplitSpec = {
   source: string;
@@ -33,10 +34,9 @@ async function scanSplits(name: string): Promise<Record<string, SplitSpec>> {
   return splits;
 }
 
-function ml_import(name: string, fn: string): Stage {
+function ml_import(fn: string): Stage {
   return {
     cmd: action_cmd(
-      `movielens/${name}`,
       "movielens import",
       "--stat-sql=../ml-stats.sql",
       `${fn}.zip`,
@@ -47,14 +47,13 @@ function ml_import(name: string, fn: string): Stage {
 }
 
 function mlSplit(
-  name: string,
   split: string,
   spec: SplitSpec,
 ): Record<string, Stage> {
   if (spec.method == "crossfold") {
     return {
       [`split-${split}`]: {
-        cmd: action_cmd(`movielens/${name}/splits`, "split", `${split}.toml`),
+        cmd: action_cmd("split", `${split}.toml`),
         wdir: "splits",
         params: [{ "../../../config.toml": ["random.seed"] }],
         deps: [`${split}.toml`, spec.source as string],
@@ -75,18 +74,14 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
   let sweep_stages: Record<string, Stage> = {};
   let run_stages: Record<string, Stage> = {};
   for (let [split, spec] of Object.entries(splits)) {
-    Object.assign(split_stages, mlSplit(name, split, spec));
+    Object.assign(split_stages, mlSplit(split, spec));
     Object.assign(sweep_stages, mlSweep(name, split));
-    if (spec.method == "crossfold") {
-      Object.assign(run_stages, mlCrossfoldRuns(name, split));
-    } else {
-      Object.assign(run_stages, mlSplitRuns(name, split));
-    }
+    Object.assign(run_stages, runStages(`movielens/${name}`, mlRuns(split, spec)));
   }
 
   return {
     stages: {
-      import: ml_import(name, fn),
+      import: ml_import(fn),
 
       ...split_stages,
       ...sweep_stages,
@@ -94,7 +89,6 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
 
       "collect-metrics": {
         cmd: action_cmd(
-          `movielens/${name}`,
           "collect metrics",
           "run-metrics.duckdb",
           "--view-script=../ml-run-metrics.sql",
@@ -110,11 +104,26 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
   };
 }
 
+export async function runListFiles(): Promise<Record<string, string>> {
+  let files: Record<string, string> = {};
+  for (let name of Object.keys(datasets)) {
+    let splits = await scanSplits(name);
+    let content = "";
+    for (let [split, spec] of Object.entries(splits)) {
+      for (let run of mlRuns(split, spec)) {
+        content += runPath(run) + "\n";
+      }
+    }
+    files[`${name}/run-list.txt`] = content;
+  }
+
+  return files;
+}
+
 export const pipeline: Pipeline = {
   stages: {
     aggregate: {
       cmd: action_cmd(
-        import.meta.url,
         "movielens aggregate",
         "-d merged-stats.duckdb",
         ...Object.keys(datasets),
@@ -131,3 +140,5 @@ export const subdirs = await ai.toMap(
     ai.fromIterable(Object.keys(datasets)),
   ),
 );
+
+export const extraFiles = await runListFiles();

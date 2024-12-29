@@ -17,4 +17,11 @@ for await (const pipe of expandGlob("**/pipeline.ts", { exclude: [".pixi/**"] })
       await Deno.writeTextFile(dvcfn, yaml.stringify(p, { noRefs: true }));
     }
   }
+  if (mod.extraFiles) {
+    for (let [key, value] of Object.entries(mod.extraFiles)) {
+      let fn = joinPath(dir, key);
+      console.info("writing extra file %s", fn);
+      await Deno.writeTextFile(fn, value as string);
+    }
+  }
 }

@@ -21,7 +21,6 @@ export const exportStages = {
     ),
     do: {
       cmd: action_cmd(
-        import.meta.url,
         "trec export qrels",
         "data/${item}.parquet",
       ),
@@ -37,7 +36,6 @@ export const exportStages = {
     foreach: Array.from(exportableRuns(Object.entries(MODELS), categories)),
     do: {
       cmd: action_cmd(
-        import.meta.url,
         "trec export runs",
         "${item}.duckdb",
         "${item}.run.gz",

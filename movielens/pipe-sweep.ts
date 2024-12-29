@@ -11,7 +11,6 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
   for (const [name, info] of Object.entries(active)) {
     results[`sweep-${split}-${name}`] = {
       cmd: action_cmd(
-        `movielens/${ds}`,
         "sweep run",
         `--ds-name=${ds}`,
         `--split=splits/${split}.toml`,
@@ -30,7 +29,6 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
     const metric = info.predictor ? "RMSE" : "RBP";
     results[`export-${split}-${name}`] = {
       cmd: action_cmd(
-        `movielens/${ds}`,
         "sweep export",
         `-o sweeps/${split}/${name}.json`,
         `sweeps/${split}/${name}`,
