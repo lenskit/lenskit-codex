@@ -405,8 +405,8 @@ stages:
       size: 36964
       nfiles: 11
   run-random-default-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --default --split=splits/random.toml --test-part=-0
-      -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
+    cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/ImplicitMF-ALS
+      ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
       hash: md5
@@ -423,9 +423,9 @@ stages:
     outs:
     - path: runs/random-default/ImplicitMF-ALS
       hash: md5
-      md5: d214468584a6a064cdc1985d98cd7d96.dir
-      size: 26924
-      nfiles: 7
+      md5: 2da1f95cee4cc680f3fdd49030cf1bcf.dir
+      size: 25932
+      nfiles: 4
   collect-metrics:
     cmd: lenskit-codex collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql
       runs
@@ -461,8 +461,8 @@ stages:
       size: 25173
       nfiles: 7
   run-random-default-IKNN-Implicit:
-    cmd: lenskit-codex generate --default --split=splits/random.toml --test-part=-0
-      -o runs/random-default/IKNN-Implicit IKNN-Implicit
+    cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/IKNN-Implicit
+      IKNN-Implicit
     deps:
     - path: ../../models/IKNN-Implicit.toml
       hash: md5
@@ -479,9 +479,9 @@ stages:
     outs:
     - path: runs/random-default/IKNN-Implicit
       hash: md5
-      md5: fb6991d3bcb05073344ec53e9dc04500.dir
-      size: 25038
-      nfiles: 7
+      md5: b9f96e7d3faa3c845118148fb8437adc.dir
+      size: 23551
+      nfiles: 4
   run-random-sweep-best-IKNN-Explicit:
     cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --split=splits/random.toml
       --test-part=-0 -o runs/random-sweep-best/IKNN-Explicit IKNN-Explicit
@@ -535,8 +535,8 @@ stages:
       size: 37279
       nfiles: 11
   run-random-default-BiasedMF-ALS:
-    cmd: lenskit-codex generate --default --split=splits/random.toml --test-part=-0
-      -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
+    cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/BiasedMF-ALS
+      BiasedMF-ALS
     deps:
     - path: ../../models/BiasedMF-ALS.toml
       hash: md5
@@ -553,12 +553,12 @@ stages:
     outs:
     - path: runs/random-default/BiasedMF-ALS
       hash: md5
-      md5: 584214d1144fab86e885de1b39a03274.dir
-      size: 37019
-      nfiles: 11
+      md5: 0af5c691df7f1bc57bf25d5e433186d7.dir
+      size: 36568
+      nfiles: 5
   run-random-default-IKNN-Explicit:
-    cmd: lenskit-codex generate --default --split=splits/random.toml --test-part=-0
-      -o runs/random-default/IKNN-Explicit IKNN-Explicit
+    cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/IKNN-Explicit
+      IKNN-Explicit
     deps:
     - path: ../../models/IKNN-Explicit.toml
       hash: md5
@@ -575,12 +575,12 @@ stages:
     outs:
     - path: runs/random-default/IKNN-Explicit
       hash: md5
-      md5: 4ee14972316ae9b607c0add346d39279.dir
-      size: 36244
-      nfiles: 11
+      md5: e5cd24870df4aeebf387843c0d0b7cf1.dir
+      size: 35537
+      nfiles: 5
   run-random-default-Bias:
-    cmd: lenskit-codex generate --default --split=splits/random.toml --test-part=-0
-      -o runs/random-default/Bias Bias
+    cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/Bias
+      Bias
     deps:
     - path: ../../models/Bias.toml
       hash: md5
@@ -597,12 +597,12 @@ stages:
     outs:
     - path: runs/random-default/Bias
       hash: md5
-      md5: 61eaa02c4a971ad5c62cb8f5469615c7.dir
-      size: 587096
-      nfiles: 67
+      md5: 20964b5da5dcdbef3d1cb4f3ab47cb36.dir
+      size: 38494
+      nfiles: 5
   run-random-default-Popular:
-    cmd: lenskit-codex generate --default --split=splits/random.toml --test-part=-0
-      -o runs/random-default/Popular Popular
+    cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/Popular
+      Popular
     deps:
     - path: ../../models/Popular.toml
       hash: md5
@@ -619,9 +619,9 @@ stages:
     outs:
     - path: runs/random-default/Popular
       hash: md5
-      md5: e7d5775549f140ff7864588d8a7dfa9b.dir
-      size: 23808
-      nfiles: 7
+      md5: e5ae7480ef8451e18d6f251ec577125c.dir
+      size: 22145
+      nfiles: 4
   run-random-default-Implicit-BPR:
     cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
       --ratings=ratings.duckdb -o runs/random-default/Implicit-BPR.duckdb Implicit-BPR
