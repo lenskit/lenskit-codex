@@ -8,7 +8,7 @@ import { action_cmd, Pipeline, Stage } from "../src/dvc.ts";
 
 import { mlRuns } from "./pipe-run.ts";
 import { mlSweep } from "./pipe-sweep.ts";
-import { runPath, runStages } from "../src/pipeline/run.ts";
+import { encodeRunList, runPath, runStages } from "../src/pipeline/run.ts";
 
 type SplitSpec = {
   source: string;
@@ -108,13 +108,8 @@ export async function runListFiles(): Promise<Record<string, string>> {
   let files: Record<string, string> = {};
   for (let name of Object.keys(datasets)) {
     let splits = await scanSplits(name);
-    let content = "";
-    for (let [split, spec] of Object.entries(splits)) {
-      for (let run of mlRuns(split, spec)) {
-        content += runPath(run) + "\n";
-      }
-    }
-    files[`${name}/runs/manifest.txt`] = content;
+    let runs = Object.entries(splits).flatMap(([split, spec]) => mlRuns(split, spec));
+    files[`${name}/runs/manifest.csv`] = encodeRunList(runs);
   }
 
   return files;

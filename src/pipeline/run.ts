@@ -1,3 +1,5 @@
+import { stringify } from "std/csv/mod.ts";
+
 import { action_cmd, Stage } from "../dvc.ts";
 import { resolveProjectPath } from "./paths.ts";
 
@@ -34,4 +36,16 @@ export function runStages(origin: string, runs: Run[]): Record<string, Stage> {
     };
   }
   return stages;
+}
+
+export function encodeRunList(runs: Run[]): string {
+  return stringify(
+    runs.map((r) => ({
+      path: runPath(r),
+      split: r.split,
+      variant: r.variant,
+      model: r.model,
+    })),
+    { headers: true, columns: ["path", "split", "variant", "model"] },
+  );
 }
