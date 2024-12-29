@@ -11,21 +11,22 @@ export type Run = {
 };
 
 export function runPath(run: Run): string {
-  return `runs/${run.split}-default/${run.model}`;
+  return `${run.split}-${run.variant}/${run.model}`;
 }
 
 export function runStages(origin: string, runs: Run[]): Record<string, Stage> {
   let stages: Record<string, Stage> = {};
   for (let run of runs) {
+    let path = runPath(run);
     stages[`run-${run.split}-default-${run.model}`] = {
       cmd: action_cmd(
         "generate",
         ...run.args,
         `--split=splits/${run.split}.toml`,
-        `-o runs/${run.split}-default/${run.model}`,
+        `-o runs/${path}`,
         run.model,
       ),
-      outs: [runPath(run)],
+      outs: [`runs/${path}`],
       deps: [
         resolveProjectPath(origin, `models/${run.model}.toml`),
         ...(run.deps ?? []),

@@ -114,7 +114,7 @@ export async function runListFiles(): Promise<Record<string, string>> {
         content += runPath(run) + "\n";
       }
     }
-    files[`${name}/run-list.txt`] = content;
+    files[`${name}/runs/manifest.txt`] = content;
   }
 
   return files;

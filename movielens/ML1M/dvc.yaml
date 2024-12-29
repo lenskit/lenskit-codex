@@ -119,9 +119,9 @@ stages:
           cache: false
   run-random-default-Bias:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/Bias.json --test-part=-0 --split=splits/random.toml -o runs/random-default/Bias Bias
+      lenskit-codex generate --param-file=sweeps/random/Bias.json --test-part=-0 --split=splits/random.toml -o runs/random-sweep-best/Bias Bias
     outs:
-      - runs/random-default/Bias
+      - runs/random-sweep-best/Bias
     deps:
       - ../../models/Bias.toml
       - ratings.duckdb
@@ -138,9 +138,9 @@ stages:
       - splits/random.duckdb
   run-random-default-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 --split=splits/random.toml -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
+      lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 --split=splits/random.toml -o runs/random-sweep-best/BiasedMF-ALS BiasedMF-ALS
     outs:
-      - runs/random-default/BiasedMF-ALS
+      - runs/random-sweep-best/BiasedMF-ALS
     deps:
       - ../../models/BiasedMF-ALS.toml
       - ratings.duckdb
@@ -148,9 +148,9 @@ stages:
       - sweeps/random/BiasedMF-ALS.json
   run-random-default-IKNN-Explicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 --split=splits/random.toml -o runs/random-default/IKNN-Explicit IKNN-Explicit
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 --split=splits/random.toml -o runs/random-sweep-best/IKNN-Explicit IKNN-Explicit
     outs:
-      - runs/random-default/IKNN-Explicit
+      - runs/random-sweep-best/IKNN-Explicit
     deps:
       - ../../models/IKNN-Explicit.toml
       - ratings.duckdb
@@ -158,9 +158,9 @@ stages:
       - sweeps/random/IKNN-Explicit.json
   run-random-default-IKNN-Implicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 --split=splits/random.toml -o runs/random-default/IKNN-Implicit IKNN-Implicit
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 --split=splits/random.toml -o runs/random-sweep-best/IKNN-Implicit IKNN-Implicit
     outs:
-      - runs/random-default/IKNN-Implicit
+      - runs/random-sweep-best/IKNN-Implicit
     deps:
       - ../../models/IKNN-Implicit.toml
       - ratings.duckdb
@@ -168,9 +168,9 @@ stages:
       - sweeps/random/IKNN-Implicit.json
   run-random-default-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0 --split=splits/random.toml -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
+      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0 --split=splits/random.toml -o runs/random-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
     outs:
-      - runs/random-default/ImplicitMF-ALS
+      - runs/random-sweep-best/ImplicitMF-ALS
     deps:
       - ../../models/ImplicitMF-ALS.toml
       - ratings.duckdb
