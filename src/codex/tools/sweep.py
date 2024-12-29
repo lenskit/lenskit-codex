@@ -136,6 +136,8 @@ def run_sweep(
             plog.info("run finished, RBP=%.4f", result.list_summary().loc["RBP", "mean"])
             pb.update()
 
+        output.repack_output_lists()
+
 
 @sweep.command("export")
 @click.option("-o", "--output", type=Path, metavar="FILE", help="write output to FILE")

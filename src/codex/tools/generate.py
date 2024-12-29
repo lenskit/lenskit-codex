@@ -105,6 +105,7 @@ def generate(
             output.record_log("inference", task)
 
         log.info("finished all parts")
+        output.repack_output_lists()
 
 
 def select_parts(split: SplitSet, part: str | None) -> list[str]:

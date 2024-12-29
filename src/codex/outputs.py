@@ -13,12 +13,13 @@ import pyarrow as pa
 import structlog
 import zstandard
 from lenskit.data import ID, ItemList, ItemListCollection, UserIDKey
-from pyarrow.parquet import ParquetWriter
+from pyarrow.parquet import ParquetDataset, ParquetWriter, write_table
 from pydantic import BaseModel, JsonValue
 
 _log = structlog.stdlib.get_logger(__name__)
 
 type RunLog = Literal["run", "inference", "training"]
+type ListSet = Literal["recommendations", "predictions"]
 
 REC_FIELDS = {"item_id": pa.int32(), "rank": pa.int32(), "score": pa.float32()}
 PRED_FIELDS = {"item_id": pa.int32(), "score": pa.float32()}
@@ -56,6 +57,14 @@ class RunOutput:
     def recommendations_hive_path(self):
         return self.path / "recommendations"
 
+    @property
+    def predictions_path(self):
+        return self.path / "predictions.parquet"
+
+    @property
+    def recommendations_path(self):
+        return self.path / "recommendations.parquet"
+
     def initialize(self):
         """
         Initialize run output directory.
@@ -84,6 +93,25 @@ class RunOutput:
 
         with path.open("wt") as jsf:
             print(out_data, file=jsf)
+
+    def repack_output_lists(self):
+        """
+        Repack lit output from hives to flat Parquet files.
+        """
+        if self.recommendations_hive_path.exists():
+            self._repack(
+                "recommendations", self.recommendations_hive_path, self.recommendations_path
+            )
+        if self.predictions_hive_path.exists():
+            self._repack("predictions", self.predictions_hive_path, self.predictions_path)
+
+    def _repack(self, name: str, hive: Path, flat: Path):
+        self._log.info("repacking hive", output=name)
+        ds = ParquetDataset(hive)
+        tbl = ds.read()
+        write_table(tbl, flat, compression="zstd")
+        self._log.debug("removing hive", output=name)
+        shutil.rmtree(hive)
 
     def __str__(self):
         return f"RunOutput({self.path})"
@@ -153,8 +181,7 @@ class ItemListCollector:
         self.writer = ParquetWriter(
             self.path,
             pa.schema(fields),
-            compression="zstd",
-            compression_level=6,
+            compression="snappy",
         )
 
     def write_list(self, list: ItemList, *key: ID, **kw: ID):
