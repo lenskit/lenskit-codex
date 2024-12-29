@@ -91,7 +91,7 @@ class RunOutput:
         else:
             out_data = json.dumps(data)
 
-        with path.open("wt") as jsf:
+        with path.open("at") as jsf:
             print(out_data, file=jsf)
 
     def repack_output_lists(self):
