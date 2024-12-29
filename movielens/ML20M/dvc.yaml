@@ -108,6 +108,15 @@ stages:
           cache: false
   run-temporal-default-Bias:
     cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/Bias Bias
+    outs:
+      - runs/temporal-default/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-Bias:
+    cmd: >-
       lenskit-codex generate --param-file=sweeps/temporal/Bias.json --test-part=-0 --split=splits/temporal.toml -o runs/temporal-sweep-best/Bias Bias
     outs:
       - runs/temporal-sweep-best/Bias
@@ -127,6 +136,15 @@ stages:
       - splits/temporal.toml
   run-temporal-default-BiasedMF-ALS:
     cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/BiasedMF-ALS BiasedMF-ALS
+    outs:
+      - runs/temporal-default/BiasedMF-ALS
+    deps:
+      - ../../models/BiasedMF-ALS.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-BiasedMF-ALS:
+    cmd: >-
       lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS.json --test-part=-0 --split=splits/temporal.toml -o runs/temporal-sweep-best/BiasedMF-ALS BiasedMF-ALS
     outs:
       - runs/temporal-sweep-best/BiasedMF-ALS
@@ -136,6 +154,15 @@ stages:
       - splits/temporal.toml
       - sweeps/temporal/BiasedMF-ALS.json
   run-temporal-default-IKNN-Explicit:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/IKNN-Explicit IKNN-Explicit
+    outs:
+      - runs/temporal-default/IKNN-Explicit
+    deps:
+      - ../../models/IKNN-Explicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-IKNN-Explicit:
     cmd: >-
       lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit.json --test-part=-0 --split=splits/temporal.toml -o runs/temporal-sweep-best/IKNN-Explicit IKNN-Explicit
     outs:
@@ -147,6 +174,15 @@ stages:
       - sweeps/temporal/IKNN-Explicit.json
   run-temporal-default-IKNN-Implicit:
     cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/IKNN-Implicit IKNN-Implicit
+    outs:
+      - runs/temporal-default/IKNN-Implicit
+    deps:
+      - ../../models/IKNN-Implicit.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-IKNN-Implicit:
+    cmd: >-
       lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit.json --test-part=-0 --split=splits/temporal.toml -o runs/temporal-sweep-best/IKNN-Implicit IKNN-Implicit
     outs:
       - runs/temporal-sweep-best/IKNN-Implicit
@@ -156,6 +192,15 @@ stages:
       - splits/temporal.toml
       - sweeps/temporal/IKNN-Implicit.json
   run-temporal-default-ImplicitMF-ALS:
+    cmd: >-
+      lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/ImplicitMF-ALS ImplicitMF-ALS
+    outs:
+      - runs/temporal-default/ImplicitMF-ALS
+    deps:
+      - ../../models/ImplicitMF-ALS.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-sweep-best-ImplicitMF-ALS:
     cmd: >-
       lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS.json --test-part=-0 --split=splits/temporal.toml -o runs/temporal-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
     outs:

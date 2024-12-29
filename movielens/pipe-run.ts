@@ -17,7 +17,7 @@ export function mlCrossfoldRuns(split: string): Run[] {
     if (info.sweep == null) continue;
 
     runs.push({
-      name: `run-${split}-default-${name}`,
+      name: `run-${split}-sweep-best-${name}`,
       args: [`--param-file=sweeps/${split}/${name}.json`, "--test-part=-0"],
       model: name,
       split,
@@ -45,7 +45,7 @@ export function mlSplitRuns(split: string): Run[] {
     if (info.sweep == null) continue;
 
     runs.push({
-      name: `run-${split}-default-${name}`,
+      name: `run-${split}-sweep-best-${name}`,
       args: [`--param-file=sweeps/${split}/${name}.json`, "--test-part=-0"],
       model: name,
       split,

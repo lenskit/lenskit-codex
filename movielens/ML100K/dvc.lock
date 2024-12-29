@@ -405,8 +405,8 @@ stages:
       size: 36964
       nfiles: 11
   run-random-default-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/ImplicitMF-ALS
-      ImplicitMF-ALS
+    cmd: lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0
+      --split=splits/random.toml -o runs/random-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
       hash: md5
@@ -420,11 +420,15 @@ stages:
       hash: md5
       md5: 521fdd73e436db6dfb4295eba802dddd
       size: 536576
-    outs:
-    - path: runs/random-default/ImplicitMF-ALS
+    - path: sweeps/random/ImplicitMF-ALS.json
       hash: md5
-      md5: 2da1f95cee4cc680f3fdd49030cf1bcf.dir
-      size: 25932
+      md5: 88d43b130c3b066ed5dbe120a61c7d81
+      size: 232
+    outs:
+    - path: runs/random-sweep-best/ImplicitMF-ALS
+      hash: md5
+      md5: 1bd6f88533d82bc54c68f53333bd5d90.dir
+      size: 23478
       nfiles: 4
   collect-metrics:
     cmd: lenskit-codex collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql
@@ -597,8 +601,8 @@ stages:
     outs:
     - path: runs/random-default/Bias
       hash: md5
-      md5: 20964b5da5dcdbef3d1cb4f3ab47cb36.dir
-      size: 38494
+      md5: 9f6295c785d22b2c36d339ab9daa2891.dir
+      size: 43468
       nfiles: 5
   run-random-default-Popular:
     cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/Popular
