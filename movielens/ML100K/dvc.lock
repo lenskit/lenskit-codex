@@ -379,8 +379,8 @@ stages:
       md5: 4ebfe15a3b3072086408fdc861bf37ae
       size: 2371584
   run-random-sweep-best-Bias:
-    cmd: lenskit-codex generate --param-file=sweeps/random/Bias.json --split=splits/random.toml
-      --test-part=-0 -o runs/random-sweep-best/Bias Bias
+    cmd: lenskit-codex generate --param-file=sweeps/random/Bias.json --test-part=-0
+      --split=splits/random.toml -o runs/random-sweep-best/Bias Bias
     deps:
     - path: ../../models/Bias.toml
       hash: md5
@@ -401,12 +401,12 @@ stages:
     outs:
     - path: runs/random-sweep-best/Bias
       hash: md5
-      md5: 02f27e6411a94f84421088a815b8cee6.dir
-      size: 36964
-      nfiles: 11
+      md5: dbf333689ed99ec5a0de83c66a078593.dir
+      size: 34115
+      nfiles: 5
   run-random-default-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0
-      --split=splits/random.toml -o runs/random-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
+    cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/ImplicitMF-ALS
+      ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
       hash: md5
@@ -420,15 +420,11 @@ stages:
       hash: md5
       md5: 521fdd73e436db6dfb4295eba802dddd
       size: 536576
-    - path: sweeps/random/ImplicitMF-ALS.json
-      hash: md5
-      md5: 88d43b130c3b066ed5dbe120a61c7d81
-      size: 232
     outs:
-    - path: runs/random-sweep-best/ImplicitMF-ALS
+    - path: runs/random-default/ImplicitMF-ALS
       hash: md5
-      md5: 1bd6f88533d82bc54c68f53333bd5d90.dir
-      size: 23478
+      md5: 2da1f95cee4cc680f3fdd49030cf1bcf.dir
+      size: 25932
       nfiles: 4
   collect-metrics:
     cmd: lenskit-codex collect metrics run-metrics.duckdb --view-script=../ml-run-metrics.sql
@@ -439,8 +435,8 @@ stages:
       md5: 073567bfe9ab23edc69ba21e48956b7f
       size: 1060864
   run-random-sweep-best-IKNN-Implicit:
-    cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --split=splits/random.toml
-      --test-part=-0 -o runs/random-sweep-best/IKNN-Implicit IKNN-Implicit
+    cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0
+      --split=splits/random.toml -o runs/random-sweep-best/IKNN-Implicit IKNN-Implicit
     deps:
     - path: ../../models/IKNN-Implicit.toml
       hash: md5
@@ -461,9 +457,9 @@ stages:
     outs:
     - path: runs/random-sweep-best/IKNN-Implicit
       hash: md5
-      md5: 5ba1b23b560c3073aed8ffb03e6ebb65.dir
-      size: 25173
-      nfiles: 7
+      md5: e7c0bbe881053c4a1f9768fc2a7d79d2.dir
+      size: 23550
+      nfiles: 4
   run-random-default-IKNN-Implicit:
     cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/IKNN-Implicit
       IKNN-Implicit
@@ -487,8 +483,8 @@ stages:
       size: 23551
       nfiles: 4
   run-random-sweep-best-IKNN-Explicit:
-    cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --split=splits/random.toml
-      --test-part=-0 -o runs/random-sweep-best/IKNN-Explicit IKNN-Explicit
+    cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0
+      --split=splits/random.toml -o runs/random-sweep-best/IKNN-Explicit IKNN-Explicit
     deps:
     - path: ../../models/IKNN-Explicit.toml
       hash: md5
@@ -509,12 +505,12 @@ stages:
     outs:
     - path: runs/random-sweep-best/IKNN-Explicit
       hash: md5
-      md5: 3b22a772cd26861a564d10b263b261c1.dir
-      size: 36321
-      nfiles: 11
+      md5: d4e21d6cd56ecb23c8ea0b2a40902391.dir
+      size: 33479
+      nfiles: 5
   run-random-sweep-best-BiasedMF-ALS:
-    cmd: lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --split=splits/random.toml
-      --test-part=-0 -o runs/random-sweep-best/BiasedMF-ALS BiasedMF-ALS
+    cmd: lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0
+      --split=splits/random.toml -o runs/random-sweep-best/BiasedMF-ALS BiasedMF-ALS
     deps:
     - path: ../../models/BiasedMF-ALS.toml
       hash: md5
@@ -535,9 +531,9 @@ stages:
     outs:
     - path: runs/random-sweep-best/BiasedMF-ALS
       hash: md5
-      md5: adce8fa3cb34ddfe0dbc025fdf1b5a09.dir
-      size: 37279
-      nfiles: 11
+      md5: 3428267f151673f5ac3dff8ff52b17f7.dir
+      size: 34027
+      nfiles: 5
   run-random-default-BiasedMF-ALS:
     cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/BiasedMF-ALS
       BiasedMF-ALS
@@ -670,8 +666,8 @@ stages:
       size: 25718
       nfiles: 7
   run-random-sweep-best-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --split=splits/random.toml
-      --test-part=-0 -o runs/random-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
+    cmd: lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0
+      --split=splits/random.toml -o runs/random-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
       hash: md5
@@ -692,9 +688,9 @@ stages:
     outs:
     - path: runs/random-sweep-best/ImplicitMF-ALS
       hash: md5
-      md5: 10c809d743e9778100dfd16590031dd1.dir
-      size: 25438
-      nfiles: 7
+      md5: 1bd6f88533d82bc54c68f53333bd5d90.dir
+      size: 23478
+      nfiles: 4
   run-random-default-UKNN-Explicit:
     cmd: lenskit-codex generate --default --split=splits/random.toml --test-part=-0
       -o runs/random-default/UKNN-Explicit UKNN-Explicit
