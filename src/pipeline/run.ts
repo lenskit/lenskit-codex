@@ -20,7 +20,7 @@ export function runStages(origin: string, runs: Run[]): Record<string, Stage> {
   let stages: Record<string, Stage> = {};
   for (let run of runs) {
     let path = runPath(run);
-    stages[`run-${run.split}-default-${run.model}`] = {
+    stages[run.name] = {
       cmd: action_cmd(
         "generate",
         ...run.args,
