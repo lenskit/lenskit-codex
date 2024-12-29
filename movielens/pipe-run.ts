@@ -11,7 +11,6 @@ export function mlCrossfoldRuns(ds: string, split: string): Record<string, Stage
         "generate",
         "--default",
         `--split=splits/${split}.toml`,
-        "--test-part=-0",
         `-o runs/${split}-default/${name}`,
         name,
       ),
