@@ -76,7 +76,7 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
   for (let [split, spec] of Object.entries(splits)) {
     Object.assign(split_stages, mlSplit(split, spec));
     Object.assign(sweep_stages, mlSweep(name, split));
-    runs.push(...mlRuns(split, spec));
+    runs.push(...mlRuns(name, split, spec));
   }
   let run_stages = runStages(`movielens/${name}`, runs);
 
@@ -107,7 +107,7 @@ export async function runListFiles(): Promise<Record<string, string>> {
   let files: Record<string, string> = {};
   for (let name of Object.keys(datasets)) {
     let splits = await scanSplits(name);
-    let runs = Object.entries(splits).flatMap(([split, spec]) => mlRuns(split, spec));
+    let runs = Object.entries(splits).flatMap(([split, spec]) => mlRuns(name, split, spec));
     files[`${name}/runs/manifest.csv`] = encodeRunList(runs);
   }
 

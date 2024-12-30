@@ -1,12 +1,13 @@
 import { MODELS } from "../src/pipeline/model-config.ts";
 import { Run } from "../src/pipeline/run.ts";
 
-export function mlCrossfoldRuns(split: string): Run[] {
+export function mlCrossfoldRuns(dataset: string, split: string): Run[] {
   const runs: Run[] = [];
 
   for (const [name, info] of Object.entries(MODELS)) {
     runs.push({
       name: `run-${split}-default-${name}`,
+      dataset,
       args: ["--default"],
       model: name,
       split,
@@ -18,6 +19,7 @@ export function mlCrossfoldRuns(split: string): Run[] {
 
     runs.push({
       name: `run-${split}-sweep-best-${name}`,
+      dataset,
       args: [`--param-file=sweeps/${split}/${name}.json`, "--test-part=-0"],
       model: name,
       split,
@@ -29,12 +31,13 @@ export function mlCrossfoldRuns(split: string): Run[] {
   return runs;
 }
 
-export function mlSplitRuns(split: string): Run[] {
+export function mlSplitRuns(dataset: string, split: string): Run[] {
   const runs: Run[] = [];
 
   for (const [name, info] of Object.entries(MODELS)) {
     runs.push({
       name: `run-${split}-default-${name}`,
+      dataset,
       args: ["--default"],
       model: name,
       split,
@@ -46,6 +49,7 @@ export function mlSplitRuns(split: string): Run[] {
 
     runs.push({
       name: `run-${split}-sweep-best-${name}`,
+      dataset,
       args: [`--param-file=sweeps/${split}/${name}.json`, "--test-part=-0"],
       model: name,
       split,
@@ -57,10 +61,10 @@ export function mlSplitRuns(split: string): Run[] {
   return runs;
 }
 
-export function mlRuns(split: string, spec: { method: string }): Run[] {
+export function mlRuns(dataset: string, split: string, spec: { method: string }): Run[] {
   if (spec.method == "crossfold") {
-    return mlCrossfoldRuns(split);
+    return mlCrossfoldRuns(dataset, split);
   } else {
-    return mlSplitRuns(split);
+    return mlSplitRuns(dataset, split);
   }
 }
