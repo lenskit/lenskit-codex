@@ -5,6 +5,7 @@ import { resolveProjectPath } from "./paths.ts";
 
 export type Run = {
   name: string;
+  dataset: string;
   split: string;
   variant: string;
   model: string;
@@ -24,6 +25,7 @@ export function runStages(origin: string, runs: Run[]): Record<string, Stage> {
       cmd: action_cmd(
         "generate",
         ...run.args,
+        `--ds-name=${run.dataset}`,
         `--split=splits/${run.split}.toml`,
         `-o runs/${path}`,
         run.model,
