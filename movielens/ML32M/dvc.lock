@@ -130,8 +130,8 @@ stages:
       size: 5054679
       nfiles: 11
   run-temporal-default-IKNN-Explicit:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
-      -o runs/temporal-default/IKNN-Explicit IKNN-Explicit
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/IKNN-Explicit
+      IKNN-Explicit
     deps:
     - path: ../../models/IKNN-Explicit.toml
       hash: md5
@@ -148,9 +148,9 @@ stages:
     outs:
     - path: runs/temporal-default/IKNN-Explicit
       hash: md5
-      md5: 1329d08209c4af499106ee0211807e58.dir
-      size: 11401507
-      nfiles: 19
+      md5: 61c78bb1bb1deaf62966662543e83c4e.dir
+      size: 446482
+      nfiles: 3
   sweep-temporal-ImplicitMF-ALS:
     cmd: lenskit-codex sweep run --ds-name=ML32M --split=splits/temporal.toml --test-part=valid
       ImplicitMF-ALS sweeps/temporal/ImplicitMF-ALS
@@ -191,8 +191,8 @@ stages:
       md5: 43e072b9b0caf38772107e052e555a3c
       size: 216
   run-temporal-sweep-best-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS.json --split=splits/temporal.toml
-      --test-part=-0 -o runs/temporal-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS.json --test-part=-0
+      --split=splits/temporal.toml -o runs/temporal-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
       hash: md5
@@ -213,9 +213,9 @@ stages:
     outs:
     - path: runs/temporal-sweep-best/ImplicitMF-ALS
       hash: md5
-      md5: 2db2a9fdc31e595f6402925a86f918a4.dir
-      size: 10692591
-      nfiles: 19
+      md5: f5dd7e92a55209767145072aa942c516.dir
+      size: 348253
+      nfiles: 3
   sweep-temporal-Bias:
     cmd: lenskit-codex sweep run --ds-name=ML32M --split=splits/temporal.toml --test-part=valid
       Bias sweeps/temporal/Bias
@@ -429,8 +429,8 @@ stages:
       size: 9469886
       nfiles: 19
   run-temporal-default-BiasedMF-ALS:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
-      -o runs/temporal-default/BiasedMF-ALS BiasedMF-ALS
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/BiasedMF-ALS
+      BiasedMF-ALS
     deps:
     - path: ../../models/BiasedMF-ALS.toml
       hash: md5
@@ -447,9 +447,9 @@ stages:
     outs:
     - path: runs/temporal-default/BiasedMF-ALS
       hash: md5
-      md5: 6fdd5d6cfd94941560d7cb53fd5c8aae.dir
-      size: 11937109
-      nfiles: 19
+      md5: c1a468496c7a34e17e42dc5a6bece273.dir
+      size: 589501
+      nfiles: 3
   run-temporal-valid-default-BiasedMF-ALS:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
       -o runs/temporal-valid-default/BiasedMF-ALS BiasedMF-ALS
@@ -473,8 +473,8 @@ stages:
       size: 10221078
       nfiles: 19
   run-temporal-sweep-best-IKNN-Explicit:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit.json --split=splits/temporal.toml
-      --test-part=-0 -o runs/temporal-sweep-best/IKNN-Explicit IKNN-Explicit
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit.json --test-part=-0
+      --split=splits/temporal.toml -o runs/temporal-sweep-best/IKNN-Explicit IKNN-Explicit
     deps:
     - path: ../../models/IKNN-Explicit.toml
       hash: md5
@@ -495,9 +495,9 @@ stages:
     outs:
     - path: runs/temporal-sweep-best/IKNN-Explicit
       hash: md5
-      md5: c4709dd6594e127265bb2db47f6b488a.dir
-      size: 21547488
-      nfiles: 35
+      md5: 2af86193632bcfd12d8d12ca7420293c.dir
+      size: 444124
+      nfiles: 3
   sweep-temporal-BiasedMF-ALS:
     cmd: lenskit-codex sweep run --ds-name=ML32M --split=splits/temporal.toml --test-part=valid
       BiasedMF-ALS sweeps/temporal/BiasedMF-ALS
@@ -538,8 +538,8 @@ stages:
       md5: 4390a591c45274a95a64f8fc61c70b0d
       size: 271
   run-temporal-sweep-best-BiasedMF-ALS:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS.json --split=splits/temporal.toml
-      --test-part=-0 -o runs/temporal-sweep-best/BiasedMF-ALS BiasedMF-ALS
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS.json --test-part=-0
+      --split=splits/temporal.toml -o runs/temporal-sweep-best/BiasedMF-ALS BiasedMF-ALS
     deps:
     - path: ../../models/BiasedMF-ALS.toml
       hash: md5
@@ -560,9 +560,9 @@ stages:
     outs:
     - path: runs/temporal-sweep-best/BiasedMF-ALS
       hash: md5
-      md5: d6825a4411420293d42515ea04af49cd.dir
-      size: 22165852
-      nfiles: 35
+      md5: 2edd512dfe75ae41fb9b3ff5d6e396ff.dir
+      size: 590962
+      nfiles: 3
   run-temporal-valid-default-IKNN-Explicit:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
       -o runs/temporal-valid-default/IKNN-Explicit IKNN-Explicit
@@ -604,12 +604,12 @@ stages:
     outs:
     - path: runs/temporal-default/Bias
       hash: md5
-      md5: 51aac9c58219ae3da32e693bcc381d12.dir
-      size: 20547488
-      nfiles: 35
+      md5: b75ef34c4cc97b79277201bdae4ed416.dir
+      size: 638917
+      nfiles: 3
   run-temporal-sweep-best-IKNN-Implicit:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit.json --split=splits/temporal.toml
-      --test-part=-0 -o runs/temporal-sweep-best/IKNN-Implicit IKNN-Implicit
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit.json --test-part=-0
+      --split=splits/temporal.toml -o runs/temporal-sweep-best/IKNN-Implicit IKNN-Implicit
     deps:
     - path: ../../models/IKNN-Implicit.toml
       hash: md5
@@ -630,9 +630,9 @@ stages:
     outs:
     - path: runs/temporal-sweep-best/IKNN-Implicit
       hash: md5
-      md5: b70fe462a56349c435b2aa318827fb93.dir
-      size: 10423307
-      nfiles: 19
+      md5: 6652a215a8f7bbd7c3dbc21eb614603f.dir
+      size: 343980
+      nfiles: 3
   run-temporal-default-Popular:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/Popular
       Popular
@@ -652,12 +652,12 @@ stages:
     outs:
     - path: runs/temporal-default/Popular
       hash: md5
-      md5: 3dbdfdeb166e0f1c1808e93765ac1c4d.dir
-      size: 2481020
-      nfiles: 4
+      md5: 50c398941a66ad0ec388c9fc69333ce3.dir
+      size: 326667
+      nfiles: 3
   run-temporal-default-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
-      -o runs/temporal-default/ImplicitMF-ALS ImplicitMF-ALS
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/ImplicitMF-ALS
+      ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
       hash: md5
@@ -674,9 +674,9 @@ stages:
     outs:
     - path: runs/temporal-default/ImplicitMF-ALS
       hash: md5
-      md5: 769a0abc471b1c0a7343b8c8c2a0add4.dir
-      size: 5776754
-      nfiles: 11
+      md5: fd5da52952d79eb474bce50076fae211.dir
+      size: 359363
+      nfiles: 3
   export-temporal-Bias:
     cmd: lenskit-codex sweep export -o sweeps/temporal/Bias.json sweeps/temporal/Bias
       RMSE
@@ -692,8 +692,8 @@ stages:
       md5: d8deef2ad6bfed40eee1f6202d1d809f
       size: 282
   run-temporal-sweep-best-Bias:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias.json --split=splits/temporal.toml
-      --test-part=test -o runs/temporal-sweep-best/Bias Bias
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias.json --test-part=-0
+      --split=splits/temporal.toml -o runs/temporal-sweep-best/Bias Bias
     deps:
     - path: ../../models/Bias.toml
       hash: md5
@@ -714,9 +714,9 @@ stages:
     outs:
     - path: runs/temporal-sweep-best/Bias
       hash: md5
-      md5: bc59aab894debfd5edcfe303b10201dd.dir
-      size: 11066567
-      nfiles: 19
+      md5: e704407343e3cd9d88947cd8020e3d04.dir
+      size: 641289
+      nfiles: 3
   run-temporal-valid-default-IKNN-Implicit:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
       -o runs/temporal-valid-default/IKNN-Implicit IKNN-Implicit
@@ -740,8 +740,8 @@ stages:
       size: 4929299
       nfiles: 11
   run-temporal-default-IKNN-Implicit:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
-      -o runs/temporal-default/IKNN-Implicit IKNN-Implicit
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml -o runs/temporal-default/IKNN-Implicit
+      IKNN-Implicit
     deps:
     - path: ../../models/IKNN-Implicit.toml
       hash: md5
@@ -758,9 +758,9 @@ stages:
     outs:
     - path: runs/temporal-default/IKNN-Implicit
       hash: md5
-      md5: 197480e15e0219e3a32916cebf7f9a13.dir
-      size: 5402580
-      nfiles: 11
+      md5: 277e5f539306ede1fc4264765b30b7f8.dir
+      size: 344648
+      nfiles: 3
   run-temporal-valid-default-Popular:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
       -o runs/temporal-valid-default/Popular Popular

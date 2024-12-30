@@ -401,8 +401,8 @@ stages:
     outs:
     - path: runs/random-sweep-best/Bias
       hash: md5
-      md5: dbf333689ed99ec5a0de83c66a078593.dir
-      size: 34115
+      md5: fce6092e4bb92bf0d3f84e9253fb2b65.dir
+      size: 34125
       nfiles: 5
   run-random-default-ImplicitMF-ALS:
     cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/ImplicitMF-ALS
@@ -423,8 +423,8 @@ stages:
     outs:
     - path: runs/random-default/ImplicitMF-ALS
       hash: md5
-      md5: 2da1f95cee4cc680f3fdd49030cf1bcf.dir
-      size: 25932
+      md5: d725f3190f40baf98993f87ab2abc4bc.dir
+      size: 31071
       nfiles: 4
   collect-metrics:
     cmd: lenskit-codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
@@ -517,8 +517,8 @@ stages:
     outs:
     - path: runs/random-sweep-best/IKNN-Implicit
       hash: md5
-      md5: e7c0bbe881053c4a1f9768fc2a7d79d2.dir
-      size: 23550
+      md5: f0bb152ec9132e9e44d69b945e703d80.dir
+      size: 23554
       nfiles: 4
   run-random-default-IKNN-Implicit:
     cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/IKNN-Implicit
@@ -539,8 +539,8 @@ stages:
     outs:
     - path: runs/random-default/IKNN-Implicit
       hash: md5
-      md5: b9f96e7d3faa3c845118148fb8437adc.dir
-      size: 23551
+      md5: 7fec39a485e19e79dc41c1f8e19992da.dir
+      size: 28813
       nfiles: 4
   run-random-sweep-best-IKNN-Explicit:
     cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0
@@ -565,8 +565,8 @@ stages:
     outs:
     - path: runs/random-sweep-best/IKNN-Explicit
       hash: md5
-      md5: d4e21d6cd56ecb23c8ea0b2a40902391.dir
-      size: 33479
+      md5: 777d2991362da62b7d43373033f90712.dir
+      size: 33470
       nfiles: 5
   run-random-sweep-best-BiasedMF-ALS:
     cmd: lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0
@@ -591,8 +591,8 @@ stages:
     outs:
     - path: runs/random-sweep-best/BiasedMF-ALS
       hash: md5
-      md5: 3428267f151673f5ac3dff8ff52b17f7.dir
-      size: 34027
+      md5: 402c5a0443aa76c9915c9d3955665f20.dir
+      size: 34389
       nfiles: 5
   run-random-default-BiasedMF-ALS:
     cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/BiasedMF-ALS
@@ -613,8 +613,8 @@ stages:
     outs:
     - path: runs/random-default/BiasedMF-ALS
       hash: md5
-      md5: 0af5c691df7f1bc57bf25d5e433186d7.dir
-      size: 36568
+      md5: 82bca178082c36cf16b1dddb417aa450.dir
+      size: 41775
       nfiles: 5
   run-random-default-IKNN-Explicit:
     cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/IKNN-Explicit
@@ -635,8 +635,8 @@ stages:
     outs:
     - path: runs/random-default/IKNN-Explicit
       hash: md5
-      md5: e5cd24870df4aeebf387843c0d0b7cf1.dir
-      size: 35537
+      md5: 8062ac6bc4cd9b8296d36c8d9ce14e08.dir
+      size: 40795
       nfiles: 5
   run-random-default-Bias:
     cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/Bias
@@ -657,8 +657,8 @@ stages:
     outs:
     - path: runs/random-default/Bias
       hash: md5
-      md5: 9f6295c785d22b2c36d339ab9daa2891.dir
-      size: 43468
+      md5: ab2185c30e89822da4e4b7bc7a461b1f.dir
+      size: 43458
       nfiles: 5
   run-random-default-Popular:
     cmd: lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/Popular
@@ -679,8 +679,8 @@ stages:
     outs:
     - path: runs/random-default/Popular
       hash: md5
-      md5: 4ef404da31e15763114100030c890bcc.dir
-      size: 27073
+      md5: 8ceed3b866328c2ac4243d35a1f73cc4.dir
+      size: 27059
       nfiles: 4
   run-random-default-Implicit-BPR:
     cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
@@ -748,8 +748,8 @@ stages:
     outs:
     - path: runs/random-sweep-best/ImplicitMF-ALS
       hash: md5
-      md5: 1bd6f88533d82bc54c68f53333bd5d90.dir
-      size: 23478
+      md5: 34146ee02de2764c6c5567f3470d60f3.dir
+      size: 23574
       nfiles: 4
   run-random-default-UKNN-Explicit:
     cmd: lenskit-codex generate --default --split=splits/random.toml --test-part=-0
