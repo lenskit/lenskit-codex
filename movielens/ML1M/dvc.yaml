@@ -119,7 +119,7 @@ stages:
           cache: false
   run-random-default-Bias:
     cmd: >-
-      lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/Bias Bias
+      lenskit-codex generate --default --ds-name=undefined --split=splits/random.toml -o runs/random-default/Bias Bias
     outs:
       - runs/random-default/Bias
     deps:
@@ -128,7 +128,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-Bias:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/Bias.json --test-part=-0 --split=splits/random.toml -o runs/random-sweep-best/Bias Bias
+      lenskit-codex generate --param-file=sweeps/random/Bias.json --test-part=-0 --ds-name=undefined --split=splits/random.toml -o runs/random-sweep-best/Bias Bias
     outs:
       - runs/random-sweep-best/Bias
     deps:
@@ -138,7 +138,7 @@ stages:
       - sweeps/random/Bias.json
   run-random-default-Popular:
     cmd: >-
-      lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/Popular Popular
+      lenskit-codex generate --default --ds-name=undefined --split=splits/random.toml -o runs/random-default/Popular Popular
     outs:
       - runs/random-default/Popular
     deps:
@@ -147,7 +147,7 @@ stages:
       - splits/random.duckdb
   run-random-default-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
+      lenskit-codex generate --default --ds-name=undefined --split=splits/random.toml -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
     outs:
       - runs/random-default/BiasedMF-ALS
     deps:
@@ -156,7 +156,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 --split=splits/random.toml -o runs/random-sweep-best/BiasedMF-ALS BiasedMF-ALS
+      lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 --ds-name=undefined --split=splits/random.toml -o runs/random-sweep-best/BiasedMF-ALS BiasedMF-ALS
     outs:
       - runs/random-sweep-best/BiasedMF-ALS
     deps:
@@ -166,7 +166,7 @@ stages:
       - sweeps/random/BiasedMF-ALS.json
   run-random-default-IKNN-Explicit:
     cmd: >-
-      lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/IKNN-Explicit IKNN-Explicit
+      lenskit-codex generate --default --ds-name=undefined --split=splits/random.toml -o runs/random-default/IKNN-Explicit IKNN-Explicit
     outs:
       - runs/random-default/IKNN-Explicit
     deps:
@@ -175,7 +175,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-IKNN-Explicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 --split=splits/random.toml -o runs/random-sweep-best/IKNN-Explicit IKNN-Explicit
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 --ds-name=undefined --split=splits/random.toml -o runs/random-sweep-best/IKNN-Explicit IKNN-Explicit
     outs:
       - runs/random-sweep-best/IKNN-Explicit
     deps:
@@ -185,7 +185,7 @@ stages:
       - sweeps/random/IKNN-Explicit.json
   run-random-default-IKNN-Implicit:
     cmd: >-
-      lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/IKNN-Implicit IKNN-Implicit
+      lenskit-codex generate --default --ds-name=undefined --split=splits/random.toml -o runs/random-default/IKNN-Implicit IKNN-Implicit
     outs:
       - runs/random-default/IKNN-Implicit
     deps:
@@ -194,7 +194,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-IKNN-Implicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 --split=splits/random.toml -o runs/random-sweep-best/IKNN-Implicit IKNN-Implicit
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 --ds-name=undefined --split=splits/random.toml -o runs/random-sweep-best/IKNN-Implicit IKNN-Implicit
     outs:
       - runs/random-sweep-best/IKNN-Implicit
     deps:
@@ -204,7 +204,7 @@ stages:
       - sweeps/random/IKNN-Implicit.json
   run-random-default-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex generate --default --split=splits/random.toml -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
+      lenskit-codex generate --default --ds-name=undefined --split=splits/random.toml -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
     outs:
       - runs/random-default/ImplicitMF-ALS
     deps:
@@ -213,7 +213,7 @@ stages:
       - splits/random.duckdb
   run-random-sweep-best-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0 --split=splits/random.toml -o runs/random-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
+      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0 --ds-name=undefined --split=splits/random.toml -o runs/random-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
     outs:
       - runs/random-sweep-best/ImplicitMF-ALS
     deps:
