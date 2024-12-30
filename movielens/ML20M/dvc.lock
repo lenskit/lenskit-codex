@@ -833,9 +833,9 @@ stages:
     outs:
     - path: sweeps/temporal/ImplicitMF-ALS
       hash: md5
-      md5: 0c0ae5e3feafa5f7014c037e2995a802.dir
-      size: 526164007
-      nfiles: 244
+      md5: dec420b7e593cdba170ffa1efc37a8f2.dir
+      size: 375325528
+      nfiles: 5
   export-temporal-ImplicitMF-ALS:
     cmd: lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS.json sweeps/temporal/ImplicitMF-ALS
       RBP
@@ -898,9 +898,9 @@ stages:
     outs:
     - path: sweeps/temporal/IKNN-Explicit
       hash: md5
-      md5: 88244ff48ef9217c390ed3f6516e4e2f.dir
-      size: 243817174
-      nfiles: 196
+      md5: 356ea0e4df62c98848c518a71545a0ef.dir
+      size: 177116002
+      nfiles: 6
   sweep-temporal-BiasedMF-ALS:
     cmd: lenskit-codex sweep run --ds-name=ML20M --split=splits/temporal.toml --test-part=valid
       BiasedMF-ALS sweeps/temporal/BiasedMF-ALS
@@ -923,9 +923,9 @@ stages:
     outs:
     - path: sweeps/temporal/BiasedMF-ALS
       hash: md5
-      md5: 5e972c33641e1e6ab7d40cb00b58f257.dir
-      size: 578112527
-      nfiles: 484
+      md5: 9b2ded3068c0a828bf0f804680d2bf7a.dir
+      size: 413842821
+      nfiles: 6
   export-temporal-BiasedMF-ALS:
     cmd: lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS.json sweeps/temporal/BiasedMF-ALS
       RMSE
@@ -1068,9 +1068,9 @@ stages:
     outs:
     - path: sweeps/temporal/Bias
       hash: md5
-      md5: f212d5688630fda0a9d8b5d7a37f6251.dir
-      size: 273198166
-      nfiles: 260
+      md5: d706dd4d1ae0025f223e4487664c4cf3.dir
+      size: 183639250
+      nfiles: 6
   export-temporal-Bias:
     cmd: lenskit-codex sweep export -o sweeps/temporal/Bias.json sweeps/temporal/Bias
       RMSE
@@ -1177,9 +1177,9 @@ stages:
     outs:
     - path: sweeps/temporal/IKNN-Implicit
       hash: md5
-      md5: 8a7217b2f84ea8c62f47c92480ec7b65.dir
-      size: 200991628
-      nfiles: 100
+      md5: 72487a94b538815a687e16403ea35831.dir
+      size: 144600986
+      nfiles: 5
   export-temporal-IKNN-Implicit:
     cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit.json sweeps/temporal/IKNN-Implicit
       RBP

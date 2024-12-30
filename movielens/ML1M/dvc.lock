@@ -93,9 +93,9 @@ stages:
     outs:
     - path: sweeps/random/Bias
       hash: md5
-      md5: c8fbea0fddd5cdf7f247898db1504730.dir
-      size: 55178140
-      nfiles: 260
+      md5: c83fe2e1520bc5f406575956e0934d29.dir
+      size: 36538605
+      nfiles: 6
   sweep-random-BiasedMF-ALS:
     cmd: lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0
       BiasedMF-ALS sweeps/random/BiasedMF-ALS
@@ -118,9 +118,9 @@ stages:
     outs:
     - path: sweeps/random/BiasedMF-ALS
       hash: md5
-      md5: 8a14df66ea948150100a1739131db0a3.dir
-      size: 122046447
-      nfiles: 484
+      md5: dc29a0800b0514992f2efe798dfb034a.dir
+      size: 82976620
+      nfiles: 6
   sweep-random-ImplicitMF-ALS:
     cmd: lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0
       ImplicitMF-ALS sweeps/random/ImplicitMF-ALS
@@ -143,9 +143,9 @@ stages:
     outs:
     - path: sweeps/random/ImplicitMF-ALS
       hash: md5
-      md5: d763140e74a7ec61dfbb0d6a1e0e43cc.dir
-      size: 132550980
-      nfiles: 244
+      md5: 085995bb3d93e6194dc61a19e84fe08a.dir
+      size: 91979922
+      nfiles: 5
   sweep-random-IKNN-Explicit:
     cmd: lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0
       IKNN-Explicit sweeps/random/IKNN-Explicit
@@ -168,9 +168,9 @@ stages:
     outs:
     - path: sweeps/random/IKNN-Explicit
       hash: md5
-      md5: 0eda64f5b7c8227ac90400e524bb1d27.dir
-      size: 51449986
-      nfiles: 196
+      md5: f33bd023f764019f624329fb2edd1b09.dir
+      size: 35932347
+      nfiles: 6
   sweep-random-IKNN-Implicit:
     cmd: lenskit-codex sweep run --ds-name=ML1M --split=splits/random.toml --test-part=0
       IKNN-Implicit sweeps/random/IKNN-Implicit
@@ -193,9 +193,9 @@ stages:
     outs:
     - path: sweeps/random/IKNN-Implicit
       hash: md5
-      md5: 2427dc1ee39543afad9f3ad1f5de4415.dir
-      size: 51013404
-      nfiles: 100
+      md5: 5491560c6c03e37414305eff56f90dab.dir
+      size: 35596961
+      nfiles: 5
   import:
     cmd: lenskit-codex movielens import --stat-sql=../ml-stats.sql ml-1m.zip
     deps:

@@ -173,9 +173,9 @@ stages:
     outs:
     - path: sweeps/temporal/ImplicitMF-ALS
       hash: md5
-      md5: d698d30cb9e465444d45dd0a10ce40cb.dir
-      size: 692185905
-      nfiles: 244
+      md5: 4672be5dcaa5c0379599cfe3dceb3d75.dir
+      size: 542661497
+      nfiles: 5
   export-temporal-ImplicitMF-ALS:
     cmd: lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS.json sweeps/temporal/ImplicitMF-ALS
       RBP
@@ -238,9 +238,9 @@ stages:
     outs:
     - path: sweeps/temporal/Bias
       hash: md5
-      md5: 909f88385f12762c89b7d6012c969a43.dir
-      size: 312905236
-      nfiles: 260
+      md5: f50d21cba7acb229aa0d12a1f2809249.dir
+      size: 232106846
+      nfiles: 6
   run-temporal-default-UKNN-Implicit:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=test
       -o runs/temporal-default/UKNN-Implicit UKNN-Implicit
@@ -285,9 +285,9 @@ stages:
     outs:
     - path: sweeps/temporal/IKNN-Implicit
       hash: md5
-      md5: a4d154acc2b785f644a7eabf9a833005.dir
-      size: 265656943
-      nfiles: 100
+      md5: 9e080e24fa421a01c830923b9db5d00c.dir
+      size: 210066945
+      nfiles: 5
   export-temporal-IKNN-Implicit:
     cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit.json sweeps/temporal/IKNN-Implicit
       RBP
@@ -389,9 +389,9 @@ stages:
     outs:
     - path: sweeps/temporal/IKNN-Explicit
       hash: md5
-      md5: d76c1a8da886fa62b11a82399fb41268.dir
-      size: 330286974
-      nfiles: 196
+      md5: 755d765ecc62a75e0f03a156a479a0dd.dir
+      size: 255075621
+      nfiles: 6
   export-temporal-IKNN-Explicit:
     cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Explicit.json sweeps/temporal/IKNN-Explicit
       RMSE
@@ -520,9 +520,9 @@ stages:
     outs:
     - path: sweeps/temporal/BiasedMF-ALS
       hash: md5
-      md5: 3f3b9a3bf3c7812efcad9cd05c5c783a.dir
-      size: 788398392
-      nfiles: 484
+      md5: d71f00fe301cbb7de9f23680b163c711.dir
+      size: 602627137
+      nfiles: 6
   export-temporal-BiasedMF-ALS:
     cmd: lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS.json sweeps/temporal/BiasedMF-ALS
       RMSE

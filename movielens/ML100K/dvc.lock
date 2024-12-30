@@ -189,9 +189,9 @@ stages:
     outs:
     - path: sweeps/random/Bias
       hash: md5
-      md5: c7f277d298c3b17f4ac844fdaa388818.dir
-      size: 171005
-      nfiles: 36
+      md5: a8cf1bf1a9cad27e628af7d2fbfd6760.dir
+      size: 152014
+      nfiles: 6
   sweep-random-BiasedMF-ALS:
     cmd: lenskit-codex sweep run --ds-name=ML100K --split=splits/random.toml --test-part=0
       BiasedMF-ALS sweeps/random/BiasedMF-ALS
@@ -214,9 +214,9 @@ stages:
     outs:
     - path: sweeps/random/BiasedMF-ALS
       hash: md5
-      md5: dfdd2f88f5c7f8bd2dc2e5a37cb91b75.dir
-      size: 317574
-      nfiles: 64
+      md5: c804063967d3ecf8492f004d8b1b12b2.dir
+      size: 279963
+      nfiles: 6
   sweep-random-ImplicitMF-ALS:
     cmd: lenskit-codex sweep run --ds-name=ML100K --split=splits/random.toml --test-part=0
       ImplicitMF-ALS sweeps/random/ImplicitMF-ALS
@@ -239,9 +239,9 @@ stages:
     outs:
     - path: sweeps/random/ImplicitMF-ALS
       hash: md5
-      md5: 512827852d2627ced06b0f06362f34a0.dir
-      size: 251157
-      nfiles: 34
+      md5: 6e46a9e0b4f1b4a327948355c6a801b6.dir
+      size: 231148
+      nfiles: 5
   sweep-random-IKNN-Explicit:
     cmd: lenskit-codex sweep run --ds-name=ML100K --split=splits/random.toml --test-part=0
       IKNN-Explicit sweeps/random/IKNN-Explicit
@@ -264,9 +264,9 @@ stages:
     outs:
     - path: sweeps/random/IKNN-Explicit
       hash: md5
-      md5: b2eeb4fd35827eb4a74f011671a464b1.dir
-      size: 110763
-      nfiles: 28
+      md5: 9db9ba367886b697f874ca4e94d0aab8.dir
+      size: 97092
+      nfiles: 6
   sweep-random-IKNN-Implicit:
     cmd: lenskit-codex sweep run --ds-name=ML100K --split=splits/random.toml --test-part=0
       IKNN-Implicit sweeps/random/IKNN-Implicit
@@ -289,9 +289,9 @@ stages:
     outs:
     - path: sweeps/random/IKNN-Implicit
       hash: md5
-      md5: 970c165d38f45aa730ad5d817f48119f.dir
-      size: 74166
-      nfiles: 16
+      md5: e617ed6aeaf6b2102a2cc1ab1d1b5301.dir
+      size: 66901
+      nfiles: 5
   export-random-ImplicitMF-ALS:
     cmd: lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS.json sweeps/random/ImplicitMF-ALS
       RBP
