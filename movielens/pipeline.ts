@@ -116,7 +116,7 @@ export async function runListFiles(): Promise<Record<string, string>> {
 
 export const pipeline: Pipeline = {
   stages: {
-    aggregate: {
+    "aggregate-rating-stats": {
       cmd: action_cmd(
         "movielens aggregate",
         "-d merged-stats.duckdb",
