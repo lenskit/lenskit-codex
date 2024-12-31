@@ -4,12 +4,12 @@ import json
 import os
 import tomllib
 from pathlib import Path
-from typing import NamedTuple
+from typing import Annotated, Literal, NamedTuple, Union
 
 import structlog
 from lenskit.pipeline import Component
 from lenskit.pipeline.types import parse_type_string
-from pydantic import BaseModel, JsonValue
+from pydantic import BaseModel, Field, JsonValue
 from pyprojroot import find_root, has_file
 
 _log = structlog.get_logger(__name__)
@@ -22,6 +22,22 @@ class ModelInstance(NamedTuple):
     config: ModelConfig
 
 
+class CategorialParamSpace(BaseModel, extra="forbid"):
+    type: Literal["categorical"] = "categorical"
+    values: list[str]
+
+
+class NumericParamSpace(BaseModel, extra="forbid"):
+    type: Literal["integer", "real"] = "real"
+    "The parameter's type."
+    min: int | float | None
+    "The parameter's minimum value."
+    max: int | float | None
+    "The parameter's maximum value."
+    space: Literal["linear", "logarithmic"] = "linear"
+    "The space on which to sample the parameter."
+
+
 class ModelConfig(BaseModel, extra="forbid"):
     name: str | None = None
     scorer: str
@@ -31,6 +47,14 @@ class ModelConfig(BaseModel, extra="forbid"):
     constant: dict[str, JsonValue] = {}
     default: dict[str, JsonValue] = {}
     sweep: dict[str, list[JsonValue]] | None = None
+
+    params: (
+        dict[
+            str,
+            Annotated[Union[CategorialParamSpace, NumericParamSpace], Field(discriminator="type")],
+        ]
+        | None
+    ) = None
 
     @property
     def scorer_class(self) -> type[Component]:
