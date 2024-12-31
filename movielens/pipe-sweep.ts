@@ -4,7 +4,7 @@ import { action_cmd, Stage } from "../src/dvc.ts";
 import { MODELS } from "../src/pipeline/model-config.ts";
 
 export function mlSweep(ds: string, split: string): Record<string, Stage> {
-  const active = filterValues(MODELS, (m) => m.sweep != null);
+  const active = filterValues(MODELS, (m) => m.grid != null);
   const results: Record<string, Stage> = {};
   let split_dep = split == "random" ? "splits/random.duckdb" : `splits/${split}.toml`;
   let test_part = split == "random" ? "0" : "valid";

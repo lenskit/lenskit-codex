@@ -126,11 +126,11 @@ stages:
       - ../../models/Bias.toml
       - ratings.duckdb
       - splits/random.duckdb
-  run-random-sweep-best-Bias:
+  run-random-grid-best-Bias:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/Bias.json --test-part=-0 --ds-name=ML1M --split=splits/random.toml -o runs/random-sweep-best/Bias Bias
+      lenskit-codex generate --param-file=sweeps/random/Bias.json --test-part=-0 --ds-name=ML1M --split=splits/random.toml -o runs/random-grid-best/Bias Bias
     outs:
-      - runs/random-sweep-best/Bias
+      - runs/random-grid-best/Bias
     deps:
       - ../../models/Bias.toml
       - ratings.duckdb
@@ -154,11 +154,11 @@ stages:
       - ../../models/BiasedMF-ALS.toml
       - ratings.duckdb
       - splits/random.duckdb
-  run-random-sweep-best-BiasedMF-ALS:
+  run-random-grid-best-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 --ds-name=ML1M --split=splits/random.toml -o runs/random-sweep-best/BiasedMF-ALS BiasedMF-ALS
+      lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 --ds-name=ML1M --split=splits/random.toml -o runs/random-grid-best/BiasedMF-ALS BiasedMF-ALS
     outs:
-      - runs/random-sweep-best/BiasedMF-ALS
+      - runs/random-grid-best/BiasedMF-ALS
     deps:
       - ../../models/BiasedMF-ALS.toml
       - ratings.duckdb
@@ -173,11 +173,11 @@ stages:
       - ../../models/IKNN-Explicit.toml
       - ratings.duckdb
       - splits/random.duckdb
-  run-random-sweep-best-IKNN-Explicit:
+  run-random-grid-best-IKNN-Explicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 --ds-name=ML1M --split=splits/random.toml -o runs/random-sweep-best/IKNN-Explicit IKNN-Explicit
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 --ds-name=ML1M --split=splits/random.toml -o runs/random-grid-best/IKNN-Explicit IKNN-Explicit
     outs:
-      - runs/random-sweep-best/IKNN-Explicit
+      - runs/random-grid-best/IKNN-Explicit
     deps:
       - ../../models/IKNN-Explicit.toml
       - ratings.duckdb
@@ -192,11 +192,11 @@ stages:
       - ../../models/IKNN-Implicit.toml
       - ratings.duckdb
       - splits/random.duckdb
-  run-random-sweep-best-IKNN-Implicit:
+  run-random-grid-best-IKNN-Implicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 --ds-name=ML1M --split=splits/random.toml -o runs/random-sweep-best/IKNN-Implicit IKNN-Implicit
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 --ds-name=ML1M --split=splits/random.toml -o runs/random-grid-best/IKNN-Implicit IKNN-Implicit
     outs:
-      - runs/random-sweep-best/IKNN-Implicit
+      - runs/random-grid-best/IKNN-Implicit
     deps:
       - ../../models/IKNN-Implicit.toml
       - ratings.duckdb
@@ -211,11 +211,11 @@ stages:
       - ../../models/ImplicitMF-ALS.toml
       - ratings.duckdb
       - splits/random.duckdb
-  run-random-sweep-best-ImplicitMF-ALS:
+  run-random-grid-best-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0 --ds-name=ML1M --split=splits/random.toml -o runs/random-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
+      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0 --ds-name=ML1M --split=splits/random.toml -o runs/random-grid-best/ImplicitMF-ALS ImplicitMF-ALS
     outs:
-      - runs/random-sweep-best/ImplicitMF-ALS
+      - runs/random-grid-best/ImplicitMF-ALS
     deps:
       - ../../models/ImplicitMF-ALS.toml
       - ratings.duckdb
@@ -226,16 +226,16 @@ stages:
       lenskit-codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
       - runs/random-default/Bias
-      - runs/random-sweep-best/Bias
+      - runs/random-grid-best/Bias
       - runs/random-default/Popular
       - runs/random-default/BiasedMF-ALS
-      - runs/random-sweep-best/BiasedMF-ALS
+      - runs/random-grid-best/BiasedMF-ALS
       - runs/random-default/IKNN-Explicit
-      - runs/random-sweep-best/IKNN-Explicit
+      - runs/random-grid-best/IKNN-Explicit
       - runs/random-default/IKNN-Implicit
-      - runs/random-sweep-best/IKNN-Implicit
+      - runs/random-grid-best/IKNN-Implicit
       - runs/random-default/ImplicitMF-ALS
-      - runs/random-sweep-best/ImplicitMF-ALS
+      - runs/random-grid-best/ImplicitMF-ALS
     outs:
       - run-summary.csv
       - run-user-metrics.parquet

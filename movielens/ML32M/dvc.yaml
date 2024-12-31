@@ -115,11 +115,11 @@ stages:
       - ../../models/Bias.toml
       - ratings.duckdb
       - splits/temporal.toml
-  run-temporal-sweep-best-Bias:
+  run-temporal-grid-best-Bias:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/Bias.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-sweep-best/Bias Bias
+      lenskit-codex generate --param-file=sweeps/temporal/Bias.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/Bias Bias
     outs:
-      - runs/temporal-sweep-best/Bias
+      - runs/temporal-grid-best/Bias
     deps:
       - ../../models/Bias.toml
       - ratings.duckdb
@@ -143,11 +143,11 @@ stages:
       - ../../models/BiasedMF-ALS.toml
       - ratings.duckdb
       - splits/temporal.toml
-  run-temporal-sweep-best-BiasedMF-ALS:
+  run-temporal-grid-best-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-sweep-best/BiasedMF-ALS BiasedMF-ALS
+      lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/BiasedMF-ALS BiasedMF-ALS
     outs:
-      - runs/temporal-sweep-best/BiasedMF-ALS
+      - runs/temporal-grid-best/BiasedMF-ALS
     deps:
       - ../../models/BiasedMF-ALS.toml
       - ratings.duckdb
@@ -162,11 +162,11 @@ stages:
       - ../../models/IKNN-Explicit.toml
       - ratings.duckdb
       - splits/temporal.toml
-  run-temporal-sweep-best-IKNN-Explicit:
+  run-temporal-grid-best-IKNN-Explicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-sweep-best/IKNN-Explicit IKNN-Explicit
+      lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Explicit IKNN-Explicit
     outs:
-      - runs/temporal-sweep-best/IKNN-Explicit
+      - runs/temporal-grid-best/IKNN-Explicit
     deps:
       - ../../models/IKNN-Explicit.toml
       - ratings.duckdb
@@ -181,11 +181,11 @@ stages:
       - ../../models/IKNN-Implicit.toml
       - ratings.duckdb
       - splits/temporal.toml
-  run-temporal-sweep-best-IKNN-Implicit:
+  run-temporal-grid-best-IKNN-Implicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-sweep-best/IKNN-Implicit IKNN-Implicit
+      lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Implicit IKNN-Implicit
     outs:
-      - runs/temporal-sweep-best/IKNN-Implicit
+      - runs/temporal-grid-best/IKNN-Implicit
     deps:
       - ../../models/IKNN-Implicit.toml
       - ratings.duckdb
@@ -200,11 +200,11 @@ stages:
       - ../../models/ImplicitMF-ALS.toml
       - ratings.duckdb
       - splits/temporal.toml
-  run-temporal-sweep-best-ImplicitMF-ALS:
+  run-temporal-grid-best-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-sweep-best/ImplicitMF-ALS ImplicitMF-ALS
+      lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/ImplicitMF-ALS ImplicitMF-ALS
     outs:
-      - runs/temporal-sweep-best/ImplicitMF-ALS
+      - runs/temporal-grid-best/ImplicitMF-ALS
     deps:
       - ../../models/ImplicitMF-ALS.toml
       - ratings.duckdb
@@ -215,16 +215,16 @@ stages:
       lenskit-codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
       - runs/temporal-default/Bias
-      - runs/temporal-sweep-best/Bias
+      - runs/temporal-grid-best/Bias
       - runs/temporal-default/Popular
       - runs/temporal-default/BiasedMF-ALS
-      - runs/temporal-sweep-best/BiasedMF-ALS
+      - runs/temporal-grid-best/BiasedMF-ALS
       - runs/temporal-default/IKNN-Explicit
-      - runs/temporal-sweep-best/IKNN-Explicit
+      - runs/temporal-grid-best/IKNN-Explicit
       - runs/temporal-default/IKNN-Implicit
-      - runs/temporal-sweep-best/IKNN-Implicit
+      - runs/temporal-grid-best/IKNN-Implicit
       - runs/temporal-default/ImplicitMF-ALS
-      - runs/temporal-sweep-best/ImplicitMF-ALS
+      - runs/temporal-grid-best/ImplicitMF-ALS
     outs:
       - run-summary.csv
       - run-user-metrics.parquet

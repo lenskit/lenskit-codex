@@ -9,7 +9,7 @@ import { categories } from "./pipe-sources.ts";
 function runStage(
   name: string,
   test: "test" | "valid",
-  config: "default" | "sweep-best" = "default",
+  config: "default" | "grid-best" = "default",
 ): Stage {
   let depFiles = ["data/${item}.train.parquet", "data/${item}.valid.parquet"];
   if (test == "test") {
@@ -20,7 +20,7 @@ function runStage(
   let cfgDeps = [];
   if (config == "default") {
     cfgArgs = ["--default"];
-  } else if (config == "sweep-best") {
+  } else if (config == "grid-best") {
     let f = `sweeps/\${item}/${name}.json`;
     cfgArgs = ["--param-file", f];
     cfgDeps.push(f);
@@ -81,7 +81,7 @@ export const runStages: Record<string, Stage> = generateStages(
       [`run-default-${name}-test`]: runStage(name, "test"),
       [`run-default-${name}-valid`]: runStage(name, "valid"),
     };
-    if (info.sweep) {
+    if (info.grid) {
       let sweepDb = `sweeps/\${item}/${name}.duckdb`;
       result[`sweep-${name}`] = sweepStage(name);
       result[`export-sweep-${name}`] = {
@@ -101,10 +101,10 @@ export const runStages: Record<string, Stage> = generateStages(
           ],
         },
       };
-      result[`run-sweep-best-${name}-test`] = runStage(
+      result[`run-grid-best-${name}-test`] = runStage(
         name,
         "test",
-        "sweep-best",
+        "grid-best",
       );
     }
     return result;

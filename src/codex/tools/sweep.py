@@ -57,11 +57,11 @@ def run_sweep(
 ):
     log = _log.bind(model=model)
     mod_cfg = load_config(model)
-    if not mod_cfg.sweep:
+    if not mod_cfg.grid:
         log.error("model is not sweepable")
         sys.exit(5)
 
-    space = param_grid(mod_cfg.sweep)
+    space = param_grid(mod_cfg.grid)
     _log.debug("parameter search space:\n%s", space)
 
     output = RunOutput(out)
@@ -69,8 +69,8 @@ def run_sweep(
 
     ensure_cluster_init()
 
-    names = list(mod_cfg.sweep.keys())
-    points = list(product(*mod_cfg.sweep.values()))
+    names = list(mod_cfg.grid.keys())
+    points = list(product(*mod_cfg.grid.values()))
     log.info("sweeping %d points", len(points))
     data_info = DataModel(dataset=ds_name, split=split.stem, part=test_part)
 

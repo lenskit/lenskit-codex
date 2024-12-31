@@ -15,15 +15,15 @@ export function mlCrossfoldRuns(dataset: string, split: string): Run[] {
       deps: ["ratings.duckdb", `splits/${split}.duckdb`],
     });
 
-    if (info.sweep == null) continue;
+    if (info.grid == null) continue;
 
     runs.push({
-      name: `run-${split}-sweep-best-${name}`,
+      name: `run-${split}-grid-best-${name}`,
       dataset,
       args: [`--param-file=sweeps/${split}/${name}.json`, "--test-part=-0"],
       model: name,
       split,
-      variant: "sweep-best",
+      variant: "grid-best",
       deps: ["ratings.duckdb", `splits/${split}.duckdb`, `sweeps/${split}/${name}.json`],
     });
   }
@@ -45,15 +45,15 @@ export function mlSplitRuns(dataset: string, split: string): Run[] {
       deps: ["ratings.duckdb", `splits/${split}.toml`],
     });
 
-    if (info.sweep == null) continue;
+    if (info.grid == null) continue;
 
     runs.push({
-      name: `run-${split}-sweep-best-${name}`,
+      name: `run-${split}-grid-best-${name}`,
       dataset,
       args: [`--param-file=sweeps/${split}/${name}.json`, "--test-part=-0"],
       model: name,
       split,
-      variant: "sweep-best",
+      variant: "grid-best",
       deps: ["ratings.duckdb", `splits/${split}.toml`, `sweeps/${split}/${name}.json`],
     });
   }

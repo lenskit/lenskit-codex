@@ -46,7 +46,7 @@ class ModelConfig(BaseModel, extra="forbid"):
 
     constant: dict[str, JsonValue] = {}
     default: dict[str, JsonValue] = {}
-    sweep: dict[str, list[JsonValue]] | None = None
+    grid: dict[str, list[JsonValue]] | None = None
 
     params: (
         dict[

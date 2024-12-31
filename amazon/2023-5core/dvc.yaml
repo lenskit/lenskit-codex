@@ -371,7 +371,7 @@ stages:
         - 'sweeps/${item}/Bias.csv'
         - 'sweeps/${item}/Bias.json':
             cache: false
-  run-sweep-best-Bias-test:
+  run-grid-best-Bias-test:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -379,14 +379,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/Bias.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/Bias Bias
+        lenskit-codex generate --param-file sweeps/${item}/Bias.json -n 2000 --split=data/${item} --test-part=test -o runs/grid-best/${item}/test/Bias Bias
       deps:
         - 'sweeps/${item}/Bias.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/Bias'
+        - 'runs/grid-best/${item}/test/Bias'
   run-default-Popular-test:
     foreach:
       - CDs_and_Vinyl
@@ -473,7 +473,7 @@ stages:
         - 'sweeps/${item}/BiasedMF-ALS.csv'
         - 'sweeps/${item}/BiasedMF-ALS.json':
             cache: false
-  run-sweep-best-BiasedMF-ALS-test:
+  run-grid-best-BiasedMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -481,14 +481,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/BiasedMF-ALS.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/BiasedMF-ALS BiasedMF-ALS
+        lenskit-codex generate --param-file sweeps/${item}/BiasedMF-ALS.json -n 2000 --split=data/${item} --test-part=test -o runs/grid-best/${item}/test/BiasedMF-ALS BiasedMF-ALS
       deps:
         - 'sweeps/${item}/BiasedMF-ALS.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/BiasedMF-ALS'
+        - 'runs/grid-best/${item}/test/BiasedMF-ALS'
   run-default-IKNN-Explicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -546,7 +546,7 @@ stages:
         - 'sweeps/${item}/IKNN-Explicit.csv'
         - 'sweeps/${item}/IKNN-Explicit.json':
             cache: false
-  run-sweep-best-IKNN-Explicit-test:
+  run-grid-best-IKNN-Explicit-test:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -554,14 +554,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/IKNN-Explicit.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/IKNN-Explicit IKNN-Explicit
+        lenskit-codex generate --param-file sweeps/${item}/IKNN-Explicit.json -n 2000 --split=data/${item} --test-part=test -o runs/grid-best/${item}/test/IKNN-Explicit IKNN-Explicit
       deps:
         - 'sweeps/${item}/IKNN-Explicit.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/IKNN-Explicit'
+        - 'runs/grid-best/${item}/test/IKNN-Explicit'
   run-default-IKNN-Implicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -619,7 +619,7 @@ stages:
         - 'sweeps/${item}/IKNN-Implicit.csv'
         - 'sweeps/${item}/IKNN-Implicit.json':
             cache: false
-  run-sweep-best-IKNN-Implicit-test:
+  run-grid-best-IKNN-Implicit-test:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -627,14 +627,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/IKNN-Implicit.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/IKNN-Implicit IKNN-Implicit
+        lenskit-codex generate --param-file sweeps/${item}/IKNN-Implicit.json -n 2000 --split=data/${item} --test-part=test -o runs/grid-best/${item}/test/IKNN-Implicit IKNN-Implicit
       deps:
         - 'sweeps/${item}/IKNN-Implicit.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/IKNN-Implicit'
+        - 'runs/grid-best/${item}/test/IKNN-Implicit'
   run-default-ImplicitMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
@@ -692,7 +692,7 @@ stages:
         - 'sweeps/${item}/ImplicitMF-ALS.csv'
         - 'sweeps/${item}/ImplicitMF-ALS.json':
             cache: false
-  run-sweep-best-ImplicitMF-ALS-test:
+  run-grid-best-ImplicitMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -700,14 +700,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --param-file sweeps/${item}/ImplicitMF-ALS.json -n 2000 --split=data/${item} --test-part=test -o runs/sweep-best/${item}/test/ImplicitMF-ALS ImplicitMF-ALS
+        lenskit-codex generate --param-file sweeps/${item}/ImplicitMF-ALS.json -n 2000 --split=data/${item} --test-part=test -o runs/grid-best/${item}/test/ImplicitMF-ALS ImplicitMF-ALS
       deps:
         - 'sweeps/${item}/ImplicitMF-ALS.json'
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/sweep-best/${item}/test/ImplicitMF-ALS'
+        - 'runs/grid-best/${item}/test/ImplicitMF-ALS'
   export-qrels:
     foreach:
       - CDs_and_Vinyl.test

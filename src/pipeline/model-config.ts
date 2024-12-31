@@ -9,7 +9,7 @@ export const MODEL_CONFIG_SCHEMA = z.object({
   predictor: z.boolean().default(false),
   constant: z.record(z.any()).default({}),
   default: z.record(z.any()).default({}),
-  sweep: z.record(z.array(z.any())).optional(),
+  grid: z.record(z.array(z.any())).optional(),
 });
 
 export type ModelConfig = z.infer<typeof MODEL_CONFIG_SCHEMA>;
