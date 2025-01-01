@@ -321,19 +321,19 @@ stages:
       md5: bd7f1d549c83af129d29b5c4ac8b2425
       size: 254
   export-random-Bias:
-    cmd: lenskit-codex sweep export -o sweeps/random/Bias-grid.json sweeps/random/Bias-grid
+    cmd: lenskit-codex sweep export -o sweeps/random/Bias-random.json sweeps/random/Bias-random
       RMSE
     deps:
-    - path: sweeps/random/Bias-grid
+    - path: sweeps/random/Bias-random
       hash: md5
-      md5: f9d432c9846f518c69522391b66ba268.dir
-      size: 151829
+      md5: 767ccd95fd8d5217cce6ba5ad7f0b35a.dir
+      size: 1078033
       nfiles: 6
     outs:
-    - path: sweeps/random/Bias-grid.json
+    - path: sweeps/random/Bias-random.json
       hash: md5
-      md5: fb3659fda3d936b80099e1fa69e925d1
-      size: 283
+      md5: c4a09488af96106f8a63cdedf58d5085
+      size: 314
   export-random-IKNN-Explicit:
     cmd: lenskit-codex sweep export -o sweeps/random/IKNN-Explicit.json sweeps/random/IKNN-Explicit
       RMSE
@@ -1183,4 +1183,56 @@ stages:
       hash: md5
       md5: 6e46a9e0b4f1b4a327948355c6a801b6.dir
       size: 231148
+      nfiles: 5
+  sweep-random-random-Bias:
+    cmd: lenskit-codex sweep run --random --ds-name=ML100K --split=splits/random.toml
+      --test-part=0 Bias sweeps/random/Bias-random
+    deps:
+    - path: ../../models/Bias.toml
+      hash: md5
+      md5: 3eeb8179cedf97e8b91f6cb91ed40524
+      size: 320
+    - path: ratings.duckdb
+      hash: md5
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 521fdd73e436db6dfb4295eba802dddd
+      size: 536576
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/random/Bias-random
+      hash: md5
+      md5: 767ccd95fd8d5217cce6ba5ad7f0b35a.dir
+      size: 1078033
+      nfiles: 6
+  run-random-random-best-Bias:
+    cmd: lenskit-codex generate --param-file=sweeps/random/Bias-random.json --test-part=-0
+      --ds-name=ML100K --split=splits/random.toml -o runs/random-random-best/Bias
+      Bias
+    deps:
+    - path: ../../models/Bias.toml
+      hash: md5
+      md5: 3eeb8179cedf97e8b91f6cb91ed40524
+      size: 320
+    - path: ratings.duckdb
+      hash: md5
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 521fdd73e436db6dfb4295eba802dddd
+      size: 536576
+    - path: sweeps/random/Bias-random.json
+      hash: md5
+      md5: c4a09488af96106f8a63cdedf58d5085
+      size: 314
+    outs:
+    - path: runs/random-random-best/Bias
+      hash: md5
+      md5: ffe7b5a0cc36cf794084c27b51ee3d5e.dir
+      size: 34466
       nfiles: 5
