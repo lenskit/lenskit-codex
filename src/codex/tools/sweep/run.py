@@ -8,14 +8,16 @@ from pathlib import Path
 from typing import Generator, Literal
 
 import click
+import numpy as np
 from lenskit.logging import get_logger, item_progress
 from pydantic import JsonValue
+from scipy import stats
 
 from codex.cfgid import config_id
+from codex.config import rng_seed
 from codex.inference import recommend_and_save
 from codex.modelcfg import ModelConfig, load_config
 from codex.outputs import RunOutput
-from codex.params import param_grid
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.splitting import load_split_set
 from codex.training import train_task
@@ -56,13 +58,17 @@ def run_sweep(
         log.error("model is not sweepable")
         sys.exit(5)
 
-    space = param_grid(mod_cfg.search.grid)
-    _log.debug("parameter search space:\n%s", space)
-
     output = RunOutput(out)
     output.initialize()
 
-    points = list(search_grid(mod_cfg))
+    match method:
+        case "grid":
+            points = list(search_grid(mod_cfg))
+        case "random":
+            points = list(search_random(mod_cfg))
+        case _:
+            assert False, f"invalid method {method}"
+
     log.info("sweeping %d points", len(points))
     data_info = DataModel(dataset=ds_name, split=split.stem, part=test_part)
 
@@ -141,4 +147,35 @@ def search_grid(mod_cfg: ModelConfig) -> Generator[dict[str, JsonValue], None, N
 
 
 def search_random(mod_cfg: ModelConfig):
-    pass
+    if not mod_cfg.search.params:
+        _log.error("no search parameters specified", name=mod_cfg.name)
+        raise RuntimeError("no search parameters")
+
+    seed = rng_seed("sweep", mod_cfg.name)
+    rng = np.random.default_rng(seed)
+
+    for i in range(mod_cfg.search.random_points):
+        point = {}
+        for name, cfg in mod_cfg.search.params.items():
+            if cfg.type == "categorical":
+                point[name] = rng.choice(cfg.values)
+            elif cfg.space == "linear":
+                if cfg.type == "integer":
+                    dist = stats.randint(cfg.min, cfg.max)
+                    point[name] = dist.rvs(random_state=rng)
+                else:
+                    dist = stats.uniform(cfg.min, cfg.max)
+                    point[name] = dist.rvs(random_state=rng)
+            else:
+                shift = 0
+                if cfg.min == 0:
+                    dist = stats.loguniform(cfg.min + 1, cfg.max + 1)
+                    shift = 1
+                else:
+                    dist = stats.loguniform(cfg.min, cfg.max)
+                val = dist.rvs(random_state=rng) - shift
+                if cfg.type == "integer":
+                    val = round(val)
+                point[name] = val
+
+        yield point
