@@ -1,3 +1,5 @@
+DENO_RUN := "deno run --allow-read=. --allow-write=. --allow-net=deno.land"
+
 # list recipes
 list:
     just -l
@@ -18,13 +20,13 @@ fetch-web-assets:
 
 # update the copied documents
 update-documents:
-    ./scripts/copy-docs.ts
+    {{DENO_RUN}} ./scripts/copy-docs.ts
 
 # update the DVC pipeline
 update-pipeline:
     #!/usr/bin/env zsh
     set -e
-    ./scripts/render-pipeline.ts
+    {{DENO_RUN}} ./scripts/render-pipeline.ts
     pre-commit run --files **/dvc.yaml || true
 
 # update the whole project layout
