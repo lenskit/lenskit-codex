@@ -2,7 +2,7 @@
 title: Implicit Item KNN on ML20M
 echo: false
 deps:
-- sweeps/random/IKNN-Implicit
+- sweeps/temporal/IKNN-Implicit
 ---
 
 ```{python}
@@ -19,7 +19,7 @@ from codex.display import DEFAULTS
 ```
 
 ```{python}
-sweep_dir = Path('sweeps/random')
+sweep_dir = Path('sweeps/temporal')
 sweep_name = 'IKNN-Implicit'
 
 with open(sweep_dir / sweep_name / 'runs.json', 'rt') as jsf:
@@ -29,7 +29,7 @@ runs = pd.json_normalize(run_data)
 
 ## Parameter Sweeps
 
-For the per-user random crossfolding data split, we use the first partition of
+For the per-user temporal crossfolding data split, we use the first partition of
 the fold for parameter tuning.
 
 
