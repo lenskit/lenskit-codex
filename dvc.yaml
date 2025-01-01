@@ -76,7 +76,8 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML100K/summary.qmd
-      - movielens/ML100K/run-metrics.duckdb
+      - movielens/ML100K/run-summary.csv
+      - movielens/ML100K/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML100K/summary
   page/movielens/ML10M/als-biasedmf:
@@ -85,7 +86,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML10M/als-biasedmf.qmd
-      - movielens/ML10M/sweeps/random/BiasedMF-ALS
+      - movielens/ML10M/sweeps/temporal/BiasedMF-ALS
     outs:
       - _freeze/movielens/ML10M/als-biasedmf
   page/movielens/ML10M/als-implicitmf:
@@ -94,7 +95,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML10M/als-implicitmf.qmd
-      - movielens/ML10M/sweeps/random/ImplicitMF-ALS
+      - movielens/ML10M/sweeps/temporal/ImplicitMF-ALS
     outs:
       - _freeze/movielens/ML10M/als-implicitmf
   page/movielens/ML10M/bias:
@@ -103,7 +104,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML10M/bias.qmd
-      - movielens/ML10M/sweeps/random/Bias.duckdb
+      - movielens/ML10M/sweeps/temporal/Bias.duckdb
     outs:
       - _freeze/movielens/ML10M/bias
   page/movielens/ML10M/description:
@@ -121,7 +122,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML10M/iknn-explicit.qmd
-      - movielens/ML10M/sweeps/random/IKNN-Explicit
+      - movielens/ML10M/sweeps/temporal/IKNN-Explicit
     outs:
       - _freeze/movielens/ML10M/iknn-explicit
   page/movielens/ML10M/iknn-implicit:
@@ -130,7 +131,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML10M/iknn-implicit.qmd
-      - movielens/ML10M/sweeps/random/IKNN-Implicit
+      - movielens/ML10M/sweeps/temporal/IKNN-Implicit
     outs:
       - _freeze/movielens/ML10M/iknn-implicit
   page/movielens/ML10M/splitting:
@@ -202,7 +203,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML20M/als-biasedmf.qmd
-      - movielens/ML20M/sweeps/random/BiasedMF-ALS
+      - movielens/ML20M/sweeps/temporal/BiasedMF-ALS
     outs:
       - _freeze/movielens/ML20M/als-biasedmf
   page/movielens/ML20M/als-implicitmf:
@@ -211,7 +212,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML20M/als-implicitmf.qmd
-      - movielens/ML20M/sweeps/random/ImplicitMF-ALS
+      - movielens/ML20M/sweeps/temporal/ImplicitMF-ALS
     outs:
       - _freeze/movielens/ML20M/als-implicitmf
   page/movielens/ML20M/bias:
@@ -220,7 +221,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML20M/bias.qmd
-      - movielens/ML20M/sweeps/random/Bias.duckdb
+      - movielens/ML20M/sweeps/temporal/Bias.duckdb
     outs:
       - _freeze/movielens/ML20M/bias
   page/movielens/ML20M/description:
@@ -238,7 +239,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML20M/iknn-explicit.qmd
-      - movielens/ML20M/sweeps/random/IKNN-Explicit
+      - movielens/ML20M/sweeps/temporal/IKNN-Explicit
     outs:
       - _freeze/movielens/ML20M/iknn-explicit
   page/movielens/ML20M/iknn-implicit:
@@ -247,7 +248,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML20M/iknn-implicit.qmd
-      - movielens/ML20M/sweeps/random/IKNN-Implicit
+      - movielens/ML20M/sweeps/temporal/IKNN-Implicit
     outs:
       - _freeze/movielens/ML20M/iknn-implicit
   page/movielens/ML20M/splitting:
@@ -265,7 +266,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML25M/als-biasedmf.qmd
-      - movielens/ML25M/sweeps/random/BiasedMF-ALS
+      - movielens/ML25M/sweeps/temporal/BiasedMF-ALS
     outs:
       - _freeze/movielens/ML25M/als-biasedmf
   page/movielens/ML25M/als-implicitmf:
@@ -274,7 +275,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML25M/als-implicitmf.qmd
-      - movielens/ML25M/sweeps/random/ImplicitMF-ALS
+      - movielens/ML25M/sweeps/temporal/ImplicitMF-ALS
     outs:
       - _freeze/movielens/ML25M/als-implicitmf
   page/movielens/ML25M/bias:
@@ -283,7 +284,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML25M/bias.qmd
-      - movielens/ML25M/sweeps/random/Bias.duckdb
+      - movielens/ML25M/sweeps/temporal/Bias.duckdb
     outs:
       - _freeze/movielens/ML25M/bias
   page/movielens/ML25M/description:
@@ -301,7 +302,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML25M/iknn-explicit.qmd
-      - movielens/ML25M/sweeps/random/IKNN-Explicit
+      - movielens/ML25M/sweeps/temporal/IKNN-Explicit
     outs:
       - _freeze/movielens/ML25M/iknn-explicit
   page/movielens/ML25M/iknn-implicit:
@@ -310,7 +311,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML25M/iknn-implicit.qmd
-      - movielens/ML25M/sweeps/random/IKNN-Implicit
+      - movielens/ML25M/sweeps/temporal/IKNN-Implicit
     outs:
       - _freeze/movielens/ML25M/iknn-implicit
   page/movielens/ML25M/splitting:

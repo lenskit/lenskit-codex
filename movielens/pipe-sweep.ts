@@ -26,7 +26,7 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
       };
       const metric = info.predictor ? "RMSE" : "RBP";
 
-      results[`export-${split}-${name}`] = {
+      results[`export-${split}-grid-${name}`] = {
         cmd: action_cmd(
           "sweep export",
           `-o sweeps/${split}/${name}-grid.json`,
@@ -60,7 +60,7 @@ export function mlSweep(ds: string, split: string): Record<string, Stage> {
       };
       const metric = info.predictor ? "RMSE" : "RBP";
 
-      results[`export-${split}-${name}`] = {
+      results[`export-${split}-random-${name}`] = {
         cmd: action_cmd(
           "sweep export",
           `-o sweeps/${split}/${name}-random.json`,

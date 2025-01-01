@@ -18,13 +18,13 @@ stages:
       - ../../models/Bias.toml
     outs:
       - sweeps/temporal/Bias-grid
-  export-temporal-Bias:
+  export-temporal-grid-Bias:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/temporal/Bias-random.json sweeps/temporal/Bias-random RMSE
+      lenskit-codex sweep export -o sweeps/temporal/Bias-grid.json sweeps/temporal/Bias-grid RMSE
     deps:
-      - sweeps/temporal/Bias-random
+      - sweeps/temporal/Bias-grid
     outs:
-      - sweeps/temporal/Bias-random.json:
+      - sweeps/temporal/Bias-grid.json:
           cache: false
   sweep-temporal-random-Bias:
     cmd: >-
@@ -38,6 +38,14 @@ stages:
       - ../../models/Bias.toml
     outs:
       - sweeps/temporal/Bias-random
+  export-temporal-random-Bias:
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/temporal/Bias-random.json sweeps/temporal/Bias-random RMSE
+    deps:
+      - sweeps/temporal/Bias-random
+    outs:
+      - sweeps/temporal/Bias-random.json:
+          cache: false
   sweep-temporal-grid-BiasedMF-ALS:
     cmd: >-
       lenskit-codex sweep run --grid --ds-name=ML25M --split=splits/temporal.toml --test-part=valid BiasedMF-ALS sweeps/temporal/BiasedMF-ALS-grid
@@ -50,7 +58,7 @@ stages:
       - ../../models/BiasedMF-ALS.toml
     outs:
       - sweeps/temporal/BiasedMF-ALS-grid
-  export-temporal-BiasedMF-ALS:
+  export-temporal-grid-BiasedMF-ALS:
     cmd: >-
       lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS-grid.json sweeps/temporal/BiasedMF-ALS-grid RMSE
     deps:
@@ -70,7 +78,7 @@ stages:
       - ../../models/IKNN-Explicit.toml
     outs:
       - sweeps/temporal/IKNN-Explicit-grid
-  export-temporal-IKNN-Explicit:
+  export-temporal-grid-IKNN-Explicit:
     cmd: >-
       lenskit-codex sweep export -o sweeps/temporal/IKNN-Explicit-grid.json sweeps/temporal/IKNN-Explicit-grid RMSE
     deps:
@@ -90,7 +98,7 @@ stages:
       - ../../models/IKNN-Implicit.toml
     outs:
       - sweeps/temporal/IKNN-Implicit-grid
-  export-temporal-IKNN-Implicit:
+  export-temporal-grid-IKNN-Implicit:
     cmd: >-
       lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit-grid.json sweeps/temporal/IKNN-Implicit-grid RBP
     deps:
@@ -110,7 +118,7 @@ stages:
       - ../../models/ImplicitMF-ALS.toml
     outs:
       - sweeps/temporal/ImplicitMF-ALS-grid
-  export-temporal-ImplicitMF-ALS:
+  export-temporal-grid-ImplicitMF-ALS:
     cmd: >-
       lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS-grid.json sweeps/temporal/ImplicitMF-ALS-grid RBP
     deps:

@@ -29,13 +29,13 @@ stages:
       - ../../models/Bias.toml
     outs:
       - sweeps/random/Bias-grid
-  export-random-Bias:
+  export-random-grid-Bias:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/Bias-random.json sweeps/random/Bias-random RMSE
+      lenskit-codex sweep export -o sweeps/random/Bias-grid.json sweeps/random/Bias-grid RMSE
     deps:
-      - sweeps/random/Bias-random
+      - sweeps/random/Bias-grid
     outs:
-      - sweeps/random/Bias-random.json:
+      - sweeps/random/Bias-grid.json:
           cache: false
   sweep-random-random-Bias:
     cmd: >-
@@ -49,6 +49,14 @@ stages:
       - ../../models/Bias.toml
     outs:
       - sweeps/random/Bias-random
+  export-random-random-Bias:
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/random/Bias-random.json sweeps/random/Bias-random RMSE
+    deps:
+      - sweeps/random/Bias-random
+    outs:
+      - sweeps/random/Bias-random.json:
+          cache: false
   sweep-random-grid-BiasedMF-ALS:
     cmd: >-
       lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml --test-part=0 BiasedMF-ALS sweeps/random/BiasedMF-ALS-grid
@@ -61,7 +69,7 @@ stages:
       - ../../models/BiasedMF-ALS.toml
     outs:
       - sweeps/random/BiasedMF-ALS-grid
-  export-random-BiasedMF-ALS:
+  export-random-grid-BiasedMF-ALS:
     cmd: >-
       lenskit-codex sweep export -o sweeps/random/BiasedMF-ALS-grid.json sweeps/random/BiasedMF-ALS-grid RMSE
     deps:
@@ -81,7 +89,7 @@ stages:
       - ../../models/IKNN-Explicit.toml
     outs:
       - sweeps/random/IKNN-Explicit-grid
-  export-random-IKNN-Explicit:
+  export-random-grid-IKNN-Explicit:
     cmd: >-
       lenskit-codex sweep export -o sweeps/random/IKNN-Explicit-grid.json sweeps/random/IKNN-Explicit-grid RMSE
     deps:
@@ -101,7 +109,7 @@ stages:
       - ../../models/IKNN-Implicit.toml
     outs:
       - sweeps/random/IKNN-Implicit-grid
-  export-random-IKNN-Implicit:
+  export-random-grid-IKNN-Implicit:
     cmd: >-
       lenskit-codex sweep export -o sweeps/random/IKNN-Implicit-grid.json sweeps/random/IKNN-Implicit-grid RBP
     deps:
@@ -121,7 +129,7 @@ stages:
       - ../../models/ImplicitMF-ALS.toml
     outs:
       - sweeps/random/ImplicitMF-ALS-grid
-  export-random-ImplicitMF-ALS:
+  export-random-grid-ImplicitMF-ALS:
     cmd: >-
       lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS-grid.json sweeps/random/ImplicitMF-ALS-grid RBP
     deps:

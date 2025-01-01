@@ -807,8 +807,8 @@ stages:
     deps:
     - path: ../../models/Bias.toml
       hash: md5
-      md5: 97f305e8c04fb52cff715d59711b5eed
-      size: 146
+      md5: 3eeb8179cedf97e8b91f6cb91ed40524
+      size: 320
     - path: ratings.duckdb
       hash: md5
       md5: 5b61a4ef8958fb6559b0e697ed88c453
@@ -963,14 +963,14 @@ stages:
       md5: 172f753a6998217f898a2a39115c34a3
       size: 279
   run-temporal-grid-best-Bias:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias.json --test-part=-0
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias.json --test-part=test
       --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-grid-best/Bias
       Bias
     deps:
     - path: ../../models/Bias.toml
       hash: md5
-      md5: 97f305e8c04fb52cff715d59711b5eed
-      size: 146
+      md5: 3eeb8179cedf97e8b91f6cb91ed40524
+      size: 320
     - path: ratings.duckdb
       hash: md5
       md5: 5b61a4ef8958fb6559b0e697ed88c453
@@ -979,7 +979,7 @@ stages:
       hash: md5
       md5: d83e63c855846c44a298c3f800cf7533
       size: 128
-    - path: sweeps/temporal/Bias.json
+    - path: sweeps/temporal/Bias-grid.json
       hash: md5
       md5: 172f753a6998217f898a2a39115c34a3
       size: 279
@@ -1020,8 +1020,8 @@ stages:
     deps:
     - path: ../../models/BiasedMF-ALS.toml
       hash: md5
-      md5: d6a4dc846449f893683a847940f9c176
-      size: 166
+      md5: 7629ab519f3017f4e66782bdc61dfa0f
+      size: 172
     - path: ratings.duckdb
       hash: md5
       md5: 5b61a4ef8958fb6559b0e697ed88c453
@@ -1089,14 +1089,14 @@ stages:
       md5: c416f6ea9db07d9312d8501addf24553
       size: 272
   run-temporal-grid-best-BiasedMF-ALS:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS.json --test-part=-0
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS.json --test-part=test
       --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-grid-best/BiasedMF-ALS
       BiasedMF-ALS
     deps:
     - path: ../../models/BiasedMF-ALS.toml
       hash: md5
-      md5: d6a4dc846449f893683a847940f9c176
-      size: 166
+      md5: 7629ab519f3017f4e66782bdc61dfa0f
+      size: 172
     - path: ratings.duckdb
       hash: md5
       md5: 5b61a4ef8958fb6559b0e697ed88c453
@@ -1105,7 +1105,7 @@ stages:
       hash: md5
       md5: d83e63c855846c44a298c3f800cf7533
       size: 128
-    - path: sweeps/temporal/BiasedMF-ALS.json
+    - path: sweeps/temporal/BiasedMF-ALS-grid.json
       hash: md5
       md5: c416f6ea9db07d9312d8501addf24553
       size: 272
@@ -1242,14 +1242,14 @@ stages:
       md5: 434f4101b1118f893cea811093a76287
       size: 219
   run-temporal-grid-best-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS.json --test-part=-0
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS.json --test-part=test
       --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-grid-best/ImplicitMF-ALS
       ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
       hash: md5
-      md5: e3b0120ab5820325128a9eb87d851e7f
-      size: 151
+      md5: 5c7d13e705c5945812cd47b8fc8fbfc9
+      size: 157
     - path: ratings.duckdb
       hash: md5
       md5: 5b61a4ef8958fb6559b0e697ed88c453
@@ -1258,7 +1258,7 @@ stages:
       hash: md5
       md5: d83e63c855846c44a298c3f800cf7533
       size: 128
-    - path: sweeps/temporal/ImplicitMF-ALS.json
+    - path: sweeps/temporal/ImplicitMF-ALS-grid.json
       hash: md5
       md5: 434f4101b1118f893cea811093a76287
       size: 219
@@ -1274,8 +1274,8 @@ stages:
     deps:
     - path: ../../models/IKNN-Implicit.toml
       hash: md5
-      md5: 2bfec2d4beb12854e5e7d632f0fd6396
-      size: 152
+      md5: b583d0f97b6363e190f0dd14f7e70b83
+      size: 158
     - path: ratings.duckdb
       hash: md5
       md5: 5b61a4ef8958fb6559b0e697ed88c453
@@ -1296,8 +1296,8 @@ stages:
     deps:
     - path: ../../models/IKNN-Explicit.toml
       hash: md5
-      md5: cb85c79c654c8e897015241c0f670c0d
-      size: 169
+      md5: 2a940890725e9089b96ffaea51c6445a
+      size: 175
     - path: ratings.duckdb
       hash: md5
       md5: 5b61a4ef8958fb6559b0e697ed88c453
@@ -1374,14 +1374,14 @@ stages:
       md5: 62bc737ca5067102464b22aea2509c7a
       size: 300
   run-temporal-grid-best-IKNN-Explicit:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit.json --test-part=-0
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit.json --test-part=test
       --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Explicit
       IKNN-Explicit
     deps:
     - path: ../../models/IKNN-Explicit.toml
       hash: md5
-      md5: cb85c79c654c8e897015241c0f670c0d
-      size: 169
+      md5: 2a940890725e9089b96ffaea51c6445a
+      size: 175
     - path: ratings.duckdb
       hash: md5
       md5: 5b61a4ef8958fb6559b0e697ed88c453
@@ -1390,7 +1390,7 @@ stages:
       hash: md5
       md5: d83e63c855846c44a298c3f800cf7533
       size: 128
-    - path: sweeps/temporal/IKNN-Explicit.json
+    - path: sweeps/temporal/IKNN-Explicit-grid.json
       hash: md5
       md5: 62bc737ca5067102464b22aea2509c7a
       size: 300
@@ -1535,14 +1535,14 @@ stages:
       size: 4055243
       nfiles: 19
   run-temporal-grid-best-IKNN-Implicit:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit.json --test-part=-0
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit.json --test-part=test
       --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Implicit
       IKNN-Implicit
     deps:
     - path: ../../models/IKNN-Implicit.toml
       hash: md5
-      md5: 2bfec2d4beb12854e5e7d632f0fd6396
-      size: 152
+      md5: b583d0f97b6363e190f0dd14f7e70b83
+      size: 158
     - path: ratings.duckdb
       hash: md5
       md5: 5b61a4ef8958fb6559b0e697ed88c453
@@ -1551,7 +1551,7 @@ stages:
       hash: md5
       md5: d83e63c855846c44a298c3f800cf7533
       size: 128
-    - path: sweeps/temporal/IKNN-Implicit.json
+    - path: sweeps/temporal/IKNN-Implicit-grid.json
       hash: md5
       md5: 753265914bf671532d647b9555c4d2ed
       size: 238
@@ -1567,8 +1567,8 @@ stages:
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
       hash: md5
-      md5: e3b0120ab5820325128a9eb87d851e7f
-      size: 151
+      md5: 5c7d13e705c5945812cd47b8fc8fbfc9
+      size: 157
     - path: ratings.duckdb
       hash: md5
       md5: 5b61a4ef8958fb6559b0e697ed88c453
@@ -1633,8 +1633,8 @@ stages:
     deps:
     - path: ../../models/Bias.toml
       hash: md5
-      md5: b6dcedd9edc5792a18294130a71c6335
-      size: 152
+      md5: 3eeb8179cedf97e8b91f6cb91ed40524
+      size: 320
     - path: ratings.duckdb
       hash: md5
       md5: 5b61a4ef8958fb6559b0e697ed88c453
@@ -1752,3 +1752,73 @@ stages:
       md5: ac64d1789e1cb5ca3c0493c92c364540.dir
       size: 230414048
       nfiles: 5
+  export-temporal-grid-Bias:
+    cmd: lenskit-codex sweep export -o sweeps/temporal/Bias-grid.json sweeps/temporal/Bias-grid
+      RMSE
+    deps:
+    - path: sweeps/temporal/Bias-grid
+      hash: md5
+      md5: 18fdf445858b5921539d7c93c2e7e2c9.dir
+      size: 112851804
+      nfiles: 6
+    outs:
+    - path: sweeps/temporal/Bias-grid.json
+      hash: md5
+      md5: 172f753a6998217f898a2a39115c34a3
+      size: 279
+  export-temporal-grid-BiasedMF-ALS:
+    cmd: lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS-grid.json sweeps/temporal/BiasedMF-ALS-grid
+      RMSE
+    deps:
+    - path: sweeps/temporal/BiasedMF-ALS-grid
+      hash: md5
+      md5: 3a430abbb8e38d06b7b7d380ad653b81.dir
+      size: 253191467
+      nfiles: 6
+    outs:
+    - path: sweeps/temporal/BiasedMF-ALS-grid.json
+      hash: md5
+      md5: c416f6ea9db07d9312d8501addf24553
+      size: 272
+  export-temporal-grid-IKNN-Explicit:
+    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Explicit-grid.json sweeps/temporal/IKNN-Explicit-grid
+      RMSE
+    deps:
+    - path: sweeps/temporal/IKNN-Explicit-grid
+      hash: md5
+      md5: c81196dc739dada9691fddbef66c6cc1.dir
+      size: 107533518
+      nfiles: 6
+    outs:
+    - path: sweeps/temporal/IKNN-Explicit-grid.json
+      hash: md5
+      md5: 62bc737ca5067102464b22aea2509c7a
+      size: 300
+  export-temporal-grid-IKNN-Implicit:
+    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit-grid.json sweeps/temporal/IKNN-Implicit-grid
+      RBP
+    deps:
+    - path: sweeps/temporal/IKNN-Implicit-grid
+      hash: md5
+      md5: 4dc2b5bde512cd478f333ec2d72259da.dir
+      size: 89054917
+      nfiles: 5
+    outs:
+    - path: sweeps/temporal/IKNN-Implicit-grid.json
+      hash: md5
+      md5: 753265914bf671532d647b9555c4d2ed
+      size: 238
+  export-temporal-grid-ImplicitMF-ALS:
+    cmd: lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS-grid.json sweeps/temporal/ImplicitMF-ALS-grid
+      RBP
+    deps:
+    - path: sweeps/temporal/ImplicitMF-ALS-grid
+      hash: md5
+      md5: ac64d1789e1cb5ca3c0493c92c364540.dir
+      size: 230414048
+      nfiles: 5
+    outs:
+    - path: sweeps/temporal/ImplicitMF-ALS-grid.json
+      hash: md5
+      md5: 434f4101b1118f893cea811093a76287
+      size: 219
