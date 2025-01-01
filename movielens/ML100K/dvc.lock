@@ -293,16 +293,16 @@ stages:
       size: 66901
       nfiles: 5
   export-random-ImplicitMF-ALS:
-    cmd: lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS.json sweeps/random/ImplicitMF-ALS
+    cmd: lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS-grid.json sweeps/random/ImplicitMF-ALS-grid
       RBP
     deps:
-    - path: sweeps/random/ImplicitMF-ALS
+    - path: sweeps/random/ImplicitMF-ALS-grid
       hash: md5
       md5: 6e46a9e0b4f1b4a327948355c6a801b6.dir
       size: 231148
       nfiles: 5
     outs:
-    - path: sweeps/random/ImplicitMF-ALS.json
+    - path: sweeps/random/ImplicitMF-ALS-grid.json
       hash: md5
       md5: 88d43b130c3b066ed5dbe120a61c7d81
       size: 232
@@ -729,14 +729,14 @@ stages:
       size: 25718
       nfiles: 7
   run-random-grid-best-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0
-      --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/ImplicitMF-ALS
+    cmd: lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS-grid.json
+      --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/ImplicitMF-ALS
       ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
       hash: md5
-      md5: 1d621be010b6a13b8ef6ced024a6ba25
-      size: 150
+      md5: 5c7d13e705c5945812cd47b8fc8fbfc9
+      size: 157
     - path: ratings.duckdb
       hash: md5
       md5: 4ebfe15a3b3072086408fdc861bf37ae
@@ -745,15 +745,15 @@ stages:
       hash: md5
       md5: 521fdd73e436db6dfb4295eba802dddd
       size: 536576
-    - path: sweeps/random/ImplicitMF-ALS.json
+    - path: sweeps/random/ImplicitMF-ALS-grid.json
       hash: md5
       md5: 88d43b130c3b066ed5dbe120a61c7d81
       size: 232
     outs:
     - path: runs/random-grid-best/ImplicitMF-ALS
       hash: md5
-      md5: 60e8004b0474237a5604b1471a56781b.dir
-      size: 23466
+      md5: 29c19304609a1ab5d50665597441050c.dir
+      size: 23534
       nfiles: 4
   run-random-default-UKNN-Explicit:
     cmd: lenskit-codex generate --default --split=splits/random.toml --test-part=-0
