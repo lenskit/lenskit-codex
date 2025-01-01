@@ -112,8 +112,11 @@ class CodexTask(Task):
     data: DataModel = Field(default_factory=DataModel)
 
     cpu_power: float | None = None
+    "CPU power consumed in Joules."
     gpu_power: float | None = None
+    "GPU power consumed in Joules."
     chassis_power: float | None = None
+    "Chassis power consumed in Joules."
 
     @override
     def start(self):
