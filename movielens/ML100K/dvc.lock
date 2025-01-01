@@ -1081,6 +1081,106 @@ stages:
     outs:
     - path: sweeps/random/Bias-grid
       hash: md5
-      md5: f9d432c9846f518c69522391b66ba268.dir
-      size: 151829
+      md5: c6c784b4e632f53e71af90f599a9e277.dir
+      size: 303586
+      nfiles: 12
+  sweep-random-grid-BiasedMF-ALS:
+    cmd: lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml
+      --test-part=0 BiasedMF-ALS sweeps/random/BiasedMF-ALS-grid
+    deps:
+    - path: ../../models/BiasedMF-ALS.toml
+      hash: md5
+      md5: 7629ab519f3017f4e66782bdc61dfa0f
+      size: 172
+    - path: ratings.duckdb
+      hash: md5
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 521fdd73e436db6dfb4295eba802dddd
+      size: 536576
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/random/BiasedMF-ALS-grid
+      hash: md5
+      md5: c804063967d3ecf8492f004d8b1b12b2.dir
+      size: 279963
       nfiles: 6
+  sweep-random-grid-IKNN-Explicit:
+    cmd: lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml
+      --test-part=0 IKNN-Explicit sweeps/random/IKNN-Explicit-grid
+    deps:
+    - path: ../../models/IKNN-Explicit.toml
+      hash: md5
+      md5: 2a940890725e9089b96ffaea51c6445a
+      size: 175
+    - path: ratings.duckdb
+      hash: md5
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 521fdd73e436db6dfb4295eba802dddd
+      size: 536576
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/random/IKNN-Explicit-grid
+      hash: md5
+      md5: 9db9ba367886b697f874ca4e94d0aab8.dir
+      size: 97092
+      nfiles: 6
+  sweep-random-grid-IKNN-Implicit:
+    cmd: lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml
+      --test-part=0 IKNN-Implicit sweeps/random/IKNN-Implicit-grid
+    deps:
+    - path: ../../models/IKNN-Implicit.toml
+      hash: md5
+      md5: b583d0f97b6363e190f0dd14f7e70b83
+      size: 158
+    - path: ratings.duckdb
+      hash: md5
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 521fdd73e436db6dfb4295eba802dddd
+      size: 536576
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/random/IKNN-Implicit-grid
+      hash: md5
+      md5: e617ed6aeaf6b2102a2cc1ab1d1b5301.dir
+      size: 66901
+      nfiles: 5
+  sweep-random-grid-ImplicitMF-ALS:
+    cmd: lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml
+      --test-part=0 ImplicitMF-ALS sweeps/random/ImplicitMF-ALS-grid
+    deps:
+    - path: ../../models/ImplicitMF-ALS.toml
+      hash: md5
+      md5: 5c7d13e705c5945812cd47b8fc8fbfc9
+      size: 157
+    - path: ratings.duckdb
+      hash: md5
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 521fdd73e436db6dfb4295eba802dddd
+      size: 536576
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/random/ImplicitMF-ALS-grid
+      hash: md5
+      md5: 6e46a9e0b4f1b4a327948355c6a801b6.dir
+      size: 231148
+      nfiles: 5

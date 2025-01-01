@@ -1354,3 +1354,128 @@ stages:
       md5: d1ffe022c55d2644822d5fcfa2ad8817.dir
       size: 5847959
       nfiles: 19
+  sweep-temporal-grid-Bias:
+    cmd: lenskit-codex sweep run --grid --ds-name=ML25M --split=splits/temporal.toml
+      --test-part=valid Bias sweeps/temporal/Bias-grid
+    deps:
+    - path: ../../models/Bias.toml
+      hash: md5
+      md5: b6dcedd9edc5792a18294130a71c6335
+      size: 152
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 87523b2fd38538af0f237526e659c8d3
+      size: 128
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/temporal/Bias-grid
+      hash: md5
+      md5: 8d6a1604a8f4dc95d1f6e65fffa9c798.dir
+      size: 140638932
+      nfiles: 6
+  sweep-temporal-grid-BiasedMF-ALS:
+    cmd: lenskit-codex sweep run --grid --ds-name=ML25M --split=splits/temporal.toml
+      --test-part=valid BiasedMF-ALS sweeps/temporal/BiasedMF-ALS-grid
+    deps:
+    - path: ../../models/BiasedMF-ALS.toml
+      hash: md5
+      md5: 7629ab519f3017f4e66782bdc61dfa0f
+      size: 172
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 87523b2fd38538af0f237526e659c8d3
+      size: 128
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/temporal/BiasedMF-ALS-grid
+      hash: md5
+      md5: 073c267b63feaa6064e9101c522bdcbf.dir
+      size: 349172077
+      nfiles: 6
+  sweep-temporal-grid-IKNN-Explicit:
+    cmd: lenskit-codex sweep run --grid --ds-name=ML25M --split=splits/temporal.toml
+      --test-part=valid IKNN-Explicit sweeps/temporal/IKNN-Explicit-grid
+    deps:
+    - path: ../../models/IKNN-Explicit.toml
+      hash: md5
+      md5: 2a940890725e9089b96ffaea51c6445a
+      size: 175
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 87523b2fd38538af0f237526e659c8d3
+      size: 128
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/temporal/IKNN-Explicit-grid
+      hash: md5
+      md5: 86b91a9cfa5f15902902b7f236216c1c.dir
+      size: 146885177
+      nfiles: 6
+  sweep-temporal-grid-IKNN-Implicit:
+    cmd: lenskit-codex sweep run --grid --ds-name=ML25M --split=splits/temporal.toml
+      --test-part=valid IKNN-Implicit sweeps/temporal/IKNN-Implicit-grid
+    deps:
+    - path: ../../models/IKNN-Implicit.toml
+      hash: md5
+      md5: b583d0f97b6363e190f0dd14f7e70b83
+      size: 158
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 87523b2fd38538af0f237526e659c8d3
+      size: 128
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/temporal/IKNN-Implicit-grid
+      hash: md5
+      md5: a82baeedd6b188f08452c82eefd7d026.dir
+      size: 119428061
+      nfiles: 5
+  sweep-temporal-grid-ImplicitMF-ALS:
+    cmd: lenskit-codex sweep run --grid --ds-name=ML25M --split=splits/temporal.toml
+      --test-part=valid ImplicitMF-ALS sweeps/temporal/ImplicitMF-ALS-grid
+    deps:
+    - path: ../../models/ImplicitMF-ALS.toml
+      hash: md5
+      md5: 5c7d13e705c5945812cd47b8fc8fbfc9
+      size: 157
+    - path: ratings.duckdb
+      hash: md5
+      md5: dc37049fc7987e8f26bda61eca420bce
+      size: 298856448
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 87523b2fd38538af0f237526e659c8d3
+      size: 128
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/temporal/ImplicitMF-ALS-grid
+      hash: md5
+      md5: 3be7277df2efc97a224ae97a9b7a3569.dir
+      size: 307316927
+      nfiles: 5
