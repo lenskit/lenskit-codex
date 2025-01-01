@@ -2,7 +2,7 @@
 title: ALS ImplicitMF on ML25M
 echo: false
 deps:
-- sweeps/random/ImplicitMF-ALS.duckdb
+- sweeps/random/ImplicitMF-ALS
 ---
 
 ```{python}
@@ -20,14 +20,16 @@ import duckdb
 ```
 
 ```{python}
-from sandal import autoroot
 from codex.display import DEFAULTS
 ```
 
 ```{python}
 sweep_dir = Path('sweeps/random')
 sweep_name = 'ImplicitMF-ALS'
-rnd_sweep = duckdb.connect(fspath(sweep_dir / f'{sweep_name}.duckdb'), read_only=True)
+
+with open(sweep_dir / sweep_name / 'runs.json', 'rt') as jsf:
+    run_data = [json.loads(line) for line in jsf]
+runs = pd.json_normalize(run_data)
 ```
 
 ## Parameter Sweeps
@@ -38,16 +40,33 @@ the fold for parameter tuning.
 ### Top-N Ranking
 
 ```{python}
-cfg_ndcg = rnd_sweep.sql("""
-SELECT features, CAST(reg AS varchar) AS reg, AVG(ndcg) AS ndcg
-FROM run_specs JOIN user_metrics USING (run)
-GROUP BY features, reg
-""").to_df()
+cfg_topn = runs.groupby(['params.features', 'params.reg'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
+cfg_topn = cfg_topn.astype({'params.reg': 'str'})
 (
-    pn.ggplot(cfg_ndcg)
-    + pn.aes(x='features', y='ndcg', color='reg', shape='reg')
+    pn.ggplot(cfg_topn)
+    + pn.aes(x='params.features', y='metrics.RBP', color='params.reg', shape='params.reg')
     + pn.geom_line()
-    + pn.ylab('Mean nDCG')
+    + pn.ylab('Mean RBP')
+    + pn.scale_color_brewer('qual', 'Dark2')
+)
+```
+
+```{python}
+(
+    pn.ggplot(cfg_topn)
+    + pn.aes(x='params.features', y='metrics.NDCG', color='params.reg', shape='params.reg')
+    + pn.geom_line()
+    + pn.ylab('Mean NDCG')
+    + pn.scale_color_brewer('qual', 'Dark2')
+)
+```
+
+```{python}
+(
+    pn.ggplot(cfg_topn)
+    + pn.aes(x='params.features', y='metrics.RecipRank', color='params.reg', shape='params.reg')
+    + pn.geom_line()
+    + pn.ylab('Mean Recip. Rank')
     + pn.scale_color_brewer('qual', 'Dark2')
 )
 ```
@@ -57,19 +76,35 @@ GROUP BY features, reg
 How long does training take?
 
 ```{python}
-nf_times = rnd_sweep.sql("""
-SELECT features, AVG(wall_time) AS wall, AVG(cpu_time) AS cpu
-FROM run_specs JOIN train_stats USING (run)
-GROUP BY features
-""").to_df().melt('features', var_name='type')
+nf_times = runs.groupby('params.features')[['train_task.duration', 'train_task.cpu_time']].mean()
+nf_times.columns.name = 'type'
+nf_times = nf_times.rename(columns={
+    'train_task.duration': 'Wall',
+    'train_task.cpu_time': 'CPU',
+})
+nf_times = nf_times.stack().to_frame('value').reset_index()
 nf_times['value'] = pd.to_timedelta(nf_times['value'], unit='s')
 (
     pn.ggplot(nf_times)
-    + pn.aes(x='features', y='value')
+    + pn.aes(x='params.features', y='value')
     + pn.geom_line()
     + pn.ylab('Training time')
     + pn.xlab('Latent feature count')
     + pn.scale_y_timedelta()
     + pn.facet_wrap('type', scales='free_y')
+)
+```
+
+
+How much power does training take?
+
+```{python}
+nf_power = runs.groupby('params.features')['train_task.chassis_power'].mean().reset_index()
+(
+    pn.ggplot(nf_power)
+    + pn.aes(x='params.features', y='train_task.chassis_power')
+    + pn.geom_line()
+    + pn.ylab('Average power (J)')
+    + pn.xlab('Latent feature count')
 )
 ```

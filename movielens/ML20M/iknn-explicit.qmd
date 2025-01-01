@@ -2,24 +2,29 @@
 title: Explicit Item KNN on ML20M
 echo: false
 deps:
-- sweeps/random/IKNN-Explicit.duckdb
+- sweeps/random/IKNN-Explicit
 ---
 
 ```{python}
+import json
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import plotnine as pn
 import matplotlib.pyplot as plt
-import duckdb
 ```
 
 ```{python}
-from sandal import autoroot
 from codex.display import DEFAULTS
 ```
 
 ```{python}
-rnd_sweep = duckdb.connect('sweeps/random/IKNN-Explicit.duckdb', read_only=True)
+sweep_dir = Path('sweeps/random')
+sweep_name = 'IKNN-Explicit'
+
+with open(sweep_dir / sweep_name / 'runs.json', 'rt') as jsf:
+    run_data = [json.loads(line) for line in jsf]
+runs = pd.json_normalize(run_data)
 ```
 
 ## Parameter Sweeps
@@ -27,33 +32,50 @@ rnd_sweep = duckdb.connect('sweeps/random/IKNN-Explicit.duckdb', read_only=True)
 For the per-user random crossfolding data split, we use the first partition of
 the fold for parameter tuning.
 
+### Prediction Accuracy
+
+
 ```{python}
-cfg_rmse = rnd_sweep.sql("""
-SELECT nnbrs, CAST(min_nbrs AS varchar) AS min_nbrs, AVG(rmse) AS rmse
-FROM run_specs JOIN user_metrics USING (run)
-GROUP BY nnbrs, min_nbrs
-""").to_df()
+cfg_rmse = runs.groupby(['params.nnbrs', 'params.min_nbrs'])['metrics.RMSE'].mean().reset_index()
+cfg_rmse = cfg_rmse.astype({'params.min_nbrs': 'str'})
 (
     pn.ggplot(cfg_rmse)
-    + pn.aes(x='nnbrs', y='rmse', color='min_nbrs', shape='min_nbrs')
+    + pn.aes(x='params.nnbrs', y='metrics.RMSE', color='params.min_nbrs', shape='params.min_nbrs')
     + pn.geom_line()
     + pn.ylab('Per-user RMSE')
     + pn.scale_color_brewer('qual', 'Dark2')
 )
 ```
 
+### Top-N Ranking
 
 ```{python}
-cfg_ndcg = rnd_sweep.sql("""
-SELECT nnbrs, CAST(min_nbrs AS varchar) AS min_nbrs, AVG(ndcg) AS ndcg
-FROM run_specs JOIN user_metrics USING (run)
-GROUP BY nnbrs, min_nbrs
-""").to_df()
+cfg_topn = runs.groupby(['params.nnbrs', 'params.min_nbrs'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
+cfg_topn = cfg_topn.astype({'params.min_nbrs': 'str'})
 (
-    pn.ggplot(cfg_ndcg)
-    + pn.aes(x='nnbrs', y='ndcg', color='min_nbrs', shape='min_nbrs')
+    pn.ggplot(cfg_topn)
+    + pn.aes(x='params.nnbrs', y='metrics.RBP', color='params.min_nbrs', shape='params.min_nbrs')
     + pn.geom_line()
-    + pn.ylab('Mean nDCG')
+    + pn.ylab('Mean RBP')
     + pn.scale_color_brewer('qual', 'Dark2')
+)
+```
+
+```{python}
+(
+    pn.ggplot(cfg_topn)
+    + pn.aes(x='params.nnbrs', y='metrics.NDCG', color='params.min_nbrs', shape='params.min_nbrs')
+    + pn.geom_line()
+    + pn.ylab('Mean NDCG')
+    + pn.scale_color_brewer('qual', 'Dark2')
+)
+```
+
+```{python}
+(
+    pn.ggplot(cfg_topn)
+    + pn.aes(x='params.nnbrs', y='metrics.RecipRank', color='params.min_nbrs', shape='params.min_nbrs')
+    + pn.geom_line()
+    + pn.ylab('Mean RecipRank')
 )
 ```
