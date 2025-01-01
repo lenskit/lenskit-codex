@@ -38,6 +38,22 @@ class NumericParamSpace(BaseModel, extra="forbid"):
     "The space on which to sample the parameter."
 
 
+class SearchConfig(BaseModel, extra="forbid"):
+    "Configuration for parameter search."
+
+    random_points: int = 100
+    "Number of random points to search"
+
+    grid: dict[str, list[JsonValue]] | None = None
+    params: (
+        dict[
+            str,
+            Annotated[Union[CategorialParamSpace, NumericParamSpace], Field(discriminator="type")],
+        ]
+        | None
+    ) = None
+
+
 class ModelConfig(BaseModel, extra="forbid"):
     name: str | None = None
     scorer: str
@@ -46,15 +62,7 @@ class ModelConfig(BaseModel, extra="forbid"):
 
     constant: dict[str, JsonValue] = {}
     default: dict[str, JsonValue] = {}
-    grid: dict[str, list[JsonValue]] | None = None
-
-    params: (
-        dict[
-            str,
-            Annotated[Union[CategorialParamSpace, NumericParamSpace], Field(discriminator="type")],
-        ]
-        | None
-    ) = None
+    search: SearchConfig = Field(default_factory=SearchConfig)
 
     @property
     def scorer_class(self) -> type[Component]:
