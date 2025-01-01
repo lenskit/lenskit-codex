@@ -20,12 +20,24 @@ stages:
       - sweeps/temporal/Bias-grid
   export-temporal-Bias:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/temporal/Bias-grid.json sweeps/temporal/Bias-grid RMSE
+      lenskit-codex sweep export -o sweeps/temporal/Bias-random.json sweeps/temporal/Bias-random RMSE
     deps:
-      - sweeps/temporal/Bias-grid
+      - sweeps/temporal/Bias-random
     outs:
-      - sweeps/temporal/Bias-grid.json:
+      - sweeps/temporal/Bias-random.json:
           cache: false
+  sweep-temporal-random-Bias:
+    cmd: >-
+      lenskit-codex sweep run --random --ds-name=ML32M --split=splits/temporal.toml --test-part=valid Bias sweeps/temporal/Bias-random
+    params:
+      - ../../config.toml:
+          - random.seed
+    deps:
+      - splits/temporal.toml
+      - ratings.duckdb
+      - ../../models/Bias.toml
+    outs:
+      - sweeps/temporal/Bias-random
   sweep-temporal-grid-BiasedMF-ALS:
     cmd: >-
       lenskit-codex sweep run --grid --ds-name=ML32M --split=splits/temporal.toml --test-part=valid BiasedMF-ALS sweeps/temporal/BiasedMF-ALS-grid
@@ -117,7 +129,7 @@ stages:
       - splits/temporal.toml
   run-temporal-grid-best-Bias:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/Bias.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/Bias Bias
+      lenskit-codex generate --param-file=sweeps/temporal/Bias.json --test-part=test --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/Bias Bias
     outs:
       - runs/temporal-grid-best/Bias
     deps:
@@ -125,6 +137,16 @@ stages:
       - ratings.duckdb
       - splits/temporal.toml
       - sweeps/temporal/Bias-grid.json
+  run-temporal-random-best-Bias:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/temporal/Bias.json --test-part=test --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-random-best/Bias Bias
+    outs:
+      - runs/temporal-random-best/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/temporal/Bias-random.json
   run-temporal-default-Popular:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-default/Popular Popular
@@ -145,7 +167,7 @@ stages:
       - splits/temporal.toml
   run-temporal-grid-best-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/BiasedMF-ALS BiasedMF-ALS
+      lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS.json --test-part=test --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/BiasedMF-ALS BiasedMF-ALS
     outs:
       - runs/temporal-grid-best/BiasedMF-ALS
     deps:
@@ -164,7 +186,7 @@ stages:
       - splits/temporal.toml
   run-temporal-grid-best-IKNN-Explicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Explicit IKNN-Explicit
+      lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit.json --test-part=test --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Explicit IKNN-Explicit
     outs:
       - runs/temporal-grid-best/IKNN-Explicit
     deps:
@@ -183,7 +205,7 @@ stages:
       - splits/temporal.toml
   run-temporal-grid-best-IKNN-Implicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Implicit IKNN-Implicit
+      lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit.json --test-part=test --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Implicit IKNN-Implicit
     outs:
       - runs/temporal-grid-best/IKNN-Implicit
     deps:
@@ -202,7 +224,7 @@ stages:
       - splits/temporal.toml
   run-temporal-grid-best-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS.json --test-part=-0 --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/ImplicitMF-ALS ImplicitMF-ALS
+      lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS.json --test-part=test --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-grid-best/ImplicitMF-ALS ImplicitMF-ALS
     outs:
       - runs/temporal-grid-best/ImplicitMF-ALS
     deps:
@@ -216,6 +238,7 @@ stages:
     deps:
       - runs/temporal-default/Bias
       - runs/temporal-grid-best/Bias
+      - runs/temporal-random-best/Bias
       - runs/temporal-default/Popular
       - runs/temporal-default/BiasedMF-ALS
       - runs/temporal-grid-best/BiasedMF-ALS

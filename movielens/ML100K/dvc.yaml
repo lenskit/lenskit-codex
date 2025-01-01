@@ -31,12 +31,24 @@ stages:
       - sweeps/random/Bias-grid
   export-random-Bias:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/Bias-grid.json sweeps/random/Bias-grid RMSE
+      lenskit-codex sweep export -o sweeps/random/Bias-random.json sweeps/random/Bias-random RMSE
     deps:
-      - sweeps/random/Bias-grid
+      - sweeps/random/Bias-random
     outs:
-      - sweeps/random/Bias-grid.json:
+      - sweeps/random/Bias-random.json:
           cache: false
+  sweep-random-random-Bias:
+    cmd: >-
+      lenskit-codex sweep run --random --ds-name=ML100K --split=splits/random.toml --test-part=0 Bias sweeps/random/Bias-random
+    params:
+      - ../../config.toml:
+          - random.seed
+    deps:
+      - splits/random.duckdb
+      - ratings.duckdb
+      - ../../models/Bias.toml
+    outs:
+      - sweeps/random/Bias-random
   sweep-random-grid-BiasedMF-ALS:
     cmd: >-
       lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml --test-part=0 BiasedMF-ALS sweeps/random/BiasedMF-ALS-grid
@@ -136,6 +148,16 @@ stages:
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/Bias-grid.json
+  run-random-random-best-Bias:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/Bias-random.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-random-best/Bias Bias
+    outs:
+      - runs/random-random-best/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/random.duckdb
+      - sweeps/random/Bias-random.json
   run-random-default-Popular:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML100K --split=splits/random.toml -o runs/random-default/Popular Popular
@@ -227,6 +249,7 @@ stages:
     deps:
       - runs/random-default/Bias
       - runs/random-grid-best/Bias
+      - runs/random-random-best/Bias
       - runs/random-default/Popular
       - runs/random-default/BiasedMF-ALS
       - runs/random-grid-best/BiasedMF-ALS
