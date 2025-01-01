@@ -2,7 +2,8 @@
 title: ML100K Performance Summary
 order: 1
 deps:
-- run-metrics.duckdb
+- run-summary.csv
+- run-user-metrics.parquet
 ---
 
 This is a summary view of model performance on the ML100K data set.
@@ -11,7 +12,6 @@ This is a summary view of model performance on the ML100K data set.
 import pandas as pd
 import numpy as np
 import plotnine as pn
-import duckdb
 ```
 
 ```{python}
@@ -20,36 +20,23 @@ from tabulate import tabulate
 ```
 
 ```{python}
-from sandal import autoroot
-from sandal.project import here
-from codex.dbutil import to_dataclass
 from codex.display import DEFAULTS
 ```
 
 ```{python}
-run_db = duckdb.connect('run-metrics.duckdb', read_only=True)
+runs = pd.read_csv('run-summary.csv')
+runs.head()
 ```
 
-## Random Split Performance
-
-
-
-### Rating Prediction Accuracy
+## Rating Prediction Accuracy
 
 ```{python}
-rnd_rmse = run_db.query('''
-SELECT model, config, rmse, mae
-FROM variants JOIN user_metrics USING (fileno)
-WHERE split = 'random' AND rmse IS NOT NULL
-''').to_df()
-```
-
-```{python}
+pred_runs = runs[runs['RMSE'].notnull()]
 (
-    pn.ggplot(rnd_rmse)
-    + pn.aes(x='model', y='rmse', color='config')
-    + pn.geom_boxplot(position='dodge')
-    + pn.scale_color_brewer('qual', 'Dark2')
+    pn.ggplot(pred_runs)
+    + pn.aes(x='model', y='RMSE', fill='variant')
+    + pn.geom_col(position='dodge')
+    + pn.scale_fill_brewer('qual', 'Dark2')
 )
 ```
 
@@ -65,10 +52,10 @@ WHERE split = 'random'
 
 ```{python}
 (
-    pn.ggplot(rnd_topn)
-    + pn.aes(x='model', y='ndcg', color='config')
-    + pn.geom_boxplot()
-    + pn.scale_color_brewer('qual', 'Dark2')
+    pn.ggplot(runs)
+    + pn.aes(x='model', y='RBP', fill='variant')
+    + pn.geom_col(position='dodge')
+    + pn.scale_fill_brewer('qual', 'Dark2')
     + pn.coord_flip()
 )
 ```
