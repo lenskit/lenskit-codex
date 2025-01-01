@@ -2,35 +2,27 @@
 Grid-sweep hyperparameter values.
 """
 
-import json
 import sys
 from itertools import product
 from pathlib import Path
+from typing import Generator, Literal
 
 import click
-import pandas as pd
-import structlog
-from lenskit.logging import item_progress
+from lenskit.logging import get_logger, item_progress
+from pydantic import JsonValue
 
 from codex.cfgid import config_id
-from codex.cluster import ensure_cluster_init
 from codex.inference import recommend_and_save
-from codex.modelcfg import load_config
+from codex.modelcfg import ModelConfig, load_config
 from codex.outputs import RunOutput
 from codex.params import param_grid
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.splitting import load_split_set
 from codex.training import train_task
 
-from . import codex
+from . import sweep
 
-_log = structlog.stdlib.get_logger(__name__)
-
-
-@codex.group("sweep")
-def sweep():
-    "Operate on parameter sweeps"
-    pass
+_log = get_logger(__name__)
 
 
 @sweep.command("run")
@@ -45,6 +37,8 @@ def sweep():
     metavar="PART",
     help="validate on PART",
 )
+@click.option("--grid", "method", flag_value="grid", help="use grid search")
+@click.option("--random", "method", flag_value="random", help="use random search")
 @click.argument("MODEL")
 @click.argument("OUT", type=Path)
 def run_sweep(
@@ -52,25 +46,23 @@ def run_sweep(
     out: Path,
     list_length: int,
     split: Path,
+    method: Literal["grid", "random"],
     ds_name: str | None = None,
     test_part: str = "valid",
 ):
     log = _log.bind(model=model)
     mod_cfg = load_config(model)
-    if not mod_cfg.grid:
+    if not mod_cfg.search.grid:
         log.error("model is not sweepable")
         sys.exit(5)
 
-    space = param_grid(mod_cfg.grid)
+    space = param_grid(mod_cfg.search.grid)
     _log.debug("parameter search space:\n%s", space)
 
     output = RunOutput(out)
     output.initialize()
 
-    ensure_cluster_init()
-
-    names = list(mod_cfg.grid.keys())
-    points = list(product(*mod_cfg.grid.values()))
+    points = list(search_grid(mod_cfg))
     log.info("sweeping %d points", len(points))
     data_info = DataModel(dataset=ds_name, split=split.stem, part=test_part)
 
@@ -87,7 +79,6 @@ def run_sweep(
     ):
         data = split_set.get_part(test_part)
         for i, point in enumerate(points, 1):
-            point = dict(zip(names, point))
             run_id = config_id(
                 {
                     "model": mod_cfg.name,
@@ -139,39 +130,15 @@ def run_sweep(
         output.repack_output_lists()
 
 
-@sweep.command("export")
-@click.option("-o", "--output", type=Path, metavar="FILE", help="write output to FILE")
-@click.argument("SWEEP", type=Path)
-@click.argument("METRIC")
-def export_best_results(sweep: Path, metric: str, output: Path):
-    log = _log.bind(results=str(sweep))
-    order = "ASC" if metric in ("RMSE", "MAE") else "DESC"
+def search_grid(mod_cfg: ModelConfig) -> Generator[dict[str, JsonValue], None, None]:
+    if not mod_cfg.search.grid:
+        _log.error("no search grid specified", name=mod_cfg.name)
+        raise RuntimeError("no search grid")
 
-    log.info("reading runs.json")
-    run_file = sweep / "runs.json"
-    data = pd.read_json(run_file, lines=True)
+    names = list(mod_cfg.search.grid.keys())
+    for point in product(*mod_cfg.search.grid.values()):
+        yield dict(zip(names, point))
 
-    run_ids = data["run_id"]
-    params = pd.json_normalize(data["params"].tolist()).assign(run_id=run_ids).set_index("run_id")
-    metrics = pd.json_normalize(data["metrics"].tolist()).assign(run_id=run_ids).set_index("run_id")
 
-    if order == "DESC":
-        top = metrics.nlargest(5, metric)
-        print(top)
-    else:
-        top = metrics.nsmallest(5, metric)
-
-    log.info("best results:\n%s", top.join(params, how="left"))
-
-    params = params.to_dict("index")
-
-    best_id = top.index[0]
-    best = {
-        "run_id": best_id,
-        "metrics": metrics.loc[best_id].to_dict(),
-        "params": params[best_id],
-    }
-    log.info("found best configuration", config=best)
-
-    output.parent.mkdir(exist_ok=True, parents=True)
-    output.write_text(json.dumps(best) + "\n")
+def search_random(mod_cfg: ModelConfig):
+    pass

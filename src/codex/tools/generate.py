@@ -3,7 +3,6 @@ from pathlib import Path
 import click
 import structlog
 
-from codex.cluster import ensure_cluster_init
 from codex.inference import recommend_and_save
 from codex.modelcfg import load_config
 from codex.outputs import RunOutput
@@ -56,8 +55,6 @@ def generate(
         cfg_path = Path(config)
 
     mod_cfg = load_config(model)
-
-    ensure_cluster_init()
 
     output = RunOutput(out_dir)
     output.initialize()

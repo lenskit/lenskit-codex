@@ -19,7 +19,7 @@ from lenskit.metrics import MAE, NDCG, RBP, RMSE, Hit, RecipRank, RunAnalysisRes
 from lenskit.parallel.config import ParallelConfig, subprocess_config
 from pydantic import JsonValue
 
-from codex.cluster import CodexActor, worker_pool
+from codex.cluster import CodexActor, ensure_cluster_init, worker_pool
 from codex.outputs import REC_FIELDS, ItemListCollector, NDJSONCollector
 
 _log = structlog.stdlib.get_logger(__name__)
@@ -52,6 +52,7 @@ def recommend_and_save(
                 pb.update()
     else:
         _log.info("sending pipeline to cluster")
+        ensure_cluster_init()
         pipe_h = ray.put(pipe)
         del pipe
         with (
