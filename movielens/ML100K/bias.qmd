@@ -6,20 +6,25 @@ deps:
 ---
 
 ```{python}
+import json
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import plotnine as pn
 import matplotlib.pyplot as plt
-import duckdb
 ```
 
 ```{python}
-from sandal import autoroot
 from codex.display import DEFAULTS
 ```
 
 ```{python}
-rnd_sweep = duckdb.connect('sweeps/random/Bias.duckdb', read_only=True)
+sweep_dir = Path('sweeps/random')
+sweep_name = 'Bias'
+
+with open(sweep_dir / sweep_name / 'runs.json', 'rt') as jsf:
+    run_data = [json.loads(line) for line in jsf]
+runs = pd.json_normalize(run_data)
 ```
 
 ## Parameter Sweeps
@@ -28,14 +33,11 @@ For the per-user random crossfolding data split, we use the first partition of
 the fold for parameter tuning.
 
 ```{python}
-cfg_rmse = rnd_sweep.sql("""
-SELECT item_damping, CAST(user_damping AS varchar) AS user_damping, AVG(rmse) AS rmse
-FROM run_specs JOIN user_metrics USING (run)
-GROUP BY item_damping, user_damping
-""").to_df()
+cfg_rmse = runs.groupby(['params.user_damping', 'params.item_damping'])['metrics.RMSE'].mean().reset_index()
+cfg_rmse = cfg_rmse.astype({'params.user_damping': 'str'})
 (
     pn.ggplot(cfg_rmse)
-    + pn.aes(x='item_damping', y='rmse', color='user_damping', shape='user_damping')
+    + pn.aes(x='params.item_damping', y='metrics.RMSE', color='params.user_damping', shape='params.user_damping')
     + pn.geom_line()
     + pn.ylab('Per-user RMSE')
     + pn.scale_color_brewer('qual', 'Dark2')
@@ -45,15 +47,30 @@ GROUP BY item_damping, user_damping
 User damping will have no effect on rankings.
 
 ```{python}
-cfg_ndcg = rnd_sweep.sql("""
-SELECT item_damping, AVG(ndcg) AS ndcg
-FROM run_specs JOIN user_metrics USING (run)
-GROUP BY item_damping
-""").to_df()
+cfg_topn = runs.groupby(['params.item_damping'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
 (
-    pn.ggplot(cfg_ndcg)
-    + pn.aes(x='item_damping', y='ndcg')
+    pn.ggplot(cfg_topn)
+    + pn.aes(x='params.item_damping', y='metrics.RBP')
     + pn.geom_line()
-    + pn.ylab('Mean nDCG')
+    + pn.ylab('Mean RBP')
+)
+```
+
+
+```{python}
+(
+    pn.ggplot(cfg_topn)
+    + pn.aes(x='params.item_damping', y='metrics.NDCG')
+    + pn.geom_line()
+    + pn.ylab('Mean NDCG')
+)
+```
+
+```{python}
+(
+    pn.ggplot(cfg_topn)
+    + pn.aes(x='params.item_damping', y='metrics.RecipRank')
+    + pn.geom_line()
+    + pn.ylab('Mean RecipRank')
 )
 ```

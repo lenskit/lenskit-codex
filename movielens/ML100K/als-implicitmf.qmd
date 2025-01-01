@@ -40,7 +40,7 @@ the fold for parameter tuning.
 ### Top-N Ranking
 
 ```{python}
-cfg_topn = runs.groupby(['params.features', 'params.reg'])[['metrics.RBP', 'metrics.NDCG']].mean().reset_index()
+cfg_topn = runs.groupby(['params.features', 'params.reg'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
 cfg_topn = cfg_topn.astype({'params.reg': 'str'})
 (
     pn.ggplot(cfg_topn)
@@ -57,6 +57,16 @@ cfg_topn = cfg_topn.astype({'params.reg': 'str'})
     + pn.aes(x='params.features', y='metrics.NDCG', color='params.reg', shape='params.reg')
     + pn.geom_line()
     + pn.ylab('Mean NDCG')
+    + pn.scale_color_brewer('qual', 'Dark2')
+)
+```
+
+```{python}
+(
+    pn.ggplot(cfg_topn)
+    + pn.aes(x='params.features', y='metrics.RecipRank', color='params.reg', shape='params.reg')
+    + pn.geom_line()
+    + pn.ylab('Mean Recip. Rank')
     + pn.scale_color_brewer('qual', 'Dark2')
 )
 ```
