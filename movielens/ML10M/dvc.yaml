@@ -6,9 +6,9 @@ stages:
       - ml-10m.zip
     outs:
       - ratings.duckdb
-  sweep-temporal-Bias:
+  sweep-temporal-grid-Bias:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid Bias sweeps/temporal/Bias
+      lenskit-codex sweep run --grid --ds-name=ML10M --split=splits/temporal.toml --test-part=valid Bias sweeps/temporal/Bias-grid
     params:
       - ../../config.toml:
           - random.seed
@@ -17,18 +17,18 @@ stages:
       - ratings.duckdb
       - ../../models/Bias.toml
     outs:
-      - sweeps/temporal/Bias
+      - sweeps/temporal/Bias-grid
   export-temporal-Bias:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/temporal/Bias.json sweeps/temporal/Bias RMSE
+      lenskit-codex sweep export -o sweeps/temporal/Bias-grid.json sweeps/temporal/Bias-grid RMSE
     deps:
-      - sweeps/temporal/Bias
+      - sweeps/temporal/Bias-grid
     outs:
-      - sweeps/temporal/Bias.json:
+      - sweeps/temporal/Bias-grid.json:
           cache: false
-  sweep-temporal-BiasedMF-ALS:
+  sweep-temporal-grid-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid BiasedMF-ALS sweeps/temporal/BiasedMF-ALS
+      lenskit-codex sweep run --grid --ds-name=ML10M --split=splits/temporal.toml --test-part=valid BiasedMF-ALS sweeps/temporal/BiasedMF-ALS-grid
     params:
       - ../../config.toml:
           - random.seed
@@ -37,18 +37,18 @@ stages:
       - ratings.duckdb
       - ../../models/BiasedMF-ALS.toml
     outs:
-      - sweeps/temporal/BiasedMF-ALS
+      - sweeps/temporal/BiasedMF-ALS-grid
   export-temporal-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS.json sweeps/temporal/BiasedMF-ALS RMSE
+      lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS-grid.json sweeps/temporal/BiasedMF-ALS-grid RMSE
     deps:
-      - sweeps/temporal/BiasedMF-ALS
+      - sweeps/temporal/BiasedMF-ALS-grid
     outs:
-      - sweeps/temporal/BiasedMF-ALS.json:
+      - sweeps/temporal/BiasedMF-ALS-grid.json:
           cache: false
-  sweep-temporal-IKNN-Explicit:
+  sweep-temporal-grid-IKNN-Explicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid IKNN-Explicit sweeps/temporal/IKNN-Explicit
+      lenskit-codex sweep run --grid --ds-name=ML10M --split=splits/temporal.toml --test-part=valid IKNN-Explicit sweeps/temporal/IKNN-Explicit-grid
     params:
       - ../../config.toml:
           - random.seed
@@ -57,18 +57,18 @@ stages:
       - ratings.duckdb
       - ../../models/IKNN-Explicit.toml
     outs:
-      - sweeps/temporal/IKNN-Explicit
+      - sweeps/temporal/IKNN-Explicit-grid
   export-temporal-IKNN-Explicit:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/temporal/IKNN-Explicit.json sweeps/temporal/IKNN-Explicit RMSE
+      lenskit-codex sweep export -o sweeps/temporal/IKNN-Explicit-grid.json sweeps/temporal/IKNN-Explicit-grid RMSE
     deps:
-      - sweeps/temporal/IKNN-Explicit
+      - sweeps/temporal/IKNN-Explicit-grid
     outs:
-      - sweeps/temporal/IKNN-Explicit.json:
+      - sweeps/temporal/IKNN-Explicit-grid.json:
           cache: false
-  sweep-temporal-IKNN-Implicit:
+  sweep-temporal-grid-IKNN-Implicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid IKNN-Implicit sweeps/temporal/IKNN-Implicit
+      lenskit-codex sweep run --grid --ds-name=ML10M --split=splits/temporal.toml --test-part=valid IKNN-Implicit sweeps/temporal/IKNN-Implicit-grid
     params:
       - ../../config.toml:
           - random.seed
@@ -77,18 +77,18 @@ stages:
       - ratings.duckdb
       - ../../models/IKNN-Implicit.toml
     outs:
-      - sweeps/temporal/IKNN-Implicit
+      - sweeps/temporal/IKNN-Implicit-grid
   export-temporal-IKNN-Implicit:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit.json sweeps/temporal/IKNN-Implicit RBP
+      lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit-grid.json sweeps/temporal/IKNN-Implicit-grid RBP
     deps:
-      - sweeps/temporal/IKNN-Implicit
+      - sweeps/temporal/IKNN-Implicit-grid
     outs:
-      - sweeps/temporal/IKNN-Implicit.json:
+      - sweeps/temporal/IKNN-Implicit-grid.json:
           cache: false
-  sweep-temporal-ImplicitMF-ALS:
+  sweep-temporal-grid-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml --test-part=valid ImplicitMF-ALS sweeps/temporal/ImplicitMF-ALS
+      lenskit-codex sweep run --grid --ds-name=ML10M --split=splits/temporal.toml --test-part=valid ImplicitMF-ALS sweeps/temporal/ImplicitMF-ALS-grid
     params:
       - ../../config.toml:
           - random.seed
@@ -97,14 +97,14 @@ stages:
       - ratings.duckdb
       - ../../models/ImplicitMF-ALS.toml
     outs:
-      - sweeps/temporal/ImplicitMF-ALS
+      - sweeps/temporal/ImplicitMF-ALS-grid
   export-temporal-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS.json sweeps/temporal/ImplicitMF-ALS RBP
+      lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS-grid.json sweeps/temporal/ImplicitMF-ALS-grid RBP
     deps:
-      - sweeps/temporal/ImplicitMF-ALS
+      - sweeps/temporal/ImplicitMF-ALS-grid
     outs:
-      - sweeps/temporal/ImplicitMF-ALS.json:
+      - sweeps/temporal/ImplicitMF-ALS-grid.json:
           cache: false
   run-temporal-default-Bias:
     cmd: >-
@@ -124,7 +124,7 @@ stages:
       - ../../models/Bias.toml
       - ratings.duckdb
       - splits/temporal.toml
-      - sweeps/temporal/Bias.json
+      - sweeps/temporal/Bias-grid.json
   run-temporal-default-Popular:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-default/Popular Popular
@@ -152,7 +152,7 @@ stages:
       - ../../models/BiasedMF-ALS.toml
       - ratings.duckdb
       - splits/temporal.toml
-      - sweeps/temporal/BiasedMF-ALS.json
+      - sweeps/temporal/BiasedMF-ALS-grid.json
   run-temporal-default-IKNN-Explicit:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-default/IKNN-Explicit IKNN-Explicit
@@ -171,7 +171,7 @@ stages:
       - ../../models/IKNN-Explicit.toml
       - ratings.duckdb
       - splits/temporal.toml
-      - sweeps/temporal/IKNN-Explicit.json
+      - sweeps/temporal/IKNN-Explicit-grid.json
   run-temporal-default-IKNN-Implicit:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-default/IKNN-Implicit IKNN-Implicit
@@ -190,7 +190,7 @@ stages:
       - ../../models/IKNN-Implicit.toml
       - ratings.duckdb
       - splits/temporal.toml
-      - sweeps/temporal/IKNN-Implicit.json
+      - sweeps/temporal/IKNN-Implicit-grid.json
   run-temporal-default-ImplicitMF-ALS:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-default/ImplicitMF-ALS ImplicitMF-ALS
@@ -209,7 +209,7 @@ stages:
       - ../../models/ImplicitMF-ALS.toml
       - ratings.duckdb
       - splits/temporal.toml
-      - sweeps/temporal/ImplicitMF-ALS.json
+      - sweeps/temporal/ImplicitMF-ALS-grid.json
   collect-metrics:
     cmd: >-
       lenskit-codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv

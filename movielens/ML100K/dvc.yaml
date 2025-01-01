@@ -17,9 +17,9 @@ stages:
       - ../ratings.duckdb
     outs:
       - random.duckdb
-  sweep-random-Bias:
+  sweep-random-grid-Bias:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML100K --split=splits/random.toml --test-part=0 Bias sweeps/random/Bias
+      lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml --test-part=0 Bias sweeps/random/Bias-grid
     params:
       - ../../config.toml:
           - random.seed
@@ -28,18 +28,18 @@ stages:
       - ratings.duckdb
       - ../../models/Bias.toml
     outs:
-      - sweeps/random/Bias
+      - sweeps/random/Bias-grid
   export-random-Bias:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/Bias.json sweeps/random/Bias RMSE
+      lenskit-codex sweep export -o sweeps/random/Bias-grid.json sweeps/random/Bias-grid RMSE
     deps:
-      - sweeps/random/Bias
+      - sweeps/random/Bias-grid
     outs:
-      - sweeps/random/Bias.json:
+      - sweeps/random/Bias-grid.json:
           cache: false
-  sweep-random-BiasedMF-ALS:
+  sweep-random-grid-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML100K --split=splits/random.toml --test-part=0 BiasedMF-ALS sweeps/random/BiasedMF-ALS
+      lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml --test-part=0 BiasedMF-ALS sweeps/random/BiasedMF-ALS-grid
     params:
       - ../../config.toml:
           - random.seed
@@ -48,18 +48,18 @@ stages:
       - ratings.duckdb
       - ../../models/BiasedMF-ALS.toml
     outs:
-      - sweeps/random/BiasedMF-ALS
+      - sweeps/random/BiasedMF-ALS-grid
   export-random-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/BiasedMF-ALS.json sweeps/random/BiasedMF-ALS RMSE
+      lenskit-codex sweep export -o sweeps/random/BiasedMF-ALS-grid.json sweeps/random/BiasedMF-ALS-grid RMSE
     deps:
-      - sweeps/random/BiasedMF-ALS
+      - sweeps/random/BiasedMF-ALS-grid
     outs:
-      - sweeps/random/BiasedMF-ALS.json:
+      - sweeps/random/BiasedMF-ALS-grid.json:
           cache: false
-  sweep-random-IKNN-Explicit:
+  sweep-random-grid-IKNN-Explicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML100K --split=splits/random.toml --test-part=0 IKNN-Explicit sweeps/random/IKNN-Explicit
+      lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml --test-part=0 IKNN-Explicit sweeps/random/IKNN-Explicit-grid
     params:
       - ../../config.toml:
           - random.seed
@@ -68,18 +68,18 @@ stages:
       - ratings.duckdb
       - ../../models/IKNN-Explicit.toml
     outs:
-      - sweeps/random/IKNN-Explicit
+      - sweeps/random/IKNN-Explicit-grid
   export-random-IKNN-Explicit:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/IKNN-Explicit.json sweeps/random/IKNN-Explicit RMSE
+      lenskit-codex sweep export -o sweeps/random/IKNN-Explicit-grid.json sweeps/random/IKNN-Explicit-grid RMSE
     deps:
-      - sweeps/random/IKNN-Explicit
+      - sweeps/random/IKNN-Explicit-grid
     outs:
-      - sweeps/random/IKNN-Explicit.json:
+      - sweeps/random/IKNN-Explicit-grid.json:
           cache: false
-  sweep-random-IKNN-Implicit:
+  sweep-random-grid-IKNN-Implicit:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML100K --split=splits/random.toml --test-part=0 IKNN-Implicit sweeps/random/IKNN-Implicit
+      lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml --test-part=0 IKNN-Implicit sweeps/random/IKNN-Implicit-grid
     params:
       - ../../config.toml:
           - random.seed
@@ -88,18 +88,18 @@ stages:
       - ratings.duckdb
       - ../../models/IKNN-Implicit.toml
     outs:
-      - sweeps/random/IKNN-Implicit
+      - sweeps/random/IKNN-Implicit-grid
   export-random-IKNN-Implicit:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/IKNN-Implicit.json sweeps/random/IKNN-Implicit RBP
+      lenskit-codex sweep export -o sweeps/random/IKNN-Implicit-grid.json sweeps/random/IKNN-Implicit-grid RBP
     deps:
-      - sweeps/random/IKNN-Implicit
+      - sweeps/random/IKNN-Implicit-grid
     outs:
-      - sweeps/random/IKNN-Implicit.json:
+      - sweeps/random/IKNN-Implicit-grid.json:
           cache: false
-  sweep-random-ImplicitMF-ALS:
+  sweep-random-grid-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex sweep run --ds-name=ML100K --split=splits/random.toml --test-part=0 ImplicitMF-ALS sweeps/random/ImplicitMF-ALS
+      lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml --test-part=0 ImplicitMF-ALS sweeps/random/ImplicitMF-ALS-grid
     params:
       - ../../config.toml:
           - random.seed
@@ -108,14 +108,14 @@ stages:
       - ratings.duckdb
       - ../../models/ImplicitMF-ALS.toml
     outs:
-      - sweeps/random/ImplicitMF-ALS
+      - sweeps/random/ImplicitMF-ALS-grid
   export-random-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS.json sweeps/random/ImplicitMF-ALS RBP
+      lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS-grid.json sweeps/random/ImplicitMF-ALS-grid RBP
     deps:
-      - sweeps/random/ImplicitMF-ALS
+      - sweeps/random/ImplicitMF-ALS-grid
     outs:
-      - sweeps/random/ImplicitMF-ALS.json:
+      - sweeps/random/ImplicitMF-ALS-grid.json:
           cache: false
   run-random-default-Bias:
     cmd: >-
@@ -128,14 +128,14 @@ stages:
       - splits/random.duckdb
   run-random-grid-best-Bias:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/Bias.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/Bias Bias
+      lenskit-codex generate --param-file=sweeps/random/Bias-grid.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/Bias Bias
     outs:
       - runs/random-grid-best/Bias
     deps:
       - ../../models/Bias.toml
       - ratings.duckdb
       - splits/random.duckdb
-      - sweeps/random/Bias.json
+      - sweeps/random/Bias-grid.json
   run-random-default-Popular:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML100K --split=splits/random.toml -o runs/random-default/Popular Popular
@@ -156,14 +156,14 @@ stages:
       - splits/random.duckdb
   run-random-grid-best-BiasedMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/BiasedMF-ALS BiasedMF-ALS
+      lenskit-codex generate --param-file=sweeps/random/BiasedMF-ALS-grid.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/BiasedMF-ALS BiasedMF-ALS
     outs:
       - runs/random-grid-best/BiasedMF-ALS
     deps:
       - ../../models/BiasedMF-ALS.toml
       - ratings.duckdb
       - splits/random.duckdb
-      - sweeps/random/BiasedMF-ALS.json
+      - sweeps/random/BiasedMF-ALS-grid.json
   run-random-default-IKNN-Explicit:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML100K --split=splits/random.toml -o runs/random-default/IKNN-Explicit IKNN-Explicit
@@ -175,14 +175,14 @@ stages:
       - splits/random.duckdb
   run-random-grid-best-IKNN-Explicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/IKNN-Explicit IKNN-Explicit
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit-grid.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/IKNN-Explicit IKNN-Explicit
     outs:
       - runs/random-grid-best/IKNN-Explicit
     deps:
       - ../../models/IKNN-Explicit.toml
       - ratings.duckdb
       - splits/random.duckdb
-      - sweeps/random/IKNN-Explicit.json
+      - sweeps/random/IKNN-Explicit-grid.json
   run-random-default-IKNN-Implicit:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML100K --split=splits/random.toml -o runs/random-default/IKNN-Implicit IKNN-Implicit
@@ -194,14 +194,14 @@ stages:
       - splits/random.duckdb
   run-random-grid-best-IKNN-Implicit:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/IKNN-Implicit IKNN-Implicit
+      lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit-grid.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/IKNN-Implicit IKNN-Implicit
     outs:
       - runs/random-grid-best/IKNN-Implicit
     deps:
       - ../../models/IKNN-Implicit.toml
       - ratings.duckdb
       - splits/random.duckdb
-      - sweeps/random/IKNN-Implicit.json
+      - sweeps/random/IKNN-Implicit-grid.json
   run-random-default-ImplicitMF-ALS:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML100K --split=splits/random.toml -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
@@ -213,14 +213,14 @@ stages:
       - splits/random.duckdb
   run-random-grid-best-ImplicitMF-ALS:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/ImplicitMF-ALS ImplicitMF-ALS
+      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS-grid.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/ImplicitMF-ALS ImplicitMF-ALS
     outs:
       - runs/random-grid-best/ImplicitMF-ALS
     deps:
       - ../../models/ImplicitMF-ALS.toml
       - ratings.duckdb
       - splits/random.duckdb
-      - sweeps/random/ImplicitMF-ALS.json
+      - sweeps/random/ImplicitMF-ALS-grid.json
   collect-metrics:
     cmd: >-
       lenskit-codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
