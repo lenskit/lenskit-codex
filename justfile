@@ -23,11 +23,15 @@ update-documents:
     {{DENO_RUN}} ./scripts/copy-docs.ts
 
 # update the DVC pipeline
-update-pipeline:
+render-pipeline:
     #!/usr/bin/env zsh
     set -e
     {{DENO_RUN}} ./scripts/render-pipeline.ts
     pre-commit run --files **/dvc.yaml || true
 
+# update the gitignore files
+update-gitignore: render-pipeline
+    {{DENO_RUN}} ./scripts/render-gitignore.ts
+
 # update the whole project layout
-update-layout: update-documents update-pipeline
+rerender: update-documents render-pipeline update-gitignore
