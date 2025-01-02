@@ -61,7 +61,7 @@ export function mlSplitRuns(dataset: string, split: string): Run[] {
       runs.push({
         name: `run-${split}-grid-best-${name}`,
         dataset,
-        args: [`--param-file=sweeps/${split}/${name}.json`, "--test-part=test"],
+        args: [`--param-file=sweeps/${split}/${name}-grid.json`, "--test-part=test"],
         model: name,
         split,
         variant: "grid-best",
@@ -73,7 +73,7 @@ export function mlSplitRuns(dataset: string, split: string): Run[] {
       runs.push({
         name: `run-${split}-random-best-${name}`,
         dataset,
-        args: [`--param-file=sweeps/${split}/${name}.json`, "--test-part=test"],
+        args: [`--param-file=sweeps/${split}/${name}-random.json`, "--test-part=test"],
         model: name,
         split,
         variant: "random-best",
