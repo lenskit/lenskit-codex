@@ -29,7 +29,7 @@ _log = get_logger(__name__)
 
 @sweep.command("run")
 @click.option(
-    "-n", "--list-length", type=int, metavar="N", default=500, help="generate lists of length N"
+    "-n", "--list-length", type=int, metavar="N", default=100, help="generate lists of length N"
 )
 @click.option("--split", "split", type=Path, help="path to the split spec (or base file)")
 @click.option("-N", "--ds-name", help="name of the dataset to split")
