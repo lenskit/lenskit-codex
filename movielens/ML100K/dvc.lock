@@ -1120,8 +1120,8 @@ stages:
     deps:
     - path: ../../models/IKNN-Explicit.toml
       hash: md5
-      md5: 2a940890725e9089b96ffaea51c6445a
-      size: 175
+      md5: 11430835ad5db7c0d7ac00160e3818a9
+      size: 422
     - path: ratings.duckdb
       hash: md5
       md5: 4ebfe15a3b3072086408fdc861bf37ae
@@ -1136,8 +1136,8 @@ stages:
     outs:
     - path: sweeps/random/IKNN-Explicit-grid
       hash: md5
-      md5: 9db9ba367886b697f874ca4e94d0aab8.dir
-      size: 97092
+      md5: 0c480f22770dceb9ab64d43590ccdbbf.dir
+      size: 79557
       nfiles: 6
   sweep-random-grid-IKNN-Implicit:
     cmd: lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml
@@ -1325,3 +1325,42 @@ stages:
       hash: md5
       md5: c4a09488af96106f8a63cdedf58d5085
       size: 314
+  sweep-random-random-IKNN-Explicit:
+    cmd: lenskit-codex sweep run --random --ds-name=ML100K --split=splits/random.toml
+      --test-part=0 IKNN-Explicit sweeps/random/IKNN-Explicit-random
+    deps:
+    - path: ../../models/IKNN-Explicit.toml
+      hash: md5
+      md5: 11430835ad5db7c0d7ac00160e3818a9
+      size: 422
+    - path: ratings.duckdb
+      hash: md5
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 521fdd73e436db6dfb4295eba802dddd
+      size: 536576
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/random/IKNN-Explicit-random
+      hash: md5
+      md5: ee06cf639bd9dcadff50e4bfa5eac980.dir
+      size: 442644
+      nfiles: 6
+  export-random-random-IKNN-Explicit:
+    cmd: lenskit-codex sweep export -o sweeps/random/IKNN-Explicit-random.json sweeps/random/IKNN-Explicit-random
+      RMSE
+    deps:
+    - path: sweeps/random/IKNN-Explicit-random
+      hash: md5
+      md5: ee06cf639bd9dcadff50e4bfa5eac980.dir
+      size: 442644
+      nfiles: 6
+    outs:
+    - path: sweeps/random/IKNN-Explicit-random.json
+      hash: md5
+      md5: 331855bbd3af171431e30a60e570429c
+      size: 356

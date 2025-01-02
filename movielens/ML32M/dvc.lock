@@ -545,8 +545,8 @@ stages:
     deps:
     - path: ../../models/IKNN-Explicit.toml
       hash: md5
-      md5: 2a940890725e9089b96ffaea51c6445a
-      size: 175
+      md5: 11430835ad5db7c0d7ac00160e3818a9
+      size: 422
     - path: ratings.duckdb
       hash: md5
       md5: a81c61d4b9ee0568294bdec12ad5a7de
@@ -557,13 +557,13 @@ stages:
       size: 128
     - path: sweeps/temporal/IKNN-Explicit-grid.json
       hash: md5
-      md5: 0925f16fa7c02b8fe7379d1bc5636e2a
-      size: 292
+      md5: 096eba3bf11a34e92205f3993abc2430
+      size: 315
     outs:
     - path: runs/temporal-grid-best/IKNN-Explicit
       hash: md5
-      md5: 5618781d3644aa5895fcee3587b316f2.dir
-      size: 444105
+      md5: 29eec720073e6d034fb3550d0edd2866.dir
+      size: 215658
       nfiles: 3
   sweep-temporal-BiasedMF-ALS:
     cmd: lenskit-codex sweep run --ds-name=ML32M --split=splits/temporal.toml --test-part=valid
@@ -909,8 +909,8 @@ stages:
     deps:
     - path: ../../models/IKNN-Explicit.toml
       hash: md5
-      md5: 2a940890725e9089b96ffaea51c6445a
-      size: 175
+      md5: 11430835ad5db7c0d7ac00160e3818a9
+      size: 422
     - path: ratings.duckdb
       hash: md5
       md5: a81c61d4b9ee0568294bdec12ad5a7de
@@ -925,9 +925,9 @@ stages:
     outs:
     - path: sweeps/temporal/IKNN-Explicit-grid
       hash: md5
-      md5: 755d765ecc62a75e0f03a156a479a0dd.dir
-      size: 255075621
-      nfiles: 6
+      md5: cdafaeec148579c642523aa484877eea.dir
+      size: 2158106
+      nfiles: 4
   sweep-temporal-grid-IKNN-Implicit:
     cmd: lenskit-codex sweep run --grid --ds-name=ML32M --split=splits/temporal.toml
       --test-part=valid IKNN-Implicit sweeps/temporal/IKNN-Implicit-grid
@@ -1012,14 +1012,14 @@ stages:
     deps:
     - path: sweeps/temporal/IKNN-Explicit-grid
       hash: md5
-      md5: 755d765ecc62a75e0f03a156a479a0dd.dir
-      size: 255075621
-      nfiles: 6
+      md5: cdafaeec148579c642523aa484877eea.dir
+      size: 2158106
+      nfiles: 4
     outs:
     - path: sweeps/temporal/IKNN-Explicit-grid.json
       hash: md5
-      md5: 0925f16fa7c02b8fe7379d1bc5636e2a
-      size: 292
+      md5: 096eba3bf11a34e92205f3993abc2430
+      size: 315
   export-temporal-grid-IKNN-Implicit:
     cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit-grid.json sweeps/temporal/IKNN-Implicit-grid
       RBP
