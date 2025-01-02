@@ -1,4 +1,4 @@
-DENO_RUN := "deno run --allow-read=. --allow-write=. --allow-net=deno.land"
+DENO_RUN := "deno run --allow-read=. --allow-write=. --allow-net=deno.land --no-lock"
 
 # list recipes
 list:
