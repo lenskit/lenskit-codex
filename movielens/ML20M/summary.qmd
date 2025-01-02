@@ -1,0 +1,61 @@
+---
+title: ML20M Performance Summary
+order: 1
+deps:
+- run-summary.csv
+- run-user-metrics.parquet
+---
+
+This is a summary view of model performance on the ML20M data set.
+
+```{python}
+import pandas as pd
+import numpy as np
+import plotnine as pn
+```
+
+```{python}
+from IPython.display import Markdown
+from tabulate import tabulate
+```
+
+```{python}
+from codex.display import DEFAULTS
+```
+
+```{python}
+runs = pd.read_csv('run-summary.csv')
+runs.head()
+```
+
+## Rating Prediction Accuracy
+
+```{python}
+pred_runs = runs[runs['RMSE'].notnull()]
+(
+    pn.ggplot(pred_runs)
+    + pn.aes(x='model', y='RMSE', fill='variant')
+    + pn.geom_col(position='dodge')
+    + pn.scale_fill_brewer('qual', 'Dark2')
+)
+```
+
+### Top-N Recommendation Accuracy
+
+```{python}
+rnd_topn = run_db.query('''
+SELECT model, config, ndcg, recip_rank
+FROM variants JOIN user_metrics USING (fileno)
+WHERE split = 'temporal'
+''').to_df()
+```
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='model', y='RBP', fill='variant')
+    + pn.geom_col(position='dodge')
+    + pn.scale_fill_brewer('qual', 'Dark2')
+    + pn.coord_flip()
+)
+```
