@@ -1481,15 +1481,20 @@ stages:
       md5: 7513c0a19287968a121cffa1e0511aca.dir
       size: 151643
       nfiles: 3
+    - path: runs/temporal-random-best/Bias
+      hash: md5
+      md5: 54f2821874f88e7463affa00b56d5464.dir
+      size: 3670211
+      nfiles: 5
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: fa3d80dd045c79ce8c29605ce350493a
-      size: 6657
+      md5: 79b88c702ef64d395c8d4ecde200901f
+      size: 6957
     - path: run-user-metrics.parquet
       hash: md5
-      md5: ff2bc352a17ec2568ea3bcf75fa6ff5b
-      size: 1557038
+      md5: 03fade42b25e385ba642e6cb3320a132
+      size: 1641531
   run-temporal-valid-default-IKNN-Explicit:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
       -o runs/temporal-valid-default/IKNN-Explicit IKNN-Explicit
@@ -1847,3 +1852,44 @@ stages:
       md5: d8d15acfde488b63bb1fce4d77746d77.dir
       size: 1129254945
       nfiles: 6
+  export-temporal-random-Bias:
+    cmd: lenskit-codex sweep export -o sweeps/temporal/Bias-random.json sweeps/temporal/Bias-random
+      RMSE
+    deps:
+    - path: sweeps/temporal/Bias-random
+      hash: md5
+      md5: d8d15acfde488b63bb1fce4d77746d77.dir
+      size: 1129254945
+      nfiles: 6
+    outs:
+    - path: sweeps/temporal/Bias-random.json
+      hash: md5
+      md5: 45d8bcf53af07301e14bccdfea58226e
+      size: 314
+  run-temporal-random-best-Bias:
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias-random.json --test-part=test
+      --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-random-best/Bias
+      Bias
+    deps:
+    - path: ../../models/Bias.toml
+      hash: md5
+      md5: 3eeb8179cedf97e8b91f6cb91ed40524
+      size: 320
+    - path: ratings.duckdb
+      hash: md5
+      md5: 5b61a4ef8958fb6559b0e697ed88c453
+      size: 119549952
+    - path: splits/temporal.toml
+      hash: md5
+      md5: d83e63c855846c44a298c3f800cf7533
+      size: 128
+    - path: sweeps/temporal/Bias-random.json
+      hash: md5
+      md5: 45d8bcf53af07301e14bccdfea58226e
+      size: 314
+    outs:
+    - path: runs/temporal-random-best/Bias
+      hash: md5
+      md5: 54f2821874f88e7463affa00b56d5464.dir
+      size: 3670211
+      nfiles: 5

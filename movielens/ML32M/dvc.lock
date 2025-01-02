@@ -136,15 +136,20 @@ stages:
       md5: 59dc841296c176f4de0fa29e9cbf7852.dir
       size: 348792
       nfiles: 3
+    - path: runs/temporal-random-best/Bias
+      hash: md5
+      md5: bc558bf587e7904aca905ea5230c439e.dir
+      size: 7295051
+      nfiles: 5
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 13b9d6a1567f589afcca878889a10c62
-      size: 6653
+      md5: cc579665febfd64448e471a0412f0b47
+      size: 6951
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 81889f476cab12d645d268edfc427863
-      size: 3644397
+      md5: bd88db609e8e65a702085d37569001c6
+      size: 3889229
   run-temporal-valid-default-ImplicitMF-ALS:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
       -o runs/temporal-valid-default/ImplicitMF-ALS ImplicitMF-ALS
@@ -1043,3 +1048,69 @@ stages:
       hash: md5
       md5: 43e072b9b0caf38772107e052e555a3c
       size: 216
+  sweep-temporal-random-Bias:
+    cmd: lenskit-codex sweep run --random --ds-name=ML32M --split=splits/temporal.toml
+      --test-part=valid Bias sweeps/temporal/Bias-random
+    deps:
+    - path: ../../models/Bias.toml
+      hash: md5
+      md5: 3eeb8179cedf97e8b91f6cb91ed40524
+      size: 320
+    - path: ratings.duckdb
+      hash: md5
+      md5: a81c61d4b9ee0568294bdec12ad5a7de
+      size: 383004672
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 094b7c6fba48b8b7f7188fb9e73e6354
+      size: 128
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/temporal/Bias-random
+      hash: md5
+      md5: d7e47454c5e61bcecfb99f527a017d2c.dir
+      size: 508144540
+      nfiles: 6
+  export-temporal-random-Bias:
+    cmd: lenskit-codex sweep export -o sweeps/temporal/Bias-random.json sweeps/temporal/Bias-random
+      RMSE
+    deps:
+    - path: sweeps/temporal/Bias-random
+      hash: md5
+      md5: d7e47454c5e61bcecfb99f527a017d2c.dir
+      size: 508144540
+      nfiles: 6
+    outs:
+    - path: sweeps/temporal/Bias-random.json
+      hash: md5
+      md5: b62be3063667b983b841c21a36e857ea
+      size: 312
+  run-temporal-random-best-Bias:
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias-random.json --test-part=test
+      --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-random-best/Bias
+      Bias
+    deps:
+    - path: ../../models/Bias.toml
+      hash: md5
+      md5: 3eeb8179cedf97e8b91f6cb91ed40524
+      size: 320
+    - path: ratings.duckdb
+      hash: md5
+      md5: a81c61d4b9ee0568294bdec12ad5a7de
+      size: 383004672
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 094b7c6fba48b8b7f7188fb9e73e6354
+      size: 128
+    - path: sweeps/temporal/Bias-random.json
+      hash: md5
+      md5: b62be3063667b983b841c21a36e857ea
+      size: 312
+    outs:
+    - path: runs/temporal-random-best/Bias
+      hash: md5
+      md5: bc558bf587e7904aca905ea5230c439e.dir
+      size: 7295051
+      nfiles: 5
