@@ -143,6 +143,16 @@ stages:
       - movielens/ML10M/ratings.duckdb
     outs:
       - _freeze/movielens/ML10M/splitting
+  page/movielens/ML10M/summary:
+    cmd: quarto render movielens/ML10M/summary.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML10M/summary.qmd
+      - movielens/ML10M/run-summary.csv
+      - movielens/ML10M/run-user-metrics.parquet
+    outs:
+      - _freeze/movielens/ML10M/summary
   page/movielens/ML1M/als-biasedmf:
     cmd: quarto render movielens/ML1M/als-biasedmf.qmd --profile prerender
     deps:
@@ -197,6 +207,16 @@ stages:
       - movielens/ML1M/sweeps/random/IKNN-Implicit
     outs:
       - _freeze/movielens/ML1M/iknn-implicit
+  page/movielens/ML1M/summary:
+    cmd: quarto render movielens/ML1M/summary.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML1M/summary.qmd
+      - movielens/ML1M/run-summary.csv
+      - movielens/ML1M/run-user-metrics.parquet
+    outs:
+      - _freeze/movielens/ML1M/summary
   page/movielens/ML20M/als-biasedmf:
     cmd: quarto render movielens/ML20M/als-biasedmf.qmd --profile prerender
     deps:
@@ -260,6 +280,16 @@ stages:
       - movielens/ML20M/ratings.duckdb
     outs:
       - _freeze/movielens/ML20M/splitting
+  page/movielens/ML20M/summary:
+    cmd: quarto render movielens/ML20M/summary.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML20M/summary.qmd
+      - movielens/ML20M/run-summary.csv
+      - movielens/ML20M/run-user-metrics.parquet
+    outs:
+      - _freeze/movielens/ML20M/summary
   page/movielens/ML25M/als-biasedmf:
     cmd: quarto render movielens/ML25M/als-biasedmf.qmd --profile prerender
     deps:
@@ -323,6 +353,16 @@ stages:
       - movielens/ML25M/ratings.duckdb
     outs:
       - _freeze/movielens/ML25M/splitting
+  page/movielens/ML25M/summary:
+    cmd: quarto render movielens/ML25M/summary.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML25M/summary.qmd
+      - movielens/ML25M/run-summary.csv
+      - movielens/ML25M/run-user-metrics.parquet
+    outs:
+      - _freeze/movielens/ML25M/summary
   page/movielens/ML32M/description:
     cmd: quarto render movielens/ML32M/description.qmd --profile prerender
     deps:
