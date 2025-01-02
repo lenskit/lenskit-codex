@@ -1822,3 +1822,28 @@ stages:
       hash: md5
       md5: 434f4101b1118f893cea811093a76287
       size: 219
+  sweep-temporal-random-Bias:
+    cmd: lenskit-codex sweep run --random --ds-name=ML10M --split=splits/temporal.toml
+      --test-part=valid Bias sweeps/temporal/Bias-random
+    deps:
+    - path: ../../models/Bias.toml
+      hash: md5
+      md5: 3eeb8179cedf97e8b91f6cb91ed40524
+      size: 320
+    - path: ratings.duckdb
+      hash: md5
+      md5: 5b61a4ef8958fb6559b0e697ed88c453
+      size: 119549952
+    - path: splits/temporal.toml
+      hash: md5
+      md5: d83e63c855846c44a298c3f800cf7533
+      size: 128
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/temporal/Bias-random
+      hash: md5
+      md5: d8d15acfde488b63bb1fce4d77746d77.dir
+      size: 1129254945
+      nfiles: 6
