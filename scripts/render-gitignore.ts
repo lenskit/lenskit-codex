@@ -16,8 +16,8 @@ for (let [dir, ign] of Object.entries(ignores)) {
   let arr = Array.from(ign);
   arr.sort();
   let text = arr.map((l) => `${l}\n`).join("");
-  console.log(text);
   let gifn = joinPath(dir, ".gitignore");
+  console.log("writing %s", gifn);
   await Deno.writeTextFile(gifn, text);
 }
 
@@ -33,7 +33,6 @@ async function scanDvcYaml(path: string) {
   console.info("processing DVC file %s", path);
   let text = await Deno.readTextFile(path);
   let data = parse(text);
-  console.info(data);
   for (let [_name, stage] of Object.keys(data.stages)) {
     if (stage.outs) {
       for (let out of stage.outs) {
