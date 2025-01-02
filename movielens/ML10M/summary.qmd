@@ -43,14 +43,6 @@ pred_runs = runs[runs['RMSE'].notnull()]
 ### Top-N Recommendation Accuracy
 
 ```{python}
-rnd_topn = run_db.query('''
-SELECT model, config, ndcg, recip_rank
-FROM variants JOIN user_metrics USING (fileno)
-WHERE split = 'temporal'
-''').to_df()
-```
-
-```{python}
 (
     pn.ggplot(runs)
     + pn.aes(x='model', y='RBP', fill='variant')
