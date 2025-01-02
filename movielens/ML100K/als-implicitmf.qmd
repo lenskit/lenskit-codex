@@ -25,7 +25,7 @@ from codex.display import DEFAULTS
 
 ```{python}
 sweep_dir = Path('sweeps/random')
-sweep_name = 'ImplicitMF-ALS'
+sweep_name = 'ImplicitMF-ALS-grid'
 
 with open(sweep_dir / sweep_name / 'runs.json', 'rt') as jsf:
     run_data = [json.loads(line) for line in jsf]

@@ -20,7 +20,7 @@ from codex.display import DEFAULTS
 
 ```{python}
 sweep_dir = Path('sweeps/temporal')
-sweep_name = 'IKNN-Explicit'
+sweep_name = 'IKNN-Explicit-grid'
 
 with open(sweep_dir / sweep_name / 'runs.json', 'rt') as jsf:
     run_data = [json.loads(line) for line in jsf]
