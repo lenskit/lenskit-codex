@@ -1241,3 +1241,73 @@ stages:
       md5: ffe7b5a0cc36cf794084c27b51ee3d5e.dir
       size: 34466
       nfiles: 5
+  export-random-grid-Bias:
+    cmd: lenskit-codex sweep export -o sweeps/random/Bias-grid.json sweeps/random/Bias-grid
+      RMSE
+    deps:
+    - path: sweeps/random/Bias-grid
+      hash: md5
+      md5: 334610cb57069f335f3a84ac359de0bb.dir
+      size: 151823
+      nfiles: 6
+    outs:
+    - path: sweeps/random/Bias-grid.json
+      hash: md5
+      md5: fb3659fda3d936b80099e1fa69e925d1
+      size: 283
+  export-random-grid-BiasedMF-ALS:
+    cmd: lenskit-codex sweep export -o sweeps/random/BiasedMF-ALS-grid.json sweeps/random/BiasedMF-ALS-grid
+      RMSE
+    deps:
+    - path: sweeps/random/BiasedMF-ALS-grid
+      hash: md5
+      md5: c804063967d3ecf8492f004d8b1b12b2.dir
+      size: 279963
+      nfiles: 6
+    outs:
+    - path: sweeps/random/BiasedMF-ALS-grid.json
+      hash: md5
+      md5: f59b041122584934ac600b197dbb345c
+      size: 298
+  export-random-grid-IKNN-Explicit:
+    cmd: lenskit-codex sweep export -o sweeps/random/IKNN-Explicit-grid.json sweeps/random/IKNN-Explicit-grid
+      RMSE
+    deps:
+    - path: sweeps/random/IKNN-Explicit-grid
+      hash: md5
+      md5: 9db9ba367886b697f874ca4e94d0aab8.dir
+      size: 97092
+      nfiles: 6
+    outs:
+    - path: sweeps/random/IKNN-Explicit-grid.json
+      hash: md5
+      md5: 3f90fc36f8222a49cf1a5a5f90717607
+      size: 326
+  export-random-grid-IKNN-Implicit:
+    cmd: lenskit-codex sweep export -o sweeps/random/IKNN-Implicit-grid.json sweeps/random/IKNN-Implicit-grid
+      RBP
+    deps:
+    - path: sweeps/random/IKNN-Implicit-grid
+      hash: md5
+      md5: e617ed6aeaf6b2102a2cc1ab1d1b5301.dir
+      size: 66901
+      nfiles: 5
+    outs:
+    - path: sweeps/random/IKNN-Implicit-grid.json
+      hash: md5
+      md5: bd7f1d549c83af129d29b5c4ac8b2425
+      size: 254
+  export-random-grid-ImplicitMF-ALS:
+    cmd: lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS-grid.json sweeps/random/ImplicitMF-ALS-grid
+      RBP
+    deps:
+    - path: sweeps/random/ImplicitMF-ALS-grid
+      hash: md5
+      md5: 6e46a9e0b4f1b4a327948355c6a801b6.dir
+      size: 231148
+      nfiles: 5
+    outs:
+    - path: sweeps/random/ImplicitMF-ALS-grid.json
+      hash: md5
+      md5: 88d43b130c3b066ed5dbe120a61c7d81
+      size: 232

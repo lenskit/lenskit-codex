@@ -851,8 +851,8 @@ stages:
       md5: 4ce942b2f753913af1ea04ba518687eb
       size: 219
   run-temporal-grid-best-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS.json --test-part=test
-      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal-grid-best/ImplicitMF-ALS
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS-grid.json
+      --test-part=test --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal-grid-best/ImplicitMF-ALS
       ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
@@ -1000,8 +1000,8 @@ stages:
       md5: 26827eef832a76181867f64da779bebc
       size: 299
   run-temporal-grid-best-BiasedMF-ALS:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS.json --test-part=test
-      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal-grid-best/BiasedMF-ALS
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS-grid.json
+      --test-part=test --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal-grid-best/BiasedMF-ALS
       BiasedMF-ALS
     deps:
     - path: ../../models/BiasedMF-ALS.toml
@@ -1088,7 +1088,7 @@ stages:
       md5: ae104a019cf7613ebe0ba115298c7a17
       size: 281
   run-temporal-grid-best-Bias:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias.json --test-part=test
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias-grid.json --test-part=test
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal-grid-best/Bias
       Bias
     deps:
@@ -1398,8 +1398,8 @@ stages:
       size: 6579618
       nfiles: 19
   run-temporal-grid-best-IKNN-Explicit:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit.json --test-part=test
-      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Explicit
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit-grid.json
+      --test-part=test --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Explicit
       IKNN-Explicit
     deps:
     - path: ../../models/IKNN-Explicit.toml
@@ -1425,8 +1425,8 @@ stages:
       size: 457567
       nfiles: 3
   run-temporal-grid-best-IKNN-Implicit:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit.json --test-part=test
-      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Implicit
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit-grid.json
+      --test-part=test --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal-grid-best/IKNN-Implicit
       IKNN-Implicit
     deps:
     - path: ../../models/IKNN-Implicit.toml
