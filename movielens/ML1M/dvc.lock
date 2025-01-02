@@ -1132,3 +1132,28 @@ stages:
       hash: md5
       md5: 5a73327bf0ab3abc56f7789477ba4cb8
       size: 222
+  sweep-random-random-Bias:
+    cmd: lenskit-codex sweep run --random --ds-name=ML1M --split=splits/random.toml
+      --test-part=0 Bias sweeps/random/Bias-random
+    deps:
+    - path: ../../models/Bias.toml
+      hash: md5
+      md5: 3eeb8179cedf97e8b91f6cb91ed40524
+      size: 320
+    - path: ratings.duckdb
+      hash: md5
+      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
+      size: 11284480
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 73e24193c1454e73ad0845182e86782d
+      size: 536576
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/random/Bias-random
+      hash: md5
+      md5: 9b099e4a57e3457d886f4dbce7cc4b26.dir
+      size: 93959502
+      nfiles: 6

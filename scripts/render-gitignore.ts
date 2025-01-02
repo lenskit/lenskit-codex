@@ -33,7 +33,7 @@ async function scanDvcYaml(path: string) {
   console.info("processing DVC file %s", path);
   let text = await Deno.readTextFile(path);
   let data = parse(text);
-  for (let [_name, stage] of Object.keys(data.stages)) {
+  for (let [_name, stage] of Object.entries(data.stages)) {
     if (stage.outs) {
       for (let out of stage.outs) {
         if (typeof out == "string") {
@@ -44,6 +44,7 @@ async function scanDvcYaml(path: string) {
           let outPath = joinPath(dir, out);
           outPath = normalize(outPath);
           let p = parsePath(outPath);
+          console.debug("ignoring %s in %s", p.base, p.dir);
           ignores[p.dir] ??= new Set();
           ignores[p.dir].add("/" + p.base);
         }
