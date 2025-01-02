@@ -8,6 +8,25 @@ feedback = "explicit"
 [default]
 nnbrs = 20
 
+[search]
+random_points = 60
+
 [search.grid]
 nnbrs = [5, 10, 15, 25, 35, 50]
 min_nbrs = [1, 2]
+
+[search.params.nnbrs]
+type = "integer"
+min = 1
+max = 50
+
+[search.params.min_nbrs]
+type = "integer"
+min = 1
+max = 5
+
+[search.params.min_sim]
+type = "real"
+min = 1.0e-10
+max = 0.2
+space = "logarithmic"
