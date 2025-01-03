@@ -169,8 +169,8 @@ def search_random(mod_cfg: ModelConfig):
             else:
                 shift = 0
                 if cfg.min == 0:
-                    dist = stats.loguniform(cfg.min + 1, cfg.max + 1)
-                    shift = 1
+                    dist = stats.loguniform(cfg.min + 1e-6, cfg.max + 1e-6)
+                    shift = 1e-6
                 else:
                     dist = stats.loguniform(cfg.min, cfg.max)
                 val = dist.rvs(random_state=rng) - shift
