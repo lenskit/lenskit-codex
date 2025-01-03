@@ -452,8 +452,8 @@ stages:
       nfiles: 4
     - path: runs/random-default/ImplicitMF-ALS
       hash: md5
-      md5: bcd642a954031ed63666f293e869f68b.dir
-      size: 31386
+      md5: bf577105c4cc1c12a9bbda5248d70bc6.dir
+      size: 31251
       nfiles: 4
     - path: runs/random-default/Popular
       hash: md5
@@ -482,8 +482,8 @@ stages:
       nfiles: 4
     - path: runs/random-grid-best/ImplicitMF-ALS
       hash: md5
-      md5: 29c19304609a1ab5d50665597441050c.dir
-      size: 23534
+      md5: 244447909f77f76e75a38100e1e0ef32.dir
+      size: 23781
       nfiles: 4
     - path: runs/random-random-best/Bias
       hash: md5
@@ -500,15 +500,20 @@ stages:
       md5: b11cab9a3880979b8883e3f47181d2ff.dir
       size: 23936
       nfiles: 4
+    - path: runs/random-random-best/ImplicitMF-ALS
+      hash: md5
+      md5: 4cce1c00f7433464d7f0e11be5337a88.dir
+      size: 24888
+      nfiles: 4
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: dd25b61827f7f37975392e53dfba0fb1
-      size: 17841
+      md5: bf5b717babbf96eca3f48c3649dbfcf6
+      size: 18835
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 5fb7cb11fc517248da2963bbd1628f63
-      size: 195733
+      md5: c1c16d7bcb1a6b128caf1169da7631ec
+      size: 209339
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit-grid.json
       --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/IKNN-Implicit
@@ -1466,4 +1471,70 @@ stages:
       hash: md5
       md5: b11cab9a3880979b8883e3f47181d2ff.dir
       size: 23936
+      nfiles: 4
+  sweep-random-random-ImplicitMF-ALS:
+    cmd: lenskit-codex sweep run --random --ds-name=ML100K --split=splits/random.toml
+      --test-part=0 ImplicitMF-ALS sweeps/random/ImplicitMF-ALS-random
+    deps:
+    - path: ../../models/ImplicitMF-ALS.toml
+      hash: md5
+      md5: db26cd489178e18ce20a81d988316dd0
+      size: 402
+    - path: ratings.duckdb
+      hash: md5
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 521fdd73e436db6dfb4295eba802dddd
+      size: 536576
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/random/ImplicitMF-ALS-random
+      hash: md5
+      md5: b60702bcc7ae7299b273331aa7d7be6e.dir
+      size: 742169
+      nfiles: 5
+  export-random-random-ImplicitMF-ALS:
+    cmd: lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS-random.json sweeps/random/ImplicitMF-ALS-random
+      RBP
+    deps:
+    - path: sweeps/random/ImplicitMF-ALS-random
+      hash: md5
+      md5: b60702bcc7ae7299b273331aa7d7be6e.dir
+      size: 742169
+      nfiles: 5
+    outs:
+    - path: sweeps/random/ImplicitMF-ALS-random.json
+      hash: md5
+      md5: a4659924d41c62a8599ecd44fcdf0ba8
+      size: 271
+  run-random-random-best-ImplicitMF-ALS:
+    cmd: lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS-random.json
+      --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-random-best/ImplicitMF-ALS
+      ImplicitMF-ALS
+    deps:
+    - path: ../../models/ImplicitMF-ALS.toml
+      hash: md5
+      md5: db26cd489178e18ce20a81d988316dd0
+      size: 402
+    - path: ratings.duckdb
+      hash: md5
+      md5: 4ebfe15a3b3072086408fdc861bf37ae
+      size: 2371584
+    - path: splits/random.duckdb
+      hash: md5
+      md5: 521fdd73e436db6dfb4295eba802dddd
+      size: 536576
+    - path: sweeps/random/ImplicitMF-ALS-random.json
+      hash: md5
+      md5: a4659924d41c62a8599ecd44fcdf0ba8
+      size: 271
+    outs:
+    - path: runs/random-random-best/ImplicitMF-ALS
+      hash: md5
+      md5: 4cce1c00f7433464d7f0e11be5337a88.dir
+      size: 24888
       nfiles: 4
