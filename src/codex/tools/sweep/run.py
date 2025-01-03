@@ -11,7 +11,6 @@ import click
 import numpy as np
 from lenskit.logging import get_logger, item_progress
 from pydantic import JsonValue
-from scipy import stats
 
 from codex.cfgid import config_id
 from codex.config import rng_seed
@@ -155,27 +154,6 @@ def search_random(mod_cfg: ModelConfig):
     rng = np.random.default_rng(seed)
 
     for i in range(mod_cfg.search.random_points):
-        point = {}
-        for name, cfg in mod_cfg.search.params.items():
-            if cfg.type == "categorical":
-                point[name] = rng.choice(cfg.values)
-            elif cfg.space == "linear":
-                if cfg.type == "integer":
-                    dist = stats.randint(cfg.min, cfg.max)
-                    point[name] = dist.rvs(random_state=rng)
-                else:
-                    dist = stats.uniform(cfg.min, cfg.max)
-                    point[name] = dist.rvs(random_state=rng)
-            else:
-                shift = 0
-                if cfg.min == 0:
-                    dist = stats.loguniform(cfg.min + 1e-6, cfg.max + 1e-6)
-                    shift = 1e-6
-                else:
-                    dist = stats.loguniform(cfg.min, cfg.max)
-                val = dist.rvs(random_state=rng) - shift
-                if cfg.type == "integer":
-                    val = round(val)
-                point[name] = val
+        point = {name: cfg.choose(rng) for (name, cfg) in mod_cfg.search.params.items()}
 
         yield point

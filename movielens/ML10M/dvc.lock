@@ -1648,7 +1648,7 @@ stages:
     deps:
     - path: ../../models/Bias.toml
       hash: md5
-      md5: 3eeb8179cedf97e8b91f6cb91ed40524
+      md5: 8b9aedef6f300dc41156832ab013e5a3
       size: 320
     - path: ratings.duckdb
       hash: md5
@@ -1664,9 +1664,9 @@ stages:
     outs:
     - path: sweeps/temporal/Bias-grid
       hash: md5
-      md5: 18fdf445858b5921539d7c93c2e7e2c9.dir
-      size: 112851804
-      nfiles: 6
+      md5: f5f72e7c80c3dee22ddfe73251b65abd.dir
+      size: 2218655
+      nfiles: 4
   sweep-temporal-grid-BiasedMF-ALS:
     cmd: lenskit-codex sweep run --grid --ds-name=ML10M --split=splits/temporal.toml
       --test-part=valid BiasedMF-ALS sweeps/temporal/BiasedMF-ALS-grid

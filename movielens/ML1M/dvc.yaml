@@ -177,6 +177,26 @@ stages:
     outs:
       - sweeps/random/ImplicitMF-ALS-grid.json:
           cache: false
+  sweep-random-random-ImplicitMF-ALS:
+    cmd: >-
+      lenskit-codex sweep run --random --ds-name=ML1M --split=splits/random.toml --test-part=0 ImplicitMF-ALS sweeps/random/ImplicitMF-ALS-random
+    params:
+      - ../../config.toml:
+          - random.seed
+    deps:
+      - splits/random.duckdb
+      - ratings.duckdb
+      - ../../models/ImplicitMF-ALS.toml
+    outs:
+      - sweeps/random/ImplicitMF-ALS-random
+  export-random-random-ImplicitMF-ALS:
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS-random.json sweeps/random/ImplicitMF-ALS-random RBP
+    deps:
+      - sweeps/random/ImplicitMF-ALS-random
+    outs:
+      - sweeps/random/ImplicitMF-ALS-random.json:
+          cache: false
   run-random-default-Bias:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML1M --split=splits/random.toml -o runs/random-default/Bias Bias
@@ -302,6 +322,16 @@ stages:
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/ImplicitMF-ALS-grid.json
+  run-random-random-best-ImplicitMF-ALS:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS-random.json --test-part=-0 --ds-name=ML1M --split=splits/random.toml -o runs/random-random-best/ImplicitMF-ALS ImplicitMF-ALS
+    outs:
+      - runs/random-random-best/ImplicitMF-ALS
+    deps:
+      - ../../models/ImplicitMF-ALS.toml
+      - ratings.duckdb
+      - splits/random.duckdb
+      - sweeps/random/ImplicitMF-ALS-random.json
   run-random-default-Popular:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML1M --split=splits/random.toml -o runs/random-default/Popular Popular
@@ -328,6 +358,7 @@ stages:
       - runs/random-random-best/IKNN-Implicit
       - runs/random-default/ImplicitMF-ALS
       - runs/random-grid-best/ImplicitMF-ALS
+      - runs/random-random-best/ImplicitMF-ALS
       - runs/random-default/Popular
     outs:
       - run-summary.csv

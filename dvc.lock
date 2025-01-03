@@ -293,19 +293,19 @@ stages:
       size: 1299
     - path: movielens/ML100K/bias.qmd
       hash: md5
-      md5: 27175ec7457d8172ea3b7846541d226f
-      size: 1680
+      md5: 19c9b5a7c546743b20f997e8a9071876
+      size: 2970
     - path: movielens/ML100K/sweeps/random/Bias-grid
       hash: md5
-      md5: 334610cb57069f335f3a84ac359de0bb.dir
-      size: 151823
+      md5: ef9b859bde1ec37b98f0815e99e167e2.dir
+      size: 137026
       nfiles: 6
     outs:
     - path: _freeze/movielens/ML100K/bias
       hash: md5
-      md5: 235b9d677ee45d5bdb62620f928299fe.dir
-      size: 183021
-      nfiles: 10
+      md5: b754091a2f9156f8660776c61c7fc2c4.dir
+      size: 678637
+      nfiles: 18
   page/movielens/ML100K/biasedmf:
     cmd: quarto render movielens/ML100K/biasedmf.qmd
     deps:
@@ -1027,12 +1027,12 @@ stages:
       size: 1299
     - path: movielens/ML100K/run-summary.csv
       hash: md5
-      md5: f57535b858647db15de32b82f2f0f629
-      size: 17874
+      md5: dd25b61827f7f37975392e53dfba0fb1
+      size: 17841
     - path: movielens/ML100K/run-user-metrics.parquet
       hash: md5
-      md5: 3cf4be32af679b3bcf1c65eff7e5a7e9
-      size: 197114
+      md5: 5fb7cb11fc517248da2963bbd1628f63
+      size: 195733
     - path: movielens/ML100K/summary.qmd
       hash: md5
       md5: 0ff820850ac11ecbe5d0836dd13197c0
@@ -1040,8 +1040,8 @@ stages:
     outs:
     - path: _freeze/movielens/ML100K/summary
       hash: md5
-      md5: 7b3585a60c6e1869dccdb61e7d8cb6f9.dir
-      size: 159893
+      md5: 22378bc780bc2d9222083fccd04e23ec.dir
+      size: 159885
       nfiles: 6
   page/eval-meta/attention:
     cmd: quarto render eval-meta/attention.qmd --profile prerender

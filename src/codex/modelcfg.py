@@ -9,8 +9,10 @@ from typing import Annotated, Literal, NamedTuple, Union
 import structlog
 from lenskit.pipeline import Component
 from lenskit.pipeline.types import parse_type_string
+from numpy.random import Generator
 from pydantic import BaseModel, Field, JsonValue
 from pyprojroot import find_root, has_file
+from scipy import stats
 
 _log = structlog.get_logger(__name__)
 
@@ -26,16 +28,46 @@ class CategorialParamSpace(BaseModel, extra="forbid"):
     type: Literal["categorical"] = "categorical"
     values: list[str]
 
+    def choose(self, rng: Generator) -> str:
+        return rng.choice(self.values)
+
 
 class NumericParamSpace(BaseModel, extra="forbid"):
     type: Literal["integer", "real"] = "real"
     "The parameter's type."
-    min: int | float | None
+    min: int | float
     "The parameter's minimum value."
-    max: int | float | None
+    max: int | float
     "The parameter's maximum value."
     space: Literal["linear", "logarithmic"] = "linear"
     "The space on which to sample the parameter."
+    tuple: int | None = None
+    "Generate a tuple instead of a single value."
+
+    def choose(
+        self, rng: Generator, *, _single=False
+    ) -> float | int | tuple[float, ...] | tuple[int, ...]:
+        if self.tuple and not _single:
+            return tuple([self.choose(rng, _single=True) for _i in range(self.tuple)])
+
+        if self.space == "linear":
+            if self.type == "integer":
+                dist = stats.randint(self.min, self.max)
+                return dist.rvs(random_state=rng)
+            else:
+                dist = stats.uniform(self.min, self.max)
+                return dist.rvs(random_state=rng)
+        else:
+            shift = 0
+            if self.min == 0:
+                dist = stats.loguniform(self.min + 1e-6, self.max + 1e-6)
+                shift = 1e-6
+            else:
+                dist = stats.loguniform(self.min, self.max)
+            val = dist.rvs(random_state=rng) - shift
+            if self.type == "integer":
+                val = round(val)
+            return val
 
 
 class SearchConfig(BaseModel, extra="forbid"):

@@ -166,6 +166,26 @@ stages:
     outs:
       - sweeps/temporal/ImplicitMF-ALS-grid.json:
           cache: false
+  sweep-temporal-random-ImplicitMF-ALS:
+    cmd: >-
+      lenskit-codex sweep run --random --ds-name=ML32M --split=splits/temporal.toml --test-part=valid ImplicitMF-ALS sweeps/temporal/ImplicitMF-ALS-random
+    params:
+      - ../../config.toml:
+          - random.seed
+    deps:
+      - splits/temporal.toml
+      - ratings.duckdb
+      - ../../models/ImplicitMF-ALS.toml
+    outs:
+      - sweeps/temporal/ImplicitMF-ALS-random
+  export-temporal-random-ImplicitMF-ALS:
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS-random.json sweeps/temporal/ImplicitMF-ALS-random RBP
+    deps:
+      - sweeps/temporal/ImplicitMF-ALS-random
+    outs:
+      - sweeps/temporal/ImplicitMF-ALS-random.json:
+          cache: false
   run-temporal-default-Bias:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-default/Bias Bias
@@ -291,6 +311,16 @@ stages:
       - ratings.duckdb
       - splits/temporal.toml
       - sweeps/temporal/ImplicitMF-ALS-grid.json
+  run-temporal-random-best-ImplicitMF-ALS:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS-random.json --test-part=test --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-random-best/ImplicitMF-ALS ImplicitMF-ALS
+    outs:
+      - runs/temporal-random-best/ImplicitMF-ALS
+    deps:
+      - ../../models/ImplicitMF-ALS.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/temporal/ImplicitMF-ALS-random.json
   run-temporal-default-Popular:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-default/Popular Popular
@@ -317,6 +347,7 @@ stages:
       - runs/temporal-random-best/IKNN-Implicit
       - runs/temporal-default/ImplicitMF-ALS
       - runs/temporal-grid-best/ImplicitMF-ALS
+      - runs/temporal-random-best/ImplicitMF-ALS
       - runs/temporal-default/Popular
     outs:
       - run-summary.csv
