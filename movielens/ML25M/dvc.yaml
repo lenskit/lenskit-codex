@@ -66,6 +66,26 @@ stages:
     outs:
       - sweeps/temporal/BiasedMF-ALS-grid.json:
           cache: false
+  sweep-temporal-random-BiasedMF-ALS:
+    cmd: >-
+      lenskit-codex sweep run --random --ds-name=ML25M --split=splits/temporal.toml --test-part=valid BiasedMF-ALS sweeps/temporal/BiasedMF-ALS-random
+    params:
+      - ../../config.toml:
+          - random.seed
+    deps:
+      - splits/temporal.toml
+      - ratings.duckdb
+      - ../../models/BiasedMF-ALS.toml
+    outs:
+      - sweeps/temporal/BiasedMF-ALS-random
+  export-temporal-random-BiasedMF-ALS:
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS-random.json sweeps/temporal/BiasedMF-ALS-random RMSE
+    deps:
+      - sweeps/temporal/BiasedMF-ALS-random
+    outs:
+      - sweeps/temporal/BiasedMF-ALS-random.json:
+          cache: false
   sweep-temporal-grid-IKNN-Explicit:
     cmd: >-
       lenskit-codex sweep run --grid --ds-name=ML25M --split=splits/temporal.toml --test-part=valid IKNN-Explicit sweeps/temporal/IKNN-Explicit-grid
@@ -234,6 +254,16 @@ stages:
       - ratings.duckdb
       - splits/temporal.toml
       - sweeps/temporal/BiasedMF-ALS-grid.json
+  run-temporal-random-best-BiasedMF-ALS:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/temporal/BiasedMF-ALS-random.json --test-part=test --ds-name=ML25M --split=splits/temporal.toml -o runs/temporal-random-best/BiasedMF-ALS BiasedMF-ALS
+    outs:
+      - runs/temporal-random-best/BiasedMF-ALS
+    deps:
+      - ../../models/BiasedMF-ALS.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/temporal/BiasedMF-ALS-random.json
   run-temporal-default-IKNN-Explicit:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML25M --split=splits/temporal.toml -o runs/temporal-default/IKNN-Explicit IKNN-Explicit
@@ -339,6 +369,7 @@ stages:
       - runs/temporal-random-best/Bias
       - runs/temporal-default/BiasedMF-ALS
       - runs/temporal-grid-best/BiasedMF-ALS
+      - runs/temporal-random-best/BiasedMF-ALS
       - runs/temporal-default/IKNN-Explicit
       - runs/temporal-grid-best/IKNN-Explicit
       - runs/temporal-random-best/IKNN-Explicit
