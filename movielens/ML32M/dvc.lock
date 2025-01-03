@@ -93,13 +93,13 @@ stages:
       nfiles: 3
     - path: runs/temporal-default/IKNN-Explicit
       hash: md5
-      md5: b9e7870b45022f423801e07548e02bdd.dir
-      size: 446665
+      md5: 9805af4d8f790e258a61e1fa7ce5bd93.dir
+      size: 425080
       nfiles: 3
     - path: runs/temporal-default/IKNN-Implicit
       hash: md5
-      md5: 142d2c89192bd58c0747026d306d0b8e.dir
-      size: 344724
+      md5: 7577b8de9d91d6558765bb4295af6956.dir
+      size: 344868
       nfiles: 3
     - path: runs/temporal-default/ImplicitMF-ALS
       hash: md5
@@ -123,13 +123,13 @@ stages:
       nfiles: 3
     - path: runs/temporal-grid-best/IKNN-Explicit
       hash: md5
-      md5: 5618781d3644aa5895fcee3587b316f2.dir
-      size: 444105
+      md5: 29eec720073e6d034fb3550d0edd2866.dir
+      size: 215658
       nfiles: 3
     - path: runs/temporal-grid-best/IKNN-Implicit
       hash: md5
-      md5: b21b83f85ee90058e1eb5f296a45b4c5.dir
-      size: 344167
+      md5: d2972ef4fbf35ba5e69748957cbbf903.dir
+      size: 177382
       nfiles: 3
     - path: runs/temporal-grid-best/ImplicitMF-ALS
       hash: md5
@@ -141,15 +141,25 @@ stages:
       md5: bc558bf587e7904aca905ea5230c439e.dir
       size: 7295051
       nfiles: 5
+    - path: runs/temporal-random-best/IKNN-Explicit
+      hash: md5
+      md5: 121b992877705021049f56999500eeec.dir
+      size: 234886
+      nfiles: 3
+    - path: runs/temporal-random-best/IKNN-Implicit
+      hash: md5
+      md5: 92acda73d8eab3b36a0e0a311ba265fb.dir
+      size: 177511
+      nfiles: 3
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: cc579665febfd64448e471a0412f0b47
+      md5: 8010bd49c73341f51e1851e2fc142dfc
       size: 6951
     - path: run-user-metrics.parquet
       hash: md5
-      md5: bd88db609e8e65a702085d37569001c6
-      size: 3889229
+      md5: 5265eb27fe892b284ad73ea1576f2ba3
+      size: 3891918
   run-temporal-valid-default-ImplicitMF-ALS:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml --test-part=valid
       -o runs/temporal-valid-default/ImplicitMF-ALS ImplicitMF-ALS
@@ -200,8 +210,8 @@ stages:
     deps:
     - path: ../../models/IKNN-Explicit.toml
       hash: md5
-      md5: 2a940890725e9089b96ffaea51c6445a
-      size: 175
+      md5: 11430835ad5db7c0d7ac00160e3818a9
+      size: 422
     - path: ratings.duckdb
       hash: md5
       md5: a81c61d4b9ee0568294bdec12ad5a7de
@@ -213,8 +223,8 @@ stages:
     outs:
     - path: runs/temporal-default/IKNN-Explicit
       hash: md5
-      md5: b9e7870b45022f423801e07548e02bdd.dir
-      size: 446665
+      md5: 9805af4d8f790e258a61e1fa7ce5bd93.dir
+      size: 425080
       nfiles: 3
   sweep-temporal-ImplicitMF-ALS:
     cmd: lenskit-codex sweep run --ds-name=ML32M --split=splits/temporal.toml --test-part=valid
@@ -682,8 +692,8 @@ stages:
     deps:
     - path: ../../models/IKNN-Implicit.toml
       hash: md5
-      md5: b583d0f97b6363e190f0dd14f7e70b83
-      size: 158
+      md5: 257f3164399012b1c3ae8fd22e69e420
+      size: 405
     - path: ratings.duckdb
       hash: md5
       md5: a81c61d4b9ee0568294bdec12ad5a7de
@@ -694,13 +704,13 @@ stages:
       size: 128
     - path: sweeps/temporal/IKNN-Implicit-grid.json
       hash: md5
-      md5: ed1f7b2b5f9688767e9055073836ece7
-      size: 242
+      md5: 348940983c012a9ad11c582b16b7f746
+      size: 261
     outs:
     - path: runs/temporal-grid-best/IKNN-Implicit
       hash: md5
-      md5: b21b83f85ee90058e1eb5f296a45b4c5.dir
-      size: 344167
+      md5: d2972ef4fbf35ba5e69748957cbbf903.dir
+      size: 177382
       nfiles: 3
   run-temporal-default-Popular:
     cmd: lenskit-codex generate --default --ds-name=ML32M --split=splits/temporal.toml
@@ -934,8 +944,8 @@ stages:
     deps:
     - path: ../../models/IKNN-Implicit.toml
       hash: md5
-      md5: b583d0f97b6363e190f0dd14f7e70b83
-      size: 158
+      md5: 257f3164399012b1c3ae8fd22e69e420
+      size: 405
     - path: ratings.duckdb
       hash: md5
       md5: a81c61d4b9ee0568294bdec12ad5a7de
@@ -950,9 +960,9 @@ stages:
     outs:
     - path: sweeps/temporal/IKNN-Implicit-grid
       hash: md5
-      md5: 9e080e24fa421a01c830923b9db5d00c.dir
-      size: 210066945
-      nfiles: 5
+      md5: 5b2619ddc4fd37fe8b29c8eb57937808.dir
+      size: 1425666
+      nfiles: 4
   sweep-temporal-grid-ImplicitMF-ALS:
     cmd: lenskit-codex sweep run --grid --ds-name=ML32M --split=splits/temporal.toml
       --test-part=valid ImplicitMF-ALS sweeps/temporal/ImplicitMF-ALS-grid
@@ -1026,14 +1036,14 @@ stages:
     deps:
     - path: sweeps/temporal/IKNN-Implicit-grid
       hash: md5
-      md5: 9e080e24fa421a01c830923b9db5d00c.dir
-      size: 210066945
-      nfiles: 5
+      md5: 5b2619ddc4fd37fe8b29c8eb57937808.dir
+      size: 1425666
+      nfiles: 4
     outs:
     - path: sweeps/temporal/IKNN-Implicit-grid.json
       hash: md5
-      md5: ed1f7b2b5f9688767e9055073836ece7
-      size: 242
+      md5: 348940983c012a9ad11c582b16b7f746
+      size: 261
   export-temporal-grid-ImplicitMF-ALS:
     cmd: lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS-grid.json sweeps/temporal/ImplicitMF-ALS-grid
       RBP
@@ -1139,3 +1149,110 @@ stages:
       md5: 53584ff553f40931d005d0cdaad77907.dir
       size: 9790647
       nfiles: 4
+  sweep-temporal-random-IKNN-Explicit:
+    cmd: lenskit-codex sweep run --random --ds-name=ML32M --split=splits/temporal.toml
+      --test-part=valid IKNN-Explicit sweeps/temporal/IKNN-Explicit-random
+    deps:
+    - path: ../../models/IKNN-Explicit.toml
+      hash: md5
+      md5: 11430835ad5db7c0d7ac00160e3818a9
+      size: 422
+    - path: ratings.duckdb
+      hash: md5
+      md5: a81c61d4b9ee0568294bdec12ad5a7de
+      size: 383004672
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 094b7c6fba48b8b7f7188fb9e73e6354
+      size: 128
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/temporal/IKNN-Explicit-random
+      hash: md5
+      md5: a69c75f9e53b68f950023e857db52d3a.dir
+      size: 14147892
+      nfiles: 4
+  export-temporal-random-IKNN-Explicit:
+    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Explicit-random.json sweeps/temporal/IKNN-Explicit-random
+      RMSE
+    deps:
+    - path: sweeps/temporal/IKNN-Explicit-random
+      hash: md5
+      md5: a69c75f9e53b68f950023e857db52d3a.dir
+      size: 14147892
+      nfiles: 4
+    outs:
+    - path: sweeps/temporal/IKNN-Explicit-random.json
+      hash: md5
+      md5: 8860c227ae989b95750977c16d91e2d7
+      size: 347
+  export-temporal-random-IKNN-Implicit:
+    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit-random.json sweeps/temporal/IKNN-Implicit-random
+      RBP
+    deps:
+    - path: sweeps/temporal/IKNN-Implicit-random
+      hash: md5
+      md5: 53584ff553f40931d005d0cdaad77907.dir
+      size: 9790647
+      nfiles: 4
+    outs:
+    - path: sweeps/temporal/IKNN-Implicit-random.json
+      hash: md5
+      md5: e56d0bc905decd41beeeb472185cba6c
+      size: 289
+  run-temporal-random-best-IKNN-Implicit:
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Implicit-random.json
+      --test-part=test --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-random-best/IKNN-Implicit
+      IKNN-Implicit
+    deps:
+    - path: ../../models/IKNN-Implicit.toml
+      hash: md5
+      md5: 257f3164399012b1c3ae8fd22e69e420
+      size: 405
+    - path: ratings.duckdb
+      hash: md5
+      md5: a81c61d4b9ee0568294bdec12ad5a7de
+      size: 383004672
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 094b7c6fba48b8b7f7188fb9e73e6354
+      size: 128
+    - path: sweeps/temporal/IKNN-Implicit-random.json
+      hash: md5
+      md5: e56d0bc905decd41beeeb472185cba6c
+      size: 289
+    outs:
+    - path: runs/temporal-random-best/IKNN-Implicit
+      hash: md5
+      md5: 92acda73d8eab3b36a0e0a311ba265fb.dir
+      size: 177511
+      nfiles: 3
+  run-temporal-random-best-IKNN-Explicit:
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/IKNN-Explicit-random.json
+      --test-part=test --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal-random-best/IKNN-Explicit
+      IKNN-Explicit
+    deps:
+    - path: ../../models/IKNN-Explicit.toml
+      hash: md5
+      md5: 11430835ad5db7c0d7ac00160e3818a9
+      size: 422
+    - path: ratings.duckdb
+      hash: md5
+      md5: a81c61d4b9ee0568294bdec12ad5a7de
+      size: 383004672
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 094b7c6fba48b8b7f7188fb9e73e6354
+      size: 128
+    - path: sweeps/temporal/IKNN-Explicit-random.json
+      hash: md5
+      md5: 8860c227ae989b95750977c16d91e2d7
+      size: 347
+    outs:
+    - path: runs/temporal-random-best/IKNN-Explicit
+      hash: md5
+      md5: 121b992877705021049f56999500eeec.dir
+      size: 234886
+      nfiles: 3
