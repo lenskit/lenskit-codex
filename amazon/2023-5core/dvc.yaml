@@ -314,7 +314,7 @@ stages:
       - data/Video_Games.test.parquet
       - data/Video_Games.train.parquet
       - data/Video_Games.valid.parquet
-  run-default-Popular-test:
+  run-default-Bias-test:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -322,14 +322,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Popular Popular
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Bias Bias
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/Popular'
-  run-default-Popular-valid:
+        - 'runs/default/${item}/test/Bias'
+  run-default-Bias-valid:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -337,12 +337,12 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Popular Popular
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Bias Bias
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/Popular'
+        - 'runs/default/${item}/valid/Bias'
   run-default-BiasedMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
@@ -459,7 +459,7 @@ stages:
         - 'data/${item}.valid.parquet'
       outs:
         - 'runs/default/${item}/valid/ImplicitMF-ALS'
-  run-default-Bias-test:
+  run-default-Popular-test:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -467,14 +467,14 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Bias Bias
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Popular Popular
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
         - 'data/${item}.test.parquet'
       outs:
-        - 'runs/default/${item}/test/Bias'
-  run-default-Bias-valid:
+        - 'runs/default/${item}/test/Popular'
+  run-default-Popular-valid:
     foreach:
       - CDs_and_Vinyl
       - Musical_Instruments
@@ -482,12 +482,12 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Bias Bias
+        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Popular Popular
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
       outs:
-        - 'runs/default/${item}/valid/Bias'
+        - 'runs/default/${item}/valid/Popular'
   export-qrels:
     foreach:
       - CDs_and_Vinyl.test
@@ -506,8 +506,8 @@ stages:
         - 'data/${item}.qrels.gz'
   export-default-runs:
     foreach:
-      - runs/default/CDs_and_Vinyl/valid/Popular
-      - runs/default/CDs_and_Vinyl/test/Popular
+      - runs/default/CDs_and_Vinyl/valid/Bias
+      - runs/default/CDs_and_Vinyl/test/Bias
       - runs/default/CDs_and_Vinyl/valid/BiasedMF-ALS
       - runs/default/CDs_and_Vinyl/test/BiasedMF-ALS
       - runs/default/CDs_and_Vinyl/valid/IKNN-Explicit
@@ -516,10 +516,10 @@ stages:
       - runs/default/CDs_and_Vinyl/test/IKNN-Implicit
       - runs/default/CDs_and_Vinyl/valid/ImplicitMF-ALS
       - runs/default/CDs_and_Vinyl/test/ImplicitMF-ALS
-      - runs/default/CDs_and_Vinyl/valid/Bias
-      - runs/default/CDs_and_Vinyl/test/Bias
-      - runs/default/Musical_Instruments/valid/Popular
-      - runs/default/Musical_Instruments/test/Popular
+      - runs/default/CDs_and_Vinyl/valid/Popular
+      - runs/default/CDs_and_Vinyl/test/Popular
+      - runs/default/Musical_Instruments/valid/Bias
+      - runs/default/Musical_Instruments/test/Bias
       - runs/default/Musical_Instruments/valid/BiasedMF-ALS
       - runs/default/Musical_Instruments/test/BiasedMF-ALS
       - runs/default/Musical_Instruments/valid/IKNN-Explicit
@@ -528,10 +528,10 @@ stages:
       - runs/default/Musical_Instruments/test/IKNN-Implicit
       - runs/default/Musical_Instruments/valid/ImplicitMF-ALS
       - runs/default/Musical_Instruments/test/ImplicitMF-ALS
-      - runs/default/Musical_Instruments/valid/Bias
-      - runs/default/Musical_Instruments/test/Bias
-      - runs/default/Software/valid/Popular
-      - runs/default/Software/test/Popular
+      - runs/default/Musical_Instruments/valid/Popular
+      - runs/default/Musical_Instruments/test/Popular
+      - runs/default/Software/valid/Bias
+      - runs/default/Software/test/Bias
       - runs/default/Software/valid/BiasedMF-ALS
       - runs/default/Software/test/BiasedMF-ALS
       - runs/default/Software/valid/IKNN-Explicit
@@ -540,10 +540,10 @@ stages:
       - runs/default/Software/test/IKNN-Implicit
       - runs/default/Software/valid/ImplicitMF-ALS
       - runs/default/Software/test/ImplicitMF-ALS
-      - runs/default/Software/valid/Bias
-      - runs/default/Software/test/Bias
-      - runs/default/Video_Games/valid/Popular
-      - runs/default/Video_Games/test/Popular
+      - runs/default/Software/valid/Popular
+      - runs/default/Software/test/Popular
+      - runs/default/Video_Games/valid/Bias
+      - runs/default/Video_Games/test/Bias
       - runs/default/Video_Games/valid/BiasedMF-ALS
       - runs/default/Video_Games/test/BiasedMF-ALS
       - runs/default/Video_Games/valid/IKNN-Explicit
@@ -552,8 +552,8 @@ stages:
       - runs/default/Video_Games/test/IKNN-Implicit
       - runs/default/Video_Games/valid/ImplicitMF-ALS
       - runs/default/Video_Games/test/ImplicitMF-ALS
-      - runs/default/Video_Games/valid/Bias
-      - runs/default/Video_Games/test/Bias
+      - runs/default/Video_Games/valid/Popular
+      - runs/default/Video_Games/test/Popular
     do:
       cmd: 'lenskit-codex trec export runs ${item}.duckdb ${item}.run.gz'
       deps:

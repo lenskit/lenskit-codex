@@ -1,3 +1,4 @@
+import { sortBy } from "std/collections/mod.ts";
 import { fromFileUrl, join, parse } from "std/path/mod.ts";
 import { parse as parseToml } from "std/toml/mod.ts";
 
@@ -21,7 +22,9 @@ export async function scanModels(): Promise<Record<string, ModelConfig>> {
   let model_dir = import.meta.resolve("../../models");
   model_dir = fromFileUrl(model_dir);
   let models: Record<string, ModelConfig> = {};
-  for await (let ent of Deno.readDir(model_dir)) {
+  let files = await Array.fromAsync(Deno.readDir(model_dir));
+  files = sortBy(files, (f) => f.name);
+  for (let ent of files) {
     let pp = parse(ent.name);
     let text = await Deno.readTextFile(join(model_dir, ent.name));
     let cfg = parseToml(text);
