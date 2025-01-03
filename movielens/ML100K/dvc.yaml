@@ -17,46 +17,6 @@ stages:
       - ../ratings.duckdb
     outs:
       - random.duckdb
-  sweep-random-grid-Bias:
-    cmd: >-
-      lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml --test-part=0 Bias sweeps/random/Bias-grid
-    params:
-      - ../../config.toml:
-          - random.seed
-    deps:
-      - splits/random.duckdb
-      - ratings.duckdb
-      - ../../models/Bias.toml
-    outs:
-      - sweeps/random/Bias-grid
-  export-random-grid-Bias:
-    cmd: >-
-      lenskit-codex sweep export -o sweeps/random/Bias-grid.json sweeps/random/Bias-grid RMSE
-    deps:
-      - sweeps/random/Bias-grid
-    outs:
-      - sweeps/random/Bias-grid.json:
-          cache: false
-  sweep-random-random-Bias:
-    cmd: >-
-      lenskit-codex sweep run --random --ds-name=ML100K --split=splits/random.toml --test-part=0 Bias sweeps/random/Bias-random
-    params:
-      - ../../config.toml:
-          - random.seed
-    deps:
-      - splits/random.duckdb
-      - ratings.duckdb
-      - ../../models/Bias.toml
-    outs:
-      - sweeps/random/Bias-random
-  export-random-random-Bias:
-    cmd: >-
-      lenskit-codex sweep export -o sweeps/random/Bias-random.json sweeps/random/Bias-random RMSE
-    deps:
-      - sweeps/random/Bias-random
-    outs:
-      - sweeps/random/Bias-random.json:
-          cache: false
   sweep-random-grid-BiasedMF-ALS:
     cmd: >-
       lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml --test-part=0 BiasedMF-ALS sweeps/random/BiasedMF-ALS-grid
@@ -177,35 +137,46 @@ stages:
     outs:
       - sweeps/random/ImplicitMF-ALS-grid.json:
           cache: false
-  run-random-default-Bias:
+  sweep-random-grid-Bias:
     cmd: >-
-      lenskit-codex generate --default --ds-name=ML100K --split=splits/random.toml -o runs/random-default/Bias Bias
-    outs:
-      - runs/random-default/Bias
+      lenskit-codex sweep run --grid --ds-name=ML100K --split=splits/random.toml --test-part=0 Bias sweeps/random/Bias-grid
+    params:
+      - ../../config.toml:
+          - random.seed
     deps:
-      - ../../models/Bias.toml
-      - ratings.duckdb
       - splits/random.duckdb
-  run-random-grid-best-Bias:
+      - ratings.duckdb
+      - ../../models/Bias.toml
+    outs:
+      - sweeps/random/Bias-grid
+  export-random-grid-Bias:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/Bias-grid.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/Bias Bias
-    outs:
-      - runs/random-grid-best/Bias
+      lenskit-codex sweep export -o sweeps/random/Bias-grid.json sweeps/random/Bias-grid RMSE
     deps:
-      - ../../models/Bias.toml
-      - ratings.duckdb
-      - splits/random.duckdb
-      - sweeps/random/Bias-grid.json
-  run-random-random-best-Bias:
+      - sweeps/random/Bias-grid
+    outs:
+      - sweeps/random/Bias-grid.json:
+          cache: false
+  sweep-random-random-Bias:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/random/Bias-random.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-random-best/Bias Bias
-    outs:
-      - runs/random-random-best/Bias
+      lenskit-codex sweep run --random --ds-name=ML100K --split=splits/random.toml --test-part=0 Bias sweeps/random/Bias-random
+    params:
+      - ../../config.toml:
+          - random.seed
     deps:
-      - ../../models/Bias.toml
-      - ratings.duckdb
       - splits/random.duckdb
-      - sweeps/random/Bias-random.json
+      - ratings.duckdb
+      - ../../models/Bias.toml
+    outs:
+      - sweeps/random/Bias-random
+  export-random-random-Bias:
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/random/Bias-random.json sweeps/random/Bias-random RMSE
+    deps:
+      - sweeps/random/Bias-random
+    outs:
+      - sweeps/random/Bias-random.json:
+          cache: false
   run-random-default-Popular:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML100K --split=splits/random.toml -o runs/random-default/Popular Popular
@@ -311,13 +282,39 @@ stages:
       - ratings.duckdb
       - splits/random.duckdb
       - sweeps/random/ImplicitMF-ALS-grid.json
+  run-random-default-Bias:
+    cmd: >-
+      lenskit-codex generate --default --ds-name=ML100K --split=splits/random.toml -o runs/random-default/Bias Bias
+    outs:
+      - runs/random-default/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/random.duckdb
+  run-random-grid-best-Bias:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/Bias-grid.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/Bias Bias
+    outs:
+      - runs/random-grid-best/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/random.duckdb
+      - sweeps/random/Bias-grid.json
+  run-random-random-best-Bias:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/random/Bias-random.json --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-random-best/Bias Bias
+    outs:
+      - runs/random-random-best/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/random.duckdb
+      - sweeps/random/Bias-random.json
   collect-metrics:
     cmd: >-
       lenskit-codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
-      - runs/random-default/Bias
-      - runs/random-grid-best/Bias
-      - runs/random-random-best/Bias
       - runs/random-default/Popular
       - runs/random-default/BiasedMF-ALS
       - runs/random-grid-best/BiasedMF-ALS
@@ -329,6 +326,9 @@ stages:
       - runs/random-random-best/IKNN-Implicit
       - runs/random-default/ImplicitMF-ALS
       - runs/random-grid-best/ImplicitMF-ALS
+      - runs/random-default/Bias
+      - runs/random-grid-best/Bias
+      - runs/random-random-best/Bias
     outs:
       - run-summary.csv
       - run-user-metrics.parquet

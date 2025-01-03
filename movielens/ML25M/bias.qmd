@@ -20,20 +20,19 @@ from codex.display import DEFAULTS
 
 ```{python}
 sweep_dir = Path('sweeps/temporal')
-sweep_name = 'Bias-grid'
-
-with open(sweep_dir / sweep_name / 'runs.json', 'rt') as jsf:
-    run_data = [json.loads(line) for line in jsf]
-runs = pd.json_normalize(run_data)
+model_name = 'Bias'
 ```
 
-## Parameter Sweeps
-
-For the per-user temporal crossfolding data split, we use the first partition of
-the fold for parameter tuning.
+## Grid Search Results
 
 ```{python}
-cfg_rmse = runs.groupby(['params.user_damping', 'params.item_damping'])['metrics.RMSE'].mean().reset_index()
+with open(sweep_dir / f'{model_name}-grid' / 'runs.json', 'rt') as jsf:
+    run_data = [json.loads(line) for line in jsf]
+grid_runs = pd.json_normalize(run_data)
+```
+
+```{python}
+cfg_rmse = grid_runs.groupby(['params.user_damping', 'params.item_damping'])['metrics.RMSE'].mean().reset_index()
 cfg_rmse = cfg_rmse.astype({'params.user_damping': 'str'})
 (
     pn.ggplot(cfg_rmse)
@@ -47,7 +46,7 @@ cfg_rmse = cfg_rmse.astype({'params.user_damping': 'str'})
 User damping will have no effect on rankings.
 
 ```{python}
-cfg_topn = runs.groupby(['params.item_damping'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
+cfg_topn = grid_runs.groupby(['params.item_damping'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
 (
     pn.ggplot(cfg_topn)
     + pn.aes(x='params.item_damping', y='metrics.RBP')
@@ -73,4 +72,61 @@ cfg_topn = runs.groupby(['params.item_damping'])[['metrics.RBP', 'metrics.NDCG',
     + pn.geom_line()
     + pn.ylab('Mean RecipRank')
 )
+```
+
+## Random Search
+
+```{python}
+with open(sweep_dir / f'{model_name}-temporal' / 'runs.json', 'rt') as jsf:
+    run_data = [json.loads(line) for line in jsf]
+temporal_runs = pd.json_normalize(run_data)
+```
+
+What is the geometry of the search space?
+
+```{python}
+(
+    pn.ggplot(temporal_runs)
+    + pn.aes(x='params.user_damping', y='params.item_damping')
+    + pn.geom_density_2d()
+)
+```
+
+How does RMSE change with each setting independently?
+
+```{python}
+(
+    pn.ggplot(temporal_runs)
+    + pn.aes(x='params.user_damping', y='metrics.RMSE')
+    + pn.geom_point()
+    + pn.geom_smooth()
+)
+```
+
+```{python}
+(
+    pn.ggplot(temporal_runs)
+    + pn.aes(x='params.item_damping', y='metrics.RMSE')
+    + pn.geom_point()
+    + pn.geom_smooth(method='lm')
+)
+```
+
+```{python}
+fig = plt.figure()
+ax = fig.add_subplot(projection='3d')
+ax.scatter(temporal_runs['params.user_damping'], temporal_runs['params.item_damping'], temporal_runs['metrics.RMSE'])
+ax.set_xlabel('User damping')
+ax.set_ylabel('Item damping')
+ax.set_zlabel('RMSE')
+plt.show()
+```
+
+## Best Configurations
+
+```{python}
+pd.concat({
+    'Grid': grid_runs.nsmallest(1, 'metrics.RMSE')[['params.user_damping', 'params.item_damping', 'metrics.RMSE']],
+    'Random': temporal_runs.nsmallest(1, 'metrics.RMSE')[['params.user_damping', 'params.item_damping', 'metrics.RMSE']],
+}, names=['Method']).reset_index(-1, drop=True)
 ```

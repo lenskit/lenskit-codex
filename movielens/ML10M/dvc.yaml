@@ -6,46 +6,6 @@ stages:
       - ml-10m.zip
     outs:
       - ratings.duckdb
-  sweep-temporal-grid-Bias:
-    cmd: >-
-      lenskit-codex sweep run --grid --ds-name=ML10M --split=splits/temporal.toml --test-part=valid Bias sweeps/temporal/Bias-grid
-    params:
-      - ../../config.toml:
-          - random.seed
-    deps:
-      - splits/temporal.toml
-      - ratings.duckdb
-      - ../../models/Bias.toml
-    outs:
-      - sweeps/temporal/Bias-grid
-  export-temporal-grid-Bias:
-    cmd: >-
-      lenskit-codex sweep export -o sweeps/temporal/Bias-grid.json sweeps/temporal/Bias-grid RMSE
-    deps:
-      - sweeps/temporal/Bias-grid
-    outs:
-      - sweeps/temporal/Bias-grid.json:
-          cache: false
-  sweep-temporal-random-Bias:
-    cmd: >-
-      lenskit-codex sweep run --random --ds-name=ML10M --split=splits/temporal.toml --test-part=valid Bias sweeps/temporal/Bias-random
-    params:
-      - ../../config.toml:
-          - random.seed
-    deps:
-      - splits/temporal.toml
-      - ratings.duckdb
-      - ../../models/Bias.toml
-    outs:
-      - sweeps/temporal/Bias-random
-  export-temporal-random-Bias:
-    cmd: >-
-      lenskit-codex sweep export -o sweeps/temporal/Bias-random.json sweeps/temporal/Bias-random RMSE
-    deps:
-      - sweeps/temporal/Bias-random
-    outs:
-      - sweeps/temporal/Bias-random.json:
-          cache: false
   sweep-temporal-grid-BiasedMF-ALS:
     cmd: >-
       lenskit-codex sweep run --grid --ds-name=ML10M --split=splits/temporal.toml --test-part=valid BiasedMF-ALS sweeps/temporal/BiasedMF-ALS-grid
@@ -166,35 +126,46 @@ stages:
     outs:
       - sweeps/temporal/ImplicitMF-ALS-grid.json:
           cache: false
-  run-temporal-default-Bias:
+  sweep-temporal-grid-Bias:
     cmd: >-
-      lenskit-codex generate --default --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-default/Bias Bias
-    outs:
-      - runs/temporal-default/Bias
+      lenskit-codex sweep run --grid --ds-name=ML10M --split=splits/temporal.toml --test-part=valid Bias sweeps/temporal/Bias-grid
+    params:
+      - ../../config.toml:
+          - random.seed
     deps:
-      - ../../models/Bias.toml
-      - ratings.duckdb
       - splits/temporal.toml
-  run-temporal-grid-best-Bias:
+      - ratings.duckdb
+      - ../../models/Bias.toml
+    outs:
+      - sweeps/temporal/Bias-grid
+  export-temporal-grid-Bias:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/Bias-grid.json --test-part=test --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-grid-best/Bias Bias
-    outs:
-      - runs/temporal-grid-best/Bias
+      lenskit-codex sweep export -o sweeps/temporal/Bias-grid.json sweeps/temporal/Bias-grid RMSE
     deps:
-      - ../../models/Bias.toml
-      - ratings.duckdb
-      - splits/temporal.toml
-      - sweeps/temporal/Bias-grid.json
-  run-temporal-random-best-Bias:
+      - sweeps/temporal/Bias-grid
+    outs:
+      - sweeps/temporal/Bias-grid.json:
+          cache: false
+  sweep-temporal-random-Bias:
     cmd: >-
-      lenskit-codex generate --param-file=sweeps/temporal/Bias-random.json --test-part=test --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-random-best/Bias Bias
-    outs:
-      - runs/temporal-random-best/Bias
+      lenskit-codex sweep run --random --ds-name=ML10M --split=splits/temporal.toml --test-part=valid Bias sweeps/temporal/Bias-random
+    params:
+      - ../../config.toml:
+          - random.seed
     deps:
-      - ../../models/Bias.toml
-      - ratings.duckdb
       - splits/temporal.toml
-      - sweeps/temporal/Bias-random.json
+      - ratings.duckdb
+      - ../../models/Bias.toml
+    outs:
+      - sweeps/temporal/Bias-random
+  export-temporal-random-Bias:
+    cmd: >-
+      lenskit-codex sweep export -o sweeps/temporal/Bias-random.json sweeps/temporal/Bias-random RMSE
+    deps:
+      - sweeps/temporal/Bias-random
+    outs:
+      - sweeps/temporal/Bias-random.json:
+          cache: false
   run-temporal-default-Popular:
     cmd: >-
       lenskit-codex generate --default --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-default/Popular Popular
@@ -300,13 +271,39 @@ stages:
       - ratings.duckdb
       - splits/temporal.toml
       - sweeps/temporal/ImplicitMF-ALS-grid.json
+  run-temporal-default-Bias:
+    cmd: >-
+      lenskit-codex generate --default --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-default/Bias Bias
+    outs:
+      - runs/temporal-default/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+  run-temporal-grid-best-Bias:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/temporal/Bias-grid.json --test-part=test --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-grid-best/Bias Bias
+    outs:
+      - runs/temporal-grid-best/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/temporal/Bias-grid.json
+  run-temporal-random-best-Bias:
+    cmd: >-
+      lenskit-codex generate --param-file=sweeps/temporal/Bias-random.json --test-part=test --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-random-best/Bias Bias
+    outs:
+      - runs/temporal-random-best/Bias
+    deps:
+      - ../../models/Bias.toml
+      - ratings.duckdb
+      - splits/temporal.toml
+      - sweeps/temporal/Bias-random.json
   collect-metrics:
     cmd: >-
       lenskit-codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
-      - runs/temporal-default/Bias
-      - runs/temporal-grid-best/Bias
-      - runs/temporal-random-best/Bias
       - runs/temporal-default/Popular
       - runs/temporal-default/BiasedMF-ALS
       - runs/temporal-grid-best/BiasedMF-ALS
@@ -318,6 +315,9 @@ stages:
       - runs/temporal-random-best/IKNN-Implicit
       - runs/temporal-default/ImplicitMF-ALS
       - runs/temporal-grid-best/ImplicitMF-ALS
+      - runs/temporal-default/Bias
+      - runs/temporal-grid-best/Bias
+      - runs/temporal-random-best/Bias
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
