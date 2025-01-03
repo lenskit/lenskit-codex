@@ -10,17 +10,20 @@ import structlog
 from lenskit.pipeline import Component
 from lenskit.pipeline.types import parse_type_string
 from numpy.random import Generator
-from pydantic import BaseModel, Field, JsonValue
+from pydantic import BaseModel, Field
 from pyprojroot import find_root, has_file
 from scipy import stats
 
 _log = structlog.get_logger(__name__)
 
+type ModelParam = float | int | str | tuple[float, ...] | tuple[str, ...]
+type ModelParams = dict[str, ModelParam]
+
 
 class ModelInstance(NamedTuple):
     name: str
     scorer: Component
-    params: dict[str, JsonValue]
+    params: ModelParams
     config: ModelConfig
 
 
@@ -28,7 +31,7 @@ class CategorialParamSpace(BaseModel, extra="forbid"):
     type: Literal["categorical"] = "categorical"
     values: list[str]
 
-    def choose(self, rng: Generator) -> str:
+    def choose(self, rng: Generator) -> ModelParam:
         return rng.choice(self.values)
 
 
@@ -44,11 +47,9 @@ class NumericParamSpace(BaseModel, extra="forbid"):
     tuple: int | None = None
     "Generate a tuple instead of a single value."
 
-    def choose(
-        self, rng: Generator, *, _single=False
-    ) -> float | int | tuple[float, ...] | tuple[int, ...]:
+    def choose(self, rng: Generator, *, _single=False) -> ModelParam:
         if self.tuple and not _single:
-            return tuple([self.choose(rng, _single=True) for _i in range(self.tuple)])
+            return tuple([self.choose(rng, _single=True) for _i in range(self.tuple)])  # type: ignore
 
         if self.space == "linear":
             if self.type == "integer":
@@ -76,7 +77,7 @@ class SearchConfig(BaseModel, extra="forbid"):
     random_points: int = 100
     "Number of random points to search"
 
-    grid: dict[str, list[JsonValue]] | None = None
+    grid: ModelParams | None = None
     params: (
         dict[
             str,
@@ -92,17 +93,15 @@ class ModelConfig(BaseModel, extra="forbid"):
     enabled: bool = True
     predictor: bool = False
 
-    constant: dict[str, JsonValue] = {}
-    default: dict[str, JsonValue] = {}
+    constant: ModelParams = {}
+    default: ModelParams = {}
     search: SearchConfig = Field(default_factory=SearchConfig)
 
     @property
     def scorer_class(self) -> type[Component]:
         return parse_type_string(self.scorer)
 
-    def instantiate(
-        self, config: os.PathLike[str] | dict[str, JsonValue] | None = None
-    ) -> ModelInstance:
+    def instantiate(self, config: os.PathLike[str] | ModelParams | None = None) -> ModelInstance:
         """
         Instantiate the configured model.
         """

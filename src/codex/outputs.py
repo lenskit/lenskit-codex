@@ -16,6 +16,8 @@ from lenskit.data import ID, ItemList, ItemListCollection, UserIDKey
 from pyarrow.parquet import ParquetDataset, ParquetWriter, write_table
 from pydantic import BaseModel, JsonValue
 
+from codex.cfgid import ConfigData
+
 _log = structlog.stdlib.get_logger(__name__)
 
 type RunLog = Literal["run", "inference", "training"]
@@ -81,7 +83,7 @@ class RunOutput:
         self._log.debug("opening metric output")
         return NDJSONCollector(self.user_metric_path)
 
-    def record_log(self, rec_type: RunLog, data: dict[str, JsonValue] | BaseModel):
+    def record_log(self, rec_type: RunLog, data: ConfigData | BaseModel):
         """
         Record a log entry.
         """

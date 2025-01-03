@@ -10,12 +10,11 @@ from typing import Generator, Literal
 import click
 import numpy as np
 from lenskit.logging import get_logger, item_progress
-from pydantic import JsonValue
 
 from codex.cfgid import config_id
 from codex.config import rng_seed
 from codex.inference import recommend_and_save
-from codex.modelcfg import ModelConfig, load_config
+from codex.modelcfg import ModelConfig, ModelParams, load_config
 from codex.outputs import RunOutput
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.splitting import load_split_set
@@ -135,17 +134,17 @@ def run_sweep(
         output.repack_output_lists()
 
 
-def search_grid(mod_cfg: ModelConfig) -> Generator[dict[str, JsonValue], None, None]:
+def search_grid(mod_cfg: ModelConfig) -> Generator[ModelParams, None, None]:
     if not mod_cfg.search.grid:
         _log.error("no search grid specified", name=mod_cfg.name)
         raise RuntimeError("no search grid")
 
     names = list(mod_cfg.search.grid.keys())
-    for point in product(*mod_cfg.search.grid.values()):
+    for point in product(*mod_cfg.search.grid.values()):  # type: ignore
         yield dict(zip(names, point))
 
 
-def search_random(mod_cfg: ModelConfig):
+def search_random(mod_cfg: ModelConfig) -> Generator[ModelParams, None, None]:
     if not mod_cfg.search.params:
         _log.error("no search parameters specified", name=mod_cfg.name)
         raise RuntimeError("no search parameters")

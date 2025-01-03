@@ -2,22 +2,27 @@
 Reproducible UUIDs from configuration points.
 """
 
-from hashlib import sha512
-from typing import Any
-from uuid import NAMESPACE_URL, UUID, uuid5
+from __future__ import annotations
 
-from pydantic import JsonValue
+from hashlib import sha512
+from typing import Any, Mapping, Sequence
+from uuid import NAMESPACE_URL, UUID, uuid5
 
 NS_CONFIG = uuid5(NAMESPACE_URL, "https://ns.lenskit.org/config")
 
+type ConfigData = None | str | float | int | bool | Sequence[ConfigData] | Mapping[str, ConfigData]
+"""
+Extension of :class:`pydantic.JsonValue` for tuples.
+"""
 
-def config_id(config: dict[str, JsonValue]) -> UUID:
+
+def config_id(config: dict[str, ConfigData]) -> UUID:
     h = sha512()
     _hash_object(config, h)
     return uuid5(NS_CONFIG, h.hexdigest())
 
 
-def _hash_object(data: JsonValue, h: Any):
+def _hash_object(data: ConfigData, h: Any):
     if isinstance(data, dict):
         h.update(f"MAP\0{len(data)}\0".encode())
         for k in sorted(data.keys()):
@@ -32,4 +37,4 @@ def _hash_object(data: JsonValue, h: Any):
     elif data is None:
         h.update(b"\0")
     else:
-        data.update(repr(data).encode() + b"\0")
+        h.update(repr(data).encode() + b"\0")
