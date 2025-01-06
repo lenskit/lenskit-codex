@@ -16,7 +16,7 @@ from scipy import stats
 
 _log = structlog.get_logger(__name__)
 
-type ModelParam = float | int | str | tuple[float, ...] | tuple[str, ...]
+type ModelParam = int | float | str | tuple[int, ...] | tuple[float, ...] | tuple[str, ...]
 type ModelParams = dict[str, ModelParam]
 
 
@@ -31,7 +31,8 @@ class CategorialParamSpace(BaseModel, extra="forbid"):
     type: Literal["categorical"] = "categorical"
     values: list[str]
 
-    def choose(self, rng: Generator) -> ModelParam:
+    def choose(self, rng: Generator, *, name: str = "UNKNOWN") -> ModelParam:
+        _log.debug("choosing parameter from fixed values", name=name, values=self.values)
         return rng.choice(self.values)
 
 
@@ -47,26 +48,32 @@ class NumericParamSpace(BaseModel, extra="forbid"):
     tuple: int | None = None
     "Generate a tuple instead of a single value."
 
-    def choose(self, rng: Generator, *, _single=False) -> ModelParam:
+    def choose(self, rng: Generator, *, _single=False, name: str = "UNKNOWN") -> ModelParam:
         if self.tuple and not _single:
-            return tuple([self.choose(rng, _single=True) for _i in range(self.tuple)])  # type: ignore
+            return tuple([self.choose(rng, _single=True, name=name) for _i in range(self.tuple)])  # type: ignore
 
+        log = _log.bind(name=name, type=self.type, space=self.space)
         if self.space == "linear":
             if self.type == "integer":
+                log.debug("drawing uniform integer")
                 dist = stats.randint(self.min, self.max)
                 return dist.rvs(random_state=rng)
             else:
+                log.debug("drawing uniform real")
                 dist = stats.uniform(self.min, self.max)
                 return dist.rvs(random_state=rng)
         else:
             shift = 0
+            log.debug("drawing log-uniform number")
             if self.min == 0:
+                log.debug("shifting minimum value")
                 dist = stats.loguniform(self.min + 1e-6, self.max + 1e-6)
                 shift = 1e-6
             else:
                 dist = stats.loguniform(self.min, self.max)
             val = dist.rvs(random_state=rng) - shift
             if self.type == "integer":
+                log.debug("converting to integer")
                 val = int(round(val))
             return val
 

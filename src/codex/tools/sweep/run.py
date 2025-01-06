@@ -153,6 +153,6 @@ def search_random(mod_cfg: ModelConfig) -> Generator[ModelParams, None, None]:
     rng = np.random.default_rng(seed)
 
     for i in range(mod_cfg.search.random_points):
-        point = {name: cfg.choose(rng) for (name, cfg) in mod_cfg.search.params.items()}
+        point = {name: cfg.choose(rng, name=name) for (name, cfg) in mod_cfg.search.params.items()}
 
         yield point
