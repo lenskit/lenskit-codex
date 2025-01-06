@@ -67,7 +67,7 @@ class NumericParamSpace(BaseModel, extra="forbid"):
                 dist = stats.loguniform(self.min, self.max)
             val = dist.rvs(random_state=rng) - shift
             if self.type == "integer":
-                val = round(val)
+                val = int(round(val))
             return val
 
 
