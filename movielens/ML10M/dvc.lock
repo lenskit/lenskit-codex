@@ -2035,3 +2035,69 @@ stages:
       md5: 7af56658786dff60193de1eff21368ca.dir
       size: 73825
       nfiles: 3
+  sweep-temporal-random-ImplicitMF-ALS:
+    cmd: lenskit-codex sweep run --random --ds-name=ML10M --split=splits/temporal.toml
+      --test-part=valid ImplicitMF-ALS sweeps/temporal/ImplicitMF-ALS-random
+    deps:
+    - path: ../../models/ImplicitMF-ALS.toml
+      hash: md5
+      md5: db26cd489178e18ce20a81d988316dd0
+      size: 402
+    - path: ratings.duckdb
+      hash: md5
+      md5: 5b61a4ef8958fb6559b0e697ed88c453
+      size: 119549952
+    - path: splits/temporal.toml
+      hash: md5
+      md5: d83e63c855846c44a298c3f800cf7533
+      size: 128
+    params:
+      ../../config.toml:
+        random.seed: 20240717
+    outs:
+    - path: sweeps/temporal/ImplicitMF-ALS-random
+      hash: md5
+      md5: ed312241a29525ab842a81f20d6d5ef6.dir
+      size: 8412428
+      nfiles: 4
+  export-temporal-random-ImplicitMF-ALS:
+    cmd: lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS-random.json
+      sweeps/temporal/ImplicitMF-ALS-random RBP
+    deps:
+    - path: sweeps/temporal/ImplicitMF-ALS-random
+      hash: md5
+      md5: ed312241a29525ab842a81f20d6d5ef6.dir
+      size: 8412428
+      nfiles: 4
+    outs:
+    - path: sweeps/temporal/ImplicitMF-ALS-random.json
+      hash: md5
+      md5: 0788adf288d47f4904fbe5ab04dfcac7
+      size: 287
+  run-temporal-random-best-ImplicitMF-ALS:
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/ImplicitMF-ALS-random.json
+      --test-part=test --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal-random-best/ImplicitMF-ALS
+      ImplicitMF-ALS
+    deps:
+    - path: ../../models/ImplicitMF-ALS.toml
+      hash: md5
+      md5: db26cd489178e18ce20a81d988316dd0
+      size: 402
+    - path: ratings.duckdb
+      hash: md5
+      md5: 5b61a4ef8958fb6559b0e697ed88c453
+      size: 119549952
+    - path: splits/temporal.toml
+      hash: md5
+      md5: d83e63c855846c44a298c3f800cf7533
+      size: 128
+    - path: sweeps/temporal/ImplicitMF-ALS-random.json
+      hash: md5
+      md5: 0788adf288d47f4904fbe5ab04dfcac7
+      size: 287
+    outs:
+    - path: runs/temporal-random-best/ImplicitMF-ALS
+      hash: md5
+      md5: 544b00e8a5e41d0e6e64321e352bb3d4.dir
+      size: 74116
+      nfiles: 3
