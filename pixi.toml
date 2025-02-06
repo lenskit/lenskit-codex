@@ -58,9 +58,10 @@ scipy = "~=1.10"
 implicit = "~=0.7.0"
 
 [feature.run.pypi-dependencies]
-lenskit = { git = "https://github.com/lenskit/lkpy.git", subdirectory = "lenskit" }
-lenskit-implicit = { git = "https://github.com/lenskit/lkpy.git", subdirectory = "lenskit-implicit" }
-lenskit-hpf = { git = "https://github.com/lenskit/lkpy.git", subdirectory = "lenskit-hpf" }
+lenskit = ">=2025.1.1b6"
+lenskit-implicit = ">=2025.1.1b6"
+lenskit-hpf = ">=2025.1.1b6"
+lenskit-sklearn = ">=2025.1.1b6"
 
 [feature.run.target.linux.dependencies]
 libblas = { build = "*mkl*" }
