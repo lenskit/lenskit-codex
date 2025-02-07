@@ -14,12 +14,12 @@ db = duckdb.connect('ratings.duckdb', read_only=True)
 
 ## Split Windows
 
-Following [@mengExploringDataSplitting2020], we are going to prepare a global temporal split of the rating data.  We will target a 70/15/15 train/validation/test split, but round the timestamps so our test splits are at clean calendar dates.
+Following [@mengExploringDataSplitting2020], we are going to prepare a global temporal split of the rating data.  We will target approximately a 70/15/15 train/tune/test split, but round the timestamps so our test splits are at clean calendar dates.
 Searching for quantiles will get us this.
 
 ```{python}
 db.query('''
-SELECT quantile_cont(timestamp, 0.7) AS t_valid,
+SELECT quantile_cont(timestamp, 0.7) AS t_tune,
     quantile_cont(timestamp, 0.85) AS t_test,
 FROM ratings
 ''').df()
@@ -28,15 +28,15 @@ FROM ratings
 This suggests that 2008-2010 (valid) and 2011-end (test) are reasonable splits.
 
 ```{python}
-t_valid = '2008-01-01'
+t_tune = '2008-01-01'
 t_test = '2011-01-01'
 ```
 
 ```{python}
 db.query(f'''
 SELECT
-    CASE WHEN timestamp < '{t_valid}' THEN 'train'
-         WHEN timestamp < '{t_test}' THEN 'valid'
+    CASE WHEN timestamp < '{t_tune}' THEN 'train'
+         WHEN timestamp < '{t_test}' THEN 'tune'
          ELSE 'test'
     END AS part,
     count(*) AS n_ratings,
@@ -62,7 +62,7 @@ AND timestamp >= '{t_test}'
 ''').df()
 ```
 
-And for testing?
+And for tuning?
 
 ```{python}
 db.query(f'''
@@ -70,11 +70,11 @@ SELECT COUNT(DISTINCT user_id) n_users, COUNT(*) n_ratings
 FROM ratings
 WHERE user_id IN (
     SELECT DISTINCT user_id FROM ratings
-    WHERE timestamp < '{t_valid}'
+    WHERE timestamp < '{t_tune}'
     GROUP BY user_id
     HAVING count(*) >= 5
 )
-AND timestamp >= '{t_valid}'
+AND timestamp >= '{t_tune}'
 ''').df()
 ```
 
