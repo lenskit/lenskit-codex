@@ -23,7 +23,7 @@ class TemporalSpec(BaseModel):
     Configuration for a global temporal split.
     """
 
-    valid: dt.date
+    tune: dt.date
     test: dt.date
     min_train: int | None = None
 

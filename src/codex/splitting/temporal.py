@@ -40,7 +40,7 @@ class TemporalSplitSet(SplitSet):
             case "test":
                 lb = self.spec.test
             case "valid":
-                lb = self.spec.valid
+                lb = self.spec.tune
                 ub = self.spec.test
             case _:
                 raise ValueError(f"invalid part {part}")
