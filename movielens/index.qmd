@@ -48,6 +48,7 @@ stats_df.set_index('Set').style.format({
     'Ratings': metric,
     'Users': metric,
     'Items': metric,
+    'Density': lambda d: '{:.2%}'.format(d),
     'Start': lambda t: t.date().isoformat(),
     'End': lambda t: t.date().isoformat(),
 }).set_table_styles([
