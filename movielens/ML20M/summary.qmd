@@ -28,6 +28,18 @@ runs = pd.read_csv('run-summary.csv')
 runs.head()
 ```
 
+## Top-N Recommendation Accuracy
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='model', y='RBP', fill='variant')
+    + pn.geom_col(position='dodge')
+    + pn.scale_fill_brewer('qual', 'Dark2')
+    + pn.coord_flip()
+)
+```
+
 ## Rating Prediction Accuracy
 
 ```{python}
@@ -37,17 +49,5 @@ pred_runs = runs[runs['RMSE'].notnull()]
     + pn.aes(x='model', y='RMSE', fill='variant')
     + pn.geom_col(position='dodge')
     + pn.scale_fill_brewer('qual', 'Dark2')
-)
-```
-
-### Top-N Recommendation Accuracy
-
-```{python}
-(
-    pn.ggplot(runs)
-    + pn.aes(x='model', y='RBP', fill='variant')
-    + pn.geom_col(position='dodge')
-    + pn.scale_fill_brewer('qual', 'Dark2')
-    + pn.coord_flip()
 )
 ```

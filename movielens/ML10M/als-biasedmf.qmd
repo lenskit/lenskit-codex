@@ -11,6 +11,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 import plotnine as pn
+import seaborn as sns
 import matplotlib.pyplot as plt
 ```
 
@@ -20,23 +21,21 @@ from codex.display import DEFAULTS
 
 ```{python}
 sweep_dir = Path('sweeps/temporal')
-sweep_name = 'BiasedMF-ALS-grid'
-
-with open(sweep_dir / sweep_name / 'runs.json', 'rt') as jsf:
-    run_data = [json.loads(line) for line in jsf]
-runs = pd.json_normalize(run_data)
+model_name = 'BiasedMF-ALS'
 ```
 
+## Grid Search Results
 
-## Parameter Sweeps
-
-For the per-user temporal crossfolding data split, we use the first partition of
-the fold for parameter tuning.
+```{python}
+with open(sweep_dir / f'{model_name}-grid' / 'runs.json', 'rt') as jsf:
+    run_data = [json.loads(line) for line in jsf]
+grid_runs = pd.json_normalize(run_data)
+```
 
 ### Rating Prediction
 
 ```{python}
-cfg_rmse = runs.groupby(['params.features', 'params.reg'])['metrics.RMSE'].mean().reset_index()
+cfg_rmse = grid_runs.groupby(['params.features', 'params.reg'])['metrics.RMSE'].mean().reset_index()
 cfg_rmse = cfg_rmse.astype({'params.reg': 'str'})
 (
     pn.ggplot(cfg_rmse)
@@ -50,7 +49,7 @@ cfg_rmse = cfg_rmse.astype({'params.reg': 'str'})
 ### Top-N Ranking
 
 ```{python}
-cfg_topn = runs.groupby(['params.features', 'params.reg'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
+cfg_topn = grid_runs.groupby(['params.features', 'params.reg'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
 cfg_topn = cfg_topn.astype({'params.reg': 'str'})
 (
     pn.ggplot(cfg_topn)
@@ -86,7 +85,7 @@ cfg_topn = cfg_topn.astype({'params.reg': 'str'})
 How long does training take?
 
 ```{python}
-nf_times = runs.groupby('params.features')[['train_task.duration', 'train_task.cpu_time']].mean()
+nf_times = grid_runs.groupby('params.features')[['train_task.duration', 'train_task.cpu_time']].mean()
 nf_times.columns.name = 'type'
 nf_times = nf_times.rename(columns={
     'train_task.duration': 'Wall',
@@ -109,7 +108,7 @@ nf_times['value'] = pd.to_timedelta(nf_times['value'], unit='s')
 How much power does training take?
 
 ```{python}
-nf_power = runs.groupby('params.features')['train_task.chassis_power'].mean().reset_index()
+nf_power = grid_runs.groupby('params.features')['train_task.chassis_power'].mean().reset_index()
 (
     pn.ggplot(nf_power)
     + pn.aes(x='params.features', y='train_task.chassis_power')
@@ -117,4 +116,23 @@ nf_power = runs.groupby('params.features')['train_task.chassis_power'].mean().re
     + pn.ylab('Average power (J)')
     + pn.xlab('Latent feature count')
 )
+```
+
+## Random Search
+
+```{python}
+with open(sweep_dir / f'{model_name}-temporal' / 'runs.json', 'rt') as jsf:
+    run_data = [json.loads(line) for line in jsf]
+temporal_runs = pd.json_normalize(run_data)
+```
+
+What does the geometry of the search space look like?
+
+```{python}
+temporal_runs[[c for c in temporal_runs.columns if c.startswith('params.')]]
+```
+
+```{python}
+sns.pairplot()
+plt.show()
 ```
