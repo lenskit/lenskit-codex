@@ -57,10 +57,7 @@ scipy = "~=1.10"
 implicit = "~=0.7.0"
 
 [feature.run.pypi-dependencies]
-lenskit = ">=2025.1.1b6"
-lenskit-implicit = ">=2025.1.1b6"
-lenskit-hpf = ">=2025.1.1b6"
-lenskit-sklearn = ">=2025.1.1b6"
+lenskit = { version = ">=2025.1.1b12", extras = ["implicit", "sklearn"] }
 
 [feature.run.target.linux.dependencies]
 libblas = { build = "*mkl*" }
