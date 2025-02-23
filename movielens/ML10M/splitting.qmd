@@ -8,6 +8,11 @@ deps:
 This page describes the analysis done to select the cutoffs for temporally-splitting the ML10M data set.
 
 ```{python}
+from datetime import date, datetime
+import plotnine as pn
+```
+
+```{python}
 import duckdb
 db = duckdb.connect('ratings.duckdb', read_only=True)
 ```
@@ -47,7 +52,7 @@ GROUP BY part
 ''').df()
 ```
 
-How many users can we use for collaborative filtering in the testing set?
+How many test users have at least 5 training ratings?
 
 ```{python}
 db.query(f'''
@@ -79,3 +84,55 @@ AND timestamp >= '{t_tune}'
 ```
 
 This give us enough data to work with, even if we might like more test users.
+For more thoroughness, let's look at how many test users we have by training
+rating count:
+
+```{python}
+db.execute("""
+WITH
+    query_users AS (
+        SELECT DISTINCT 'test' AS part, $test AS cutoff, user_id
+        FROM ratings
+        WHERE timestamp >= $test
+        UNION ALL
+        SELECT DISTINCT 'tune' AS part, $tune AS cutoff, user_id
+        FROM ratings
+        WHERE timestamp >= $tune AND timestamp < $test
+    )
+SELECT part, train_size, COUNT(DISTINCT user_id) AS user_count
+FROM query_users q,
+LATERAL (
+    SELECT COUNT(*) AS train_size
+    FROM ratings
+    WHERE user_id = q.user_id
+    AND timestamp < q.cutoff
+) ts
+GROUP BY part, train_size
+""", {'test': date.fromisoformat(t_test), 'tune': date.fromisoformat(t_tune)})
+train_sizes = db.fetchdf()
+(
+    pn.ggplot(train_sizes)
+    + pn.aes(x='train_size', y='user_count', color='part')
+    + pn.geom_line()
+    + pn.scale_x_log10()
+    + pn.xlab('Training Size')
+    + pn.ylab('# of Users')
+    + pn.ggtitle("Users by Training Size")
+)
+```
+
+```{python}
+tss = train_sizes.sort_values('train_size', ascending=False).groupby('part').apply(lambda df: df.assign(nc_uc=df['user_count'].cumsum()))
+(
+    pn.ggplot(tss[tss['train_size'] > 0])
+    + pn.aes(x='train_size', y='nc_uc', color='part')
+    + pn.geom_line()
+    + pn.scale_x_log10()
+    + pn.xlab('Training Size Cutoff')
+    + pn.ylab('# of Test Users')
+    + pn.ggtitle("Users Lost by Training Size")
+)
+```
+
+Since we have very small loss up through 10–11 ratings, we will use all users who
+appear at least once in training as our test users.
