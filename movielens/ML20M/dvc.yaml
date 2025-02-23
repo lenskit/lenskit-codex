@@ -1,11 +1,17 @@
 stages:
   import:
-    cmd: lenskit-codex movielens import --stat-sql=../ml-stats.sql ml-20m.zip
+    cmd: lenskit data convert --movielens ml-20m.zip dataset
     deps:
-      - ../ml-stats.sql
       - ml-20m.zip
     outs:
-      - ratings.duckdb
+      - dataset
+  stats:
+    cmd: lenskit-codex sql -D ds_name=ML20M -f ../ml-stats.sql stats.duckdb
+    deps:
+      - ../ml-stats.sql
+      - dataset
+    outs:
+      - stats.duckdb
   sweep-temporal-grid-Bias:
     cmd: >-
       lenskit-codex sweep run --grid --ds-name=ML20M --split=splits/temporal.toml --test-part=valid Bias sweeps/temporal/Bias-grid

@@ -38,6 +38,15 @@ export function action_cmd(...args: string[]): string {
   return cmd;
 }
 
+export function lk_cmd(...args: string[]): string {
+  let cmd = "lenskit";
+  for (const arg of args) {
+    cmd += " " + arg;
+  }
+
+  return cmd;
+}
+
 export function generateStages<T>(
   inputs: Iterable<T>,
   func: (x: T) => Record<string, Stage>,

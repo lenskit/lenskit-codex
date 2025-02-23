@@ -5,7 +5,6 @@ from typing import override
 import duckdb
 import structlog
 from lenskit.data import ItemListCollection, UserIDKey, Vocabulary, from_interactions_df
-from lenskit.data.matrix import MatrixDataset
 from lenskit.splitting import SampleN, TTSplit, crossfold_users
 
 from ._base import SplitSet

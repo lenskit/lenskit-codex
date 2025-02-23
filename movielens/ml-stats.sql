@@ -1,9 +1,25 @@
+CREATE VIEW item_ids AS
+SELECT file_row_number - 1 AS item_num, item_id
+FROM read_parquet(project_path(['movielens', '$ds_name', 'dataset', 'item.parquet']), file_row_number=TRUE);
+
+CREATE VIEW user_ids AS
+SELECT file_row_number - 1 AS user_num, user_id
+FROM read_parquet(project_path(['movielens', '$ds_name', 'dataset', 'user.parquet']), file_row_number=TRUE);
+
+CREATE VIEW ratings AS
+SELECT user_id, item_id, rating, timestamp
+FROM read_parquet(project_path(['movielens', '$ds_name', 'dataset', 'rating.parquet']))
+JOIN item_ids USING (item_num)
+JOIN user_ids USING (user_num);
+
+SELECT * FROM ratings LIMIT 10;
+
 CREATE TABLE global_stats AS
 SELECT COUNT(*) AS n_ratings,
     COUNT(DISTINCT user_id) AS n_users,
     COUNT(DISTINCT item_id) AS n_items,
     MIN(timestamp) AS first_rating,
-    MAX(timestamp) AS last_rating,
+    MAX(timestamp) AS last_rating
 FROM ratings;
 
 CREATE TABLE item_stats AS

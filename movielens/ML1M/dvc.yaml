@@ -1,11 +1,17 @@
 stages:
   import:
-    cmd: lenskit-codex movielens import --stat-sql=../ml-stats.sql ml-1m.zip
+    cmd: lenskit data convert --movielens ml-1m.zip dataset
     deps:
-      - ../ml-stats.sql
       - ml-1m.zip
     outs:
-      - ratings.duckdb
+      - dataset
+  stats:
+    cmd: lenskit-codex sql -D ds_name=ML1M -f ../ml-stats.sql stats.duckdb
+    deps:
+      - ../ml-stats.sql
+      - dataset
+    outs:
+      - stats.duckdb
   split-random:
     cmd: lenskit-codex split random.toml
     wdir: splits

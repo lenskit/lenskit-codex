@@ -4,7 +4,7 @@ import * as toml from "std/toml/mod.ts";
 
 import * as ai from "aitertools";
 
-import { action_cmd, Pipeline, Stage } from "../src/dvc.ts";
+import { action_cmd, lk_cmd, Pipeline, Stage } from "../src/dvc.ts";
 
 import { mlRuns } from "./pipe-run.ts";
 import { mlSweep } from "./pipe-sweep.ts";
@@ -34,15 +34,23 @@ async function scanSplits(name: string): Promise<Record<string, SplitSpec>> {
   return splits;
 }
 
-function ml_import(fn: string): Stage {
+function ml_import(name: string, fn: string): Record<string, Stage> {
   return {
-    cmd: action_cmd(
-      "movielens import",
-      "--stat-sql=../ml-stats.sql",
-      `${fn}.zip`,
-    ),
-    deps: ["../ml-stats.sql", fn + ".zip"],
-    outs: ["ratings.duckdb"],
+    import: {
+      cmd: lk_cmd(
+        "data convert",
+        "--movielens",
+        `${fn}.zip`,
+        "dataset",
+      ),
+      deps: [fn + ".zip"],
+      outs: ["dataset"],
+    },
+    stats: {
+      cmd: action_cmd("sql", "-D", `ds_name=${name}`, "-f", "../ml-stats.sql", "stats.duckdb"),
+      deps: ["../ml-stats.sql", "dataset"],
+      outs: ["stats.duckdb"],
+    },
   };
 }
 
@@ -82,7 +90,7 @@ async function ml_pipeline(name: string): Promise<Pipeline> {
 
   return {
     stages: {
-      import: ml_import(fn),
+      ...ml_import(name, fn),
 
       ...split_stages,
       ...sweep_stages,
