@@ -11,11 +11,11 @@ This page describes the analysis done to select the cutoffs for temporally-split
 from datetime import date, datetime
 import plotnine as pn
 from codex import display
+from codex.dbutil import db_connect
 ```
 
 ```{python}
-import duckdb
-db = duckdb.connect('ratings.duckdb', read_only=True)
+db = db_connect('stats.duckdb', read_only=True)
 ```
 
 ## Split Windows
