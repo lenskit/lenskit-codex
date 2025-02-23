@@ -363,21 +363,18 @@ stages:
       md5: f59b041122584934ac600b197dbb345c
       size: 298
   import:
-    cmd: lenskit-codex movielens import --stat-sql=../ml-stats.sql ml-100k.zip
+    cmd: lenskit data convert --movielens ml-100k.zip dataset
     deps:
-    - path: ../ml-stats.sql
-      hash: md5
-      md5: b016dc983a2156e0712a846097a968e7
-      size: 1307
     - path: ml-100k.zip
       hash: md5
       md5: 0e33842e24a9c977be4e0107933c0723
       size: 4924029
     outs:
-    - path: ratings.duckdb
+    - path: dataset
       hash: md5
-      md5: 4ebfe15a3b3072086408fdc861bf37ae
-      size: 2371584
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
   run-random-grid-best-Bias:
     cmd: lenskit-codex generate --param-file=sweeps/random/Bias-grid.json --test-part=-0
       --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/Bias Bias
@@ -1609,3 +1606,20 @@ stages:
       md5: b397a2b06e1d22f237428bdcc371341b.dir
       size: 34613
       nfiles: 5
+  stats:
+    cmd: lenskit-codex sql -D ds_name=ML100K -f ../ml-stats.sql stats.duckdb
+    deps:
+    - path: ../ml-stats.sql
+      hash: md5
+      md5: 56a6eb38e5f620ae1753f9bf93d58642
+      size: 1921
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    outs:
+    - path: stats.duckdb
+      hash: md5
+      md5: 57662cfb6c1e773c22a64c5284d6df6f
+      size: 1323008

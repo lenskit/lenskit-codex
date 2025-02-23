@@ -197,21 +197,18 @@ stages:
       size: 35596961
       nfiles: 5
   import:
-    cmd: lenskit-codex movielens import --stat-sql=../ml-stats.sql ml-1m.zip
+    cmd: lenskit data convert --movielens ml-1m.zip dataset
     deps:
-    - path: ../ml-stats.sql
-      hash: md5
-      md5: b016dc983a2156e0712a846097a968e7
-      size: 1307
     - path: ml-1m.zip
       hash: md5
       md5: c4d9eecfca2ab87c1945afe126590906
       size: 5917549
     outs:
-    - path: ratings.duckdb
+    - path: dataset
       hash: md5
-      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
-      size: 11284480
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
   export-random-Bias:
     cmd: lenskit-codex sweep export -o sweeps/random/Bias.json sweeps/random/Bias
       RMSE
@@ -1344,3 +1341,20 @@ stages:
       md5: fa8e31e2bad9839c53d3ded02340e11f.dir
       size: 103304
       nfiles: 3
+  stats:
+    cmd: lenskit-codex sql -D ds_name=ML1M -f ../ml-stats.sql stats.duckdb
+    deps:
+    - path: ../ml-stats.sql
+      hash: md5
+      md5: 56a6eb38e5f620ae1753f9bf93d58642
+      size: 1921
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    outs:
+    - path: stats.duckdb
+      hash: md5
+      md5: af1153c28f94be30daf3fc13dc12105a
+      size: 1323008
