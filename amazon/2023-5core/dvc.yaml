@@ -1,6 +1,6 @@
 stages:
   scan-bench-users:
-    cmd: lenskit-codex amazon collect-ids --user -D user-ids.duckdb data
+    cmd: lenskit codex amazon collect-ids --user -D user-ids.duckdb data
     deps:
       - data/Arts_Crafts_and_Sewing.test.csv.gz
       - data/Arts_Crafts_and_Sewing.train.csv.gz
@@ -77,7 +77,7 @@ stages:
     outs:
       - user-ids.duckdb
   scan-bench-items:
-    cmd: lenskit-codex amazon collect-ids --item -D item-ids.duckdb data
+    cmd: lenskit codex amazon collect-ids --item -D item-ids.duckdb data
     deps:
       - data/Arts_Crafts_and_Sewing.test.csv.gz
       - data/Arts_Crafts_and_Sewing.train.csv.gz
@@ -229,7 +229,7 @@ stages:
       - Video_Games.valid
     do:
       cmd: >-
-        lenskit-codex amazon import-bench --users=user-ids.duckdb --items=item-ids.duckdb data/${item}.csv.gz
+        lenskit codex amazon import-bench --users=user-ids.duckdb --items=item-ids.duckdb data/${item}.csv.gz
       deps:
         - user-ids.duckdb
         - item-ids.duckdb
@@ -237,7 +237,7 @@ stages:
       outs:
         - 'data/${item}.parquet'
   collect-stats:
-    cmd: lenskit-codex run-duck-sql -f bench-stats.sql stats.duckdb
+    cmd: lenskit codex run-duck-sql -f bench-stats.sql stats.duckdb
     outs:
       - stats.duckdb
     deps:
@@ -322,7 +322,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Bias Bias
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Bias Bias
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -337,7 +337,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Bias Bias
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Bias Bias
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -351,7 +351,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/BiasedMF-ALS BiasedMF-ALS
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/BiasedMF-ALS BiasedMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -366,7 +366,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/BiasedMF-ALS BiasedMF-ALS
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/BiasedMF-ALS BiasedMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -380,7 +380,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/IKNN-Explicit IKNN-Explicit
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/IKNN-Explicit IKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -395,7 +395,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/IKNN-Explicit IKNN-Explicit
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/IKNN-Explicit IKNN-Explicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -409,7 +409,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/IKNN-Implicit IKNN-Implicit
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/IKNN-Implicit IKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -424,7 +424,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/IKNN-Implicit IKNN-Implicit
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/IKNN-Implicit IKNN-Implicit
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -438,7 +438,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/ImplicitMF-ALS ImplicitMF-ALS
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/ImplicitMF-ALS ImplicitMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -453,7 +453,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/ImplicitMF-ALS ImplicitMF-ALS
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/ImplicitMF-ALS ImplicitMF-ALS
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -467,7 +467,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Popular Popular
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Popular Popular
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -482,7 +482,7 @@ stages:
       - Video_Games
     do:
       cmd: >-
-        lenskit-codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Popular Popular
+        lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Popular Popular
       deps:
         - 'data/${item}.train.parquet'
         - 'data/${item}.valid.parquet'
@@ -499,7 +499,7 @@ stages:
       - Video_Games.test
       - Video_Games.valid
     do:
-      cmd: 'lenskit-codex trec export qrels data/${item}.parquet'
+      cmd: 'lenskit codex trec export qrels data/${item}.parquet'
       deps:
         - 'data/${item}.parquet'
       outs:
@@ -555,7 +555,7 @@ stages:
       - runs/default/Video_Games/valid/Popular
       - runs/default/Video_Games/test/Popular
     do:
-      cmd: 'lenskit-codex trec export runs ${item}.duckdb ${item}.run.gz'
+      cmd: 'lenskit codex trec export runs ${item}.duckdb ${item}.run.gz'
       deps:
         - '${item}.duckdb'
       outs:

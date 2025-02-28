@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "LensKit run results"
 authors = [{ name = "Michael Ekstrand", email = "mdekstrand@drexel.edu" }]
 
-[project.scripts]
+[project.entry-points."lenskit.cli.plugins"]
 lenskit-codex = "codex.tools:codex"
 
 [tool.hatch.build.targets.wheel]

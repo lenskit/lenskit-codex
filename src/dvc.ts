@@ -30,7 +30,7 @@ export function isStage(obj: object): obj is Stage {
 }
 
 export function action_cmd(...args: string[]): string {
-  let cmd = "lenskit-codex";
+  let cmd = "lenskit codex";
   for (const arg of args) {
     cmd += " " + arg;
   }
