@@ -53,11 +53,16 @@ pytorch = "~=2.1"
 numpy = "~=2.0"
 pandas = "~=2.0"
 scipy = "~=1.10"
+numba = "~=0.56"
 # hpfrec = "~=0.2.13"
 implicit = "~=0.7.0"
 
 [feature.run.pypi-dependencies]
-lenskit = { version = ">=2025.1.1b12", extras = ["implicit", "sklearn"] }
+lenskit = { version = ">=2025.1.1rc2", extras = [
+  "implicit",
+  "sklearn",
+  "funksvd",
+] }
 
 [feature.run.target.linux.dependencies]
 libblas = { build = "*mkl*" }
