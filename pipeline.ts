@@ -1,6 +1,6 @@
-import { join as joinPath, normalize, parse as parsePath, relative } from "std/path/mod.ts";
-import { expandGlob } from "std/fs/mod.ts";
-import { extract } from "std/front_matter/yaml.ts";
+import { join as joinPath, normalize, parse as parsePath, relative } from "@std/path";
+import { expandGlob } from "@std/fs";
+import { extract } from "@std/front-matter/yaml";
 
 import { Pipeline } from "./src/dvc.ts";
 
@@ -22,7 +22,8 @@ async function collectNotebooks(): Promise<Notebook[]> {
     const path = parsePath(nbf.path);
     const dir = relative(cwd, path.dir);
     const text = await Deno.readTextFile(nbf.path);
-    const parsed = extract(text);
+    // deno-lint-ignore no-explicit-any
+    const parsed: any = extract(text);
     let deps: string[];
     if (typeof parsed.attrs.deps == "string") {
       deps = [parsed.attrs.deps];
