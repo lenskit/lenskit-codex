@@ -21,7 +21,7 @@ GPU
 :   NVidia A40 (48GB)
 
 Storage
-:   Network-attached SSD (home directory + software), network-attached redundant spinning disks (experiment data)
+:   SSD (home directory + software), network-attached redundant spinning disks (experiment data)
 
 Operating system
 :   Ubuntu 24.04
