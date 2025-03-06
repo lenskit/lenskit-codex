@@ -15,7 +15,7 @@ CPU
 :   2x AMD EPYC 7662 (64 cores, 128 threads, 2GHz)
 
 Memory
-:   256 GiB (225GiB available)
+:   256 GiB
 
 GPU
 :   NVidia A40 (48GB)
@@ -24,18 +24,12 @@ Storage
 :   Network-attached SSD (home directory + software), network-attached redundant spinning disks (experiment data)
 
 Operating system
-:   Ubuntu 22.04 (Jammy Dodger)
+:   Ubuntu 24.04
 
 Idle power draw
-:   295 watts
+:   220 watts
 
 ## Notes
-
-- This machine is hungry; it has dynamic CPU frequency scaling disabled, so it
-  is constantly at full power.
-
-- The actual execution environment is also virtualized, which may add a slight
-  overhead.
 
 - This is a shared machine, so power consumption records are not always
   well-isolated from other workloads.
