@@ -1,7 +1,7 @@
 #! /usr/bin/env -S deno run --allow-read=. --allow-write=. --allow-net=deno.land
-import { dirname, join as joinPath } from "std/path/mod.ts";
-import * as yaml from "std/yaml/mod.ts";
-import { expandGlob } from "std/fs/mod.ts";
+import { dirname, join as joinPath } from "@std/path/mod.ts";
+import * as yaml from "@std/yaml/mod.ts";
+import { expandGlob } from "@std/fs/mod.ts";
 
 for await (const pipe of expandGlob("**/pipeline.ts", { exclude: [".pixi/**"] })) {
   console.info("rendering pipeline %s", pipe.path);
