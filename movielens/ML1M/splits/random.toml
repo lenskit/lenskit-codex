@@ -1,10 +1,9 @@
-source = "../ratings.duckdb"
+source = "../dataset"
 method = "crossfold"
 
 [crossfold]
 method = "users"
 partitions = 5
-assign_db = "random.duckdb"
 
 [holdout]
 selection = "random"

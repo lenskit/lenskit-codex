@@ -16,7 +16,7 @@ _log = structlog.stdlib.get_logger(__name__)
 
 class TemporalSplitSet(SplitSet):
     """
-    A fixed train/validate/test split.
+    A temporal train/validate/test split.
     """
 
     source: Path

@@ -3,44 +3,37 @@ from pathlib import Path
 from typing import override
 
 import duckdb
+import pandas as pd
 import structlog
-from lenskit.data import ItemListCollection, UserIDKey, Vocabulary, from_interactions_df
+from lenskit.data import Dataset, ItemListCollection, UserIDKey, Vocabulary
+from lenskit.logging import get_logger
 from lenskit.splitting import SampleN, TTSplit, crossfold_users
 
 from ._base import SplitSet
 from .spec import CrossfoldSpec, HoldoutSpec
 
-_log = structlog.stdlib.get_logger(__name__)
+_log = get_logger(__name__)
 
 
-def crossfold_ratings(db: duckdb.DuckDBPyConnection, cross: CrossfoldSpec, hold: HoldoutSpec):
+def crossfold_ratings(data: Dataset, cross: CrossfoldSpec, hold: HoldoutSpec, out: Path):
     if hold.selection == "random":
         hf = SampleN(hold.count)
     else:
         raise ValueError("invalid holdout")
 
-    db.execute("""
-        CREATE OR REPLACE TABLE test_alloc (
-            partition INTEGER NOT NULL,
-            user_id INTEGER NOT NULL,
-            item_id INTEGER NOT NULL
-        )
-    """)
-
-    df = db.sql("SELECT user_id, item_id, rating FROM rf.ratings").to_df()
-    ds = from_interactions_df(df)
+    allocs = {}
     if cross.method == "users":
-        parts = crossfold_users(ds, cross.partitions, hf, test_only=True)
+        parts = crossfold_users(data, cross.partitions, hf, test_only=True)
+    else:
+        raise ValueError(f"unsupported crossfold method {cross.method}")
 
     for i, split in enumerate(parts):
-        test_df = split.test_df  # noqa: F841
-        db.execute(
-            """
-            INSERT INTO test_alloc (partition, user_id, item_id)
-            SELECT ?, user_id, item_id FROM test_df
-            """,
-            [i],
-        )
+        allocs[i] = split.test_df
+
+    allocs = pd.concat(allocs, names=["part"]).reset_index("part")
+
+    _log.info("saving test data", file=out)
+    allocs.to_parquet(out, compression="zstd", index=False)
 
 
 class CrossfoldSplitSet(SplitSet):
