@@ -140,7 +140,7 @@ class ModelConfig(BaseModel, extra="forbid"):
             params = params | fdata
 
         cls = self.scorer_class
-        scorer = cls.from_config(params)
+        scorer = cls(**params)
         return ModelInstance(self.name or cls.__name__, scorer, params, self)
 
 

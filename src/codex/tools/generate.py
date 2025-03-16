@@ -94,8 +94,10 @@ def generate(
                     pipe,
                     data.test,
                     list_length,
-                    output.recommendations_hive_path / shard,
-                    output.predictions_hive_path / shard if mod_cfg.predictor else None,
+                    output.recommendations_hive_path / shard / "data.parquet",
+                    output.predictions_hive_path / shard / "data.parquet"
+                    if mod_cfg.predictor
+                    else None,
                     metric_out,
                     meta={"part": part},
                 )

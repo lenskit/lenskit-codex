@@ -15,16 +15,13 @@ from pathlib import Path
 import pandas as pd
 import pyarrow as pa
 import ray
-import structlog
 from lenskit import Pipeline, predict, recommend
 from lenskit.data import ID, ItemList, ItemListCollection, UserIDKey
 from lenskit.logging import get_logger, item_progress
-from lenskit.logging.worker import WorkerLogConfig
 from lenskit.metrics import MAE, NDCG, RBP, RMSE, Hit, RecipRank, RunAnalysisResult, call_metric
-from lenskit.parallel.config import ParallelConfig, subprocess_config
 from pydantic import JsonValue
 
-from codex.cluster import CodexActor, ensure_cluster_init, worker_pool
+from codex.cluster import ensure_cluster_init
 from codex.outputs import PRED_FIELDS, REC_FIELDS, ItemListCollector, NDJSONCollector
 
 _log = get_logger(__name__)
@@ -108,7 +105,7 @@ async def _run_batches_async(pipe_h, test, n_recs: int, collector, metric_collec
     with item_progress("generate", n_users) as pb:
         async with asyncio.TaskGroup() as tg:
             for batch in batched(test, batch_size):
-                task = _run_and_await_batch(pipe_h, batch, n_recs, pb, collector)
+                task = _run_and_await_batch(pipe_h, batch, n_recs, pb, collector, metric_collector)
                 tasks.append(tg.create_task(task))
 
     log.info("finished inference", n_batches=len(tasks))
@@ -118,6 +115,7 @@ async def _run_batches_async(pipe_h, test, n_recs: int, collector, metric_collec
 async def _run_and_await_batch(pipe_h, batch, n_recs, pb, collector, metric_collector):
     mlist = []
     async for metrics in run_pipeline_batch.remote(pipe_h, batch, n_recs, collector):
+        metrics = ray.get(metrics)
         mlist.append(metrics)
         if metric_collector is not None:
             metric_collector.write_object(metrics)
@@ -131,7 +129,7 @@ def run_pipeline_batch(pipeline, batch, n_recs: int, collector):
     for user, data in batch:
         result = run_pipeline(pipeline, user, data, n_recs)
         t = collector.write_output.remote(result.recs, result.preds, user_id=user.user_id)
-        ray.wait(t)
+        ray.get(t)
 
         yield result.metrics
 

@@ -2,6 +2,7 @@ import structlog
 from humanize import metric, naturalsize
 from lenskit.data import Dataset
 from lenskit.pipeline import Component, Pipeline
+from lenskit.training import TrainingOptions
 
 from codex.modelcfg import ModelInstance
 from codex.pipeline import base_pipeline
@@ -65,6 +66,6 @@ def train_and_wrap_model(
             "scorer", model, query=pipe.node("query"), items=pipe.node("candidate-selector")
         )
 
-    pipe.train(data, retrain=False)
+    pipe.train(data, TrainingOptions(retrain=False))
 
     return pipe
