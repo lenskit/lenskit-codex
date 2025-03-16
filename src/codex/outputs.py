@@ -12,7 +12,7 @@ from typing import IO, Literal
 import pyarrow as pa
 import structlog
 import zstandard
-from lenskit.data import ID, ItemList, ItemListCollection, UserIDKey
+from lenskit.data import ID, ItemList, ListILC
 from pyarrow.parquet import ParquetDataset, ParquetWriter, write_table
 from pydantic import BaseModel, JsonValue
 
@@ -161,7 +161,7 @@ class ItemListCollector:
 
     path: Path
     batch_size: int
-    batch: ItemListCollection[UserIDKey]
+    batch: ListILC
     writer: ParquetWriter
     key_fields: list[str]
     list_fields: dict[str, pa.DataType]
@@ -178,7 +178,7 @@ class ItemListCollector:
         self.key_fields = list(key_fields.keys())
         self.list_fields = list_fields
 
-        self.batch = ItemListCollection(self.key_fields)
+        self.batch = ListILC(self.key_fields)
         fields = key_fields | {"items": pa.list_(pa.struct(list_fields))}
         self.writer = ParquetWriter(
             self.path,
@@ -197,6 +197,6 @@ class ItemListCollector:
 
     def _write_batch(self):
         if len(self.batch):
-            for rb in self.batch._iter_record_batches(self.batch_size, self.list_fields):
+            for rb in self.batch.record_batches(self.batch_size, self.list_fields):
                 self.writer.write_batch(rb)
-            self.batch = ItemListCollection(self.key_fields)
+            self.batch = ListILC(self.key_fields)

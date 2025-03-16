@@ -15,13 +15,18 @@ from lenskit.parallel.config import (
     get_parallel_config,
     initialize,
 )
+from lenskit.parallel.ray import init_cluster
 
 _log = structlog.stdlib.get_logger(__name__)
 
 
 def ensure_cluster_init():
     if not ray.is_initialized():
-        ray.init(configure_logging=False)
+        n_slots = int(os.environ.get("LK_TRAIN_SLOTS", "4"))
+
+        init_cluster(
+            resources={"train-slots": n_slots},
+        )
 
 
 class CodexActor:
