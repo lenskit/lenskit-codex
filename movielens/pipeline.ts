@@ -65,7 +65,7 @@ function mlSplit(
         wdir: "splits",
         params: [{ "../../../config.toml": ["random.seed"] }],
         deps: [`${split}.toml`, spec.source as string],
-        outs: [`${split}.duckdb`],
+        outs: [`${split}.parquet`],
       },
     };
   } else {
