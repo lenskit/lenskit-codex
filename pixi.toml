@@ -6,32 +6,33 @@ platforms = ["linux-64", "osx-arm64"]
 # core dependencies to work with the data and website
 [dependencies]
 python = "~=3.12.0"
+
 click = "~=8.0"
+just = "*"
+pyprojroot = ">=0.3.0,<0.4"
+
 pydantic = ">=2.8,<3"
-docopt-ng = ">=0.9s"
 humanize = "~=4.0"
+deepmerge = ">=2.0,<3"
 tabulate = ">=0.9"
+requests = ">=2.32.3,<3"
+
 statsmodels = "~=0.14.4"
 distfit = "~=1.8"
 plotnine = "~=0.14.0"
 matplotlib-base = "~=3.6"
 seaborn-base = "~=0.13.2"
-ipyparallel = "~=8.0"
 notebook = ">=7"
 jupyter-cache = "*"
-just = "*"
+
 dvc = "~=3.50"
 dvc-webdav = "*"
-dvc-ssh = "*"
 dvc-s3 = "*"
 dvc-azure = "*"
+
 quarto = "~=1.6"
 # pandoc = "==3.2.0"
 tectonic = ">=0.15.0,<0.16"
-pyprojroot = ">=0.3.0,<0.4"
-deepmerge = ">=2.0,<3"
-requests = ">=2.32.3,<3"
-ray-default = ">=2.40.0,<3"
 
 [pypi-dependencies]
 lenskit-codex = { path = ".", editable = true }
@@ -54,6 +55,7 @@ numpy = "~=2.0"
 pandas = "~=2.0"
 scipy = "~=1.10"
 numba = "~=0.56"
+ray-default = ">=2.40.0,<3"
 # hpfrec = "~=0.2.13"
 implicit = "~=0.7.0"
 
