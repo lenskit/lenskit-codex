@@ -918,18 +918,18 @@ stages:
       nfiles: 5
     - path: runs/random-default/UKNN-Implicit
       hash: md5
-      md5: 933a0dde4f2415162c7eff0ff8ee653c.dir
-      size: 3671942
+      md5: 9050893a1ca869846a56e6d89553b968.dir
+      size: 3676632
       nfiles: 4
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: f8e16528977f8785eb0c8c91881d8b4c
-      size: 11687
+      md5: e3817f1218986be1087c1039d9f967d2
+      size: 11694
     - path: run-user-metrics.parquet
       hash: md5
-      md5: b0af0e84ae3dd1555a124459e722b573
-      size: 826356
+      md5: 9ddb291ba833732289016751771a129c
+      size: 826340
   sweep-random-grid-Bias:
     cmd: lenskit-codex sweep run --grid --ds-name=ML1M --split=splits/random.toml
       --test-part=0 Bias sweeps/random/Bias-grid
