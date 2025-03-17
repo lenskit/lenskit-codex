@@ -77,7 +77,7 @@ def recommend_and_save(
 
         task = _run_batches_async(pipe_h, test, n_recs, collector, metric_collector)
         metric_list = asyncio.run(task)
-        collector.finish.remote()
+        ray.get(collector.finish.remote())
 
     df = pd.DataFrame.from_records(metric_list).set_index("user_id")
     return RunAnalysisResult(
