@@ -1,4 +1,5 @@
 import json
+import os
 import re
 import tomllib
 from glob import glob
@@ -7,6 +8,10 @@ from pathlib import Path
 import yaml
 from invoke.context import Context
 from invoke.tasks import task
+
+from codex.layout import codex_root
+
+os.chdir(codex_root())
 
 
 @task
@@ -80,10 +85,10 @@ def render_pipeline(c: Context):
 
         if extras := data.get("extraFiles", None):
             del data["extraFiles"]
-            for name, data in extras.items():
+            for name, content in extras.items():
                 epath = path.parent / name
                 print("saving extra file", epath)
-                epath.write_text(data)
+                epath.write_text(content)
 
         out = path.parent / "dvc.yaml"
         with out.open("wt") as yf:

@@ -1,15 +1,92 @@
-"path,split,variant,model
-
-random-default/Bias,random,default,Bias
-
-random-default/BiasedMF-ALS,random,default,BiasedMF-ALS
-
-random-default/IKNN-Explicit,random,default,IKNN-Explicit
-
-random-default/IKNN-Implicit,random,default,IKNN-Implicit
-
-random-default/ImplicitMF-ALS,random,default,ImplicitMF-ALS
-
-random-default/Popular,random,default,Popular
-
-"
+stages:
+  collect-metrics:
+    cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
+      -L runs/manifest.csv
+    deps:
+      - runs/random-default/Bias
+      - runs/random-default/BiasedMF-ALS
+      - runs/random-default/IKNN-Explicit
+      - runs/random-default/IKNN-Implicit
+      - runs/random-default/ImplicitMF-ALS
+      - runs/random-default/Popular
+    outs:
+      - run-summary.csv
+      - run-user-metrics.parquet
+  import:
+    cmd: lenskit data convert --movielens ml-100k.zip dataset
+    deps:
+      - ml-100k.zip
+    outs:
+      - dataset
+  run-random-default-Bias:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
+      -o runs/random-default/Bias
+    deps:
+      - ../../models/Bias.toml
+      - dataset
+      - splits/random.parquet
+    outs:
+      - random-default/Bias
+  run-random-default-BiasedMF-ALS:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
+      -o runs/random-default/BiasedMF-ALS
+    deps:
+      - ../../models/BiasedMF-ALS.toml
+      - dataset
+      - splits/random.parquet
+    outs:
+      - random-default/BiasedMF-ALS
+  run-random-default-IKNN-Explicit:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
+      -o runs/random-default/IKNN-Explicit
+    deps:
+      - ../../models/IKNN-Explicit.toml
+      - dataset
+      - splits/random.parquet
+    outs:
+      - random-default/IKNN-Explicit
+  run-random-default-IKNN-Implicit:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
+      -o runs/random-default/IKNN-Implicit
+    deps:
+      - ../../models/IKNN-Implicit.toml
+      - dataset
+      - splits/random.parquet
+    outs:
+      - random-default/IKNN-Implicit
+  run-random-default-ImplicitMF-ALS:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
+      -o runs/random-default/ImplicitMF-ALS
+    deps:
+      - ../../models/ImplicitMF-ALS.toml
+      - dataset
+      - splits/random.parquet
+    outs:
+      - random-default/ImplicitMF-ALS
+  run-random-default-Popular:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
+      -o runs/random-default/Popular
+    deps:
+      - ../../models/Popular.toml
+      - dataset
+      - splits/random.parquet
+    outs:
+      - random-default/Popular
+  split-random:
+    cmd: lenskit codex split random.toml
+    deps:
+      - random.toml
+      - ../dataset
+    outs:
+      - random.parquet
+    params:
+      - ../../../config.toml:
+          - random.seed
+    wdir: splits
+  stats:
+    cmd: lenskit codex sql -D ds_name=ML100K -f ../ml-stats.sql stats.duckdb
+    deps:
+      - ../ml-stats.sql
+      - dataset
+    outs:
+      - stats.duckdb

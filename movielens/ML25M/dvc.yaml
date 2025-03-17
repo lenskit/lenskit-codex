@@ -1,15 +1,81 @@
-"path,split,variant,model
-
-temporal-default/Bias,temporal,default,Bias
-
-temporal-default/BiasedMF-ALS,temporal,default,BiasedMF-ALS
-
-temporal-default/IKNN-Explicit,temporal,default,IKNN-Explicit
-
-temporal-default/IKNN-Implicit,temporal,default,IKNN-Implicit
-
-temporal-default/ImplicitMF-ALS,temporal,default,ImplicitMF-ALS
-
-temporal-default/Popular,temporal,default,Popular
-
-"
+stages:
+  collect-metrics:
+    cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
+      -L runs/manifest.csv
+    deps:
+      - runs/temporal-default/Bias
+      - runs/temporal-default/BiasedMF-ALS
+      - runs/temporal-default/IKNN-Explicit
+      - runs/temporal-default/IKNN-Implicit
+      - runs/temporal-default/ImplicitMF-ALS
+      - runs/temporal-default/Popular
+    outs:
+      - run-summary.csv
+      - run-user-metrics.parquet
+  import:
+    cmd: lenskit data convert --movielens ml-32m.zip dataset
+    deps:
+      - ml-32m.zip
+    outs:
+      - dataset
+  run-temporal-default-Bias:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+      -o runs/temporal-default/Bias
+    deps:
+      - ../../models/Bias.toml
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - temporal-default/Bias
+  run-temporal-default-BiasedMF-ALS:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+      -o runs/temporal-default/BiasedMF-ALS
+    deps:
+      - ../../models/BiasedMF-ALS.toml
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - temporal-default/BiasedMF-ALS
+  run-temporal-default-IKNN-Explicit:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+      -o runs/temporal-default/IKNN-Explicit
+    deps:
+      - ../../models/IKNN-Explicit.toml
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - temporal-default/IKNN-Explicit
+  run-temporal-default-IKNN-Implicit:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+      -o runs/temporal-default/IKNN-Implicit
+    deps:
+      - ../../models/IKNN-Implicit.toml
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - temporal-default/IKNN-Implicit
+  run-temporal-default-ImplicitMF-ALS:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+      -o runs/temporal-default/ImplicitMF-ALS
+    deps:
+      - ../../models/ImplicitMF-ALS.toml
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - temporal-default/ImplicitMF-ALS
+  run-temporal-default-Popular:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+      -o runs/temporal-default/Popular
+    deps:
+      - ../../models/Popular.toml
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - temporal-default/Popular
+  stats:
+    cmd: lenskit codex sql -D ds_name=ML32M -f ../ml-stats.sql stats.duckdb
+    deps:
+      - ../ml-stats.sql
+      - dataset
+    outs:
+      - stats.duckdb
