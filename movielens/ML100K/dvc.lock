@@ -422,8 +422,8 @@ stages:
     outs:
     - path: runs/random-default/ImplicitMF-ALS
       hash: md5
-      md5: 3712325add5d6508381c556630708da9.dir
-      size: 689814
+      md5: ee048464eb1a72689188176fd52ec2a2.dir
+      size: 690547
       nfiles: 4
   collect-metrics:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
@@ -515,8 +515,8 @@ stages:
     outs:
     - path: runs/random-default/IKNN-Implicit
       hash: md5
-      md5: 3ea08f8a912582f179985af7dc2e249d.dir
-      size: 657218
+      md5: c659aa353d4463441d2fd299c5582859.dir
+      size: 657779
       nfiles: 4
   run-random-grid-best-IKNN-Explicit:
     cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Explicit-grid.json
@@ -615,8 +615,8 @@ stages:
     outs:
     - path: runs/random-default/IKNN-Explicit
       hash: md5
-      md5: 2fa10ad005eb1f98779151408482f9f9.dir
-      size: 700766
+      md5: 29006a3ca7e7e929c2a1acb075745ee5.dir
+      size: 701525
       nfiles: 5
   run-random-default-Bias:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
@@ -661,8 +661,8 @@ stages:
     outs:
     - path: runs/random-default/Popular
       hash: md5
-      md5: c043befebbb8247a0dfed7a43afa4f49.dir
-      size: 168805
+      md5: 4a32de4533997f9ffa4d0de710520b9e.dir
+      size: 169388
       nfiles: 4
   run-random-default-Implicit-BPR:
     cmd: python ../../action.py generate --default --test-part=-0 --assignments=splits/random.duckdb
