@@ -28,5 +28,7 @@ class DummyScorer(Component):
     Scorer that does nothing.
     """
 
+    config: None
+
     def __call__(self, query: QueryInput, items: ItemList) -> ItemList:
         return ItemList()
