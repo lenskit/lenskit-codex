@@ -13,9 +13,9 @@ stages:
       - run-summary.csv
       - run-user-metrics.parquet
   import:
-    cmd: lenskit data convert --movielens ml-32m.zip dataset
+    cmd: lenskit data convert --movielens ml-25m.zip dataset
     deps:
-      - ml-32m.zip
+      - ml-25m.zip
     outs:
       - dataset
   run-temporal-default-Bias:
@@ -73,7 +73,7 @@ stages:
     outs:
       - temporal-default/Popular
   stats:
-    cmd: lenskit codex sql -D ds_name=ML32M -f ../ml-stats.sql stats.duckdb
+    cmd: lenskit codex sql -D ds_name=ML25M -f ../ml-stats.sql stats.duckdb
     deps:
       - ../ml-stats.sql
       - dataset

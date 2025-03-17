@@ -4,8 +4,8 @@ local results = import '../results.libsonnet';
 local runlib = import '../runs.libsonnet';
 
 local defs = {
-  name:: 'ML32M',
-  fn:: 'ml-32m',
+  name:: 'ML25M',
+  fn:: 'ml-25m',
   root:: '../..',
 };
 
