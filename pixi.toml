@@ -58,11 +58,7 @@ numba = "~=0.56"
 implicit = "~=0.7.0"
 
 [feature.run.pypi-dependencies]
-lenskit = { version = ">=2025.1.1rc2", extras = [
-  "implicit",
-  "sklearn",
-  "funksvd",
-] }
+lenskit = { version = "~=2025.2", extras = ["implicit", "sklearn", "funksvd"] }
 
 [feature.run.target.linux.dependencies]
 libblas = { build = "*mkl*" }
