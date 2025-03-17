@@ -1342,7 +1342,7 @@ stages:
       size: 103304
       nfiles: 3
   stats:
-    cmd: lenskit-codex sql -D ds_name=ML1M -f ../ml-stats.sql stats.duckdb
+    cmd: lenskit codex sql -D ds_name=ML1M -f ../ml-stats.sql stats.duckdb
     deps:
     - path: ../ml-stats.sql
       hash: md5
@@ -1356,5 +1356,5 @@ stages:
     outs:
     - path: stats.duckdb
       hash: md5
-      md5: af1153c28f94be30daf3fc13dc12105a
+      md5: 969c2543acc09afa098ffd83e1790036
       size: 1323008

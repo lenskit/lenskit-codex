@@ -34,35 +34,35 @@ stages:
       md5: bd6157a86d399ec27b6447d617be0da7
       size: 29372416
   aggregate-rating-stats:
-    cmd: lenskit-codex movielens aggregate -d merged-stats.duckdb ML100K ML1M ML10M
+    cmd: lenskit codex movielens aggregate -d merged-stats.duckdb ML100K ML1M ML10M
       ML20M ML25M ML32M
     deps:
-    - path: ML100K/ratings.duckdb
+    - path: ML100K/stats.duckdb
       hash: md5
-      md5: 4ebfe15a3b3072086408fdc861bf37ae
-      size: 2371584
-    - path: ML10M/ratings.duckdb
+      md5: 57662cfb6c1e773c22a64c5284d6df6f
+      size: 1323008
+    - path: ML10M/stats.duckdb
       hash: md5
-      md5: 5b61a4ef8958fb6559b0e697ed88c453
-      size: 119549952
-    - path: ML1M/ratings.duckdb
+      md5: 4463979e309e3131c0876d4f7896d68c
+      size: 2895872
+    - path: ML1M/stats.duckdb
       hash: md5
-      md5: 6f48e3d41018b7f1deb4a9f5aa2c0ecf
-      size: 11284480
-    - path: ML20M/ratings.duckdb
+      md5: 969c2543acc09afa098ffd83e1790036
+      size: 1323008
+    - path: ML20M/stats.duckdb
       hash: md5
-      md5: 635c81f0f1854b8fe09b9acecbdd7f51
-      size: 239349760
-    - path: ML25M/ratings.duckdb
+      md5: 1f692392a624b56a157fca3e5ed2d1b2
+      size: 4993024
+    - path: ML25M/stats.duckdb
       hash: md5
-      md5: dc37049fc7987e8f26bda61eca420bce
-      size: 298856448
-    - path: ML32M/ratings.duckdb
+      md5: d4aae58c2539e7773e0f874cd8436ff2
+      size: 5779456
+    - path: ML32M/stats.duckdb
       hash: md5
-      md5: a81c61d4b9ee0568294bdec12ad5a7de
-      size: 383004672
+      md5: 2404f1d65a505fb7355f54255ef6585e
+      size: 7090176
     outs:
     - path: merged-stats.duckdb
       hash: md5
-      md5: bd6157a86d399ec27b6447d617be0da7
+      md5: bb118dfd13cd9df789447d3b65e54329
       size: 29372416

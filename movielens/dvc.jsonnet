@@ -5,7 +5,7 @@ local datasets = [
   'ML10M',
   'ML20M',
   'ML25M',
-  'ML32M ',
+  'ML32M',
 ];
 
 {
