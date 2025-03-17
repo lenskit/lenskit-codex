@@ -9,7 +9,7 @@ local defs = {
   root:: '../..',
 };
 
-local runs = runlib.crossfold(defs.root, 'random');
+local runs = runlib.crossfold(defs.name, 'random');
 
 {
   stages: defs

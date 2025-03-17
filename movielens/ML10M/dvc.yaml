@@ -20,7 +20,7 @@ stages:
       - dataset
   run-temporal-default-Bias:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/Bias
+      -o runs/temporal-default/Bias Bias
     deps:
       - ../../models/Bias.toml
       - dataset
@@ -29,7 +29,7 @@ stages:
       - temporal-default/Bias
   run-temporal-default-BiasedMF-ALS:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/BiasedMF-ALS
+      -o runs/temporal-default/BiasedMF-ALS BiasedMF-ALS
     deps:
       - ../../models/BiasedMF-ALS.toml
       - dataset
@@ -38,7 +38,7 @@ stages:
       - temporal-default/BiasedMF-ALS
   run-temporal-default-IKNN-Explicit:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/IKNN-Explicit
+      -o runs/temporal-default/IKNN-Explicit IKNN-Explicit
     deps:
       - ../../models/IKNN-Explicit.toml
       - dataset
@@ -47,7 +47,7 @@ stages:
       - temporal-default/IKNN-Explicit
   run-temporal-default-IKNN-Implicit:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/IKNN-Implicit
+      -o runs/temporal-default/IKNN-Implicit IKNN-Implicit
     deps:
       - ../../models/IKNN-Implicit.toml
       - dataset
@@ -56,7 +56,7 @@ stages:
       - temporal-default/IKNN-Implicit
   run-temporal-default-ImplicitMF-ALS:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/ImplicitMF-ALS
+      -o runs/temporal-default/ImplicitMF-ALS ImplicitMF-ALS
     deps:
       - ../../models/ImplicitMF-ALS.toml
       - dataset
@@ -65,7 +65,7 @@ stages:
       - temporal-default/ImplicitMF-ALS
   run-temporal-default-Popular:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/Popular
+      -o runs/temporal-default/Popular Popular
     deps:
       - ../../models/Popular.toml
       - dataset

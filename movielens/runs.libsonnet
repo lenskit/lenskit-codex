@@ -10,6 +10,7 @@ local runStages(origin, runs) =
         '--ds-name=' + run.dataset,
         std.format('--split=splits/%s.toml', [run.split]),
         '-o runs/' + path,
+        run.model,
       ]),
       outs: [path],
       deps: [std.format('%s/models/%s.toml', [origin, run.model])] + std.get(run, 'deps', []),
@@ -53,19 +54,7 @@ local splitRuns(dataset, split='temporal') = [
 {
   crossfold: crossfoldRuns,
   temporal: splitRuns,
-  stages: function(origin, runs) {
-    [run.name]: {
-      local path = runPath(run),
-      cmd: lib.codex_cmd(['generate'] + run.args + [
-        '--ds-name=' + run.dataset,
-        std.format('--split=splits/%s.toml', [run.split]),
-        '-o runs/' + path,
-      ]),
-      outs: [path],
-      deps: [std.format('%s/models/%s.toml', [origin, run.model])] + std.get(run, 'deps', []),
-    }
-    for run in runs
-  },
+  stages: runStages,
   runPath: runPath,
   runManifest: runManifest,
 }
