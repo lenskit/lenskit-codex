@@ -98,8 +98,8 @@ def recommend_and_save(
 
 async def _run_batches_async(pipe_h, test, n_recs: int, collector, metric_collector):
     n_users = len(test)
-    # max of 100 batches
-    batch_size = max(1000, math.ceil(n_users / 64))
+    # max of 64 batches
+    batch_size = max(500, math.ceil(n_users / 64))
 
     log = _log.bind(n_users=n_users, n_recs=n_recs, batch_size=batch_size)
     log.info("launching asynchronous inference")
