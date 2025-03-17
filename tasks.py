@@ -50,7 +50,20 @@ def _front_matter(path):
         return {}
 
 
-@task(list_documents)
+@task
+def list_models(c: Context):
+    "List the available recommendation models."
+    model_dir = Path("models")
+    model_files = model_dir.glob("*.toml")
+
+    models = {mf.stem: {} for mf in model_files}
+
+    with open("models/index.json", "wt") as jsf:
+        json.dump(models, jsf, indent=2)
+        print(file=jsf)
+
+
+@task(list_documents, list_models)
 def render_pipeline(c: Context):
     import _jsonnet
 
