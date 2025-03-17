@@ -42,7 +42,9 @@ class CrossfoldSplitSet(SplitSet):
         self.dataset = Dataset.load(src_path)
         _log.info("loading split outputs", file=str(path))
         alloc_df = pd.read_parquet(path)
-        self.alloc = {str(part): df for (part, df) in alloc_df.groupby("part")}
+        self.alloc = {
+            str(part): df.drop(columns=["part"]) for (part, df) in alloc_df.groupby("part")
+        }
 
     @property
     def parts(self) -> list[str]:
@@ -58,7 +60,7 @@ class CrossfoldSplitSet(SplitSet):
         int_name = self.dataset.default_interaction_class()
 
         log.debug("filtering interactions")
-        dsb.filter_interactions(int_name, remove=test)
+        dsb.filter_interactions(int_name, remove=test[["user_id", "item_id"]])
 
         ds = dsb.build()
 
