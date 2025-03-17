@@ -112,7 +112,6 @@ class RunOutput:
         self._log.info("repacking hive", output=name)
         ds = ParquetDataset(hive)
         tbl = ds.read()
-        print(tbl)
         write_table(tbl, flat, compression="zstd")
         self._log.debug("removing hive", output=name)
         shutil.rmtree(hive)
