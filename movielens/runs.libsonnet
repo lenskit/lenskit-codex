@@ -37,7 +37,7 @@ local crossfoldRuns(dataset, split) = [
   for model in std.objectFields(lib.models)
 ];
 
-local splitRuns(dataset, split) = [
+local splitRuns(dataset, split='temporal') = [
   {
     name: std.format('run-%s-default-%s', [split, model]),
     dataset: dataset,
