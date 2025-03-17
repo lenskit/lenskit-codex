@@ -33,7 +33,7 @@ def initialize_db(db: DuckDBPyConnection, sets: list[str]):
     db.execute(f"CREATE TYPE ml_set AS ENUM({set_names})")
     for name in sets:
         _log.info("attaching %s", name)
-        db.execute(f"ATTACH '{name}/ratings.duckdb' AS {name} (READONLY)")
+        db.execute(f"ATTACH '{name}/stats.duckdb' AS {name} (READONLY)")
 
 
 def union_tables(db: DuckDBPyConnection, table: str, sets: list[str]):
