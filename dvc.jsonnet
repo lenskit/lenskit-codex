@@ -2,6 +2,7 @@ local lib = import 'src/lib.libsonnet';
 
 local docs = std.parseJson(importstr 'documents.json');
 
+// create a stage to pre-render each page
 {
   [std.format('page/%s', [lib.removeSuffix(doc.key)])]: {
     cmd: std.format('quarto render %s --profile prerender', [doc.key]),
