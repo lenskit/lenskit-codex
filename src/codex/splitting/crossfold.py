@@ -1,11 +1,8 @@
-from os import fspath
 from pathlib import Path
 from typing import override
 
-import duckdb
 import pandas as pd
-import structlog
-from lenskit.data import Dataset, ItemListCollection, UserIDKey, Vocabulary
+from lenskit.data import Dataset, DatasetBuilder, ItemListCollection
 from lenskit.logging import get_logger
 from lenskit.splitting import SampleN, TTSplit, crossfold_users
 
@@ -37,56 +34,33 @@ def crossfold_ratings(data: Dataset, cross: CrossfoldSpec, hold: HoldoutSpec, ou
 
 
 class CrossfoldSplitSet(SplitSet):
-    db: duckdb.DuckDBPyConnection
-    log: structlog.stdlib.BoundLogger
+    dataset: Dataset
+    alloc: dict[str, pd.DataFrame]
 
     def __init__(self, path: Path, src_path: Path):
-        self.log = _log.bind(db=str(path))
-        self.log.debug("connecting")
-        self.db = duckdb.connect(fspath(path), read_only=True)
-        self.db.execute(f"ATTACH '{src_path}' AS src")
+        _log.info("loading source dataset", file=str(src_path))
+        self.dataset = Dataset.load(src_path)
+        _log.info("loading split outputs", file=str(path))
+        alloc_df = pd.read_parquet(path)
+        self.alloc = {str(part): df for (part, df) in alloc_df.groupby("partition")}
 
     @property
     def parts(self) -> list[str]:
-        self.db.execute("SELECT DISTINCT partition FROM test_alloc ORDER BY partition")
-        return [str(part) for (part,) in self.db.fetchall()]
+        return list(self.alloc.keys())
 
     @override
     def get_part(self, part: str) -> TTSplit:
-        log = self.log.bind(part=part)
-        test_query = """
-            SELECT user_id, item_id, rating
-            FROM src.ratings
-            JOIN test_alloc USING (user_id, item_id)
-            WHERE partition = ?
-        """
-        train_query = """
-            WITH test_pairs AS (SELECT user_id, item_id FROM test_alloc WHERE partition = ?)
-            SELECT user_id, item_id, rating, timestamp
-            FROM src.ratings ANTI JOIN test_pairs USING (user_id, item_id)
-            ORDER BY user_id, item_id
-        """
-        log.debug("querying for test ratings")
-        self.db.execute(test_query, [part])
-        test_df = self.db.fetch_df()
-        test = ItemListCollection.from_df(test_df, UserIDKey)
-        log.info("loaded %d test users", len(test))
-        log.debug("querying for train ratings")
-        self.db.execute(train_query, [part])
-        train_df = self.db.fetch_df()
+        log = _log.bind(part=part)
 
-        log.debug("fetching entity IDs")
-        self.db.execute("SELECT DISTINCT user_id FROM src.ratings")
-        users = self.db.fetchnumpy()["user_id"]
-        users = Vocabulary(users)
-        self.db.execute("SELECT DISTINCT item_id FROM src.ratings")
-        items = self.db.fetchnumpy()["item_id"]
-        items = Vocabulary(items)
+        test = self.alloc[part]
 
-        ds = MatrixDataset(users, items, train_df)
+        dsb = DatasetBuilder(self.dataset)
+        int_name = self.dataset.default_interaction_class()
+
+        log.debug("filtering interactions")
+        dsb.filter_interactions(int_name, remove=test)
+
+        ds = dsb.build()
 
         log.info("loaded %d training interactions", ds.interaction_count)
-        return TTSplit(ds, test)
-
-    def close(self):
-        self.db.close()
+        return TTSplit(ds, ItemListCollection.from_df(test))

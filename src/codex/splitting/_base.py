@@ -16,15 +16,3 @@ class SplitSet(ABC):
 
     @abstractmethod
     def get_part(self, split: str) -> TTSplit: ...
-
-    def close(self):
-        """
-        Close the split set.
-        """
-        pass
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_into, traceback):
-        self.close()

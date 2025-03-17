@@ -67,9 +67,9 @@ def generate(
             scorer=ScorerModel(name=model),
             data=data_info,
         ) as root_task,
-        load_split_set(split) as split_set,
         output.user_metric_collector() as metric_out,
     ):
+        split_set = load_split_set(split)
         parts = select_parts(split_set, test_part)
 
         log = _log.bind(task_id=str(root_task.task_id))
