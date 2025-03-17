@@ -17,6 +17,13 @@ local runStages(origin, runs) =
     for run in runs
   };
 
+local runManifest(runs) = std.join('\n', [
+  'path,split,variant,model',
+] + [
+  std.join(',', [runPath(run), run.split, run.variant, run.model])
+  for run in runs
+] + ['']);
+
 local crossfoldRuns(dataset, split) = [
   {
     name: std.format('run-%s-default-%s', [split, model]),
@@ -60,4 +67,5 @@ local splitRuns(dataset, split) = [
     for run in runs
   },
   runPath: runPath,
+  runManifest: runManifest,
 }

@@ -9,7 +9,7 @@ local defs = {
   root:: '../..',
 };
 
-local runs = runlib.crossfold(defs.root, defs.name);
+local runs = runlib.crossfold(defs.root, 'random');
 
 {
   stages: defs
@@ -17,4 +17,7 @@ local runs = runlib.crossfold(defs.root, defs.name);
           + data.crossfold
           + runlib.stages('../..', runs)
           + results.collect(runs),
+  extraFiles: {
+    'runs/manifest.csv': runlib.runManifest(runs),
+  },
 }

@@ -1,5 +1,6 @@
 import json
 import re
+import tomllib
 from glob import glob
 from pathlib import Path
 
@@ -56,7 +57,11 @@ def list_models(c: Context):
     model_dir = Path("models")
     model_files = model_dir.glob("*.toml")
 
-    models = {mf.stem: {} for mf in model_files}
+    models = {}
+    for mf in model_files:
+        spec = tomllib.loads(mf.read_text("utf8"))
+        if spec.get("enabled", True):
+            models[mf.stem] = {}
 
     with open("models/index.json", "wt") as jsf:
         json.dump(models, jsf, indent=2)
@@ -72,6 +77,14 @@ def render_pipeline(c: Context):
         print("rendering", file)
         data = _jsonnet.evaluate_file(file)
         data = json.loads(data)
+
+        if extras := data.get("extraFiles", None):
+            del data["extraFiles"]
+            for name, data in extras.items():
+                epath = path.parent / name
+                print("saving extra file", epath)
+                epath.write_text(data)
+
         out = path.parent / "dvc.yaml"
         with out.open("wt") as yf:
             yaml.safe_dump(data, yf)
