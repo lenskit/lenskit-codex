@@ -11,7 +11,7 @@ local datasets = [
 {
   stages: {
     'aggregate-rating-stats': {
-      cmd: lib.action_cmd([
+      cmd: lib.codex_cmd([
         'movielens aggregate',
         '-d merged-stats.duckdb',
       ] + datasets),

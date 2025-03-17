@@ -10,7 +10,7 @@ from invoke.tasks import task
 
 
 @task
-def render(c: Context):
+def render_site(c: Context):
     "Render the website."
     c.run("quarto render --to html")
 
