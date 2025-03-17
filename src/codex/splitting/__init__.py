@@ -34,7 +34,7 @@ def load_split_set(path: Path) -> SplitSet:
             case "crossfold":
                 assert spec.crossfold is not None
                 assert spec.holdout is not None
-                return CrossfoldSplitSet(path.with_suffix(".duckdb"), src)
+                return CrossfoldSplitSet(path.with_suffix(".parquet"), src)
 
     elif path.with_name(path.name + ".train.parquet").exists():
         log.debug("found parquet file, using fixed set")
