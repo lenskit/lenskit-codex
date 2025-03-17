@@ -42,6 +42,7 @@ def recommend_and_save(
     pred_output: Path | None,
     metric_collector: NDJSONCollector | None = None,
     meta: dict[str, JsonValue] | None = None,
+    prefer_async: bool = False,
 ) -> RunAnalysisResult:
     if meta is None:
         meta = {}
@@ -51,7 +52,7 @@ def recommend_and_save(
     n_users = len(test)
     log = _log.bind(n_users=n_users, n_recs=n_recs)
 
-    if "LK_SEQUENTIAL" in os.environ:
+    if "LK_SEQUENTIAL" in os.environ or (n_users < 500 and not prefer_async):
         log.info("recommending in-process")
 
         collector = InferenceResultCollector(rec_output, pred_output)
