@@ -22,7 +22,7 @@ from lenskit.metrics import MAE, NDCG, RBP, RMSE, Hit, RecipRank, RunAnalysisRes
 from pydantic import JsonValue
 
 from codex.cluster import ensure_cluster_init
-from codex.outputs import PRED_FIELDS, REC_FIELDS, ItemListCollector, NDJSONCollector
+from codex.outputs import PRED_FIELDS, REC_FIELDS, DummySink, ItemListCollector, ObjectSink
 
 _log = get_logger(__name__)
 
@@ -40,12 +40,15 @@ def recommend_and_save(
     n_recs: int,
     rec_output: Path,
     pred_output: Path | None,
-    metric_collector: NDJSONCollector | None = None,
+    metric_collector: ObjectSink | None = None,
     meta: dict[str, JsonValue] | None = None,
     prefer_async: bool = False,
 ) -> RunAnalysisResult:
-    if meta is None:
-        meta = {}
+    if metric_collector is None:
+        metric_collector = DummySink()
+
+    if meta is not None:
+        metric_collector = metric_collector.with_fields(meta)
 
     metric_list = []
 

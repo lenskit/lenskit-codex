@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import shutil
+from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import IO, Literal
 
@@ -111,6 +112,7 @@ class RunOutput:
         self._log.info("repacking hive", output=name)
         ds = ParquetDataset(hive)
         tbl = ds.read()
+        print(tbl)
         write_table(tbl, flat, compression="zstd")
         self._log.debug("removing hive", output=name)
         shutil.rmtree(hive)
@@ -119,7 +121,19 @@ class RunOutput:
         return f"RunOutput({self.path})"
 
 
-class NDJSONCollector:
+class ObjectSink(ABC):
+    def with_fields(self, fields: dict[str, JsonValue], *, close: bool = False) -> ObjectSink:
+        return AugmentedSink(self, fields)
+
+    @abstractmethod
+    def write_object(self, data: dict[str, JsonValue]):
+        """
+        Write the specified line to the output file.
+        """
+        ...
+
+
+class NDJSONCollector(ObjectSink):
     """
     Collect objects into an NDJSON file, with optional zstd compression.
     """
@@ -152,6 +166,20 @@ class NDJSONCollector:
 
     def __exit__(self, *args):
         self.close()
+
+
+class DummySink(ObjectSink):
+    def write_object(self, data: dict[str, JsonValue]):
+        pass
+
+
+class AugmentedSink(ObjectSink):
+    def __init__(self, sink: ObjectSink, fields: dict[str, JsonValue]):
+        self.delegate = sink
+        self.fields = fields
+
+    def write_object(self, data: dict[str, JsonValue]):
+        self.delegate.write_object(self.fields | data)
 
 
 class ItemListCollector:
