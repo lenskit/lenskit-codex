@@ -9,6 +9,8 @@ stages:
       - runs/random-default/IKNN-Implicit
       - runs/random-default/ImplicitMF-ALS
       - runs/random-default/Popular
+      - runs/random-default/UKNN-Explicit
+      - runs/random-default/UKNN-Implicit
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -72,6 +74,24 @@ stages:
       - splits/random.parquet
     outs:
       - runs/random-default/Popular
+  run-random-default-UKNN-Explicit:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random-default/UKNN-Explicit UKNN-Explicit
+    deps:
+      - ../../models/UKNN-Explicit.toml
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random-default/UKNN-Explicit
+  run-random-default-UKNN-Implicit:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random-default/UKNN-Implicit UKNN-Implicit
+    deps:
+      - ../../models/UKNN-Implicit.toml
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random-default/UKNN-Implicit
   split-random:
     cmd: lenskit codex split random.toml
     deps:

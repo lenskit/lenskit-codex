@@ -9,6 +9,8 @@ stages:
       - runs/temporal-default/IKNN-Implicit
       - runs/temporal-default/ImplicitMF-ALS
       - runs/temporal-default/Popular
+      - runs/temporal-default/UKNN-Explicit
+      - runs/temporal-default/UKNN-Implicit
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -72,6 +74,24 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal-default/Popular
+  run-temporal-default-UKNN-Explicit:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+      -o runs/temporal-default/UKNN-Explicit UKNN-Explicit
+    deps:
+      - ../../models/UKNN-Explicit.toml
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal-default/UKNN-Explicit
+  run-temporal-default-UKNN-Implicit:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+      -o runs/temporal-default/UKNN-Implicit UKNN-Implicit
+    deps:
+      - ../../models/UKNN-Implicit.toml
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal-default/UKNN-Implicit
   stats:
     cmd: lenskit codex sql -D ds_name=ML10M -f ../ml-stats.sql stats.duckdb
     deps:
