@@ -48,3 +48,19 @@ def _front_matter(path):
         return yaml.safe_load(m.group(1))
     else:
         return {}
+
+
+@task(list_documents)
+def render_pipeline(c: Context):
+    import _jsonnet
+
+    for file in glob("**/dvc.jsonnet", recursive=True):
+        path = Path(file)
+        print("rendering", file)
+        data = _jsonnet.evaluate_file(file)
+        data = json.loads(data)
+        out = path.parent / "dvc.yaml"
+        with out.open("wt") as yf:
+            yaml.safe_dump(data, yf)
+
+    c.run("dprint fmt '**/dvc.yaml'")

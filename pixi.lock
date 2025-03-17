@@ -1066,6 +1066,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/distlib-0.3.9-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/distro-1.9.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/dpath-2.2.0-pyha770c72_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/dprint-0.49.0-h6c30b3d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/duckdb-cli-1.1.3-h5888daf_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/dulwich-0.22.6-py312h12e396e_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/dvc-3.56.0-pyhd8ed1ab_0.conda
@@ -1152,6 +1153,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/jmespath-1.0.1-pyhd8ed1ab_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/joblib-1.4.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/json5-0.9.28-pyhff2d567_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/jsonnet-0.20.0-py312h2ec8cdc_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/jsonpointer-3.0.0-py312h7900ff3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jsonschema-4.23.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jsonschema-specifications-2024.10.1-pyhd8ed1ab_0.conda
@@ -1568,6 +1570,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/distlib-0.3.9-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/distro-1.9.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/dpath-2.2.0-pyha770c72_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/dprint-0.49.0-h8dba533_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/duckdb-cli-1.1.3-h286801f_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/dulwich-0.22.6-py312hcd83bfe_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/dvc-3.56.0-pyhd8ed1ab_0.conda
@@ -1651,6 +1654,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/jmespath-1.0.1-pyhd8ed1ab_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/noarch/joblib-1.4.2-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/json5-0.9.28-pyhff2d567_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/jsonnet-0.20.0-py312hd8f9ff3_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/jsonpointer-3.0.0-py312h81bd7bf_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jsonschema-4.23.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/jsonschema-specifications-2024.10.1-pyhd8ed1ab_0.conda
@@ -4543,6 +4547,31 @@ packages:
   - pkg:pypi/dpath?source=hash-mapping
   size: 21344
   timestamp: 1718243548474
+- conda: https://conda.anaconda.org/conda-forge/linux-64/dprint-0.49.0-h6c30b3d_0.conda
+  sha256: 02f1c20770af500d1f586aa958a156a75a3351d4da2769d8a7f83465db0f12d0
+  md5: f4f2e0be5ae44cdfcc31fb6af7631b37
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc >=13
+  constrains:
+  - __glibc >=2.17
+  license: MIT
+  license_family: MIT
+  purls: []
+  size: 6020516
+  timestamp: 1738492769534
+- conda: https://conda.anaconda.org/conda-forge/osx-arm64/dprint-0.49.0-h8dba533_0.conda
+  sha256: ff93594a6179f9f519124a8a140bc9e871f5b91efc8e247e5be5f1f67e005fab
+  md5: cec26c3863e2a53af55f2016a54f547c
+  depends:
+  - __osx >=11.0
+  constrains:
+  - __osx >=11.0
+  license: MIT
+  license_family: MIT
+  purls: []
+  size: 5460419
+  timestamp: 1738492814906
 - conda: https://conda.anaconda.org/conda-forge/linux-64/duckdb-cli-1.1.3-h5888daf_1.conda
   sha256: a30a90b2a650ad06cf62eac6b2eadf1303fbb7eba5658630b3e8d3bfe0a6f5f9
   md5: fc9d816f82c201394970c3c40df4099b
@@ -6119,6 +6148,36 @@ packages:
   - pkg:pypi/json5?source=hash-mapping
   size: 28525
   timestamp: 1731366079831
+- conda: https://conda.anaconda.org/conda-forge/linux-64/jsonnet-0.20.0-py312h2ec8cdc_2.conda
+  sha256: 1fe487ef665b72316b56d27813b96ce605d56f3b5c35ab0d94087d8bdf903179
+  md5: 05d882a38842e71d1ec28c35f5f04e80
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc >=13
+  - libstdcxx >=13
+  - python >=3.12,<3.13.0a0
+  - python_abi 3.12.* *_cp312
+  license: Apache-2.0
+  license_family: Apache
+  purls:
+  - pkg:pypi/jsonnet?source=hash-mapping
+  size: 419725
+  timestamp: 1735873800996
+- conda: https://conda.anaconda.org/conda-forge/osx-arm64/jsonnet-0.20.0-py312hd8f9ff3_2.conda
+  sha256: c4c1a337cce1a9b4e713d72af625959f147df131cf48aaae9f675fd3ccb4d999
+  md5: a5cfcf88415793471be65ef814ae34f7
+  depends:
+  - __osx >=11.0
+  - libcxx >=18
+  - python >=3.12,<3.13.0a0
+  - python >=3.12,<3.13.0a0 *_cpython
+  - python_abi 3.12.* *_cp312
+  license: Apache-2.0
+  license_family: Apache
+  purls:
+  - pkg:pypi/jsonnet?source=hash-mapping
+  size: 321227
+  timestamp: 1735873961257
 - conda: https://conda.anaconda.org/conda-forge/linux-64/jsonpointer-3.0.0-py312h7900ff3_1.conda
   sha256: 76ccb7bffc7761d1d3133ffbe1f7f1710a0f0d9aaa9f7ea522652e799f3601f4
   md5: 6b51f7459ea4073eeb5057207e2e1e3d
