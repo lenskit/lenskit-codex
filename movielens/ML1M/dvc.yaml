@@ -26,7 +26,7 @@ stages:
       - dataset
       - splits/random.parquet
     outs:
-      - random-default/Bias
+      - runs/random-default/Bias
   run-random-default-BiasedMF-ALS:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
       -o runs/random-default/BiasedMF-ALS BiasedMF-ALS
@@ -35,7 +35,7 @@ stages:
       - dataset
       - splits/random.parquet
     outs:
-      - random-default/BiasedMF-ALS
+      - runs/random-default/BiasedMF-ALS
   run-random-default-IKNN-Explicit:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
       -o runs/random-default/IKNN-Explicit IKNN-Explicit
@@ -44,7 +44,7 @@ stages:
       - dataset
       - splits/random.parquet
     outs:
-      - random-default/IKNN-Explicit
+      - runs/random-default/IKNN-Explicit
   run-random-default-IKNN-Implicit:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
       -o runs/random-default/IKNN-Implicit IKNN-Implicit
@@ -53,7 +53,7 @@ stages:
       - dataset
       - splits/random.parquet
     outs:
-      - random-default/IKNN-Implicit
+      - runs/random-default/IKNN-Implicit
   run-random-default-ImplicitMF-ALS:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
       -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
@@ -62,7 +62,7 @@ stages:
       - dataset
       - splits/random.parquet
     outs:
-      - random-default/ImplicitMF-ALS
+      - runs/random-default/ImplicitMF-ALS
   run-random-default-Popular:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
       -o runs/random-default/Popular Popular
@@ -71,7 +71,7 @@ stages:
       - dataset
       - splits/random.parquet
     outs:
-      - random-default/Popular
+      - runs/random-default/Popular
   split-random:
     cmd: lenskit codex split random.toml
     deps:

@@ -26,7 +26,7 @@ stages:
       - dataset
       - splits/temporal.toml
     outs:
-      - temporal-default/Bias
+      - runs/temporal-default/Bias
   run-temporal-default-BiasedMF-ALS:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
       -o runs/temporal-default/BiasedMF-ALS BiasedMF-ALS
@@ -35,7 +35,7 @@ stages:
       - dataset
       - splits/temporal.toml
     outs:
-      - temporal-default/BiasedMF-ALS
+      - runs/temporal-default/BiasedMF-ALS
   run-temporal-default-IKNN-Explicit:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
       -o runs/temporal-default/IKNN-Explicit IKNN-Explicit
@@ -44,7 +44,7 @@ stages:
       - dataset
       - splits/temporal.toml
     outs:
-      - temporal-default/IKNN-Explicit
+      - runs/temporal-default/IKNN-Explicit
   run-temporal-default-IKNN-Implicit:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
       -o runs/temporal-default/IKNN-Implicit IKNN-Implicit
@@ -53,7 +53,7 @@ stages:
       - dataset
       - splits/temporal.toml
     outs:
-      - temporal-default/IKNN-Implicit
+      - runs/temporal-default/IKNN-Implicit
   run-temporal-default-ImplicitMF-ALS:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
       -o runs/temporal-default/ImplicitMF-ALS ImplicitMF-ALS
@@ -62,7 +62,7 @@ stages:
       - dataset
       - splits/temporal.toml
     outs:
-      - temporal-default/ImplicitMF-ALS
+      - runs/temporal-default/ImplicitMF-ALS
   run-temporal-default-Popular:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
       -o runs/temporal-default/Popular Popular
@@ -71,7 +71,7 @@ stages:
       - dataset
       - splits/temporal.toml
     outs:
-      - temporal-default/Popular
+      - runs/temporal-default/Popular
   stats:
     cmd: lenskit codex sql -D ds_name=ML32M -f ../ml-stats.sql stats.duckdb
     deps:

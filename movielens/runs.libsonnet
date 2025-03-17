@@ -12,7 +12,7 @@ local runStages(origin, runs) =
         '-o runs/' + path,
         run.model,
       ]),
-      outs: [path],
+      outs: ['runs/' + path],
       deps: [std.format('%s/models/%s.toml', [origin, run.model])] + std.get(run, 'deps', []),
     }
     for run in runs
