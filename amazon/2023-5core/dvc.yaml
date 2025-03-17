@@ -233,9 +233,9 @@ stages:
       deps:
         - user-ids.duckdb
         - item-ids.duckdb
-        - 'data/${item}.csv.gz'
+        - "data/${item}.csv.gz"
       outs:
-        - 'data/${item}.parquet'
+        - "data/${item}.parquet"
   collect-stats:
     cmd: lenskit codex run-duck-sql -f bench-stats.sql stats.duckdb
     outs:
@@ -324,11 +324,11 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Bias Bias
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
+        - "data/${item}.test.parquet"
       outs:
-        - 'runs/default/${item}/test/Bias'
+        - "runs/default/${item}/test/Bias"
   run-default-Bias-valid:
     foreach:
       - CDs_and_Vinyl
@@ -339,10 +339,10 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Bias Bias
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
       outs:
-        - 'runs/default/${item}/valid/Bias'
+        - "runs/default/${item}/valid/Bias"
   run-default-BiasedMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
@@ -353,11 +353,11 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/BiasedMF-ALS BiasedMF-ALS
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
+        - "data/${item}.test.parquet"
       outs:
-        - 'runs/default/${item}/test/BiasedMF-ALS'
+        - "runs/default/${item}/test/BiasedMF-ALS"
   run-default-BiasedMF-ALS-valid:
     foreach:
       - CDs_and_Vinyl
@@ -368,10 +368,10 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/BiasedMF-ALS BiasedMF-ALS
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
       outs:
-        - 'runs/default/${item}/valid/BiasedMF-ALS'
+        - "runs/default/${item}/valid/BiasedMF-ALS"
   run-default-IKNN-Explicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -382,11 +382,11 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/IKNN-Explicit IKNN-Explicit
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
+        - "data/${item}.test.parquet"
       outs:
-        - 'runs/default/${item}/test/IKNN-Explicit'
+        - "runs/default/${item}/test/IKNN-Explicit"
   run-default-IKNN-Explicit-valid:
     foreach:
       - CDs_and_Vinyl
@@ -397,10 +397,10 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/IKNN-Explicit IKNN-Explicit
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
       outs:
-        - 'runs/default/${item}/valid/IKNN-Explicit'
+        - "runs/default/${item}/valid/IKNN-Explicit"
   run-default-IKNN-Implicit-test:
     foreach:
       - CDs_and_Vinyl
@@ -411,11 +411,11 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/IKNN-Implicit IKNN-Implicit
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
+        - "data/${item}.test.parquet"
       outs:
-        - 'runs/default/${item}/test/IKNN-Implicit'
+        - "runs/default/${item}/test/IKNN-Implicit"
   run-default-IKNN-Implicit-valid:
     foreach:
       - CDs_and_Vinyl
@@ -426,10 +426,10 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/IKNN-Implicit IKNN-Implicit
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
       outs:
-        - 'runs/default/${item}/valid/IKNN-Implicit'
+        - "runs/default/${item}/valid/IKNN-Implicit"
   run-default-ImplicitMF-ALS-test:
     foreach:
       - CDs_and_Vinyl
@@ -440,11 +440,11 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/ImplicitMF-ALS ImplicitMF-ALS
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
+        - "data/${item}.test.parquet"
       outs:
-        - 'runs/default/${item}/test/ImplicitMF-ALS'
+        - "runs/default/${item}/test/ImplicitMF-ALS"
   run-default-ImplicitMF-ALS-valid:
     foreach:
       - CDs_and_Vinyl
@@ -455,10 +455,10 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/ImplicitMF-ALS ImplicitMF-ALS
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
       outs:
-        - 'runs/default/${item}/valid/ImplicitMF-ALS'
+        - "runs/default/${item}/valid/ImplicitMF-ALS"
   run-default-Popular-test:
     foreach:
       - CDs_and_Vinyl
@@ -469,11 +469,11 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=test -o runs/default/${item}/test/Popular Popular
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
-        - 'data/${item}.test.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
+        - "data/${item}.test.parquet"
       outs:
-        - 'runs/default/${item}/test/Popular'
+        - "runs/default/${item}/test/Popular"
   run-default-Popular-valid:
     foreach:
       - CDs_and_Vinyl
@@ -484,10 +484,10 @@ stages:
       cmd: >-
         lenskit codex generate --default -n 2000 --split=data/${item} --test-part=valid -o runs/default/${item}/valid/Popular Popular
       deps:
-        - 'data/${item}.train.parquet'
-        - 'data/${item}.valid.parquet'
+        - "data/${item}.train.parquet"
+        - "data/${item}.valid.parquet"
       outs:
-        - 'runs/default/${item}/valid/Popular'
+        - "runs/default/${item}/valid/Popular"
   export-qrels:
     foreach:
       - CDs_and_Vinyl.test
@@ -499,11 +499,11 @@ stages:
       - Video_Games.test
       - Video_Games.valid
     do:
-      cmd: 'lenskit codex trec export qrels data/${item}.parquet'
+      cmd: "lenskit codex trec export qrels data/${item}.parquet"
       deps:
-        - 'data/${item}.parquet'
+        - "data/${item}.parquet"
       outs:
-        - 'data/${item}.qrels.gz'
+        - "data/${item}.qrels.gz"
   export-default-runs:
     foreach:
       - runs/default/CDs_and_Vinyl/valid/Bias
@@ -555,8 +555,8 @@ stages:
       - runs/default/Video_Games/valid/Popular
       - runs/default/Video_Games/test/Popular
     do:
-      cmd: 'lenskit codex trec export runs ${item}.duckdb ${item}.run.gz'
+      cmd: "lenskit codex trec export runs ${item}.duckdb ${item}.run.gz"
       deps:
-        - '${item}.duckdb'
+        - "${item}.duckdb"
       outs:
-        - '${item}.run.gz'
+        - "${item}.run.gz"

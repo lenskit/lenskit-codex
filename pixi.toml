@@ -86,9 +86,4 @@ default = { features = ["run", "analyze"], solve-group = "main" }
 publish = { features = ["nomkl"] }
 dev = { features = ["run", "analyze", "dev"], solve-group = "main" }
 cuda = { features = ["run", "analyze", "cuda"], solve-group = "cuda" }
-cuda-dev = { features = [
-  "run",
-  "analyze",
-  "cuda",
-  "dev",
-], solve-group = "cuda" }
+cuda-dev = { features = ["run", "analyze", "cuda", "dev"], solve-group = "cuda" }
