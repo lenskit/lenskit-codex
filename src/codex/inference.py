@@ -17,7 +17,8 @@ import pyarrow as pa
 import ray
 from lenskit import Pipeline, predict, recommend
 from lenskit.data import ID, ItemList, ItemListCollection, UserIDKey
-from lenskit.logging import get_logger, item_progress
+from lenskit.logging import Task, get_logger, item_progress
+from lenskit.logging.worker import send_task
 from lenskit.metrics import MAE, NDCG, RBP, RMSE, Hit, RecipRank, RunAnalysisResult, call_metric
 from pydantic import JsonValue
 
@@ -130,12 +131,15 @@ async def _run_and_await_batch(pipe_h, batch, n_recs, pb, collector, metric_coll
 
 @ray.remote
 def run_pipeline_batch(pipeline, batch, n_recs: int, collector):
-    for user, data in batch:
-        result = run_pipeline(pipeline, user, data, n_recs)
-        t = collector.write_output.remote(result.recs, result.preds, user_id=user.user_id)
-        ray.get(t)
+    with Task("pipeline batch", reset_hwm=True, subprocess=True) as task:
+        for user, data in batch:
+            result = run_pipeline(pipeline, user, data, n_recs)
+            t = collector.write_output.remote(result.recs, result.preds, user_id=user.user_id)
+            ray.get(t)
 
-        yield result.metrics
+            yield result.metrics
+
+    send_task(task)
 
 
 def run_pipeline(
