@@ -29,6 +29,10 @@ runs = pd.read_csv('run-summary.csv')
 
 ## Top-N Recommendation Accuracy
 
+::: {.panel-tabset}
+
+### RBP
+
 ```{python}
 (
     pn.ggplot(runs)
@@ -38,6 +42,32 @@ runs = pd.read_csv('run-summary.csv')
     + pn.coord_flip()
 )
 ```
+
+### NDCG
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='model', y='NDCG', fill='variant')
+    + pn.geom_col(position='dodge')
+    + pn.scale_fill_brewer('qual', 'Dark2')
+    + pn.coord_flip()
+)
+```
+
+### MRR
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='model', y='RecipRank', fill='variant')
+    + pn.geom_col(position='dodge')
+    + pn.scale_fill_brewer('qual', 'Dark2')
+    + pn.coord_flip()
+)
+```
+
+:::
 
 ## Rating Prediction Accuracy
 
