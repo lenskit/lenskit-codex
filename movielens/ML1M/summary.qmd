@@ -20,11 +20,12 @@ from tabulate import tabulate
 ```
 
 ```{python}
-from codex.display import DEFAULTS
+from codex.display import DEFAULTS, scale_y_memory
 ```
 
 ```{python}
 runs = pd.read_csv('run-summary.csv')
+user_metrics = pd.read_parquet('run-user-metrics.parquet')
 ```
 
 ## Top-N Recommendation Accuracy
@@ -35,9 +36,10 @@ runs = pd.read_csv('run-summary.csv')
 
 ```{python}
 (
-    pn.ggplot(runs)
+    pn.ggplot(user_metrics)
     + pn.aes(x='model', y='RBP', fill='variant')
-    + pn.geom_col(position='dodge')
+    + pn.geom_col(position='dodge', stat='summary')
+    + pn.geom_errorbar(position='dodge', stat='summary')
     + pn.scale_fill_brewer('qual', 'Dark2')
     + pn.coord_flip()
 )
@@ -47,9 +49,10 @@ runs = pd.read_csv('run-summary.csv')
 
 ```{python}
 (
-    pn.ggplot(runs)
+    pn.ggplot(user_metrics)
     + pn.aes(x='model', y='NDCG', fill='variant')
-    + pn.geom_col(position='dodge')
+    + pn.geom_col(position='dodge', stat='summary')
+    + pn.geom_errorbar(position='dodge', stat='summary')
     + pn.scale_fill_brewer('qual', 'Dark2')
     + pn.coord_flip()
 )
@@ -59,9 +62,10 @@ runs = pd.read_csv('run-summary.csv')
 
 ```{python}
 (
-    pn.ggplot(runs)
+    pn.ggplot(user_metrics)
     + pn.aes(x='model', y='RecipRank', fill='variant')
-    + pn.geom_col(position='dodge')
+    + pn.geom_col(position='dodge', stat='summary')
+    + pn.geom_errorbar(position='dodge', stat='summary')
     + pn.scale_fill_brewer('qual', 'Dark2')
     + pn.coord_flip()
 )
@@ -72,11 +76,62 @@ runs = pd.read_csv('run-summary.csv')
 ## Rating Prediction Accuracy
 
 ```{python}
-pred_runs = runs[runs['RMSE'].notnull()]
+pred_metrics = user_metrics[user_metrics['RMSE'].notnull()]
 (
-    pn.ggplot(pred_runs)
+    pn.ggplot(pred_metrics)
     + pn.aes(x='model', y='RMSE', fill='variant')
-    + pn.geom_col(position='dodge')
+    + pn.geom_col(position='dodge', stat='summary')
+    + pn.geom_errorbar(position='dodge', stat='summary')
     + pn.scale_fill_brewer('qual', 'Dark2')
+)
+```
+
+## Resource Consumption
+
+### Time
+
+```{python}
+rtime = runs.melt(id_vars=['variant', 'model', 'part'], value_vars=['train_cpu', 'train_time', 'infer_time', 'infer_cpu'])
+rtime['stage'] = rtime['variable'].str.split('_', expand=True)[0]
+rtime['type'] = rtime['variable'].str.split('_', expand=True)[1]
+(
+    pn.ggplot(rtime)
+    + pn.aes(x='model', y='value', fill='type')
+    + pn.geom_col(position='dodge', stat='summary')
+    + pn.facet_grid('~ stage', scales="free_x")
+    + pn.ylab("Avg CPU time (seconds)")
+    + pn.coord_flip()
+    + pn.scale_fill_brewer(type="qual", palette="Dark2")
+)
+```
+
+### Memory
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='model', y='train_mem', fill='variant')
+    + pn.geom_col(position='dodge', stat='summary')
+    + pn.ylab("Avg training memory")
+    + scale_y_memory()
+    + pn.coord_flip()
+    + pn.scale_fill_brewer(type="qual", palette="Dark2")
+)
+```
+
+### Power
+
+```{python}
+rpow = runs.melt(id_vars=['variant', 'model', 'part'], value_vars=['train_power', 'infer_power'])
+rpow = rpow.groupby(['variant', 'model', 'variable'])['value'].sum().reset_index()
+rpow['stage'] = rpow['variable'].str.split('_', expand=True)[0]
+(
+    pn.ggplot(rpow)
+    + pn.aes(x='model', y='value', fill='variant')
+    + pn.geom_col(position='dodge')
+    + pn.facet_grid('~ stage', scales="free_x")
+    + pn.ylab("Total power (Joules)")
+    + pn.coord_flip()
+    + pn.scale_fill_brewer(type="qual", palette="Dark2")
 )
 ```
