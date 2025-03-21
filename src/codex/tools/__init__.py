@@ -19,6 +19,7 @@ from . import (  # noqa: F401, E402
     duckscript,
     generate,
     movielens,
+    search,
     split,
     sweep,
     test_measure,
