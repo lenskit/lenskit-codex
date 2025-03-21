@@ -3,7 +3,8 @@ stages:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
       -L runs/manifest.csv
     deps:
-      - runs/random-default/bias
+      - runs/random/bias-default
+      - runs/random/bias-random-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -15,13 +16,23 @@ stages:
       - dataset
   run-random-default-bias:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
-      -o runs/random-default/bias bias
+      -o runs/random/bias-default bias
     deps:
       - ../../src/codex/models/bias.py
       - dataset
       - splits/random.parquet
     outs:
-      - runs/random-default/bias
+      - runs/random/bias-default
+  run-random-random-best-bias:
+    cmd: lenskit codex generate --param-file sweeps/random/bias-random/best.json --ds-name=ML100K
+      --split=splits/random.toml -o runs/random/bias-random-best bias
+    deps:
+      - ../../src/codex/models/bias.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/bias-random/best.json
+    outs:
+      - runs/random/bias-random-best
   split-random:
     cmd: lenskit codex split random.toml
     deps:

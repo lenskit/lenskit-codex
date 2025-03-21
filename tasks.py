@@ -66,6 +66,7 @@ def list_models(c: Context):
         models[mod.name] = {
             "src_path": f"src/codex/models/{mod.module_name}.py",
             "predictor": mod.is_predictor,
+            "searchable": bool(mod.search_space),
         }
 
     with open("manifests/models.json", "wt") as jsf:

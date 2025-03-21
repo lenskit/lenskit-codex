@@ -27,7 +27,7 @@ _log = structlog.stdlib.get_logger(__name__)
     help="control recommendation list length",
     default=100,
 )
-@click.option("-o", "--output", "out_dir", type=Path, metavar="N", help="specify output database")
+@click.option("-o", "--output", "out_dir", type=Path, metavar="N", help="specify output directory")
 @click.option("--ds-name", help="name of the dataset")
 @click.option("--split", "split", type=Path, help="path to the split spec (or base file)")
 @click.option(

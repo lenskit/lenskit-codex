@@ -1,7 +1,7 @@
 local lib = import '../src/lib.libsonnet';
 
 local runPath(run) =
-  std.format('%s-%s/%s', [run.split, run.variant, run.model]);
+  std.format('%s/%s-%s', [run.split, run.model, run.variant]);
 local runStages(origin, runs) =
   {
     [run.name]: {
@@ -36,6 +36,25 @@ local crossfoldRuns(dataset, split) = [
     deps: ['dataset', std.format('splits/%s.parquet', [split])],
   }
   for model in std.objectFields(lib.models)
+] + [
+  {
+    local model = m.key,
+    local params = std.format('sweeps/%s/%s-random/best.json', [split, model]),
+
+    name: std.format('run-%s-random-best-%s', [split, model]),
+    dataset: dataset,
+    args: ['--param-file', params],
+    model: model,
+    split: split,
+    variant: 'random-best',
+    deps: [
+      'dataset',
+      std.format('splits/%s.parquet', [split]),
+      params,
+    ],
+  }
+  for m in std.objectKeysValues(lib.models)
+  if m.value.searchable
 ];
 
 local splitRuns(dataset, split='temporal') = [
@@ -49,6 +68,25 @@ local splitRuns(dataset, split='temporal') = [
     deps: ['dataset', std.format('splits/%s.toml', [split])],
   }
   for model in std.objectFields(lib.models)
+] + [
+  {
+    local model = m.key,
+    local params = std.format('sweeps/%s/%s-random/best.json', [split, model]),
+
+    name: std.format('run-%s-random-best-%s', [split, model]),
+    dataset: dataset,
+    args: ['--param-file', params],
+    model: model,
+    split: split,
+    variant: 'random-best',
+    deps: [
+      'dataset',
+      std.format('splits/%s.toml', [split]),
+      params,
+    ],
+  }
+  for m in std.objectKeysValues(lib.models)
+  if m.value.searchable
 ];
 
 {

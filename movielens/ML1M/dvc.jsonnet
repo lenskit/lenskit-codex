@@ -2,6 +2,7 @@ local lib = import '../../src/lib.libsonnet';
 local data = import '../data.libsonnet';
 local results = import '../results.libsonnet';
 local runlib = import '../runs.libsonnet';
+local sweep = import '../sweeps.libsonnet';
 
 local defs = {
   name:: 'ML1M',
@@ -15,6 +16,7 @@ local runs = runlib.crossfold(defs.root, 'random');
   stages: defs
           + data.prepare
           + data.crossfold
+          + sweep.crossfold('grid')
           + runlib.stages('../..', runs)
           + results.collect(runs),
   extraFiles: {
