@@ -63,7 +63,10 @@ def list_models(c: Context):
     models = {}
     for mod_name in discover_models():
         mod = load_model(mod_name)
-        models[mod.name] = {"src_path": f"src/codex/models/{mod.module_name}.py"}
+        models[mod.name] = {
+            "src_path": f"src/codex/models/{mod.module_name}.py",
+            "predictor": mod.is_predictor,
+        }
 
     with open("manifests/models.json", "wt") as jsf:
         json.dump(models, jsf, indent=2)
