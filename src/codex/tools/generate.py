@@ -1,10 +1,11 @@
+import json
 from pathlib import Path
 
 import click
 import structlog
 
 from codex.inference import recommend_and_save
-from codex.modelcfg import load_config
+from codex.models import load_model
 from codex.outputs import RunOutput
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.splitting import SplitSet, load_split_set
@@ -54,7 +55,7 @@ def generate(
     else:
         cfg_path = Path(config)
 
-    mod_cfg = load_config(model)
+    mod_def = load_model(model)
 
     output = RunOutput(out_dir)
     output.initialize()
@@ -78,8 +79,8 @@ def generate(
             plog = log.bind(part=part)
             plog.info("loading data")
             data = split_set.get_part(part)
-            instance = mod_cfg.instantiate(cfg_path)
-            pipe, task = train_task(instance, data.train, data_info)
+            cfg = load_config(cfg_path)
+            pipe, task = train_task(mod_def, cfg, data.train, data_info)
             output.record_log("training", task)
 
             shard = f"part={part}"
@@ -87,17 +88,21 @@ def generate(
                 label=f"recommend {model}",
                 tags=["recommend"],
                 reset_hwm=True,
-                scorer=ScorerModel(name=model, config=instance.params),
+                scorer=ScorerModel(name=model, config=cfg),
                 data=data_info,
             ) as task:
+                rec_out = output.recommendations_hive_path / shard / "data.parquet"
+                if mod_def.is_predictor:
+                    pred_out = output.predictions_hive_path / shard / "data.parquet"
+                else:
+                    pred_out = None
+
                 recommend_and_save(
                     pipe,
                     data.test,
                     list_length,
-                    output.recommendations_hive_path / shard / "data.parquet",
-                    output.predictions_hive_path / shard / "data.parquet"
-                    if mod_cfg.predictor
-                    else None,
+                    rec_out,
+                    pred_out,
                     metric_out,
                     meta={"part": part},
                 )
@@ -116,3 +121,11 @@ def select_parts(split: SplitSet, part: str | None) -> list[str]:
         return [p for p in split.parts if p != exp]
     else:
         return part.split(",")
+
+
+def load_config(path: Path | None):
+    if path is None:
+        return {}
+    else:
+        with path.open("rt") as jsf:
+            return json.load(jsf)

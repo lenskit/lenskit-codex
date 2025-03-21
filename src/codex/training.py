@@ -1,10 +1,12 @@
+from typing import Any
+
 import structlog
 from humanize import metric, naturalsize
 from lenskit.data import Dataset
-from lenskit.pipeline import Component, Pipeline
+from lenskit.pipeline import Component, Pipeline, PipelineBuilder
 from lenskit.training import TrainingOptions
 
-from codex.modelcfg import ModelInstance
+from codex.models import ModelDef
 from codex.pipeline import base_pipeline
 from codex.runlog import CodexTask, DataModel, ScorerModel
 
@@ -12,22 +14,23 @@ _log = structlog.stdlib.get_logger(__name__)
 
 
 def train_task(
-    model: ModelInstance, data: Dataset, data_info: DataModel
+    model: ModelDef, params: dict[str, Any], data: Dataset, data_info: DataModel
 ) -> tuple[Pipeline, CodexTask]:
-    log = _log.bind(name=model.name, config=model.params)
+    log = _log.bind(name=model.name, config=params)
     log.info("training model")
     with CodexTask(
         label=f"train {model.name}",
         tags=["train"],
         reset_hwm=True,
-        scorer=ScorerModel(name=model.name, config=model.params),
+        scorer=ScorerModel(name=model.name, config=params),
         data=data_info,
     ) as task:
+        scorer = model.instantiate(params)
         try:
             pipe = train_and_wrap_model(
-                model.scorer,
+                scorer,
                 data,
-                predicts_ratings=model.config.predictor,
+                predicts_ratings=model.is_predictor,
                 name=model.name,
             )
         except Exception as e:
@@ -62,9 +65,11 @@ def train_and_wrap_model(
         pipe = base_pipeline(name, model, predicts_ratings)
     else:
         _log.debug("reusing recommendation pipeline")
-        pipe.replace_component(
+        bld = PipelineBuilder.from_pipeline(pipe)
+        bld.replace_component(
             "scorer", model, query=pipe.node("query"), items=pipe.node("candidate-selector")
         )
+        pipe = bld.build()
 
     pipe.train(data, TrainingOptions(retrain=False))
 

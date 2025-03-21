@@ -3,14 +3,7 @@ stages:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
       -L runs/manifest.csv
     deps:
-      - runs/temporal-default/Bias
-      - runs/temporal-default/BiasedMF-ALS
-      - runs/temporal-default/IKNN-Explicit
-      - runs/temporal-default/IKNN-Implicit
-      - runs/temporal-default/ImplicitMF-ALS
-      - runs/temporal-default/Popular
-      - runs/temporal-default/UKNN-Explicit
-      - runs/temporal-default/UKNN-Implicit
+      - runs/temporal-default/bias
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -20,78 +13,15 @@ stages:
       - ml-10m.zip
     outs:
       - dataset
-  run-temporal-default-Bias:
+  run-temporal-default-bias:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/Bias Bias
+      -o runs/temporal-default/bias bias
     deps:
-      - ../../models/Bias.toml
+      - ../../src/codex/models/bias.py
       - dataset
       - splits/temporal.toml
     outs:
-      - runs/temporal-default/Bias
-  run-temporal-default-BiasedMF-ALS:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/BiasedMF-ALS BiasedMF-ALS
-    deps:
-      - ../../models/BiasedMF-ALS.toml
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal-default/BiasedMF-ALS
-  run-temporal-default-IKNN-Explicit:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/IKNN-Explicit IKNN-Explicit
-    deps:
-      - ../../models/IKNN-Explicit.toml
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal-default/IKNN-Explicit
-  run-temporal-default-IKNN-Implicit:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/IKNN-Implicit IKNN-Implicit
-    deps:
-      - ../../models/IKNN-Implicit.toml
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal-default/IKNN-Implicit
-  run-temporal-default-ImplicitMF-ALS:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/ImplicitMF-ALS ImplicitMF-ALS
-    deps:
-      - ../../models/ImplicitMF-ALS.toml
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal-default/ImplicitMF-ALS
-  run-temporal-default-Popular:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/Popular Popular
-    deps:
-      - ../../models/Popular.toml
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal-default/Popular
-  run-temporal-default-UKNN-Explicit:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/UKNN-Explicit UKNN-Explicit
-    deps:
-      - ../../models/UKNN-Explicit.toml
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal-default/UKNN-Explicit
-  run-temporal-default-UKNN-Implicit:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
-      -o runs/temporal-default/UKNN-Implicit UKNN-Implicit
-    deps:
-      - ../../models/UKNN-Implicit.toml
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal-default/UKNN-Implicit
+      - runs/temporal-default/bias
   stats:
     cmd: lenskit codex sql -D ds_name=ML10M -f ../ml-stats.sql stats.duckdb
     deps:

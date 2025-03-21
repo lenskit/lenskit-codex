@@ -1,3 +1,3 @@
-local models = std.parseJson(importstr '../../manifests/modules.json');
+local models = std.parseJson(importstr '../../manifests/models.json');
 
 { models: models }

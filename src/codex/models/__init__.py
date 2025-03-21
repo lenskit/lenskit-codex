@@ -61,7 +61,7 @@ class ModelDef:
         """
         Instantiate a model with  specified parameters.
         """
-        log = _log.bind(name=self.name, module=self.mod_name)
+        log = _log.bind(name=self.name)
 
         static = self.static_config
         if not isinstance(static, dict):
@@ -80,7 +80,7 @@ class ModelDef:
         mod_cls = self.scorer_class
         log.debug("instantiating model", config=config, component=mod_cls)
 
-        model = mod_cls(config)
+        model = mod_cls(**config)
         log.info("instantiated model", model=model)
         return model
 

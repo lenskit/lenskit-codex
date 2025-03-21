@@ -20,11 +20,9 @@ import zstandard
 from deepmerge import always_merger
 from humanize import metric
 from lenskit.logging import Task
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, JsonValue
 from pyprojroot import find_root, has_file
 from typing_extensions import override
-
-from .modelcfg import ModelParams
 
 _log = structlog.stdlib.get_logger(__name__)
 _config: RunlogConfig | None = None
@@ -97,7 +95,7 @@ class DataModel(BaseModel):
 
 class ScorerModel(BaseModel):
     name: str | None = None
-    config: ModelParams | None = None
+    config: dict[str, JsonValue] | None = None
 
 
 class CodexTask(Task):
