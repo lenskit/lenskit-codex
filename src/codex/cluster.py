@@ -24,9 +24,7 @@ def ensure_cluster_init():
     if not ray.is_initialized():
         n_slots = int(os.environ.get("LK_TRAIN_SLOTS", "4"))
 
-        init_cluster(
-            resources={"train-slots": n_slots},
-        )
+        init_cluster(resources={"train-slots": n_slots}, global_logging=True)
 
 
 class CodexActor:
