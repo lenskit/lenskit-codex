@@ -251,7 +251,7 @@ def _get_prometheus_metric(url: str, query: str, time_ms: int) -> float | None:
 
     results = res["data"]["result"]
     if len(results) != 1:
-        log.warning("Prometheus query must return exactly 1 result, got %d", len(results))
+        log.debug("Prometheus query must return exactly 1 result, got %d", len(results))
         return None
 
     _time, val = results[0]["value"]

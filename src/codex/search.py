@@ -4,6 +4,7 @@ Support for hyperparameter search.
 
 from __future__ import annotations
 
+import ray
 from lenskit.batch import BatchPipelineRunner, BatchResults
 from lenskit.logging import Task, get_logger
 from lenskit.metrics import NDCG, RBP, RMSE, RecipRank, RunAnalysis
@@ -21,7 +22,7 @@ class SimplePointEval:
     A simple hyperparameter point evaluator using non-iterative model training.
     """
 
-    def __init__(self, name: str, n: int | None, split: TTSplit, data_info: DataModel):
+    def __init__(self, name: str, n: int | None, split: ray.ObjectRef, data_info: DataModel):
         self.name = name
         self.list_length = n
         self.data = split
@@ -29,8 +30,9 @@ class SimplePointEval:
 
     def __call__(self, config) -> dict[str, float]:
         mod_def = load_model(self.name)
+        data = ray.get(self.data)
 
-        pipe, task = train_task(mod_def, config, self.data.train, self.data_info)
+        pipe, task = train_task(mod_def, config, data.train, self.data_info)
 
         runner = BatchPipelineRunner(n_jobs=1)  # single-threaded inside tuning
         runner.recommend()
@@ -44,9 +46,9 @@ class SimplePointEval:
             scorer=ScorerModel(name=mod_def.name, config=config),
             data=self.data_info,
         ) as test_task:
-            results = runner.run(pipe, self.data.test)
+            results = runner.run(pipe, data.test)
 
-        return measure(mod_def, results, self.data, task, test_task)
+        return measure(mod_def, results, data, task, test_task)
 
 
 def measure(
