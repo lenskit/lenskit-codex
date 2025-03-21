@@ -1,7 +1,6 @@
 import ray.tune as rt
 from lenskit.basic.bias import BiasConfig, BiasScorer
 
-NAME = "Bias"
 PREDICTOR = True
 SCORER = BiasScorer
 DEFAULT_CONFIG = BiasConfig(damping=50)

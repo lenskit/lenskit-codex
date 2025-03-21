@@ -17,18 +17,21 @@ class ModelDef:
     Encapsulation of a Python module defining a model for search.
     """
 
-    mod_name: str
-    "The name of the model's Python module."
+    name: str
+    "The name of the model specification (kebab case)."
 
     module: ModuleType
 
     def __init__(self, name, module):
-        self.mod_name = name
+        self.name = name
         self.module = module
 
     @property
-    def name(self) -> str:
-        return getattr(self.module, "NAME", self.mod_name)
+    def module_name(self) -> str:
+        """
+        The module name (snake case).
+        """
+        return self.name.replace("-", "_")
 
     @property
     def scorer_class(self) -> type[Component]:
@@ -88,15 +91,16 @@ def discover_models() -> Iterable[str]:
     """
     for mf in model_dir.glob("*.py"):
         if not mf.name.startswith("_"):
-            yield mf.stem
+            yield mf.stem.replace("_", "-")
 
 
 def load_model(name: str) -> ModelDef:
     """
     Load a model's definition.
     """
-    fname = name.replace("-", "_").lower()
+    name = name.replace("_", "-").lower()
+    fname = name.replace("-", "_")
 
-    _log.info("importing model module", module=name)
+    _log.info("importing model module", module=fname)
     module = import_module(f"codex.models.{fname}")
-    return ModelDef(fname, module)
+    return ModelDef(name, module)

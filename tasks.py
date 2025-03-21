@@ -1,7 +1,6 @@
 import json
 import os
 import re
-import tomllib
 from glob import glob
 from pathlib import Path
 
@@ -41,7 +40,7 @@ def list_documents(c: Context):
     print("collecting", len(docs), "documents")
     docs = {name: _front_matter(name) for name in docs if not re.match(r"/_", name)}
 
-    with open("documents.json", "wt") as jsf:
+    with open("manifests/documents.json", "wt") as jsf:
         json.dump(docs, jsf, indent=2)
         print(file=jsf)
 
@@ -59,16 +58,14 @@ def _front_matter(path):
 @task
 def list_models(c: Context):
     "List the available recommendation models."
-    model_dir = Path("models")
-    model_files = model_dir.glob("*.toml")
+    from codex.models import discover_models, load_model
 
     models = {}
-    for mf in model_files:
-        spec = tomllib.loads(mf.read_text("utf8"))
-        if spec.get("enabled", True):
-            models[mf.stem] = {}
+    for mod_name in discover_models():
+        mod = load_model(mod_name)
+        models[mod.name] = {"src_path": f"src/codex/models/{mod.module_name}.py"}
 
-    with open("models/index.json", "wt") as jsf:
+    with open("manifests/models.json", "wt") as jsf:
         json.dump(models, jsf, indent=2)
         print(file=jsf)
 
