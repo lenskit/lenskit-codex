@@ -11,3 +11,6 @@ SEARCH_SPACE = {
         "item": rt.loguniform(1e-12, 100),
     }
 }
+
+# bias is single-threaded
+TUNE_CPUS = 1

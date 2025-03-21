@@ -4,7 +4,6 @@ Hyperparameter search.
 
 from __future__ import annotations
 
-import json
 import os
 from pathlib import Path
 from typing import Literal
@@ -15,6 +14,7 @@ import ray.train
 import ray.tune
 from lenskit.logging import get_logger, item_progress
 from lenskit.parallel import get_parallel_config
+from pydantic_core import to_json
 
 from codex.cluster import ensure_cluster_init
 from codex.models import load_model
@@ -93,7 +93,7 @@ def run_sweep(
         job_limit=job_limit,
         num_samples=sample_count,
     )
-    harness = ray.tune.with_resources(harness, {"CPU": paracfg.threads})
+    harness = ray.tune.with_resources(harness, {"CPU": mod_def.tuning_cpus})
 
     match method:
         case "random":
@@ -128,9 +128,9 @@ def run_sweep(
 
     with open(out / "trials.ndjson", "wt") as jsf:
         for result in results:
-            print(json.dumps(result), file=jsf)
+            print(to_json(result.metrics).decode(), file=jsf)
     with open(out / "best.json", "wt") as jsf:
-        print(json.dumps(best), file=jsf)
+        print(to_json(best.metrics).decode(), file=jsf)
 
 
 class StatusCallback(ray.tune.Callback):

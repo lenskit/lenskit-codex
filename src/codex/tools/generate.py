@@ -128,4 +128,7 @@ def load_config(path: Path | None):
         return {}
     else:
         with path.open("rt") as jsf:
-            return json.load(jsf)
+            obj = json.load(jsf)
+        if "config" in obj:
+            obj = obj["config"]
+        return obj

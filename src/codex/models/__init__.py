@@ -5,6 +5,7 @@ from types import ModuleType
 from typing import Any
 
 from lenskit.logging import get_logger
+from lenskit.parallel import get_parallel_config
 from lenskit.pipeline import Component
 from pydantic import TypeAdapter
 
@@ -56,6 +57,17 @@ class ModelDef:
     @property
     def search_space(self) -> dict[str, Any]:
         return getattr(self.module, "SEARCH_SPACE", {})
+
+    @property
+    def tuning_cpus(self) -> int:
+        config = get_parallel_config()
+        match getattr(self.module, "TUNE_CPUS", None):
+            case None:
+                return config.threads
+            case "all":
+                return config.total_threads
+            case n:
+                return n
 
     def instantiate(self, params: dict[str, Any] | None = None):
         """

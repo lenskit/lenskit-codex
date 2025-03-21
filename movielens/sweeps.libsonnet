@@ -19,7 +19,7 @@ local sweepStages(split, method, split_type) =
           split,
           if split_type == 'random' then 'parquet' else 'toml',
         ]),
-        '../../..' + m.value.src_path,
+        '../../' + m.value.src_path,
       ],
       outs: [
         out_dir,

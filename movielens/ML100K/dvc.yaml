@@ -51,3 +51,11 @@ stages:
       - dataset
     outs:
       - stats.duckdb
+  sweep-bias-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
+      bias sweeps/random/bias-random
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/bias.py
+    outs:
+      - sweeps/random/bias-random
