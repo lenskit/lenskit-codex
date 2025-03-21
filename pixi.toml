@@ -10,7 +10,6 @@ python = "~=3.12.0"
 click = "~=8.0"
 just = "*"
 invoke = "~=2.2"
-pyprojroot = ">=0.3.0,<0.4"
 
 pydantic = ">=2.8,<3"
 pyyaml = "~=6.0"
@@ -65,7 +64,8 @@ implicit = "~=0.7.0"
 cuda = "12"
 
 [feature.run.pypi-dependencies]
-lenskit = { version = "~=2025.2", extras = ["implicit", "sklearn", "funksvd"] }
+# lenskit = { version = "~=2025.2", extras = ["implicit", "sklearn", "funksvd"] }
+lenskit = { path = "../lkpy", editable = true }
 
 [feature.run.target.linux.dependencies]
 pytorch-gpu = ">=2"

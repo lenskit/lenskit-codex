@@ -21,8 +21,9 @@ from deepmerge import always_merger
 from humanize import metric
 from lenskit.logging import Task
 from pydantic import BaseModel, Field, JsonValue
-from pyprojroot import find_root, has_file
 from typing_extensions import override
+
+from codex.layout import codex_root
 
 _log = structlog.stdlib.get_logger(__name__)
 _config: RunlogConfig | None = None
@@ -35,7 +36,7 @@ def configure():
     if _config is not None:
         _log.warn("already configured")
 
-    root = find_root(has_file("pixi.toml"))
+    root = codex_root()
     rl_base = root / "run-log"
     log = _log.bind(root=rl_base)
 

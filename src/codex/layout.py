@@ -1,14 +1,15 @@
 from os import PathLike
 from pathlib import Path
 
-from pyprojroot import find_root, has_file
+ROOT_DIR = Path(__file__).parent.parent.parent
 
 
 def codex_root() -> Path:
     """
     Get the root directory of the codex.
     """
-    return find_root(has_file("pixi.toml"))
+    assert (ROOT_DIR / "pixi.toml").exists()
+    return ROOT_DIR
 
 
 def codex_relpath(path: str | PathLike[str]) -> Path:
