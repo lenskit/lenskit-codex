@@ -4,8 +4,12 @@ stages:
       -L runs/manifest.csv
     deps:
       - runs/random/bias-default
+      - runs/random/iknn-explicit-default
+      - runs/random/iknn-implicit-default
       - runs/random/popular-default
       - runs/random/bias-random-best
+      - runs/random/iknn-explicit-random-best
+      - runs/random/iknn-implicit-random-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -24,6 +28,24 @@ stages:
       - splits/random.parquet
     outs:
       - runs/random/bias-default
+  run-random-default-iknn-explicit:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/iknn-explicit-default iknn-explicit
+    deps:
+      - ../../src/codex/models/iknn-explicit.py
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/iknn-explicit-default
+  run-random-default-iknn-implicit:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/iknn-implicit-default iknn-implicit
+    deps:
+      - ../../src/codex/models/iknn-implicit.py
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/iknn-implicit-default
   run-random-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/popular-default popular
@@ -43,6 +65,28 @@ stages:
       - sweeps/random/bias-random.json
     outs:
       - runs/random/bias-random-best
+  run-random-random-best-iknn-explicit:
+    cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-random-best
+      iknn-explicit
+    deps:
+      - ../../src/codex/models/iknn-explicit.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/iknn-explicit-random.json
+    outs:
+      - runs/random/iknn-explicit-random-best
+  run-random-random-best-iknn-implicit:
+    cmd: lenskit codex generate --param-file sweeps/random/iknn-implicit-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-implicit-random-best
+      iknn-implicit
+    deps:
+      - ../../src/codex/models/iknn-implicit.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/iknn-implicit-random.json
+    outs:
+      - runs/random/iknn-implicit-random-best
   split-random:
     cmd: lenskit codex split random.toml
     deps:
@@ -70,4 +114,24 @@ stages:
     outs:
       - sweeps/random/bias-random
       - sweeps/random/bias-random.json:
+          cache: false
+  sweep-iknn-explicit-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
+      iknn-explicit sweeps/random/iknn-explicit-random
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/iknn_explicit.py
+    outs:
+      - sweeps/random/iknn-explicit-random
+      - sweeps/random/iknn-explicit-random.json:
+          cache: false
+  sweep-iknn-implicit-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
+      iknn-implicit sweeps/random/iknn-implicit-random
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/iknn_implicit.py
+    outs:
+      - sweeps/random/iknn-implicit-random
+      - sweeps/random/iknn-implicit-random.json:
           cache: false
