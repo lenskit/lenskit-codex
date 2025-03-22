@@ -44,7 +44,7 @@ class ModelDef:
 
     @property
     def default_config(self):
-        return self.module.DEFAULT_CONFIG
+        return getattr(self.module, "DEFAULT_CONFIG", {})
 
     @property
     def static_config(self):

@@ -27,6 +27,7 @@ local sweepStages(split, method, split_type) =
       ],
     }
     for m in std.objectKeysValues(lib.models)
+    if m.value.searchable
   };
 
 {

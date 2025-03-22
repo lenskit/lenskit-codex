@@ -4,6 +4,7 @@ stages:
       -L runs/manifest.csv
     deps:
       - runs/random/bias-default
+      - runs/random/popular-default
       - runs/random/bias-random-best
     outs:
       - run-summary.csv
@@ -23,6 +24,15 @@ stages:
       - splits/random.parquet
     outs:
       - runs/random/bias-default
+  run-random-default-popular:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/popular-default popular
+    deps:
+      - ../../src/codex/models/popular.py
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/popular-default
   run-random-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=ML100K
       --split=splits/random.toml -o runs/random/bias-random-best bias

@@ -27,7 +27,7 @@
     "title": "Bias on ML100K",
     "echo": false,
     "deps": [
-      "sweeps/random/Bias-grid"
+      "sweeps/random/bias-random"
     ]
   },
   "movielens/ML100K/description.qmd": {
@@ -132,13 +132,6 @@
       "sweeps/random/ImplicitMF-ALS-grid"
     ]
   },
-  "movielens/ML1M/bias.qmd": {
-    "title": "Bias on ML1M",
-    "echo": false,
-    "deps": [
-      "sweeps/random/Bias-grid"
-    ]
-  },
   "movielens/ML1M/description.qmd": {
     "title": "ML1M Data Description",
     "order": 0,
@@ -174,6 +167,13 @@
     "deps": [
       "run-summary.csv",
       "run-user-metrics.parquet"
+    ]
+  },
+  "movielens/ML1M/bias.qmd": {
+    "title": "Bias on ML1M",
+    "echo": false,
+    "deps": [
+      "sweeps/random/bias-random"
     ]
   },
   "movielens/ML20M/als-biasedmf.qmd": {

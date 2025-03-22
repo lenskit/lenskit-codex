@@ -4,6 +4,7 @@ stages:
       -L runs/manifest.csv
     deps:
       - runs/temporal/bias-default
+      - runs/temporal/popular-default
       - runs/temporal/bias-random-best
     outs:
       - run-summary.csv
@@ -23,6 +24,15 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/bias-default
+  run-temporal-default-popular:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+      -o runs/temporal/popular-default popular
+    deps:
+      - ../../src/codex/models/popular.py
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/popular-default
   run-temporal-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/temporal/bias-random.json --ds-name=../..
       --split=splits/temporal.toml -o runs/temporal/bias-random-best bias
