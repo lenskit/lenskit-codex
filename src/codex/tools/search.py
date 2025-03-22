@@ -19,7 +19,7 @@ from pydantic_core import to_json
 from codex.cluster import ensure_cluster_init
 from codex.models import load_model
 from codex.outputs import RunOutput
-from codex.runlog import DataModel
+from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.search import SimplePointEval
 from codex.splitting import load_split_set
 
@@ -121,10 +121,24 @@ def run_sweep(
     )
 
     log.info("starting hyperparameter search")
-    results = tuner.fit()
+    with (
+        CodexTask(
+            label=f"{method} search {model}",
+            tags=["search"],
+            scorer=ScorerModel(name=model),
+            data=data_info,
+        ) as task,
+    ):
+        results = tuner.fit()
+
     best = results.get_best_result()
     fields = {metric: best.metrics[metric]} | best.config
-    log.info("finished hyperparameter search", **fields)
+    log.info(
+        "finished hyperparameter search", time=task.duration, power=task.chassis_power, **fields
+    )
+
+    with open(out / "tuning-task.json", "wt") as jsf:
+        print(task.model_dump_json(indent=2), file=jsf)
 
     with open(out / "trials.ndjson", "wt") as jsf:
         for result in results:

@@ -123,7 +123,7 @@ class CodexTask(Task):
     def start(self):
         if self._save_file is None and self.parent_id is None:
             cfg = get_config()
-            self.save_to_file(cfg.lobby_dir / f"{self.task_id}.json", monitor=False)
+            self.save_to_file(cfg.lobby_dir / f"{self.task_id}.json")
 
         super().start()
 
