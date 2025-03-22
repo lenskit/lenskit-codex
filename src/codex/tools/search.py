@@ -5,6 +5,8 @@ Hyperparameter search.
 from __future__ import annotations
 
 import os
+import shutil
+import tarfile
 from pathlib import Path
 from typing import Literal
 
@@ -12,6 +14,7 @@ import click
 import ray
 import ray.train
 import ray.tune
+import zstandard
 from lenskit.logging import get_logger, item_progress
 from lenskit.parallel import get_parallel_config
 from pydantic_core import to_json
@@ -146,6 +149,14 @@ def run_sweep(
     with open(out.with_suffix(".json"), "wt") as jsf:
         print(to_json(best.metrics).decode(), file=jsf)
 
+    log.info("compressing search state")
+    with (
+        zstandard.open(out / "state.tar.zst", "wb") as zf,
+        tarfile.TarFile(mode="w", fileobj=zf) as tar,
+    ):
+        tar.add(out / "state", "state")
+    shutil.rmtree(out / "state")
+
 
 class StatusCallback(ray.tune.Callback):
     def __init__(self, model: str, ds: str | None):
@@ -206,8 +217,11 @@ class ProgressReport(ray.tune.ProgressReporter):
             self._bar.update(n_new, total=total, **extra)
 
     def should_report(self, trials, done=False):
-        done = set(t.trial_id for t in trials if t.status == "TERMINATED")
-        if done - self.done:
+        if done:
+            return True
+
+        finished = set(t.trial_id for t in trials if t.status == "TERMINATED")
+        if finished - self.done:
             return True
         else:
             return False
