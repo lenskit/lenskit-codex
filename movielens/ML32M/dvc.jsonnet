@@ -9,7 +9,7 @@ local defs = {
   root:: '../..',
 };
 
-local runs = runlib.temporal(defs.root);
+local runs = runlib.temporal(defs.name);
 
 {
   stages: defs

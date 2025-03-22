@@ -20,7 +20,7 @@ stages:
     outs:
       - dataset
   run-random-default-bias:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
+    cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
       -o runs/random/bias-default bias
     deps:
       - ../../src/codex/models/bias.py
@@ -29,25 +29,25 @@ stages:
     outs:
       - runs/random/bias-default
   run-random-default-iknn-explicit:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
+    cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
       -o runs/random/iknn-explicit-default iknn-explicit
     deps:
-      - ../../src/codex/models/iknn-explicit.py
+      - ../../src/codex/models/iknn_explicit.py
       - dataset
       - splits/random.parquet
     outs:
       - runs/random/iknn-explicit-default
   run-random-default-iknn-implicit:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
+    cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
       -o runs/random/iknn-implicit-default iknn-implicit
     deps:
-      - ../../src/codex/models/iknn-implicit.py
+      - ../../src/codex/models/iknn_implicit.py
       - dataset
       - splits/random.parquet
     outs:
       - runs/random/iknn-implicit-default
   run-random-default-popular:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
+    cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
       -o runs/random/popular-default popular
     deps:
       - ../../src/codex/models/popular.py
@@ -56,7 +56,7 @@ stages:
     outs:
       - runs/random/popular-default
   run-random-random-best-bias:
-    cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=../..
+    cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=ML1M
       --split=splits/random.toml -o runs/random/bias-random-best bias
     deps:
       - ../../src/codex/models/bias.py
@@ -67,10 +67,10 @@ stages:
       - runs/random/bias-random-best
   run-random-random-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-random.json
-      --ds-name=../.. --split=splits/random.toml -o runs/random/iknn-explicit-random-best
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/iknn-explicit-random-best
       iknn-explicit
     deps:
-      - ../../src/codex/models/iknn-explicit.py
+      - ../../src/codex/models/iknn_explicit.py
       - dataset
       - splits/random.parquet
       - sweeps/random/iknn-explicit-random.json
@@ -78,10 +78,10 @@ stages:
       - runs/random/iknn-explicit-random-best
   run-random-random-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-implicit-random.json
-      --ds-name=../.. --split=splits/random.toml -o runs/random/iknn-implicit-random-best
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/iknn-implicit-random-best
       iknn-implicit
     deps:
-      - ../../src/codex/models/iknn-implicit.py
+      - ../../src/codex/models/iknn_implicit.py
       - dataset
       - splits/random.parquet
       - sweeps/random/iknn-implicit-random.json

@@ -32,7 +32,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
       -o runs/temporal/iknn-explicit-default iknn-explicit
     deps:
-      - ../../src/codex/models/iknn-explicit.py
+      - ../../src/codex/models/iknn_explicit.py
       - dataset
       - splits/temporal.toml
     outs:
@@ -41,7 +41,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
       -o runs/temporal/iknn-implicit-default iknn-implicit
     deps:
-      - ../../src/codex/models/iknn-implicit.py
+      - ../../src/codex/models/iknn_implicit.py
       - dataset
       - splits/temporal.toml
     outs:
@@ -70,7 +70,7 @@ stages:
       --ds-name=../.. --split=splits/temporal.toml -o runs/temporal/iknn-explicit-random-best
       iknn-explicit
     deps:
-      - ../../src/codex/models/iknn-explicit.py
+      - ../../src/codex/models/iknn_explicit.py
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/iknn-explicit-random.json
@@ -81,7 +81,7 @@ stages:
       --ds-name=../.. --split=splits/temporal.toml -o runs/temporal/iknn-implicit-random-best
       iknn-implicit
     deps:
-      - ../../src/codex/models/iknn-implicit.py
+      - ../../src/codex/models/iknn_implicit.py
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/iknn-implicit-random.json

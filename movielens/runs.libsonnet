@@ -13,7 +13,7 @@ local runStages(origin, runs) =
         run.model,
       ]),
       outs: ['runs/' + path],
-      deps: [std.format('%s/src/codex/models/%s.py', [origin, run.model])] + std.get(run, 'deps', []),
+      deps: [std.format('%s/src/codex/models/%s.py', [origin, std.strReplace(run.model, '-', '_')])] + std.get(run, 'deps', []),
     }
     for run in runs
   };

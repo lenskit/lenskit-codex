@@ -32,7 +32,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/iknn-explicit-default iknn-explicit
     deps:
-      - ../../src/codex/models/iknn-explicit.py
+      - ../../src/codex/models/iknn_explicit.py
       - dataset
       - splits/random.parquet
     outs:
@@ -41,7 +41,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/iknn-implicit-default iknn-implicit
     deps:
-      - ../../src/codex/models/iknn-implicit.py
+      - ../../src/codex/models/iknn_implicit.py
       - dataset
       - splits/random.parquet
     outs:
@@ -70,7 +70,7 @@ stages:
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-random-best
       iknn-explicit
     deps:
-      - ../../src/codex/models/iknn-explicit.py
+      - ../../src/codex/models/iknn_explicit.py
       - dataset
       - splits/random.parquet
       - sweeps/random/iknn-explicit-random.json
@@ -81,7 +81,7 @@ stages:
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-implicit-random-best
       iknn-implicit
     deps:
-      - ../../src/codex/models/iknn-implicit.py
+      - ../../src/codex/models/iknn_implicit.py
       - dataset
       - splits/random.parquet
       - sweeps/random/iknn-implicit-random.json
