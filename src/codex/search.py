@@ -7,6 +7,7 @@ from __future__ import annotations
 import ray
 from lenskit.batch import BatchPipelineRunner, BatchResults
 from lenskit.logging import Task, get_logger
+from lenskit.logging.worker import send_task
 from lenskit.metrics import NDCG, RBP, RMSE, RecipRank, RunAnalysis
 from lenskit.splitting import TTSplit
 
@@ -33,6 +34,7 @@ class SimplePointEval:
         data = ray.get(self.data)
 
         pipe, task = train_task(mod_def, config, data.train, self.data_info)
+        send_task(task)
 
         runner = BatchPipelineRunner(n_jobs=1)  # single-threaded inside tuning
         runner.recommend()
@@ -48,6 +50,7 @@ class SimplePointEval:
         ) as test_task:
             results = runner.run(pipe, data.test)
 
+        send_task(test_task)
         return measure(mod_def, results, data, task, test_task)
 
 
