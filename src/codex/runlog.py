@@ -235,13 +235,25 @@ class RunLogDBFile:
         return db
 
 
+def power_metrics(name: str, duration: float):
+    time_ms = int(duration * 1000)
+
+    config = get_config()
+    prom = config.prometheus
+    if not prom:
+        return None
+    url = prom.url + "/api/v1/query"
+    if name in prom.queries:
+        return _get_prometheus_metric(url, prom.queries[name], time_ms)
+
+
 def _get_prometheus_metric(url: str, query: str, time_ms: int) -> float | None:
     query = query.format(time_ms)
     log = _log.bind(url=url, query=query)
     try:
         res = requests.get(url, {"query": query}).json()
     except Exception as e:
-        _log.warning("Prometheus query error", url=url, exc_info=e)
+        log.warning("Prometheus query error", exc_info=e)
         return None
 
     log.debug("received response: %s", res)
