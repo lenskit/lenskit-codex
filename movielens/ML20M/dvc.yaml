@@ -24,14 +24,13 @@ stages:
     outs:
       - runs/temporal/bias-default
   run-temporal-random-best-bias:
-    cmd: lenskit codex generate --param-file sweeps/temporal/bias-random/best.json
-      --ds-name=../.. --split=splits/temporal.toml -o runs/temporal/bias-random-best
-      bias
+    cmd: lenskit codex generate --param-file sweeps/temporal/bias-random.json --ds-name=../..
+      --split=splits/temporal.toml -o runs/temporal/bias-random-best bias
     deps:
       - ../../src/codex/models/bias.py
       - dataset
       - splits/temporal.toml
-      - sweeps/temporal/bias-random/best.json
+      - sweeps/temporal/bias-random.json
     outs:
       - runs/temporal/bias-random-best
   stats:

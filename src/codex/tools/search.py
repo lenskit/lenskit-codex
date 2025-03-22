@@ -129,7 +129,7 @@ def run_sweep(
     with open(out / "trials.ndjson", "wt") as jsf:
         for result in results:
             print(to_json(result.metrics).decode(), file=jsf)
-    with open(out / "best.json", "wt") as jsf:
+    with open(out.with_suffix(".json"), "wt") as jsf:
         print(to_json(best.metrics).decode(), file=jsf)
 
 

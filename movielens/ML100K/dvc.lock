@@ -436,18 +436,18 @@ stages:
       nfiles: 5
     - path: runs/random/bias-random-best
       hash: md5
-      md5: 2d12e58127f2ed701f74be3cf4696e68.dir
-      size: 633251
+      md5: 8e03375ba0a58753e091607d09d95f68.dir
+      size: 628171
       nfiles: 5
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: bdadbbc7b3de4818f8ae8833daf83e8e
-      size: 3237
+      md5: 81d7138469d9678f4bcd86b04682121f
+      size: 3240
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 9d1349b07eed5771c6f5c805bc6fbee0
-      size: 48773
+      md5: 8d22904c77e6fe516b42c15ab896f260
+      size: 48358
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit-grid.json
       --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/IKNN-Implicit
@@ -1600,11 +1600,15 @@ stages:
     outs:
     - path: sweeps/random/bias-random
       hash: md5
-      md5: fdce9520c18eeace75af43ffeaa8c1d3.dir
-      size: 1798048
-      nfiles: 406
+      md5: 7b2d32eebd6d9da1737dca92a50094ed.dir
+      size: 1796616
+      nfiles: 405
+    - path: sweeps/random/bias-random.json
+      hash: md5
+      md5: 5abf2b7521f4e63a6e57602e44b35bac
+      size: 805
   run-random-random-best-bias:
-    cmd: lenskit codex generate --param-file sweeps/random/bias-random/best.json --ds-name=ML100K
+    cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=ML100K
       --split=splits/random.toml -o runs/random/bias-random-best bias
     deps:
     - path: ../../src/codex/models/bias.py
@@ -1620,13 +1624,13 @@ stages:
       hash: md5
       md5: 4c00bff3d3a51715464e1775b2997cb6
       size: 56492
-    - path: sweeps/random/bias-random/best.json
+    - path: sweeps/random/bias-random.json
       hash: md5
-      md5: 602a9a26182ce8a4114a83ef7a6c3ac1
-      size: 794
+      md5: 5abf2b7521f4e63a6e57602e44b35bac
+      size: 805
     outs:
     - path: runs/random/bias-random-best
       hash: md5
-      md5: 2d12e58127f2ed701f74be3cf4696e68.dir
-      size: 633251
+      md5: 8e03375ba0a58753e091607d09d95f68.dir
+      size: 628171
       nfiles: 5

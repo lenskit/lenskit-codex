@@ -39,7 +39,7 @@ local crossfoldRuns(dataset, split) = [
 ] + [
   {
     local model = m.key,
-    local params = std.format('sweeps/%s/%s-random/best.json', [split, model]),
+    local params = std.format('sweeps/%s/%s-random.json', [split, model]),
 
     name: std.format('run-%s-random-best-%s', [split, model]),
     dataset: dataset,
@@ -71,7 +71,7 @@ local splitRuns(dataset, split='temporal') = [
 ] + [
   {
     local model = m.key,
-    local params = std.format('sweeps/%s/%s-random/best.json', [split, model]),
+    local params = std.format('sweeps/%s/%s-random.json', [split, model]),
 
     name: std.format('run-%s-random-best-%s', [split, model]),
     dataset: dataset,

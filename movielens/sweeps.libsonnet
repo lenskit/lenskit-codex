@@ -23,6 +23,7 @@ local sweepStages(split, method, split_type) =
       ],
       outs: [
         out_dir,
+        { [out_dir + '.json']: { cache: false } },
       ],
     }
     for m in std.objectKeysValues(lib.models)

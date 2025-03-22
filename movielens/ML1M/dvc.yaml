@@ -24,13 +24,13 @@ stages:
     outs:
       - runs/random/bias-default
   run-random-random-best-bias:
-    cmd: lenskit codex generate --param-file sweeps/random/bias-random/best.json --ds-name=../..
+    cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=../..
       --split=splits/random.toml -o runs/random/bias-random-best bias
     deps:
       - ../../src/codex/models/bias.py
       - dataset
       - splits/random.parquet
-      - sweeps/random/bias-random/best.json
+      - sweeps/random/bias-random.json
     outs:
       - runs/random/bias-random-best
   split-random:
@@ -59,3 +59,5 @@ stages:
       - ../../src/codex/models/bias.py
     outs:
       - sweeps/random/bias-random
+      - sweeps/random/bias-random.json:
+          cache: false
