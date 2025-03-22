@@ -881,55 +881,25 @@ stages:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
       -L runs/manifest.csv
     deps:
-    - path: runs/random-default/Bias
+    - path: runs/random/bias-default
       hash: md5
-      md5: f97fba0c96724a20fb1294124cb32525.dir
-      size: 3234384
+      md5: b417e512c75eb09e7367ff60ef17ed09.dir
+      size: 3095032
       nfiles: 5
-    - path: runs/random-default/BiasedMF-ALS
+    - path: runs/random/bias-random-best
       hash: md5
-      md5: 02d68da378cf6d76bd58735c6f37a21a.dir
-      size: 3817768
+      md5: 8572b7cc0a6ec359f28361179296363e.dir
+      size: 3244622
       nfiles: 5
-    - path: runs/random-default/IKNN-Explicit
-      hash: md5
-      md5: 857b4d08f0867a9f03c57c19042fe754.dir
-      size: 3836866
-      nfiles: 5
-    - path: runs/random-default/IKNN-Implicit
-      hash: md5
-      md5: 55d313887823c140086c98f2c07d0b35.dir
-      size: 3467137
-      nfiles: 4
-    - path: runs/random-default/ImplicitMF-ALS
-      hash: md5
-      md5: 367f85742a30a5402a62eb2909a49921.dir
-      size: 3700169
-      nfiles: 4
-    - path: runs/random-default/Popular
-      hash: md5
-      md5: 6e65cebffe0712d8e49badb8db558ae9.dir
-      size: 767795
-      nfiles: 4
-    - path: runs/random-default/UKNN-Explicit
-      hash: md5
-      md5: f9454b326bfb2948326d9af1ff82d335.dir
-      size: 3832165
-      nfiles: 5
-    - path: runs/random-default/UKNN-Implicit
-      hash: md5
-      md5: 9050893a1ca869846a56e6d89553b968.dir
-      size: 3676632
-      nfiles: 4
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: ed20cb65364614de462c892d2f1e7262
-      size: 12188
+      md5: b153ff3a080cf1d1b40ca2313d0ec964
+      size: 3219
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 9ddb291ba833732289016751771a129c
-      size: 826340
+      md5: e2a704949e429c9d494fe7308fdd37dc
+      size: 262556
   sweep-random-grid-Bias:
     cmd: lenskit-codex sweep run --grid --ds-name=ML1M --split=splits/random.toml
       --test-part=0 Bias sweeps/random/Bias-grid
@@ -1339,3 +1309,75 @@ stages:
       hash: md5
       md5: 969c2543acc09afa098ffd83e1790036
       size: 1323008
+  run-random-default-bias:
+    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/random.toml
+      -o runs/random/bias-default bias
+    deps:
+    - path: ../../src/codex/models/bias.py
+      hash: md5
+      md5: 40e4db1c37e4058f292a549e47b1e3e2
+      size: 324
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: runs/random/bias-default
+      hash: md5
+      md5: b417e512c75eb09e7367ff60ef17ed09.dir
+      size: 3095032
+      nfiles: 5
+  sweep-bias-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
+      bias sweeps/random/bias-random
+    deps:
+    - path: ../../src/codex/models/bias.py
+      hash: md5
+      md5: 40e4db1c37e4058f292a549e47b1e3e2
+      size: 324
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/bias-random
+      hash: md5
+      md5: f3abf9df553c2012ac06008748d6a8c8.dir
+      size: 1784634
+      nfiles: 405
+    - path: sweeps/random/bias-random.json
+      hash: md5
+      md5: 9436702d3e53c738787fcc6e23afc606
+      size: 784
+  run-random-random-best-bias:
+    cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=../..
+      --split=splits/random.toml -o runs/random/bias-random-best bias
+    deps:
+    - path: ../../src/codex/models/bias.py
+      hash: md5
+      md5: 40e4db1c37e4058f292a549e47b1e3e2
+      size: 324
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/bias-random.json
+      hash: md5
+      md5: 9436702d3e53c738787fcc6e23afc606
+      size: 784
+    outs:
+    - path: runs/random/bias-random-best
+      hash: md5
+      md5: 8572b7cc0a6ec359f28361179296363e.dir
+      size: 3244622
+      nfiles: 5
