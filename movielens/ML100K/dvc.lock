@@ -1600,13 +1600,13 @@ stages:
     outs:
     - path: sweeps/random/bias-random
       hash: md5
-      md5: 26c50d888856686a9cf75f747923ac8d.dir
-      size: 187552
+      md5: 4b69ca93ad0a45a9cffe4b10a839c190.dir
+      size: 385528
       nfiles: 3
     - path: sweeps/random/bias-random.json
       hash: md5
-      md5: 329ff92f7b48f0266d3f463659d2f91e
-      size: 799
+      md5: 5855354171e7eaaa937f60f8819db9e6
+      size: 802
   run-random-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=ML100K
       --split=splits/random.toml -o runs/random/bias-random-best bias

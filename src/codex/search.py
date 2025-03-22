@@ -45,6 +45,7 @@ class SimplePointEval:
             label=f"measure {mod_def.name}",
             tags=["recommend"],
             reset_hwm=True,
+            subprocess=True,
             scorer=ScorerModel(name=mod_def.name, config=config),
             data=self.data_info,
         ) as test_task:
