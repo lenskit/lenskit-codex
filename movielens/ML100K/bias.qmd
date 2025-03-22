@@ -2,7 +2,7 @@
 title: Bias on ML100K
 echo: false
 deps:
-- sweeps/random/Bias-grid
+- sweeps/random/bias-random
 ---
 
 ```{python}
@@ -20,64 +20,13 @@ from codex.display import DEFAULTS
 
 ```{python}
 sweep_dir = Path('sweeps/random')
-model_name = 'Bias'
-```
-
-## Grid Search Results
-
-```{python}
-with open(sweep_dir / f'{model_name}-grid' / 'runs.json', 'rt') as jsf:
-    run_data = [json.loads(line) for line in jsf]
-grid_runs = pd.json_normalize(run_data)
-```
-
-```{python}
-cfg_rmse = grid_runs.groupby(['params.user_damping', 'params.item_damping'])['metrics.RMSE'].mean().reset_index()
-cfg_rmse = cfg_rmse.astype({'params.user_damping': 'str'})
-(
-    pn.ggplot(cfg_rmse)
-    + pn.aes(x='params.item_damping', y='metrics.RMSE', color='params.user_damping', shape='params.user_damping')
-    + pn.geom_line()
-    + pn.ylab('Per-user RMSE')
-    + pn.scale_color_brewer('qual', 'Dark2')
-)
-```
-
-User damping will have no effect on rankings.
-
-```{python}
-cfg_topn = grid_runs.groupby(['params.item_damping'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
-(
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.item_damping', y='metrics.RBP')
-    + pn.geom_line()
-    + pn.ylab('Mean RBP')
-)
-```
-
-
-```{python}
-(
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.item_damping', y='metrics.NDCG')
-    + pn.geom_line()
-    + pn.ylab('Mean NDCG')
-)
-```
-
-```{python}
-(
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.item_damping', y='metrics.RecipRank')
-    + pn.geom_line()
-    + pn.ylab('Mean RecipRank')
-)
+model_name = 'bias'
 ```
 
 ## Random Search
 
 ```{python}
-with open(sweep_dir / f'{model_name}-random' / 'runs.json', 'rt') as jsf:
+with open(sweep_dir / f'{model_name}-random' / 'trials.ndjson', 'rt') as jsf:
     run_data = [json.loads(line) for line in jsf]
 random_runs = pd.json_normalize(run_data)
 ```
@@ -87,8 +36,10 @@ What is the geometry of the search space?
 ```{python}
 (
     pn.ggplot(random_runs)
-    + pn.aes(x='params.user_damping', y='params.item_damping')
+    + pn.aes(x='config.damping.user', y='config.damping.item')
     + pn.geom_density_2d()
+    + pn.scale_x_log10()
+    + pn.scale_y_log10()
 )
 ```
 
@@ -97,7 +48,7 @@ How does RMSE change with each setting independently?
 ```{python}
 (
     pn.ggplot(random_runs)
-    + pn.aes(x='params.user_damping', y='metrics.RMSE')
+    + pn.aes(x='config.damping.user', y='RMSE')
     + pn.geom_point()
     + pn.geom_smooth()
 )
@@ -106,7 +57,7 @@ How does RMSE change with each setting independently?
 ```{python}
 (
     pn.ggplot(random_runs)
-    + pn.aes(x='params.item_damping', y='metrics.RMSE')
+    + pn.aes(x='config.damping.item', y='RMSE')
     + pn.geom_point()
     + pn.geom_smooth(method='lm')
 )
@@ -118,8 +69,7 @@ Best by RMSE:
 
 ```{python}
 pd.concat({
-    'Grid': grid_runs.nsmallest(1, 'metrics.RMSE')[['params.user_damping', 'params.item_damping', 'metrics.RBP', 'metrics.RMSE']],
-    'Random': random_runs.nsmallest(1, 'metrics.RMSE')[['params.user_damping', 'params.item_damping', 'metrics.RBP', 'metrics.RMSE']],
+    'Random': random_runs.nsmallest(1, 'RMSE')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
 }, names=['Method']).reset_index(-1, drop=True)
 ```
 
@@ -127,7 +77,6 @@ Best by RBP:
 
 ```{python}
 pd.concat({
-    'Grid': grid_runs.nlargest(1, 'metrics.RBP')[['params.user_damping', 'params.item_damping', 'metrics.RBP', 'metrics.RMSE']],
-    'Random': random_runs.nlargest(1, 'metrics.RBP')[['params.user_damping', 'params.item_damping', 'metrics.RBP', 'metrics.RMSE']],
+    'Random': random_runs.nlargest(1, 'RBP')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
 }, names=['Method']).reset_index(-1, drop=True)
 ```
