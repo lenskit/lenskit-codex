@@ -14,4 +14,4 @@ SEARCH_SPACE = {
 
 TUNE_CPUS = "2"
 
-DS_INCLUDE = ["ML1*"]
+OPTIONS = {"ds_include": ["ML1*"]}

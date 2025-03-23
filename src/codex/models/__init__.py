@@ -7,7 +7,7 @@ from typing import Any
 from lenskit.logging import get_logger
 from lenskit.parallel import get_parallel_config
 from lenskit.pipeline import Component
-from pydantic import TypeAdapter
+from pydantic import JsonValue, TypeAdapter
 
 _log = get_logger(__name__)
 model_dir = Path(__file__).parent
@@ -70,8 +70,8 @@ class ModelDef:
                 return n
 
     @property
-    def ds_include(self) -> list[str] | None:
-        return getattr(self.module, "DS_INCLUDE", None)
+    def options(self) -> dict[str, JsonValue]:
+        return getattr(self.module, "OPTIONS", {})
 
     def instantiate(self, params: dict[str, Any] | None = None):
         """

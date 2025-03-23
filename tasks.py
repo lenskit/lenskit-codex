@@ -70,8 +70,7 @@ def list_models(c: Context):
             "predictor": mod.is_predictor,
             "searchable": bool(mod.search_space),
         }
-        if inc := mod.ds_include:
-            models[mod.name]["ds_include"] = inc
+        models[mod.name].update(mod.options)
 
     with open("manifests/models.json", "wt") as jsf:
         json.dump(models, jsf, indent=2)
