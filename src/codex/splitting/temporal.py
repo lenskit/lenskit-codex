@@ -46,12 +46,13 @@ class TemporalSplitSet(SplitSet):
 
         log.info("splitting data", test_lb=str(lb), test_ub=str(ub))
         split = split_global_time(self.data, lb, ub)
-        test = ListILC("user_id")
+        test = ListILC(["user_id"])
         users = split.train.user_stats()
         users = users.index[users["count"] > 0]
-        for key, value in test:
+        for key, value in split.test:
             if key.user_id in users:
                 test.add(value, *key)
 
+        log.info("kept %d of %d test users", len(test), len(split.test))
         split.test = test
         return split
