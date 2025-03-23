@@ -35,7 +35,7 @@ local crossfoldRuns(dataset, split) = [
     variant: 'default',
     deps: ['dataset', std.format('splits/%s.parquet', [split])],
   }
-  for model in std.objectFields(lib.models)
+  for model in std.objectFields(lib.activeModels(dataset))
 ] + [
   {
     local model = m.key,
@@ -53,7 +53,7 @@ local crossfoldRuns(dataset, split) = [
       params,
     ],
   }
-  for m in std.objectKeysValues(lib.models)
+  for m in std.objectKeysValues(lib.activeModels(dataset))
   if m.value.searchable
 ];
 
@@ -67,7 +67,7 @@ local splitRuns(dataset, split='temporal') = [
     variant: 'default',
     deps: ['dataset', std.format('splits/%s.toml', [split])],
   }
-  for model in std.objectFields(lib.models)
+  for model in std.objectFields(lib.activeModels(dataset))
 ] + [
   {
     local model = m.key,
@@ -85,7 +85,7 @@ local splitRuns(dataset, split='temporal') = [
       params,
     ],
   }
-  for m in std.objectKeysValues(lib.models)
+  for m in std.objectKeysValues(lib.activeModels(dataset))
   if m.value.searchable
 ];
 

@@ -8,10 +8,14 @@ stages:
       - runs/random/iknn-implicit-default
       - runs/random/implicit-bpr-default
       - runs/random/popular-default
+      - runs/random/uknn-explicit-default
+      - runs/random/uknn-implicit-default
       - runs/random/bias-random-best
       - runs/random/iknn-explicit-random-best
       - runs/random/iknn-implicit-random-best
       - runs/random/implicit-bpr-random-best
+      - runs/random/uknn-explicit-random-best
+      - runs/random/uknn-implicit-random-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -66,6 +70,24 @@ stages:
       - splits/random.parquet
     outs:
       - runs/random/popular-default
+  run-random-default-uknn-explicit:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/uknn-explicit-default uknn-explicit
+    deps:
+      - ../../src/codex/models/uknn_explicit.py
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/uknn-explicit-default
+  run-random-default-uknn-implicit:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/uknn-implicit-default uknn-implicit
+    deps:
+      - ../../src/codex/models/uknn_implicit.py
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/uknn-implicit-default
   run-random-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=ML100K
       --split=splits/random.toml -o runs/random/bias-random-best bias
@@ -109,6 +131,28 @@ stages:
       - sweeps/random/implicit-bpr-random.json
     outs:
       - runs/random/implicit-bpr-random-best
+  run-random-random-best-uknn-explicit:
+    cmd: lenskit codex generate --param-file sweeps/random/uknn-explicit-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-explicit-random-best
+      uknn-explicit
+    deps:
+      - ../../src/codex/models/uknn_explicit.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/uknn-explicit-random.json
+    outs:
+      - runs/random/uknn-explicit-random-best
+  run-random-random-best-uknn-implicit:
+    cmd: lenskit codex generate --param-file sweeps/random/uknn-implicit-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-implicit-random-best
+      uknn-implicit
+    deps:
+      - ../../src/codex/models/uknn_implicit.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/uknn-implicit-random.json
+    outs:
+      - runs/random/uknn-implicit-random-best
   split-random:
     cmd: lenskit codex split random.toml
     deps:
@@ -166,4 +210,24 @@ stages:
     outs:
       - sweeps/random/implicit-bpr-random
       - sweeps/random/implicit-bpr-random.json:
+          cache: false
+  sweep-uknn-explicit-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
+      uknn-explicit sweeps/random/uknn-explicit-random
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/uknn_explicit.py
+    outs:
+      - sweeps/random/uknn-explicit-random
+      - sweeps/random/uknn-explicit-random.json:
+          cache: false
+  sweep-uknn-implicit-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
+      uknn-implicit sweeps/random/uknn-implicit-random
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/uknn_implicit.py
+    outs:
+      - sweeps/random/uknn-implicit-random
+      - sweeps/random/uknn-implicit-random.json:
           cache: false

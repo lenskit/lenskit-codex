@@ -8,10 +8,14 @@ stages:
       - runs/temporal/iknn-implicit-default
       - runs/temporal/implicit-bpr-default
       - runs/temporal/popular-default
+      - runs/temporal/uknn-explicit-default
+      - runs/temporal/uknn-implicit-default
       - runs/temporal/bias-random-best
       - runs/temporal/iknn-explicit-random-best
       - runs/temporal/iknn-implicit-random-best
       - runs/temporal/implicit-bpr-random-best
+      - runs/temporal/uknn-explicit-random-best
+      - runs/temporal/uknn-implicit-random-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -66,6 +70,24 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/popular-default
+  run-temporal-default-uknn-explicit:
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
+      -o runs/temporal/uknn-explicit-default uknn-explicit
+    deps:
+      - ../../src/codex/models/uknn_explicit.py
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/uknn-explicit-default
+  run-temporal-default-uknn-implicit:
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
+      -o runs/temporal/uknn-implicit-default uknn-implicit
+    deps:
+      - ../../src/codex/models/uknn_implicit.py
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/uknn-implicit-default
   run-temporal-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/temporal/bias-random.json --ds-name=ML10M
       --split=splits/temporal.toml -o runs/temporal/bias-random-best bias
@@ -109,6 +131,28 @@ stages:
       - sweeps/temporal/implicit-bpr-random.json
     outs:
       - runs/temporal/implicit-bpr-random-best
+  run-temporal-random-best-uknn-explicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/uknn-explicit-random.json
+      --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/uknn-explicit-random-best
+      uknn-explicit
+    deps:
+      - ../../src/codex/models/uknn_explicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/uknn-explicit-random.json
+    outs:
+      - runs/temporal/uknn-explicit-random-best
+  run-temporal-random-best-uknn-implicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/uknn-implicit-random.json
+      --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/uknn-implicit-random-best
+      uknn-implicit
+    deps:
+      - ../../src/codex/models/uknn_implicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/uknn-implicit-random.json
+    outs:
+      - runs/temporal/uknn-implicit-random-best
   stats:
     cmd: lenskit codex sql -D ds_name=ML10M -f ../ml-stats.sql stats.duckdb
     deps:

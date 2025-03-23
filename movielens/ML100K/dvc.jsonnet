@@ -16,7 +16,7 @@ local runs = runlib.crossfold(defs.name, 'random');
   stages: defs
           + data.prepare
           + data.crossfold
-          + sweep.crossfold('random')
+          + sweep.crossfold(defs.name, 'random')
           + runlib.stages('../..', runs)
           + results.collect(runs),
   extraFiles: {

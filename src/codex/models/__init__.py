@@ -69,6 +69,10 @@ class ModelDef:
             case n:
                 return n
 
+    @property
+    def ds_include(self) -> list[str] | None:
+        return getattr(self.module, "DS_INCLUDE", None)
+
     def instantiate(self, params: dict[str, Any] | None = None):
         """
         Instantiate a model with  specified parameters.

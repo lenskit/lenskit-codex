@@ -1,6 +1,6 @@
 local lib = import '../src/codex.libsonnet';
 
-local sweepStages(split, method, split_type) =
+local sweepStages(dataset, split, method, split_type) =
   {
     [std.join('-', ['sweep', m.key, split, method])]: {
       local out_dir = std.format('sweeps/%s/%s-%s', [split, m.key, method]),
@@ -26,11 +26,11 @@ local sweepStages(split, method, split_type) =
         { [out_dir + '.json']: { cache: false } },
       ],
     }
-    for m in std.objectKeysValues(lib.models)
+    for m in std.objectKeysValues(lib.activeModels(dataset))
     if m.value.searchable
   };
 
 {
-  crossfold: function(method) sweepStages('random', method, 'random'),
-  temporal: function(method) sweepStages('temporal', method, 'temporal'),
+  crossfold: function(dataset, method) sweepStages(dataset, 'random', method, 'random'),
+  temporal: function(dataset, method) sweepStages(dataset, 'temporal', method, 'temporal'),
 }
