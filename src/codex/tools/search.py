@@ -134,8 +134,14 @@ def run_sweep(
     ):
         results = tuner.fit()
 
+    fail = None
+    if any(r.metrics is None or len(r.metrics) <= 1 for r in results):
+        log.error("one or more runs did not complete")
+        fail = RuntimeError("runs failed")
+
     best = results.get_best_result()
     fields = {metric: best.metrics[metric]} | best.config
+
     log.info(
         "finished hyperparameter search", time=task.duration, power=task.chassis_power, **fields
     )
@@ -156,6 +162,9 @@ def run_sweep(
     ):
         tar.add(out / "state", "state")
     shutil.rmtree(out / "state")
+
+    if fail is not None:
+        raise fail
 
 
 class StatusCallback(ray.tune.Callback):
