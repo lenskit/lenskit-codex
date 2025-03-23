@@ -256,15 +256,17 @@ def _get_prometheus_metric(url: str, query: str, time_ms: int) -> float | None:
         log.warning("Prometheus query error", exc_info=e)
         return None
 
-    log.debug("received response: %s", res)
+    log.debug("received response", response=res)
     if res["status"] == "error":
         log.error("Prometheus query error: %s", res["error"], type=res["errorType"])
         return None
 
     results = res["data"]["result"]
-    if len(results) != 1:
-        log.debug("Prometheus query must return exactly 1 result, got %d", len(results))
+    if len(results) == 0:
+        log.debug("Prometheus query returned no results")
         return None
+    elif len(results) > 1:
+        log.error("Prometheus query returned %d results, expected 1", len(results))
 
     _time, val = results[0]["value"]
     return float(val)

@@ -15,7 +15,7 @@ def debug():
 @debug.command("power")
 def debug_power():
     for pt in ["chassis", "cpu", "gpu"]:
-        value = power_metrics(pt + "_power", 5.0)
+        value = power_metrics(pt + "_power", 60.0)
         if value is None:
             _log.warning("%s power not available", pt)
         else:
