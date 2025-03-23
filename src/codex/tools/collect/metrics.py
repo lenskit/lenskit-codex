@@ -68,12 +68,12 @@ def _collect_run_metrics(path: str) -> pd.DataFrame:
                 "train_task": train.task_id,
                 "infer_task": infer.task_id,
                 "train_time": train.duration,
-                "train_cpu": train.cpu_time,
+                "train_cpu": train.total_cpu(),
                 "train_power": train.chassis_power,
                 "train_mem": train.peak_memory,
                 "train_gmem": train.peak_gpu_memory,
                 "infer_time": infer.duration,
-                "infer_cpu": infer.cpu_time,
+                "infer_cpu": infer.total_cpu(),
                 "infer_power": infer.chassis_power,
             }
         )
