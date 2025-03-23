@@ -2183,3 +2183,118 @@ stages:
       md5: 26b648be66d04dbc70d3faa189f84845.dir
       size: 1755050
       nfiles: 4
+  run-temporal-default-uknn-explicit:
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
+      -o runs/temporal/uknn-explicit-default uknn-explicit
+    deps:
+    - path: ../../src/codex/models/uknn_explicit.py
+      hash: md5
+      md5: c7321a52e640ca8eb6c5276309d72a63
+      size: 438
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/uknn-explicit-default
+      hash: md5
+      md5: b052682947f97446641c6ca2eb9bf747.dir
+      size: 16515399
+      nfiles: 5
+  run-temporal-default-iknn-implicit:
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
+      -o runs/temporal/iknn-implicit-default iknn-implicit
+    deps:
+    - path: ../../src/codex/models/iknn_implicit.py
+      hash: md5
+      md5: c5d0e6edfe9f708afc1a0ef953fb7025
+      size: 433
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/iknn-implicit-default
+      hash: md5
+      md5: bb3acb0aaf86225345d62bf8b125317e.dir
+      size: 3853333
+      nfiles: 4
+  run-temporal-default-iknn-explicit:
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
+      -o runs/temporal/iknn-explicit-default iknn-explicit
+    deps:
+    - path: ../../src/codex/models/iknn_explicit.py
+      hash: md5
+      md5: 93bcfed829fef1ede127494331886a89
+      size: 432
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/iknn-explicit-default
+      hash: md5
+      md5: b8558985e9c0dd9fe6bc4e7e477c483a.dir
+      size: 16507296
+      nfiles: 5
+  run-temporal-default-implicit-bpr:
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
+      -o runs/temporal/implicit-bpr-default implicit-bpr
+    deps:
+    - path: ../../src/codex/models/implicit_bpr.py
+      hash: md5
+      md5: a00edb9b5a98478d5cfbc76cedbe7ead
+      size: 318
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/implicit-bpr-default
+      hash: md5
+      md5: 45524e82d3b2c0dc49e35822fe87ac29.dir
+      size: 4479503
+      nfiles: 4
+  run-temporal-default-uknn-implicit:
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
+      -o runs/temporal/uknn-implicit-default uknn-implicit
+    deps:
+    - path: ../../src/codex/models/uknn_implicit.py
+      hash: md5
+      md5: 0ca87563e0c0f3d827ff7678c85529cc
+      size: 439
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/uknn-implicit-default
+      hash: md5
+      md5: 52d6d8e72789b618bd07dcaf448b8277.dir
+      size: 3991953
+      nfiles: 4
