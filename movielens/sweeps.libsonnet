@@ -9,6 +9,7 @@ local sweepStages(dataset, split, method, split_type) =
         'search',
         std.format('--split=splits/%s.toml', [split]),
         '--test-part=0',
+        if std.objectHas(m.value, 'search_points') then std.format('--sample-count=%s', m.value.search_points),
         if method == 'random' then '--random',
         if m.value.predictor then '--metric=RMSE' else '--metric=RBP',
         m.key,

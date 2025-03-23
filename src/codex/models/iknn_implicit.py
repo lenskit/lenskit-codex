@@ -13,3 +13,4 @@ SEARCH_SPACE = {
 }
 
 TUNE_CPUS = "all"
+OPTIONS = {"search_points": 60}
