@@ -65,7 +65,7 @@ cuda = "12"
 
 [feature.run.pypi-dependencies]
 # lenskit = { version = "~=2025.2", extras = ["implicit", "sklearn", "funksvd"] }
-lenskit = { path = "../lkpy", editable = true }
+lenskit = { git = "https://github.com/lenskit/lkpy.git" }
 
 [feature.run.target.linux.dependencies]
 pytorch-gpu = ">=2"
