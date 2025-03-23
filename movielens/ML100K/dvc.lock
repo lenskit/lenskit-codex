@@ -459,6 +459,16 @@ stages:
       md5: 75df79b79f8091adf9c10da2ea0f4431.dir
       size: 675054
       nfiles: 4
+    - path: runs/random/implicit-bpr-default
+      hash: md5
+      md5: cc5eb83ecf5f6a9a5684973d68761b2c.dir
+      size: 698088
+      nfiles: 4
+    - path: runs/random/implicit-bpr-random-best
+      hash: md5
+      md5: 2e5193b7051f6ab5c650a02636dbfac3.dir
+      size: 694438
+      nfiles: 4
     - path: runs/random/popular-default
       hash: md5
       md5: 27ed77005591110a84151e6fc676c9b2.dir
@@ -467,12 +477,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: ca4781c533472b2d95c5d3fe7b79c938
-      size: 10427
+      md5: c83d0b56378a2941a11c95cfac9d0216
+      size: 13175
     - path: run-user-metrics.parquet
       hash: md5
-      md5: c48384604173759caa579f8a06b2c7e8
-      size: 131311
+      md5: 072a2e64104547c387834779cff1a3d3
+      size: 163458
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit-grid.json
       --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/IKNN-Implicit
@@ -1828,3 +1838,76 @@ stages:
       md5: aebd6b9469848b30e18d24b96e4b98ff.dir
       size: 702615
       nfiles: 5
+  run-random-default-implicit-bpr:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/implicit-bpr-default implicit-bpr
+    deps:
+    - path: ../../src/codex/models/implicit_bpr.py
+      hash: md5
+      md5: a00edb9b5a98478d5cfbc76cedbe7ead
+      size: 318
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    outs:
+    - path: runs/random/implicit-bpr-default
+      hash: md5
+      md5: cc5eb83ecf5f6a9a5684973d68761b2c.dir
+      size: 698088
+      nfiles: 4
+  sweep-implicit-bpr-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
+      implicit-bpr sweeps/random/implicit-bpr-random
+    deps:
+    - path: ../../src/codex/models/implicit_bpr.py
+      hash: md5
+      md5: a00edb9b5a98478d5cfbc76cedbe7ead
+      size: 318
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    outs:
+    - path: sweeps/random/implicit-bpr-random
+      hash: md5
+      md5: 3b39ecf8d4c728b084fb28e891d52ffd.dir
+      size: 409048
+      nfiles: 3
+    - path: sweeps/random/implicit-bpr-random.json
+      hash: md5
+      md5: 800584ec1fe4544b935e4c8db44197a7
+      size: 854
+  run-random-random-best-implicit-bpr:
+    cmd: lenskit codex generate --param-file sweeps/random/implicit-bpr-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/implicit-bpr-random-best
+      implicit-bpr
+    deps:
+    - path: ../../src/codex/models/implicit_bpr.py
+      hash: md5
+      md5: a00edb9b5a98478d5cfbc76cedbe7ead
+      size: 318
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    - path: sweeps/random/implicit-bpr-random.json
+      hash: md5
+      md5: 800584ec1fe4544b935e4c8db44197a7
+      size: 854
+    outs:
+    - path: runs/random/implicit-bpr-random-best
+      hash: md5
+      md5: 2e5193b7051f6ab5c650a02636dbfac3.dir
+      size: 694438
+      nfiles: 4
