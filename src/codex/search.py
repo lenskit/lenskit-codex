@@ -5,7 +5,6 @@ Support for hyperparameter search.
 from __future__ import annotations
 
 import ray
-import torch
 from lenskit.batch import BatchPipelineRunner, BatchResults
 from lenskit.logging import Task, get_logger
 from lenskit.logging.worker import send_task
@@ -33,11 +32,6 @@ class SimplePointEval:
     def __call__(self, config) -> dict[str, float]:
         mod_def = load_model(self.name)
         data = ray.get(self.data)
-        _log.info(
-            "starting tune task",
-            threads=torch.get_num_interop_threads(),
-            be_threads=torch.get_num_threads(),
-        )
 
         pipe, task = train_task(mod_def, config, data.train, self.data_info)
         send_task(task)
