@@ -2160,3 +2160,26 @@ stages:
       hash: md5
       md5: 3af6da0aad9d5d9bee59ac55987e57a3
       size: 785
+  run-temporal-default-popular:
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
+      -o runs/temporal/popular-default popular
+    deps:
+    - path: ../../src/codex/models/popular.py
+      hash: md5
+      md5: c1b8d18adf4c2f7d9807ad4f8c766732
+      size: 56
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/popular-default
+      hash: md5
+      md5: 26b648be66d04dbc70d3faa189f84845.dir
+      size: 1755050
+      nfiles: 4
