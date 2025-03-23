@@ -1,12 +1,10 @@
 import datetime as dt
-from os import fspath
 from pathlib import Path
 from typing import override
 
-import duckdb
 import structlog
-from lenskit.data import ItemListCollection, UserIDKey, from_interactions_df
-from lenskit.splitting import TTSplit
+from lenskit.data import Dataset
+from lenskit.splitting import TTSplit, split_global_time
 
 from ._base import SplitSet
 from .spec import TemporalSpec
@@ -21,7 +19,7 @@ class TemporalSplitSet(SplitSet):
 
     source: Path
     spec: TemporalSpec
-    db: duckdb.DuckDBPyConnection
+    data: Dataset
     log: structlog.stdlib.BoundLogger
 
     parts = ["valid", "test"]
@@ -29,79 +27,22 @@ class TemporalSplitSet(SplitSet):
     def __init__(self, source: Path, spec: TemporalSpec):
         self.source = source
         self.spec = spec
-        self.db = duckdb.connect(fspath(source), read_only=True)
-        self.log = _log.bind(file=str(source))
+        self.data = Dataset.load(source)
+        self.log = _log.bind(file=str(source), name=self.data.name)
 
     @override
     def get_part(self, part: str) -> TTSplit:
         log = self.log.bind(part=part)
         lb = ub = None
+        midnight = dt.datetime.min.time()
         match part:
             case "test":
-                lb = self.spec.test
+                lb = dt.datetime.combine(self.spec.test, midnight)
             case "valid":
-                lb = self.spec.tune
-                ub = self.spec.test
+                lb = dt.datetime.combine(self.spec.tune, midnight)
+                ub = dt.datetime.combine(self.spec.test, midnight)
             case _:
                 raise ValueError(f"invalid part {part}")
 
-        train_query = """
-            SELECT user_id, item_id, rating, timestamp
-            FROM ratings
-            WHERE timestamp < $lb
-        """
-        train_params = {"lb": lb}
-
-        test_query = """
-            SELECT user_id, item_id, rating, timestamp
-            FROM ratings
-            WHERE timestamp >= $lb
-        """
-        test_params: dict[str, str | int | float | dt.date] = {"lb": lb}
-        if ub is not None:
-            log.debug("adding upper bound to query")
-            test_query += " AND timestamp < $ub"
-            test_params["ub"] = ub
-        if self.spec.min_train is not None:
-            log.debug("adding minimum training ratings to query")
-            test_query += """
-                AND user_id IN (
-                    SELECT user_id FROM ratings WHERE timestamp < $lb
-                    GROUP BY user_id HAVING COUNT(*) >= $min
-                )
-            """
-            test_params["min"] = self.spec.min_train
-
-        self.log.debug("fetching train data")
-        self.db.execute(train_query, train_params)
-        train_df = self.db.fetch_df()
-
-        self.log.debug("fetching item IDs")
-        if ub is None:
-            self.db.execute("SELECT DISTINCT item_id FROM ratings")
-        else:
-            self.db.execute(
-                "SELECT DISTINCT item_id FROM ratings WHERE timestamp < $ub", {"ub": ub}
-            )
-        items = self.db.fetchnumpy()["item_id"]
-
-        self.log.debug("fetching user IDs")
-        if ub is None:
-            self.db.execute("SELECT DISTINCT user_id FROM ratings")
-        else:
-            self.db.execute(
-                "SELECT DISTINCT user_id FROM ratings WHERE timestamp < $ub", {"ub": ub}
-            )
-        users = self.db.fetchnumpy()["user_id"]
-
-        train = from_interactions_df(train_df, items=items, users=users)
-
-        self.log.debug("fetching test data")
-        self.db.execute(test_query, test_params)
-        test_df = self.db.fetch_df()
-        test = ItemListCollection.from_df(test_df, UserIDKey)
-
-        return TTSplit(train, test)
-
-    def close(self):
-        self.db.close()
+        log.info("splitting data", test_lb=str(lb), test_ub=str(ub))
+        return split_global_time(self.data, lb, ub)

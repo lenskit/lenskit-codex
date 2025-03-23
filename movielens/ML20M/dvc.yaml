@@ -117,7 +117,7 @@ stages:
     outs:
       - stats.duckdb
   sweep-bias-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=0 --random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RMSE bias sweeps/temporal/bias-random
     deps:
       - splits/temporal.toml
@@ -127,7 +127,7 @@ stages:
       - sweeps/temporal/bias-random.json:
           cache: false
   sweep-iknn-explicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=0 --sample-count=60
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
       --random --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-random
     deps:
       - splits/temporal.toml
@@ -137,7 +137,7 @@ stages:
       - sweeps/temporal/iknn-explicit-random.json:
           cache: false
   sweep-iknn-implicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=0 --sample-count=60
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
       --random --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
     deps:
       - splits/temporal.toml
@@ -147,7 +147,7 @@ stages:
       - sweeps/temporal/iknn-implicit-random.json:
           cache: false
   sweep-implicit-bpr-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=0 --random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-random
     deps:
       - splits/temporal.toml
