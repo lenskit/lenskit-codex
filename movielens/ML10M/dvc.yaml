@@ -6,10 +6,12 @@ stages:
       - runs/temporal/bias-default
       - runs/temporal/iknn-explicit-default
       - runs/temporal/iknn-implicit-default
+      - runs/temporal/implicit-bpr-default
       - runs/temporal/popular-default
       - runs/temporal/bias-random-best
       - runs/temporal/iknn-explicit-random-best
       - runs/temporal/iknn-implicit-random-best
+      - runs/temporal/implicit-bpr-random-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -20,7 +22,7 @@ stages:
     outs:
       - dataset
   run-temporal-default-bias:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
       -o runs/temporal/bias-default bias
     deps:
       - ../../src/codex/models/bias.py
@@ -29,7 +31,7 @@ stages:
     outs:
       - runs/temporal/bias-default
   run-temporal-default-iknn-explicit:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
       -o runs/temporal/iknn-explicit-default iknn-explicit
     deps:
       - ../../src/codex/models/iknn_explicit.py
@@ -38,7 +40,7 @@ stages:
     outs:
       - runs/temporal/iknn-explicit-default
   run-temporal-default-iknn-implicit:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
       -o runs/temporal/iknn-implicit-default iknn-implicit
     deps:
       - ../../src/codex/models/iknn_implicit.py
@@ -46,8 +48,17 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/iknn-implicit-default
+  run-temporal-default-implicit-bpr:
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
+      -o runs/temporal/implicit-bpr-default implicit-bpr
+    deps:
+      - ../../src/codex/models/implicit_bpr.py
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/implicit-bpr-default
   run-temporal-default-popular:
-    cmd: lenskit codex generate --default --ds-name=../.. --split=splits/temporal.toml
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
       -o runs/temporal/popular-default popular
     deps:
       - ../../src/codex/models/popular.py
@@ -56,7 +67,7 @@ stages:
     outs:
       - runs/temporal/popular-default
   run-temporal-random-best-bias:
-    cmd: lenskit codex generate --param-file sweeps/temporal/bias-random.json --ds-name=../..
+    cmd: lenskit codex generate --param-file sweeps/temporal/bias-random.json --ds-name=ML10M
       --split=splits/temporal.toml -o runs/temporal/bias-random-best bias
     deps:
       - ../../src/codex/models/bias.py
@@ -67,7 +78,7 @@ stages:
       - runs/temporal/bias-random-best
   run-temporal-random-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/iknn-explicit-random.json
-      --ds-name=../.. --split=splits/temporal.toml -o runs/temporal/iknn-explicit-random-best
+      --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-random-best
       iknn-explicit
     deps:
       - ../../src/codex/models/iknn_explicit.py
@@ -78,7 +89,7 @@ stages:
       - runs/temporal/iknn-explicit-random-best
   run-temporal-random-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/iknn-implicit-random.json
-      --ds-name=../.. --split=splits/temporal.toml -o runs/temporal/iknn-implicit-random-best
+      --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/iknn-implicit-random-best
       iknn-implicit
     deps:
       - ../../src/codex/models/iknn_implicit.py
@@ -87,6 +98,17 @@ stages:
       - sweeps/temporal/iknn-implicit-random.json
     outs:
       - runs/temporal/iknn-implicit-random-best
+  run-temporal-random-best-implicit-bpr:
+    cmd: lenskit codex generate --param-file sweeps/temporal/implicit-bpr-random.json
+      --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/implicit-bpr-random-best
+      implicit-bpr
+    deps:
+      - ../../src/codex/models/implicit_bpr.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/implicit-bpr-random.json
+    outs:
+      - runs/temporal/implicit-bpr-random-best
   stats:
     cmd: lenskit codex sql -D ds_name=ML10M -f ../ml-stats.sql stats.duckdb
     deps:

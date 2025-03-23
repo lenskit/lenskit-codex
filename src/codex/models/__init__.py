@@ -87,6 +87,8 @@ class ModelDef:
             config.update(params)
         else:
             config = self.default_config
+            if not isinstance(config, dict):
+                config = TypeAdapter(self.config_class).dump_python(config)
             log.debug("using default configuration", config=config)
 
         mod_cls = self.scorer_class

@@ -6,10 +6,12 @@ stages:
       - runs/random/bias-default
       - runs/random/iknn-explicit-default
       - runs/random/iknn-implicit-default
+      - runs/random/implicit-bpr-default
       - runs/random/popular-default
       - runs/random/bias-random-best
       - runs/random/iknn-explicit-random-best
       - runs/random/iknn-implicit-random-best
+      - runs/random/implicit-bpr-random-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -46,6 +48,15 @@ stages:
       - splits/random.parquet
     outs:
       - runs/random/iknn-implicit-default
+  run-random-default-implicit-bpr:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/implicit-bpr-default implicit-bpr
+    deps:
+      - ../../src/codex/models/implicit_bpr.py
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/implicit-bpr-default
   run-random-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/popular-default popular
@@ -87,6 +98,17 @@ stages:
       - sweeps/random/iknn-implicit-random.json
     outs:
       - runs/random/iknn-implicit-random-best
+  run-random-random-best-implicit-bpr:
+    cmd: lenskit codex generate --param-file sweeps/random/implicit-bpr-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/implicit-bpr-random-best
+      implicit-bpr
+    deps:
+      - ../../src/codex/models/implicit_bpr.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/implicit-bpr-random.json
+    outs:
+      - runs/random/implicit-bpr-random-best
   split-random:
     cmd: lenskit codex split random.toml
     deps:
@@ -134,4 +156,14 @@ stages:
     outs:
       - sweeps/random/iknn-implicit-random
       - sweeps/random/iknn-implicit-random.json:
+          cache: false
+  sweep-implicit-bpr-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
+      implicit-bpr sweeps/random/implicit-bpr-random
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/implicit_bpr.py
+    outs:
+      - sweeps/random/implicit-bpr-random
+      - sweeps/random/implicit-bpr-random.json:
           cache: false
