@@ -100,9 +100,9 @@ rtime['type'] = rtime['variable'].str.split('_', expand=True)[1]
 rtime.loc[rtime['type'] == 'time', 'type'] = 'wall'
 (
     pn.ggplot(rtime)
-    + pn.aes(x='model', y='value', fill='type')
+    + pn.aes(x='model', y='value', fill='variant')
     + pn.geom_col(position='dodge', stat='summary')
-    + pn.facet_grid('~ stage', scales="free_x")
+    + pn.facet_grid('type ~ stage', scales="free_x")
     + pn.ylab("Total time (seconds)")
     + pn.coord_flip()
     + pn.scale_fill_brewer(type="qual", palette="Dark2")

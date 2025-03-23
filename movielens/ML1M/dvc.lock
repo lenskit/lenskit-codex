@@ -1456,8 +1456,8 @@ stages:
     outs:
     - path: runs/random/iknn-explicit-default
       hash: md5
-      md5: bd2b9fd1379a0be6edc664c16df2ea9f.dir
-      size: 3838485
+      md5: 872b1b7bf8f908339b44f93095923dc4.dir
+      size: 3838297
       nfiles: 5
   run-random-default-iknn-implicit:
     cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
@@ -1479,8 +1479,8 @@ stages:
     outs:
     - path: runs/random/iknn-implicit-default
       hash: md5
-      md5: 2a0f75594aef231c393d2a7f7ce67af7.dir
-      size: 3585573
+      md5: 5cb9c426cde3f0d940eb7dee18bc480f.dir
+      size: 3586673
       nfiles: 4
   run-random-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
@@ -1552,8 +1552,8 @@ stages:
     outs:
     - path: runs/random/iknn-explicit-random-best
       hash: md5
-      md5: 402c623550ba5c19ef498e7b0c84c883.dir
-      size: 3859711
+      md5: cd0ee3bcdcaa51e3c712c3730c98c468.dir
+      size: 3859393
       nfiles: 5
   sweep-iknn-implicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
@@ -1602,8 +1602,8 @@ stages:
     outs:
     - path: runs/random/iknn-implicit-random-best
       hash: md5
-      md5: 0fe4f48bf080a423f9e66244a86601d3.dir
-      size: 3594823
+      md5: c871fa9d84a8b73be674b6ef9faa8cfd.dir
+      size: 3594623
       nfiles: 4
   sweep-implicit-bpr-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
