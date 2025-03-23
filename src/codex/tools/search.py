@@ -85,9 +85,8 @@ def run_sweep(
     harness = SimplePointEval(mod_def.name, list_length, data_ref, data_info)
     paracfg = get_parallel_config()
 
-    if lktj := os.environ.get("TUNING_JOB_LIMIT", None):
-        job_limit = int(lktj)
-    else:
+    job_limit = int(os.environ.get("TUNING_JOB_LIMIT", "8"))
+    if job_limit <= 0:
         job_limit = None
 
     log.info(

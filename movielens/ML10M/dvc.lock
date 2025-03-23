@@ -2115,3 +2115,48 @@ stages:
       hash: md5
       md5: 4463979e309e3131c0876d4f7896d68c
       size: 2895872
+  run-temporal-default-bias:
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
+      -o runs/temporal/bias-default bias
+    deps:
+    - path: ../../src/codex/models/bias.py
+      hash: md5
+      md5: 40e4db1c37e4058f292a549e47b1e3e2
+      size: 324
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/bias-default
+      hash: md5
+      md5: 738a6df2c17764443fc79462ee63c5f3.dir
+      size: 15911350
+      nfiles: 5
+  sweep-bias-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RMSE bias sweeps/temporal/bias-random
+    deps:
+    - path: ../../src/codex/models/bias.py
+      hash: md5
+      md5: 40e4db1c37e4058f292a549e47b1e3e2
+      size: 324
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: sweeps/temporal/bias-random
+      hash: md5
+      md5: c2ba6c10dcdb5c81fe8cabd929452dac.dir
+      size: 391009
+      nfiles: 3
+    - path: sweeps/temporal/bias-random.json
+      hash: md5
+      md5: 3af6da0aad9d5d9bee59ac55987e57a3
+      size: 785
