@@ -22,7 +22,9 @@ def render_site(c: Context):
 @task
 def upload_web_assets(c: Context):
     "Upload the web assets."
+    print("pushing page outputs")
     c.run("dvc push --no-run-cache -r public dvc.yaml")
+    print("pushing static images")
     c.run("dvc push --no-run-cache -r public -R images")
 
 
