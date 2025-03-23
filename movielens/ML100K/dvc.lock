@@ -441,23 +441,23 @@ stages:
       nfiles: 5
     - path: runs/random/iknn-explicit-default
       hash: md5
-      md5: 32ba7e828caf860d157e2e7842b28d97.dir
-      size: 701137
+      md5: ffc1854fd9097fc1c44e31b4eee012d7.dir
+      size: 701168
       nfiles: 5
     - path: runs/random/iknn-explicit-random-best
       hash: md5
-      md5: aebd6b9469848b30e18d24b96e4b98ff.dir
-      size: 702615
+      md5: 83f9be7923cc95d6b276ea290149439a.dir
+      size: 702304
       nfiles: 5
     - path: runs/random/iknn-implicit-default
       hash: md5
-      md5: 7a0b83fde8d5d2f58d2e6aafcdc0066a.dir
-      size: 673195
+      md5: 79594ddc198a3a119399f5c1856a2efc.dir
+      size: 673189
       nfiles: 4
     - path: runs/random/iknn-implicit-random-best
       hash: md5
-      md5: 75df79b79f8091adf9c10da2ea0f4431.dir
-      size: 675054
+      md5: c29ef6d86982415362c70fa14e9f6355.dir
+      size: 675559
       nfiles: 4
     - path: runs/random/implicit-bpr-default
       hash: md5
@@ -474,15 +474,35 @@ stages:
       md5: 27ed77005591110a84151e6fc676c9b2.dir
       size: 169544
       nfiles: 4
+    - path: runs/random/uknn-explicit-default
+      hash: md5
+      md5: d750b5ccefcfdf763420070d834059ba.dir
+      size: 678478
+      nfiles: 5
+    - path: runs/random/uknn-explicit-random-best
+      hash: md5
+      md5: 2210310ec7cbe33b834c82804c5f133a.dir
+      size: 678332
+      nfiles: 5
+    - path: runs/random/uknn-implicit-default
+      hash: md5
+      md5: aa3861aad62c3ad697cb204aa93e8bbe.dir
+      size: 687865
+      nfiles: 4
+    - path: runs/random/uknn-implicit-random-best
+      hash: md5
+      md5: 7d4101c63cf7b1aeff9645fc42500a9d.dir
+      size: 688520
+      nfiles: 4
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: c83d0b56378a2941a11c95cfac9d0216
-      size: 13175
+      md5: bfb9066fdc7dd3bfeb9b8a9e3655aaf9
+      size: 19062
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 072a2e64104547c387834779cff1a3d3
-      size: 163458
+      md5: e9941d34eed4c249e2ae88ca005620dc
+      size: 230255
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit-grid.json
       --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/IKNN-Implicit
@@ -1670,13 +1690,13 @@ stages:
       size: 629472
       nfiles: 5
   sweep-iknn-implicit-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
-      iknn-implicit sweeps/random/iknn-implicit-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
+      --random --metric=RBP iknn-implicit sweeps/random/iknn-implicit-random
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 78269e5e64579e9286404e3ad7841835
-      size: 401
+      md5: c5d0e6edfe9f708afc1a0ef953fb7025
+      size: 433
     - path: splits/random.parquet
       hash: md5
       md5: 4c00bff3d3a51715464e1775b2997cb6
@@ -1684,13 +1704,13 @@ stages:
     outs:
     - path: sweeps/random/iknn-implicit-random
       hash: md5
-      md5: 721f7b3e269b29b912533a5fde19efb5.dir
-      size: 375653
+      md5: c1a45c850bd7ffb47e799e9d4cd4f18a.dir
+      size: 228979
       nfiles: 3
     - path: sweeps/random/iknn-implicit-random.json
       hash: md5
-      md5: 8357003b369abb07300919feeb516fa8
-      size: 772
+      md5: b516bd7ecdf7b79f80ef4dae07ea2a9b
+      size: 779
   run-random-random-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-implicit-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-implicit-random-best
@@ -1698,8 +1718,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 78269e5e64579e9286404e3ad7841835
-      size: 401
+      md5: c5d0e6edfe9f708afc1a0ef953fb7025
+      size: 433
     - path: dataset
       hash: md5
       md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
@@ -1711,13 +1731,13 @@ stages:
       size: 56492
     - path: sweeps/random/iknn-implicit-random.json
       hash: md5
-      md5: 8357003b369abb07300919feeb516fa8
-      size: 772
+      md5: b516bd7ecdf7b79f80ef4dae07ea2a9b
+      size: 779
     outs:
     - path: runs/random/iknn-implicit-random-best
       hash: md5
-      md5: 75df79b79f8091adf9c10da2ea0f4431.dir
-      size: 675054
+      md5: c29ef6d86982415362c70fa14e9f6355.dir
+      size: 675559
       nfiles: 4
   run-random-default-iknn-explicit:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
@@ -1725,8 +1745,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: f156b2cd1ec9acd0b36ed38aa5f0579c
-      size: 400
+      md5: 93bcfed829fef1ede127494331886a89
+      size: 432
     - path: dataset
       hash: md5
       md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
@@ -1739,8 +1759,8 @@ stages:
     outs:
     - path: runs/random/iknn-explicit-default
       hash: md5
-      md5: 32ba7e828caf860d157e2e7842b28d97.dir
-      size: 701137
+      md5: ffc1854fd9097fc1c44e31b4eee012d7.dir
+      size: 701168
       nfiles: 5
   run-random-default-iknn-implicit:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
@@ -1748,8 +1768,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 78269e5e64579e9286404e3ad7841835
-      size: 401
+      md5: c5d0e6edfe9f708afc1a0ef953fb7025
+      size: 433
     - path: dataset
       hash: md5
       md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
@@ -1762,8 +1782,8 @@ stages:
     outs:
     - path: runs/random/iknn-implicit-default
       hash: md5
-      md5: 7a0b83fde8d5d2f58d2e6aafcdc0066a.dir
-      size: 673195
+      md5: 79594ddc198a3a119399f5c1856a2efc.dir
+      size: 673189
       nfiles: 4
   run-random-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
@@ -1789,13 +1809,13 @@ stages:
       size: 169544
       nfiles: 4
   sweep-iknn-explicit-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
-      iknn-explicit sweeps/random/iknn-explicit-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
+      --random --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-random
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: f156b2cd1ec9acd0b36ed38aa5f0579c
-      size: 400
+      md5: 93bcfed829fef1ede127494331886a89
+      size: 432
     - path: splits/random.parquet
       hash: md5
       md5: 4c00bff3d3a51715464e1775b2997cb6
@@ -1803,13 +1823,13 @@ stages:
     outs:
     - path: sweeps/random/iknn-explicit-random
       hash: md5
-      md5: 04e0421ee01085ab84344b36d53d2cdf.dir
-      size: 387374
+      md5: 05ca97bacc9d171ed1c4c575b6e99eef.dir
+      size: 236538
       nfiles: 3
     - path: sweeps/random/iknn-explicit-random.json
       hash: md5
-      md5: 2d38db78fa6ba7114fa73847d7eb00bd
-      size: 797
+      md5: 29dfdb728071dbb62b8f9e8062eea286
+      size: 799
   run-random-random-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-random-best
@@ -1817,8 +1837,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: f156b2cd1ec9acd0b36ed38aa5f0579c
-      size: 400
+      md5: 93bcfed829fef1ede127494331886a89
+      size: 432
     - path: dataset
       hash: md5
       md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
@@ -1830,13 +1850,13 @@ stages:
       size: 56492
     - path: sweeps/random/iknn-explicit-random.json
       hash: md5
-      md5: 2d38db78fa6ba7114fa73847d7eb00bd
-      size: 797
+      md5: 29dfdb728071dbb62b8f9e8062eea286
+      size: 799
     outs:
     - path: runs/random/iknn-explicit-random-best
       hash: md5
-      md5: aebd6b9469848b30e18d24b96e4b98ff.dir
-      size: 702615
+      md5: 83f9be7923cc95d6b276ea290149439a.dir
+      size: 702304
       nfiles: 5
   run-random-default-implicit-bpr:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
@@ -1910,4 +1930,150 @@ stages:
       hash: md5
       md5: 2e5193b7051f6ab5c650a02636dbfac3.dir
       size: 694438
+      nfiles: 4
+  run-random-default-uknn-implicit:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/uknn-implicit-default uknn-implicit
+    deps:
+    - path: ../../src/codex/models/uknn_implicit.py
+      hash: md5
+      md5: 0ca87563e0c0f3d827ff7678c85529cc
+      size: 439
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    outs:
+    - path: runs/random/uknn-implicit-default
+      hash: md5
+      md5: aa3861aad62c3ad697cb204aa93e8bbe.dir
+      size: 687865
+      nfiles: 4
+  sweep-uknn-implicit-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
+      --random --metric=RBP uknn-implicit sweeps/random/uknn-implicit-random
+    deps:
+    - path: ../../src/codex/models/uknn_implicit.py
+      hash: md5
+      md5: 0ca87563e0c0f3d827ff7678c85529cc
+      size: 439
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    outs:
+    - path: sweeps/random/uknn-implicit-random
+      hash: md5
+      md5: 3b665e5043dc9119e292406a6300c089.dir
+      size: 227874
+      nfiles: 3
+    - path: sweeps/random/uknn-implicit-random.json
+      hash: md5
+      md5: 74aed5caed2f40de3437fad90d643220
+      size: 783
+  run-random-default-uknn-explicit:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/uknn-explicit-default uknn-explicit
+    deps:
+    - path: ../../src/codex/models/uknn_explicit.py
+      hash: md5
+      md5: c7321a52e640ca8eb6c5276309d72a63
+      size: 438
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    outs:
+    - path: runs/random/uknn-explicit-default
+      hash: md5
+      md5: d750b5ccefcfdf763420070d834059ba.dir
+      size: 678478
+      nfiles: 5
+  sweep-uknn-explicit-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
+      --random --metric=RMSE uknn-explicit sweeps/random/uknn-explicit-random
+    deps:
+    - path: ../../src/codex/models/uknn_explicit.py
+      hash: md5
+      md5: c7321a52e640ca8eb6c5276309d72a63
+      size: 438
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    outs:
+    - path: sweeps/random/uknn-explicit-random
+      hash: md5
+      md5: 2270076b8c3a548e1e3cb6e29bd73fb8.dir
+      size: 235512
+      nfiles: 3
+    - path: sweeps/random/uknn-explicit-random.json
+      hash: md5
+      md5: e58692d7c27b37ed4a8b3bbc3f297cd8
+      size: 801
+  run-random-random-best-uknn-explicit:
+    cmd: lenskit codex generate --param-file sweeps/random/uknn-explicit-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-explicit-random-best
+      uknn-explicit
+    deps:
+    - path: ../../src/codex/models/uknn_explicit.py
+      hash: md5
+      md5: c7321a52e640ca8eb6c5276309d72a63
+      size: 438
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    - path: sweeps/random/uknn-explicit-random.json
+      hash: md5
+      md5: e58692d7c27b37ed4a8b3bbc3f297cd8
+      size: 801
+    outs:
+    - path: runs/random/uknn-explicit-random-best
+      hash: md5
+      md5: 2210310ec7cbe33b834c82804c5f133a.dir
+      size: 678332
+      nfiles: 5
+  run-random-random-best-uknn-implicit:
+    cmd: lenskit codex generate --param-file sweeps/random/uknn-implicit-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-implicit-random-best
+      uknn-implicit
+    deps:
+    - path: ../../src/codex/models/uknn_implicit.py
+      hash: md5
+      md5: 0ca87563e0c0f3d827ff7678c85529cc
+      size: 439
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    - path: sweeps/random/uknn-implicit-random.json
+      hash: md5
+      md5: 74aed5caed2f40de3437fad90d643220
+      size: 783
+    outs:
+    - path: runs/random/uknn-implicit-random-best
+      hash: md5
+      md5: 7d4101c63cf7b1aeff9645fc42500a9d.dir
+      size: 688520
       nfiles: 4
