@@ -1,4 +1,4 @@
-local lib = import '../src/lib.libsonnet';
+local lib = import '../src/codex.libsonnet';
 
 local runPath(run) =
   std.format('%s/%s-%s', [run.split, run.model, run.variant]);

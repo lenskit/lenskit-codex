@@ -1,4 +1,4 @@
-local lib = import '../src/lib.libsonnet';
+local lib = import '../src/codex.libsonnet';
 local datasets = [
   'ML100K',
   'ML1M',

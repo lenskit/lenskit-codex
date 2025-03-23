@@ -1,4 +1,4 @@
-local lib = import '../src/lib.libsonnet';
+local lib = import '../src/codex.libsonnet';
 
 local sweepStages(split, method, split_type) =
   {

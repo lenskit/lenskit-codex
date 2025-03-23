@@ -1,4 +1,4 @@
-local lib = import '../../src/lib.libsonnet';
+local lib = import '../../src/codex.libsonnet';
 local data = import '../data.libsonnet';
 local results = import '../results.libsonnet';
 local runlib = import '../runs.libsonnet';
