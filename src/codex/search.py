@@ -23,17 +23,26 @@ class SimplePointEval:
     A simple hyperparameter point evaluator using non-iterative model training.
     """
 
-    def __init__(self, name: str, n: int | None, split: ray.ObjectRef, data_info: DataModel):
+    def __init__(
+        self,
+        name: str,
+        factory: ray.ObjectRef,
+        n: int | None,
+        split: ray.ObjectRef,
+        data_info: DataModel,
+    ):
         self.name = name
+        self.factory = factory
         self.list_length = n
         self.data = split
         self.data_info = data_info
 
     def __call__(self, config) -> dict[str, float]:
         mod_def = load_model(self.name)
+        factory = ray.get(self.factory)
         data = ray.get(self.data)
 
-        pipe, task = train_task(mod_def, config, data.train, self.data_info)
+        pipe, task = train_task(mod_def, config, data.train, self.data_info, factory=factory)
         send_task(task)
 
         runner = BatchPipelineRunner(n_jobs=1)  # single-threaded inside tuning

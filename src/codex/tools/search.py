@@ -17,6 +17,7 @@ import ray.tune
 import zstandard
 from lenskit.logging import get_logger, item_progress
 from lenskit.parallel import get_parallel_config
+from lenskit.training import Trainable, TrainingOptions
 from pydantic_core import to_json
 
 from codex.cluster import ensure_cluster_init
@@ -35,9 +36,7 @@ _log = get_logger(__name__)
 @click.option(
     "-n", "--list-length", type=int, metavar="N", default=1000, help="generate lists of length N"
 )
-@click.option(
-    "-C", "--sample-count", type=int, metavar="NPTS", default=100, help="test NPTS points"
-)
+@click.option("-C", "--sample-count", type=int, metavar="N", default=100, help="test N points")
 @click.option("--split", "split", type=Path, help="path to the split spec (or base file)")
 @click.option("-N", "--ds-name", help="name of the dataset to search with")
 @click.option(
@@ -74,55 +73,11 @@ def run_sweep(
     output.initialize()
 
     data_info = DataModel(dataset=ds_name, split=split.stem, part=test_part)
-    split_set = load_split_set(split)
-    data = split_set.get_part(test_part)
+    data = load_split_set(split).get_part(test_part)
     # data.test = data.test.pack()
 
     ensure_cluster_init()
 
-    log.info("pushing data to storage")
-    data_ref = ray.put(data)
-    harness = SimplePointEval(mod_def.name, list_length, data_ref, data_info)
-    paracfg = get_parallel_config()
-
-    job_limit = int(os.environ.get("TUNING_JOB_LIMIT", "8"))
-    if job_limit <= 0:
-        job_limit = None
-
-    log.info(
-        "setting up parallel tuner",
-        cpus=paracfg.total_threads,
-        job_limit=job_limit,
-        num_samples=sample_count,
-    )
-    harness = ray.tune.with_resources(harness, {"CPU": mod_def.tuning_cpus})
-
-    match method:
-        case "random":
-            scheduler = None
-        case _:
-            raise RuntimeError("no valid method specified")
-
-    ray_store = out / "state"
-    tuner = ray.tune.Tuner(
-        harness,
-        param_space=mod_def.search_space,
-        tune_config=ray.tune.TuneConfig(
-            metric=metric,
-            mode="min" if metric == "RMSE" else "max",
-            num_samples=sample_count,
-            scheduler=scheduler,
-            max_concurrent_trials=job_limit,
-        ),
-        run_config=ray.train.RunConfig(
-            storage_path=ray_store.absolute().as_uri(),
-            verbose=None,
-            progress_reporter=ProgressReport(),
-            callbacks=[StatusCallback(mod_def.name, ds_name)],
-        ),
-    )
-
-    log.info("starting hyperparameter search")
     with (
         CodexTask(
             label=f"{method} search {model}",
@@ -131,6 +86,59 @@ def run_sweep(
             data=data_info,
         ) as task,
     ):
+        factory = mod_def.tuning_factory()
+        if isinstance(factory, Trainable):
+            log.info("pre-training base model")
+            factory.train(data.train, TrainingOptions())
+
+        log.info("pushing data to storage")
+        data_ref = ray.put(data)
+        del data
+        fac_ref = ray.put(factory)
+        del factory
+
+        log.info("setting up test harness")
+        harness = SimplePointEval(mod_def.name, fac_ref, list_length, data_ref, data_info)
+        paracfg = get_parallel_config()
+
+        job_limit = int(os.environ.get("TUNING_JOB_LIMIT", "8"))
+        if job_limit <= 0:
+            job_limit = None
+
+        log.info(
+            "setting up parallel tuner",
+            cpus=paracfg.total_threads,
+            job_limit=job_limit,
+            num_samples=sample_count,
+        )
+        harness = ray.tune.with_resources(harness, {"CPU": mod_def.tuning_cpus})
+
+        match method:
+            case "random":
+                scheduler = None
+            case _:
+                raise RuntimeError("no valid method specified")
+
+        ray_store = out / "state"
+        tuner = ray.tune.Tuner(
+            harness,
+            param_space=mod_def.search_space,
+            tune_config=ray.tune.TuneConfig(
+                metric=metric,
+                mode="min" if metric == "RMSE" else "max",
+                num_samples=sample_count,
+                scheduler=scheduler,
+                max_concurrent_trials=job_limit,
+            ),
+            run_config=ray.tune.RunConfig(
+                storage_path=ray_store.absolute().as_uri(),
+                verbose=None,
+                progress_reporter=ProgressReport(),
+                callbacks=[StatusCallback(mod_def.name, ds_name)],
+            ),
+        )
+
+        log.info("starting hyperparameter search")
         results = tuner.fit()
 
     fail = None

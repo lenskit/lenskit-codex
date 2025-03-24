@@ -6,7 +6,7 @@ from lenskit.data import Dataset
 from lenskit.pipeline import Component, Pipeline, PipelineBuilder
 from lenskit.training import TrainingOptions
 
-from codex.models import ModelDef
+from codex.models import ModelDef, ModelFactory
 from codex.pipeline import base_pipeline
 from codex.runlog import CodexTask, DataModel, ScorerModel
 
@@ -14,7 +14,11 @@ _log = structlog.stdlib.get_logger(__name__)
 
 
 def train_task(
-    model: ModelDef, params: dict[str, Any], data: Dataset, data_info: DataModel
+    model: ModelDef,
+    params: dict[str, Any],
+    data: Dataset,
+    data_info: DataModel,
+    factory: ModelFactory | None = None,
 ) -> tuple[Pipeline, CodexTask]:
     log = _log.bind(name=model.name, config=params)
     log.info("training model")
@@ -25,13 +29,10 @@ def train_task(
         scorer=ScorerModel(name=model.name, config=params),
         data=data_info,
     ) as task:
-        scorer = model.instantiate(params)
+        scorer = model.instantiate(params, factory)
         try:
             pipe = train_and_wrap_model(
-                scorer,
-                data,
-                predicts_ratings=model.is_predictor,
-                name=model.name,
+                scorer, data, predicts_ratings=model.is_predictor, name=model.name, factory=factory
             )
         except Exception as e:
             log.error("model training failed", exc_info=e)
