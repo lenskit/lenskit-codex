@@ -16,18 +16,22 @@ SEARCH_SPACE = {
 TUNE_CPUS = "all"
 OPTIONS = {"search_points": 60}
 
-SEARCH_BASE_CONFIG = ItemKNNConfig(
-    max_nbrs=20, min_nbrs=2, save_nbrs=10000, min_sim=1.0e-6, feedback="explicit"
-)
 
+class ReusableTuningModel:
+    base_config = ItemKNNConfig(
+        max_nbrs=20, min_nbrs=2, save_nbrs=10000, min_sim=1.0e-6, feedback="explicit"
+    )
 
-def search_adapt(model: ItemKNNScorer, config: ItemKNNConfig):
-    shrunk = ItemKNNScorer(config)
-    matrix = model.sim_matrix_.copy()
-    matrix.data[matrix.data < config.min_sim] = 0.0
-    matrix.eliminate_zeros()
-    shrunk.items_ = model.items_
-    shrunk.users_ = model.users_
-    shrunk.item_means_ = model.item_means_
-    shrunk.item_counts_ = np.diff(matrix.indices)
-    shrunk.sim_matrix_ = matrix
+    def base_model(self) -> ItemKNNScorer:
+        return ItemKNNScorer(self.base_config)
+
+    def adapt_model(self, base: ItemKNNScorer, config: ItemKNNConfig) -> ItemKNNScorer:
+        shrunk = ItemKNNScorer(config)
+        matrix = base.sim_matrix_.copy()
+        matrix.data[matrix.data < config.min_sim] = 0.0
+        matrix.eliminate_zeros()
+        shrunk.items_ = base.items_
+        shrunk.users_ = base.users_
+        shrunk.item_means_ = base.item_means_
+        shrunk.item_counts_ = np.diff(matrix.indices)
+        shrunk.sim_matrix_ = matrix

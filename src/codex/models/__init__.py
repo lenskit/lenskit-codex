@@ -2,7 +2,7 @@ from collections.abc import Iterable
 from importlib import import_module
 from pathlib import Path
 from types import ModuleType
-from typing import Any
+from typing import Any, Protocol
 
 from lenskit.logging import get_logger
 from lenskit.parallel import get_parallel_config
@@ -11,6 +11,16 @@ from pydantic import JsonValue, TypeAdapter
 
 _log = get_logger(__name__)
 model_dir = Path(__file__).parent
+
+
+class ModelAdapter(Protocol):
+    """
+    Adapters for reusing a base model across tuning, where the model's trained
+    state does not change between tunings.
+    """
+
+    def base_model(self) -> Component: ...
+    def adapt_model(self, base, config) -> Component: ...
 
 
 class ModelDef:
