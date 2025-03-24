@@ -6,21 +6,41 @@ from typing import Any, Protocol
 
 from lenskit.logging import get_logger
 from lenskit.parallel import get_parallel_config
-from lenskit.pipeline import Component
+from lenskit.pipeline import Component, ComponentConstructor
+from lenskit.training import Trainable
 from pydantic import JsonValue, TypeAdapter
 
 _log = get_logger(__name__)
 model_dir = Path(__file__).parent
 
 
-class ModelAdapter(Protocol):
+class ModelFactory(Protocol):
     """
-    Adapters for reusing a base model across tuning, where the model's trained
-    state does not change between tunings.
+    Function that can instantiate a component.
     """
 
-    def base_model(self) -> Component: ...
-    def adapt_model(self, base, config) -> Component: ...
+    def __call__(self, config: object) -> Component: ...
+
+
+class PretrainedModelFactory(Trainable, ModelFactory):
+    """
+    Function for pretrained models, exposing the model training.
+    """
+
+    pass
+
+
+class BasicModelFactory:
+    """
+    :class:`ModelFactory` that instantiates component as usual.
+    """
+
+    def __init__(self, component: ComponentConstructor):
+        self.component = component
+
+    def __call__(self, config: object) -> Component:
+        config = self.component.validate_config(config)
+        return self.component(config)
 
 
 class ModelDef:
@@ -83,7 +103,19 @@ class ModelDef:
     def options(self) -> dict[str, JsonValue]:
         return getattr(self.module, "OPTIONS", {})
 
-    def instantiate(self, params: dict[str, Any] | None = None):
+    def tuning_factory(self) -> ModelFactory | None:
+        """
+        Create a model factory for tuning this model.
+        """
+        factory = getattr(self.module, "TuningModelFactory")
+        if factory is not None:
+            return factory()
+        else:
+            return BasicModelFactory(self.scorer_class)
+
+    def instantiate(
+        self, params: dict[str, Any] | None = None, factory: ModelFactory | None = None
+    ):
         """
         Instantiate a model with  specified parameters.
         """
@@ -108,7 +140,11 @@ class ModelDef:
         mod_cls = self.scorer_class
         log.debug("instantiating model", config=config, component=mod_cls)
 
-        model = mod_cls(**config)
+        config = mod_cls.validate_config(config)
+        if factory is not None:
+            model = factory(config)
+        else:
+            model = mod_cls(config)
         log.info("instantiated model", model=model)
         return model
 
