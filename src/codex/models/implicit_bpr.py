@@ -1,3 +1,4 @@
+import implicit.gpu
 import ray.tune as rt
 from lenskit.implicit import BPR
 
@@ -12,4 +13,6 @@ SEARCH_SPACE = {
 }
 
 TUNE_CPUS = 4
-TUNE_GPUS = 0.25
+# we can train BPR on CPU, it's just slower
+if implicit.gpu.HAVE_CUDA:
+    TUNE_GPUS = 0.25
