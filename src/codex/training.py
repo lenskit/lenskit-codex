@@ -32,7 +32,7 @@ def train_task(
         scorer = model.instantiate(params, factory)
         try:
             pipe = train_and_wrap_model(
-                scorer, data, predicts_ratings=model.is_predictor, name=model.name, factory=factory
+                scorer, data, predicts_ratings=model.is_predictor, name=model.name
             )
         except Exception as e:
             log.error("model training failed", exc_info=e)
