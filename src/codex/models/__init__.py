@@ -100,6 +100,10 @@ class ModelDef:
                 return n
 
     @property
+    def tuning_gpus(self) -> int:
+        return getattr(self.module, "TUNE_GPUS", 0)
+
+    @property
     def options(self) -> dict[str, JsonValue]:
         return getattr(self.module, "OPTIONS", {})
 

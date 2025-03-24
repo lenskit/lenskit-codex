@@ -11,4 +11,5 @@ SEARCH_SPACE = {
     "iterations": rt.randint(50, 200),
 }
 
-TUNE_CPUS = "4"
+TUNE_CPUS = 4
+TUNE_GPUS = 0.25

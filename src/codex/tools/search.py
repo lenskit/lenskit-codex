@@ -111,7 +111,9 @@ def run_sweep(
             job_limit=job_limit,
             num_samples=sample_count,
         )
-        harness = ray.tune.with_resources(harness, {"CPU": mod_def.tuning_cpus})
+        harness = ray.tune.with_resources(
+            harness, {"CPU": mod_def.tuning_cpus, "GPU": mod_def.tuning_gpus}
+        )
 
         match method:
             case "random":
