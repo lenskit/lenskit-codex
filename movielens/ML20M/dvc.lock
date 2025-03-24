@@ -1925,8 +1925,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: 93bcfed829fef1ede127494331886a89
-      size: 432
+      md5: 316f07ec05ddea50963754b2ed277b5a
+      size: 1522
     - path: dataset
       hash: md5
       md5: 186f56a026b3409fc928936af4775db0.dir
@@ -1939,8 +1939,8 @@ stages:
     outs:
     - path: runs/temporal/iknn-explicit-default
       hash: md5
-      md5: fa5e21f9ea59c077641a470475891b09.dir
-      size: 11917189
+      md5: e490c30f18bb1ce6bb69bdc0bf97bf35.dir
+      size: 11911107
       nfiles: 5
   run-temporal-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
@@ -1988,3 +1988,25 @@ stages:
       md5: 2a0d3387cc72939c135846905ea56855.dir
       size: 9867262
       nfiles: 5
+  sweep-bias-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RMSE bias sweeps/temporal/bias-random
+    deps:
+    - path: ../../src/codex/models/bias.py
+      hash: md5
+      md5: 40e4db1c37e4058f292a549e47b1e3e2
+      size: 324
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    outs:
+    - path: sweeps/temporal/bias-random
+      hash: md5
+      md5: be748ec629952dd91dcdb06a7aff372f.dir
+      size: 389568
+      nfiles: 3
+    - path: sweeps/temporal/bias-random.json
+      hash: md5
+      md5: 319cb1b4b6fd075a1aa1eff50ec5c396
+      size: 787
