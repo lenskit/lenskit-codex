@@ -2320,3 +2320,25 @@ stages:
       hash: md5
       md5: bb02de48236e7e554306b4ffa6b95d26
       size: 797
+  sweep-uknn-implicit-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
+      --random --metric=RBP uknn-implicit sweeps/temporal/uknn-implicit-random
+    deps:
+    - path: ../../src/codex/models/uknn_implicit.py
+      hash: md5
+      md5: 0ca87563e0c0f3d827ff7678c85529cc
+      size: 439
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: sweeps/temporal/uknn-implicit-random
+      hash: md5
+      md5: 81262a7ffb02b279f0e8393e1753e15c.dir
+      size: 233425
+      nfiles: 3
+    - path: sweeps/temporal/uknn-implicit-random.json
+      hash: md5
+      md5: 2b1061cbbfa51d5ea4849e7b03da0add
+      size: 771
