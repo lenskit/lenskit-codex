@@ -2342,3 +2342,25 @@ stages:
       hash: md5
       md5: 2b1061cbbfa51d5ea4849e7b03da0add
       size: 771
+  sweep-iknn-explicit-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
+      --random --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-random
+    deps:
+    - path: ../../src/codex/models/iknn_explicit.py
+      hash: md5
+      md5: 316f07ec05ddea50963754b2ed277b5a
+      size: 1522
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: sweeps/temporal/iknn-explicit-random
+      hash: md5
+      md5: cd6fe9772d0f6be8772edab2df33c543.dir
+      size: 239983
+      nfiles: 3
+    - path: sweeps/temporal/iknn-explicit-random.json
+      hash: md5
+      md5: 28e7cc02f1a4ae1e2bf0009f17d41036
+      size: 787
