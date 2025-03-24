@@ -2082,3 +2082,30 @@ stages:
       md5: 2b98dc35b8bf88bb7df9332ffddffb11.dir
       size: 5830934
       nfiles: 4
+  run-temporal-random-best-bias:
+    cmd: lenskit codex generate --param-file sweeps/temporal/bias-random.json --ds-name=ML20M
+      --split=splits/temporal.toml -o runs/temporal/bias-random-best bias
+    deps:
+    - path: ../../src/codex/models/bias.py
+      hash: md5
+      md5: 40e4db1c37e4058f292a549e47b1e3e2
+      size: 324
+    - path: dataset
+      hash: md5
+      md5: 186f56a026b3409fc928936af4775db0.dir
+      size: 184637813
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    - path: sweeps/temporal/bias-random.json
+      hash: md5
+      md5: 319cb1b4b6fd075a1aa1eff50ec5c396
+      size: 787
+    outs:
+    - path: runs/temporal/bias-random-best
+      hash: md5
+      md5: e999e2288faacb24b7e018232ca49291.dir
+      size: 10637453
+      nfiles: 5
