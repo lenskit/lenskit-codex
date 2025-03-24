@@ -2298,3 +2298,25 @@ stages:
       md5: 52d6d8e72789b618bd07dcaf448b8277.dir
       size: 3991953
       nfiles: 4
+  sweep-uknn-explicit-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
+      --random --metric=RMSE uknn-explicit sweeps/temporal/uknn-explicit-random
+    deps:
+    - path: ../../src/codex/models/uknn_explicit.py
+      hash: md5
+      md5: c7321a52e640ca8eb6c5276309d72a63
+      size: 438
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: sweeps/temporal/uknn-explicit-random
+      hash: md5
+      md5: d2e2fdff766f66b424174ff71503f3b7.dir
+      size: 238082
+      nfiles: 3
+    - path: sweeps/temporal/uknn-explicit-random.json
+      hash: md5
+      md5: bb02de48236e7e554306b4ffa6b95d26
+      size: 797
