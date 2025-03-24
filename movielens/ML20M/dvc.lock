@@ -2010,3 +2010,25 @@ stages:
       hash: md5
       md5: 319cb1b4b6fd075a1aa1eff50ec5c396
       size: 787
+  sweep-implicit-bpr-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-random
+    deps:
+    - path: ../../src/codex/models/implicit_bpr.py
+      hash: md5
+      md5: 4aa6d3ab5c9c0d94748b335b180ad535
+      size: 333
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    outs:
+    - path: sweeps/temporal/implicit-bpr-random
+      hash: md5
+      md5: bee15aa61a1f321d187e1697fd6cc0d3.dir
+      size: 417505
+      nfiles: 3
+    - path: sweeps/temporal/implicit-bpr-random.json
+      hash: md5
+      md5: 944c6b07174dfa29e5ec307987b239f8
+      size: 839
