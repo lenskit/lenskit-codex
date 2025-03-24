@@ -14,5 +14,5 @@ SEARCH_SPACE = {
 
 TUNE_CPUS = 4
 # we can train BPR on CPU, it's just slower
-if implicit.gpu.HAVE_CUDA:
+if implicit.gpu.HAS_CUDA:
     TUNE_GPUS = 0.25
