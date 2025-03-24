@@ -107,7 +107,7 @@ class ModelDef:
         """
         Create a model factory for tuning this model.
         """
-        factory = getattr(self.module, "TuningModelFactory")
+        factory = getattr(self.module, "TuningModelFactory", None)
         if factory is not None:
             return factory()
         else:
