@@ -62,12 +62,25 @@ def get_config() -> RunlogConfig:
     return _config
 
 
+def machine_name() -> str:
+    if name := os.environ.get("LK_MACHINE", None):
+        return name
+    else:
+        cfg = get_config()
+        if cfg.machine_name:
+            return cfg.machine_name
+        else:
+            _log.warning("no machine name configured")
+            return socket.gethostname()
+
+
 class RunlogConfig(BaseModel):
     """
     Schema for runlog configuration file (``runlog/config.toml`` and ``runlog/local.toml``).
     """
 
     base_dir: Path
+    machine_name: str | None = None
     prometheus: PrometheusConfig | None = None
 
     @property
@@ -105,7 +118,7 @@ class CodexTask(Task):
     """
 
     hostname: str = Field(default_factory=socket.gethostname)
-    machine_name: str | None = Field(default_factory=lambda: os.environ.get("LK_MACHINE", None))
+    machine_name: str | None = Field(default_factory=machine_name)
     lenskit_version: str = lenskit.__version__  # type: ignore
     tags: list[str] = Field(default_factory=list)
 

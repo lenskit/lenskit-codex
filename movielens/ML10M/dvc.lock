@@ -2135,8 +2135,8 @@ stages:
     outs:
     - path: runs/temporal/bias-default
       hash: md5
-      md5: 738a6df2c17764443fc79462ee63c5f3.dir
-      size: 15911350
+      md5: 3d3ffa437e5b6c01796781ea8aafd6ee.dir
+      size: 6100000
       nfiles: 5
   sweep-bias-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
@@ -2180,8 +2180,8 @@ stages:
     outs:
     - path: runs/temporal/popular-default
       hash: md5
-      md5: 26b648be66d04dbc70d3faa189f84845.dir
-      size: 1755050
+      md5: 3374ab3dc1282cd949fbc7c2f2d054fe.dir
+      size: 1206634
       nfiles: 4
   run-temporal-default-uknn-explicit:
     cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
@@ -2203,8 +2203,8 @@ stages:
     outs:
     - path: runs/temporal/uknn-explicit-default
       hash: md5
-      md5: b052682947f97446641c6ca2eb9bf747.dir
-      size: 16515399
+      md5: 62ad8064a23c04f19ff5245ea13101ca.dir
+      size: 7061750
       nfiles: 5
   run-temporal-default-iknn-implicit:
     cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
@@ -2226,8 +2226,8 @@ stages:
     outs:
     - path: runs/temporal/iknn-implicit-default
       hash: md5
-      md5: bb3acb0aaf86225345d62bf8b125317e.dir
-      size: 3853333
+      md5: 4022866e62da578576ef31196b99bb00.dir
+      size: 3660163
       nfiles: 4
   run-temporal-default-iknn-explicit:
     cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
@@ -2249,8 +2249,8 @@ stages:
     outs:
     - path: runs/temporal/iknn-explicit-default
       hash: md5
-      md5: b8558985e9c0dd9fe6bc4e7e477c483a.dir
-      size: 16507296
+      md5: 74c5be9dbba0cedb246eca62a17de803.dir
+      size: 7059547
       nfiles: 5
   run-temporal-default-implicit-bpr:
     cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
@@ -2272,8 +2272,8 @@ stages:
     outs:
     - path: runs/temporal/implicit-bpr-default
       hash: md5
-      md5: 45524e82d3b2c0dc49e35822fe87ac29.dir
-      size: 4479503
+      md5: 6fcdf4985e7fb9662292e542787867ca.dir
+      size: 3980163
       nfiles: 4
   run-temporal-default-uknn-implicit:
     cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
@@ -2295,8 +2295,8 @@ stages:
     outs:
     - path: runs/temporal/uknn-implicit-default
       hash: md5
-      md5: 52d6d8e72789b618bd07dcaf448b8277.dir
-      size: 3991953
+      md5: cc255454db0391f5bdbaef2a8f472b04.dir
+      size: 3796791
       nfiles: 4
   sweep-uknn-explicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
