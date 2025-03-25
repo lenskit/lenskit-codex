@@ -100,6 +100,14 @@ def run_sweep(
         for result in results:
             print(to_json(result.metrics).decode(), file=jsf)
 
+    if mod_def.is_iterative:
+        with open(out / "iterations.ndjson", "wt") as jsf:
+            for n, result in enumerate(results):
+                for i, row in result.metrics_dataframe.to_dict("index").items():
+                    out_row = {"trial": n, "config": result.config, "epoch": i}
+                    out_row.update({k: v for (k, v) in row.items() if not k.startswith("config/")})
+                    print(to_json(out_row), file=jsf)
+
     with open(out.with_suffix(".json"), "wt") as jsf:
         print(to_json(best.metrics).decode(), file=jsf)
 
