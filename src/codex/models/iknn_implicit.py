@@ -19,7 +19,6 @@ SEARCH_BASE_CONFIG = ItemKNNConfig(
 )
 
 TUNE_CPUS = 2
-OPTIONS = {"search_points": 60}
 
 
 class TuningModelFactory:
