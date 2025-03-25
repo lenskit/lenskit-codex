@@ -102,7 +102,13 @@ def run_sweep(
         for result in results:
             print(to_json(result.metrics).decode(), file=jsf)
 
+    best_out = best.metrics
+    assert best_out is not None
+    best_out = best_out.copy()
+
     if mod_def.is_iterative:
+        # save the number of epochs
+        best_out["config"] = best_out["config"] | {"epochs": best_out["training_iteration"]}
         with open(out / "iterations.ndjson", "wt") as jsf:
             for n, result in enumerate(results):
                 for i, row in result.metrics_dataframe.to_dict("index").items():
@@ -111,7 +117,7 @@ def run_sweep(
                     print(to_json(out_row), file=jsf)
 
     with open(out.with_suffix(".json"), "wt") as jsf:
-        print(to_json(best.metrics).decode(), file=jsf)
+        print(to_json(best_out).decode(), file=jsf)
 
     log.info("compressing search state")
     with (
