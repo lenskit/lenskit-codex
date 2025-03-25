@@ -1891,3 +1891,25 @@ stages:
       md5: 7a11513b8c8216378ad7a87877444d97.dir
       size: 6471202
       nfiles: 4
+  sweep-bias-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RMSE bias sweeps/temporal/bias-random
+    deps:
+    - path: ../../src/codex/models/bias.py
+      hash: md5
+      md5: 40e4db1c37e4058f292a549e47b1e3e2
+      size: 324
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 77faa6b8f17f977f3461da1d1350d2ac
+      size: 120
+    outs:
+    - path: sweeps/temporal/bias-random
+      hash: md5
+      md5: d570e30fa5a86d9d296fa57756d21ca6.dir
+      size: 393709
+      nfiles: 3
+    - path: sweeps/temporal/bias-random.json
+      hash: md5
+      md5: 5350b426d43bbe870df0570e1bbd0fe9
+      size: 789
