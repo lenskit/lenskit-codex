@@ -25,9 +25,7 @@ def base_pipeline(
 
 def replace_scorer(pipe: Pipeline, scorer: Component) -> Pipeline:
     bld = PipelineBuilder.from_pipeline(pipe)
-    bld.replace_component(
-        "scorer", scorer, query=pipe.node("query"), items=pipe.node("candidate-selector")
-    )
+    bld.replace_component("scorer", scorer, query=pipe.node("query"), items=pipe.node("candidates"))
     return bld.build()
 
 

@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 
 import ray.tune
+import ray.tune.schedulers
 from lenskit.logging import get_logger
 from lenskit.parallel import get_parallel_config
 from lenskit.splitting import TTSplit
@@ -109,6 +110,15 @@ class TuningController:
 
     def create_random_tuner(self):
         ray_store = self.out_dir / "state"
+        scheduler = None
+        if self.model.is_iterative:
+            min_iter = self.model.options.get("min_epochs", 5)
+            max_epochs = self.model.options.get("max_epochs", DEFAULT_MAX_EPOCHS)
+            assert isinstance(min_iter, int)
+            scheduler = ray.tune.schedulers.AsyncHyperBandScheduler(
+                max_t=max_epochs,
+                grace_period=min_iter,
+            )
         self.tuner = ray.tune.Tuner(
             self.harness,
             param_space=self.model.search_space,
@@ -117,11 +127,13 @@ class TuningController:
                 mode=self.mode,
                 num_samples=self.sample_count,
                 max_concurrent_trials=self.job_limit,
+                scheduler=scheduler,
             ),
             run_config=ray.tune.RunConfig(
                 storage_path=ray_store.absolute().as_uri(),
                 verbose=None,
                 progress_reporter=ProgressReport(),
+                failure_config=ray.tune.FailureConfig(fail_fast=True),
                 callbacks=[StatusCallback(self.model.name, self.data_info.dataset)],
             ),
         )

@@ -18,7 +18,7 @@ def measure(
     test_task: Task | None = None,
 ):
     log = _log.bind(model=model.name)
-    log.info("measuring recommendation lists")
+    log.debug("measuring recommendation lists")
     recm = RunAnalysis()
     recm.add_metric(RBP())
     recm.add_metric(NDCG())
@@ -26,7 +26,7 @@ def measure(
     rec_metrics = recm.measure(results.output("recommendations"), data.test)
 
     if model.is_predictor:
-        log.info("measuring rating predictions")
+        log.debug("measuring rating predictions")
         predm = RunAnalysis()
         predm.add_metric(RMSE())
         pred_metrics = predm.measure(results.output("predictions"), data.test)

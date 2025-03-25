@@ -47,6 +47,7 @@ class IterativeEval:
         mod_def = load_model(self.name)
         factory = ray.get(self.factory_ref)
         data = ray.get(self.data_ref)
+        log = _log.bind(model=self.name, dataset=self.data_info.dataset)
 
         with CodexTask(
             label=f"tune {mod_def.name}",
@@ -56,13 +57,13 @@ class IterativeEval:
             scorer=ScorerModel(name=mod_def.name, config=config),
             data=self.data_info,
         ) as task:
-            _log.info("configuring scorer", model=self.name, config=config)
+            log.info("configuring scorer", config=config)
             model = factory(config | {"epochs": self.epoch_limit})
             assert isinstance(model, Component)
             assert isinstance(model, IterativeTraining)
             pipe = base_pipeline(self.name, predicts_ratings=mod_def.is_predictor)
 
-            _log.info("pre-training pipeline")
+            log.info("pre-training pipeline")
             pipe.train(data.train)
             pipe = replace_scorer(pipe, model)
             send_task(task)
@@ -72,15 +73,17 @@ class IterativeEval:
             if mod_def.is_predictor:
                 self.runner.predict()
 
-            _log.info("starting training loop")
+            log.info("starting training loop", config=model.config)
             training_loop = model.training_loop(data.train, TrainingOptions())
             send_task(task)
-            _log.info("beginning training epochs")
+            log.info("beginning training epochs")
             for epoch, vals in enumerate(training_loop, 1):
-                _log.debug("training iteration finished", result=vals)
+                elog = log.bind(epoch=epoch)
+                elog.debug("training iteration finished", result=vals)
+                elog.debug("generating recommendations", n_queries=len(data.test))
                 results = self.runner.run(pipe, data.test)
 
-                _log.debug("measuring ireation results")
+                elog.debug("measuring iteration results")
                 metrics = measure(mod_def, results, data, task, None)
                 send_task(task)
                 ray.tune.report(metrics)
