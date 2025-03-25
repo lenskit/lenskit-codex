@@ -28,7 +28,7 @@ _log = get_logger(__name__)
 @click.option(
     "-n", "--list-length", type=int, metavar="N", default=1000, help="generate lists of length N"
 )
-@click.option("-C", "--sample-count", type=int, metavar="N", default=100, help="test N points")
+@click.option("-C", "--sample-count", type=int, metavar="N", help="test N points")
 @click.option("--split", "split", type=Path, help="path to the split spec (or base file)")
 @click.option("-N", "--ds-name", help="name of the dataset to search with")
 @click.option(
@@ -51,7 +51,7 @@ def run_sweep(
     model: str,
     out: Path,
     list_length: int,
-    sample_count: int,
+    sample_count: int | None,
     split: Path,
     method: Literal["random"],
     metric: str,
@@ -60,6 +60,8 @@ def run_sweep(
 ):
     log = _log.bind(model=model, dataset=ds_name, split=split.stem)
     mod_def = load_model(model)
+    if sample_count is None:
+        sample_count = mod_def.options.get("search_points", 100)  # type: ignore
 
     controller = TuningController(mod_def, out, list_length, sample_count, metric)
     controller.load_data(split, test_part, ds_name)
