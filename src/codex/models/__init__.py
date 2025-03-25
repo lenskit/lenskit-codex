@@ -7,7 +7,7 @@ from typing import Any, Protocol
 from lenskit.logging import get_logger
 from lenskit.parallel import get_parallel_config
 from lenskit.pipeline import Component, ComponentConstructor
-from lenskit.training import Trainable
+from lenskit.training import IterativeTraining, Trainable
 from pydantic import JsonValue, TypeAdapter
 
 _log = get_logger(__name__)
@@ -102,6 +102,13 @@ class ModelDef:
     @property
     def tuning_gpus(self) -> int:
         return getattr(self.module, "TUNE_GPUS", 0)
+
+    @property
+    def is_iterative(self) -> bool:
+        """
+        Does this model use iterative training?
+        """
+        return issubclass(self.scorer_class, IterativeTraining)
 
     @property
     def options(self) -> dict[str, JsonValue]:

@@ -14,11 +14,14 @@ from lenskit.training import Trainable, TrainingOptions
 from codex.models import ModelDef
 from codex.runlog import DataModel
 from codex.splitting import load_split_set
+from codex.tuning.iterative import IterativeEval
 
 from .reporting import ProgressReport, StatusCallback
 from .simple import SimplePointEval
 
 _log = get_logger(__name__)
+
+DEFAULT_MAX_EPOCHS = 100
 
 
 class TuningController:
@@ -76,9 +79,21 @@ class TuningController:
         self.log.info("setting up test harness")
         fac_ref = ray.put(self.factory)
         data_ref = ray.put(self.data)
-        harness = SimplePointEval(
-            self.model.name, fac_ref, data_ref, self.data_info, self.list_length
-        )
+        if self.model.is_iterative:
+            limit = self.model.options.get("max_epochs", DEFAULT_MAX_EPOCHS)
+            assert isinstance(limit, int)
+            harness = IterativeEval(
+                self.model.name,
+                fac_ref,
+                data_ref,
+                self.data_info,
+                self.list_length,
+                limit,
+            )
+        else:
+            harness = SimplePointEval(
+                self.model.name, fac_ref, data_ref, self.data_info, self.list_length
+            )
 
         paracfg = get_parallel_config()
 
