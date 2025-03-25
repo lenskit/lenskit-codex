@@ -58,7 +58,7 @@ class IterativeEval:
             data=self.data_info,
         ) as task:
             log.info("configuring scorer", config=config)
-            model = factory(config | {"epochs": self.epoch_limit})
+            model = mod_def.instantiate(config | {"epochs": self.epoch_limit}, factory)
             assert isinstance(model, Component)
             assert isinstance(model, IterativeTraining)
             pipe = base_pipeline(self.name, predicts_ratings=mod_def.is_predictor)
