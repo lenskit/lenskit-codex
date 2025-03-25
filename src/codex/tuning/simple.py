@@ -1,5 +1,5 @@
 """
-Support for hyperparameter search.
+Simple (non-iterative) evaluation of points.
 """
 
 from __future__ import annotations
