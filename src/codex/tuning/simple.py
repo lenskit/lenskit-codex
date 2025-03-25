@@ -27,9 +27,9 @@ class SimplePointEval:
         self,
         name: str,
         factory: ray.ObjectRef,
-        n: int | None,
         split: ray.ObjectRef,
         data_info: DataModel,
+        n: int | None,
     ):
         self.name = name
         self.factory = factory

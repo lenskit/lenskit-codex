@@ -4,29 +4,20 @@ Hyperparameter search.
 
 from __future__ import annotations
 
-import os
 import shutil
 import tarfile
 from pathlib import Path
 from typing import Literal
 
 import click
-import ray
-import ray.train
-import ray.tune
 import zstandard
 from lenskit.logging import get_logger
-from lenskit.parallel import get_parallel_config
-from lenskit.training import Trainable, TrainingOptions
 from pydantic_core import to_json
 
 from codex.cluster import ensure_cluster_init
 from codex.models import load_model
-from codex.outputs import RunOutput
-from codex.runlog import CodexTask, DataModel, ScorerModel
-from codex.splitting import load_split_set
-from codex.tuning.reporting import ProgressReport, StatusCallback
-from codex.tuning.simple import SimplePointEval
+from codex.runlog import CodexTask, ScorerModel
+from codex.tuning import TuningController
 
 from . import codex
 
@@ -70,12 +61,8 @@ def run_sweep(
     log = _log.bind(model=model, dataset=ds_name, split=split.stem)
     mod_def = load_model(model)
 
-    output = RunOutput(out)
-    output.initialize()
-
-    data_info = DataModel(dataset=ds_name, split=split.stem, part=test_part)
-    data = load_split_set(split).get_part(test_part)
-    # data.test = data.test.pack()
+    controller = TuningController(mod_def, out, list_length, sample_count, metric)
+    controller.load_data(split, test_part, ds_name)
 
     ensure_cluster_init()
 
@@ -84,62 +71,12 @@ def run_sweep(
             label=f"{method} search {model}",
             tags=["search"],
             scorer=ScorerModel(name=model),
-            data=data_info,
+            data=controller.data_info,
         ) as task,
     ):
-        factory = mod_def.tuning_factory()
-        if isinstance(factory, Trainable):
-            log.info("pre-training base model")
-            factory.train(data.train, TrainingOptions())
-
-        log.info("pushing data to storage")
-        data_ref = ray.put(data)
-        del data
-        fac_ref = ray.put(factory)
-        del factory
-
-        log.info("setting up test harness")
-        harness = SimplePointEval(mod_def.name, fac_ref, list_length, data_ref, data_info)
-        paracfg = get_parallel_config()
-
-        job_limit = int(os.environ.get("TUNING_JOB_LIMIT", "8"))
-        if job_limit <= 0:
-            job_limit = None
-
-        log.info(
-            "setting up parallel tuner",
-            cpus=paracfg.total_threads,
-            job_limit=job_limit,
-            num_samples=sample_count,
-        )
-        harness = ray.tune.with_resources(
-            harness, {"CPU": mod_def.tuning_cpus, "GPU": mod_def.tuning_gpus}
-        )
-
-        match method:
-            case "random":
-                scheduler = None
-            case _:
-                raise RuntimeError("no valid method specified")
-
-        ray_store = out / "state"
-        tuner = ray.tune.Tuner(
-            harness,
-            param_space=mod_def.search_space,
-            tune_config=ray.tune.TuneConfig(
-                metric=metric,
-                mode="min" if metric == "RMSE" else "max",
-                num_samples=sample_count,
-                scheduler=scheduler,
-                max_concurrent_trials=job_limit,
-            ),
-            run_config=ray.tune.RunConfig(
-                storage_path=ray_store.absolute().as_uri(),
-                verbose=None,
-                progress_reporter=ProgressReport(),
-                callbacks=[StatusCallback(mod_def.name, ds_name)],
-            ),
-        )
+        controller.prepare_factory()
+        controller.setup_harness()
+        tuner = controller.create_random_tuner()
 
         log.info("starting hyperparameter search")
         results = tuner.fit()
@@ -162,6 +99,7 @@ def run_sweep(
     with open(out / "trials.ndjson", "wt") as jsf:
         for result in results:
             print(to_json(result.metrics).decode(), file=jsf)
+
     with open(out.with_suffix(".json"), "wt") as jsf:
         print(to_json(best.metrics).decode(), file=jsf)
 
