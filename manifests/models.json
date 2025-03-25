@@ -21,11 +21,6 @@
     "searchable": true,
     "search_points": 60
   },
-  "implicit-bpr": {
-    "src_path": "src/codex/models/implicit_bpr.py",
-    "predictor": false,
-    "searchable": true
-  },
   "uknn-implicit": {
     "src_path": "src/codex/models/uknn_implicit.py",
     "predictor": false,
@@ -43,5 +38,16 @@
       "ML1*"
     ],
     "search_points": 60
+  },
+  "implicit-bpr": {
+    "src_path": "src/codex/models/implicit_bpr.py",
+    "predictor": false,
+    "searchable": true
+  },
+  "als-biased": {
+    "src_path": "src/codex/models/als_biased.py",
+    "predictor": true,
+    "searchable": true,
+    "max_epochs": 30
   }
 }

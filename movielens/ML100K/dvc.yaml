@@ -3,6 +3,7 @@ stages:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
       -L runs/manifest.csv
     deps:
+      - runs/random/als-biased-default
       - runs/random/bias-default
       - runs/random/iknn-explicit-default
       - runs/random/iknn-implicit-default
@@ -10,6 +11,7 @@ stages:
       - runs/random/popular-default
       - runs/random/uknn-explicit-default
       - runs/random/uknn-implicit-default
+      - runs/random/als-biased-random-best
       - runs/random/bias-random-best
       - runs/random/iknn-explicit-random-best
       - runs/random/iknn-implicit-random-best
@@ -25,6 +27,15 @@ stages:
       - ml-100k.zip
     outs:
       - dataset
+  run-random-default-als-biased:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/als-biased-default als-biased
+    deps:
+      - ../../src/codex/models/als_biased.py
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/als-biased-default
   run-random-default-bias:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/bias-default bias
@@ -88,6 +99,17 @@ stages:
       - splits/random.parquet
     outs:
       - runs/random/uknn-implicit-default
+  run-random-random-best-als-biased:
+    cmd: lenskit codex generate --param-file sweeps/random/als-biased-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/als-biased-random-best
+      als-biased
+    deps:
+      - ../../src/codex/models/als_biased.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/als-biased-random.json
+    outs:
+      - runs/random/als-biased-random-best
   run-random-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=ML100K
       --split=splits/random.toml -o runs/random/bias-random-best bias
@@ -171,6 +193,16 @@ stages:
       - dataset
     outs:
       - stats.duckdb
+  sweep-als-biased-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
+      als-biased sweeps/random/als-biased-random
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/als_biased.py
+    outs:
+      - sweeps/random/als-biased-random
+      - sweeps/random/als-biased-random.json:
+          cache: false
   sweep-bias-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
       bias sweeps/random/bias-random
