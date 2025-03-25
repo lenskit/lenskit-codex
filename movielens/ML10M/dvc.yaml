@@ -203,8 +203,8 @@ stages:
       - sweeps/temporal/bias-random.json:
           cache: false
   sweep-iknn-explicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
-      --random --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_explicit.py
@@ -213,8 +213,8 @@ stages:
       - sweeps/temporal/iknn-explicit-random.json:
           cache: false
   sweep-iknn-implicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
-      --random --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_implicit.py
