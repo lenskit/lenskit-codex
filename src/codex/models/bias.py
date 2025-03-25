@@ -7,8 +7,8 @@ DEFAULT_CONFIG = BiasConfig(damping=50)
 
 SEARCH_SPACE = {
     "damping": {
-        "user": rt.loguniform(1e-12, 100),
-        "item": rt.loguniform(1e-12, 100),
+        "user": rt.loguniform(1e-1, 100),
+        "item": rt.loguniform(1e-1, 100),
     }
 }
 
