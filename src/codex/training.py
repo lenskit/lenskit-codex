@@ -3,11 +3,11 @@ from typing import Any
 import structlog
 from humanize import metric, naturalsize
 from lenskit.data import Dataset
-from lenskit.pipeline import Component, Pipeline, PipelineBuilder
+from lenskit.pipeline import Component, Pipeline
 from lenskit.training import TrainingOptions
 
 from codex.models import ModelDef, ModelFactory
-from codex.pipeline import base_pipeline
+from codex.pipeline import base_pipeline, replace_scorer
 from codex.runlog import CodexTask, DataModel, ScorerModel
 
 _log = structlog.stdlib.get_logger(__name__)
@@ -66,11 +66,7 @@ def train_and_wrap_model(
         pipe = base_pipeline(name, model, predicts_ratings)
     else:
         _log.debug("reusing recommendation pipeline")
-        bld = PipelineBuilder.from_pipeline(pipe)
-        bld.replace_component(
-            "scorer", model, query=pipe.node("query"), items=pipe.node("candidate-selector")
-        )
-        pipe = bld.build()
+        pipe = replace_scorer(pipe, model)
 
     pipe.train(data, TrainingOptions(retrain=False))
 

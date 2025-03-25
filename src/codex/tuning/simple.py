@@ -5,15 +5,15 @@ Simple (non-iterative) evaluation of points.
 from __future__ import annotations
 
 import ray
-from lenskit.batch import BatchPipelineRunner, BatchResults
-from lenskit.logging import Task, get_logger
+from lenskit.batch import BatchPipelineRunner
+from lenskit.logging import get_logger
 from lenskit.logging.worker import send_task
-from lenskit.metrics import NDCG, RBP, RMSE, RecipRank, RunAnalysis
-from lenskit.splitting import TTSplit
 
-from codex.models import ModelDef, load_model
+from codex.models import load_model
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.training import train_task
+
+from .metrics import measure
 
 _log = get_logger(__name__)
 
@@ -62,33 +62,3 @@ class SimplePointEval:
 
         send_task(test_task)
         return measure(mod_def, results, data, task, test_task)
-
-
-def measure(
-    model: ModelDef, results: BatchResults, data: TTSplit, train_task: Task, test_task: Task
-):
-    log = _log.bind(model=model.name)
-    log.info("measuring recommendation lists")
-    recm = RunAnalysis()
-    recm.add_metric(RBP())
-    recm.add_metric(NDCG())
-    recm.add_metric(RecipRank())
-    rec_metrics = recm.measure(results.output("recommendations"), data.test)
-
-    if model.is_predictor:
-        log.info("measuring rating predictions")
-        predm = RunAnalysis()
-        predm.add_metric(RMSE())
-        pred_metrics = predm.measure(results.output("predictions"), data.test)
-        rec_metrics.merge_from(pred_metrics)
-
-    df = rec_metrics.list_summary()
-
-    metrics = df.loc[:, "mean"].to_dict()
-    metrics["TrainTask"] = train_task.task_id
-    metrics["TrainTime"] = train_task.duration
-    metrics["TrainCPU"] = train_task.cpu_time
-    metrics["TestTask"] = test_task.task_id
-    metrics["TestTime"] = test_task.duration
-    metrics["TestCPU"] = test_task.cpu_time
-    return metrics
