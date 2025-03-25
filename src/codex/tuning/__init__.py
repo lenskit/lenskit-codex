@@ -113,10 +113,14 @@ class TuningController:
         scheduler = None
         if self.model.is_iterative:
             min_iter = self.model.options.get("min_epochs", 5)
-            max_epochs = self.model.options.get("max_epochs", DEFAULT_MAX_EPOCHS)
+            # max_epochs = self.model.options.get("max_epochs", DEFAULT_MAX_EPOCHS)
             assert isinstance(min_iter, int)
-            scheduler = ray.tune.schedulers.AsyncHyperBandScheduler(
-                max_t=max_epochs,
+            # scheduler = ray.tune.schedulers.AsyncHyperBandScheduler(
+            #     max_t=max_epochs,
+            #     grace_period=min_iter,
+            #     reduction_factor=2,
+            # )
+            scheduler = ray.tune.schedulers.MedianStoppingRule(
                 grace_period=min_iter,
             )
         self.tuner = ray.tune.Tuner(
