@@ -2,64 +2,86 @@
 title: Implicit Item KNN on ML100K
 echo: false
 deps:
-- sweeps/random/IKNN-Implicit-grid
+- sweeps/random/iknn-implicit-random
 ---
 
+This page analyzes the hyperparameter tuning results for the Item KNN
+explicit-feedback rating predictor.
+
 ```{python}
-import json
-from pathlib import Path
-import pandas as pd
-import numpy as np
-import plotnine as pn
-import matplotlib.pyplot as plt
+from codex.reporting.prelude import *
 ```
 
 ```{python}
-from codex.reporting.plots import DEFAULTS
+runs = load_sweep_runs('iknn-implicit')
+result = load_sweep_result('iknn-implicit')
+best_id = result['trial_id']
 ```
 
-```{python}
-sweep_dir = Path('sweeps/random')
-sweep_name = 'IKNN-Implicit-grid'
+## Parameter Search Space
 
-with open(sweep_dir / sweep_name / 'runs.json', 'rt') as jsf:
-    run_data = [json.loads(line) for line in jsf]
-runs = pd.json_normalize(run_data)
+```{python}
+from codex.models.iknn_implicit import SEARCH_SPACE
+show_param_space(SEARCH_SPACE)
 ```
 
-## Parameter Sweeps
 
-For the per-user random crossfolding data split, we use the first partition of
-the fold for parameter tuning.
+## Final Result
 
+Searching selected the following configuration:
 
 ```{python}
-cfg_topn = runs.groupby(['params.nnbrs', 'params.min_nbrs'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
-cfg_topn = cfg_topn.astype({'params.min_nbrs': 'str'})
+rich.print(result['config'])
+```
+
+With these metrics:
+
+```{python}
+rich.print(result)
+```
+
+## Parameter Influence
+
+### Neighborhood Size
+
+The max neighbors is one of the more influential properties.  Note that this
+chart may be noisier than typical, because we are plotting the
+influence from random search, so the other parameters are simultaneously
+changing.
+
+```{python}
 (
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.nnbrs', y='metrics.RBP', color='params.min_nbrs', shape='params.min_nbrs')
-    + pn.geom_line()
-    + pn.ylab('Mean RBP')
-    + pn.scale_color_brewer('qual', 'Dark2')
+    pn.ggplot(runs)
+    + pn.aes(x='config.max_nbrs', y='RBP')
+    + pn.geom_point()
+    + pn.xlab("Max Neighbors")
 )
 ```
 
-```{python}
-(
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.nnbrs', y='metrics.NDCG', color='params.min_nbrs', shape='params.min_nbrs')
-    + pn.geom_line()
-    + pn.ylab('Mean NDCG')
-    + pn.scale_color_brewer('qual', 'Dark2')
-)
-```
+### Minimum Neighbors
+
+We also examine the *minimum* neighbors, which reduces the model's willingness
+to make low-confidence predictions.
 
 ```{python}
 (
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.nnbrs', y='metrics.RecipRank', color='params.min_nbrs', shape='params.min_nbrs')
-    + pn.geom_line()
-    + pn.ylab('Mean RecipRank')
+    pn.ggplot(runs)
+    + pn.aes(x='config.min_nbrs', y='RBP')
+    + pn.geom_point()
+    + pn.xlab("Min Neighbors")
+)
+```
+
+### Minimum Similarity
+
+Finally, the minimum similarity filters out low-information relationships:
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.min_sim', y='RBP')
+    + pn.geom_point()
+    + pn.xlab("Minimum Similarity")
+    + pn.scale_x_log10()
 )
 ```
