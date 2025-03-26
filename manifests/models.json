@@ -1,32 +1,8 @@
 {
-  "bias": {
-    "src_path": "src/codex/models/bias.py",
-    "predictor": true,
-    "searchable": true
-  },
   "popular": {
     "src_path": "src/codex/models/popular.py",
     "predictor": false,
     "searchable": false
-  },
-  "iknn-implicit": {
-    "src_path": "src/codex/models/iknn_implicit.py",
-    "predictor": false,
-    "searchable": true
-  },
-  "iknn-explicit": {
-    "src_path": "src/codex/models/iknn_explicit.py",
-    "predictor": true,
-    "searchable": true
-  },
-  "uknn-implicit": {
-    "src_path": "src/codex/models/uknn_implicit.py",
-    "predictor": false,
-    "searchable": true,
-    "ds_include": [
-      "ML1*"
-    ],
-    "search_points": 60
   },
   "uknn-explicit": {
     "src_path": "src/codex/models/uknn_explicit.py",
@@ -37,10 +13,14 @@
     ],
     "search_points": 60
   },
-  "implicit-bpr": {
-    "src_path": "src/codex/models/implicit_bpr.py",
+  "uknn-implicit": {
+    "src_path": "src/codex/models/uknn_implicit.py",
     "predictor": false,
-    "searchable": true
+    "searchable": true,
+    "ds_include": [
+      "ML1*"
+    ],
+    "search_points": 60
   },
   "als-biased": {
     "src_path": "src/codex/models/als_biased.py",
@@ -54,6 +34,17 @@
     "searchable": true,
     "max_epochs": 30
   },
+  "bias": {
+    "src_path": "src/codex/models/bias.py",
+    "predictor": true,
+    "searchable": true
+  },
+  "flexmf-bpr": {
+    "src_path": "src/codex/models/flexmf_bpr.py",
+    "predictor": false,
+    "searchable": true,
+    "max_epochs": 50
+  },
   "flexmf-explicit": {
     "src_path": "src/codex/models/flexmf_explicit.py",
     "predictor": true,
@@ -66,10 +57,19 @@
     "searchable": true,
     "max_epochs": 50
   },
-  "flexmf-bpr": {
-    "src_path": "src/codex/models/flexmf_bpr.py",
+  "iknn-explicit": {
+    "src_path": "src/codex/models/iknn_explicit.py",
+    "predictor": true,
+    "searchable": true
+  },
+  "iknn-implicit": {
+    "src_path": "src/codex/models/iknn_implicit.py",
     "predictor": false,
-    "searchable": true,
-    "max_epochs": 50
+    "searchable": true
+  },
+  "implicit-bpr": {
+    "src_path": "src/codex/models/implicit_bpr.py",
+    "predictor": false,
+    "searchable": true
   }
 }
