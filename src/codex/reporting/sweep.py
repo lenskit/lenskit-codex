@@ -22,6 +22,25 @@ def load_sweep_runs(model, split=None, method="random") -> pd.DataFrame:
     return pd.json_normalize(run_data)
 
 
+def load_sweep_iters(model, split=None, method="random") -> pd.DataFrame:
+    base = Path()
+    if split is None:
+        split = DATA_INFO.default_split
+
+    with open(base / "sweeps" / split / f"{model}-{method}" / "iterations.ndjson", "rt") as jsf:
+        run_data = [json.loads(line) for line in jsf]
+    return pd.json_normalize(run_data)
+
+
+def load_sweep_result(model, split=None, method="random") -> dict:
+    base = Path()
+    if split is None:
+        split = DATA_INFO.default_split
+
+    with open(base / "sweeps" / split / f"{model}-{method}.json", "rt") as jsf:
+        return json.load(jsf)
+
+
 def show_param_space(space):
     flat = _flatten_param_space(space, "", {})
     tbl = PrettyTable()
