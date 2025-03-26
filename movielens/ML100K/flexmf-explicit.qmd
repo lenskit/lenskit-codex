@@ -1,28 +1,29 @@
 ---
-title: ALS BiasedMF on ML100K
+title: FlexMF Explicit on ML100K
 echo: false
 deps:
-- sweeps/random/als-biased-random
+- sweeps/random/flexmf-explicit-random
 ---
 
-This page analyzes the hyperparameter tuning results for biased matrix
-factorization with ALS.
+This page analyzes the hyperparameter tuning results for the FlexMF scorer in
+explicit-feedback mode (a biased matrix factorization model trained with
+PyTorch).
 
 ```{python}
 from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('als-biased')
-iters = load_sweep_iters('als-biased')
-result = load_sweep_result('als-biased')
+runs = load_sweep_runs('flexmf-explicit')
+iters = load_sweep_iters('flexmf-explicit')
+result = load_sweep_result('flexmf-explicit')
 best_id = result['trial_id']
 ```
 
 ## Parameter Search Space
 
 ```{python}
-from codex.models.als_biased import SEARCH_SPACE
+from codex.models.flexmf_explicit import SEARCH_SPACE
 show_param_space(SEARCH_SPACE)
 ```
 

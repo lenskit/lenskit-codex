@@ -42,18 +42,24 @@ def load_sweep_result(model, split=None, method="random") -> dict:
 
 
 def show_param_space(space):
+    import ray.tune.search.sample
+
     flat = _flatten_param_space(space, "", {})
     tbl = PrettyTable()
     tbl.set_style(TableStyle.MARKDOWN)
-    tbl.field_names = ["Parameter", "Distribution", "Min", "Max"]
+    tbl.field_names = ["Parameter", "Type", "Distribution", "Values"]
     tbl.align = "c"
     tbl.align["Parameter"] = "l"
 
     for k, v in flat.items():
         dist = str(v.sampler)
-        if dist == "Normal":
-            dist = "Normal(μ={}, σ={})".format(v.sampler.mean, v.sampler.md)
-        tbl.add_row([k, dist, v.lower, v.upper])
+        if isinstance(v, ray.tune.search.sample.Categorical):
+            values = ", ".join(v.categories)
+        elif dist == "Normal":
+            values = "μ={}, σ={}".format(v.sampler.mean, v.sampler.md)
+        else:
+            values = "{} ≤ $x$ ≤ {}".format(v.lower, v.upper)
+        tbl.add_row([k, v.__class__.__name__, dist, values])
 
     return Markdown(str(tbl))
 

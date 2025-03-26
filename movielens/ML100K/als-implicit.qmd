@@ -2,7 +2,7 @@
 title: ALS ImplicitMF on ML100K
 echo: false
 deps:
-- sweeps/random/ImplicitMF-ALS-grid
+- sweeps/random/als-biased-random
 ---
 
 This page analyzes the hyperparameter tuning results for implicit-feedback
@@ -63,7 +63,7 @@ best_iters = iters[iters['trial_id'] == best_id]
 )
 ```
 
-How did the metric progress in the best, longest result?
+How did the metric progress in the longest results?
 
 ```{python}
 max_iter = iters['training_iteration'].max()
