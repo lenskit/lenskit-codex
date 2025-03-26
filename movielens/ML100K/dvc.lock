@@ -436,9 +436,19 @@ stages:
       nfiles: 5
     - path: runs/random/als-biased-random-best
       hash: md5
-      md5: a016a6ac4d68754adf17d0188ece73e7.dir
-      size: 695159
+      md5: 33e7dbd4ff764ee7844557435f021e1c.dir
+      size: 696833
       nfiles: 5
+    - path: runs/random/als-implicit-default
+      hash: md5
+      md5: 79729f0716dcfc700582ad22720537b3.dir
+      size: 690205
+      nfiles: 4
+    - path: runs/random/als-implicit-random-best
+      hash: md5
+      md5: 0c171b27e00d2fa357d44e1bfd141c58.dir
+      size: 698207
+      nfiles: 4
     - path: runs/random/bias-default
       hash: md5
       md5: 105285d70262e3398c3c3c2fd5c649e8.dir
@@ -507,12 +517,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: fc8ef7d4df8a981ff1b05157c9ef698f
-      size: 22132
+      md5: c08348839391864ce62c791f62879e51
+      size: 24770
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 91a18d883138f8adfa54ba9cf7f5537a
-      size: 267468
+      md5: fba91db16019ceca65319e61ff99a49d
+      size: 300387
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit-grid.json
       --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/IKNN-Implicit
@@ -2129,13 +2139,13 @@ stages:
       size: 56492
     - path: sweeps/random/als-biased-random.json
       hash: md5
-      md5: 4bf8959d61691dc787cfa3a2361fac1d
-      size: 803
+      md5: 749bbb638b21785ada1c9418ef949cb0
+      size: 832
     outs:
     - path: runs/random/als-biased-random-best
       hash: md5
-      md5: a016a6ac4d68754adf17d0188ece73e7.dir
-      size: 695159
+      md5: 33e7dbd4ff764ee7844557435f021e1c.dir
+      size: 696833
       nfiles: 5
   run-random-default-als-biased:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
@@ -2160,3 +2170,76 @@ stages:
       md5: 3ee016c772c330849b2e804ae303f854.dir
       size: 702389
       nfiles: 5
+  run-random-default-als-implicit:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/als-implicit-default als-implicit
+    deps:
+    - path: ../../src/codex/models/als_implicit.py
+      hash: md5
+      md5: ac7d3d2eadc9ce22b5d3c58ed79071ec
+      size: 520
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    outs:
+    - path: runs/random/als-implicit-default
+      hash: md5
+      md5: 79729f0716dcfc700582ad22720537b3.dir
+      size: 690205
+      nfiles: 4
+  sweep-als-implicit-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
+      als-implicit sweeps/random/als-implicit-random
+    deps:
+    - path: ../../src/codex/models/als_implicit.py
+      hash: md5
+      md5: ac7d3d2eadc9ce22b5d3c58ed79071ec
+      size: 520
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    outs:
+    - path: sweeps/random/als-implicit-random
+      hash: md5
+      md5: bcd7419d2e83a90adbff8eab0e852801.dir
+      size: 2038011
+      nfiles: 4
+    - path: sweeps/random/als-implicit-random.json
+      hash: md5
+      md5: 6bc96251c04eaf37800740077b20f55d
+      size: 851
+  run-random-random-best-als-implicit:
+    cmd: lenskit codex generate --param-file sweeps/random/als-implicit-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/als-implicit-random-best
+      als-implicit
+    deps:
+    - path: ../../src/codex/models/als_implicit.py
+      hash: md5
+      md5: ac7d3d2eadc9ce22b5d3c58ed79071ec
+      size: 520
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    - path: sweeps/random/als-implicit-random.json
+      hash: md5
+      md5: 6bc96251c04eaf37800740077b20f55d
+      size: 851
+    outs:
+    - path: runs/random/als-implicit-random-best
+      hash: md5
+      md5: 0c171b27e00d2fa357d44e1bfd141c58.dir
+      size: 698207
+      nfiles: 4
