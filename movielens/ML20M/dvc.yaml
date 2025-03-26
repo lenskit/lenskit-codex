@@ -6,6 +6,7 @@ stages:
       - runs/temporal/als-biased-default
       - runs/temporal/als-implicit-default
       - runs/temporal/bias-default
+      - runs/temporal/flexmf-explicit-default
       - runs/temporal/iknn-explicit-default
       - runs/temporal/iknn-implicit-default
       - runs/temporal/implicit-bpr-default
@@ -13,6 +14,7 @@ stages:
       - runs/temporal/als-biased-random-best
       - runs/temporal/als-implicit-random-best
       - runs/temporal/bias-random-best
+      - runs/temporal/flexmf-explicit-random-best
       - runs/temporal/iknn-explicit-random-best
       - runs/temporal/iknn-implicit-random-best
       - runs/temporal/implicit-bpr-random-best
@@ -52,6 +54,15 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/bias-default
+  run-temporal-default-flexmf-explicit:
+    cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
+      -o runs/temporal/flexmf-explicit-default flexmf-explicit
+    deps:
+      - ../../src/codex/models/flexmf_explicit.py
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/flexmf-explicit-default
   run-temporal-default-iknn-explicit:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/iknn-explicit-default iknn-explicit
@@ -120,6 +131,17 @@ stages:
       - sweeps/temporal/bias-random.json
     outs:
       - runs/temporal/bias-random-best
+  run-temporal-random-best-flexmf-explicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-explicit-random.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-random-best
+      flexmf-explicit
+    deps:
+      - ../../src/codex/models/flexmf_explicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/flexmf-explicit-random.json
+    outs:
+      - runs/temporal/flexmf-explicit-random-best
   run-temporal-random-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/iknn-explicit-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-random-best
@@ -189,6 +211,16 @@ stages:
     outs:
       - sweeps/temporal/bias-random
       - sweeps/temporal/bias-random.json:
+          cache: false
+  sweep-flexmf-explicit-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-random
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/flexmf_explicit.py
+    outs:
+      - sweeps/temporal/flexmf-explicit-random
+      - sweeps/temporal/flexmf-explicit-random.json:
           cache: false
   sweep-iknn-explicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
