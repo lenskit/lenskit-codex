@@ -114,7 +114,7 @@ def run_sweep(
                 for i, row in result.metrics_dataframe.to_dict("index").items():
                     out_row = {"trial": n, "config": result.config, "epoch": i}
                     out_row.update({k: v for (k, v) in row.items() if not k.startswith("config/")})
-                    print(to_json(out_row), file=jsf)
+                    print(to_json(out_row).decode(), file=jsf)
 
     with open(out.with_suffix(".json"), "wt") as jsf:
         print(to_json(best_out).decode(), file=jsf)
