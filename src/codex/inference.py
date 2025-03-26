@@ -19,7 +19,17 @@ from lenskit import Pipeline, predict, recommend
 from lenskit.data import ID, ItemList, ItemListCollection, UserIDKey
 from lenskit.logging import Task, get_logger, item_progress
 from lenskit.logging.worker import send_task
-from lenskit.metrics import MAE, NDCG, RBP, RMSE, Hit, RecipRank, RunAnalysisResult, call_metric
+from lenskit.metrics import (
+    DCG,
+    MAE,
+    NDCG,
+    RBP,
+    RMSE,
+    Hit,
+    RecipRank,
+    RunAnalysisResult,
+    call_metric,
+)
 from pydantic import JsonValue
 
 from codex.cluster import ensure_cluster_init
@@ -90,6 +100,7 @@ def recommend_and_save(
         pd.Series(),
         defaults={
             "RBP": 0,
+            "DCG": 0,
             "NDCG": 0,
             "RecipRank": 0,
             "Hit": 0,
@@ -151,6 +162,7 @@ def run_pipeline(
 
     metrics: dict[str, JsonValue] = {"user_id": user}  # type: ignore
     metrics["RBP"] = float(call_metric(RBP, recs, test))
+    metrics["DCG"] = float(call_metric(DCG, recs, test))
     metrics["NDCG"] = float(call_metric(NDCG, recs, test))
     metrics["RecipRank"] = float(call_metric(RecipRank, recs, test))
     metrics["Hit"] = float(call_metric(Hit, recs, test))
