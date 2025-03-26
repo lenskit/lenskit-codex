@@ -132,7 +132,6 @@ class TuningBuilder:
         if self.model.is_iterative:
             min_iter = self.model.options.get("min_epochs", 5)
             self.spec["min_epochs"] = min_iter
-            # max_epochs = self.model.options.get("max_epochs", DEFAULT_MAX_EPOCHS)
             assert isinstance(min_iter, int)
             # scheduler = ray.tune.schedulers.AsyncHyperBandScheduler(
             #     max_t=max_epochs,

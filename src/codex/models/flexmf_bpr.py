@@ -9,11 +9,12 @@ STATIC_CONFIG = {"loss": "pairwise"}
 
 SEARCH_SPACE = {
     "embedding_size": rt.lograndint(4, 512, base=2),
-    "regularization": rt.loguniform(1e-5, 1),
-    "learning_rate": rt.loguniform(1e-5, 1e-1),
+    "regularization": rt.loguniform(1e-4, 10),
+    "learning_rate": rt.loguniform(1e-3, 1e-1),
     "reg_method": rt.choice(["L2", "AdamW"]),
     "negative_count": rt.randint(1, 5),
     "positive_weight": rt.uniform(1, 10),
+    "item_bias": rt.choice([True, False]),
 }
 
 OPTIONS = {"max_epochs": 50}
