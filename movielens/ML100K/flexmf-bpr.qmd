@@ -1,28 +1,28 @@
 ---
-title: FlexMF Logistic on ML100K
+title: FlexMF BPR on ML100K
 echo: false
 deps:
-- sweeps/random/flexmf-logistic-random
+- sweeps/random/flexmf-bpr-random
 ---
 
 This page analyzes the hyperparameter tuning results for the FlexMF scorer in
-implicit-feedback mode with logistic loss (Logistic Matrix Factorization).
+implicit-feedback mode with pairwise loss (Bayesian Personalized Ranking).
 
 ```{python}
 from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('flexmf-logistic')
-iters = load_sweep_iters('flexmf-logistic')
-result = load_sweep_result('flexmf-logistic')
+runs = load_sweep_runs('flexmf-bpr')
+iters = load_sweep_iters('flexmf-bpr')
+result = load_sweep_result('flexmf-bpr')
 best_id = result['trial_id']
 ```
 
 ## Parameter Search Space
 
 ```{python}
-from codex.models.flexmf_logistic import SEARCH_SPACE
+from codex.models.flexmf_bpr import SEARCH_SPACE
 show_param_space(SEARCH_SPACE)
 ```
 
