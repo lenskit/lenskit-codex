@@ -134,8 +134,23 @@ rpow['stage'] = rpow['variable'].str.split('_', expand=True)[0]
 This provides quick numeric access to the model results by mean metric.  Note, however,
 that simple means can be misleading!
 
+### Top-N Recommendation
+
 ```{python}
-run_summary = user_metrics.groupby(['model', 'variant'], observed=True)[['RBP', 'NDCG', 'RecipRank']].mean()
-run_summary = run_summary.sort_values('RBP', ascending=False)
-show_df(run_summary.style.format("{:.3f}"))
+run_summary = user_metrics.groupby(['model', 'variant'], observed=True)[['RBP', 'NDCG', 'RecipRank', 'RMSE', 'MAE']].mean()
+rec_summary = run_summary.sort_values('RBP', ascending=False).drop(columns=[
+    'RMSE', 'MAE'
+])
+show_df(rec_summary.style.format("{:.3f}"))
+```
+
+### Rating Prediction
+
+```{python}
+pred_summary = run_summary.loc[
+    run_summary['RMSE'].notnull(),
+    ['RMSE', 'MAE']
+]
+pred_summary = pred_summary.sort_values('RMSE')
+show_df(pred_summary.style.format("{:.3f}"))
 ```
