@@ -140,3 +140,8 @@ def update_gitignore(c):
         with fn.open("wt") as gif:
             for f in sorted(ign):
                 print(f, file=gif)
+
+
+@task(update_gitignore)
+def rerender(c):
+    print("Project layout updated")
