@@ -12,4 +12,4 @@ SEARCH_SPACE = {
     "reg_method": rt.choice(["L2", "AdamW"]),
 }
 
-OPTIONS = {}
+OPTIONS = {"max_epochs": 50}
