@@ -11,7 +11,9 @@ from typing import Literal
 
 import click
 import zstandard
-from lenskit.logging import get_logger
+from humanize import metric as human_metric
+from humanize import precisedelta
+from lenskit.logging import get_logger, stdout_console
 from pydantic_core import to_json
 
 from codex.cluster import ensure_cluster_init
@@ -58,6 +60,7 @@ def run_sweep(
     ds_name: str | None = None,
     test_part: str = "valid",
 ):
+    console = stdout_console()
     log = _log.bind(model=model, dataset=ds_name, split=split.stem)
     mod_def = load_model(model)
     if sample_count is None:
@@ -89,11 +92,20 @@ def run_sweep(
         fail = RuntimeError("runs failed")
 
     best = results.get_best_result()
-    fields = {metric: best.metrics[metric]} | best.config
+    fields = {metric: best.metrics[metric], "config": best.config}
 
-    log.info(
-        "finished hyperparameter search", time=task.duration, power=task.chassis_power, **fields
+    log.info("finished hyperparameter search", **fields)
+    console.print("[bold yellow]Hyperparameter search completed![/bold yellow]")
+    assert task.duration is not None
+    line = "[bold magenta]{}[/bold magenta] trials took [bold cyan]{}[/bold cyan]".format(
+        len(results),
+        precisedelta(task.duration),  # type: ignore
     )
+    if task.chassis_power:
+        line += " and consumed [bold green]{}[/bold green]".format(
+            human_metric(task.chassis_power / 3600, unit="Wh")
+        )
+    console.print(line)
 
     with open(out / "tuning-task.json", "wt") as jsf:
         print(task.model_dump_json(indent=2), file=jsf)
