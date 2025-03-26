@@ -5,6 +5,7 @@ import numpy as np
 import ray.tune
 import ray.tune.schedulers
 import ray.tune.search
+import ray.tune.stopper
 from lenskit.logging import get_logger
 from lenskit.parallel import get_parallel_config
 from lenskit.splitting import TTSplit
@@ -144,6 +145,7 @@ class TuningBuilder:
                 progress_reporter=ProgressReport(),
                 failure_config=ray.tune.FailureConfig(fail_fast=True),
                 callbacks=[StatusCallback(self.model.name, self.data_info.dataset)],
+                stop=ray.tune.stopper.TrialPlateauStopper(self.metric),
             ),
         )
         return self.tuner
