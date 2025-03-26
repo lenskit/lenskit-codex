@@ -126,7 +126,9 @@ class TuningBuilder:
             scheduler = ray.tune.schedulers.MedianStoppingRule(
                 grace_period=min_iter,
             )
-            stopper = ray.tune.stopper.TrialPlateauStopper(self.metric, grace_period=min_iter)
+            stopper = ray.tune.stopper.TrialPlateauStopper(
+                self.metric, grace_period=min_iter, num_results=5
+            )
         searcher = ray.tune.search.BasicVariantGenerator(
             random_state=default_rng(self.random_seed.spawn(1)[0])
         )
