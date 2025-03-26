@@ -1,4 +1,5 @@
 import ray.tune
+import ray.tune.result
 from lenskit.logging import get_logger, item_progress
 
 _log = get_logger("codex.tuning")
@@ -35,7 +36,7 @@ class ProgressReport(ray.tune.ProgressReporter):
         _log.debug("reporting trial completion", trial_count=len(trials))
 
         if done:
-            _log.info("search complete", trial_count=len(trials))
+            _log.debug("search complete", trial_count=len(trials))
             self._bar.finish()
         else:
             total = len(trials)
@@ -48,14 +49,7 @@ class ProgressReport(ray.tune.ProgressReporter):
                     self.done.add(trial.trial_id)
                     n_new += 1
                     _log.debug("finished trial", id=trial.trial_id, config=trial.config)
-                    if self.metric is not None:
-                        mv = trial.last_result[self.metric]
-                        if self.best_metric is None:
-                            self.best_metric = mv
-                        elif self.mode == "max" and mv > self.best_metric:
-                            self.best_metric = mv
-                        elif self.mode == "min" and mv < self.best_metric:
-                            self.best_metric = mv
+                    self._update_metric(trial)
 
             extra = {}
             if self.best_metric is not None:
@@ -66,8 +60,24 @@ class ProgressReport(ray.tune.ProgressReporter):
         if done:
             return True
 
+        updated = any(self._update_metric(t) for t in trials)
         finished = set(t.trial_id for t in trials if t.status == "TERMINATED")
-        if finished - self.done:
+        if updated or finished - self.done:
             return True
         else:
             return False
+
+    def _update_metric(self, trial):
+        if self.metric is not None and trial.last_result and self.metric in trial.last_result:
+            mv = trial.last_result[self.metric]
+            if self.best_metric is None:
+                self.best_metric = mv
+                return True
+            elif self.mode == "max" and mv > self.best_metric:
+                self.best_metric = mv
+                return True
+            elif self.mode == "min" and mv < self.best_metric:
+                self.best_metric = mv
+                return True
+
+        return False
