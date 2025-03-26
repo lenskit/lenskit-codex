@@ -9,25 +9,14 @@ deps:
 This is a summary view of model performance on the ML1M data set.
 
 ```{python}
-import pandas as pd
-import numpy as np
-import plotnine as pn
-```
-
-```{python}
-from IPython.display import Markdown
-from tabulate import tabulate
-```
-
-```{python}
-from codex.reporting.plots import DEFAULTS, scale_y_memory
+from codex.reporting.prelude import *
 ```
 
 ```{python}
 runs = pd.read_csv('run-summary.csv')
 runs = runs[runs['part'] != 0]
 user_metrics = pd.read_parquet('run-user-metrics.parquet')
-user_metrics[user_metrics['part'] != 0]
+user_metrics = user_metrics[user_metrics['part'] != 0]
 ```
 
 ## Top-N Recommendation Accuracy
@@ -102,7 +91,7 @@ rtime.loc[rtime['type'] == 'time', 'type'] = 'wall'
     pn.ggplot(rtime)
     + pn.aes(x='model', y='value', fill='variant')
     + pn.geom_col(position='dodge', stat='summary')
-    + pn.facet_grid('type ~ stage', scales="free_x")
+    + pn.facet_grid('stage ~ type', scales="free_x")
     + pn.ylab("Total time (seconds)")
     + pn.coord_flip()
     + pn.scale_fill_brewer(type="qual", palette="Dark2")
@@ -138,4 +127,30 @@ rpow['stage'] = rpow['variable'].str.split('_', expand=True)[0]
     + pn.coord_flip()
     + pn.scale_fill_brewer(type="qual", palette="Dark2")
 )
+```
+
+## Leaderboard Table
+
+This provides quick numeric access to the model results by mean metric.  Note, however,
+that simple means can be misleading!
+
+### Top-N Recommendation
+
+```{python}
+run_summary = user_metrics.groupby(['model', 'variant'], observed=True)[['RBP', 'NDCG', 'RecipRank', 'RMSE', 'MAE']].mean()
+rec_summary = run_summary.sort_values('RBP', ascending=False).drop(columns=[
+    'RMSE', 'MAE'
+])
+show_df(rec_summary.style.format("{:.3f}"))
+```
+
+### Rating Prediction
+
+```{python}
+pred_summary = run_summary.loc[
+    run_summary['RMSE'].notnull(),
+    ['RMSE', 'MAE']
+]
+pred_summary = pred_summary.sort_values('RMSE')
+show_df(pred_summary.style.format("{:.3f}"))
 ```
