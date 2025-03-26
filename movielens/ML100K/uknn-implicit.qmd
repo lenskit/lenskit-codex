@@ -1,0 +1,87 @@
+---
+title: Implicit User KNN on ML100K
+echo: false
+deps:
+- sweeps/random/iknn-implicit-random
+---
+
+This page analyzes the hyperparameter tuning results for the User KNN
+explicit-feedback rating predictor.
+
+```{python}
+from codex.reporting.prelude import *
+```
+
+```{python}
+runs = load_sweep_runs('uknn-implicit')
+result = load_sweep_result('uknn-implicit')
+best_id = result['trial_id']
+```
+
+## Parameter Search Space
+
+```{python}
+from codex.models.uknn_implicit import SEARCH_SPACE
+show_param_space(SEARCH_SPACE)
+```
+
+
+## Final Result
+
+Searching selected the following configuration:
+
+```{python}
+rich.print(result['config'])
+```
+
+With these metrics:
+
+```{python}
+rich.print(result)
+```
+
+## Parameter Influence
+
+### Neighborhood Size
+
+The max neighbors is one of the more influential properties.  Note that this
+chart may be noisier than typical, because we are plotting the
+influence from random search, so the other parameters are simultaneously
+changing.
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.max_nbrs', y='RBP')
+    + pn.geom_point()
+    + pn.xlab("Max Neighbors")
+)
+```
+
+### Minimum Neighbors
+
+We also examine the *minimum* neighbors, which reduces the model's willingness
+to make low-confidence predictions.
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.min_nbrs', y='RBP')
+    + pn.geom_point()
+    + pn.xlab("Min Neighbors")
+)
+```
+
+### Minimum Similarity
+
+Finally, the minimum similarity filters out low-information relationships:
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.min_sim', y='RBP')
+    + pn.geom_point()
+    + pn.xlab("Minimum Similarity")
+    + pn.scale_x_log10()
+)
+```
