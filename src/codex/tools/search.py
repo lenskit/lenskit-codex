@@ -96,6 +96,7 @@ def run_sweep(
 
     log.info("finished hyperparameter search", **fields)
     console.print("[bold yellow]Hyperparameter search completed![/bold yellow]")
+    console.print("Best {} is [bold red]{:.3f}[/bold red]".format(metric, best.metrics[metric]))
     assert task.duration is not None
     line = "[bold magenta]{}[/bold magenta] trials took [bold cyan]{}[/bold cyan]".format(
         len(results),
