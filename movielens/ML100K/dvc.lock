@@ -2326,3 +2326,25 @@ stages:
       md5: cb39e0e2a23d99f3b9f4500cd1d1475f.dir
       size: 713319
       nfiles: 5
+  sweep-flexmf-bpr-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
+      flexmf-bpr sweeps/random/flexmf-bpr-random
+    deps:
+    - path: ../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: b9b53df4be8c7e803f5c7d03b63fafce
+      size: 662
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    outs:
+    - path: sweeps/random/flexmf-bpr-random
+      hash: md5
+      md5: 345e77f1907bc50504bf9d2e7587452f.dir
+      size: 749813
+      nfiles: 4
+    - path: sweeps/random/flexmf-bpr-random.json
+      hash: md5
+      md5: 4661715296d78ff3ac3c7928b72c6ecd
+      size: 855
