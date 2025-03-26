@@ -12,11 +12,14 @@ from lenskit.logging import get_logger
 from lenskit.logging.worker import send_task
 from lenskit.pipeline import Component
 from lenskit.training import IterativeTraining, TrainingOptions
+from pydantic_core import to_json
 
 from codex.models import load_model
 from codex.pipeline import base_pipeline, replace_scorer
-from codex.runlog import CodexTask, DataModel, ScorerModel
+from codex.random import extend_seed
+from codex.runlog import CodexTask, ScorerModel
 
+from .job import TuningJobData
 from .metrics import measure
 
 _log = get_logger(__name__)
@@ -27,27 +30,19 @@ class IterativeEval:
     A simple hyperparameter point evaluator using non-iterative model training.
     """
 
+    job: TuningJobData
+
     def __init__(
         self,
-        name: str,
-        factory: ray.ObjectRef,
-        split: ray.ObjectRef,
-        data_info: DataModel,
-        n: int | None,
-        epoch_limit: int,
+        job: TuningJobData,
     ):
-        self.name = name
-        self.factory_ref = factory
-        self.list_length = n
-        self.data_ref = split
-        self.data_info = data_info
-        self.epoch_limit = epoch_limit
+        self.job = job
 
     def __call__(self, config):
-        mod_def = load_model(self.name)
-        factory = ray.get(self.factory_ref)
-        data = ray.get(self.data_ref)
-        log = _log.bind(model=self.name, dataset=self.data_info.dataset)
+        mod_def = load_model(self.job.model_name)
+        factory = self.job.factory
+        data = self.job.data
+        log = _log.bind(model=self.job.model_name, dataset=self.job.data_name)
 
         with CodexTask(
             label=f"tune {mod_def.name}",
@@ -55,13 +50,13 @@ class IterativeEval:
             reset_hwm=True,
             subprocess=True,
             scorer=ScorerModel(name=mod_def.name, config=config),
-            data=self.data_info,
+            data=self.job.data_info,
         ) as task:
             log.info("configuring scorer", config=config)
-            model = mod_def.instantiate(config | {"epochs": self.epoch_limit}, factory)
+            model = mod_def.instantiate(config | {"epochs": self.job.epoch_limit}, factory)
             assert isinstance(model, Component)
             assert isinstance(model, IterativeTraining)
-            pipe = base_pipeline(self.name, predicts_ratings=mod_def.is_predictor)
+            pipe = base_pipeline(self.job.model_name, predicts_ratings=mod_def.is_predictor)
 
             log.info("pre-training pipeline")
             pipe.train(data.train)
@@ -74,7 +69,10 @@ class IterativeEval:
                 self.runner.predict()
 
             log.info("starting training loop", config=model.config)
-            training_loop = model.training_loop(data.train, TrainingOptions())
+            options = TrainingOptions(
+                rng=extend_seed(self.job.random_seed, to_json(model.dump_config()))
+            )
+            training_loop = model.training_loop(data.train, options)
             send_task(task)
             log.info("beginning training epochs")
             for epoch, vals in enumerate(training_loop, 1):

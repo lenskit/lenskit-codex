@@ -17,7 +17,7 @@ from pydantic_core import to_json
 from codex.cluster import ensure_cluster_init
 from codex.models import load_model
 from codex.runlog import CodexTask, ScorerModel
-from codex.tuning import TuningController
+from codex.tuning import TuningBuilder
 
 from . import codex
 
@@ -63,7 +63,7 @@ def run_sweep(
     if sample_count is None:
         sample_count = mod_def.options.get("search_points", 100)  # type: ignore
 
-    controller = TuningController(mod_def, out, list_length, sample_count, metric)
+    controller = TuningBuilder(mod_def, out, list_length, sample_count, metric)
     controller.load_data(split, test_part, ds_name)
 
     ensure_cluster_init()

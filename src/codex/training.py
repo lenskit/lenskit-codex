@@ -4,6 +4,7 @@ import structlog
 from humanize import metric, naturalsize
 from lenskit.data import Dataset
 from lenskit.pipeline import Component, Pipeline
+from lenskit.random import RNGInput
 from lenskit.training import TrainingOptions
 
 from codex.models import ModelDef, ModelFactory
@@ -19,6 +20,7 @@ def train_task(
     data: Dataset,
     data_info: DataModel,
     factory: ModelFactory | None = None,
+    rng: RNGInput | None = None,
 ) -> tuple[Pipeline, CodexTask]:
     log = _log.bind(name=model.name, config=params)
     log.info("training model")
@@ -32,7 +34,7 @@ def train_task(
         scorer = model.instantiate(params, factory)
         try:
             pipe = train_and_wrap_model(
-                scorer, data, predicts_ratings=model.is_predictor, name=model.name
+                scorer, data, predicts_ratings=model.is_predictor, name=model.name, rng=rng
             )
         except Exception as e:
             log.error("model training failed", exc_info=e)
@@ -58,6 +60,7 @@ def train_and_wrap_model(
     predicts_ratings: bool = False,
     *,
     name: str = "unnamed",
+    rng: RNGInput | None = None,
 ) -> Pipeline:
     "Train a recommendation model on input data."
 
@@ -68,6 +71,6 @@ def train_and_wrap_model(
         _log.debug("reusing recommendation pipeline")
         pipe = replace_scorer(pipe, model)
 
-    pipe.train(data, TrainingOptions(retrain=False))
+    pipe.train(data, TrainingOptions(retrain=False, rng=rng))
 
     return pipe

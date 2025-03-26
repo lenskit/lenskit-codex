@@ -4,14 +4,16 @@ Simple (non-iterative) evaluation of points.
 
 from __future__ import annotations
 
-import ray
 from lenskit.batch import BatchPipelineRunner
 from lenskit.logging import get_logger
 from lenskit.logging.worker import send_task
+from pydantic_core import to_json
 
 from codex.models import load_model
-from codex.runlog import CodexTask, DataModel, ScorerModel
+from codex.random import extend_seed
+from codex.runlog import CodexTask, ScorerModel
 from codex.training import train_task
+from codex.tuning.job import TuningJobData
 
 from .metrics import measure
 
@@ -23,26 +25,20 @@ class SimplePointEval:
     A simple hyperparameter point evaluator using non-iterative model training.
     """
 
-    def __init__(
-        self,
-        name: str,
-        factory: ray.ObjectRef,
-        split: ray.ObjectRef,
-        data_info: DataModel,
-        n: int | None,
-    ):
-        self.name = name
-        self.factory = factory
-        self.list_length = n
-        self.data = split
-        self.data_info = data_info
+    job: TuningJobData
+
+    def __init__(self, job: TuningJobData):
+        self.job = job
 
     def __call__(self, config) -> dict[str, float]:
-        mod_def = load_model(self.name)
-        factory = ray.get(self.factory)
-        data = ray.get(self.data)
+        mod_def = load_model(self.job.model_name)
+        factory = self.job.factory
+        data = self.job.data
 
-        pipe, task = train_task(mod_def, config, data.train, self.data_info, factory=factory)
+        rng = extend_seed(self.job.random_seed, to_json(config))
+        pipe, task = train_task(
+            mod_def, config, data.train, self.job.data_info, factory=factory, rng=rng
+        )
         send_task(task)
 
         runner = BatchPipelineRunner(n_jobs=1)  # single-threaded inside tuning
@@ -56,7 +52,7 @@ class SimplePointEval:
             reset_hwm=True,
             subprocess=True,
             scorer=ScorerModel(name=mod_def.name, config=config),
-            data=self.data_info,
+            data=self.job.data_info,
         ) as test_task:
             results = runner.run(pipe, data.test)
 
