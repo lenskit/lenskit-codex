@@ -101,8 +101,8 @@ def render_pipeline(c: Context):
     c.run("dprint fmt '**/dvc.yaml'")
 
 
-@task
-def render_gitignore(c):
+@task(render_pipeline)
+def update_gitignore(c):
     root = Path().resolve()
     ignores = {}
     for gi in glob("**/.gitignore", recursive=True, include_hidden=False):
@@ -113,6 +113,7 @@ def render_gitignore(c):
             )
 
     for dvc in glob("**/dvc.yaml", recursive=True, include_hidden=False):
+        print("scanning", dvc, "for outputs")
         pl_dir = Path(dvc).parent
         with open(dvc, "rt") as yf:
             pipe = yaml.safe_load(yf)
@@ -135,6 +136,7 @@ def render_gitignore(c):
 
     for d, ign in ignores.items():
         fn = Path(d) / ".gitignore"
+        print("writing", fn)
         with fn.open("wt") as gif:
             for f in sorted(ign):
                 print(f, file=gif)

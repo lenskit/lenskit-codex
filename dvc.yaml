@@ -16,31 +16,31 @@ stages:
       - eval-meta/attention.qmd
     outs:
       - _freeze/eval-meta/attention
-  page/movielens/ML100K/als-biasedmf:
-    cmd: quarto render movielens/ML100K/als-biasedmf.qmd --profile prerender
+  page/movielens/ML100K/als-biased:
+    cmd: quarto render movielens/ML100K/als-biased.qmd --profile prerender
     deps:
       - _quarto-prerender.yml
       - _quarto.yml
-      - movielens/ML100K/als-biasedmf.qmd
-      - movielens/ML100K/sweeps/random/BiasedMF-ALS-grid
+      - movielens/ML100K/als-biased.qmd
+      - movielens/ML100K/sweeps/random/als-biased-random
     outs:
-      - _freeze/movielens/ML100K/als-biasedmf
-  page/movielens/ML100K/als-implicitmf:
-    cmd: quarto render movielens/ML100K/als-implicitmf.qmd --profile prerender
+      - _freeze/movielens/ML100K/als-biased
+  page/movielens/ML100K/als-implicit:
+    cmd: quarto render movielens/ML100K/als-implicit.qmd --profile prerender
     deps:
       - _quarto-prerender.yml
       - _quarto.yml
-      - movielens/ML100K/als-implicitmf.qmd
-      - movielens/ML100K/sweeps/random/ImplicitMF-ALS-grid
+      - movielens/ML100K/als-implicit.qmd
+      - movielens/ML100K/sweeps/random/als-biased-random
     outs:
-      - _freeze/movielens/ML100K/als-implicitmf
+      - _freeze/movielens/ML100K/als-implicit
   page/movielens/ML100K/bias:
     cmd: quarto render movielens/ML100K/bias.qmd --profile prerender
     deps:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML100K/bias.qmd
-      - movielens/ML100K/sweeps/random/Bias-grid
+      - movielens/ML100K/sweeps/random/bias-random
     outs:
       - _freeze/movielens/ML100K/bias
   page/movielens/ML100K/description:
@@ -52,6 +52,15 @@ stages:
       - movielens/ML100K/stats.duckdb
     outs:
       - _freeze/movielens/ML100K/description
+  page/movielens/ML100K/flexmf-explicit:
+    cmd: quarto render movielens/ML100K/flexmf-explicit.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML100K/flexmf-explicit.qmd
+      - movielens/ML100K/sweeps/random/flexmf-explicit-random
+    outs:
+      - _freeze/movielens/ML100K/flexmf-explicit
   page/movielens/ML100K/iknn-explicit:
     cmd: quarto render movielens/ML100K/iknn-explicit.qmd --profile prerender
     deps:
@@ -177,7 +186,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML1M/bias.qmd
-      - movielens/ML1M/sweeps/random/Bias-grid
+      - movielens/ML1M/sweeps/random/bias-random
     outs:
       - _freeze/movielens/ML1M/bias
   page/movielens/ML1M/description:

@@ -16,13 +16,6 @@
       "merged-stats.duckdb"
     ]
   },
-  "movielens/ML100K/als-implicitmf.qmd": {
-    "title": "ALS ImplicitMF on ML100K",
-    "echo": false,
-    "deps": [
-      "sweeps/random/ImplicitMF-ALS-grid"
-    ]
-  },
   "movielens/ML100K/bias.qmd": {
     "title": "Bias on ML100K",
     "echo": false,
@@ -60,11 +53,25 @@
       "run-user-metrics.parquet"
     ]
   },
-  "movielens/ML100K/als-biasedmf.qmd": {
+  "movielens/ML100K/als-biased.qmd": {
     "title": "ALS BiasedMF on ML100K",
     "echo": false,
     "deps": [
-      "sweeps/random/BiasedMF-ALS-grid"
+      "sweeps/random/als-biased-random"
+    ]
+  },
+  "movielens/ML100K/als-implicit.qmd": {
+    "title": "ALS ImplicitMF on ML100K",
+    "echo": false,
+    "deps": [
+      "sweeps/random/als-biased-random"
+    ]
+  },
+  "movielens/ML100K/flexmf-explicit.qmd": {
+    "title": "FlexMF Explicit on ML100K",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-explicit-random"
     ]
   },
   "movielens/ML10M/als-biasedmf.qmd": {

@@ -1,6 +1,6 @@
 local lib = import 'src/codex.libsonnet';
 
-local docs = std.parseJson(importstr 'documents.json');
+local docs = std.parseJson(importstr 'manifests/documents.json');
 
 // create a stage to pre-render each page
 {
