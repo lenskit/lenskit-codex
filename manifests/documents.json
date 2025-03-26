@@ -1,19 +1,23 @@
 {
-  "amazon/2023-5core/index.qmd": {
-    "title": "2023 5-core",
-    "echo": false,
-    "deps": [
-      "stats.duckdb"
-    ]
-  },
-  "eval-meta/attention.qmd": {
-    "title": "Rank-Biasing Attention Models"
-  },
   "movielens/index.qmd": {
     "title": "MovieLens",
     "echo": false,
     "deps": [
       "merged-stats.duckdb"
+    ]
+  },
+  "movielens/ML100K/als-biased.qmd": {
+    "title": "ALS BiasedMF on ML100K",
+    "echo": false,
+    "deps": [
+      "sweeps/random/als-biased-random"
+    ]
+  },
+  "movielens/ML100K/als-implicit.qmd": {
+    "title": "ALS ImplicitMF on ML100K",
+    "echo": false,
+    "deps": [
+      "sweeps/random/als-biased-random"
     ]
   },
   "movielens/ML100K/bias.qmd": {
@@ -29,6 +33,13 @@
     "echo": false,
     "deps": [
       "stats.duckdb"
+    ]
+  },
+  "movielens/ML100K/flexmf-explicit.qmd": {
+    "title": "FlexMF Explicit on ML100K",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-explicit-random"
     ]
   },
   "movielens/ML100K/iknn-explicit.qmd": {
@@ -52,25 +63,11 @@
       "sweeps/random/flexmf-bpr-random"
     ]
   },
-  "movielens/ML100K/als-biased.qmd": {
-    "title": "ALS BiasedMF on ML100K",
-    "echo": false,
+  "movielens/ML10M/splitting.qmd": {
+    "title": "ML10M Data Splitting",
+    "order": 1,
     "deps": [
-      "sweeps/random/als-biased-random"
-    ]
-  },
-  "movielens/ML100K/als-implicit.qmd": {
-    "title": "ALS ImplicitMF on ML100K",
-    "echo": false,
-    "deps": [
-      "sweeps/random/als-biased-random"
-    ]
-  },
-  "movielens/ML100K/flexmf-explicit.qmd": {
-    "title": "FlexMF Explicit on ML100K",
-    "echo": false,
-    "deps": [
-      "sweeps/random/flexmf-explicit-random"
+      "ratings.duckdb"
     ]
   },
   "movielens/ML100K/summary.qmd": {
@@ -131,13 +128,6 @@
       "sweeps/temporal/IKNN-Implicit-grid"
     ]
   },
-  "movielens/ML10M/splitting.qmd": {
-    "title": "ML10M Data Splitting",
-    "order": 1,
-    "deps": [
-      "ratings.duckdb"
-    ]
-  },
   "movielens/ML10M/summary.qmd": {
     "title": "ML10M Performance Summary",
     "order": 1,
@@ -146,11 +136,25 @@
       "run-user-metrics.parquet"
     ]
   },
+  "movielens/ML1M/als-biasedmf.qmd": {
+    "title": "ALS BiasedMF on ML1M",
+    "echo": false,
+    "deps": [
+      "sweeps/random/BiasedMF-ALS-grid"
+    ]
+  },
   "movielens/ML1M/als-implicitmf.qmd": {
     "title": "ALS ImplicitMF on ML1M",
     "echo": false,
     "deps": [
       "sweeps/random/ImplicitMF-ALS-grid"
+    ]
+  },
+  "movielens/ML1M/bias.qmd": {
+    "title": "Bias on ML1M",
+    "echo": false,
+    "deps": [
+      "sweeps/random/bias-random"
     ]
   },
   "movielens/ML1M/description.qmd": {
@@ -175,13 +179,6 @@
       "sweeps/random/IKNN-Implicit-grid"
     ]
   },
-  "movielens/ML1M/als-biasedmf.qmd": {
-    "title": "ALS BiasedMF on ML1M",
-    "echo": false,
-    "deps": [
-      "sweeps/random/BiasedMF-ALS-grid"
-    ]
-  },
   "movielens/ML1M/summary.qmd": {
     "title": "ML1M Performance Summary",
     "order": 1,
@@ -190,11 +187,11 @@
       "run-user-metrics.parquet"
     ]
   },
-  "movielens/ML1M/bias.qmd": {
-    "title": "Bias on ML1M",
-    "echo": false,
+  "movielens/ML20M/splitting.qmd": {
+    "title": "ML20M Data Splitting",
+    "order": 1,
     "deps": [
-      "sweeps/random/bias-random"
+      "ratings.duckdb"
     ]
   },
   "movielens/ML20M/als-biasedmf.qmd": {
@@ -240,19 +237,19 @@
       "sweeps/temporal/IKNN-Implicit-grid"
     ]
   },
-  "movielens/ML20M/splitting.qmd": {
-    "title": "ML20M Data Splitting",
-    "order": 1,
-    "deps": [
-      "ratings.duckdb"
-    ]
-  },
   "movielens/ML20M/summary.qmd": {
     "title": "ML20M Performance Summary",
     "order": 1,
     "deps": [
       "run-summary.csv",
       "run-user-metrics.parquet"
+    ]
+  },
+  "movielens/ML25M/splitting.qmd": {
+    "title": "ML25M Data Splitting",
+    "order": 1,
+    "deps": [
+      "ratings.duckdb"
     ]
   },
   "movielens/ML25M/als-biasedmf.qmd": {
@@ -267,6 +264,13 @@
     "echo": false,
     "deps": [
       "sweeps/temporal/ImplicitMF-ALS-grid"
+    ]
+  },
+  "movielens/ML25M/bias.qmd": {
+    "title": "Bias on ML25M",
+    "echo": false,
+    "deps": [
+      "sweeps/temporal/Bias-grid"
     ]
   },
   "movielens/ML25M/description.qmd": {
@@ -291,13 +295,6 @@
       "sweeps/temporal/IKNN-Implicit-grid"
     ]
   },
-  "movielens/ML25M/splitting.qmd": {
-    "title": "ML25M Data Splitting",
-    "order": 1,
-    "deps": [
-      "ratings.duckdb"
-    ]
-  },
   "movielens/ML25M/summary.qmd": {
     "title": "ML25M Performance Summary",
     "order": 1,
@@ -306,11 +303,11 @@
       "run-user-metrics.parquet"
     ]
   },
-  "movielens/ML25M/bias.qmd": {
-    "title": "Bias on ML25M",
-    "echo": false,
+  "movielens/ML32M/splitting.qmd": {
+    "title": "ML32M Data Splitting",
+    "order": 1,
     "deps": [
-      "sweeps/temporal/Bias-grid"
+      "ratings.duckdb"
     ]
   },
   "movielens/ML32M/description.qmd": {
@@ -321,11 +318,14 @@
       "stats.duckdb"
     ]
   },
-  "movielens/ML32M/splitting.qmd": {
-    "title": "ML32M Data Splitting",
-    "order": 1,
+  "amazon/2023-5core/index.qmd": {
+    "title": "2023 5-core",
+    "echo": false,
     "deps": [
-      "ratings.duckdb"
+      "stats.duckdb"
     ]
+  },
+  "eval-meta/attention.qmd": {
+    "title": "Rank-Biasing Attention Models"
   }
 }
