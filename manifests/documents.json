@@ -45,12 +45,11 @@
       "sweeps/random/IKNN-Implicit-grid"
     ]
   },
-  "movielens/ML100K/summary.qmd": {
-    "title": "ML100K Performance Summary",
-    "order": 1,
+  "movielens/ML100K/flexmf-bpr.qmd": {
+    "title": "FlexMF BPR on ML100K",
+    "echo": false,
     "deps": [
-      "run-summary.csv",
-      "run-user-metrics.parquet"
+      "sweeps/random/flexmf-bpr-random"
     ]
   },
   "movielens/ML100K/als-biased.qmd": {
@@ -72,6 +71,21 @@
     "echo": false,
     "deps": [
       "sweeps/random/flexmf-explicit-random"
+    ]
+  },
+  "movielens/ML100K/summary.qmd": {
+    "title": "ML100K Performance Summary",
+    "order": 1,
+    "deps": [
+      "run-summary.csv",
+      "run-user-metrics.parquet"
+    ]
+  },
+  "movielens/ML100K/flexmf-logistic.qmd": {
+    "title": "FlexMF Logistic on ML100K",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-logistic-random"
     ]
   },
   "movielens/ML10M/als-biasedmf.qmd": {

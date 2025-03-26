@@ -52,6 +52,15 @@ stages:
       - movielens/ML100K/stats.duckdb
     outs:
       - _freeze/movielens/ML100K/description
+  page/movielens/ML100K/flexmf-bpr:
+    cmd: quarto render movielens/ML100K/flexmf-bpr.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML100K/flexmf-bpr.qmd
+      - movielens/ML100K/sweeps/random/flexmf-bpr-random
+    outs:
+      - _freeze/movielens/ML100K/flexmf-bpr
   page/movielens/ML100K/flexmf-explicit:
     cmd: quarto render movielens/ML100K/flexmf-explicit.qmd --profile prerender
     deps:
@@ -61,6 +70,15 @@ stages:
       - movielens/ML100K/sweeps/random/flexmf-explicit-random
     outs:
       - _freeze/movielens/ML100K/flexmf-explicit
+  page/movielens/ML100K/flexmf-logistic:
+    cmd: quarto render movielens/ML100K/flexmf-logistic.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML100K/flexmf-logistic.qmd
+      - movielens/ML100K/sweeps/random/flexmf-logistic-random
+    outs:
+      - _freeze/movielens/ML100K/flexmf-logistic
   page/movielens/ML100K/iknn-explicit:
     cmd: quarto render movielens/ML100K/iknn-explicit.qmd --profile prerender
     deps:
