@@ -2570,3 +2570,25 @@ stages:
       md5: ba6abb3a08287e9fa74c3eb37e009434.dir
       size: 3866492
       nfiles: 4
+  sweep-flexmf-bpr-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-random
+    deps:
+    - path: ../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: b9b53df4be8c7e803f5c7d03b63fafce
+      size: 662
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: sweeps/temporal/flexmf-bpr-random
+      hash: md5
+      md5: d08cef12dd5fe3526a91938aa3ec3abb.dir
+      size: 397066
+      nfiles: 5
+    - path: sweeps/temporal/flexmf-bpr-random.json
+      hash: md5
+      md5: 81c6841623baeae582ffd076cfc9e2e2
+      size: 858
