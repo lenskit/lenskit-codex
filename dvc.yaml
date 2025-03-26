@@ -85,7 +85,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML100K/iknn-explicit.qmd
-      - movielens/ML100K/sweeps/random/IKNN-Explicit-grid
+      - movielens/ML100K/sweeps/random/iknn-explicit-random
     outs:
       - _freeze/movielens/ML100K/iknn-explicit
   page/movielens/ML100K/iknn-implicit:
@@ -94,7 +94,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML100K/iknn-implicit.qmd
-      - movielens/ML100K/sweeps/random/IKNN-Implicit-grid
+      - movielens/ML100K/sweeps/random/iknn-implicit-random
     outs:
       - _freeze/movielens/ML100K/iknn-implicit
   page/movielens/ML100K/summary:
@@ -107,6 +107,24 @@ stages:
       - movielens/ML100K/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML100K/summary
+  page/movielens/ML100K/uknn-explicit:
+    cmd: quarto render movielens/ML100K/uknn-explicit.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML100K/uknn-explicit.qmd
+      - movielens/ML100K/sweeps/random/uknn-explicit-random
+    outs:
+      - _freeze/movielens/ML100K/uknn-explicit
+  page/movielens/ML100K/uknn-implicit:
+    cmd: quarto render movielens/ML100K/uknn-implicit.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML100K/uknn-implicit.qmd
+      - movielens/ML100K/sweeps/random/uknn-implicit-random
+    outs:
+      - _freeze/movielens/ML100K/uknn-implicit
   page/movielens/ML10M/als-biasedmf:
     cmd: quarto render movielens/ML10M/als-biasedmf.qmd --profile prerender
     deps:
