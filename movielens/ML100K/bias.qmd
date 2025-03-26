@@ -12,19 +12,14 @@ from codex.reporting.prelude import *
 ```
 
 ```{python}
+runs = load_sweep_runs('bias')
+```
+
+## Parameter Search Space
+
+```{python}
 from codex.models.bias import SEARCH_SPACE
-SEARCH_SPACE
-```
-
-```{python}
-sweep_dir = Path('sweeps/random')
-model_name = 'bias'
-```
-
-```{python}
-with open(sweep_dir / f'{model_name}-random' / 'trials.ndjson', 'rt') as jsf:
-    run_data = [json.loads(line) for line in jsf]
-random_runs = pd.json_normalize(run_data)
+show_param_space(SEARCH_SPACE)
 ```
 
 ## Metric Response
@@ -37,7 +32,7 @@ How does RMSE change with each setting independently?
 
 ```{python}
 (
-    pn.ggplot(random_runs)
+    pn.ggplot(runs)
     + pn.aes(x='config.damping.user', y='RMSE')
     + pn.geom_point()
 )
@@ -47,7 +42,7 @@ How does RMSE change with each setting independently?
 
 ```{python}
 (
-    pn.ggplot(random_runs)
+    pn.ggplot(runs)
     + pn.aes(x='config.damping.item', y='RMSE')
     + pn.geom_point()
 )
@@ -62,7 +57,7 @@ criteria is RMSE. The configuration with the best RMSE is:
 
 ```{python}
 pd.concat({
-    'Random': random_runs.nsmallest(1, 'RMSE')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
+    'Random': runs.nsmallest(1, 'RMSE')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
 }, names=['Method']).reset_index(-1, drop=True)
 ```
 
@@ -70,7 +65,7 @@ If we instead searched for RBP, we would select:
 
 ```{python}
 pd.concat({
-    'Random': random_runs.nlargest(1, 'RBP')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
+    'Random': runs.nlargest(1, 'RBP')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
 }, names=['Method']).reset_index(-1, drop=True)
 ```
 
@@ -80,7 +75,7 @@ What is the geometry of the search space?
 
 ```{python}
 (
-    pn.ggplot(random_runs)
+    pn.ggplot(runs)
     + pn.aes(x='config.damping.user', y='config.damping.item')
     + pn.geom_density_2d()
     + pn.scale_x_log10()

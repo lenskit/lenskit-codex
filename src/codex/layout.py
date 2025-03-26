@@ -1,6 +1,9 @@
 from os import PathLike
 from pathlib import Path
 
+import yaml
+from pydantic import BaseModel
+
 ROOT_DIR = Path(__file__).parent.parent.parent
 
 
@@ -17,3 +20,33 @@ def codex_relpath(path: str | PathLike[str]) -> Path:
     resolved = path.absolute()
     root = codex_root()
     return resolved.relative_to(root)
+
+
+class DataSetInfo(BaseModel, extra="forbid"):
+    """
+    Information for a data set.
+    """
+
+    name: str = "UNNAMED"
+    splits: list[str] = []
+
+    @property
+    def default_split(self) -> str:
+        if len(self.splits) != 1:
+            raise RuntimeError("no default split")
+        else:
+            return self.splits[0]
+
+
+def load_data_info(path: str | Path | None = None):
+    """
+    Load dataset info.
+    """
+    if path is None:
+        path = Path()
+    else:
+        path = Path(path)
+
+    with open(path / "dataset.yml", "rt") as yf:
+        data = yaml.safe_load(yf)
+    return DataSetInfo.model_validate(data)
