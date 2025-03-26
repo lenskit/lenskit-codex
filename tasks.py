@@ -99,3 +99,42 @@ def render_pipeline(c: Context):
             yaml.safe_dump(data, yf)
 
     c.run("dprint fmt '**/dvc.yaml'")
+
+
+@task
+def render_gitignore(c):
+    root = Path().resolve()
+    ignores = {}
+    for gi in glob("**/.gitignore", recursive=True, include_hidden=False):
+        gi_dir = Path(gi).parent.as_posix()
+        with open(gi, "rt") as gif:
+            ignores[gi_dir] = set(
+                line.strip() for line in gif if not re.match(r"^\s*(#.*)?$", line)
+            )
+
+    for dvc in glob("**/dvc.yaml", recursive=True, include_hidden=False):
+        pl_dir = Path(dvc).parent
+        with open(dvc, "rt") as yf:
+            pipe = yaml.safe_load(yf)
+        stages = pipe["stages"]
+        for stage in stages.values():
+            wdir = stage.get("wdir", None)
+            wdp = pl_dir if wdir is None else pl_dir / wdir
+            wdp = wdp.resolve()
+            for out in stage.get("outs", []):
+                if not isinstance(out, str):
+                    continue
+
+                out_p = wdp / out
+                out_p = out_p.resolve().relative_to(root)
+
+                out_dir = out_p.parent.as_posix()
+                if out_dir not in ignores:
+                    ignores[out_dir] = set()
+                ignores[out_dir].add("/" + out_p.name)
+
+    for d, ign in ignores.items():
+        fn = Path(d) / ".gitignore"
+        with fn.open("wt") as gif:
+            for f in sorted(ign):
+                print(f, file=gif)
