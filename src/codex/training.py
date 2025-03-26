@@ -9,6 +9,7 @@ from lenskit.training import TrainingOptions
 
 from codex.models import ModelDef, ModelFactory
 from codex.pipeline import base_pipeline, replace_scorer
+from codex.random import rng_seed
 from codex.runlog import CodexTask, DataModel, ScorerModel
 
 _log = structlog.stdlib.get_logger(__name__)
@@ -23,6 +24,8 @@ def train_task(
     rng: RNGInput | None = None,
 ) -> tuple[Pipeline, CodexTask]:
     log = _log.bind(name=model.name, config=params)
+    if rng is None:
+        rng = rng_seed("train", model.name)
     log.info("training model")
     with CodexTask(
         label=f"train {model.name}",
