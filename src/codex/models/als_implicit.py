@@ -1,7 +1,7 @@
 import ray.tune as rt
 from lenskit.als import ImplicitMFConfig, ImplicitMFScorer
 
-PREDICTOR = True
+PREDICTOR = False
 SCORER = ImplicitMFScorer
 DEFAULT_CONFIG = ImplicitMFConfig()
 
