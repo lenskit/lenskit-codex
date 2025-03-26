@@ -10,6 +10,8 @@ import pandas as pd
 import plotnine as pn
 import pyarrow as pa
 import pyarrow.compute as pc
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
 import tqdm
 from IPython.display import Markdown
 from itables import show as show_df
@@ -40,6 +42,8 @@ __all__ = [
     "pn",
     "pa",
     "pc",
+    "sm",
+    "smf",
     "show_df",
     "Markdown",
     "tabulate",

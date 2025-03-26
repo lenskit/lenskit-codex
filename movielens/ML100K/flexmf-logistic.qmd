@@ -40,6 +40,82 @@ With these metrics:
 rich.print(result)
 ```
 
+
+## Parameter Analysis
+
+### Embedding Size
+
+The embedding size is the hyperparameter that most affects the model's
+fundamental logic, so let's look at performance as a fufnction of it:
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.embedding_size', y='RBP')
+    + pn.geom_point()
+)
+```
+
+### Data Handling
+
+::: {.panel-tabset}
+
+
+#### Negative Count
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.negative_count', y='RBP')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='Negative Count')
+)
+```
+
+#### Postive Weight
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.positive_weight', y='RBP')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='Positive Weight')
+)
+```
+
+:::
+
+### Learning Parameters
+
+::: {.panel-tabset}
+
+#### Learning Rate
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.learning_rate', y='RBP')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+)
+```
+
+#### Regularization
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.regularization', y='RBP', color='config.reg_method', shape='config.reg_method')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(color='Reg. Method', shape='Reg. Method', x='Regularization')
+)
+```
+
+:::
+
 ## Iteration Completion
 
 How many iterations, on average, did we complete?
