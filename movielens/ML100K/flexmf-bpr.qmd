@@ -1,28 +1,28 @@
 ---
-title: ALS BiasedMF on ML100K
+title: FlexMF BPR on ML100K
 echo: false
 deps:
-- sweeps/random/als-biased-random
+- sweeps/random/flexmf-bpr-random
 ---
 
-This page analyzes the hyperparameter tuning results for biased matrix
-factorization with ALS.
+This page analyzes the hyperparameter tuning results for the FlexMF scorer in
+implicit-feedback mode with pairwise loss (Bayesian Personalized Ranking).
 
 ```{python}
 from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('als-biased')
-iters = load_sweep_iters('als-biased')
-result = load_sweep_result('als-biased')
+runs = load_sweep_runs('flexmf-bpr')
+iters = load_sweep_iters('flexmf-bpr')
+result = load_sweep_result('flexmf-bpr')
 best_id = result['trial_id']
 ```
 
 ## Parameter Search Space
 
 ```{python}
-from codex.models.als_biased import SEARCH_SPACE
+from codex.models.flexmf_bpr import SEARCH_SPACE
 show_param_space(SEARCH_SPACE)
 ```
 
@@ -51,60 +51,66 @@ fundamental logic, so let's look at performance as a fufnction of it:
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.embedding_size', y='RMSE')
+    + pn.aes(x='config.embedding_size', y='RBP')
     + pn.geom_point()
 )
 ```
+
+### Data Handling
+
+::: {.panel-tabset}
+
+
+#### Negative Count
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.negative_count', y='RBP')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='Negative Count')
+)
+```
+
+#### Postive Weight
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.positive_weight', y='RBP')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='Positive Weight')
+)
+```
+
+:::
 
 ### Learning Parameters
 
 ::: {.panel-tabset}
 
-#### User Reg.
+#### Learning Rate
 
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.regularization.user', y='RMSE')
+    + pn.aes(x='config.learning_rate', y='RBP')
     + pn.geom_point()
     + pn.scale_x_log10()
-    + pn.labs(x='User Regularization')
 )
 ```
 
-#### User Damp.
+#### Regularization
 
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.damping.user', y='RMSE')
+    + pn.aes(x='config.regularization', y='RBP', color='config.reg_method', shape='config.reg_method')
     + pn.geom_point()
     + pn.scale_x_log10()
-    + pn.labs(x='User Damping')
-)
-```
-
-#### Item Reg.
-
-```{python}
-(
-    pn.ggplot(runs)
-    + pn.aes(x='config.regularization.item', y='RMSE')
-    + pn.geom_point()
-    + pn.scale_x_log10()
-    + pn.labs(x='Item Regularization')
-)
-```
-
-#### Item Damp.
-
-```{python}
-(
-    pn.ggplot(runs)
-    + pn.aes(x='config.damping.item', y='RMSE')
-    + pn.geom_point()
-    + pn.scale_x_log10()
-    + pn.labs(x='Item Damping')
+    + pn.labs(color='Reg. Method', shape='Reg. Method', x='Regularization')
 )
 ```
 
@@ -128,7 +134,7 @@ How did the metric progress in the best result?
 best_iters = iters[iters['trial_id'] == best_id]
 (
     pn.ggplot(best_iters)
-    + pn.aes(x='training_iteration', y='RMSE')
+    + pn.aes(x='training_iteration', y='RBP')
     + pn.geom_line()
 )
 ```
@@ -142,7 +148,7 @@ full_trials = last_results['trial_id']
 full_iters = iters[iters['trial_id'].isin(full_trials)]
 (
     pn.ggplot(full_iters)
-    + pn.aes(x='training_iteration', y='RMSE', color='trial_id')
+    + pn.aes(x='training_iteration', y='RBP', color='trial_id')
     + pn.geom_line()
 )
 ```

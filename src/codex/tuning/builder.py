@@ -11,6 +11,7 @@ from lenskit.parallel import get_parallel_config
 from lenskit.splitting import TTSplit
 from lenskit.training import Trainable, TrainingOptions
 from matplotlib.pylab import default_rng
+from pydantic import JsonValue
 
 from codex.models import ModelDef
 from codex.random import rng_seed
@@ -37,6 +38,7 @@ class TuningBuilder:
     job_limit: int | None
     metric: str
     random_seed: np.random.SeedSequence
+    spec: dict[str, JsonValue]
 
     data_info: DataModel
     data: TTSplit
@@ -47,6 +49,13 @@ class TuningBuilder:
         self.list_length = list_length
         self.sample_count = sample_count
         self.metric = metric
+        self.spec = {
+            "model": model.name,
+            "metric": metric,
+            "mode": self.mode,
+            "list_length": list_length,
+            "sample_count": sample_count,
+        }
 
         self.job_limit = int(os.environ.get("TUNING_JOB_LIMIT", "8"))
         if self.job_limit <= 0:
@@ -71,6 +80,7 @@ class TuningBuilder:
             split=split.stem,
             part=test_part,
         )
+        self.spec["dataset"] = self.data_info.dataset
 
     def prepare_factory(self):
         self.factory = self.model.tuning_factory()
@@ -82,6 +92,7 @@ class TuningBuilder:
         self.log.info("setting up test harness")
 
         limit = self.model.options.get("max_epochs", DEFAULT_MAX_EPOCHS)
+
         assert isinstance(limit, int)
         self.job = TuningJobData(
             model_name=self.model.name,
@@ -94,8 +105,11 @@ class TuningBuilder:
         )
 
         if self.model.is_iterative:
+            self.spec["harness"] = "iterative"
+            self.spec["max_epochs"] = limit
             harness = IterativeEval(self.job)
         else:
+            self.spec["harness"] = "simple"
             harness = SimplePointEval(self.job)
 
         paracfg = get_parallel_config()
@@ -106,6 +120,7 @@ class TuningBuilder:
             job_limit=self.job_limit,
             num_samples=self.sample_count,
         )
+        self.spec["job_limit"] = self.job_limit
         self.harness = ray.tune.with_resources(
             harness, {"CPU": self.model.tuning_cpus, "GPU": self.model.tuning_gpus}
         )
@@ -116,6 +131,7 @@ class TuningBuilder:
         stopper = None
         if self.model.is_iterative:
             min_iter = self.model.options.get("min_epochs", 5)
+            self.spec["min_epochs"] = min_iter
             # max_epochs = self.model.options.get("max_epochs", DEFAULT_MAX_EPOCHS)
             assert isinstance(min_iter, int)
             # scheduler = ray.tune.schedulers.AsyncHyperBandScheduler(
@@ -126,9 +142,16 @@ class TuningBuilder:
             scheduler = ray.tune.schedulers.MedianStoppingRule(
                 grace_period=min_iter,
             )
+            self.spec["scheduler"] = "median-stopping"
             stopper = ray.tune.stopper.TrialPlateauStopper(
-                self.metric, grace_period=min_iter, num_results=5
+                self.metric, grace_period=min_iter, num_results=5, std=0.001
             )
+            self.spec["stopper"] = {
+                "type": "plateau",
+                "num_results": 5,
+                "std": 0.001,
+            }
+        self.spec["searcher"] = "random"
         searcher = ray.tune.search.BasicVariantGenerator(
             random_state=default_rng(self.random_seed.spawn(1)[0])
         )

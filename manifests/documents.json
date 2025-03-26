@@ -56,6 +56,20 @@
       "sweeps/random/IKNN-Implicit-grid"
     ]
   },
+  "movielens/ML100K/flexmf-bpr.qmd": {
+    "title": "FlexMF BPR on ML100K",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-bpr-random"
+    ]
+  },
+  "movielens/ML10M/splitting.qmd": {
+    "title": "ML10M Data Splitting",
+    "order": 1,
+    "deps": [
+      "ratings.duckdb"
+    ]
+  },
   "movielens/ML100K/summary.qmd": {
     "title": "ML100K Performance Summary",
     "order": 1,
@@ -64,11 +78,11 @@
       "run-user-metrics.parquet"
     ]
   },
-  "movielens/ML10M/splitting.qmd": {
-    "title": "ML10M Data Splitting",
-    "order": 1,
+  "movielens/ML100K/flexmf-logistic.qmd": {
+    "title": "FlexMF Logistic on ML100K",
+    "echo": false,
     "deps": [
-      "ratings.duckdb"
+      "sweeps/random/flexmf-logistic-random"
     ]
   },
   "movielens/ML10M/als-biasedmf.qmd": {

@@ -1,11 +1,11 @@
 ---
-title: Implicit Item KNN on ML100K
+title: Implicit User KNN on ML100K
 echo: false
 deps:
 - sweeps/random/iknn-implicit-random
 ---
 
-This page analyzes the hyperparameter tuning results for the Item KNN
+This page analyzes the hyperparameter tuning results for the User KNN
 explicit-feedback rating predictor.
 
 ```{python}
@@ -13,15 +13,15 @@ from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('iknn-implicit')
-result = load_sweep_result('iknn-implicit')
+runs = load_sweep_runs('uknn-implicit')
+result = load_sweep_result('uknn-implicit')
 best_id = result['trial_id']
 ```
 
 ## Parameter Search Space
 
 ```{python}
-from codex.models.iknn_implicit import SEARCH_SPACE
+from codex.models.uknn_implicit import SEARCH_SPACE
 show_param_space(SEARCH_SPACE)
 ```
 
