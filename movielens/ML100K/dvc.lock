@@ -459,16 +459,36 @@ stages:
       md5: 4f437e5853f3c7a0695eabed44e9163f.dir
       size: 627030
       nfiles: 5
+    - path: runs/random/flexmf-bpr-default
+      hash: md5
+      md5: 4b5b7d2f4c9f931536471960452a7167.dir
+      size: 682678
+      nfiles: 4
+    - path: runs/random/flexmf-bpr-random-best
+      hash: md5
+      md5: 79ff467e89b5c788d87e67e25a5c9131.dir
+      size: 688183
+      nfiles: 4
     - path: runs/random/flexmf-explicit-default
       hash: md5
-      md5: 4909a6a06ad41c178cd8208ec27d8dc7.dir
-      size: 712123
+      md5: 0ed09b9f423a450efe61200c73bd7c01.dir
+      size: 715645
       nfiles: 5
     - path: runs/random/flexmf-explicit-random-best
       hash: md5
-      md5: cb39e0e2a23d99f3b9f4500cd1d1475f.dir
-      size: 713319
+      md5: 69a397cad7f5080abc542cd947fb00e7.dir
+      size: 718660
       nfiles: 5
+    - path: runs/random/flexmf-logistic-default
+      hash: md5
+      md5: ed6bf983d6cad531bf7af79598f2a9da.dir
+      size: 683892
+      nfiles: 4
+    - path: runs/random/flexmf-logistic-random-best
+      hash: md5
+      md5: 80d8ebf8a1edd65d0fd293055c0fcf31.dir
+      size: 708886
+      nfiles: 4
     - path: runs/random/iknn-explicit-default
       hash: md5
       md5: 865f67327e9e4d3e21db43b91fc41a85.dir
@@ -527,12 +547,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 6a3996fa5180c35e5f0f0cd1888bc772
-      size: 27940
+      md5: 3c726dd9bfcc317327ca3be9931ed44e
+      size: 34156
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 61bcc803d1c055429c403c71245285f0
-      size: 341252
+      md5: a1285193958e25aabf5cf3e0c95f534d
+      size: 398506
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit-grid.json
       --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/IKNN-Implicit
@@ -2259,8 +2279,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
       hash: md5
-      md5: 4e647848a23d20168bdde9be5f35fb6c
-      size: 423
+      md5: aa10428eb2dc2858a87becd3cb4027dd
+      size: 527
     - path: dataset
       hash: md5
       md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
@@ -2273,8 +2293,8 @@ stages:
     outs:
     - path: runs/random/flexmf-explicit-default
       hash: md5
-      md5: 4909a6a06ad41c178cd8208ec27d8dc7.dir
-      size: 712123
+      md5: 0ed09b9f423a450efe61200c73bd7c01.dir
+      size: 715645
       nfiles: 5
   sweep-flexmf-explicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
@@ -2282,8 +2302,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
       hash: md5
-      md5: 4e647848a23d20168bdde9be5f35fb6c
-      size: 423
+      md5: aa10428eb2dc2858a87becd3cb4027dd
+      size: 527
     - path: splits/random.parquet
       hash: md5
       md5: 4c00bff3d3a51715464e1775b2997cb6
@@ -2291,13 +2311,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-explicit-random
       hash: md5
-      md5: d34a03ad7a6f7fa1572c7a43b1e5db5a.dir
-      size: 716226
+      md5: 803d3aa3deee1e41bb3ec086cebd1b9b.dir
+      size: 1091233
       nfiles: 4
     - path: sweeps/random/flexmf-explicit-random.json
       hash: md5
-      md5: 68a54b6e84c5ab296c5528d451d88187
-      size: 772
+      md5: 0802953152a93a336c48ffa60b745706
+      size: 806
   run-random-random-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-explicit-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-explicit-random-best
@@ -2305,8 +2325,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
       hash: md5
-      md5: 4e647848a23d20168bdde9be5f35fb6c
-      size: 423
+      md5: aa10428eb2dc2858a87becd3cb4027dd
+      size: 527
     - path: dataset
       hash: md5
       md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
@@ -2318,13 +2338,13 @@ stages:
       size: 56492
     - path: sweeps/random/flexmf-explicit-random.json
       hash: md5
-      md5: 68a54b6e84c5ab296c5528d451d88187
-      size: 772
+      md5: 0802953152a93a336c48ffa60b745706
+      size: 806
     outs:
     - path: runs/random/flexmf-explicit-random-best
       hash: md5
-      md5: cb39e0e2a23d99f3b9f4500cd1d1475f.dir
-      size: 713319
+      md5: 69a397cad7f5080abc542cd947fb00e7.dir
+      size: 718660
       nfiles: 5
   sweep-flexmf-bpr-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
@@ -2341,13 +2361,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-bpr-random
       hash: md5
-      md5: 345e77f1907bc50504bf9d2e7587452f.dir
-      size: 749813
+      md5: c5597103514897f34e4114ea25495372.dir
+      size: 747305
       nfiles: 4
     - path: sweeps/random/flexmf-bpr-random.json
       hash: md5
-      md5: 4661715296d78ff3ac3c7928b72c6ecd
-      size: 855
+      md5: 0b012320ae58b5572c1d13d5c5286b19
+      size: 838
   sweep-flexmf-logistic-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
       flexmf-logistic sweeps/random/flexmf-logistic-random
@@ -2370,3 +2390,105 @@ stages:
       hash: md5
       md5: 2798c46f57f74d4b8a4d94b6e2930b14
       size: 842
+  run-random-default-flexmf-bpr:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/flexmf-bpr-default flexmf-bpr
+    deps:
+    - path: ../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: b9b53df4be8c7e803f5c7d03b63fafce
+      size: 662
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    outs:
+    - path: runs/random/flexmf-bpr-default
+      hash: md5
+      md5: 4b5b7d2f4c9f931536471960452a7167.dir
+      size: 682678
+      nfiles: 4
+  run-random-default-flexmf-logistic:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/flexmf-logistic-default flexmf-logistic
+    deps:
+    - path: ../../src/codex/models/flexmf_logistic.py
+      hash: md5
+      md5: 0b502b505b0cdb0d1200ef05435d7431
+      size: 662
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    outs:
+    - path: runs/random/flexmf-logistic-default
+      hash: md5
+      md5: ed6bf983d6cad531bf7af79598f2a9da.dir
+      size: 683892
+      nfiles: 4
+  run-random-random-best-flexmf-bpr:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-bpr-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-bpr-random-best
+      flexmf-bpr
+    deps:
+    - path: ../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: b9b53df4be8c7e803f5c7d03b63fafce
+      size: 662
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    - path: sweeps/random/flexmf-bpr-random.json
+      hash: md5
+      md5: 0b012320ae58b5572c1d13d5c5286b19
+      size: 838
+    outs:
+    - path: runs/random/flexmf-bpr-random-best
+      hash: md5
+      md5: 79ff467e89b5c788d87e67e25a5c9131.dir
+      size: 688183
+      nfiles: 4
+  run-random-random-best-flexmf-logistic:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-logistic-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-logistic-random-best
+      flexmf-logistic
+    deps:
+    - path: ../../src/codex/models/flexmf_logistic.py
+      hash: md5
+      md5: 0b502b505b0cdb0d1200ef05435d7431
+      size: 662
+    - path: dataset
+      hash: md5
+      md5: 7d2d8a242c5d8702c4ceafad926b96f3.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 4c00bff3d3a51715464e1775b2997cb6
+      size: 56492
+    - path: sweeps/random/flexmf-logistic-random.json
+      hash: md5
+      md5: 2798c46f57f74d4b8a4d94b6e2930b14
+      size: 842
+    outs:
+    - path: runs/random/flexmf-logistic-random-best
+      hash: md5
+      md5: 80d8ebf8a1edd65d0fd293055c0fcf31.dir
+      size: 708886
+      nfiles: 4
