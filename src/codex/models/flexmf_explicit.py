@@ -1,4 +1,5 @@
 import ray.tune as rt
+import torch
 from lenskit.flexmf import FlexMFExplicitConfig, FlexMFExplicitScorer
 
 PREDICTOR = True
@@ -13,3 +14,6 @@ SEARCH_SPACE = {
 }
 
 OPTIONS = {"max_epochs": 50}
+# we can train on CPU, it's just slower
+if torch.cuda.is_available():
+    TUNE_GPUS = 0.25
