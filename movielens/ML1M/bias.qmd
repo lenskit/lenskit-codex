@@ -5,17 +5,10 @@ deps:
 - sweeps/random/bias-random
 ---
 
-```{python}
-import json
-from pathlib import Path
-import pandas as pd
-import numpy as np
-import plotnine as pn
-import matplotlib.pyplot as plt
-```
+This page analyzes the hyperparameter tuning results for the bias model.
 
 ```{python}
-from codex.reporting.plots import DEFAULTS
+from codex.reporting.prelude import *
 ```
 
 ```{python}
@@ -23,13 +16,60 @@ sweep_dir = Path('sweeps/random')
 model_name = 'bias'
 ```
 
-## Random Search
-
 ```{python}
 with open(sweep_dir / f'{model_name}-random' / 'trials.ndjson', 'rt') as jsf:
     run_data = [json.loads(line) for line in jsf]
 random_runs = pd.json_normalize(run_data)
 ```
+
+## Metric Response
+
+How does RMSE change with each setting independently?
+
+::: {.panel-tabset}
+
+### User Damping
+
+```{python}
+(
+    pn.ggplot(random_runs)
+    + pn.aes(x='config.damping.user', y='RMSE')
+    + pn.geom_point()
+)
+```
+
+### Item Damping
+
+```{python}
+(
+    pn.ggplot(random_runs)
+    + pn.aes(x='config.damping.item', y='RMSE')
+    + pn.geom_point()
+)
+```
+
+:::
+
+## Best Configurations
+
+Since this is an explicit-feedback rating prediction model, our primary search
+criteria is RMSE. The configuration with the best RMSE is:
+
+```{python}
+pd.concat({
+    'Random': random_runs.nsmallest(1, 'RMSE')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
+}, names=['Method']).reset_index(-1, drop=True)
+```
+
+If we instead searched for RBP, we would select:
+
+```{python}
+pd.concat({
+    'Random': random_runs.nlargest(1, 'RBP')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
+}, names=['Method']).reset_index(-1, drop=True)
+```
+
+## Search Geometry
 
 What is the geometry of the search space?
 
@@ -41,42 +81,4 @@ What is the geometry of the search space?
     + pn.scale_x_log10()
     + pn.scale_y_log10()
 )
-```
-
-How does RMSE change with each setting independently?
-
-```{python}
-(
-    pn.ggplot(random_runs)
-    + pn.aes(x='config.damping.user', y='RMSE')
-    + pn.geom_point()
-    + pn.geom_smooth()
-)
-```
-
-```{python}
-(
-    pn.ggplot(random_runs)
-    + pn.aes(x='config.damping.item', y='RMSE')
-    + pn.geom_point()
-    + pn.geom_smooth(method='lm')
-)
-```
-
-## Best Configurations
-
-Best by RMSE:
-
-```{python}
-pd.concat({
-    'Random': random_runs.nsmallest(1, 'RMSE')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
-}, names=['Method']).reset_index(-1, drop=True)
-```
-
-Best by RBP:
-
-```{python}
-pd.concat({
-    'Random': random_runs.nlargest(1, 'RBP')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
-}, names=['Method']).reset_index(-1, drop=True)
 ```

@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 import duckdb
 import matplotlib.pyplot as plt
 import numpy as np
@@ -12,6 +15,8 @@ from tabulate import tabulate
 from .plots import DEFAULTS, label_memory, scale_x_memory, scale_y_memory
 
 __all__ = [
+    "json",
+    "Path",
     "duckdb",
     "plt",
     "np",

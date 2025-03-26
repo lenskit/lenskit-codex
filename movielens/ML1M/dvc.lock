@@ -1393,8 +1393,8 @@ stages:
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
-      md5: 40e4db1c37e4058f292a549e47b1e3e2
-      size: 324
+      md5: 79d1ef7f11afd2f4a19828a1c0d1072d
+      size: 322
     - path: splits/random.parquet
       hash: md5
       md5: e76a6b995411abb5ba2ade811e7f8d1f
@@ -1402,13 +1402,13 @@ stages:
     outs:
     - path: sweeps/random/bias-random
       hash: md5
-      md5: f3abf9df553c2012ac06008748d6a8c8.dir
-      size: 1784634
-      nfiles: 405
+      md5: 00a19ae667484f99daf17517657ed5fd.dir
+      size: 392035
+      nfiles: 3
     - path: sweeps/random/bias-random.json
       hash: md5
-      md5: 9436702d3e53c738787fcc6e23afc606
-      size: 784
+      md5: 129fbea96ad1efdf76baf45e5fd392d8
+      size: 790
   run-random-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=ML1M
       --split=splits/random.toml -o runs/random/bias-random-best bias
