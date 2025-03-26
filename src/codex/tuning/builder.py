@@ -113,6 +113,7 @@ class TuningBuilder:
     def create_random_tuner(self):
         ray_store = self.out_dir / "state"
         scheduler = None
+        stopper = None
         if self.model.is_iterative:
             min_iter = self.model.options.get("min_epochs", 5)
             # max_epochs = self.model.options.get("max_epochs", DEFAULT_MAX_EPOCHS)
@@ -125,6 +126,7 @@ class TuningBuilder:
             scheduler = ray.tune.schedulers.MedianStoppingRule(
                 grace_period=min_iter,
             )
+            stopper = ray.tune.stopper.TrialPlateauStopper(self.metric, grace_period=min_iter)
         searcher = ray.tune.search.BasicVariantGenerator(
             random_state=default_rng(self.random_seed.spawn(1)[0])
         )
@@ -145,7 +147,7 @@ class TuningBuilder:
                 progress_reporter=ProgressReport(),
                 failure_config=ray.tune.FailureConfig(fail_fast=True),
                 callbacks=[StatusCallback(self.model.name, self.data_info.dataset)],
-                stop=ray.tune.stopper.TrialPlateauStopper(self.metric),
+                stop=stopper,
             ),
         )
         return self.tuner
