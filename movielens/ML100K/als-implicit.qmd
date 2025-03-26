@@ -1,0 +1,78 @@
+---
+title: ALS ImplicitMF on ML100K
+echo: false
+deps:
+- sweeps/random/ImplicitMF-ALS-grid
+---
+
+This page analyzes the hyperparameter tuning results for implicit-feedback
+matrix factorization with ALS.
+
+```{python}
+from codex.reporting.prelude import *
+```
+
+```{python}
+runs = load_sweep_runs('als-implicit')
+iters = load_sweep_iters('als-implicit')
+result = load_sweep_result('als-implicit')
+best_id = result['trial_id']
+```
+
+## Parameter Search Space
+
+```{python}
+from codex.models.als_biased import SEARCH_SPACE
+show_param_space(SEARCH_SPACE)
+```
+
+## Final Result
+
+Searching selected the following configuration:
+
+```{python}
+rich.print(result['config'])
+```
+
+With these metrics:
+
+```{python}
+rich.print(result)
+```
+
+## Iteration Completion
+
+How many iterations, on average, did we complete?
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='training_iteration')
+    + pn.geom_histogram(binwidth=1)
+)
+```
+
+How did the metric progress in the best result?
+
+```{python}
+best_iters = iters[iters['trial_id'] == best_id]
+(
+    pn.ggplot(best_iters)
+    + pn.aes(x='training_iteration', y='RBP')
+    + pn.geom_line()
+)
+```
+
+How did the metric progress in the best, longest result?
+
+```{python}
+max_iter = iters['training_iteration'].max()
+last_results = iters[iters['training_iteration'] == max_iter]
+full_trials = last_results['trial_id']
+full_iters = iters[iters['trial_id'].isin(full_trials)]
+(
+    pn.ggplot(full_iters)
+    + pn.aes(x='training_iteration', y='RBP', color='trial_id')
+    + pn.geom_line()
+)
+```

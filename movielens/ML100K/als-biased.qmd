@@ -16,6 +16,7 @@ from codex.reporting.prelude import *
 runs = load_sweep_runs('als-biased')
 iters = load_sweep_iters('als-biased')
 result = load_sweep_result('als-biased')
+best_id = result['trial_id']
 ```
 
 ## Parameter Search Space
@@ -27,8 +28,16 @@ show_param_space(SEARCH_SPACE)
 
 ## Final Result
 
+Searching selected the following configuration:
+
 ```{python}
 rich.print(result['config'])
+```
+
+With these metrics:
+
+```{python}
+rich.print(result)
 ```
 
 ## Iteration Completion
@@ -40,5 +49,16 @@ How many iterations, on average, did we complete?
     pn.ggplot(runs)
     + pn.aes(x='training_iteration')
     + pn.geom_histogram(binwidth=1)
+)
+```
+
+How did the metric progress in the best result?
+
+```{python}
+best_iters = iters[iters['trial_id'] == best_id]
+(
+    pn.ggplot(best_iters)
+    + pn.aes(x='training_iteration', y='RMSE')
+    + pn.geom_line()
 )
 ```
