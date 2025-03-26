@@ -128,3 +128,14 @@ rpow['stage'] = rpow['variable'].str.split('_', expand=True)[0]
     + pn.scale_fill_brewer(type="qual", palette="Dark2")
 )
 ```
+
+## Leaderboard Table
+
+This provides quick numeric access to the model results by mean metric.  Note, however,
+that simple means can be misleading!
+
+```{python}
+run_summary = user_metrics.groupby(['model', 'variant'], observed=True)[['RBP', 'NDCG', 'RecipRank']].mean()
+run_summary = run_summary.sort_values('RBP', ascending=False)
+show_df(run_summary.style.format("{:.3f}"))
+```
