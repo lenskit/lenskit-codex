@@ -4,6 +4,7 @@ stages:
       -L runs/manifest.csv
     deps:
       - runs/temporal/als-biased-default
+      - runs/temporal/als-implicit-default
       - runs/temporal/bias-default
       - runs/temporal/iknn-explicit-default
       - runs/temporal/iknn-implicit-default
@@ -12,6 +13,7 @@ stages:
       - runs/temporal/uknn-explicit-default
       - runs/temporal/uknn-implicit-default
       - runs/temporal/als-biased-random-best
+      - runs/temporal/als-implicit-random-best
       - runs/temporal/bias-random-best
       - runs/temporal/iknn-explicit-random-best
       - runs/temporal/iknn-implicit-random-best
@@ -36,6 +38,15 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/als-biased-default
+  run-temporal-default-als-implicit:
+    cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
+      -o runs/temporal/als-implicit-default als-implicit
+    deps:
+      - ../../src/codex/models/als_implicit.py
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/als-implicit-default
   run-temporal-default-bias:
     cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
       -o runs/temporal/bias-default bias
@@ -110,6 +121,17 @@ stages:
       - sweeps/temporal/als-biased-random.json
     outs:
       - runs/temporal/als-biased-random-best
+  run-temporal-random-best-als-implicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/als-implicit-random.json
+      --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/als-implicit-random-best
+      als-implicit
+    deps:
+      - ../../src/codex/models/als_implicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/als-implicit-random.json
+    outs:
+      - runs/temporal/als-implicit-random-best
   run-temporal-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/temporal/bias-random.json --ds-name=ML10M
       --split=splits/temporal.toml -o runs/temporal/bias-random-best bias
@@ -191,6 +213,16 @@ stages:
     outs:
       - sweeps/temporal/als-biased-random
       - sweeps/temporal/als-biased-random.json:
+          cache: false
+  sweep-als-implicit-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RBP als-implicit sweeps/temporal/als-implicit-random
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/als_implicit.py
+    outs:
+      - sweeps/temporal/als-implicit-random
+      - sweeps/temporal/als-implicit-random.json:
           cache: false
   sweep-bias-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random

@@ -4,6 +4,7 @@ stages:
       -L runs/manifest.csv
     deps:
       - runs/random/als-biased-default
+      - runs/random/als-implicit-default
       - runs/random/bias-default
       - runs/random/iknn-explicit-default
       - runs/random/iknn-implicit-default
@@ -12,6 +13,7 @@ stages:
       - runs/random/uknn-explicit-default
       - runs/random/uknn-implicit-default
       - runs/random/als-biased-random-best
+      - runs/random/als-implicit-random-best
       - runs/random/bias-random-best
       - runs/random/iknn-explicit-random-best
       - runs/random/iknn-implicit-random-best
@@ -36,6 +38,15 @@ stages:
       - splits/random.parquet
     outs:
       - runs/random/als-biased-default
+  run-random-default-als-implicit:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/als-implicit-default als-implicit
+    deps:
+      - ../../src/codex/models/als_implicit.py
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/als-implicit-default
   run-random-default-bias:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/bias-default bias
@@ -110,6 +121,17 @@ stages:
       - sweeps/random/als-biased-random.json
     outs:
       - runs/random/als-biased-random-best
+  run-random-random-best-als-implicit:
+    cmd: lenskit codex generate --param-file sweeps/random/als-implicit-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/als-implicit-random-best
+      als-implicit
+    deps:
+      - ../../src/codex/models/als_implicit.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/als-implicit-random.json
+    outs:
+      - runs/random/als-implicit-random-best
   run-random-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=ML100K
       --split=splits/random.toml -o runs/random/bias-random-best bias
@@ -202,6 +224,16 @@ stages:
     outs:
       - sweeps/random/als-biased-random
       - sweeps/random/als-biased-random.json:
+          cache: false
+  sweep-als-implicit-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
+      als-implicit sweeps/random/als-implicit-random
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/als_implicit.py
+    outs:
+      - sweeps/random/als-implicit-random
+      - sweeps/random/als-implicit-random.json:
           cache: false
   sweep-bias-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
