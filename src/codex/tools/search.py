@@ -69,6 +69,8 @@ def run_sweep(
     controller = TuningBuilder(mod_def, out, list_length, sample_count, metric)
     controller.load_data(split, test_part, ds_name)
 
+    out.mkdir(exist_ok=True, parents=True)
+
     ensure_cluster_init()
 
     with (
@@ -82,6 +84,9 @@ def run_sweep(
         controller.prepare_factory()
         controller.setup_harness()
         tuner = controller.create_random_tuner()
+
+        with open(out / "config.json", "wt") as jsf:
+            print(to_json(controller.spec, indent=2).decode(), file=jsf)
 
         log.info("starting hyperparameter search")
         results = tuner.fit()
