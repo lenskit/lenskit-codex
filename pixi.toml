@@ -84,6 +84,9 @@ ipython = ">=8"
 jupyterlab = "*"
 parquet-tools = ">=0.2.16,<0.3"
 
+[feature.dev.target.linux.dependencies]
+cupy = "~=13.4"
+
 [environments]
 default = { features = ["run", "analyze"], solve-group = "main" }
 publish = { features = ["nomkl"] }
