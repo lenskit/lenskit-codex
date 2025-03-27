@@ -74,13 +74,19 @@ class ProgressReport(ray.tune.ProgressReporter):
                     and "training_iteration" in trial.last_result
                 ):
                     tp = self._task_bars.get(trial.trial_id, None)
-                    if tp is None:
-                        bar = item_progress("Trial " + trial.trial_id, fields={self.metric: ".3f"})
-                        tp = TrialProgress(bar, 0)
-                        self._task_bars[trial.trial_id] = tp
                     if trial.last_result and trial.last_result.get("training_iteration", None):
                         epoch = trial.last_result["training_iteration"]
                         t_total = trial.last_result.get("max_epochs", None)
+
+                        if tp is None:
+                            bar = item_progress(
+                                "Trial " + trial.trial_id,
+                                total=t_total,
+                                fields={self.metric: ".3f"},
+                            )
+                            tp = TrialProgress(bar, 0)
+                            self._task_bars[trial.trial_id] = tp
+
                         if epoch > tp.count:
                             tp.bar.update(
                                 epoch - tp.count,
