@@ -101,9 +101,13 @@ How did the metric progress in the best result?
 
 ```{python}
 best_iters = iters[iters['trial_id'] == best_id]
+best_scores = best_iters.set_index('training_iteration')['RMSE']
+med_scores = iters.groupby('training_iteration')['RMSE'].median()
+iter_scores = pd.concat({'Best': best_scores, 'Median': med_scores}, names=['Run'])
+iter_scores = iter_scores.reset_index()
 (
-    pn.ggplot(best_iters)
-    + pn.aes(x='training_iteration', y='RMSE')
+    pn.ggplot(iter_scores)
+    + pn.aes(x='training_iteration', y='RMSE', color='Run')
     + pn.geom_line()
 )
 ```
