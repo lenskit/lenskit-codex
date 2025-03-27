@@ -84,4 +84,5 @@ class IterativeEval:
                 elog.debug("measuring iteration results")
                 metrics = measure(mod_def, results, data, task, None)
                 send_task(task)
+                elog.info("epoch complete")
                 ray.tune.report(metrics)
