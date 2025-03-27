@@ -25,12 +25,14 @@ class StatusCallback(ray.tune.Callback):
 
 
 class ProgressReport(ray.tune.ProgressReporter):
+    job_name: str | None = None
     metric = None
     mode = None
     best_metric = None
 
-    def __init__(self):
+    def __init__(self, name: str | None = None):
         super().__init__()
+        self.job_name = name
         self.done = set()
 
     def setup(self, start_time=None, total_samples=None, metric=None, mode=None, **kwargs):
@@ -38,7 +40,8 @@ class ProgressReport(ray.tune.ProgressReporter):
 
         _log.info("setting up tuning status", total_samples=total_samples, metric=metric, mode=mode)
         extra = {metric: ".3f"} if metric is not None else {}
-        self._bar = item_progress("Tuning trials", total_samples, extra)
+        label = "Tuning " + (self.job_name or "trials")
+        self._bar = item_progress(label, total_samples, extra)
         self._task_bars = {}
         self.metric = metric
         self.mode = mode
@@ -74,26 +77,24 @@ class ProgressReport(ray.tune.ProgressReporter):
                     and "training_iteration" in trial.last_result
                 ):
                     tp = self._task_bars.get(trial.trial_id, None)
-                    if trial.last_result and trial.last_result.get("training_iteration", None):
-                        epoch = trial.last_result["training_iteration"]
-                        t_total = trial.last_result.get("max_epochs", None)
+                    epoch = trial.last_result["training_iteration"]
+                    t_total = trial.last_result.get("max_epochs", None)
+                    if tp is None:
+                        bar = item_progress(
+                            "Trial " + trial.trial_id,
+                            total=t_total,
+                            fields={self.metric: ".3f"},
+                        )
+                        tp = TrialProgress(bar, 0)
+                        self._task_bars[trial.trial_id] = tp
 
-                        if tp is None:
-                            bar = item_progress(
-                                "Trial " + trial.trial_id,
-                                total=t_total,
-                                fields={self.metric: ".3f"},
-                            )
-                            tp = TrialProgress(bar, 0)
-                            self._task_bars[trial.trial_id] = tp
-
-                        if epoch > tp.count:
-                            tp.bar.update(
-                                epoch - tp.count,
-                                total=t_total,
-                                **{self.metric: trial.last_result[self.metric]},
-                            )
-                            tp.count = epoch
+                    if epoch > tp.count:
+                        tp.bar.update(
+                            epoch - tp.count,
+                            total=t_total,
+                            **{self.metric: trial.last_result[self.metric]},
+                        )
+                        tp.count = epoch
 
             extra = {self.metric: self.best_metric or np.nan}
             self._bar.update(n_new, total=total, **extra)
