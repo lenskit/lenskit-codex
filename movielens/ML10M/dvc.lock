@@ -2338,13 +2338,13 @@ stages:
       md5: 2b1061cbbfa51d5ea4849e7b03da0add
       size: 771
   sweep-iknn-explicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
-      --random --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-random
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: 316f07ec05ddea50963754b2ed277b5a
-      size: 1522
+      md5: c8c56d4290ddce217c25b839ad71d566
+      size: 1490
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -2352,21 +2352,21 @@ stages:
     outs:
     - path: sweeps/temporal/iknn-explicit-random
       hash: md5
-      md5: cd6fe9772d0f6be8772edab2df33c543.dir
-      size: 239983
-      nfiles: 3
+      md5: 7e5c0a80a7971bf0ee7211c7addd51a4.dir
+      size: 396277
+      nfiles: 4
     - path: sweeps/temporal/iknn-explicit-random.json
       hash: md5
-      md5: 28e7cc02f1a4ae1e2bf0009f17d41036
-      size: 787
+      md5: 56c728b367d20ea05d61f4dcfcb245ce
+      size: 807
   sweep-iknn-implicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
-      --random --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 7d17f4511163bddf9e0dc0b66ce9c19a
-      size: 1462
+      md5: 8086baf7fbf099e8e4090a30220756b9
+      size: 1430
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -2374,13 +2374,13 @@ stages:
     outs:
     - path: sweeps/temporal/iknn-implicit-random
       hash: md5
-      md5: 56d3380715aa3a0bf35eddbf0940f1d5.dir
-      size: 233663
-      nfiles: 3
+      md5: edba3a551ef8bbfac554bbb0c70e7b23.dir
+      size: 384772
+      nfiles: 4
     - path: sweeps/temporal/iknn-implicit-random.json
       hash: md5
-      md5: 44e69e627a542f07e311130953315beb
-      size: 767
+      md5: 213668b656eea7ce8348b68625a531e5
+      size: 765
   run-temporal-random-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/iknn-explicit-random.json
       --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-random-best
