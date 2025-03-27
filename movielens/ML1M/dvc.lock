@@ -1824,3 +1824,25 @@ stages:
       md5: 84da1010e0b40a38802f637be2450ce3.dir
       size: 3755975
       nfiles: 4
+  sweep-flexmf-explicit-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
+      flexmf-explicit sweeps/random/flexmf-explicit-random
+    deps:
+    - path: ../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 1f89375c8302dc91c06e83567f559af1
+      size: 528
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/flexmf-explicit-random
+      hash: md5
+      md5: df10e8a6e82d508067d25cc07bd10a83.dir
+      size: 505002
+      nfiles: 5
+    - path: sweeps/random/flexmf-explicit-random.json
+      hash: md5
+      md5: f51e479ba8a06230174e23d9fc3c69af
+      size: 801
