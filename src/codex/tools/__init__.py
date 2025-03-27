@@ -2,6 +2,7 @@
 Codex CLI tools.
 """
 
+import logging
 import os
 
 import click
@@ -13,6 +14,7 @@ from .. import runlog
 def codex():
     "LensKit codex tools"
     runlog.configure()
+    logging.getLogger("ray").setLevel(logging.DEBUG)
     os.environ["RAY_AIR_NEW_OUTPUT"] = "0"
 
 
