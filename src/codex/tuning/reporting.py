@@ -1,5 +1,6 @@
 from collections import namedtuple
 
+import numpy as np
 import ray.tune
 import ray.tune.result
 from lenskit.logging import get_logger, item_progress
@@ -52,11 +53,11 @@ class ProgressReport(ray.tune.ProgressReporter):
 
             n_new = 0
             for trial in trials:
+                self._update_metric(trial)
                 if trial.status == "TERMINATED" and trial.trial_id not in self.done:
                     self.done.add(trial.trial_id)
                     n_new += 1
                     _log.debug("finished trial", id=trial.trial_id, config=trial.config)
-                    self._update_metric(trial)
 
                 if trial.status != "RUNNING" and trial.trial_id in self._task_bars:
                     self._task_bars[trial.trial_id].bar.finish()
@@ -79,9 +80,7 @@ class ProgressReport(ray.tune.ProgressReporter):
                                 epoch - tp.count, **{self.metric: trial.last_result[self.metric]}
                             )
 
-            extra = {}
-            if self.best_metric is not None:
-                extra = {self.metric: self.best_metric}
+            extra = {self.metric: self.best_metric or np.nan}
             self._bar.update(n_new, total=total, **extra)
 
     def should_report(self, trials, done=False):
