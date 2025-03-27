@@ -1,4 +1,5 @@
-from collections import namedtuple
+from dataclasses import dataclass
+from typing import Any
 
 import numpy as np
 import ray.tune
@@ -7,7 +8,11 @@ from lenskit.logging import get_logger, item_progress
 
 _log = get_logger("codex.tuning")
 
-TrialProgress = namedtuple("TrialProgress", ["bar", "count"])
+
+@dataclass
+class TrialProgress:
+    bar: Any
+    count: int
 
 
 class StatusCallback(ray.tune.Callback):
@@ -75,10 +80,14 @@ class ProgressReport(ray.tune.ProgressReporter):
                         self._task_bars[trial.trial_id] = tp
                     if trial.last_result and trial.last_result.get("training_iteration", None):
                         epoch = trial.last_result["training_iteration"]
+                        t_total = trial.last_result.get("max_epochs", None)
                         if epoch > tp.count:
                             tp.bar.update(
-                                epoch - tp.count, **{self.metric: trial.last_result[self.metric]}
+                                epoch - tp.count,
+                                total=t_total,
+                                **{self.metric: trial.last_result[self.metric]},
                             )
+                            tp.count = epoch
 
             extra = {self.metric: self.best_metric or np.nan}
             self._bar.update(n_new, total=total, **extra)
