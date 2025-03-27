@@ -1846,3 +1846,25 @@ stages:
       hash: md5
       md5: f51e479ba8a06230174e23d9fc3c69af
       size: 801
+  sweep-als-biased-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
+      als-biased sweeps/random/als-biased-random
+    deps:
+    - path: ../../src/codex/models/als_biased.py
+      hash: md5
+      md5: 2aa6b8812d1ff7107ea59f6f57987159
+      size: 477
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/als-biased-random
+      hash: md5
+      md5: 39a8252e9b523fa255cc97954003c855.dir
+      size: 519416
+      nfiles: 5
+    - path: sweeps/random/als-biased-random.json
+      hash: md5
+      md5: 81ec0d24d9f74e74d6add5179795b9f2
+      size: 849
