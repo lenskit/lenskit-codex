@@ -54,7 +54,7 @@ def show_param_space(space):
     for k, v in flat.items():
         dist = str(v.sampler)
         if isinstance(v, ray.tune.search.sample.Categorical):
-            values = ", ".join(v.categories)
+            values = ", ".join([str(c) for c in v.categories])
         elif dist == "Normal":
             values = "μ={}, σ={}".format(v.sampler.mean, v.sampler.md)
         else:

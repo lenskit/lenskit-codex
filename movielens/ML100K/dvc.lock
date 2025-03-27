@@ -2352,8 +2352,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
       hash: md5
-      md5: b9b53df4be8c7e803f5c7d03b63fafce
-      size: 662
+      md5: 04cca55a937033e01d710107820ab337
+      size: 706
     - path: splits/random.parquet
       hash: md5
       md5: f50df3d39a8c80f9a7bf4ff830a9d47c
@@ -2361,13 +2361,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-bpr-random
       hash: md5
-      md5: 9e2e87ba056f058fe5921ebc242c55ff.dir
-      size: 1128733
+      md5: 888557a0466b3868e8b6e51e35cc0a80.dir
+      size: 1417606
       nfiles: 5
     - path: sweeps/random/flexmf-bpr-random.json
       hash: md5
-      md5: e4e270cf83d84c967d87a3b7f7f2a715
-      size: 840
+      md5: 2acdc4e1c67ff4f3ded326017f663f37
+      size: 896
   sweep-flexmf-logistic-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
       flexmf-logistic sweeps/random/flexmf-logistic-random

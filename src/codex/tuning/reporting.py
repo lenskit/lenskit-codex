@@ -1,8 +1,12 @@
+from collections import namedtuple
+
 import ray.tune
 import ray.tune.result
 from lenskit.logging import get_logger, item_progress
 
 _log = get_logger("codex.tuning")
+
+TrialProgress = namedtuple("TrialProgress", ["bar", "count"])
 
 
 class StatusCallback(ray.tune.Callback):
@@ -29,6 +33,7 @@ class ProgressReport(ray.tune.ProgressReporter):
         _log.info("setting up tuning status", total_samples=total_samples, metric=metric, mode=mode)
         extra = {metric: ".3f"} if metric is not None else {}
         self._bar = item_progress("Tuning trials", total_samples, extra)
+        self._task_bars = {}
         self.metric = metric
         self.mode = mode
 
@@ -37,10 +42,12 @@ class ProgressReport(ray.tune.ProgressReporter):
 
         if done:
             _log.debug("search complete", trial_count=len(trials))
+            for bar in self._task_bars.values():
+                bar.finish()
             self._bar.finish()
         else:
             total = len(trials)
-            if total < self._bar.total:
+            if total <= self._bar.total:
                 total = None
 
             n_new = 0
@@ -51,21 +58,34 @@ class ProgressReport(ray.tune.ProgressReporter):
                     _log.debug("finished trial", id=trial.trial_id, config=trial.config)
                     self._update_metric(trial)
 
+                if trial.status != "RUNNING" and trial.trial_id in self._task_bars:
+                    self._task_bars[trial.trial_id].bar.finish()
+                    del self._task_bars[trial.trial_id]
+
+                if (
+                    trial.status == "RUNNING"
+                    and trial.last_result
+                    and "training_iteration" in trial.last_result
+                ):
+                    tp = self._task_bars.get(trial.trial_id, None)
+                    if tp is None:
+                        bar = item_progress("Trial " + trial.trial_id, fields={self.metric: ".3f"})
+                        tp = TrialProgress(bar, 0)
+                        self._task_bars[trial.trial_id] = tp
+                    if trial.last_result and trial.last_result["training_iteration"]:
+                        epoch = trial.last_result["training_iteration"]
+                        if epoch > tp.count:
+                            tp.bar.update(
+                                epoch - tp.count, **{self.metric: trial.last_result[self.metric]}
+                            )
+
             extra = {}
             if self.best_metric is not None:
                 extra = {self.metric: self.best_metric}
             self._bar.update(n_new, total=total, **extra)
 
     def should_report(self, trials, done=False):
-        if done:
-            return True
-
-        updated = any(self._update_metric(t) for t in trials)
-        finished = set(t.trial_id for t in trials if t.status == "TERMINATED")
-        if updated or finished - self.done:
-            return True
-        else:
-            return False
+        return True
 
     def _update_metric(self, trial):
         if self.metric is not None and trial.last_result and self.metric in trial.last_result:
