@@ -176,6 +176,6 @@ def load_model(name: str) -> ModelDef:
     name = name.replace("_", "-").lower()
     fname = name.replace("-", "_")
 
-    _log.info("importing model module", module=fname)
+    _log.debug("importing model module", module=fname)
     module = import_module(f"codex.models.{fname}")
     return ModelDef(name, module)
