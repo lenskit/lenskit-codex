@@ -169,7 +169,7 @@ class TuningBuilder:
             run_config=ray.tune.RunConfig(
                 storage_path=ray_store.absolute().as_uri(),
                 verbose=None,
-                progress_reporter=ProgressReport(),
+                progress_reporter=ProgressReport(self.model.name),
                 failure_config=ray.tune.FailureConfig(fail_fast=True),
                 callbacks=[StatusCallback(self.model.name, self.data_info.dataset)],
                 stop=stopper,

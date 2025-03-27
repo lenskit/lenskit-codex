@@ -25,12 +25,14 @@ class StatusCallback(ray.tune.Callback):
 
 
 class ProgressReport(ray.tune.ProgressReporter):
+    job_name: str | None = None
     metric = None
     mode = None
     best_metric = None
 
-    def __init__(self):
+    def __init__(self, name: str | None = None):
         super().__init__()
+        self.job_name = name
         self.done = set()
 
     def setup(self, start_time=None, total_samples=None, metric=None, mode=None, **kwargs):
@@ -38,7 +40,8 @@ class ProgressReport(ray.tune.ProgressReporter):
 
         _log.info("setting up tuning status", total_samples=total_samples, metric=metric, mode=mode)
         extra = {metric: ".3f"} if metric is not None else {}
-        self._bar = item_progress("Tuning trials", total_samples, extra)
+        label = "Tuning " + (self.job_name or "trials")
+        self._bar = item_progress(label, total_samples, extra)
         self._task_bars = {}
         self.metric = metric
         self.mode = mode
