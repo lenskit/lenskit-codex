@@ -22,7 +22,10 @@ _log = structlog.stdlib.get_logger(__name__)
 
 def ensure_cluster_init():
     if not ray.is_initialized():
-        init_cluster(global_logging=True, worker_parallel=get_parallel_config())
+        try:
+            ray.init(address="auto")
+        except ConnectionError:
+            init_cluster(global_logging=True, worker_parallel=get_parallel_config())
 
 
 class CodexActor:
