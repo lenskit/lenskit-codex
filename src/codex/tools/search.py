@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Literal
 
 import click
+import ray.tune.utils.log
 import zstandard
 from humanize import metric as human_metric
 from humanize import precisedelta
@@ -66,6 +67,7 @@ def run_sweep(
     if sample_count is None:
         sample_count = mod_def.options.get("search_points", 100)  # type: ignore
 
+    ray.tune.utils.log.set_verbosity(0)
     controller = TuningBuilder(mod_def, out, list_length, sample_count, metric)
     controller.load_data(split, test_part, ds_name)
 
