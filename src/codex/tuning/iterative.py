@@ -11,8 +11,9 @@ from lenskit.batch import BatchPipelineRunner
 from lenskit.logging import get_logger
 from lenskit.logging.worker import send_task
 from lenskit.pipeline import Component
-from lenskit.training import IterativeTraining, TrainingOptions
+from lenskit.training import ModelTrainer, TrainingOptions, UsesTrainer
 from pydantic_core import to_json
+from structlog.stdlib import BoundLogger
 
 from codex.models import load_model
 from codex.pipeline import base_pipeline, replace_scorer
@@ -25,65 +26,83 @@ from .metrics import measure
 _log = get_logger(__name__)
 
 
-class IterativeEval:
+def iterative_training_evaluator(job: TuningJobData):
     """
-    A simple hyperparameter point evaluator using non-iterative model training.
+    Construct an iterative-training point evaluator.
     """
 
-    job: TuningJobData
+    class IterativeEval(ray.tune.Trainable):
+        """
+        A simple hyperparameter point evaluator using non-iterative model training.
+        """
 
-    def __init__(
-        self,
-        job: TuningJobData,
-    ):
-        self.job = job
+        job: TuningJobData
+        log: BoundLogger
+        task: CodexTask
+        trainer: ModelTrainer
+        epochs_trained: int
 
-    def __call__(self, config):
-        mod_def = load_model(self.job.model_name)
-        factory = self.job.factory
-        data = self.job.data
-        log = _log.bind(model=self.job.model_name, dataset=self.job.data_name)
+        def __init__(self):
+            self.job = job
 
-        with CodexTask(
-            label=f"tune {mod_def.name}",
-            tags=["tuning"],
-            reset_hwm=True,
-            subprocess=True,
-            scorer=ScorerModel(name=mod_def.name, config=config),
-            data=self.job.data_info,
-        ) as task:
-            log.info("configuring scorer", config=config)
-            model = mod_def.instantiate(config | {"epochs": self.job.epoch_limit}, factory)
-            assert isinstance(model, Component)
-            assert isinstance(model, IterativeTraining)
-            pipe = base_pipeline(self.job.model_name, predicts_ratings=mod_def.is_predictor)
+        def setup(self, config):
+            self.mod_def = load_model(self.job.model_name)
+            factory = self.job.factory
+            self.data = self.job.data
+            self.log = _log.bind(model=self.job.model_name, dataset=self.job.data_name)
 
-            log.info("pre-training pipeline")
-            pipe.train(data.train)
-            pipe = replace_scorer(pipe, model)
-            send_task(task)
+            self.task = CodexTask(
+                label=f"tune {self.mod_def.name}",
+                tags=["tuning"],
+                reset_hwm=True,
+                subprocess=True,
+                scorer=ScorerModel(name=self.mod_def.name, config=config),
+                data=self.job.data_info,
+            )
+
+            self.log.info("configuring scorer", config=config)
+            self.scorer = self.mod_def.instantiate(
+                config | {"epochs": self.job.epoch_limit}, factory
+            )
+            assert isinstance(self.scorer, Component)
+            assert isinstance(self.scorer, UsesTrainer)
+            pipe = base_pipeline(self.job.model_name, predicts_ratings=self.mod_def.is_predictor)
+
+            self.log.info("pre-training pipeline")
+            pipe.train(self.data.train)
+            self.pipe = replace_scorer(pipe, self.scorer)
+            send_task(self.task)
+
+            self.log.info("creating model trainer", config=self.scorer.config)
+            options = TrainingOptions(
+                rng=extend_seed(self.job.random_seed, to_json(self.scorer.dump_config()))
+            )
+            self.trainer = self.scorer.create_trainer(self.data.train, options)
+            send_task(self.task)
 
             self.runner = BatchPipelineRunner(n_jobs=1)  # single-threaded inside tuning
             self.runner.recommend()
-            if mod_def.is_predictor:
+            if self.mod_def.is_predictor:
                 self.runner.predict()
 
-            log.info("starting training loop", config=model.config)
-            options = TrainingOptions(
-                rng=extend_seed(self.job.random_seed, to_json(model.dump_config()))
-            )
-            training_loop = model.training_loop(data.train, options)
-            send_task(task)
-            log.info("beginning training epochs")
-            for epoch, vals in enumerate(training_loop, 1):
-                elog = log.bind(epoch=epoch)
-                elog.debug("training iteration finished", result=vals)
-                elog.debug("generating recommendations", n_queries=len(data.test))
-                results = self.runner.run(pipe, data.test)
+        def step(self):
+            epoch = self.epochs_trained + 1
+            elog = self.log.bind(epoch=epoch)
 
-                elog.debug("measuring iteration results")
-                metrics = measure(mod_def, results, data, task, None)
-                metrics["max_epochs"] = self.job.epoch_limit
-                send_task(task)
-                elog.info("epoch complete")
-                ray.tune.report(metrics)
+            vals = self.trainer.train_epoch()
+            elog.debug("training iteration finished", result=vals)
+
+            elog.debug("generating recommendations", n_queries=len(self.data.test))
+            results = self.runner.run(self.pipe, self.data.test)
+
+            elog.debug("measuring iteration results")
+            metrics = measure(self.mod_def, results, self.data, self.task, None)
+            metrics["max_epochs"] = self.job.epoch_limit
+            send_task(self.task)
+            elog.info("epoch complete")
+            return metrics
+
+        def cleanup(self):
+            self.trainer.finalize()
+
+    return IterativeEval
