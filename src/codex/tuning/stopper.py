@@ -24,6 +24,7 @@ class RelativePlateauStopper(ray.tune.Stopper):
         check_iters: int = 3,
         grace_period: int = 5,
     ):
+        assert check_iters <= grace_period, "check iters cannot be more than grace period"
         self.metric = metric
         self.mode = mode
         self.min_improvement = min_improvement
@@ -46,11 +47,15 @@ class RelativePlateauStopper(ray.tune.Stopper):
             log.debug("within grace period, accepting")
             return False
 
-        imp = np.diff(hist) / hist[:-1]
+        hist = np.array(hist)
+        best = np.maximum.accumulate(hist)
+        # measure relative improvement over previous best entry
+        imp = hist[1:] / best[:-1] - 1.0
+        # invert for minimizing metrics
         if self.mode == "min":
             imp *= -1
 
-        # if we haven't improved more than min_imporvement lately, stop
+        # if we haven't improved enough lately
         if np.all(imp[-self.check_iters :] < self.min_improvement).item():
             log.info(
                 "trial plateaued, stopping with last improvement {:.3%}".format(imp[-1]),
