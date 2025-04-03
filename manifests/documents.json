@@ -160,11 +160,18 @@
       "run-user-metrics.parquet"
     ]
   },
-  "movielens/ML1M/als-implicitmf.qmd": {
-    "title": "ALS ImplicitMF on ML1M",
+  "movielens/ML10M/flexmf-explicit.qmd": {
+    "title": "FlexMF Explicit on ML10M",
     "echo": false,
     "deps": [
-      "sweeps/random/ImplicitMF-ALS-grid"
+      "sweeps/random/flexmf-explicit-random"
+    ]
+  },
+  "movielens/ML10M/flexmf-bpr.qmd": {
+    "title": "FlexMF BPR on ML10M",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-bpr-random"
     ]
   },
   "movielens/ML1M/description.qmd": {
@@ -189,13 +196,6 @@
       "sweeps/random/IKNN-Implicit-grid"
     ]
   },
-  "movielens/ML1M/als-biasedmf.qmd": {
-    "title": "ALS BiasedMF on ML1M",
-    "echo": false,
-    "deps": [
-      "sweeps/random/BiasedMF-ALS-grid"
-    ]
-  },
   "movielens/ML1M/summary.qmd": {
     "title": "ML1M Performance Summary",
     "order": 1,
@@ -209,6 +209,20 @@
     "echo": false,
     "deps": [
       "sweeps/random/bias-random"
+    ]
+  },
+  "movielens/ML1M/flexmf-explicit.qmd": {
+    "title": "FlexMF Explicit on ML1M",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-explicit-random"
+    ]
+  },
+  "movielens/ML1M/als-biased.qmd": {
+    "title": "ALS BiasedMF on LM1M",
+    "echo": false,
+    "deps": [
+      "sweeps/random/als-biased-random"
     ]
   },
   "movielens/ML20M/als-biasedmf.qmd": {

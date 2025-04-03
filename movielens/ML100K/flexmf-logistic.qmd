@@ -23,10 +23,10 @@ best_id = result['trial_id']
 
 ```{python}
 from codex.models.flexmf_logistic import SEARCH_SPACE
-show_param_space(SEARCH_SPACE)
+show_param_space(SEARCH_SPACE, result['config'])
 ```
 
-## Final Result
+### Final Result
 
 Searching selected the following configuration:
 
@@ -136,6 +136,7 @@ best_iters = iters[iters['trial_id'] == best_id]
     pn.ggplot(best_iters)
     + pn.aes(x='training_iteration', y='RBP')
     + pn.geom_line()
+    + pn.ggtitle(f'Best Progress ({best_id})')
 )
 ```
 

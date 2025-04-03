@@ -161,6 +161,24 @@ stages:
       - movielens/ML10M/stats.duckdb
     outs:
       - _freeze/movielens/ML10M/description
+  page/movielens/ML10M/flexmf-bpr:
+    cmd: quarto render movielens/ML10M/flexmf-bpr.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML10M/flexmf-bpr.qmd
+      - movielens/ML10M/sweeps/random/flexmf-bpr-random
+    outs:
+      - _freeze/movielens/ML10M/flexmf-bpr
+  page/movielens/ML10M/flexmf-explicit:
+    cmd: quarto render movielens/ML10M/flexmf-explicit.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML10M/flexmf-explicit.qmd
+      - movielens/ML10M/sweeps/random/flexmf-explicit-random
+    outs:
+      - _freeze/movielens/ML10M/flexmf-explicit
   page/movielens/ML10M/iknn-explicit:
     cmd: quarto render movielens/ML10M/iknn-explicit.qmd --profile prerender
     deps:
@@ -198,24 +216,15 @@ stages:
       - movielens/ML10M/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML10M/summary
-  page/movielens/ML1M/als-biasedmf:
-    cmd: quarto render movielens/ML1M/als-biasedmf.qmd --profile prerender
+  page/movielens/ML1M/als-biased:
+    cmd: quarto render movielens/ML1M/als-biased.qmd --profile prerender
     deps:
       - _quarto-prerender.yml
       - _quarto.yml
-      - movielens/ML1M/als-biasedmf.qmd
-      - movielens/ML1M/sweeps/random/BiasedMF-ALS-grid
+      - movielens/ML1M/als-biased.qmd
+      - movielens/ML1M/sweeps/random/als-biased-random
     outs:
-      - _freeze/movielens/ML1M/als-biasedmf
-  page/movielens/ML1M/als-implicitmf:
-    cmd: quarto render movielens/ML1M/als-implicitmf.qmd --profile prerender
-    deps:
-      - _quarto-prerender.yml
-      - _quarto.yml
-      - movielens/ML1M/als-implicitmf.qmd
-      - movielens/ML1M/sweeps/random/ImplicitMF-ALS-grid
-    outs:
-      - _freeze/movielens/ML1M/als-implicitmf
+      - _freeze/movielens/ML1M/als-biased
   page/movielens/ML1M/bias:
     cmd: quarto render movielens/ML1M/bias.qmd --profile prerender
     deps:
@@ -234,6 +243,15 @@ stages:
       - movielens/ML1M/stats.duckdb
     outs:
       - _freeze/movielens/ML1M/description
+  page/movielens/ML1M/flexmf-explicit:
+    cmd: quarto render movielens/ML1M/flexmf-explicit.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML1M/flexmf-explicit.qmd
+      - movielens/ML1M/sweeps/random/flexmf-explicit-random
+    outs:
+      - _freeze/movielens/ML1M/flexmf-explicit
   page/movielens/ML1M/iknn-explicit:
     cmd: quarto render movielens/ML1M/iknn-explicit.qmd --profile prerender
     deps:

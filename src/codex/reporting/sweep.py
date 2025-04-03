@@ -8,6 +8,7 @@ from pathlib import Path
 import pandas as pd
 from IPython.display import Markdown
 from prettytable import PrettyTable, TableStyle
+from pydantic import JsonValue
 
 from .data import DATA_INFO
 
@@ -41,13 +42,15 @@ def load_sweep_result(model, split=None, method="random") -> dict:
         return json.load(jsf)
 
 
-def show_param_space(space):
+def show_param_space(space, config: dict[str, JsonValue] | None = None):
     import ray.tune.search.sample
 
     flat = _flatten_param_space(space, "", {})
     tbl = PrettyTable()
     tbl.set_style(TableStyle.MARKDOWN)
     tbl.field_names = ["Parameter", "Type", "Distribution", "Values"]
+    if config is not None:
+        tbl.field_names += ["Selected"]
     tbl.align = "c"
     tbl.align["Parameter"] = "l"
 
@@ -59,7 +62,13 @@ def show_param_space(space):
             values = "μ={}, σ={}".format(v.sampler.mean, v.sampler.md)
         else:
             values = "{} ≤ $x$ ≤ {}".format(v.lower, v.upper)
-        tbl.add_row([k, v.__class__.__name__, dist, values])
+        row = [k, v.__class__.__name__, dist, values]
+        if config is not None:
+            sv = config[k]
+            if isinstance(sv, float):
+                sv = "{:.3g}".format(sv)
+            row.append(sv)
+        tbl.add_row(row)
 
     return Markdown(str(tbl))
 
