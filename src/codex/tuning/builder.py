@@ -152,11 +152,12 @@ class TuningBuilder:
                 mode=self.mode,
                 grace_period=min_iter,
                 check_iters=min(min_iter, 3),
+                min_improvement=0.005,
             )
             self.spec["stopper"] = {
                 "type": "plateau",
-                "num_results": 5,
-                "std": 0.001,
+                "num_results": 3,
+                "min_improvement": 0.005,
             }
         self.spec["searcher"] = "random"
         searcher = ray.tune.search.BasicVariantGenerator(
