@@ -4,7 +4,6 @@ Simple (non-iterative) evaluation of points.
 
 from __future__ import annotations
 
-import json
 import pickle
 from pathlib import Path
 
@@ -41,7 +40,6 @@ class IterativeEval(ray.tune.Trainable):
     log: BoundLogger
     task: CodexTask
     trainer: ModelTrainer
-    epochs_trained: int = 0
 
     def setup(self, config, job):
         self.job = job
@@ -83,10 +81,10 @@ class IterativeEval(ray.tune.Trainable):
             self.runner.predict()
 
     def step(self):
-        if self.epochs_trained >= self.job.epoch_limit:
+        epoch = self.iteration
+        if epoch > self.job.epoch_limit:
             return ray.tune.result.DONE
 
-        epoch = self.epochs_trained + 1
         elog = self.log.bind(epoch=epoch)
 
         vals = self.trainer.train_epoch()
@@ -98,10 +96,8 @@ class IterativeEval(ray.tune.Trainable):
         elog.debug("measuring iteration results")
         metrics = measure(self.mod_def, results, self.data, self.task, None)
         metrics["max_epochs"] = self.job.epoch_limit
-        metrics["epoch"] = epoch
         send_task(self.task)
         elog.info("epoch complete")
-        self.epochs_trained += 1
         return metrics
 
     def cleanup(self):
@@ -109,25 +105,23 @@ class IterativeEval(ray.tune.Trainable):
 
     def save_checkpoint(self, checkpoint_dir: str):
         cpdir = Path(checkpoint_dir)
-        log = self.log.bind(epochs=self.epochs_trained)
+        log = self.log.bind(epochs=self.iteration)
         if isinstance(self.trainer, ParameterContainer):
             log.info("saving checkpoint")
-            torch.save(self.trainer.get_parameters(), cpdir / "model.pt")
+            torch.save(
+                self.trainer.get_parameters(),
+                cpdir / "model.pt",
+                pickle_protocol=pickle.HIGHEST_PROTOCOL,
+            )
         else:
             log.warning("trainer does not implement ParameterContainer, pickling")
             with open(cpdir / "model.pkl", "wb") as pkf:
                 pickle.dump(self.trainer, pkf)
 
-        with open(cpdir / "state.json", "wt") as jsf:
-            json.dump({"epochs": self.epochs_trained}, jsf)
-
     def load_checkpoint(self, checkpoint_dir: str):
         cpdir = Path(checkpoint_dir)
-        with open(cpdir / "state.json", "rt") as jsf:
-            tune_state = json.load(jsf)
 
-        self.epochs_trained = tune_state["epochs"]
-        self.log.info("resuming from checkpoint", epochs=self.epochs_trained)
+        self.log.info("resuming from checkpoint", epochs=self.iteration)
 
         ptf = cpdir / "model.pt"
         if ptf.exists():
