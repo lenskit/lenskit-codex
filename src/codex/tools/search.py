@@ -5,13 +5,12 @@ Hyperparameter search.
 from __future__ import annotations
 
 import shutil
-import tarfile
+import zipfile
 from pathlib import Path
 from typing import Literal
 
 import click
 import ray.tune.utils.log
-import zstandard
 from humanize import metric as human_metric
 from humanize import precisedelta
 from lenskit.logging import get_logger, stdout_console
@@ -139,12 +138,25 @@ def run_sweep(
     with open(out.with_suffix(".json"), "wt") as jsf:
         print(to_json(best_out).decode(), file=jsf)
 
-    log.info("compressing search state")
-    with (
-        zstandard.open(out / "state.tar.zst", "wb") as zf,
-        tarfile.TarFile(mode="w", fileobj=zf) as tar,
-    ):
-        tar.add(out / "state", "state")
+    log.info("archiving search state")
+    with zipfile.ZipFile(out / "state.zip", "w") as zipf:
+        state_dir = out / "state"
+        for dir, _sds, files in state_dir.walk():
+            log.debug("adding directory", dir=dir)
+            zipf.mkdir(dir.relative_to(out).as_posix())
+            for file in files:
+                fpath = dir / file
+                fpstr = fpath.relative_to(out).as_posix()
+
+                log.debug("adding file", file=fpstr)
+                if fpath.suffix in [".gz", ".zst", ".pkl", ".pt"]:
+                    comp = zipfile.ZIP_STORED
+                else:
+                    comp = zipfile.ZIP_DEFLATED
+
+                zipf.write(fpath, fpstr, compress_type=comp)
+
+    log.debug("deleting unpacked search state")
     shutil.rmtree(out / "state")
 
     if fail is not None:
