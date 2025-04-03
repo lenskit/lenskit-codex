@@ -183,7 +183,7 @@ class TuningBuilder:
                 stop=stopper,
                 checkpoint_config=ray.train.CheckpointConfig(
                     checkpoint_frequency=2,
-                    num_to_keep=20,
+                    num_to_keep=2,
                     checkpoint_at_end=False,
                 ),
             ),
