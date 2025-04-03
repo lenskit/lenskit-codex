@@ -182,7 +182,9 @@ class TuningBuilder:
                 callbacks=[StatusCallback(self.model.name, self.data_info.dataset)],
                 stop=stopper,
                 checkpoint_config=ray.train.CheckpointConfig(
-                    checkpoint_frequency=2, num_to_keep=10
+                    checkpoint_frequency=2,
+                    num_to_keep=10,
+                    checkpoint_at_end=False,
                 ),
             ),
         )
