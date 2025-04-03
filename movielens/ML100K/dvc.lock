@@ -2492,3 +2492,25 @@ stages:
       md5: d8826df07ca77f899708d43b626eb66b.dir
       size: 706406
       nfiles: 4
+  sweep-flexmf-explicit-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RMSE
+      flexmf-explicit sweeps/random/flexmf-explicit-optuna
+    deps:
+    - path: ../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 9271360109ed53980623529abafbc7a4
+      size: 527
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: sweeps/random/flexmf-explicit-optuna
+      hash: md5
+      md5: 4c3c9735e8e713b854e8791e459e1a7e.dir
+      size: 210562377
+      nfiles: 5
+    - path: sweeps/random/flexmf-explicit-optuna.json
+      hash: md5
+      md5: 515ffac878ac88ad9f0d3ed127a4f938
+      size: 764
