@@ -2,6 +2,9 @@ from typing import Any
 
 import numpy as np
 import ray.tune
+from lenskit.logging import get_logger
+
+_log = get_logger(__name__)
 
 
 class RelativePlateauStopper(ray.tune.Stopper):
@@ -29,7 +32,10 @@ class RelativePlateauStopper(ray.tune.Stopper):
         self.results = {}
 
     def __call__(self, trial_id: str, result: dict[str, Any]) -> bool:
+        epoch = result["training_iteration"]
         mr = result[self.metric]
+        log = _log.bind(trial=trial_id, epoch=epoch, **{self.metric: mr})
+
         if self.mode == "min":
             mr *= -1
 
@@ -39,11 +45,13 @@ class RelativePlateauStopper(ray.tune.Stopper):
         hist.append(mr)
         self.results[trial_id] = hist
         if len(hist) < self.grace_period:
+            log.debug("within grace period, accepting")
             return False
 
         imp = np.diff(hist) / hist[:-1]
         # if we haven't improved more than min_imporvement lately, stop
-        return np.all(imp[-self.check_iters :] < self.min_improvement).item()
+        if np.all(imp[-self.check_iters :] < self.min_improvement).item():
+            log.debug("trial plateaued, stopping with last improvement {:.3%}".format(imp[-1]))
 
     def stop_all(self) -> bool:
         return False
