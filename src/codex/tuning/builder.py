@@ -189,7 +189,7 @@ class TuningBuilder:
                 failure_config=ray.tune.FailureConfig(fail_fast=True),
                 callbacks=[StatusCallback(self.model.name, self.data_info.dataset)],
                 stop=stopper,
-                checkpoint_config=ray.train.CheckpointConfig(
+                checkpoint_config=ray.tune.CheckpointConfig(
                     checkpoint_frequency=cp_freq,
                     num_to_keep=2,
                     # we don't need final model checkpoints
