@@ -56,7 +56,7 @@ numpy = "~=2.0"
 pandas = "~=2.0"
 scipy = "~=1.10"
 numba = "~=0.56"
-ray-default = "~=2.42.0"
+ray-default = "~=2.42"
 # hpfrec = "~=0.2.13"
 implicit = "~=0.7.0"
 
@@ -65,7 +65,9 @@ cuda = "12"
 
 [feature.run.pypi-dependencies]
 # lenskit = { version = "~=2025.2", extras = ["implicit", "sklearn", "funksvd"] }
-lenskit = { git = "https://github.com/lenskit/lkpy.git" }
+# lenskit = { git = "https://github.com/lenskit/lkpy.git" }
+lenskit = { git = "https://github.com/mdekstrand/lkpy.git", branch = "feature/trainer" }
+# lenskit = { path = "../lkpy", editable = true }
 
 [feature.run.target.linux.dependencies]
 pytorch-gpu = ">=2"
