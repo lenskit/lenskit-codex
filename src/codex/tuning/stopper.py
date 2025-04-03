@@ -48,12 +48,14 @@ class RelativePlateauStopper(ray.tune.Stopper):
             return False
 
         hist = np.array(hist)
-        best = np.maximum.accumulate(hist)
         # measure relative improvement over previous best entry
-        imp = hist[1:] / best[:-1] - 1.0
-        # invert for minimizing metrics
         if self.mode == "min":
+            best = np.minimum.accumulate(hist)
+            imp = hist[1:] / best[:-1] - 1.0
             imp *= -1
+        else:
+            best = np.maximum.accumulate(hist)
+            imp = hist[1:] / best[:-1] - 1.0
 
         # if we haven't improved enough lately
         if np.all(imp[-self.check_iters :] < self.min_improvement).item():
