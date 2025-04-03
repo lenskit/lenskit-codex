@@ -1,14 +1,14 @@
 local lib = import '../src/codex.libsonnet';
 
-local sweepStages(dataset, split, method, split_type) =
-  {
+{
+  allSweepStages(spec): {
     [std.join('-', ['sweep', m.key, split, method])]: {
       local out_dir = std.format('sweeps/%s/%s-%s', [split, m.key, method]),
 
       cmd: lib.codex_cmd([
         'search',
         std.format('--split=splits/%s.toml', [split]),
-        if split_type == 'random' then '--test-part=0' else '--test-part=valid',
+        if split == 'random' then '--test-part=0' else '--test-part=valid',
         if std.objectHas(m.value, 'search_points') then std.format('--sample-count=%s', m.value.search_points),
         if method == 'random' then '--random',
         if m.value.predictor then '--metric=RMSE' else '--metric=RBP',
@@ -18,7 +18,7 @@ local sweepStages(dataset, split, method, split_type) =
       deps: [
         std.format('splits/%s.%s', [
           split,
-          if split_type == 'random' then 'parquet' else 'toml',
+          if split == 'random' then 'parquet' else 'toml',
         ]),
         '../../' + m.value.src_path,
       ],
@@ -27,11 +27,9 @@ local sweepStages(dataset, split, method, split_type) =
         { [out_dir + '.json']: { cache: false } },
       ],
     }
-    for m in std.objectKeysValues(lib.activeModels(dataset))
+    for split in spec.splits
+    for method in spec.searches
+    for m in std.objectKeysValues(lib.activeModels(spec.name))
     if m.value.searchable
-  };
-
-{
-  crossfold: function(dataset, method) sweepStages(dataset, 'random', method, 'random'),
-  temporal: function(dataset, method) sweepStages(dataset, 'temporal', method, 'temporal'),
+  },
 }

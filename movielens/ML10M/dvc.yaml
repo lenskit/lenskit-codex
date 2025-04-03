@@ -263,6 +263,17 @@ stages:
       - sweeps/temporal/uknn-implicit-random.json
     outs:
       - runs/temporal/uknn-implicit-random-best
+  split-random:
+    cmd: lenskit codex split random.toml
+    deps:
+      - random.toml
+      - ../dataset
+    outs:
+      - random.parquet
+    params:
+      - ../../../config.toml:
+          - random.seed
+    wdir: splits
   stats:
     cmd: lenskit codex sql -D ds_name=ML10M -f ../ml-stats.sql stats.duckdb
     deps:

@@ -25,73 +25,52 @@ local runManifest(runs) = std.join('\n', [
   for run in runs
 ] + ['']);
 
-local crossfoldRuns(dataset, split) = [
-  {
-    name: std.format('run-%s-default-%s', [split, model]),
-    dataset: dataset,
-    args: ['--default'],
-    model: model,
-    split: split,
-    variant: 'default',
-    deps: ['dataset', std.format('splits/%s.parquet', [split])],
-  }
-  for model in std.objectFields(lib.activeModels(dataset))
-] + [
-  {
-    local model = m.key,
-    local params = std.format('sweeps/%s/%s-random.json', [split, model]),
+local runsForSplit(spec, split) =
+  local splitDep =
+    if split == 'random'
+    then std.format('splits/%s.parquet', [split])
+    else std.format('splits/%s.toml', [split]);
+  [
+    {
+      name: std.format('run-%s-default-%s', [split, model]),
+      dataset: spec.name,
+      args: ['--default'],
+      model: model,
+      split: split,
+      variant: 'default',
+      deps: ['dataset', splitDep],
+    }
+    for model in std.objectFields(lib.activeModels(spec.name))
+  ] + [
+    {
+      local model = m.key,
+      local params = std.format('sweeps/%s/%s-%s.json', [split, model, search]),
 
-    name: std.format('run-%s-random-best-%s', [split, model]),
-    dataset: dataset,
-    args: ['--param-file', params],
-    model: model,
-    split: split,
-    variant: 'random-best',
-    deps: [
-      'dataset',
-      std.format('splits/%s.parquet', [split]),
-      params,
-    ],
-  }
-  for m in std.objectKeysValues(lib.activeModels(dataset))
-  if m.value.searchable
-];
+      name: std.format('run-%s-%s-best-%s', [split, search, model]),
+      dataset: spec.name,
+      args: ['--param-file', params],
+      model: model,
+      split: split,
+      variant: search + '-best',
+      deps: [
+        'dataset',
+        splitDep,
+        params,
+      ],
+    }
+    for search in spec.searches
+    for m in std.objectKeysValues(lib.activeModels(spec.name))
+    if m.value.searchable
+  ];
 
-local splitRuns(dataset, split='temporal') = [
-  {
-    name: std.format('run-%s-default-%s', [split, model]),
-    dataset: dataset,
-    args: ['--default'],
-    model: model,
-    split: split,
-    variant: 'default',
-    deps: ['dataset', std.format('splits/%s.toml', [split])],
-  }
-  for model in std.objectFields(lib.activeModels(dataset))
-] + [
-  {
-    local model = m.key,
-    local params = std.format('sweeps/%s/%s-random.json', [split, model]),
-
-    name: std.format('run-%s-random-best-%s', [split, model]),
-    dataset: dataset,
-    args: ['--param-file', params],
-    model: model,
-    split: split,
-    variant: 'random-best',
-    deps: [
-      'dataset',
-      std.format('splits/%s.toml', [split]),
-      params,
-    ],
-  }
-  for m in std.objectKeysValues(lib.activeModels(dataset))
-  if m.value.searchable
-];
+local makeRuns(spec) =
+  std.flattenArrays([
+    runsForSplit(spec, split)
+    for split in spec.splits
+  ]);
 
 {
-  crossfold: crossfoldRuns,
-  temporal: splitRuns,
+  makeRuns: makeRuns,
   stages: runStages,
   runPath: runPath,
   runManifest: runManifest,

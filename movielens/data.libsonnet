@@ -1,10 +1,10 @@
 local lib = import '../src/codex.libsonnet';
 
 {
-  prepare:
+  prepare(spec):
     {
-      local name = super.name,
-      local fn = super.fn,
+      local name = spec.name,
+      local fn = spec.fn,
       local zip = fn + '.zip',
 
       'import': {
@@ -17,16 +17,15 @@ local lib = import '../src/codex.libsonnet';
         deps: ['../ml-stats.sql', 'dataset'],
         outs: ['stats.duckdb'],
       },
-    },
-
-  crossfold: {
-    split:: 'random',
-    'split-random': {
-      cmd: lib.codex_cmd(['split', 'random.toml']),
-      wdir: 'splits',
-      params: [{ '../../../config.toml': ['random.seed'] }],
-      deps: ['random.toml', '../dataset'],
-      outs: ['random.parquet'],
-    },
-  },
+    } +
+    if lib.contains(spec.searches, 'random')
+    then {
+      'split-random': {
+        cmd: lib.codex_cmd(['split', 'random.toml']),
+        wdir: 'splits',
+        params: [{ '../../../config.toml': ['random.seed'] }],
+        deps: ['random.toml', '../dataset'],
+        outs: ['random.parquet'],
+      },
+    } else {},
 }

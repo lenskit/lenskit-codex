@@ -26,6 +26,17 @@ stages:
       - runs/random/implicit-bpr-random-best
       - runs/random/uknn-explicit-random-best
       - runs/random/uknn-implicit-random-best
+      - runs/random/als-biased-hyperopt-best
+      - runs/random/als-implicit-hyperopt-best
+      - runs/random/bias-hyperopt-best
+      - runs/random/flexmf-bpr-hyperopt-best
+      - runs/random/flexmf-explicit-hyperopt-best
+      - runs/random/flexmf-logistic-hyperopt-best
+      - runs/random/iknn-explicit-hyperopt-best
+      - runs/random/iknn-implicit-hyperopt-best
+      - runs/random/implicit-bpr-hyperopt-best
+      - runs/random/uknn-explicit-hyperopt-best
+      - runs/random/uknn-implicit-hyperopt-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -143,6 +154,126 @@ stages:
       - splits/random.parquet
     outs:
       - runs/random/uknn-implicit-default
+  run-random-hyperopt-best-als-biased:
+    cmd: lenskit codex generate --param-file sweeps/random/als-biased-hyperopt.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/als-biased-hyperopt-best
+      als-biased
+    deps:
+      - ../../src/codex/models/als_biased.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/als-biased-hyperopt.json
+    outs:
+      - runs/random/als-biased-hyperopt-best
+  run-random-hyperopt-best-als-implicit:
+    cmd: lenskit codex generate --param-file sweeps/random/als-implicit-hyperopt.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/als-implicit-hyperopt-best
+      als-implicit
+    deps:
+      - ../../src/codex/models/als_implicit.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/als-implicit-hyperopt.json
+    outs:
+      - runs/random/als-implicit-hyperopt-best
+  run-random-hyperopt-best-bias:
+    cmd: lenskit codex generate --param-file sweeps/random/bias-hyperopt.json --ds-name=ML100K
+      --split=splits/random.toml -o runs/random/bias-hyperopt-best bias
+    deps:
+      - ../../src/codex/models/bias.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/bias-hyperopt.json
+    outs:
+      - runs/random/bias-hyperopt-best
+  run-random-hyperopt-best-flexmf-bpr:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-bpr-hyperopt.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-bpr-hyperopt-best
+      flexmf-bpr
+    deps:
+      - ../../src/codex/models/flexmf_bpr.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/flexmf-bpr-hyperopt.json
+    outs:
+      - runs/random/flexmf-bpr-hyperopt-best
+  run-random-hyperopt-best-flexmf-explicit:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-explicit-hyperopt.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-explicit-hyperopt-best
+      flexmf-explicit
+    deps:
+      - ../../src/codex/models/flexmf_explicit.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/flexmf-explicit-hyperopt.json
+    outs:
+      - runs/random/flexmf-explicit-hyperopt-best
+  run-random-hyperopt-best-flexmf-logistic:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-logistic-hyperopt.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-logistic-hyperopt-best
+      flexmf-logistic
+    deps:
+      - ../../src/codex/models/flexmf_logistic.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/flexmf-logistic-hyperopt.json
+    outs:
+      - runs/random/flexmf-logistic-hyperopt-best
+  run-random-hyperopt-best-iknn-explicit:
+    cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-hyperopt.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-hyperopt-best
+      iknn-explicit
+    deps:
+      - ../../src/codex/models/iknn_explicit.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/iknn-explicit-hyperopt.json
+    outs:
+      - runs/random/iknn-explicit-hyperopt-best
+  run-random-hyperopt-best-iknn-implicit:
+    cmd: lenskit codex generate --param-file sweeps/random/iknn-implicit-hyperopt.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-implicit-hyperopt-best
+      iknn-implicit
+    deps:
+      - ../../src/codex/models/iknn_implicit.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/iknn-implicit-hyperopt.json
+    outs:
+      - runs/random/iknn-implicit-hyperopt-best
+  run-random-hyperopt-best-implicit-bpr:
+    cmd: lenskit codex generate --param-file sweeps/random/implicit-bpr-hyperopt.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/implicit-bpr-hyperopt-best
+      implicit-bpr
+    deps:
+      - ../../src/codex/models/implicit_bpr.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/implicit-bpr-hyperopt.json
+    outs:
+      - runs/random/implicit-bpr-hyperopt-best
+  run-random-hyperopt-best-uknn-explicit:
+    cmd: lenskit codex generate --param-file sweeps/random/uknn-explicit-hyperopt.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-explicit-hyperopt-best
+      uknn-explicit
+    deps:
+      - ../../src/codex/models/uknn_explicit.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/uknn-explicit-hyperopt.json
+    outs:
+      - runs/random/uknn-explicit-hyperopt-best
+  run-random-hyperopt-best-uknn-implicit:
+    cmd: lenskit codex generate --param-file sweeps/random/uknn-implicit-hyperopt.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-implicit-hyperopt-best
+      uknn-implicit
+    deps:
+      - ../../src/codex/models/uknn_implicit.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/uknn-implicit-hyperopt.json
+    outs:
+      - runs/random/uknn-implicit-hyperopt-best
   run-random-random-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/random/als-biased-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/als-biased-random-best
@@ -281,6 +412,16 @@ stages:
       - dataset
     outs:
       - stats.duckdb
+  sweep-als-biased-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RMSE
+      als-biased sweeps/random/als-biased-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/als_biased.py
+    outs:
+      - sweeps/random/als-biased-hyperopt
+      - sweeps/random/als-biased-hyperopt.json:
+          cache: false
   sweep-als-biased-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
       als-biased sweeps/random/als-biased-random
@@ -290,6 +431,16 @@ stages:
     outs:
       - sweeps/random/als-biased-random
       - sweeps/random/als-biased-random.json:
+          cache: false
+  sweep-als-implicit-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RBP
+      als-implicit sweeps/random/als-implicit-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/als_implicit.py
+    outs:
+      - sweeps/random/als-implicit-hyperopt
+      - sweeps/random/als-implicit-hyperopt.json:
           cache: false
   sweep-als-implicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
@@ -301,6 +452,16 @@ stages:
       - sweeps/random/als-implicit-random
       - sweeps/random/als-implicit-random.json:
           cache: false
+  sweep-bias-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RMSE
+      bias sweeps/random/bias-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/bias.py
+    outs:
+      - sweeps/random/bias-hyperopt
+      - sweeps/random/bias-hyperopt.json:
+          cache: false
   sweep-bias-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
       bias sweeps/random/bias-random
@@ -310,6 +471,16 @@ stages:
     outs:
       - sweeps/random/bias-random
       - sweeps/random/bias-random.json:
+          cache: false
+  sweep-flexmf-bpr-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RBP
+      flexmf-bpr sweeps/random/flexmf-bpr-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/flexmf_bpr.py
+    outs:
+      - sweeps/random/flexmf-bpr-hyperopt
+      - sweeps/random/flexmf-bpr-hyperopt.json:
           cache: false
   sweep-flexmf-bpr-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
@@ -321,6 +492,16 @@ stages:
       - sweeps/random/flexmf-bpr-random
       - sweeps/random/flexmf-bpr-random.json:
           cache: false
+  sweep-flexmf-explicit-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RMSE
+      flexmf-explicit sweeps/random/flexmf-explicit-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/flexmf_explicit.py
+    outs:
+      - sweeps/random/flexmf-explicit-hyperopt
+      - sweeps/random/flexmf-explicit-hyperopt.json:
+          cache: false
   sweep-flexmf-explicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
       flexmf-explicit sweeps/random/flexmf-explicit-random
@@ -330,6 +511,16 @@ stages:
     outs:
       - sweeps/random/flexmf-explicit-random
       - sweeps/random/flexmf-explicit-random.json:
+          cache: false
+  sweep-flexmf-logistic-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RBP
+      flexmf-logistic sweeps/random/flexmf-logistic-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/flexmf_logistic.py
+    outs:
+      - sweeps/random/flexmf-logistic-hyperopt
+      - sweeps/random/flexmf-logistic-hyperopt.json:
           cache: false
   sweep-flexmf-logistic-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
@@ -341,6 +532,16 @@ stages:
       - sweeps/random/flexmf-logistic-random
       - sweeps/random/flexmf-logistic-random.json:
           cache: false
+  sweep-iknn-explicit-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RMSE
+      iknn-explicit sweeps/random/iknn-explicit-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/iknn_explicit.py
+    outs:
+      - sweeps/random/iknn-explicit-hyperopt
+      - sweeps/random/iknn-explicit-hyperopt.json:
+          cache: false
   sweep-iknn-explicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
       iknn-explicit sweeps/random/iknn-explicit-random
@@ -350,6 +551,16 @@ stages:
     outs:
       - sweeps/random/iknn-explicit-random
       - sweeps/random/iknn-explicit-random.json:
+          cache: false
+  sweep-iknn-implicit-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RBP
+      iknn-implicit sweeps/random/iknn-implicit-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/iknn_implicit.py
+    outs:
+      - sweeps/random/iknn-implicit-hyperopt
+      - sweeps/random/iknn-implicit-hyperopt.json:
           cache: false
   sweep-iknn-implicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
@@ -361,6 +572,16 @@ stages:
       - sweeps/random/iknn-implicit-random
       - sweeps/random/iknn-implicit-random.json:
           cache: false
+  sweep-implicit-bpr-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RBP
+      implicit-bpr sweeps/random/implicit-bpr-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/implicit_bpr.py
+    outs:
+      - sweeps/random/implicit-bpr-hyperopt
+      - sweeps/random/implicit-bpr-hyperopt.json:
+          cache: false
   sweep-implicit-bpr-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
       implicit-bpr sweeps/random/implicit-bpr-random
@@ -371,6 +592,16 @@ stages:
       - sweeps/random/implicit-bpr-random
       - sweeps/random/implicit-bpr-random.json:
           cache: false
+  sweep-uknn-explicit-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
+      --metric=RMSE uknn-explicit sweeps/random/uknn-explicit-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/uknn_explicit.py
+    outs:
+      - sweeps/random/uknn-explicit-hyperopt
+      - sweeps/random/uknn-explicit-hyperopt.json:
+          cache: false
   sweep-uknn-explicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
       --random --metric=RMSE uknn-explicit sweeps/random/uknn-explicit-random
@@ -380,6 +611,16 @@ stages:
     outs:
       - sweeps/random/uknn-explicit-random
       - sweeps/random/uknn-explicit-random.json:
+          cache: false
+  sweep-uknn-implicit-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
+      --metric=RBP uknn-implicit sweeps/random/uknn-implicit-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/uknn_implicit.py
+    outs:
+      - sweeps/random/uknn-implicit-hyperopt
+      - sweeps/random/uknn-implicit-hyperopt.json:
           cache: false
   sweep-uknn-implicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
