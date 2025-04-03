@@ -163,6 +163,12 @@ class TuningBuilder:
         searcher = ray.tune.search.BasicVariantGenerator(
             random_state=default_rng(self.random_seed.spawn(1)[0])
         )
+        if self.data.train.interaction_count >= 10_000_000:
+            cp_freq = 2
+        elif self.data.train.interaction_count >= 1_000_000:
+            cp_freq = 3
+        else:
+            cp_freq = 5
         self.tuner = ray.tune.Tuner(
             self.harness,
             param_space=self.model.search_space,
@@ -182,8 +188,9 @@ class TuningBuilder:
                 callbacks=[StatusCallback(self.model.name, self.data_info.dataset)],
                 stop=stopper,
                 checkpoint_config=ray.train.CheckpointConfig(
-                    checkpoint_frequency=2,
+                    checkpoint_frequency=cp_freq,
                     num_to_keep=2,
+                    # we don't need final model checkpoints
                     checkpoint_at_end=False,
                 ),
             ),
