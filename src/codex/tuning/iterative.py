@@ -121,8 +121,6 @@ class IterativeEval(ray.tune.Trainable):
         with open(cpdir / "state.json", "wt") as jsf:
             json.dump({"epochs": self.epochs_trained}, jsf)
 
-        return checkpoint_dir
-
     def load_checkpoint(self, checkpoint_dir: str):
         cpdir = Path(checkpoint_dir)
         with open(cpdir / "state.json", "rt") as jsf:
