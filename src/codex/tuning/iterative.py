@@ -4,11 +4,14 @@ Simple (non-iterative) evaluation of points.
 
 from __future__ import annotations
 
-from typing import Any
+import json
+import pickle
+from pathlib import Path
 
 import ray
 import ray.tune
 import ray.tune.result
+import torch
 from lenskit.batch import BatchPipelineRunner
 from lenskit.logging import get_logger
 from lenskit.logging.worker import send_task
@@ -105,20 +108,33 @@ class IterativeEval(ray.tune.Trainable):
         self.trainer.finalize()
 
     def save_checkpoint(self, checkpoint_dir: str):
+        cpdir = Path(checkpoint_dir)
         log = self.log.bind(epochs=self.epochs_trained)
         if isinstance(self.trainer, ParameterContainer):
             log.info("saving checkpoint")
-            return {"epochs": self.epochs_trained, "state": self.trainer.get_parameters()}
+            torch.save(self.trainer.get_parameters(), cpdir / "model.pt")
         else:
             log.warning("trainer does not implement ParameterContainer, pickling")
-            return {"epochs": self.epochs_trained, "trainer": self.trainer}
+            with open(cpdir / "model.pkl", "wb") as pkf:
+                pickle.dump(self.trainer, pkf)
 
-    def load_checkpoint(self, checkpoint: dict[str, Any]):
-        self.epochs_trained = checkpoint["epochs"]
+        with open(cpdir / "state.json", "wt") as jsf:
+            json.dump({"epochs": self.epochs_trained}, jsf)
+
+        return checkpoint_dir
+
+    def load_checkpoint(self, checkpoint_dir: str):
+        cpdir = Path(checkpoint_dir)
+        with open(cpdir / "state.json", "rt") as jsf:
+            tune_state = json.load(jsf)
+
+        self.epochs_trained = tune_state["epochs"]
         self.log.info("resuming from checkpoint", epochs=self.epochs_trained)
-        state = checkpoint.get("state", None)
-        if state is not None:
+
+        ptf = cpdir / "model.pt"
+        if ptf.exists():
             assert isinstance(self.trainer, ParameterContainer)
-            self.trainer.load_parameters(state)
+            self.trainer.load_parameters(torch.load(ptf))
         else:
-            self.trainer = state["trainer"]
+            with open(cpdir / "model.pkl", "rb") as pkf:
+                self.trainer = pickle.load(pkf)
