@@ -2514,3 +2514,25 @@ stages:
       hash: md5
       md5: c77de92bbfef452f4421e5a9fde3b50a
       size: 764
+  sweep-flexmf-explicit-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
+      --metric=RMSE flexmf-explicit sweeps/random/flexmf-explicit-hyperopt
+    deps:
+    - path: ../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 9271360109ed53980623529abafbc7a4
+      size: 527
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: sweeps/random/flexmf-explicit-hyperopt
+      hash: md5
+      md5: d1a8a8032d5a4f4ac05d46963ae07925.dir
+      size: 166206130
+      nfiles: 5
+    - path: sweeps/random/flexmf-explicit-hyperopt.json
+      hash: md5
+      md5: 6bab8960064d5a5e4b6c8031717ea64b
+      size: 759

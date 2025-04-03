@@ -4,6 +4,8 @@ Hyperparameter search.
 
 from __future__ import annotations
 
+import json
+import os.path
 import shutil
 import zipfile
 from pathlib import Path
@@ -132,11 +134,16 @@ def run_sweep(
 
     best_out = best.metrics
     assert best_out is not None
-    best_out = best_out.copy()
 
     if mod_def.is_iterative:
-        # save the number of epochs
+        # see if we have an earlier, best configuration
+        with open(os.path.join(best.path, "results.json"), "rt") as rjsf:
+            iter_results = [json.loads(line) for line in rjsf]
+
+        op = min if controller.mode == "min" else max
+        best_out = op(iter_results, key=lambda r: r[metric]).copy()
         best_out["config"] = best_out["config"] | {"epochs": best_out["training_iteration"]}
+
         with open(out / "iterations.ndjson", "wt") as jsf:
             for n, result in enumerate(results):
                 for i, row in result.metrics_dataframe.to_dict("index").items():
