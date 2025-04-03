@@ -65,4 +65,6 @@ class CrossfoldSplitSet(SplitSet):
         ds = dsb.build()
 
         log.info("loaded %d training interactions", ds.interaction_count)
-        return TTSplit(ds, ItemListCollection.from_df(test))
+        split = TTSplit(ds, ItemListCollection.from_df(test))
+        split.name = part
+        return split

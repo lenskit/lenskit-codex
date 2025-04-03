@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import override
 
 import structlog
-from lenskit.data import Dataset, ListILC
+from lenskit.data import Dataset
 from lenskit.splitting import TTSplit, split_global_time
 
 from ._base import SplitSet
@@ -45,14 +45,6 @@ class TemporalSplitSet(SplitSet):
                 raise ValueError(f"invalid part {part}")
 
         log.info("splitting data", test_lb=str(lb), test_ub=str(ub))
-        split = split_global_time(self.data, lb, ub)
-        test = ListILC(["user_id"])
-        users = split.train.user_stats()
-        users = users.index[users["count"] > 0]
-        for key, value in split.test:
-            if key.user_id in users:
-                test.add(value, *key)
-
-        log.info("kept %d of %d test users", len(test), len(split.test))
-        split.test = test
+        split = split_global_time(self.data, lb, ub, filter_test_users=True)
+        split.name = part
         return split
