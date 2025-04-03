@@ -81,7 +81,7 @@ def run_sweep(
     with (
         CodexTask(
             label=f"{method} search {model}",
-            tags=["search"],
+            tags=["search", method],
             scorer=ScorerModel(name=model),
             data=controller.data_info,
         ) as task,
