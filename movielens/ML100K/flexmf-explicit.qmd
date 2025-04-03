@@ -123,5 +123,6 @@ full_iters = iters[iters['trial_id'].isin(full_trials)]
     pn.ggplot(full_iters)
     + pn.aes(x='training_iteration', y='RMSE', color='trial_id')
     + pn.geom_line()
+    + pn.ggtitle('Performance of Full-Length Runs')
 )
 ```
