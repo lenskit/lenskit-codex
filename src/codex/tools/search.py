@@ -41,6 +41,7 @@ _log = get_logger(__name__)
     help="validate on PART",
 )
 @click.option("--random", "method", flag_value="random", help="use random search")
+@click.option("--hyperopt", "method", flag_value="hyperopt", help="use HyperOpt search")
 @click.option(
     "--metric",
     type=click.Choice(["RMSE", "RBP", "RecipRank", "NDCG"]),
@@ -55,7 +56,7 @@ def run_sweep(
     list_length: int,
     sample_count: int | None,
     split: Path,
-    method: Literal["random"],
+    method: Literal["random", "hyperopt"],
     metric: str,
     ds_name: str | None = None,
     test_part: str = "valid",
@@ -84,7 +85,12 @@ def run_sweep(
     ):
         controller.prepare_factory()
         controller.setup_harness()
-        tuner = controller.create_random_tuner()
+        if method == "random":
+            tuner = controller.create_random_tuner()
+        elif method == "hyperopt":
+            tuner = controller.create_hyperopt_tuner()
+        else:
+            raise ValueError(f"invalid method {method}")
 
         with open(out / "config.json", "wt") as jsf:
             print(to_json(controller.spec, indent=2).decode(), file=jsf)

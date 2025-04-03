@@ -5,6 +5,7 @@ import numpy as np
 import ray.tune
 import ray.tune.schedulers
 import ray.tune.search
+import ray.tune.search.hyperopt
 import ray.tune.stopper
 from lenskit.logging import get_logger
 from lenskit.parallel import get_parallel_config
@@ -14,7 +15,7 @@ from matplotlib.pylab import default_rng
 from pydantic import JsonValue
 
 from codex.models import ModelDef
-from codex.random import rng_seed
+from codex.random import int_seed, rng_seed
 from codex.runlog import DataModel
 from codex.splitting import load_split_set
 
@@ -126,7 +127,19 @@ class TuningBuilder:
             harness, {"CPU": self.model.tuning_cpus, "GPU": self.model.tuning_gpus}
         )
 
-    def create_random_tuner(self):
+    def create_random_tuner(self) -> ray.tune.Tuner:
+        searcher = ray.tune.search.BasicVariantGenerator(
+            random_state=default_rng(self.random_seed.spawn(1)[0])
+        )
+        return self._create_tuner(searcher)
+
+    def create_hyperopt_tuner(self) -> ray.tune.Tuner:
+        searcher = ray.tune.search.hyperopt.HyperOptSearch(
+            random_state_seed=int_seed(self.random_seed.spawn(1)[0])
+        )
+        return self._create_tuner(searcher)
+
+    def _create_tuner(self, searcher) -> ray.tune.Tuner:
         ray_store = self.out_dir / "state"
         scheduler = None
         stopper = None
@@ -134,19 +147,11 @@ class TuningBuilder:
             min_iter = self.model.options.get("min_epochs", 5)
             self.spec["min_epochs"] = min_iter
             assert isinstance(min_iter, int)
-            # scheduler = ray.tune.schedulers.AsyncHyperBandScheduler(
-            #     max_t=max_epochs,
-            #     grace_period=min_iter,
-            #     reduction_factor=2,
-            # )
             scheduler = ray.tune.schedulers.MedianStoppingRule(
                 time_attr="training_iteration",
                 grace_period=min_iter,
             )
             self.spec["scheduler"] = "median-stopping"
-            # stopper = ray.tune.stopper.TrialPlateauStopper(
-            #     self.metric, grace_period=min_iter, num_results=5, std=0.001
-            # )
             stopper = RelativePlateauStopper(
                 metric=self.metric,
                 mode=self.mode,
@@ -160,9 +165,6 @@ class TuningBuilder:
                 "min_improvement": 0.005,
             }
         self.spec["searcher"] = "random"
-        searcher = ray.tune.search.BasicVariantGenerator(
-            random_state=default_rng(self.random_seed.spawn(1)[0])
-        )
         if self.data.train.interaction_count >= 10_000_000:
             cp_freq = 2
         elif self.data.train.interaction_count >= 1_000_000:
