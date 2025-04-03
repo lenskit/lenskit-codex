@@ -153,6 +153,8 @@ class TuningBuilder:
             scheduler = ray.tune.schedulers.MedianStoppingRule(
                 time_attr="training_iteration",
                 grace_period=min_iter,
+                min_time_slice=3,
+                min_samples_required=5,
             )
             self.spec["scheduler"] = "median-stopping"
             stopper = RelativePlateauStopper(
