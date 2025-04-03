@@ -36,11 +36,9 @@ class RelativePlateauStopper(ray.tune.Stopper):
         mr = result[self.metric]
         log = _log.bind(trial=trial_id, epoch=epoch, **{self.metric: mr})
 
-        if self.mode == "min":
-            mr *= -1
-
         hist = self.results.get(trial_id, [])
         if len(hist) >= result["training_iteration"]:
+            log.debug("truncating history", len=len(hist))
             hist = hist[: result["training_iteration"] - 1]
         hist.append(mr)
         self.results[trial_id] = hist
@@ -49,12 +47,18 @@ class RelativePlateauStopper(ray.tune.Stopper):
             return False
 
         imp = np.diff(hist) / hist[:-1]
+        if self.mode == "min":
+            imp *= -1
+
         # if we haven't improved more than min_imporvement lately, stop
         if np.all(imp[-self.check_iters :] < self.min_improvement).item():
-            log.debug("trial plateaued, stopping with last improvement {:.3%}%".format(imp[-1]))
+            log.debug(
+                "trial plateaued, stopping with last improvement {:.3%}".format(imp[-1]),
+                history=hist,
+            )
             return True
         else:
-            log.debug("continuing with improvement {:.3%}%".format(imp[-1]))
+            log.debug("continuing with improvement {:.3%}".format(imp[-1]))
             return False
 
     def stop_all(self) -> bool:
