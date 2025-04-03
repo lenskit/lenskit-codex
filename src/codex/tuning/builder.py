@@ -148,7 +148,10 @@ class TuningBuilder:
             #     self.metric, grace_period=min_iter, num_results=5, std=0.001
             # )
             stopper = RelativePlateauStopper(
-                self.metric, self.mode, grace_period=min_iter, check_iters=min(min_iter, 3)
+                metric=self.metric,
+                mode=self.mode,
+                grace_period=min_iter,
+                check_iters=min(min_iter, 3),
             )
             self.spec["stopper"] = {
                 "type": "plateau",
