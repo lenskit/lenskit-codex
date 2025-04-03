@@ -10,7 +10,8 @@ local lib = import '../src/codex.libsonnet';
         std.format('--split=splits/%s.toml', [split]),
         if split == 'random' then '--test-part=0' else '--test-part=valid',
         if std.objectHas(m.value, 'search_points') then std.format('--sample-count=%s', m.value.search_points),
-        if method == 'random' then '--random',
+        if method == 'random' then '--random'
+        else if method == 'hyperopt' then '--hyperopt',
         if m.value.predictor then '--metric=RMSE' else '--metric=RBP',
         m.key,
         out_dir,
