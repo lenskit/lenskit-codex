@@ -3,6 +3,6 @@
     name: 'ML100K',
     fn: 'ml-100k',
     splits: ['random'],
-    searches: ['random', 'hyperopt'],
+    searches: ['random', 'hyperopt', 'optuna'],
   },
 } + import '../layout.libsonnet'
