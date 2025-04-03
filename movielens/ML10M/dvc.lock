@@ -2576,8 +2576,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
       hash: md5
-      md5: b9b53df4be8c7e803f5c7d03b63fafce
-      size: 662
+      md5: cd8dcd8f8139bc6acbb4888c84e7df48
+      size: 705
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -2585,10 +2585,54 @@ stages:
     outs:
     - path: sweeps/temporal/flexmf-bpr-random
       hash: md5
-      md5: d08cef12dd5fe3526a91938aa3ec3abb.dir
-      size: 397066
+      md5: f179aaffa4795677bc9f925a040fee7e.dir
+      size: 8028812002
       nfiles: 5
     - path: sweeps/temporal/flexmf-bpr-random.json
       hash: md5
-      md5: 81c6841623baeae582ffd076cfc9e2e2
-      size: 858
+      md5: 1a1e9b24328679fe42b31dc4caec9c2b
+      size: 877
+  sweep-flexmf-explicit-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-random
+    deps:
+    - path: ../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 9271360109ed53980623529abafbc7a4
+      size: 527
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: sweeps/temporal/flexmf-explicit-random
+      hash: md5
+      md5: 7ae587185dfd96b990b826a40209cce9.dir
+      size: 5914906210
+      nfiles: 5
+    - path: sweeps/temporal/flexmf-explicit-random.json
+      hash: md5
+      md5: 6ec5456ba51847f23766abbc61705342
+      size: 765
+  sweep-flexmf-logistic-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-random
+    deps:
+    - path: ../../src/codex/models/flexmf_logistic.py
+      hash: md5
+      md5: bbad471f8ca28fa9c5a9818432bc7ac8
+      size: 748
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: sweeps/temporal/flexmf-logistic-random
+      hash: md5
+      md5: 1316a7e0a8fe19d8f9c7ef3b891e49f1.dir
+      size: 5867227501
+      nfiles: 5
+    - path: sweeps/temporal/flexmf-logistic-random.json
+      hash: md5
+      md5: 3c6c8c6a1ced6b0ecdd007c91cc160bb
+      size: 906
