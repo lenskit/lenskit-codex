@@ -107,7 +107,7 @@ class TuningBuilder:
         if self.model.is_iterative:
             self.spec["harness"] = "iterative"
             self.spec["max_epochs"] = limit
-            harness = IterativeEval(self.job)
+            harness = ray.tune.with_parameters(IterativeEval, job=self.job)
         else:
             self.spec["harness"] = "simple"
             harness = SimplePointEval(self.job)
@@ -173,6 +173,9 @@ class TuningBuilder:
                 failure_config=ray.tune.FailureConfig(fail_fast=True),
                 callbacks=[StatusCallback(self.model.name, self.data_info.dataset)],
                 stop=stopper,
+                checkpoint_config=ray.train.CheckpointConfig(
+                    checkpoint_frequency=2, num_to_keep=10
+                ),
             ),
         )
         return self.tuner
