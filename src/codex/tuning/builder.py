@@ -22,6 +22,7 @@ from .iterative import IterativeEval
 from .job import DEFAULT_MAX_EPOCHS, TuningJobData
 from .reporting import ProgressReport, StatusCallback
 from .simple import SimplePointEval
+from .stopper import RelativePlateauStopper
 
 _log = get_logger(__name__)
 
@@ -143,8 +144,11 @@ class TuningBuilder:
                 grace_period=min_iter,
             )
             self.spec["scheduler"] = "median-stopping"
-            stopper = ray.tune.stopper.TrialPlateauStopper(
-                self.metric, grace_period=min_iter, num_results=5, std=0.001
+            # stopper = ray.tune.stopper.TrialPlateauStopper(
+            #     self.metric, grace_period=min_iter, num_results=5, std=0.001
+            # )
+            stopper = RelativePlateauStopper(
+                self.metric, self.mode, grace_period=min_iter, check_iters=min(min_iter, 3)
             )
             self.spec["stopper"] = {
                 "type": "plateau",
