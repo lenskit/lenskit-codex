@@ -83,7 +83,7 @@ class IterativeEval(ray.tune.Trainable):
     def step(self):
         epoch = self.iteration
         if epoch > self.job.epoch_limit:
-            return ray.tune.result.DONE
+            return {ray.tune.result.DONE: True}
 
         elog = self.log.bind(epoch=epoch)
 
@@ -96,6 +96,8 @@ class IterativeEval(ray.tune.Trainable):
         elog.debug("measuring iteration results")
         metrics = measure(self.mod_def, results, self.data, self.task, None)
         metrics["max_epochs"] = self.job.epoch_limit
+        if epoch == self.job.epoch_limit:
+            metrics[ray.tune.result.DONE] = True
         send_task(self.task)
         elog.info("epoch complete")
         return metrics
@@ -126,7 +128,7 @@ class IterativeEval(ray.tune.Trainable):
         ptf = cpdir / "model.pt"
         if ptf.exists():
             assert isinstance(self.trainer, ParameterContainer)
-            self.trainer.load_parameters(torch.load(ptf))
+            self.trainer.load_parameters(torch.load(ptf, weights_only=False))
         else:
             with open(cpdir / "model.pkl", "rb") as pkf:
                 self.trainer = pickle.load(pkf)
