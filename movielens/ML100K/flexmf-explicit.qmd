@@ -14,9 +14,9 @@ from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('flexmf-explicit')
-iters = load_sweep_iters('flexmf-explicit')
-result = load_sweep_result('flexmf-explicit')
+runs = load_sweep_runs('flexmf-explicit', method='optuna')
+iters = load_sweep_iters('flexmf-explicit', method='optuna')
+result = load_sweep_result('flexmf-explicit', method='optuna')
 best_id = result['trial_id']
 ```
 
