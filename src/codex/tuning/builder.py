@@ -139,6 +139,10 @@ class TuningBuilder:
         )
         return self._create_tuner(searcher)
 
+    def create_optuna_tuner(self) -> ray.tune.Tuner:
+        searcher = ray.tune.search.optuna.OptunaSearch(seed=int_seed(self.random_seed.spawn(1)[0]))
+        return self._create_tuner(searcher)
+
     def _create_tuner(self, searcher) -> ray.tune.Tuner:
         ray_store = self.out_dir / "state"
         scheduler = None
@@ -171,6 +175,7 @@ class TuningBuilder:
             cp_freq = 3
         else:
             cp_freq = 5
+        self.log.info("will checkpoint every %d iterations", cp_freq)
         self.tuner = ray.tune.Tuner(
             self.harness,
             param_space=self.model.search_space,

@@ -42,6 +42,7 @@ _log = get_logger(__name__)
 )
 @click.option("--random", "method", flag_value="random", help="use random search")
 @click.option("--hyperopt", "method", flag_value="hyperopt", help="use HyperOpt search")
+@click.option("--optuna", "method", flag_value="optuna", help="use Optuna search")
 @click.option(
     "--metric",
     type=click.Choice(["RMSE", "RBP", "RecipRank", "NDCG"]),
@@ -56,7 +57,7 @@ def run_sweep(
     list_length: int,
     sample_count: int | None,
     split: Path,
-    method: Literal["random", "hyperopt"],
+    method: Literal["random", "hyperopt", "optuna"],
     metric: str,
     ds_name: str | None = None,
     test_part: str = "valid",
@@ -89,6 +90,8 @@ def run_sweep(
             tuner = controller.create_random_tuner()
         elif method == "hyperopt":
             tuner = controller.create_hyperopt_tuner()
+        elif method == "optuna":
+            tuner = controller.create_optuna_tuner()
         else:
             raise ValueError(f"invalid method {method}")
 
