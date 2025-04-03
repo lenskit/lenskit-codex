@@ -16,4 +16,4 @@ SEARCH_SPACE = {
 OPTIONS = {"max_epochs": 50}
 # we can train on CPU, it's just slower
 if torch.cuda.is_available():
-    TUNE_GPUS = 0.25
+    TUNE_GPUS = 0.2
