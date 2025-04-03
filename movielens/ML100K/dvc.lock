@@ -2536,3 +2536,25 @@ stages:
       hash: md5
       md5: 6bab8960064d5a5e4b6c8031717ea64b
       size: 759
+  sweep-bias-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RMSE
+      bias sweeps/random/bias-optuna
+    deps:
+    - path: ../../src/codex/models/bias.py
+      hash: md5
+      md5: 79d1ef7f11afd2f4a19828a1c0d1072d
+      size: 322
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: sweeps/random/bias-optuna
+      hash: md5
+      md5: 9bd0ff9cd355f461f294d2329b10e8bf.dir
+      size: 774760
+      nfiles: 4
+    - path: sweeps/random/bias-optuna.json
+      hash: md5
+      md5: 1e63be5a185b2ba7e5c576e5188d4c1e
+      size: 803
