@@ -51,7 +51,11 @@ class RelativePlateauStopper(ray.tune.Stopper):
         imp = np.diff(hist) / hist[:-1]
         # if we haven't improved more than min_imporvement lately, stop
         if np.all(imp[-self.check_iters :] < self.min_improvement).item():
-            log.debug("trial plateaued, stopping with last improvement {:.3%}".format(imp[-1]))
+            log.debug("trial plateaued, stopping with last improvement {:.3%}%".format(imp[-1]))
+            return True
+        else:
+            log.debug("continuing with improvement {:.3%}%".format(imp[-1]))
+            return False
 
     def stop_all(self) -> bool:
         return False
