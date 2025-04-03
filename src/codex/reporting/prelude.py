@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 import warnings
 from pathlib import Path
 
@@ -34,6 +35,7 @@ __all__ = [
     "log",
     "rich",
     "json",
+    "re",
     "Path",
     "duckdb",
     "plt",

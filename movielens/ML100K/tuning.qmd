@@ -1,0 +1,50 @@
+---
+title: ML100K Tuning Summary
+order: 2
+deps:
+- sweeps
+---
+
+
+This is a summary view of model tuning on the ML100K data set.
+
+```{python}
+from codex.reporting.prelude import *
+```
+
+```{python}
+sweep_dir = Path('sweeps')
+tasks = []
+for p in sweep_dir.glob('*/*/tuning-task.json'):
+    m = re.match(r'(.*)-(\w+)$', p.parent.name)
+    model = m.group(1)
+    method = m.group(2)
+    data = json.loads(p.read_text())
+    tasks.append({'model': model, 'method': method} | data)
+task_df = pd.json_normalize(tasks)
+```
+
+
+```{python}
+(
+    pn.ggplot(task_df)
+    + pn.aes(x='model', y='duration/60', fill='method')
+    + pn.geom_col(position='dodge')
+    + pn.scale_fill_brewer('qual', 'Dark2')
+    + pn.coord_flip()
+    + pn.xlab("Model")
+    + pn.ylab("Duration (minutes)")
+)
+```
+
+```{python}
+(
+    pn.ggplot(task_df)
+    + pn.aes(x='model', y='chassis_power/3600', fill='method')
+    + pn.geom_col(position='dodge')
+    + pn.scale_fill_brewer('qual', 'Dark2')
+    + pn.coord_flip()
+    + pn.xlab("Model")
+    + pn.ylab("Power (Wh)")
+)
+```
