@@ -554,7 +554,7 @@ stages:
       - sweeps/random/als-biased-hyperopt.json:
           cache: false
   sweep-als-biased-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RMSE
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RMSE
       als-biased sweeps/random/als-biased-optuna
     deps:
       - splits/random.parquet
@@ -584,7 +584,7 @@ stages:
       - sweeps/random/als-implicit-hyperopt.json:
           cache: false
   sweep-als-implicit-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RBP
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RBP
       als-implicit sweeps/random/als-implicit-optuna
     deps:
       - splits/random.parquet
@@ -614,7 +614,7 @@ stages:
       - sweeps/random/bias-hyperopt.json:
           cache: false
   sweep-bias-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RMSE
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RMSE
       bias sweeps/random/bias-optuna
     deps:
       - splits/random.parquet
@@ -644,7 +644,7 @@ stages:
       - sweeps/random/flexmf-bpr-hyperopt.json:
           cache: false
   sweep-flexmf-bpr-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RBP
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RBP
       flexmf-bpr sweeps/random/flexmf-bpr-optuna
     deps:
       - splits/random.parquet
@@ -674,7 +674,7 @@ stages:
       - sweeps/random/flexmf-explicit-hyperopt.json:
           cache: false
   sweep-flexmf-explicit-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RMSE
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RMSE
       flexmf-explicit sweeps/random/flexmf-explicit-optuna
     deps:
       - splits/random.parquet
@@ -704,7 +704,7 @@ stages:
       - sweeps/random/flexmf-logistic-hyperopt.json:
           cache: false
   sweep-flexmf-logistic-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RBP
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RBP
       flexmf-logistic sweeps/random/flexmf-logistic-optuna
     deps:
       - splits/random.parquet
@@ -734,7 +734,7 @@ stages:
       - sweeps/random/iknn-explicit-hyperopt.json:
           cache: false
   sweep-iknn-explicit-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RMSE
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RMSE
       iknn-explicit sweeps/random/iknn-explicit-optuna
     deps:
       - splits/random.parquet
@@ -764,7 +764,7 @@ stages:
       - sweeps/random/iknn-implicit-hyperopt.json:
           cache: false
   sweep-iknn-implicit-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RBP
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RBP
       iknn-implicit sweeps/random/iknn-implicit-optuna
     deps:
       - splits/random.parquet
@@ -794,7 +794,7 @@ stages:
       - sweeps/random/implicit-bpr-hyperopt.json:
           cache: false
   sweep-implicit-bpr-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --metric=RBP
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RBP
       implicit-bpr sweeps/random/implicit-bpr-optuna
     deps:
       - splits/random.parquet
@@ -825,7 +825,7 @@ stages:
           cache: false
   sweep-uknn-explicit-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
-      --metric=RMSE uknn-explicit sweeps/random/uknn-explicit-optuna
+      --optuna --metric=RMSE uknn-explicit sweeps/random/uknn-explicit-optuna
     deps:
       - splits/random.parquet
       - ../../src/codex/models/uknn_explicit.py
@@ -855,7 +855,7 @@ stages:
           cache: false
   sweep-uknn-implicit-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
-      --metric=RBP uknn-implicit sweeps/random/uknn-implicit-optuna
+      --optuna --metric=RBP uknn-implicit sweeps/random/uknn-implicit-optuna
     deps:
       - splits/random.parquet
       - ../../src/codex/models/uknn_implicit.py
