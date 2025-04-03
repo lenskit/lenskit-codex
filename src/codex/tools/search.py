@@ -137,7 +137,7 @@ def run_sweep(
 
     if mod_def.is_iterative:
         # see if we have an earlier, best configuration
-        with open(os.path.join(best.path, "results.json"), "rt") as rjsf:
+        with open(os.path.join(best.path, "result.json"), "rt") as rjsf:
             iter_results = [json.loads(line) for line in rjsf]
 
         op = min if controller.mode == "min" else max
