@@ -5,7 +5,6 @@ import numpy as np
 import ray.tune
 import ray.tune.schedulers
 import ray.tune.search
-import ray.tune.search.hyperopt
 import ray.tune.stopper
 from lenskit.logging import get_logger
 from lenskit.parallel import get_parallel_config
@@ -13,6 +12,8 @@ from lenskit.splitting import TTSplit
 from lenskit.training import Trainable, TrainingOptions
 from matplotlib.pylab import default_rng
 from pydantic import JsonValue
+from ray.tune.search.hyperopt import HyperOptSearch
+from ray.tune.search.optuna import OptunaSearch
 
 from codex.models import ModelDef
 from codex.random import int_seed, rng_seed
@@ -134,13 +135,11 @@ class TuningBuilder:
         return self._create_tuner(searcher)
 
     def create_hyperopt_tuner(self) -> ray.tune.Tuner:
-        searcher = ray.tune.search.hyperopt.HyperOptSearch(
-            random_state_seed=int_seed(self.random_seed.spawn(1)[0])
-        )
+        searcher = HyperOptSearch(random_state_seed=int_seed(self.random_seed.spawn(1)[0]))
         return self._create_tuner(searcher)
 
     def create_optuna_tuner(self) -> ray.tune.Tuner:
-        searcher = ray.tune.search.optuna.OptunaSearch(seed=int_seed(self.random_seed.spawn(1)[0]))
+        searcher = OptunaSearch(seed=int_seed(self.random_seed.spawn(1)[0]))
         return self._create_tuner(searcher)
 
     def _create_tuner(self, searcher) -> ray.tune.Tuner:
