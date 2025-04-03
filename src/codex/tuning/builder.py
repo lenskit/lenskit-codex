@@ -146,6 +146,7 @@ class TuningBuilder:
         ray_store = self.out_dir / "state"
         scheduler = None
         stopper = None
+        cp_config = None
         if self.model.is_iterative:
             min_iter = self.model.options.get("min_epochs", 5)
             self.spec["min_epochs"] = min_iter
@@ -169,14 +170,23 @@ class TuningBuilder:
                 "num_results": 3,
                 "min_improvement": 0.005,
             }
+
+            if self.data.train.interaction_count >= 10_000_000:
+                cp_freq = 2
+            elif self.data.train.interaction_count >= 1_000_000:
+                cp_freq = 3
+            else:
+                cp_freq = 5
+            self.log.info("will checkpoint every %d iterations", cp_freq)
+            cp_config = ray.tune.CheckpointConfig(
+                checkpoint_frequency=cp_freq,
+                num_to_keep=2,
+                # we don't need final model checkpoints
+                checkpoint_at_end=False,
+            )
+
         self.spec["searcher"] = "random"
-        if self.data.train.interaction_count >= 10_000_000:
-            cp_freq = 2
-        elif self.data.train.interaction_count >= 1_000_000:
-            cp_freq = 3
-        else:
-            cp_freq = 5
-        self.log.info("will checkpoint every %d iterations", cp_freq)
+
         self.tuner = ray.tune.Tuner(
             self.harness,
             param_space=self.model.search_space,
@@ -195,12 +205,7 @@ class TuningBuilder:
                 failure_config=ray.tune.FailureConfig(fail_fast=True),
                 callbacks=[StatusCallback(self.model.name, self.data_info.dataset)],
                 stop=stopper,
-                checkpoint_config=ray.tune.CheckpointConfig(
-                    checkpoint_frequency=cp_freq,
-                    num_to_keep=2,
-                    # we don't need final model checkpoints
-                    checkpoint_at_end=False,
-                ),
+                checkpoint_config=cp_config,
             ),
         )
         return self.tuner
