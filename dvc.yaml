@@ -107,6 +107,15 @@ stages:
       - movielens/ML100K/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML100K/summary
+  page/movielens/ML100K/tuning:
+    cmd: quarto render movielens/ML100K/tuning.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML100K/tuning.qmd
+      - movielens/ML100K/sweeps
+    outs:
+      - _freeze/movielens/ML100K/tuning
   page/movielens/ML100K/uknn-explicit:
     cmd: quarto render movielens/ML100K/uknn-explicit.qmd --profile prerender
     deps:
