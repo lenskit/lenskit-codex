@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import json
 import os.path
-import shutil
 import zipfile
 from pathlib import Path
 from typing import Literal
@@ -176,8 +175,8 @@ def run_sweep(
 
                 zipf.write(fpath, fpstr, compress_type=comp)
 
-    log.debug("deleting unpacked search state")
-    shutil.rmtree(out / "state")
+    # log.debug("deleting unpacked search state")
+    # shutil.rmtree(out / "state")
 
     if fail is not None:
         raise fail
