@@ -155,9 +155,13 @@ def run_sweep(
         print(to_json(best_out).decode(), file=jsf)
 
     log.info("archiving search state")
-    with zipfile.ZipFile(out / "state.zip", "w") as zipf:
-        state_dir = out / "state"
+    with zipfile.ZipFile(out / "tuning-state.zip", "w") as zipf:
+        state_dir = out / "tuning-state"
         for dir, _sds, files in state_dir.walk():
+            if dir.name.startswith("checkpoint_"):
+                log.debug("skipping checkpoint directory")
+                continue
+
             log.debug("adding directory", dir=dir)
             zipf.mkdir(dir.relative_to(out).as_posix())
             for file in files:

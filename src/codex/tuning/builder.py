@@ -143,7 +143,7 @@ class TuningBuilder:
         return self._create_tuner(searcher)
 
     def _create_tuner(self, searcher) -> ray.tune.Tuner:
-        ray_store = self.out_dir / "state"
+        ray_store = self.out_dir / "tuning-state"
         scheduler = None
         stopper = None
         cp_config = None
