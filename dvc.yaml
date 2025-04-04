@@ -261,6 +261,15 @@ stages:
       - movielens/ML1M/sweeps/random/flexmf-explicit-random
     outs:
       - _freeze/movielens/ML1M/flexmf-explicit
+  page/movielens/ML1M/flexmf-logistic:
+    cmd: quarto render movielens/ML1M/flexmf-logistic.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML1M/flexmf-logistic.qmd
+      - movielens/ML1M/sweeps/random/flexmf-logistic-random
+    outs:
+      - _freeze/movielens/ML1M/flexmf-logistic
   page/movielens/ML1M/iknn-explicit:
     cmd: quarto render movielens/ML1M/iknn-explicit.qmd --profile prerender
     deps:
