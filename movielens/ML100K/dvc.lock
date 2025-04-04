@@ -436,8 +436,8 @@ stages:
       nfiles: 5
     - path: runs/random/als-biased-hyperopt-best
       hash: md5
-      md5: c6a601d9b9efcbcf4be3ea44b87cf8a5.dir
-      size: 721702
+      md5: a606005834370463fb275fb777805b09.dir
+      size: 721734
       nfiles: 5
     - path: runs/random/als-biased-optuna-best
       hash: md5
@@ -466,8 +466,8 @@ stages:
       nfiles: 4
     - path: runs/random/als-implicit-random-best
       hash: md5
-      md5: f5671b73804e3fec8da669cfca871e54.dir
-      size: 708203
+      md5: da303e2df8a0b6535496ed43f8801e5b.dir
+      size: 708034
       nfiles: 4
     - path: runs/random/bias-default
       hash: md5
@@ -657,12 +657,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 54ccdd94342d88c9755db9b79c14f73e
-      size: 70119
+      md5: 45868b1224c2f26f57f60fe12dbf3df6
+      size: 70107
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 70a9026c0d3110f5517301bebbbc27b4
-      size: 910342
+      md5: fb9edcefd81e3f65223e6d571fbd9d07
+      size: 910359
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate --param-file=sweeps/random/IKNN-Implicit-grid.json
       --test-part=-0 --ds-name=ML100K --split=splits/random.toml -o runs/random-grid-best/IKNN-Implicit
@@ -2375,13 +2375,13 @@ stages:
       size: 56269
     - path: sweeps/random/als-implicit-random.json
       hash: md5
-      md5: d9ee5a261f4bb0eefb8b95a9d46adacd
-      size: 871
+      md5: 18ebf3bc691819b41c1e28256185c639
+      size: 721
     outs:
     - path: runs/random/als-implicit-random-best
       hash: md5
-      md5: f5671b73804e3fec8da669cfca871e54.dir
-      size: 708203
+      md5: da303e2df8a0b6535496ed43f8801e5b.dir
+      size: 708034
       nfiles: 4
   run-random-default-flexmf-explicit:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
@@ -2910,13 +2910,13 @@ stages:
       size: 56269
     - path: sweeps/random/als-biased-hyperopt.json
       hash: md5
-      md5: 5156cbb30c07cfba5a47b37990928559
-      size: 706
+      md5: 66c1c246b8cac7b97a34834f30712861
+      size: 707
     outs:
     - path: runs/random/als-biased-hyperopt-best
       hash: md5
-      md5: c6a601d9b9efcbcf4be3ea44b87cf8a5.dir
-      size: 721702
+      md5: a606005834370463fb275fb777805b09.dir
+      size: 721734
       nfiles: 5
   sweep-als-implicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
