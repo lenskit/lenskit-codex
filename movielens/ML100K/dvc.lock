@@ -2348,13 +2348,13 @@ stages:
     outs:
     - path: sweeps/random/als-implicit-random
       hash: md5
-      md5: 6f1a69b94328b2609ba18a30d19c249a.dir
-      size: 982992
+      md5: 437bf5a869a3dce9f2d549b850cd9fb7.dir
+      size: 207685952
       nfiles: 5
     - path: sweeps/random/als-implicit-random.json
       hash: md5
-      md5: d9ee5a261f4bb0eefb8b95a9d46adacd
-      size: 871
+      md5: 18ebf3bc691819b41c1e28256185c639
+      size: 721
   run-random-random-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/als-implicit-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/als-implicit-random-best
@@ -2883,13 +2883,13 @@ stages:
     outs:
     - path: sweeps/random/als-biased-hyperopt
       hash: md5
-      md5: 81454abc56a99d55001abfed8f4f74e3.dir
-      size: 808297507
+      md5: 01e6bd2862836b706fe64a0e976e423b.dir
+      size: 332303965
       nfiles: 5
     - path: sweeps/random/als-biased-hyperopt.json
       hash: md5
-      md5: 5156cbb30c07cfba5a47b37990928559
-      size: 706
+      md5: 66c1c246b8cac7b97a34834f30712861
+      size: 707
   run-random-hyperopt-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/random/als-biased-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/als-biased-hyperopt-best
