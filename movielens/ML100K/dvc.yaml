@@ -9,6 +9,7 @@ stages:
       - runs/random/flexmf-bpr-default
       - runs/random/flexmf-explicit-default
       - runs/random/flexmf-logistic-default
+      - runs/random/flexmf-warp-default
       - runs/random/iknn-explicit-default
       - runs/random/iknn-implicit-default
       - runs/random/implicit-bpr-default
@@ -21,6 +22,7 @@ stages:
       - runs/random/flexmf-bpr-random-best
       - runs/random/flexmf-explicit-random-best
       - runs/random/flexmf-logistic-random-best
+      - runs/random/flexmf-warp-random-best
       - runs/random/iknn-explicit-random-best
       - runs/random/iknn-implicit-random-best
       - runs/random/implicit-bpr-random-best
@@ -32,6 +34,7 @@ stages:
       - runs/random/flexmf-bpr-hyperopt-best
       - runs/random/flexmf-explicit-hyperopt-best
       - runs/random/flexmf-logistic-hyperopt-best
+      - runs/random/flexmf-warp-hyperopt-best
       - runs/random/iknn-explicit-hyperopt-best
       - runs/random/iknn-implicit-hyperopt-best
       - runs/random/implicit-bpr-hyperopt-best
@@ -43,6 +46,7 @@ stages:
       - runs/random/flexmf-bpr-optuna-best
       - runs/random/flexmf-explicit-optuna-best
       - runs/random/flexmf-logistic-optuna-best
+      - runs/random/flexmf-warp-optuna-best
       - runs/random/iknn-explicit-optuna-best
       - runs/random/iknn-implicit-optuna-best
       - runs/random/implicit-bpr-optuna-best
@@ -111,6 +115,15 @@ stages:
       - splits/random.parquet
     outs:
       - runs/random/flexmf-logistic-default
+  run-random-default-flexmf-warp:
+    cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
+      -o runs/random/flexmf-warp-default flexmf-warp
+    deps:
+      - ../../src/codex/models/flexmf_warp.py
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/flexmf-warp-default
   run-random-default-iknn-explicit:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/iknn-explicit-default iknn-explicit
@@ -230,6 +243,17 @@ stages:
       - sweeps/random/flexmf-logistic-hyperopt.json
     outs:
       - runs/random/flexmf-logistic-hyperopt-best
+  run-random-hyperopt-best-flexmf-warp:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-warp-hyperopt.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-warp-hyperopt-best
+      flexmf-warp
+    deps:
+      - ../../src/codex/models/flexmf_warp.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/flexmf-warp-hyperopt.json
+    outs:
+      - runs/random/flexmf-warp-hyperopt-best
   run-random-hyperopt-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-hyperopt-best
@@ -350,6 +374,17 @@ stages:
       - sweeps/random/flexmf-logistic-optuna.json
     outs:
       - runs/random/flexmf-logistic-optuna-best
+  run-random-optuna-best-flexmf-warp:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-warp-optuna.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-warp-optuna-best
+      flexmf-warp
+    deps:
+      - ../../src/codex/models/flexmf_warp.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/flexmf-warp-optuna.json
+    outs:
+      - runs/random/flexmf-warp-optuna-best
   run-random-optuna-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-optuna.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-optuna-best
@@ -470,6 +505,17 @@ stages:
       - sweeps/random/flexmf-logistic-random.json
     outs:
       - runs/random/flexmf-logistic-random-best
+  run-random-random-best-flexmf-warp:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-warp-random.json
+      --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-warp-random-best
+      flexmf-warp
+    deps:
+      - ../../src/codex/models/flexmf_warp.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/flexmf-warp-random.json
+    outs:
+      - runs/random/flexmf-warp-random-best
   run-random-random-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-random-best
@@ -722,6 +768,36 @@ stages:
     outs:
       - sweeps/random/flexmf-logistic-random
       - sweeps/random/flexmf-logistic-random.json:
+          cache: false
+  sweep-flexmf-warp-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
+      --metric=RBP flexmf-warp sweeps/random/flexmf-warp-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/flexmf_warp.py
+    outs:
+      - sweeps/random/flexmf-warp-hyperopt
+      - sweeps/random/flexmf-warp-hyperopt.json:
+          cache: false
+  sweep-flexmf-warp-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RBP
+      flexmf-warp sweeps/random/flexmf-warp-optuna
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/flexmf_warp.py
+    outs:
+      - sweeps/random/flexmf-warp-optuna
+      - sweeps/random/flexmf-warp-optuna.json:
+          cache: false
+  sweep-flexmf-warp-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
+      flexmf-warp sweeps/random/flexmf-warp-random
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/flexmf_warp.py
+    outs:
+      - sweeps/random/flexmf-warp-random
+      - sweeps/random/flexmf-warp-random.json:
           cache: false
   sweep-iknn-explicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
