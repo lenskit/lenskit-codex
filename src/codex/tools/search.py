@@ -55,7 +55,6 @@ _log = get_logger(__name__)
 def run_sweep(
     model: str,
     out: Path,
-    list_length: int,
     sample_count: int | None,
     split: Path,
     method: Literal["random", "hyperopt", "optuna"],
@@ -70,7 +69,7 @@ def run_sweep(
         sample_count = mod_def.options.get("search_points", 100)  # type: ignore
 
     ray.tune.utils.log.set_verbosity(0)
-    controller = TuningBuilder(mod_def, out, list_length, sample_count, metric)
+    controller = TuningBuilder(mod_def, out, sample_count, metric)
     controller.load_data(split, test_part, ds_name)
 
     out.mkdir(exist_ok=True, parents=True)

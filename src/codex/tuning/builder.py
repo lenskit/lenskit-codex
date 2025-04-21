@@ -36,7 +36,6 @@ class TuningBuilder:
 
     model: ModelDef
     out_dir: Path
-    list_length: int
     sample_count: int
     job_limit: int | None
     metric: str
@@ -46,17 +45,15 @@ class TuningBuilder:
     data_info: DataModel
     data: TTSplit
 
-    def __init__(self, model, out_dir, list_length, sample_count, metric):
+    def __init__(self, model, out_dir, sample_count, metric):
         self.model = model
         self.out_dir = out_dir
-        self.list_length = list_length
         self.sample_count = sample_count
         self.metric = metric
         self.spec = {
             "model": model.name,
             "metric": metric,
             "mode": self.mode,
-            "list_length": list_length,
             "sample_count": sample_count,
         }
 
@@ -99,7 +96,6 @@ class TuningBuilder:
         assert isinstance(limit, int)
         self.job = TuningJobData(
             model_name=self.model.name,
-            list_length=self.list_length,
             random_seed=self.random_seed.spawn(1)[0],
             epoch_limit=limit,
             data_info=self.data_info,

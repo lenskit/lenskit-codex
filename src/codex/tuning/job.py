@@ -16,7 +16,6 @@ class TuningJobData:
     """
 
     model_name: str
-    list_length: int
     random_seed: np.random.SeedSequence
     epoch_limit: int = DEFAULT_MAX_EPOCHS
     data_info: DataModel = field(default_factory=DataModel)
