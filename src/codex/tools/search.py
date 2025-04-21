@@ -28,9 +28,6 @@ _log = get_logger(__name__)
 
 
 @codex.command("search")
-@click.option(
-    "-n", "--list-length", type=int, metavar="N", default=1000, help="generate lists of length N"
-)
 @click.option("-C", "--sample-count", type=int, metavar="N", help="test N points")
 @click.option("--split", "split", type=Path, help="path to the split spec (or base file)")
 @click.option("-N", "--ds-name", help="name of the dataset to search with")
@@ -52,7 +49,7 @@ _log = get_logger(__name__)
 )
 @click.argument("MODEL")
 @click.argument("OUT", type=Path)
-def run_sweep(
+def run_search(
     model: str,
     out: Path,
     sample_count: int | None,
