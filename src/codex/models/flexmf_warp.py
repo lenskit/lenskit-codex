@@ -12,7 +12,7 @@ SEARCH_SPACE = {
     "regularization": rt.loguniform(1e-4, 10),
     "learning_rate": rt.loguniform(1e-3, 1e-1),
     "reg_method": rt.choice(["L2", "AdamW"]),
-    "negative_count": rt.randint(1, 5),
+    # "negative_count": rt.randint(1, 5),
     "item_bias": rt.choice([True, False]),
 }
 
