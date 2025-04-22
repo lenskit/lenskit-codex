@@ -1540,3 +1540,29 @@ stages:
       md5: 4d2bab140b96e9c33c4cf3e488edde53.dir
       size: 970024
       nfiles: 18
+  page/movielens/ML1M/flexmf-explicit:
+    cmd: quarto render movielens/ML1M/flexmf-explicit.qmd --profile prerender
+    deps:
+    - path: _quarto-prerender.yml
+      hash: md5
+      md5: fe1f6b982acadfdd675d7bf14a819ab8
+      size: 40
+    - path: _quarto.yml
+      hash: md5
+      md5: 97356d9c9d3ad8ce685d8954d36ec42d
+      size: 1299
+    - path: movielens/ML1M/flexmf-explicit.qmd
+      hash: md5
+      md5: 89c9b76b67fab54f3ccfee7304280116
+      size: 2375
+    - path: movielens/ML1M/sweeps/random/flexmf-explicit-random
+      hash: md5
+      md5: ffc8c81ae8b5ee5c7ff8681abd1af912.dir
+      size: 501385949
+      nfiles: 5
+    outs:
+    - path: _freeze/movielens/ML1M/flexmf-explicit
+      hash: md5
+      md5: 32006f400a8a56b38adf4361e6af5cec.dir
+      size: 587945
+      nfiles: 14
