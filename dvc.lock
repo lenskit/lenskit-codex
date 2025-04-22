@@ -1462,3 +1462,81 @@ stages:
       md5: f1c6287ed7277cee92b10f497096bd16.dir
       size: 487254
       nfiles: 10
+  page/movielens/ML1M/als-biased:
+    cmd: quarto render movielens/ML1M/als-biased.qmd --profile prerender
+    deps:
+    - path: _quarto-prerender.yml
+      hash: md5
+      md5: fe1f6b982acadfdd675d7bf14a819ab8
+      size: 40
+    - path: _quarto.yml
+      hash: md5
+      md5: 97356d9c9d3ad8ce685d8954d36ec42d
+      size: 1299
+    - path: movielens/ML1M/als-biased.qmd
+      hash: md5
+      md5: d1b99c35a7c7d3159ae2b9875efc746b
+      size: 2602
+    - path: movielens/ML1M/sweeps/random/als-biased-random
+      hash: md5
+      md5: 39a8252e9b523fa255cc97954003c855.dir
+      size: 519416
+      nfiles: 5
+    outs:
+    - path: _freeze/movielens/ML1M/als-biased
+      hash: md5
+      md5: 2cf2adabea688713e38ef15f5299f8a0.dir
+      size: 979059
+      nfiles: 18
+  page/movielens/ML100K/tuning:
+    cmd: quarto render movielens/ML100K/tuning.qmd --profile prerender
+    deps:
+    - path: _quarto-prerender.yml
+      hash: md5
+      md5: fe1f6b982acadfdd675d7bf14a819ab8
+      size: 40
+    - path: _quarto.yml
+      hash: md5
+      md5: 97356d9c9d3ad8ce685d8954d36ec42d
+      size: 1299
+    - path: movielens/ML100K/sweeps
+      hash: md5
+      md5: 0927ca52725b797b1583554d0eaa85b8.dir
+      size: 3486729188
+      nfiles: 199
+    - path: movielens/ML100K/tuning.qmd
+      hash: md5
+      md5: 2d592e98ae82284adfacf9c6f8755bc8
+      size: 1034
+    outs:
+    - path: _freeze/movielens/ML100K/tuning
+      hash: md5
+      md5: e3a8446eb0ba5dea581feef3e130857b.dir
+      size: 175635
+      nfiles: 6
+  page/movielens/ML1M/flexmf-logistic:
+    cmd: quarto render movielens/ML1M/flexmf-logistic.qmd --profile prerender
+    deps:
+    - path: _quarto-prerender.yml
+      hash: md5
+      md5: fe1f6b982acadfdd675d7bf14a819ab8
+      size: 40
+    - path: _quarto.yml
+      hash: md5
+      md5: 97356d9c9d3ad8ce685d8954d36ec42d
+      size: 1299
+    - path: movielens/ML1M/flexmf-logistic.qmd
+      hash: md5
+      md5: eb7109ee844cadacb822920ce410628e
+      size: 2977
+    - path: movielens/ML1M/sweeps/random/flexmf-logistic-random
+      hash: md5
+      md5: df0debc328acf6d9464552fe7764fbaf.dir
+      size: 499466351
+      nfiles: 5
+    outs:
+    - path: _freeze/movielens/ML1M/flexmf-logistic
+      hash: md5
+      md5: 4d2bab140b96e9c33c4cf3e488edde53.dir
+      size: 970024
+      nfiles: 18
