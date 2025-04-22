@@ -1566,3 +1566,55 @@ stages:
       md5: 32006f400a8a56b38adf4361e6af5cec.dir
       size: 587945
       nfiles: 14
+  page/movielens/ML10M/flexmf-bpr:
+    cmd: quarto render movielens/ML10M/flexmf-bpr.qmd --profile prerender
+    deps:
+    - path: _quarto-prerender.yml
+      hash: md5
+      md5: fe1f6b982acadfdd675d7bf14a819ab8
+      size: 40
+    - path: _quarto.yml
+      hash: md5
+      md5: 97356d9c9d3ad8ce685d8954d36ec42d
+      size: 1299
+    - path: movielens/ML10M/flexmf-bpr.qmd
+      hash: md5
+      md5: 144a13cddd56bce393ccd3f9a4356f70
+      size: 2592
+    - path: movielens/ML10M/sweeps/temporal/flexmf-bpr-random
+      hash: md5
+      md5: 6cf908826a02a66c174cebfe7f50f94d.dir
+      size: 1408742
+      nfiles: 5
+    outs:
+    - path: _freeze/movielens/ML10M/flexmf-bpr
+      hash: md5
+      md5: e9ef9fb7f04db2d3f7440b9fabc11f5b.dir
+      size: 784299
+      nfiles: 16
+  page/movielens/ML10M/flexmf-explicit:
+    cmd: quarto render movielens/ML10M/flexmf-explicit.qmd --profile prerender
+    deps:
+    - path: _quarto-prerender.yml
+      hash: md5
+      md5: fe1f6b982acadfdd675d7bf14a819ab8
+      size: 40
+    - path: _quarto.yml
+      hash: md5
+      md5: 97356d9c9d3ad8ce685d8954d36ec42d
+      size: 1299
+    - path: movielens/ML10M/flexmf-explicit.qmd
+      hash: md5
+      md5: 330b233e80cd9a09d40dbc76eff10eaa
+      size: 2378
+    - path: movielens/ML10M/sweeps/temporal/flexmf-explicit-random
+      hash: md5
+      md5: 7ae587185dfd96b990b826a40209cce9.dir
+      size: 5914906210
+      nfiles: 5
+    outs:
+    - path: _freeze/movielens/ML10M/flexmf-explicit
+      hash: md5
+      md5: 7ca001f5728a54d0c8e37d09ca999dfc.dir
+      size: 583302
+      nfiles: 14
