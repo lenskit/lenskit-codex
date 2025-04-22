@@ -33,8 +33,6 @@ jobs:
 
       - name: Fetch site assets
         run: pixi run -e publish invoke fetch-web-assets
-        env:
-          AZURE_STORAGE_SAS_TOKEN: ${{secrets.AZURE_STORAGE_SAS_TOKEN}}
 
       - name: Render site content
         run: pixi run -e publish invoke render
