@@ -35,7 +35,7 @@ jobs:
         run: pixi run -e publish invoke fetch-web-assets
 
       - name: Render site content
-        run: pixi run -e publish invoke render
+        run: pixi run -e publish invoke render-site
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
