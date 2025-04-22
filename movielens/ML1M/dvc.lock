@@ -971,6 +971,21 @@ stages:
       md5: 9c367bdbea8a38334637be0d3b4fb598.dir
       size: 3797402
       nfiles: 4
+    - path: runs/random/flexmf-warp-default
+      hash: md5
+      md5: 43be8cf8e1afa862cb2ee8fff54c16f6.dir
+      size: 3735068
+      nfiles: 4
+    - path: runs/random/flexmf-warp-hyperopt-best
+      hash: md5
+      md5: 37dde2f634769434fb8c614c37f3cf1c.dir
+      size: 3703043
+      nfiles: 4
+    - path: runs/random/flexmf-warp-random-best
+      hash: md5
+      md5: 67dacdc1b68c7f015b4afd64c78c7e69.dir
+      size: 3709747
+      nfiles: 4
     - path: runs/random/iknn-explicit-default
       hash: md5
       md5: 7ea660ab43b0872f709437797ed481c3.dir
@@ -1054,12 +1069,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 0cbd12d79cd0bca17ebfe8602ee5752d
-      size: 54775
+      md5: bfe41665dabdaeaa8ba97d3e40f91533
+      size: 59464
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 56e253a6e72ddfe4885f418d53ac5446
-      size: 3852220
+      md5: 84ca2c9cb3cdfd5dc26f2d17c72bde6f
+      size: 4111133
   sweep-random-grid-Bias:
     cmd: lenskit-codex sweep run --grid --ds-name=ML1M --split=splits/random.toml
       --test-part=0 Bias sweeps/random/Bias-grid
@@ -2842,4 +2857,127 @@ stages:
       hash: md5
       md5: 4364cbf3a16438de60ba6018a07408b3.dir
       size: 3802478
+      nfiles: 4
+  run-random-default-flexmf-warp:
+    cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
+      -o runs/random/flexmf-warp-default flexmf-warp
+    deps:
+    - path: ../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: runs/random/flexmf-warp-default
+      hash: md5
+      md5: 43be8cf8e1afa862cb2ee8fff54c16f6.dir
+      size: 3735068
+      nfiles: 4
+  sweep-flexmf-warp-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
+      flexmf-warp sweeps/random/flexmf-warp-random
+    deps:
+    - path: ../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/flexmf-warp-random
+      hash: md5
+      md5: 4f0afd0ac9dc1dad33dd8f94a1a069a1.dir
+      size: 1346709
+      nfiles: 5
+    - path: sweeps/random/flexmf-warp-random.json
+      hash: md5
+      md5: 34d0e4c23fa3b5caa415cee98df04181
+      size: 658
+  run-random-random-best-flexmf-warp:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-warp-random.json
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-warp-random-best
+      flexmf-warp
+    deps:
+    - path: ../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/flexmf-warp-random.json
+      hash: md5
+      md5: 34d0e4c23fa3b5caa415cee98df04181
+      size: 658
+    outs:
+    - path: runs/random/flexmf-warp-random-best
+      hash: md5
+      md5: 67dacdc1b68c7f015b4afd64c78c7e69.dir
+      size: 3709747
+      nfiles: 4
+  sweep-flexmf-warp-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
+      --metric=RBP flexmf-warp sweeps/random/flexmf-warp-hyperopt
+    deps:
+    - path: ../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/flexmf-warp-hyperopt
+      hash: md5
+      md5: d427e542abc3cab22205178e2fe35c04.dir
+      size: 1700273
+      nfiles: 5
+    - path: sweeps/random/flexmf-warp-hyperopt.json
+      hash: md5
+      md5: 7bbe63f16cd7d06f9836ab511f2ba50e
+      size: 652
+  run-random-hyperopt-best-flexmf-warp:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-warp-hyperopt.json
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-warp-hyperopt-best
+      flexmf-warp
+    deps:
+    - path: ../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/flexmf-warp-hyperopt.json
+      hash: md5
+      md5: 7bbe63f16cd7d06f9836ab511f2ba50e
+      size: 652
+    outs:
+    - path: runs/random/flexmf-warp-hyperopt-best
+      hash: md5
+      md5: 37dde2f634769434fb8c614c37f3cf1c.dir
+      size: 3703043
       nfiles: 4
