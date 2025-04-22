@@ -241,17 +241,6 @@ stages:
       - sweeps/temporal/implicit-bpr-random.json
     outs:
       - runs/temporal/implicit-bpr-random-best
-  split-random:
-    cmd: lenskit codex split random.toml
-    deps:
-      - random.toml
-      - ../dataset
-    outs:
-      - random.parquet
-    params:
-      - ../../../config.toml:
-          - random.seed
-    wdir: splits
   stats:
     cmd: lenskit codex sql -D ds_name=ML25M -f ../ml-stats.sql stats.duckdb
     deps:

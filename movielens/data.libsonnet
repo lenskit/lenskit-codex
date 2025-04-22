@@ -18,7 +18,7 @@ local lib = import '../src/codex.libsonnet';
         outs: ['stats.duckdb'],
       },
     } +
-    if lib.contains(spec.searches, 'random')
+    if lib.contains(spec.splits, 'random')
     then {
       'split-random': {
         cmd: lib.codex_cmd(['split', 'random.toml']),
