@@ -170,24 +170,24 @@ stages:
       - movielens/ML10M/stats.duckdb
     outs:
       - _freeze/movielens/ML10M/description
-  page/movielens/ML10M/iknn-explicit:
-    cmd: quarto render movielens/ML10M/iknn-explicit.qmd --profile prerender
+  page/movielens/ML10M/flexmf-bpr:
+    cmd: quarto render movielens/ML10M/flexmf-bpr.qmd --profile prerender
     deps:
       - _quarto-prerender.yml
       - _quarto.yml
-      - movielens/ML10M/iknn-explicit.qmd
-      - movielens/ML10M/sweeps/temporal/IKNN-Explicit-grid
+      - movielens/ML10M/flexmf-bpr.qmd
+      - movielens/ML10M/sweeps/temporal/flexmf-bpr-random
     outs:
-      - _freeze/movielens/ML10M/iknn-explicit
-  page/movielens/ML10M/iknn-implicit:
-    cmd: quarto render movielens/ML10M/iknn-implicit.qmd --profile prerender
+      - _freeze/movielens/ML10M/flexmf-bpr
+  page/movielens/ML10M/flexmf-explicit:
+    cmd: quarto render movielens/ML10M/flexmf-explicit.qmd --profile prerender
     deps:
       - _quarto-prerender.yml
       - _quarto.yml
-      - movielens/ML10M/iknn-implicit.qmd
-      - movielens/ML10M/sweeps/temporal/IKNN-Implicit-grid
+      - movielens/ML10M/flexmf-explicit.qmd
+      - movielens/ML10M/sweeps/temporal/flexmf-explicit-random
     outs:
-      - _freeze/movielens/ML10M/iknn-implicit
+      - _freeze/movielens/ML10M/flexmf-explicit
   page/movielens/ML10M/splitting:
     cmd: quarto render movielens/ML10M/splitting.qmd --profile prerender
     deps:

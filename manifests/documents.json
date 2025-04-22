@@ -138,20 +138,6 @@
       "stats.duckdb"
     ]
   },
-  "movielens/ML10M/iknn-explicit.qmd": {
-    "title": "Explicit Item KNN on ML10M",
-    "echo": false,
-    "deps": [
-      "sweeps/temporal/IKNN-Explicit-grid"
-    ]
-  },
-  "movielens/ML10M/iknn-implicit.qmd": {
-    "title": "Implicit Item KNN on ML10M",
-    "echo": false,
-    "deps": [
-      "sweeps/temporal/IKNN-Implicit-grid"
-    ]
-  },
   "movielens/ML10M/splitting.qmd": {
     "title": "ML10M Data Splitting",
     "order": 1,
@@ -165,6 +151,20 @@
     "deps": [
       "run-summary.csv",
       "run-user-metrics.parquet"
+    ]
+  },
+  "movielens/ML10M/flexmf-bpr.qmd": {
+    "title": "FlexMF BPR on ML10M",
+    "echo": false,
+    "deps": [
+      "sweeps/temporal/flexmf-bpr-random"
+    ]
+  },
+  "movielens/ML10M/flexmf-explicit.qmd": {
+    "title": "FlexMF Explicit on ML10M",
+    "echo": false,
+    "deps": [
+      "sweeps/temporal/flexmf-explicit-random"
     ]
   },
   "movielens/ML1M/description.qmd": {
