@@ -170,24 +170,6 @@ stages:
       - movielens/ML10M/stats.duckdb
     outs:
       - _freeze/movielens/ML10M/description
-  page/movielens/ML10M/flexmf-bpr:
-    cmd: quarto render movielens/ML10M/flexmf-bpr.qmd --profile prerender
-    deps:
-      - _quarto-prerender.yml
-      - _quarto.yml
-      - movielens/ML10M/flexmf-bpr.qmd
-      - movielens/ML10M/sweeps/random/flexmf-bpr-random
-    outs:
-      - _freeze/movielens/ML10M/flexmf-bpr
-  page/movielens/ML10M/flexmf-explicit:
-    cmd: quarto render movielens/ML10M/flexmf-explicit.qmd --profile prerender
-    deps:
-      - _quarto-prerender.yml
-      - _quarto.yml
-      - movielens/ML10M/flexmf-explicit.qmd
-      - movielens/ML10M/sweeps/random/flexmf-explicit-random
-    outs:
-      - _freeze/movielens/ML10M/flexmf-explicit
   page/movielens/ML10M/iknn-explicit:
     cmd: quarto render movielens/ML10M/iknn-explicit.qmd --profile prerender
     deps:
