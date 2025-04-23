@@ -144,14 +144,14 @@ class TuningBuilder:
         stopper = None
         cp_config = None
         if self.model.is_iterative:
-            min_iter = self.model.options.get("min_epochs", 5)
+            min_iter = self.model.options.get("min_epochs", 3)
             self.spec["min_epochs"] = min_iter
             assert isinstance(min_iter, int)
             scheduler = ray.tune.schedulers.MedianStoppingRule(
                 time_attr="training_iteration",
                 grace_period=min_iter,
                 min_time_slice=3,
-                min_samples_required=5,
+                min_samples_required=3,
             )
             self.spec["scheduler"] = "median-stopping"
             stopper = RelativePlateauStopper(
