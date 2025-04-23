@@ -3,7 +3,8 @@ from lenskit.als import ImplicitMFConfig, ImplicitMFScorer
 
 PREDICTOR = False
 SCORER = ImplicitMFScorer
-DEFAULT_CONFIG = ImplicitMFConfig()
+DEFAULT_CONFIG = ImplicitMFConfig(user_embeddings="prefer")
+STATIC_CONFIG = {"user_embeddings": "prefer"}
 
 SEARCH_SPACE = {
     "embedding_size": rt.lograndint(4, 512, base=2),

@@ -3,7 +3,8 @@ from lenskit.als import BiasedMFConfig, BiasedMFScorer
 
 PREDICTOR = True
 SCORER = BiasedMFScorer
-DEFAULT_CONFIG = BiasedMFConfig()
+DEFAULT_CONFIG = BiasedMFConfig(user_embeddings="prefer")
+STATIC_CONFIG = {"user_embeddings": "prefer"}
 
 SEARCH_SPACE = {
     "embedding_size": rt.lograndint(4, 512, base=2),
