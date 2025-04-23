@@ -1,6 +1,6 @@
 [project]
 name = "lenskit-codex"
-channels = ["conda-forge"]
+channels = ["https://prefix.dev/lenskit-dev", "conda-forge"]
 platforms = ["linux-64", "osx-arm64"]
 
 # core dependencies to work with the data and website
@@ -61,15 +61,17 @@ ray-tune = "~=2.42"
 optuna = "~=4.2"
 hyperopt = "~=0.2.7"
 # hpfrec = "~=0.2.13"
-implicit = "~=0.7.0"
+# implicit = "~=0.7.0"
 rust = "~=1.84"
+lenskit = ">2025.3.0a2,<2026"
+lenskit-implicit = "~=2025.3.0a2"
 
 [feature.run.system-requirements]
 cuda = "11"
 
 [feature.run.pypi-dependencies]
 # lenskit = { version = "~=2025.2", extras = ["implicit", "sklearn", "funksvd"] }
-lenskit = { git = "https://github.com/lenskit/lkpy.git" }
+# lenskit = { git = "https://github.com/lenskit/lkpy.git" }
 # lenskit = { git = "https://github.com/mdekstrand/lkpy.git", branch = "feature/als-trainer-checkpoint" }
 # lenskit = { path = "../lkpy", editable = true }
 
