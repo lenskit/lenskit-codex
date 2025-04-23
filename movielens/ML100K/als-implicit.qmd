@@ -13,9 +13,9 @@ from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('als-implicit')
-iters = load_sweep_iters('als-implicit')
-result = load_sweep_result('als-implicit')
+runs = load_sweep_runs('als-implicit', method='hyperopt')
+iters = load_sweep_iters('als-implicit', method='hyperopt')
+result = load_sweep_result('als-implicit', method='hyperopt')
 best_id = result['trial_id']
 ```
 
@@ -74,5 +74,48 @@ full_iters = iters[iters['trial_id'].isin(full_trials)]
     pn.ggplot(full_iters)
     + pn.aes(x='training_iteration', y='RBP', color='trial_id')
     + pn.geom_line()
+)
+```
+
+## Optimization Performance
+
+We want to assess how quickly the models optimize, to get a sense of how many
+training attempts we need for larger data sets.
+
+```{python}
+id_cols = ['trial', 'trial_id', 'training_iteration', 'timestamp']
+iter_perf = iters.sort_values('timestamp')[id_cols + ['RBP']]
+iter_perf = iter_perf.rename(columns={'RBP': 'Current'})
+iter_perf['order'] = np.arange(len(iter_perf))
+iter_perf['Best'] = iter_perf['Current'].cummax()
+```
+
+
+```{python}
+it_tall = iter_perf.melt(
+    id_cols + ['order'],
+    var_name='Period'
+)
+(
+    pn.ggplot(it_tall)
+    + pn.aes(x='order', y='value', color='Period')
+    + pn.geom_line()
+    + pn.ggtitle('Iteration Performance by Time')
+)
+```
+
+
+```{python}
+trial_perf = iter_perf.groupby(['trial', 'trial_id'])[['Current']].max().reset_index().sort_values('trial')
+trial_perf['Best'] = trial_perf['Current'].cummax()
+tp_tall = trial_perf.melt(
+    ['trial', 'trial_id'],
+    var_name='Period'
+)
+(
+    pn.ggplot(tp_tall)
+    + pn.aes(x='trial', y='value', color='Period')
+    + pn.geom_line()
+    + pn.ggtitle('Performance by Trial')
 )
 ```
