@@ -41,5 +41,5 @@ class TuningModelFactory:
         shrunk.items = self.model.items
         shrunk.item_means = self.model.item_means
         shrunk.item_counts = np.diff(matrix.indices)
-        shrunk.sim_matrix = SparseRowArray.from_scipy(matrix)
+        shrunk.sim_matrix = SparseRowArray.from_scipy(matrix, large=True)
         return shrunk
