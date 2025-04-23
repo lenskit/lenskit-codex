@@ -1969,8 +1969,8 @@ stages:
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
-      md5: 40e4db1c37e4058f292a549e47b1e3e2
-      size: 324
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
     - path: splits/temporal.toml
       hash: md5
       md5: 959e6bb4995aad998bfe547b6536c572
@@ -1978,13 +1978,13 @@ stages:
     outs:
     - path: sweeps/temporal/bias-random
       hash: md5
-      md5: be748ec629952dd91dcdb06a7aff372f.dir
-      size: 389568
-      nfiles: 3
+      md5: 152722d093d69fd289b3bfa10609290a.dir
+      size: 738718
+      nfiles: 4
     - path: sweeps/temporal/bias-random.json
       hash: md5
-      md5: 319cb1b4b6fd075a1aa1eff50ec5c396
-      size: 787
+      md5: 867da93c19f88f702910dec68722d22d
+      size: 793
   sweep-implicit-bpr-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-random
