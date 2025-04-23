@@ -1,6 +1,7 @@
 import numpy as np
 import ray.tune as rt
 from lenskit.data import Dataset
+from lenskit.data.matrix import SparseRowArray
 from lenskit.knn import ItemKNNConfig, ItemKNNScorer
 from lenskit.training import TrainingOptions
 
@@ -34,12 +35,11 @@ class TuningModelFactory:
             return ItemKNNScorer(DEFAULT_CONFIG)
 
         shrunk = ItemKNNScorer(config)
-        matrix = self.model.sim_matrix_.copy()
+        matrix = self.model.sim_matrix.to_scipy().copy()
         matrix.data[matrix.data < shrunk.config.min_sim] = 0.0
         matrix.eliminate_zeros()
-        shrunk.items_ = self.model.items_
-        shrunk.users_ = self.model.users_
-        shrunk.item_means_ = self.model.item_means_
-        shrunk.item_counts_ = np.diff(matrix.indices)
-        shrunk.sim_matrix_ = matrix
+        shrunk.items = self.model.items
+        shrunk.item_means = self.model.item_means
+        shrunk.item_counts = np.diff(matrix.indices)
+        shrunk.sim_matrix = SparseRowArray.from_scipy(matrix)
         return shrunk
