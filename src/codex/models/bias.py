@@ -1,5 +1,6 @@
 import ray.tune as rt
 from lenskit.basic.bias import BiasConfig, BiasScorer
+from lenskit.data import Dataset
 
 PREDICTOR = True
 SCORER = BiasScorer
@@ -12,5 +13,10 @@ SEARCH_SPACE = {
     }
 }
 
-# bias is single-threaded
-TUNE_CPUS = 1
+
+def tune_resources(ds: Dataset):
+    # rough approximation
+    return {
+        "CPU": 1,
+        "memory": ds.interaction_count * 400,
+    }

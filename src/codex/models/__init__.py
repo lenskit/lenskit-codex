@@ -4,6 +4,7 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any, Protocol
 
+from lenskit.data import Dataset
 from lenskit.logging import get_logger
 from lenskit.parallel import get_parallel_config
 from lenskit.pipeline import Component, ComponentConstructor
@@ -102,6 +103,15 @@ class ModelDef:
     @property
     def tuning_gpus(self) -> int:
         return getattr(self.module, "TUNE_GPUS", 0)
+
+    def tuning_resources(self, ds: Dataset) -> dict[str, float]:
+        if hasattr(self.module, "tune_resources"):
+            return self.module.tune_resources(ds)
+        else:
+            return {
+                "CPU": self.tuning_cpus,
+                "GPU": self.tuning_gpus,
+            }
 
     @property
     def is_iterative(self) -> bool:

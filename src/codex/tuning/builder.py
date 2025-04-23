@@ -121,7 +121,7 @@ class TuningBuilder:
         )
         self.spec["job_limit"] = self.job_limit
         self.harness = ray.tune.with_resources(
-            harness, {"CPU": self.model.tuning_cpus, "GPU": self.model.tuning_gpus}
+            harness, self.model.tuning_resources(self.data.train)
         )
 
     def create_random_tuner(self) -> ray.tune.Tuner:
