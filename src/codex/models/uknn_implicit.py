@@ -12,6 +12,6 @@ SEARCH_SPACE = {
     "min_sim": rt.loguniform(1e-6, 0.1),
 }
 
-TUNE_CPUS = "2"
+TUNE_CPUS = 2
 
 OPTIONS = {"ds_include": ["ML1*"], "search_points": 60}
