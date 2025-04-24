@@ -60,25 +60,30 @@ ray-default = "~=2.42"
 ray-tune = "~=2.42"
 optuna = "~=4.2"
 hyperopt = "~=0.2.7"
-# hpfrec = "~=0.2.13"
-# implicit = "~=0.7.0"
-lenskit = ">2025.3.0a2,<2026"
-lenskit-implicit = "~=2025.3.0a2"
 
 [feature.run.system-requirements]
 cuda = "11"
-
-[feature.run.pypi-dependencies]
-# lenskit = { version = "~=2025.2", extras = ["implicit", "sklearn", "funksvd"] }
-# lenskit = { git = "https://github.com/lenskit/lkpy.git" }
-# lenskit = { git = "https://github.com/mdekstrand/lkpy.git", branch = "feature/als-trainer-checkpoint" }
-# lenskit = { path = "../lkpy", editable = true }
 
 [feature.run.target.linux.dependencies]
 pytorch-gpu = ">=2"
 
 [feature.run.target.linux-64.dependencies]
 libblas = { build = "*mkl*" }
+
+[feature.lk-bin.dependencies]
+lenskit = ">2025.3.0a2,<2026"
+lenskit-implicit = "~=2025.3.0a2"
+
+[feature.lk-git.dependencies]
+# hpfrec = "~=0.2.13"
+implicit = "~=0.7.0"
+rust = "~=1.84"
+
+[feature.lk-git.pypi-dependencies]
+# lenskit = { version = "~=2025.2", extras = ["implicit", "sklearn", "funksvd"] }
+lenskit = { git = "https://github.com/lenskit/lkpy.git" }
+# lenskit = { git = "https://github.com/mdekstrand/lkpy.git", branch = "feature/als-trainer-checkpoint" }
+# lenskit = { path = "../lkpy", editable = true }
 
 # dependencies for dev work on the codex
 [feature.dev.dependencies]
@@ -92,6 +97,7 @@ jupyterlab = "*"
 parquet-tools = ">=0.2.16,<0.3"
 
 [environments]
-default = { features = ["run", "analyze"], solve-group = "main" }
+default = { features = ["run", "lk-bin", "analyze"], solve-group = "main" }
 publish = { features = ["nomkl"] }
-dev = { features = ["run", "analyze", "dev"], solve-group = "main" }
+dev = { features = ["run", "lk-bin", "analyze", "dev"], solve-group = "main" }
+dev-git = { features = ["run", "lk-git", "analyze", "dev"], solve-group = "main" }
