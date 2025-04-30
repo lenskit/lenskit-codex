@@ -24,6 +24,16 @@ stages:
       - runs/temporal/iknn-explicit-random-best
       - runs/temporal/iknn-implicit-random-best
       - runs/temporal/implicit-bpr-random-best
+      - runs/temporal/als-biased-hyperopt-best
+      - runs/temporal/als-implicit-hyperopt-best
+      - runs/temporal/bias-hyperopt-best
+      - runs/temporal/flexmf-bpr-hyperopt-best
+      - runs/temporal/flexmf-explicit-hyperopt-best
+      - runs/temporal/flexmf-logistic-hyperopt-best
+      - runs/temporal/flexmf-warp-hyperopt-best
+      - runs/temporal/iknn-explicit-hyperopt-best
+      - runs/temporal/iknn-implicit-hyperopt-best
+      - runs/temporal/implicit-bpr-hyperopt-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -132,6 +142,115 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/popular-default
+  run-temporal-hyperopt-best-als-biased:
+    cmd: lenskit codex generate --param-file sweeps/temporal/als-biased-hyperopt.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-biased-hyperopt-best
+      als-biased
+    deps:
+      - ../../src/codex/models/als_biased.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/als-biased-hyperopt.json
+    outs:
+      - runs/temporal/als-biased-hyperopt-best
+  run-temporal-hyperopt-best-als-implicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/als-implicit-hyperopt.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-implicit-hyperopt-best
+      als-implicit
+    deps:
+      - ../../src/codex/models/als_implicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/als-implicit-hyperopt.json
+    outs:
+      - runs/temporal/als-implicit-hyperopt-best
+  run-temporal-hyperopt-best-bias:
+    cmd: lenskit codex generate --param-file sweeps/temporal/bias-hyperopt.json --ds-name=ML20M
+      --split=splits/temporal.toml -o runs/temporal/bias-hyperopt-best bias
+    deps:
+      - ../../src/codex/models/bias.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/bias-hyperopt.json
+    outs:
+      - runs/temporal/bias-hyperopt-best
+  run-temporal-hyperopt-best-flexmf-bpr:
+    cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-bpr-hyperopt.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-hyperopt-best
+      flexmf-bpr
+    deps:
+      - ../../src/codex/models/flexmf_bpr.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/flexmf-bpr-hyperopt.json
+    outs:
+      - runs/temporal/flexmf-bpr-hyperopt-best
+  run-temporal-hyperopt-best-flexmf-explicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-explicit-hyperopt.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-hyperopt-best
+      flexmf-explicit
+    deps:
+      - ../../src/codex/models/flexmf_explicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/flexmf-explicit-hyperopt.json
+    outs:
+      - runs/temporal/flexmf-explicit-hyperopt-best
+  run-temporal-hyperopt-best-flexmf-logistic:
+    cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-logistic-hyperopt.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-hyperopt-best
+      flexmf-logistic
+    deps:
+      - ../../src/codex/models/flexmf_logistic.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/flexmf-logistic-hyperopt.json
+    outs:
+      - runs/temporal/flexmf-logistic-hyperopt-best
+  run-temporal-hyperopt-best-flexmf-warp:
+    cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-warp-hyperopt.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-warp-hyperopt-best
+      flexmf-warp
+    deps:
+      - ../../src/codex/models/flexmf_warp.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/flexmf-warp-hyperopt.json
+    outs:
+      - runs/temporal/flexmf-warp-hyperopt-best
+  run-temporal-hyperopt-best-iknn-explicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/iknn-explicit-hyperopt.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-hyperopt-best
+      iknn-explicit
+    deps:
+      - ../../src/codex/models/iknn_explicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/iknn-explicit-hyperopt.json
+    outs:
+      - runs/temporal/iknn-explicit-hyperopt-best
+  run-temporal-hyperopt-best-iknn-implicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/iknn-implicit-hyperopt.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-implicit-hyperopt-best
+      iknn-implicit
+    deps:
+      - ../../src/codex/models/iknn_implicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/iknn-implicit-hyperopt.json
+    outs:
+      - runs/temporal/iknn-implicit-hyperopt-best
+  run-temporal-hyperopt-best-implicit-bpr:
+    cmd: lenskit codex generate --param-file sweeps/temporal/implicit-bpr-hyperopt.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/implicit-bpr-hyperopt-best
+      implicit-bpr
+    deps:
+      - ../../src/codex/models/implicit_bpr.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/implicit-bpr-hyperopt.json
+    outs:
+      - runs/temporal/implicit-bpr-hyperopt-best
   run-temporal-random-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-biased-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-biased-random-best
@@ -248,6 +367,16 @@ stages:
       - dataset
     outs:
       - stats.duckdb
+  sweep-als-biased-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RMSE als-biased sweeps/temporal/als-biased-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/als_biased.py
+    outs:
+      - sweeps/temporal/als-biased-hyperopt
+      - sweeps/temporal/als-biased-hyperopt.json:
+          cache: false
   sweep-als-biased-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RMSE als-biased sweeps/temporal/als-biased-random
@@ -257,6 +386,16 @@ stages:
     outs:
       - sweeps/temporal/als-biased-random
       - sweeps/temporal/als-biased-random.json:
+          cache: false
+  sweep-als-implicit-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RBP als-implicit sweeps/temporal/als-implicit-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/als_implicit.py
+    outs:
+      - sweeps/temporal/als-implicit-hyperopt
+      - sweeps/temporal/als-implicit-hyperopt.json:
           cache: false
   sweep-als-implicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
@@ -268,6 +407,16 @@ stages:
       - sweeps/temporal/als-implicit-random
       - sweeps/temporal/als-implicit-random.json:
           cache: false
+  sweep-bias-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RMSE bias sweeps/temporal/bias-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/bias.py
+    outs:
+      - sweeps/temporal/bias-hyperopt
+      - sweeps/temporal/bias-hyperopt.json:
+          cache: false
   sweep-bias-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RMSE bias sweeps/temporal/bias-random
@@ -277,6 +426,16 @@ stages:
     outs:
       - sweeps/temporal/bias-random
       - sweeps/temporal/bias-random.json:
+          cache: false
+  sweep-flexmf-bpr-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/flexmf_bpr.py
+    outs:
+      - sweeps/temporal/flexmf-bpr-hyperopt
+      - sweeps/temporal/flexmf-bpr-hyperopt.json:
           cache: false
   sweep-flexmf-bpr-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
@@ -288,6 +447,16 @@ stages:
       - sweeps/temporal/flexmf-bpr-random
       - sweeps/temporal/flexmf-bpr-random.json:
           cache: false
+  sweep-flexmf-explicit-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/flexmf_explicit.py
+    outs:
+      - sweeps/temporal/flexmf-explicit-hyperopt
+      - sweeps/temporal/flexmf-explicit-hyperopt.json:
+          cache: false
   sweep-flexmf-explicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-random
@@ -297,6 +466,16 @@ stages:
     outs:
       - sweeps/temporal/flexmf-explicit-random
       - sweeps/temporal/flexmf-explicit-random.json:
+          cache: false
+  sweep-flexmf-logistic-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/flexmf_logistic.py
+    outs:
+      - sweeps/temporal/flexmf-logistic-hyperopt
+      - sweeps/temporal/flexmf-logistic-hyperopt.json:
           cache: false
   sweep-flexmf-logistic-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
@@ -308,6 +487,16 @@ stages:
       - sweeps/temporal/flexmf-logistic-random
       - sweeps/temporal/flexmf-logistic-random.json:
           cache: false
+  sweep-flexmf-warp-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/flexmf_warp.py
+    outs:
+      - sweeps/temporal/flexmf-warp-hyperopt
+      - sweeps/temporal/flexmf-warp-hyperopt.json:
+          cache: false
   sweep-flexmf-warp-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-random
@@ -317,6 +506,16 @@ stages:
     outs:
       - sweeps/temporal/flexmf-warp-random
       - sweeps/temporal/flexmf-warp-random.json:
+          cache: false
+  sweep-iknn-explicit-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/iknn_explicit.py
+    outs:
+      - sweeps/temporal/iknn-explicit-hyperopt
+      - sweeps/temporal/iknn-explicit-hyperopt.json:
           cache: false
   sweep-iknn-explicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
@@ -328,6 +527,16 @@ stages:
       - sweeps/temporal/iknn-explicit-random
       - sweeps/temporal/iknn-explicit-random.json:
           cache: false
+  sweep-iknn-implicit-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/iknn_implicit.py
+    outs:
+      - sweeps/temporal/iknn-implicit-hyperopt
+      - sweeps/temporal/iknn-implicit-hyperopt.json:
+          cache: false
   sweep-iknn-implicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
@@ -337,6 +546,16 @@ stages:
     outs:
       - sweeps/temporal/iknn-implicit-random
       - sweeps/temporal/iknn-implicit-random.json:
+          cache: false
+  sweep-implicit-bpr-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/implicit_bpr.py
+    outs:
+      - sweeps/temporal/implicit-bpr-hyperopt
+      - sweeps/temporal/implicit-bpr-hyperopt.json:
           cache: false
   sweep-implicit-bpr-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
