@@ -34,6 +34,16 @@ stages:
       - runs/temporal/iknn-explicit-hyperopt-best
       - runs/temporal/iknn-implicit-hyperopt-best
       - runs/temporal/implicit-bpr-hyperopt-best
+      - runs/temporal/als-biased-optuna-best
+      - runs/temporal/als-implicit-optuna-best
+      - runs/temporal/bias-optuna-best
+      - runs/temporal/flexmf-bpr-optuna-best
+      - runs/temporal/flexmf-explicit-optuna-best
+      - runs/temporal/flexmf-logistic-optuna-best
+      - runs/temporal/flexmf-warp-optuna-best
+      - runs/temporal/iknn-explicit-optuna-best
+      - runs/temporal/iknn-implicit-optuna-best
+      - runs/temporal/implicit-bpr-optuna-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -251,6 +261,115 @@ stages:
       - sweeps/temporal/implicit-bpr-hyperopt.json
     outs:
       - runs/temporal/implicit-bpr-hyperopt-best
+  run-temporal-optuna-best-als-biased:
+    cmd: lenskit codex generate --param-file sweeps/temporal/als-biased-optuna.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-biased-optuna-best
+      als-biased
+    deps:
+      - ../../src/codex/models/als_biased.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/als-biased-optuna.json
+    outs:
+      - runs/temporal/als-biased-optuna-best
+  run-temporal-optuna-best-als-implicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/als-implicit-optuna.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-implicit-optuna-best
+      als-implicit
+    deps:
+      - ../../src/codex/models/als_implicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/als-implicit-optuna.json
+    outs:
+      - runs/temporal/als-implicit-optuna-best
+  run-temporal-optuna-best-bias:
+    cmd: lenskit codex generate --param-file sweeps/temporal/bias-optuna.json --ds-name=ML20M
+      --split=splits/temporal.toml -o runs/temporal/bias-optuna-best bias
+    deps:
+      - ../../src/codex/models/bias.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/bias-optuna.json
+    outs:
+      - runs/temporal/bias-optuna-best
+  run-temporal-optuna-best-flexmf-bpr:
+    cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-bpr-optuna.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-optuna-best
+      flexmf-bpr
+    deps:
+      - ../../src/codex/models/flexmf_bpr.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/flexmf-bpr-optuna.json
+    outs:
+      - runs/temporal/flexmf-bpr-optuna-best
+  run-temporal-optuna-best-flexmf-explicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-explicit-optuna.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-optuna-best
+      flexmf-explicit
+    deps:
+      - ../../src/codex/models/flexmf_explicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/flexmf-explicit-optuna.json
+    outs:
+      - runs/temporal/flexmf-explicit-optuna-best
+  run-temporal-optuna-best-flexmf-logistic:
+    cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-logistic-optuna.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-optuna-best
+      flexmf-logistic
+    deps:
+      - ../../src/codex/models/flexmf_logistic.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/flexmf-logistic-optuna.json
+    outs:
+      - runs/temporal/flexmf-logistic-optuna-best
+  run-temporal-optuna-best-flexmf-warp:
+    cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-warp-optuna.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-warp-optuna-best
+      flexmf-warp
+    deps:
+      - ../../src/codex/models/flexmf_warp.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/flexmf-warp-optuna.json
+    outs:
+      - runs/temporal/flexmf-warp-optuna-best
+  run-temporal-optuna-best-iknn-explicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/iknn-explicit-optuna.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-optuna-best
+      iknn-explicit
+    deps:
+      - ../../src/codex/models/iknn_explicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/iknn-explicit-optuna.json
+    outs:
+      - runs/temporal/iknn-explicit-optuna-best
+  run-temporal-optuna-best-iknn-implicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/iknn-implicit-optuna.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-implicit-optuna-best
+      iknn-implicit
+    deps:
+      - ../../src/codex/models/iknn_implicit.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/iknn-implicit-optuna.json
+    outs:
+      - runs/temporal/iknn-implicit-optuna-best
+  run-temporal-optuna-best-implicit-bpr:
+    cmd: lenskit codex generate --param-file sweeps/temporal/implicit-bpr-optuna.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/implicit-bpr-optuna-best
+      implicit-bpr
+    deps:
+      - ../../src/codex/models/implicit_bpr.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/implicit-bpr-optuna.json
+    outs:
+      - runs/temporal/implicit-bpr-optuna-best
   run-temporal-random-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-biased-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-biased-random-best
@@ -377,6 +496,16 @@ stages:
       - sweeps/temporal/als-biased-hyperopt
       - sweeps/temporal/als-biased-hyperopt.json:
           cache: false
+  sweep-als-biased-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RMSE als-biased sweeps/temporal/als-biased-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/als_biased.py
+    outs:
+      - sweeps/temporal/als-biased-optuna
+      - sweeps/temporal/als-biased-optuna.json:
+          cache: false
   sweep-als-biased-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RMSE als-biased sweeps/temporal/als-biased-random
@@ -396,6 +525,16 @@ stages:
     outs:
       - sweeps/temporal/als-implicit-hyperopt
       - sweeps/temporal/als-implicit-hyperopt.json:
+          cache: false
+  sweep-als-implicit-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RBP als-implicit sweeps/temporal/als-implicit-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/als_implicit.py
+    outs:
+      - sweeps/temporal/als-implicit-optuna
+      - sweeps/temporal/als-implicit-optuna.json:
           cache: false
   sweep-als-implicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
@@ -417,6 +556,16 @@ stages:
       - sweeps/temporal/bias-hyperopt
       - sweeps/temporal/bias-hyperopt.json:
           cache: false
+  sweep-bias-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RMSE bias sweeps/temporal/bias-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/bias.py
+    outs:
+      - sweeps/temporal/bias-optuna
+      - sweeps/temporal/bias-optuna.json:
+          cache: false
   sweep-bias-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RMSE bias sweeps/temporal/bias-random
@@ -436,6 +585,16 @@ stages:
     outs:
       - sweeps/temporal/flexmf-bpr-hyperopt
       - sweeps/temporal/flexmf-bpr-hyperopt.json:
+          cache: false
+  sweep-flexmf-bpr-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/flexmf_bpr.py
+    outs:
+      - sweeps/temporal/flexmf-bpr-optuna
+      - sweeps/temporal/flexmf-bpr-optuna.json:
           cache: false
   sweep-flexmf-bpr-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
@@ -457,6 +616,16 @@ stages:
       - sweeps/temporal/flexmf-explicit-hyperopt
       - sweeps/temporal/flexmf-explicit-hyperopt.json:
           cache: false
+  sweep-flexmf-explicit-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/flexmf_explicit.py
+    outs:
+      - sweeps/temporal/flexmf-explicit-optuna
+      - sweeps/temporal/flexmf-explicit-optuna.json:
+          cache: false
   sweep-flexmf-explicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-random
@@ -476,6 +645,16 @@ stages:
     outs:
       - sweeps/temporal/flexmf-logistic-hyperopt
       - sweeps/temporal/flexmf-logistic-hyperopt.json:
+          cache: false
+  sweep-flexmf-logistic-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/flexmf_logistic.py
+    outs:
+      - sweeps/temporal/flexmf-logistic-optuna
+      - sweeps/temporal/flexmf-logistic-optuna.json:
           cache: false
   sweep-flexmf-logistic-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
@@ -497,6 +676,16 @@ stages:
       - sweeps/temporal/flexmf-warp-hyperopt
       - sweeps/temporal/flexmf-warp-hyperopt.json:
           cache: false
+  sweep-flexmf-warp-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/flexmf_warp.py
+    outs:
+      - sweeps/temporal/flexmf-warp-optuna
+      - sweeps/temporal/flexmf-warp-optuna.json:
+          cache: false
   sweep-flexmf-warp-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-random
@@ -516,6 +705,16 @@ stages:
     outs:
       - sweeps/temporal/iknn-explicit-hyperopt
       - sweeps/temporal/iknn-explicit-hyperopt.json:
+          cache: false
+  sweep-iknn-explicit-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/iknn_explicit.py
+    outs:
+      - sweeps/temporal/iknn-explicit-optuna
+      - sweeps/temporal/iknn-explicit-optuna.json:
           cache: false
   sweep-iknn-explicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
@@ -537,6 +736,16 @@ stages:
       - sweeps/temporal/iknn-implicit-hyperopt
       - sweeps/temporal/iknn-implicit-hyperopt.json:
           cache: false
+  sweep-iknn-implicit-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/iknn_implicit.py
+    outs:
+      - sweeps/temporal/iknn-implicit-optuna
+      - sweeps/temporal/iknn-implicit-optuna.json:
+          cache: false
   sweep-iknn-implicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
@@ -556,6 +765,16 @@ stages:
     outs:
       - sweeps/temporal/implicit-bpr-hyperopt
       - sweeps/temporal/implicit-bpr-hyperopt.json:
+          cache: false
+  sweep-implicit-bpr-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/implicit_bpr.py
+    outs:
+      - sweeps/temporal/implicit-bpr-optuna
+      - sweeps/temporal/implicit-bpr-optuna.json:
           cache: false
   sweep-implicit-bpr-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
