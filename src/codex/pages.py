@@ -23,6 +23,9 @@ def render_templates(ds: DataSetInfo, src: Path, dst: Path):
     "Render page templates."
     import jinja2
 
+    if not src.exists():
+        raise FileNotFoundError(src.as_posix())
+
     loader = jinja2.FileSystemLoader(src)
     env = jinja2.Environment(autoescape=False, loader=loader)
     for file in src.glob("*.qmd"):
