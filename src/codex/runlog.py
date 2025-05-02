@@ -261,7 +261,7 @@ def power_metrics(name: str, duration: float):
 
 
 def _get_prometheus_metric(url: str, query: str, time_ms: int) -> float | None:
-    query = query.format(time_ms)
+    query = query.format(time=time_ms)
     log = _log.bind(url=url, query=query)
     try:
         res = requests.get(url, {"query": query}).json()
