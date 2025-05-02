@@ -2,11 +2,15 @@
 title: Tuning Analysis
 pagetitle: ML20M Tuning Analysis
 jupyter: python3
+deps:
+- sweeps/temporal
 ---
 
-This page provides an analysis of the hyperparameter sweeps on ML20M to get a
-handle on how different tuning methods are performing, in order to select the
-most efficient strategies for other data sets.
+This page provides an analysis of the hyperparameter sweeps to get a handle on
+how different tuning methods are performing.  We use these results from early
+data sets to select the most efficient strategies for other data sets.
+
+All results are validation error.
 
 ```{python}
 import sys
@@ -44,3 +48,49 @@ iters = pd.concat({
 iters = iters.reset_index(names).reset_index(drop=True)
 runs.info()
 ```
+
+## Trial Performance
+
+```{python}
+topn_runs = runs[runs['RMSE'].isnull()].copy().sort_values('timestamp')
+topn_runs['TrialNum'] = topn_runs.groupby(
+    ['model', 'search']
+)['timestamp'].rank()
+topn_runs['MaxRBP'] = topn_runs.groupby(
+    ['model', 'search']
+)['RBP'].cummax()
+topn_runs['MaxNDCG'] = topn_runs.groupby(
+    ['model', 'search']
+)['NDCG'].cummax()
+```
+
+::: {.panel-tabset}
+
+### RBP
+
+```{python}
+(
+    pn.ggplot(topn_runs)
+    + pn.aes(x='TrialNum', y='MaxRBP', color='model')
+    + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
+    + pn.geom_line(pn.aes(y='RBP'), alpha=0.2)
+    + pn.geom_line()
+    + pn.facet_grid('search')
+)
+```
+
+### NDCG
+
+
+```{python}
+(
+    pn.ggplot(topn_runs)
+    + pn.aes(x='TrialNum', y='MaxNDCG', color='model')
+    + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
+    + pn.geom_line(pn.aes(y='NDCG'), alpha=0.2)
+    + pn.geom_line()
+    + pn.facet_grid('search')
+)
+```
+
+:::
