@@ -3380,3 +3380,53 @@ stages:
       hash: md5
       md5: 46a99ad80154df25e661412d4c6c0b51
       size: 703
+  sweep-flexmf-bpr-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-optuna
+    deps:
+    - path: ../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: 94acb427f7b39b627be488ba2558067c
+      size: 663
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    outs:
+    - path: sweeps/temporal/flexmf-bpr-optuna
+      hash: md5
+      md5: 9ff31c28c30759c431ec07bedb4fefef.dir
+      size: 1545402
+      nfiles: 5
+    - path: sweeps/temporal/flexmf-bpr-optuna.json
+      hash: md5
+      md5: 34512d32fb7de7c5e4185ad52ec00999
+      size: 672
+  run-temporal-optuna-best-flexmf-bpr:
+    cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-bpr-optuna.json
+      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-optuna-best
+      flexmf-bpr
+    deps:
+    - path: ../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: 94acb427f7b39b627be488ba2558067c
+      size: 663
+    - path: dataset
+      hash: md5
+      md5: 186f56a026b3409fc928936af4775db0.dir
+      size: 184637813
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    - path: sweeps/temporal/flexmf-bpr-optuna.json
+      hash: md5
+      md5: 34512d32fb7de7c5e4185ad52ec00999
+      size: 672
+    outs:
+    - path: runs/temporal/flexmf-bpr-optuna-best
+      hash: md5
+      md5: 3f1a7235acefea870849d8fa42f4270c.dir
+      size: 6150502
+      nfiles: 4
