@@ -56,10 +56,13 @@ numpy = "~=2.0"
 pandas = "~=2.0"
 scipy = "~=1.10"
 numba = "~=0.56"
-ray-default = "~=2.42"
-ray-tune = "~=2.42"
+# ray-default = "~=2.45"
+# ray-tune = "~=2.45"
 optuna = "~=4.2"
 hyperopt = "~=0.2.7"
+
+[feature.run.pypi-dependencies]
+ray = { version = "~=2.45", extras = ["tune"] }
 
 [feature.run.system-requirements]
 cuda = "11"
