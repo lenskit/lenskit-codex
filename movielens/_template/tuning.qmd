@@ -14,15 +14,18 @@ data sets to select the most efficient strategies for other data sets.
 
 All results are validation error.
 
+{%- if false %}
+```{python}
+import os
+os.chdir('../ML10M')
+```
+{% endif %}
+
 ```{python}
 import sys
 
 from codex.reporting.prelude import *
 ```
-
-## Loading the Data
-
-First we will load _all_ the different tunings we have.
 
 ```{python}
 names = ['model', 'search']
@@ -33,9 +36,12 @@ for model in DATA_INFO.models:
         for search in DATA_INFO.searches:
             try:
                 all_runs[(model, search)] = load_sweep_runs(model, split=split, method=search)
-                all_iters[(model,search)] = load_sweep_iters(model, split=split, method=search)
             except FileNotFoundError as e:
-                print(e, file=sys.stderr)
+                continue
+            try:
+                all_iters[(model,search)] = load_sweep_iters(model, split=split, method=search)
+            except FileNotFoundError:
+                pass
 runs = pd.concat({
     k: df[['trial_id', 'timestamp', 'RBP', 'NDCG']
           + (['RMSE'] if 'RMSE' in df.columns else [])]
@@ -48,10 +54,12 @@ iters = pd.concat({
     for k, df in all_iters.items()
 }, names=names)
 iters = iters.reset_index(names).reset_index(drop=True)
-runs.info()
 ```
 
 ## Trial Performance
+
+These charts display the maximum performance so far as the search
+progresses through its trials.  The vertical lines are at 60 trials.
 
 ```{python}
 topn_runs = runs[runs['RMSE'].isnull()].copy().sort_values('timestamp')
@@ -95,4 +103,35 @@ topn_runs['MaxNDCG'] = topn_runs.groupby(
 )
 ```
 
+::: {.callout-note}
+Intelligent search methods (HyperOpt and Optuna) are searching for RBP,
+so the NDCG performance may not be fully reflective.
 :::
+
+:::
+
+## Loss
+
+Our goal is to determine where to stop searching, and which methods are more
+efficient at searching the space.  To better assess this, let's look at the _loss_ relative to each method's best performance if we stop at each trial point.
+
+```{python}
+max_rbp = topn_runs.groupby(
+    ['model', 'search']
+)['RBP'].max().to_frame('FinalBestRBP')
+tnr = topn_runs.join(max_rbp, on=['model', 'search'])
+tnr['RBPLoss'] = (tnr['FinalBestRBP'] - tnr['MaxRBP']) / tnr['FinalBestRBP']
+(
+    pn.ggplot(tnr)
+    + pn.aes(x='TrialNum', y='RBPLoss', color='model')
+    + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
+    + pn.geom_hline(yintercept=0.01, color='grey', linetype='dashed')
+    + pn.geom_hline(yintercept=0.05, color='pink', linetype='dashed')
+    + pn.geom_line()
+    + pn.scale_y_sqrt()
+    + pn.facet_grid('search')
+)
+```
+
+Loss drops pretty quick for intelligent searches, going under 5% by about 30
+iterations on ML10M.
