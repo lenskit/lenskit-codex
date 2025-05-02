@@ -55,7 +55,7 @@ def list_documents(c: Context):
     "List documents with their metadata."
     docs = glob("**/*.qmd", recursive=True)
     print("collecting", len(docs), "documents")
-    docs = {name: front_matter(name) for name in docs if not re.match(r".*/_", name)}
+    docs = {name: front_matter(name) for name in sorted(docs) if not re.match(r".*/_", name)}
 
     with open("manifests/documents.json", "wt") as jsf:
         json.dump(docs, jsf, indent=2)
