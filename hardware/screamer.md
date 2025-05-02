@@ -29,4 +29,20 @@ Operating system
 :   Ubuntu 24.04 (Noble Numbat)
 
 Idle power draw
-:   75 watts
+:   81 watts
+
+## Power Measurement {#power}
+
+Chassis power consumption for Screamer is measured with an APC Back-UPS NS
+1500M2, using `(LOADPCT / 100) * NOMPOWER`. This is not the most precise
+measurement (1% increments of the system's nominal 900W output power), but is
+relatively stable.  It is also generally consistent with other measurements
+we have taken.
+
+Prior to May 2025, chassis power was measured with a Shelly Wave Plug US.  This
+proved to have too many stability problems (random power-downs) to be a viable
+long-term measurement solution.
+
+CPU power is measured by the Intel RAPL power model exposed through the Linux
+`powercap` interface.  GPU power is measured with NVML's reported GPU power
+consumption.

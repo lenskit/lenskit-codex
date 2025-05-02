@@ -29,7 +29,16 @@ Operating system
 Idle power draw
 :   220 watts
 
-## Notes
+## Power Measurement {#power}
 
-- This is a shared machine, so power consumption records are not always
-  well-isolated from other workloads.
+Chassis power is measured by the input power reported by the PSUs to the ASUS
+ASMB10-iKVM.  We collect power readings from the iKVM over the Redfish interface
+and record them in Prometheus.
+
+CPU power is reported by RAPL through Linux `powercap`, and GPU power is reported
+by the NVidia Datacenter GPU Montitor.
+
+:::{.callout-note}
+This is a shared machine, so power consumption records are not always
+well-isolated from other workloads.
+:::
