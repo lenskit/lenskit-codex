@@ -562,33 +562,6 @@ stages:
       - movielens/ML20M/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML20M/summary
-  page/movielens/ML25M/als-biasedmf:
-    cmd: quarto render movielens/ML25M/als-biasedmf.qmd --profile prerender
-    deps:
-      - _quarto-prerender.yml
-      - _quarto.yml
-      - movielens/ML25M/als-biasedmf.qmd
-      - movielens/ML25M/sweeps/temporal/BiasedMF-ALS-grid
-    outs:
-      - _freeze/movielens/ML25M/als-biasedmf
-  page/movielens/ML25M/als-implicitmf:
-    cmd: quarto render movielens/ML25M/als-implicitmf.qmd --profile prerender
-    deps:
-      - _quarto-prerender.yml
-      - _quarto.yml
-      - movielens/ML25M/als-implicitmf.qmd
-      - movielens/ML25M/sweeps/temporal/ImplicitMF-ALS-grid
-    outs:
-      - _freeze/movielens/ML25M/als-implicitmf
-  page/movielens/ML25M/bias:
-    cmd: quarto render movielens/ML25M/bias.qmd --profile prerender
-    deps:
-      - _quarto-prerender.yml
-      - _quarto.yml
-      - movielens/ML25M/bias.qmd
-      - movielens/ML25M/sweeps/temporal/Bias-grid
-    outs:
-      - _freeze/movielens/ML25M/bias
   page/movielens/ML25M/description:
     cmd: quarto render movielens/ML25M/description.qmd --profile prerender
     deps:
@@ -598,24 +571,6 @@ stages:
       - movielens/ML25M/stats.duckdb
     outs:
       - _freeze/movielens/ML25M/description
-  page/movielens/ML25M/iknn-explicit:
-    cmd: quarto render movielens/ML25M/iknn-explicit.qmd --profile prerender
-    deps:
-      - _quarto-prerender.yml
-      - _quarto.yml
-      - movielens/ML25M/iknn-explicit.qmd
-      - movielens/ML25M/sweeps/temporal/IKNN-Explicit-grid
-    outs:
-      - _freeze/movielens/ML25M/iknn-explicit
-  page/movielens/ML25M/iknn-implicit:
-    cmd: quarto render movielens/ML25M/iknn-implicit.qmd --profile prerender
-    deps:
-      - _quarto-prerender.yml
-      - _quarto.yml
-      - movielens/ML25M/iknn-implicit.qmd
-      - movielens/ML25M/sweeps/temporal/IKNN-Implicit-grid
-    outs:
-      - _freeze/movielens/ML25M/iknn-implicit
   page/movielens/ML25M/splitting:
     cmd: quarto render movielens/ML25M/splitting.qmd --profile prerender
     deps:
