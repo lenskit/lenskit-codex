@@ -2,7 +2,6 @@ import logging
 import re
 from pathlib import Path
 
-import jinja2
 import yaml
 
 from codex.layout import DataSetInfo
@@ -22,6 +21,8 @@ def front_matter(path: Path | str):
 
 def render_templates(ds: DataSetInfo, src: Path, dst: Path):
     "Render page templates."
+    import jinja2
+
     loader = jinja2.FileSystemLoader(src)
     env = jinja2.Environment(autoescape=False, loader=loader)
     for file in src.glob("*.qmd"):
