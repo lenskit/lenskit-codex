@@ -50,7 +50,7 @@ def render_page_templates(c: Context):
             render_templates(pipe.info, ds_dir / pipe.page_templates, ds_dir)
 
 
-@task
+@task(render_page_templates)
 def list_documents(c: Context):
     "List documents with their metadata."
     docs = glob("**/*.qmd", recursive=True)
