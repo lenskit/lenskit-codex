@@ -3452,3 +3452,25 @@ stages:
       hash: md5
       md5: a9137691c1e1fb0cdbff3770358bdac5
       size: 660
+  sweep-flexmf-warp-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-optuna
+    deps:
+    - path: ../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    outs:
+    - path: sweeps/temporal/flexmf-warp-optuna
+      hash: md5
+      md5: b94ba56e433bbfda0557aca97e4186d1.dir
+      size: 1570122
+      nfiles: 5
+    - path: sweeps/temporal/flexmf-warp-optuna.json
+      hash: md5
+      md5: a0c2010d9da180ebda395009dd4854d7
+      size: 653
