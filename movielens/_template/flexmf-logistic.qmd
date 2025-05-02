@@ -3,11 +3,11 @@ title: FlexMF Logistic
 pagetitle: {{ ds.name }} - FlexMF Logistic
 echo: false
 deps:
-{% for split in ds.splits %}
-{% for search in ds.searches %}
+{%- for split in ds.splits %}
+{%- for search in ds.searches %}
 - sweeps/{{split}}/flexmf-logistic-{{search}}
-{% endfor %}
-{% endfor %}
+{%- endfor %}
+{%- endfor %}
 ---
 
 This page analyzes the hyperparameter tuning results for the FlexMF scorer in

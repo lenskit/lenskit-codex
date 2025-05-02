@@ -3,11 +3,11 @@ title: Bias Predictor
 pagetitle: {{ ds.name }} - Bias
 echo: false
 deps:
-{% for split in ds.splits %}
-{% for search in ds.searches %}
+{%- for split in ds.splits %}
+{%- for search in ds.searches %}
 - sweeps/{{split}}/bias-{{search}}
-{% endfor %}
-{% endfor %}
+{%- endfor %}
+{%- endfor %}
 ---
 
 This page analyzes the behavior and hyperparameter search for the Bias scoring

@@ -3,11 +3,11 @@ title: FlexMF WARP
 pagetitle: {{ ds.name }} - FlexMF WARP
 echo: false
 deps:
-{% for split in ds.splits %}
-{% for search in ds.searches %}
+{%- for split in ds.splits %}
+{%- for search in ds.searches %}
 - sweeps/{{split}}/flexmf-warp-{{search}}
-{% endfor %}
-{% endfor %}
+{%- endfor %}
+{%- endfor %}
 ---
 
 This page analyzes the hyperparameter tuning results for the FlexMF scorer in
