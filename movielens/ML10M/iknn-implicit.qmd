@@ -2,19 +2,11 @@
 title: IKNN Implicit
 pagetitle: ML10M - IKNN Implicit
 echo: false
+model: iknn-implicit
 deps:
 - sweeps/temporal/iknn-implicit-random
 - sweeps/temporal/iknn-implicit-hyperopt
 ---
-
-```{python}
-import json
-from pathlib import Path
-import pandas as pd
-import numpy as np
-import plotnine as pn
-import matplotlib.pyplot as plt
-```
 
 This page analyzes the hyperparameter tuning results for the ItemKNN scorer in
 implicit-feedback mode.

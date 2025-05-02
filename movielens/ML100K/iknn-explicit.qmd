@@ -2,20 +2,12 @@
 title: IKNN Explicit
 pagetitle: ML100K - IKNN Explicit
 echo: false
+model: iknn-explicit
 deps:
 - sweeps/random/iknn-explicit-random
 - sweeps/random/iknn-explicit-hyperopt
 - sweeps/random/iknn-explicit-optuna
 ---
-
-```{python}
-import json
-from pathlib import Path
-import pandas as pd
-import numpy as np
-import plotnine as pn
-import matplotlib.pyplot as plt
-```
 
 This page analyzes the hyperparameter tuning results for the ItemKNN scorer in
 explicit-feedback mode.

@@ -1,16 +1,15 @@
 ---
-title: UKNN Implicit
-pagetitle: ML100K - UKNN Implicit
+title: UKNN Explicit
+pagetitle: ML1M - UKNN Explicit
 echo: false
-model: uknn-implicit
+model: uknn-explicit
 deps:
-- sweeps/random/uknn-implicit-random
-- sweeps/random/uknn-implicit-hyperopt
-- sweeps/random/uknn-implicit-optuna
+- sweeps/random/uknn-explicit-random
+- sweeps/random/uknn-explicit-hyperopt
 ---
 
 This page analyzes the hyperparameter tuning results for the ItemKNN scorer in
-implicit-feedback mode.
+explicit-feedback mode.
 
 
 
@@ -19,15 +18,15 @@ from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('uknn-implicit')
-result = load_sweep_result('uknn-implicit')
+runs = load_sweep_runs('uknn-explicit')
+result = load_sweep_result('uknn-explicit')
 best_id = result['trial_id']
 ```
 
 ## Parameter Search Space
 
 ```{python}
-from codex.models.iknn_implicit import SEARCH_SPACE
+from codex.models.uknn_explicit import SEARCH_SPACE
 show_param_space(SEARCH_SPACE, result['config'])
 ```
 
@@ -55,7 +54,7 @@ repspect to that:
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.max_nbrs', y='RBP')
+    + pn.aes(x='config.max_nbrs', y='RMSE')
     + pn.geom_point()
 )
 ```
@@ -72,7 +71,7 @@ simialrity.
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.min_nbrs', y='RBP')
+    + pn.aes(x='config.min_nbrs', y='RMSE')
     + pn.geom_point()
 )
 ```
@@ -82,7 +81,7 @@ simialrity.
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.min_sim', y='RBP')
+    + pn.aes(x='config.min_sim', y='RMSE')
     + pn.scale_x_log10()
     + pn.geom_point()
 )

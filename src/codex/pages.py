@@ -11,13 +11,14 @@ logger = logging.getLogger(__name__)
 
 def front_matter(path: Path | str | None = None, *, text: str | None = None):
     if text is None:
+        logger.debug("loading %s for front matter", path)
         if path is None:
             raise RuntimeError("must specify path or text")
         path = Path(path)
         text = path.read_text("utf8")
 
     if m := re.match(r"^---+\s*\n(.*?)\n---+", text, re.DOTALL):
-        print("found metadata in", path)
+        logger.debug("found metadata")
         return yaml.safe_load(m.group(1))
     else:
         return {}

@@ -13,6 +13,7 @@
     "title": "ALS BiasedMF",
     "pagetitle": "ML100K - ALS BiasedMF",
     "echo": false,
+    "model": "als-biased",
     "deps": [
       "sweeps/random/als-biased-random",
       "sweeps/random/als-biased-hyperopt",
@@ -30,6 +31,7 @@
     "title": "Bias Predictor",
     "pagetitle": "ML100K - Bias",
     "echo": false,
+    "model": "bias",
     "deps": [
       "sweeps/random/bias-random",
       "sweeps/random/bias-hyperopt",
@@ -48,6 +50,7 @@
     "title": "FlexMF BPR",
     "pagetitle": "ML100K - FlexMF BPR",
     "echo": false,
+    "model": "flexmf-bpr",
     "deps": [
       "sweeps/random/flexmf-bpr-random",
       "sweeps/random/flexmf-bpr-hyperopt",
@@ -58,6 +61,7 @@
     "title": "FlexMF Explicit",
     "pagetitle": "ML100K - FlexMF Explicit",
     "echo": false,
+    "model": "flexmf-explicit",
     "deps": [
       "sweeps/random/flexmf-explicit-random",
       "sweeps/random/flexmf-explicit-hyperopt",
@@ -68,6 +72,7 @@
     "title": "FlexMF Logistic",
     "pagetitle": "ML100K - FlexMF Logistic",
     "echo": false,
+    "model": "flexmf-logistic",
     "deps": [
       "sweeps/random/flexmf-logistic-random",
       "sweeps/random/flexmf-logistic-hyperopt",
@@ -78,6 +83,7 @@
     "title": "FlexMF WARP",
     "pagetitle": "ML100K - FlexMF WARP",
     "echo": false,
+    "model": "flexmf-warp",
     "deps": [
       "sweeps/random/flexmf-warp-random",
       "sweeps/random/flexmf-warp-hyperopt",
@@ -88,6 +94,7 @@
     "title": "IKNN Explicit",
     "pagetitle": "ML100K - IKNN Explicit",
     "echo": false,
+    "model": "iknn-explicit",
     "deps": [
       "sweeps/random/iknn-explicit-random",
       "sweeps/random/iknn-explicit-hyperopt",
@@ -98,6 +105,7 @@
     "title": "IKNN Implicit",
     "pagetitle": "ML100K - IKNN Implicit",
     "echo": false,
+    "model": "iknn-implicit",
     "deps": [
       "sweeps/random/iknn-implicit-random",
       "sweeps/random/iknn-implicit-hyperopt",
@@ -121,23 +129,32 @@
     ]
   },
   "movielens/ML100K/uknn-explicit.qmd": {
-    "title": "Explicit User KNN on ML100K",
+    "title": "UKNN Explicit",
+    "pagetitle": "ML100K - UKNN Explicit",
     "echo": false,
+    "model": "uknn-explicit",
     "deps": [
-      "sweeps/random/uknn-explicit-random"
+      "sweeps/random/uknn-explicit-random",
+      "sweeps/random/uknn-explicit-hyperopt",
+      "sweeps/random/uknn-explicit-optuna"
     ]
   },
   "movielens/ML100K/uknn-implicit.qmd": {
-    "title": "Implicit User KNN on ML100K",
+    "title": "UKNN Implicit",
+    "pagetitle": "ML100K - UKNN Implicit",
     "echo": false,
+    "model": "uknn-implicit",
     "deps": [
-      "sweeps/random/uknn-implicit-random"
+      "sweeps/random/uknn-implicit-random",
+      "sweeps/random/uknn-implicit-hyperopt",
+      "sweeps/random/uknn-implicit-optuna"
     ]
   },
   "movielens/ML10M/als-biased.qmd": {
     "title": "ALS BiasedMF",
     "pagetitle": "ML10M - ALS BiasedMF",
     "echo": false,
+    "model": "als-biased",
     "deps": [
       "sweeps/temporal/als-biased-random",
       "sweeps/temporal/als-biased-hyperopt"
@@ -161,6 +178,7 @@
     "title": "Bias Predictor",
     "pagetitle": "ML10M - Bias",
     "echo": false,
+    "model": "bias",
     "deps": [
       "sweeps/temporal/bias-random",
       "sweeps/temporal/bias-hyperopt"
@@ -178,6 +196,7 @@
     "title": "FlexMF BPR",
     "pagetitle": "ML10M - FlexMF BPR",
     "echo": false,
+    "model": "flexmf-bpr",
     "deps": [
       "sweeps/temporal/flexmf-bpr-random",
       "sweeps/temporal/flexmf-bpr-hyperopt"
@@ -187,6 +206,7 @@
     "title": "FlexMF Explicit",
     "pagetitle": "ML10M - FlexMF Explicit",
     "echo": false,
+    "model": "flexmf-explicit",
     "deps": [
       "sweeps/temporal/flexmf-explicit-random",
       "sweeps/temporal/flexmf-explicit-hyperopt"
@@ -196,6 +216,7 @@
     "title": "FlexMF Logistic",
     "pagetitle": "ML10M - FlexMF Logistic",
     "echo": false,
+    "model": "flexmf-logistic",
     "deps": [
       "sweeps/temporal/flexmf-logistic-random",
       "sweeps/temporal/flexmf-logistic-hyperopt"
@@ -205,6 +226,7 @@
     "title": "FlexMF WARP",
     "pagetitle": "ML10M - FlexMF WARP",
     "echo": false,
+    "model": "flexmf-warp",
     "deps": [
       "sweeps/temporal/flexmf-warp-random",
       "sweeps/temporal/flexmf-warp-hyperopt"
@@ -214,6 +236,7 @@
     "title": "IKNN Explicit",
     "pagetitle": "ML10M - IKNN Explicit",
     "echo": false,
+    "model": "iknn-explicit",
     "deps": [
       "sweeps/temporal/iknn-explicit-random",
       "sweeps/temporal/iknn-explicit-hyperopt"
@@ -223,6 +246,7 @@
     "title": "IKNN Implicit",
     "pagetitle": "ML10M - IKNN Implicit",
     "echo": false,
+    "model": "iknn-implicit",
     "deps": [
       "sweeps/temporal/iknn-implicit-random",
       "sweeps/temporal/iknn-implicit-hyperopt"
@@ -244,10 +268,31 @@
       "run-user-metrics.parquet"
     ]
   },
+  "movielens/ML10M/uknn-explicit.qmd": {
+    "title": "UKNN Explicit",
+    "pagetitle": "ML10M - UKNN Explicit",
+    "echo": false,
+    "model": "uknn-explicit",
+    "deps": [
+      "sweeps/temporal/uknn-explicit-random",
+      "sweeps/temporal/uknn-explicit-hyperopt"
+    ]
+  },
+  "movielens/ML10M/uknn-implicit.qmd": {
+    "title": "UKNN Implicit",
+    "pagetitle": "ML10M - UKNN Implicit",
+    "echo": false,
+    "model": "uknn-implicit",
+    "deps": [
+      "sweeps/temporal/uknn-implicit-random",
+      "sweeps/temporal/uknn-implicit-hyperopt"
+    ]
+  },
   "movielens/ML1M/als-biased.qmd": {
     "title": "ALS BiasedMF",
     "pagetitle": "ML1M - ALS BiasedMF",
     "echo": false,
+    "model": "als-biased",
     "deps": [
       "sweeps/random/als-biased-random",
       "sweeps/random/als-biased-hyperopt"
@@ -257,6 +302,7 @@
     "title": "Bias Predictor",
     "pagetitle": "ML1M - Bias",
     "echo": false,
+    "model": "bias",
     "deps": [
       "sweeps/random/bias-random",
       "sweeps/random/bias-hyperopt"
@@ -274,6 +320,7 @@
     "title": "FlexMF BPR",
     "pagetitle": "ML1M - FlexMF BPR",
     "echo": false,
+    "model": "flexmf-bpr",
     "deps": [
       "sweeps/random/flexmf-bpr-random",
       "sweeps/random/flexmf-bpr-hyperopt"
@@ -283,6 +330,7 @@
     "title": "FlexMF Explicit",
     "pagetitle": "ML1M - FlexMF Explicit",
     "echo": false,
+    "model": "flexmf-explicit",
     "deps": [
       "sweeps/random/flexmf-explicit-random",
       "sweeps/random/flexmf-explicit-hyperopt"
@@ -292,6 +340,7 @@
     "title": "FlexMF Logistic",
     "pagetitle": "ML1M - FlexMF Logistic",
     "echo": false,
+    "model": "flexmf-logistic",
     "deps": [
       "sweeps/random/flexmf-logistic-random",
       "sweeps/random/flexmf-logistic-hyperopt"
@@ -301,6 +350,7 @@
     "title": "FlexMF WARP",
     "pagetitle": "ML1M - FlexMF WARP",
     "echo": false,
+    "model": "flexmf-warp",
     "deps": [
       "sweeps/random/flexmf-warp-random",
       "sweeps/random/flexmf-warp-hyperopt"
@@ -310,6 +360,7 @@
     "title": "IKNN Explicit",
     "pagetitle": "ML1M - IKNN Explicit",
     "echo": false,
+    "model": "iknn-explicit",
     "deps": [
       "sweeps/random/iknn-explicit-random",
       "sweeps/random/iknn-explicit-hyperopt"
@@ -319,6 +370,7 @@
     "title": "IKNN Implicit",
     "pagetitle": "ML1M - IKNN Implicit",
     "echo": false,
+    "model": "iknn-implicit",
     "deps": [
       "sweeps/random/iknn-implicit-random",
       "sweeps/random/iknn-implicit-hyperopt"
@@ -333,10 +385,31 @@
       "run-user-metrics.parquet"
     ]
   },
+  "movielens/ML1M/uknn-explicit.qmd": {
+    "title": "UKNN Explicit",
+    "pagetitle": "ML1M - UKNN Explicit",
+    "echo": false,
+    "model": "uknn-explicit",
+    "deps": [
+      "sweeps/random/uknn-explicit-random",
+      "sweeps/random/uknn-explicit-hyperopt"
+    ]
+  },
+  "movielens/ML1M/uknn-implicit.qmd": {
+    "title": "UKNN Implicit",
+    "pagetitle": "ML1M - UKNN Implicit",
+    "echo": false,
+    "model": "uknn-implicit",
+    "deps": [
+      "sweeps/random/uknn-implicit-random",
+      "sweeps/random/uknn-implicit-hyperopt"
+    ]
+  },
   "movielens/ML20M/als-biased.qmd": {
     "title": "ALS BiasedMF",
     "pagetitle": "ML20M - ALS BiasedMF",
     "echo": false,
+    "model": "als-biased",
     "deps": [
       "sweeps/temporal/als-biased-random",
       "sweeps/temporal/als-biased-hyperopt",
@@ -361,6 +434,7 @@
     "title": "Bias Predictor",
     "pagetitle": "ML20M - Bias",
     "echo": false,
+    "model": "bias",
     "deps": [
       "sweeps/temporal/bias-random",
       "sweeps/temporal/bias-hyperopt",
@@ -379,6 +453,7 @@
     "title": "FlexMF BPR",
     "pagetitle": "ML20M - FlexMF BPR",
     "echo": false,
+    "model": "flexmf-bpr",
     "deps": [
       "sweeps/temporal/flexmf-bpr-random",
       "sweeps/temporal/flexmf-bpr-hyperopt",
@@ -389,6 +464,7 @@
     "title": "FlexMF Explicit",
     "pagetitle": "ML20M - FlexMF Explicit",
     "echo": false,
+    "model": "flexmf-explicit",
     "deps": [
       "sweeps/temporal/flexmf-explicit-random",
       "sweeps/temporal/flexmf-explicit-hyperopt",
@@ -399,6 +475,7 @@
     "title": "FlexMF Logistic",
     "pagetitle": "ML20M - FlexMF Logistic",
     "echo": false,
+    "model": "flexmf-logistic",
     "deps": [
       "sweeps/temporal/flexmf-logistic-random",
       "sweeps/temporal/flexmf-logistic-hyperopt",
@@ -409,6 +486,7 @@
     "title": "FlexMF WARP",
     "pagetitle": "ML20M - FlexMF WARP",
     "echo": false,
+    "model": "flexmf-warp",
     "deps": [
       "sweeps/temporal/flexmf-warp-random",
       "sweeps/temporal/flexmf-warp-hyperopt",
@@ -419,6 +497,7 @@
     "title": "IKNN Explicit",
     "pagetitle": "ML20M - IKNN Explicit",
     "echo": false,
+    "model": "iknn-explicit",
     "deps": [
       "sweeps/temporal/iknn-explicit-random",
       "sweeps/temporal/iknn-explicit-hyperopt",
@@ -429,6 +508,7 @@
     "title": "IKNN Implicit",
     "pagetitle": "ML20M - IKNN Implicit",
     "echo": false,
+    "model": "iknn-implicit",
     "deps": [
       "sweeps/temporal/iknn-implicit-random",
       "sweeps/temporal/iknn-implicit-hyperopt",
