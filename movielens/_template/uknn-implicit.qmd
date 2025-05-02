@@ -1,18 +1,18 @@
 ---
-title: IKNN Explicit
-pagetitle: {{ ds.name }} - IKNN Explicit
+title: UKNN Implicit
+pagetitle: {{ ds.name }} - UKNN Implicit
 echo: false
-model: iknn-explicit
+model: uknn-implicit
 deps:
 {%- for split in ds.splits %}
 {%- for search in ds.searches %}
-- sweeps/{{split}}/iknn-explicit-{{search}}
+- sweeps/{{split}}/uknn-implicit-{{search}}
 {%- endfor %}
 {%- endfor %}
 ---
 
 This page analyzes the hyperparameter tuning results for the ItemKNN scorer in
-explicit-feedback mode.
+implicit-feedback mode.
 
 {% if false %}
 ```{python}
@@ -26,15 +26,15 @@ from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('iknn-explicit')
-result = load_sweep_result('iknn-explicit')
+runs = load_sweep_runs('uknn-implicit')
+result = load_sweep_result('uknn-implicit')
 best_id = result['trial_id']
 ```
 
 ## Parameter Search Space
 
 ```{python}
-from codex.models.iknn_explicit import SEARCH_SPACE
+from codex.models.iknn_implicit import SEARCH_SPACE
 show_param_space(SEARCH_SPACE, result['config'])
 ```
 
@@ -62,7 +62,7 @@ repspect to that:
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.max_nbrs', y='RMSE')
+    + pn.aes(x='config.max_nbrs', y='RBP')
     + pn.geom_point()
 )
 ```
@@ -79,7 +79,7 @@ simialrity.
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.min_nbrs', y='RMSE')
+    + pn.aes(x='config.min_nbrs', y='RBP')
     + pn.geom_point()
 )
 ```
@@ -89,7 +89,7 @@ simialrity.
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.min_sim', y='RMSE')
+    + pn.aes(x='config.min_sim', y='RBP')
     + pn.scale_x_log10()
     + pn.geom_point()
 )

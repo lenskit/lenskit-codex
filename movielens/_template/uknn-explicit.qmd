@@ -1,12 +1,12 @@
 ---
-title: IKNN Explicit
-pagetitle: {{ ds.name }} - IKNN Explicit
+title: UKNN Explicit
+pagetitle: {{ ds.name }} - UKNN Explicit
 echo: false
-model: iknn-explicit
+model: uknn-explicit
 deps:
 {%- for split in ds.splits %}
 {%- for search in ds.searches %}
-- sweeps/{{split}}/iknn-explicit-{{search}}
+- sweeps/{{split}}/uknn-explicit-{{search}}
 {%- endfor %}
 {%- endfor %}
 ---
@@ -26,15 +26,15 @@ from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('iknn-explicit')
-result = load_sweep_result('iknn-explicit')
+runs = load_sweep_runs('uknn-explicit')
+result = load_sweep_result('uknn-explicit')
 best_id = result['trial_id']
 ```
 
 ## Parameter Search Space
 
 ```{python}
-from codex.models.iknn_explicit import SEARCH_SPACE
+from codex.models.uknn_explicit import SEARCH_SPACE
 show_param_space(SEARCH_SPACE, result['config'])
 ```
 

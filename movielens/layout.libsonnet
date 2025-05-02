@@ -9,7 +9,7 @@ local sweep = import 'sweeps.libsonnet';
   local runs = runlib.makeRuns(spec),
 
   info: spec {
-    models: lib.activeModels(spec.name),
+    models: std.sort(std.objectFields(lib.activeModels(spec.name))),
   },
   page_templates: std.get(spec, 'template', default=null),
 
