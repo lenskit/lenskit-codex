@@ -1,4 +1,4 @@
 ---
-title: ML1M
+title: MovieLens 1M
 order: 2
 ---
