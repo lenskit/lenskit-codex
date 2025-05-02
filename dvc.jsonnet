@@ -6,9 +6,8 @@ local docs = std.parseJson(importstr 'manifests/documents.json');
   stages: {
     // create a stage to pre-render each page
     [std.format('page/%s', [lib.removeSuffix(doc.key)])]: {
-      cmd: std.format('quarto render %s --profile prerender', [doc.key]),
+      cmd: std.format('quarto render %s', [doc.key]),
       deps: [
-        '_quarto-prerender.yml',
         '_quarto.yml',
         doc.key,
       ] + [
