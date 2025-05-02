@@ -8,12 +8,14 @@ local sweep = import 'sweeps.libsonnet';
   local spec = super.spec,
   local runs = runlib.makeRuns(spec),
 
+  info: spec,
+  page_templates: std.get(spec, 'template', default=null),
+
   stages: data.prepare(spec)
           + sweep.allSweepStages(spec)
           + runlib.stages('../..', runs)
           + results.collect(runs),
-  extraFiles: {
-    'dataset.yml': std.manifestYamlDoc(spec, quote_keys=false),
+  extra_files: {
     'runs/manifest.csv': runlib.runManifest(runs),
   },
 }
