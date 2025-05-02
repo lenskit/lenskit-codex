@@ -8,8 +8,8 @@ from lenskit.random import RNGInput
 from lenskit.training import TrainingOptions
 
 from codex.models import ModelDef, ModelFactory
-from codex.pipeline import base_pipeline, replace_scorer
 from codex.random import rng_seed
+from codex.recpipe import base_pipeline, replace_scorer
 from codex.runlog import CodexTask, DataModel, ScorerModel
 
 _log = structlog.stdlib.get_logger(__name__)

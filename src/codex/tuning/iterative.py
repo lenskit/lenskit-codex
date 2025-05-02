@@ -21,8 +21,8 @@ from pydantic_core import to_json
 from structlog.stdlib import BoundLogger
 
 from codex.models import load_model
-from codex.pipeline import base_pipeline, replace_scorer
 from codex.random import extend_seed
+from codex.recpipe import base_pipeline, replace_scorer
 from codex.runlog import CodexTask, ScorerModel
 
 from .job import TuningJobData
