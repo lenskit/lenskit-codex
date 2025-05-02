@@ -1,0 +1,98 @@
+---
+title: Tuning Analysis
+pagetitle: {{ ds.name }} Tuning Analysis
+jupyter: python3
+deps:
+{%- for split in ds.splits %}
+- sweeps/{{split}}/
+{%- endfor %}
+---
+
+This page provides an analysis of the hyperparameter sweeps to get a handle on
+how different tuning methods are performing.  We use these results from early
+data sets to select the most efficient strategies for other data sets.
+
+All results are validation error.
+
+```{python}
+import sys
+
+from codex.reporting.prelude import *
+```
+
+## Loading the Data
+
+First we will load _all_ the different tunings we have.
+
+```{python}
+names = ['model', 'search']
+all_runs = {}
+all_iters = {}
+for model in DATA_INFO.models:
+    for split in DATA_INFO.splits:
+        for search in DATA_INFO.searches:
+            try:
+                all_runs[(model, search)] = load_sweep_runs(model, split=split, method=search)
+                all_iters[(model,search)] = load_sweep_iters(model, split=split, method=search)
+            except FileNotFoundError as e:
+                print(e, file=sys.stderr)
+runs = pd.concat({
+    k: df[['trial_id', 'timestamp', 'RBP', 'NDCG']
+          + (['RMSE'] if 'RMSE' in df.columns else [])]
+    for k, df in all_runs.items()
+}, names=names)
+runs = runs.reset_index(names).reset_index(drop=True)
+iters = pd.concat({
+    k: df[['trial_id', 'training_iteration', 'timestamp', 'time_this_iter_s', 'RBP', 'NDCG']
+          + (['RMSE'] if 'RMSE' in df.columns else [])]
+    for k, df in all_iters.items()
+}, names=names)
+iters = iters.reset_index(names).reset_index(drop=True)
+runs.info()
+```
+
+## Trial Performance
+
+```{python}
+topn_runs = runs[runs['RMSE'].isnull()].copy().sort_values('timestamp')
+topn_runs['TrialNum'] = topn_runs.groupby(
+    ['model', 'search']
+)['timestamp'].rank()
+topn_runs['MaxRBP'] = topn_runs.groupby(
+    ['model', 'search']
+)['RBP'].cummax()
+topn_runs['MaxNDCG'] = topn_runs.groupby(
+    ['model', 'search']
+)['NDCG'].cummax()
+```
+
+::: {.panel-tabset}
+
+### RBP
+
+```{python}
+(
+    pn.ggplot(topn_runs)
+    + pn.aes(x='TrialNum', y='MaxRBP', color='model')
+    + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
+    + pn.geom_line(pn.aes(y='RBP'), alpha=0.2)
+    + pn.geom_line()
+    + pn.facet_grid('search')
+)
+```
+
+### NDCG
+
+
+```{python}
+(
+    pn.ggplot(topn_runs)
+    + pn.aes(x='TrialNum', y='MaxNDCG', color='model')
+    + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
+    + pn.geom_line(pn.aes(y='NDCG'), alpha=0.2)
+    + pn.geom_line()
+    + pn.facet_grid('search')
+)
+```
+
+:::
