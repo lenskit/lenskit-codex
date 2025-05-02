@@ -9,11 +9,21 @@
   "eval-meta/attention.qmd": {
     "title": "Rank-Biasing Attention Models"
   },
-  "movielens/index.qmd": {
-    "title": "MovieLens",
+  "movielens/ML100K/als-biased.qmd": {
+    "title": "ALS BiasedMF",
+    "pagetitle": "ML100K - ALS BiasedMF",
     "echo": false,
     "deps": [
-      "merged-stats.duckdb"
+      "sweeps/random/als-biased-random",
+      "sweeps/random/als-biased-hyperopt",
+      "sweeps/random/als-biased-optuna"
+    ]
+  },
+  "movielens/ML100K/als-implicit.qmd": {
+    "title": "ALS ImplicitMF on ML100K",
+    "echo": false,
+    "deps": [
+      "sweeps/random/als-biased-random"
     ]
   },
   "movielens/ML100K/bias.qmd": {
@@ -44,16 +54,6 @@
       "sweeps/random/flexmf-bpr-optuna"
     ]
   },
-  "movielens/ML100K/iknn-explicit.qmd": {
-    "title": "IKNN Explicit",
-    "pagetitle": "ML100K - IKNN Explicit",
-    "echo": false,
-    "deps": [
-      "sweeps/random/iknn-explicit-random",
-      "sweeps/random/iknn-explicit-hyperopt",
-      "sweeps/random/iknn-explicit-optuna"
-    ]
-  },
   "movielens/ML100K/flexmf-explicit.qmd": {
     "title": "FlexMF Explicit",
     "pagetitle": "ML100K - FlexMF Explicit",
@@ -62,66 +62,6 @@
       "sweeps/random/flexmf-explicit-random",
       "sweeps/random/flexmf-explicit-hyperopt",
       "sweeps/random/flexmf-explicit-optuna"
-    ]
-  },
-  "movielens/ML100K/iknn-implicit.qmd": {
-    "title": "IKNN Implicit",
-    "pagetitle": "ML100K - IKNN Implicit",
-    "echo": false,
-    "deps": [
-      "sweeps/random/iknn-implicit-random",
-      "sweeps/random/iknn-implicit-hyperopt",
-      "sweeps/random/iknn-implicit-optuna"
-    ]
-  },
-  "movielens/ML100K/uknn-explicit.qmd": {
-    "title": "Explicit User KNN on ML100K",
-    "echo": false,
-    "deps": [
-      "sweeps/random/uknn-explicit-random"
-    ]
-  },
-  "movielens/ML100K/tuning.qmd": {
-    "title": "ML100K Tuning Summary",
-    "order": 2,
-    "deps": [
-      "sweeps"
-    ]
-  },
-  "movielens/ML100K/flexmf-warp.qmd": {
-    "title": "FlexMF WARP",
-    "pagetitle": "ML100K - FlexMF WARP",
-    "echo": false,
-    "deps": [
-      "sweeps/random/flexmf-warp-random",
-      "sweeps/random/flexmf-warp-hyperopt",
-      "sweeps/random/flexmf-warp-optuna"
-    ]
-  },
-  "movielens/ML100K/als-biased.qmd": {
-    "title": "ALS BiasedMF",
-    "pagetitle": "ML100K - ALS BiasedMF",
-    "echo": false,
-    "deps": [
-      "sweeps/random/als-biased-random",
-      "sweeps/random/als-biased-hyperopt",
-      "sweeps/random/als-biased-optuna"
-    ]
-  },
-  "movielens/ML100K/als-implicit.qmd": {
-    "title": "ALS ImplicitMF on ML100K",
-    "echo": false,
-    "deps": [
-      "sweeps/random/als-biased-random"
-    ]
-  },
-  "movielens/ML100K/summary.qmd": {
-    "title": "Performance Summary",
-    "pagetitle": "ML100K Performance Summary",
-    "order": 1,
-    "deps": [
-      "run-summary.csv",
-      "run-user-metrics.parquet"
     ]
   },
   "movielens/ML100K/flexmf-logistic.qmd": {
@@ -134,11 +74,73 @@
       "sweeps/random/flexmf-logistic-optuna"
     ]
   },
+  "movielens/ML100K/flexmf-warp.qmd": {
+    "title": "FlexMF WARP",
+    "pagetitle": "ML100K - FlexMF WARP",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-warp-random",
+      "sweeps/random/flexmf-warp-hyperopt",
+      "sweeps/random/flexmf-warp-optuna"
+    ]
+  },
+  "movielens/ML100K/iknn-explicit.qmd": {
+    "title": "IKNN Explicit",
+    "pagetitle": "ML100K - IKNN Explicit",
+    "echo": false,
+    "deps": [
+      "sweeps/random/iknn-explicit-random",
+      "sweeps/random/iknn-explicit-hyperopt",
+      "sweeps/random/iknn-explicit-optuna"
+    ]
+  },
+  "movielens/ML100K/iknn-implicit.qmd": {
+    "title": "IKNN Implicit",
+    "pagetitle": "ML100K - IKNN Implicit",
+    "echo": false,
+    "deps": [
+      "sweeps/random/iknn-implicit-random",
+      "sweeps/random/iknn-implicit-hyperopt",
+      "sweeps/random/iknn-implicit-optuna"
+    ]
+  },
+  "movielens/ML100K/summary.qmd": {
+    "title": "Performance Summary",
+    "pagetitle": "ML100K Performance Summary",
+    "order": 1,
+    "deps": [
+      "run-summary.csv",
+      "run-user-metrics.parquet"
+    ]
+  },
+  "movielens/ML100K/tuning.qmd": {
+    "title": "ML100K Tuning Summary",
+    "order": 2,
+    "deps": [
+      "sweeps"
+    ]
+  },
+  "movielens/ML100K/uknn-explicit.qmd": {
+    "title": "Explicit User KNN on ML100K",
+    "echo": false,
+    "deps": [
+      "sweeps/random/uknn-explicit-random"
+    ]
+  },
   "movielens/ML100K/uknn-implicit.qmd": {
     "title": "Implicit User KNN on ML100K",
     "echo": false,
     "deps": [
       "sweeps/random/uknn-implicit-random"
+    ]
+  },
+  "movielens/ML10M/als-biased.qmd": {
+    "title": "ALS BiasedMF",
+    "pagetitle": "ML10M - ALS BiasedMF",
+    "echo": false,
+    "deps": [
+      "sweeps/temporal/als-biased-random",
+      "sweeps/temporal/als-biased-hyperopt"
     ]
   },
   "movielens/ML10M/als-biasedmf.qmd": {
@@ -155,30 +157,6 @@
       "sweeps/temporal/ImplicitMF-ALS-grid"
     ]
   },
-  "movielens/ML10M/description.qmd": {
-    "title": "ML10M Data Description",
-    "order": 0,
-    "echo": false,
-    "deps": [
-      "stats.duckdb"
-    ]
-  },
-  "movielens/ML10M/splitting.qmd": {
-    "title": "ML10M Data Splitting",
-    "order": 1,
-    "deps": [
-      "ratings.duckdb"
-    ]
-  },
-  "movielens/ML10M/als-biased.qmd": {
-    "title": "ALS BiasedMF",
-    "pagetitle": "ML10M - ALS BiasedMF",
-    "echo": false,
-    "deps": [
-      "sweeps/temporal/als-biased-random",
-      "sweeps/temporal/als-biased-hyperopt"
-    ]
-  },
   "movielens/ML10M/bias.qmd": {
     "title": "Bias Predictor",
     "pagetitle": "ML10M - Bias",
@@ -186,6 +164,14 @@
     "deps": [
       "sweeps/temporal/bias-random",
       "sweeps/temporal/bias-hyperopt"
+    ]
+  },
+  "movielens/ML10M/description.qmd": {
+    "title": "ML10M Data Description",
+    "order": 0,
+    "echo": false,
+    "deps": [
+      "stats.duckdb"
     ]
   },
   "movielens/ML10M/flexmf-bpr.qmd": {
@@ -242,6 +228,13 @@
       "sweeps/temporal/iknn-implicit-hyperopt"
     ]
   },
+  "movielens/ML10M/splitting.qmd": {
+    "title": "ML10M Data Splitting",
+    "order": 1,
+    "deps": [
+      "ratings.duckdb"
+    ]
+  },
   "movielens/ML10M/summary.qmd": {
     "title": "Performance Summary",
     "pagetitle": "ML10M Performance Summary",
@@ -251,12 +244,66 @@
       "run-user-metrics.parquet"
     ]
   },
+  "movielens/ML1M/als-biased.qmd": {
+    "title": "ALS BiasedMF",
+    "pagetitle": "ML1M - ALS BiasedMF",
+    "echo": false,
+    "deps": [
+      "sweeps/random/als-biased-random",
+      "sweeps/random/als-biased-hyperopt"
+    ]
+  },
+  "movielens/ML1M/bias.qmd": {
+    "title": "Bias Predictor",
+    "pagetitle": "ML1M - Bias",
+    "echo": false,
+    "deps": [
+      "sweeps/random/bias-random",
+      "sweeps/random/bias-hyperopt"
+    ]
+  },
   "movielens/ML1M/description.qmd": {
     "title": "ML1M Data Description",
     "order": 0,
     "echo": false,
     "deps": [
       "stats.duckdb"
+    ]
+  },
+  "movielens/ML1M/flexmf-bpr.qmd": {
+    "title": "FlexMF BPR",
+    "pagetitle": "ML1M - FlexMF BPR",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-bpr-random",
+      "sweeps/random/flexmf-bpr-hyperopt"
+    ]
+  },
+  "movielens/ML1M/flexmf-explicit.qmd": {
+    "title": "FlexMF Explicit",
+    "pagetitle": "ML1M - FlexMF Explicit",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-explicit-random",
+      "sweeps/random/flexmf-explicit-hyperopt"
+    ]
+  },
+  "movielens/ML1M/flexmf-logistic.qmd": {
+    "title": "FlexMF Logistic",
+    "pagetitle": "ML1M - FlexMF Logistic",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-logistic-random",
+      "sweeps/random/flexmf-logistic-hyperopt"
+    ]
+  },
+  "movielens/ML1M/flexmf-warp.qmd": {
+    "title": "FlexMF WARP",
+    "pagetitle": "ML1M - FlexMF WARP",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-warp-random",
+      "sweeps/random/flexmf-warp-hyperopt"
     ]
   },
   "movielens/ML1M/iknn-explicit.qmd": {
@@ -284,60 +331,6 @@
     "deps": [
       "run-summary.csv",
       "run-user-metrics.parquet"
-    ]
-  },
-  "movielens/ML1M/bias.qmd": {
-    "title": "Bias Predictor",
-    "pagetitle": "ML1M - Bias",
-    "echo": false,
-    "deps": [
-      "sweeps/random/bias-random",
-      "sweeps/random/bias-hyperopt"
-    ]
-  },
-  "movielens/ML1M/flexmf-explicit.qmd": {
-    "title": "FlexMF Explicit",
-    "pagetitle": "ML1M - FlexMF Explicit",
-    "echo": false,
-    "deps": [
-      "sweeps/random/flexmf-explicit-random",
-      "sweeps/random/flexmf-explicit-hyperopt"
-    ]
-  },
-  "movielens/ML1M/als-biased.qmd": {
-    "title": "ALS BiasedMF",
-    "pagetitle": "ML1M - ALS BiasedMF",
-    "echo": false,
-    "deps": [
-      "sweeps/random/als-biased-random",
-      "sweeps/random/als-biased-hyperopt"
-    ]
-  },
-  "movielens/ML1M/flexmf-logistic.qmd": {
-    "title": "FlexMF Logistic",
-    "pagetitle": "ML1M - FlexMF Logistic",
-    "echo": false,
-    "deps": [
-      "sweeps/random/flexmf-logistic-random",
-      "sweeps/random/flexmf-logistic-hyperopt"
-    ]
-  },
-  "movielens/ML1M/flexmf-bpr.qmd": {
-    "title": "FlexMF BPR",
-    "pagetitle": "ML1M - FlexMF BPR",
-    "echo": false,
-    "deps": [
-      "sweeps/random/flexmf-bpr-random",
-      "sweeps/random/flexmf-bpr-hyperopt"
-    ]
-  },
-  "movielens/ML1M/flexmf-warp.qmd": {
-    "title": "FlexMF WARP",
-    "pagetitle": "ML1M - FlexMF WARP",
-    "echo": false,
-    "deps": [
-      "sweeps/random/flexmf-warp-random",
-      "sweeps/random/flexmf-warp-hyperopt"
     ]
   },
   "movielens/ML20M/als-biasedmf.qmd": {
@@ -412,6 +405,13 @@
       "sweeps/temporal/ImplicitMF-ALS-grid"
     ]
   },
+  "movielens/ML25M/bias.qmd": {
+    "title": "Bias on ML25M",
+    "echo": false,
+    "deps": [
+      "sweeps/temporal/Bias-grid"
+    ]
+  },
   "movielens/ML25M/description.qmd": {
     "title": "ML25M Data Description",
     "order": 0,
@@ -449,13 +449,6 @@
       "run-user-metrics.parquet"
     ]
   },
-  "movielens/ML25M/bias.qmd": {
-    "title": "Bias on ML25M",
-    "echo": false,
-    "deps": [
-      "sweeps/temporal/Bias-grid"
-    ]
-  },
   "movielens/ML32M/description.qmd": {
     "title": "ML32M Data Description",
     "order": 0,
@@ -469,6 +462,13 @@
     "order": 1,
     "deps": [
       "ratings.duckdb"
+    ]
+  },
+  "movielens/index.qmd": {
+    "title": "MovieLens",
+    "echo": false,
+    "deps": [
+      "merged-stats.duckdb"
     ]
   }
 }
