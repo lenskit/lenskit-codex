@@ -12,7 +12,9 @@ from os import fspath
 from pathlib import Path
 
 import yaml
-from pydantic import BaseModel, Field, JsonValue
+from pydantic import BaseModel, JsonValue
+
+from .layout import DataSetInfo
 
 logger = logging.getLogger(__name__)
 
@@ -22,9 +24,9 @@ class DVCPipeline(BaseModel):
 
 
 class CodexPipeline(DVCPipeline):
-    extra_files: dict[str, str | dict[str, JsonValue]] = Field(
-        alias="extraFiles", default_factory=dict
-    )
+    info: DataSetInfo | None = None
+    page_templates: Path | None = None
+    extra_files: dict[str, str | dict[str, JsonValue]] = {}
 
     @classmethod
     def load(cls, path: Path) -> CodexPipeline:
@@ -65,6 +67,10 @@ def render_dvc_pipeline(path: Path | str):
     out = path.parent / "dvc.yaml"
     with out.open("wt") as yf:
         yaml.safe_dump(pipeline.dvc_object().model_dump(mode="yaml", exclude_unset=True), yf)
+
+    if pipeline.info is not None:
+        with open(path.parent / "dataset.yml", "wt") as yf:
+            yaml.safe_dump(pipeline.info.model_dump(mode="json"), yf)
 
 
 def render_dvc_gitignores():

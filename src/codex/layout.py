@@ -22,14 +22,13 @@ def codex_relpath(path: str | PathLike[str]) -> Path:
     return resolved.relative_to(root)
 
 
-class DataSetInfo(BaseModel, extra="forbid"):
+class DataSetInfo(BaseModel):
     """
     Information for a data set.
     """
 
     name: str = "UNNAMED"
     fn: str | None = None
-    template: Path | None = None
     splits: list[str] = []
     searches: list[str] = []
 

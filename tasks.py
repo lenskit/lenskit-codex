@@ -7,9 +7,9 @@ from pathlib import Path
 from invoke.context import Context
 from invoke.tasks import task
 
-from codex.layout import codex_root, load_data_info
+from codex.layout import codex_root
 from codex.pages import front_matter, render_templates
-from codex.pipeline import render_dvc_gitignores, render_dvc_pipeline
+from codex.pipeline import CodexPipeline, render_dvc_gitignores, render_dvc_pipeline
 
 os.chdir(codex_root())
 
@@ -39,14 +39,15 @@ def fetch_web_assets(c: Context):
 @task
 def render_page_templates(c: Context):
     "Render page templates."
-    ds_yamls = glob("**/dataset.yml", recursive=True)
-    for dsy in ds_yamls:
-        dsy = Path(dsy)
-        ds_dir = dsy.parent
-        ds = load_data_info(ds_dir)
-        if ds.template:
+    ds_yamls = glob("**/dvc.jsonnet", recursive=True)
+    for dsjn in ds_yamls:
+        dsjn = Path(dsjn)
+        ds_dir = dsjn.parent
+        pipe = CodexPipeline.load(dsjn)
+        if pipe.page_templates:
+            assert pipe.info is not None, "no info for pipeline"
             print("rendering templates for", ds_dir)
-            render_templates(ds, ds_dir / ds.template, ds_dir)
+            render_templates(pipe.info, ds_dir / pipe.page_templates, ds_dir)
 
 
 @task
