@@ -8,7 +8,8 @@ import yaml
 from invoke.context import Context
 from invoke.tasks import task
 
-from codex.layout import codex_root
+from codex.layout import codex_root, load_data_info
+from codex.pages import front_matter, render_templates
 
 os.chdir(codex_root())
 
@@ -36,25 +37,28 @@ def fetch_web_assets(c: Context):
 
 
 @task
+def render_page_templates(c: Context):
+    "Render page templates."
+    ds_yamls = glob("**/dataset.yml", recursive=True)
+    for dsy in ds_yamls:
+        dsy = Path(dsy)
+        ds_dir = dsy.parent
+        ds = load_data_info(ds_dir)
+        if ds.template:
+            print("rendering templates for", ds_dir)
+            render_templates(ds, ds_dir / ds.template, ds_dir)
+
+
+@task
 def list_documents(c: Context):
     "List documents with their metadata."
     docs = glob("**/*.qmd", recursive=True)
     print("collecting", len(docs), "documents")
-    docs = {name: _front_matter(name) for name in docs if not re.match(r".*/_", name)}
+    docs = {name: front_matter(name) for name in docs if not re.match(r".*/_", name)}
 
     with open("manifests/documents.json", "wt") as jsf:
         json.dump(docs, jsf, indent=2)
         print(file=jsf)
-
-
-def _front_matter(path):
-    path = Path(path)
-    text = path.read_text("utf8")
-    if m := re.match(r"^---+\s*\n(.*?)\n---+", text, re.DOTALL):
-        print("found metadata in", path)
-        return yaml.safe_load(m.group(1))
-    else:
-        return {}
 
 
 @task

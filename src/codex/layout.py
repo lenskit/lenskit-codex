@@ -29,6 +29,7 @@ class DataSetInfo(BaseModel, extra="forbid"):
 
     name: str = "UNNAMED"
     fn: str | None = None
+    template: Path | None = None
     splits: list[str] = []
     searches: list[str] = []
 
