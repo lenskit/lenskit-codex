@@ -7,9 +7,9 @@ from pathlib import Path
 from invoke.context import Context
 from invoke.tasks import task
 
-from codex.dvc import render_dvc_gitignores, render_dvc_pipeline
 from codex.layout import codex_root, load_data_info
 from codex.pages import front_matter, render_templates
+from codex.pipeline import render_dvc_gitignores, render_dvc_pipeline
 
 os.chdir(codex_root())
 
