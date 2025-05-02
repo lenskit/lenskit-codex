@@ -24,12 +24,15 @@ jobs:
       - name: 🛒 Checkout
         uses: actions/checkout@v4
 
-      - name: 🧚 Install pixi
-        uses: prefix-dev/setup-pixi@v0.8.1
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v6
         with:
-          pixi-version: latest
-          environments: publish
-          locked: true
+          version: latest
+          enable-cache: true
+          python-version: "3.12"
+
+      - name: Synchronize dependencies
+        run: uv sync --no-default-groups --locked
 
       - name: Fetch site assets
         run: pixi run -e publish invoke fetch-web-assets
