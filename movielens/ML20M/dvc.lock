@@ -3430,3 +3430,25 @@ stages:
       md5: 3f1a7235acefea870849d8fa42f4270c.dir
       size: 6150502
       nfiles: 4
+  sweep-flexmf-explicit-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-optuna
+    deps:
+    - path: ../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 9271360109ed53980623529abafbc7a4
+      size: 527
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    outs:
+    - path: sweeps/temporal/flexmf-explicit-optuna
+      hash: md5
+      md5: 30f7b7fdb64abba7445285e21e4599a2.dir
+      size: 1251157
+      nfiles: 5
+    - path: sweeps/temporal/flexmf-explicit-optuna.json
+      hash: md5
+      md5: a9137691c1e1fb0cdbff3770358bdac5
+      size: 660
