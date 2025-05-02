@@ -1,11 +1,18 @@
 ---
-title: Bias on ML100K
+title: Bias Predictor
+pagetitle: ML100K - Bias
 echo: false
 deps:
 - sweeps/random/bias-random
+- sweeps/random/bias-hyperopt
+- sweeps/random/bias-optuna
 ---
 
-This page analyzes the hyperparameter tuning results for the bias model.
+This page analyzes the behavior and hyperparameter search for the Bias scoring
+model on ML100K.
+
+
+
 
 ```{python}
 from codex.reporting.prelude import *
@@ -13,13 +20,28 @@ from codex.reporting.prelude import *
 
 ```{python}
 runs = load_sweep_runs('bias')
+result = load_sweep_result('bias')
 ```
 
 ## Parameter Search Space
 
 ```{python}
 from codex.models.bias import SEARCH_SPACE
-show_param_space(SEARCH_SPACE)
+show_param_space(SEARCH_SPACE, result['config'])
+```
+
+## Final Result
+
+Searching selected the following configuration:
+
+```{python}
+rich.print(result['config'])
+```
+
+With these metrics:
+
+```{python}
+rich.print(result)
 ```
 
 ## Metric Response

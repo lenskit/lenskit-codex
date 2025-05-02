@@ -1,12 +1,17 @@
 ---
-title: FlexMF Logistic on ML100K
+title: FlexMF Logistic
+pagetitle: ML100K - FlexMF Logistic
 echo: false
 deps:
 - sweeps/random/flexmf-logistic-random
+- sweeps/random/flexmf-logistic-hyperopt
+- sweeps/random/flexmf-logistic-optuna
 ---
 
 This page analyzes the hyperparameter tuning results for the FlexMF scorer in
 implicit-feedback mode with logistic loss (Logistic Matrix Factorization).
+
+
 
 ```{python}
 from codex.reporting.prelude import *

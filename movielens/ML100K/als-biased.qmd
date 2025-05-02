@@ -1,12 +1,17 @@
 ---
-title: ALS BiasedMF on ML100K
+title: ALS BiasedMF
+pagetitle: ML100K - ALS BiasedMF
 echo: false
 deps:
 - sweeps/random/als-biased-random
+- sweeps/random/als-biased-hyperopt
+- sweeps/random/als-biased-optuna
 ---
 
 This page analyzes the hyperparameter tuning results for biased matrix
 factorization with ALS.
+
+
 
 ```{python}
 from codex.reporting.prelude import *
@@ -23,7 +28,7 @@ best_id = result['trial_id']
 
 ```{python}
 from codex.models.als_biased import SEARCH_SPACE
-show_param_space(SEARCH_SPACE)
+show_param_space(SEARCH_SPACE, result['config'])
 ```
 
 ## Final Result
@@ -39,7 +44,6 @@ With these metrics:
 ```{python}
 rich.print(result)
 ```
-
 
 ## Parameter Analysis
 

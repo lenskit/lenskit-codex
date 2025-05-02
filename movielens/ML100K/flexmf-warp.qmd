@@ -1,15 +1,15 @@
 ---
-title: FlexMF BPR
-pagetitle: ML100K - FlexMF BPR
+title: FlexMF WARP
+pagetitle: ML100K - FlexMF WARP
 echo: false
 deps:
-- sweeps/random/flexmf-bpr-random
-- sweeps/random/flexmf-bpr-hyperopt
-- sweeps/random/flexmf-bpr-optuna
+- sweeps/random/flexmf-warp-random
+- sweeps/random/flexmf-warp-hyperopt
+- sweeps/random/flexmf-warp-optuna
 ---
 
 This page analyzes the hyperparameter tuning results for the FlexMF scorer in
-implicit-feedback mode with pairwise loss (Bayesian Personalized Ranking).
+implicit-feedback mode with WARP loss.
 
 
 
@@ -18,16 +18,16 @@ from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('flexmf-bpr')
-iters = load_sweep_iters('flexmf-bpr')
-result = load_sweep_result('flexmf-bpr')
+runs = load_sweep_runs('flexmf-warp')
+iters = load_sweep_iters('flexmf-warp')
+result = load_sweep_result('flexmf-warp')
 best_id = result['trial_id']
 ```
 
 ## Parameter Search Space
 
 ```{python}
-from codex.models.flexmf_bpr import SEARCH_SPACE
+from codex.models.flexmf_warp import SEARCH_SPACE
 show_param_space(SEARCH_SPACE, result['config'])
 ```
 
@@ -60,37 +60,6 @@ fundamental logic, so let's look at performance as a fufnction of it:
     + pn.geom_point()
 )
 ```
-
-### Data Handling
-
-::: {.panel-tabset}
-
-
-#### Negative Count
-
-```{python}
-(
-    pn.ggplot(runs)
-    + pn.aes(x='config.negative_count', y='RBP')
-    + pn.geom_point()
-    + pn.scale_x_log10()
-    + pn.labs(x='Negative Count')
-)
-```
-
-#### Postive Weight
-
-```{python}
-(
-    pn.ggplot(runs)
-    + pn.aes(x='config.positive_weight', y='RBP')
-    + pn.geom_point()
-    + pn.scale_x_log10()
-    + pn.labs(x='Positive Weight')
-)
-```
-
-:::
 
 ### Learning Parameters
 

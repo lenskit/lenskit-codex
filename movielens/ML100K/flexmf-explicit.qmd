@@ -1,22 +1,27 @@
 ---
-title: FlexMF Explicit on ML100K
+title: FlexMF Explicit
+pagetitle: ML100K - FlexMF Explicit
 echo: false
 deps:
 - sweeps/random/flexmf-explicit-random
+- sweeps/random/flexmf-explicit-hyperopt
+- sweeps/random/flexmf-explicit-optuna
 ---
 
 This page analyzes the hyperparameter tuning results for the FlexMF scorer in
 explicit-feedback mode (a biased matrix factorization model trained with
 PyTorch).
 
+
+
 ```{python}
 from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('flexmf-explicit', method='hyperopt')
-iters = load_sweep_iters('flexmf-explicit', method='hyperopt')
-result = load_sweep_result('flexmf-explicit', method='hyperopt')
+runs = load_sweep_runs('flexmf-explicit')
+iters = load_sweep_iters('flexmf-explicit')
+result = load_sweep_result('flexmf-explicit')
 best_id = result['trial_id']
 ```
 
@@ -24,7 +29,7 @@ best_id = result['trial_id']
 
 ```{python}
 from codex.models.flexmf_explicit import SEARCH_SPACE
-show_param_space(SEARCH_SPACE)
+show_param_space(SEARCH_SPACE, result['config'])
 ```
 
 ## Final Result
@@ -101,13 +106,9 @@ How did the metric progress in the best result?
 
 ```{python}
 best_iters = iters[iters['trial_id'] == best_id]
-best_scores = best_iters.set_index('training_iteration')['RMSE']
-med_scores = iters.groupby('training_iteration')['RMSE'].median()
-iter_scores = pd.concat({'Best': best_scores, 'Median': med_scores}, names=['Run'])
-iter_scores = iter_scores.reset_index()
 (
-    pn.ggplot(iter_scores)
-    + pn.aes(x='training_iteration', y='RMSE', color='Run')
+    pn.ggplot(best_iters)
+    + pn.aes(x='training_iteration', y='RMSE')
     + pn.geom_line()
 )
 ```
@@ -123,6 +124,5 @@ full_iters = iters[iters['trial_id'].isin(full_trials)]
     pn.ggplot(full_iters)
     + pn.aes(x='training_iteration', y='RMSE', color='trial_id')
     + pn.geom_line()
-    + pn.ggtitle('Performance of Full-Length Runs')
 )
 ```

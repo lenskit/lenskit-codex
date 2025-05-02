@@ -1,12 +1,26 @@
 ---
-title: Implicit Item KNN on ML100K
+title: IKNN Implicit
+pagetitle: ML100K - IKNN Implicit
 echo: false
 deps:
 - sweeps/random/iknn-implicit-random
+- sweeps/random/iknn-implicit-hyperopt
+- sweeps/random/iknn-implicit-optuna
 ---
 
-This page analyzes the hyperparameter tuning results for the Item KNN
-explicit-feedback rating predictor.
+```{python}
+import json
+from pathlib import Path
+import pandas as pd
+import numpy as np
+import plotnine as pn
+import matplotlib.pyplot as plt
+```
+
+This page analyzes the hyperparameter tuning results for the ItemKNN scorer in
+implicit-feedback mode.
+
+
 
 ```{python}
 from codex.reporting.prelude import *
@@ -22,11 +36,10 @@ best_id = result['trial_id']
 
 ```{python}
 from codex.models.iknn_implicit import SEARCH_SPACE
-show_param_space(SEARCH_SPACE)
+show_param_space(SEARCH_SPACE, result['config'])
 ```
 
-
-## Final Result
+### Final Result
 
 Searching selected the following configuration:
 
@@ -40,48 +53,47 @@ With these metrics:
 rich.print(result)
 ```
 
-## Parameter Influence
+## Parameter Behavior
 
 ### Neighborhood Size
 
-The max neighbors is one of the more influential properties.  Note that this
-chart may be noisier than typical, because we are plotting the
-influence from random search, so the other parameters are simultaneously
-changing.
+The neighborhood size is key argument to consider, let's look at RMSE with
+repspect to that:
 
 ```{python}
 (
     pn.ggplot(runs)
     + pn.aes(x='config.max_nbrs', y='RBP')
     + pn.geom_point()
-    + pn.xlab("Max Neighbors")
 )
 ```
 
-### Minimum Neighbors
+### Filtering
 
-We also examine the *minimum* neighbors, which reduces the model's willingness
-to make low-confidence predictions.
+There are two filtering parameters we also test — minimum neighbors and mininmum
+simialrity.
+
+::: {.panel-tabset}
+
+#### Min Nbrs
 
 ```{python}
 (
     pn.ggplot(runs)
     + pn.aes(x='config.min_nbrs', y='RBP')
     + pn.geom_point()
-    + pn.xlab("Min Neighbors")
 )
 ```
 
-### Minimum Similarity
-
-Finally, the minimum similarity filters out low-information relationships:
+#### Min Sim
 
 ```{python}
 (
     pn.ggplot(runs)
     + pn.aes(x='config.min_sim', y='RBP')
-    + pn.geom_point()
-    + pn.xlab("Minimum Similarity")
     + pn.scale_x_log10()
+    + pn.geom_point()
 )
 ```
+
+:::

@@ -17,10 +17,13 @@
     ]
   },
   "movielens/ML100K/bias.qmd": {
-    "title": "Bias on ML100K",
+    "title": "Bias Predictor",
+    "pagetitle": "ML100K - Bias",
     "echo": false,
     "deps": [
-      "sweeps/random/bias-random"
+      "sweeps/random/bias-random",
+      "sweeps/random/bias-hyperopt",
+      "sweeps/random/bias-optuna"
     ]
   },
   "movielens/ML100K/description.qmd": {
@@ -32,31 +35,43 @@
     ]
   },
   "movielens/ML100K/flexmf-bpr.qmd": {
-    "title": "FlexMF BPR on ML100K",
+    "title": "FlexMF BPR",
+    "pagetitle": "ML100K - FlexMF BPR",
     "echo": false,
     "deps": [
-      "sweeps/random/flexmf-bpr-random"
+      "sweeps/random/flexmf-bpr-random",
+      "sweeps/random/flexmf-bpr-hyperopt",
+      "sweeps/random/flexmf-bpr-optuna"
     ]
   },
   "movielens/ML100K/iknn-explicit.qmd": {
-    "title": "Explicit Item KNN on ML100K",
+    "title": "IKNN Explicit",
+    "pagetitle": "ML100K - IKNN Explicit",
     "echo": false,
     "deps": [
-      "sweeps/random/iknn-explicit-random"
+      "sweeps/random/iknn-explicit-random",
+      "sweeps/random/iknn-explicit-hyperopt",
+      "sweeps/random/iknn-explicit-optuna"
     ]
   },
   "movielens/ML100K/flexmf-explicit.qmd": {
-    "title": "FlexMF Explicit on ML100K",
+    "title": "FlexMF Explicit",
+    "pagetitle": "ML100K - FlexMF Explicit",
     "echo": false,
     "deps": [
-      "sweeps/random/flexmf-explicit-random"
+      "sweeps/random/flexmf-explicit-random",
+      "sweeps/random/flexmf-explicit-hyperopt",
+      "sweeps/random/flexmf-explicit-optuna"
     ]
   },
   "movielens/ML100K/iknn-implicit.qmd": {
-    "title": "Implicit Item KNN on ML100K",
+    "title": "IKNN Implicit",
+    "pagetitle": "ML100K - IKNN Implicit",
     "echo": false,
     "deps": [
-      "sweeps/random/iknn-implicit-random"
+      "sweeps/random/iknn-implicit-random",
+      "sweeps/random/iknn-implicit-hyperopt",
+      "sweeps/random/iknn-implicit-optuna"
     ]
   },
   "movielens/ML100K/uknn-explicit.qmd": {
@@ -73,11 +88,24 @@
       "sweeps"
     ]
   },
-  "movielens/ML100K/als-biased.qmd": {
-    "title": "ALS BiasedMF on ML100K",
+  "movielens/ML100K/flexmf-warp.qmd": {
+    "title": "FlexMF WARP",
+    "pagetitle": "ML100K - FlexMF WARP",
     "echo": false,
     "deps": [
-      "sweeps/random/als-biased-random"
+      "sweeps/random/flexmf-warp-random",
+      "sweeps/random/flexmf-warp-hyperopt",
+      "sweeps/random/flexmf-warp-optuna"
+    ]
+  },
+  "movielens/ML100K/als-biased.qmd": {
+    "title": "ALS BiasedMF",
+    "pagetitle": "ML100K - ALS BiasedMF",
+    "echo": false,
+    "deps": [
+      "sweeps/random/als-biased-random",
+      "sweeps/random/als-biased-hyperopt",
+      "sweeps/random/als-biased-optuna"
     ]
   },
   "movielens/ML100K/als-implicit.qmd": {
@@ -88,7 +116,8 @@
     ]
   },
   "movielens/ML100K/summary.qmd": {
-    "title": "ML100K Performance Summary",
+    "title": "Performance Summary",
+    "pagetitle": "ML100K Performance Summary",
     "order": 1,
     "deps": [
       "run-summary.csv",
@@ -96,10 +125,13 @@
     ]
   },
   "movielens/ML100K/flexmf-logistic.qmd": {
-    "title": "FlexMF Logistic on ML100K",
+    "title": "FlexMF Logistic",
+    "pagetitle": "ML100K - FlexMF Logistic",
     "echo": false,
     "deps": [
-      "sweeps/random/flexmf-logistic-random"
+      "sweeps/random/flexmf-logistic-random",
+      "sweeps/random/flexmf-logistic-hyperopt",
+      "sweeps/random/flexmf-logistic-optuna"
     ]
   },
   "movielens/ML100K/uknn-implicit.qmd": {

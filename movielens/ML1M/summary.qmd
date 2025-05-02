@@ -99,7 +99,7 @@ pred_metrics = user_metrics[user_metrics['RMSE'].notnull()]
     pn.ggplot(pred_metrics)
     + pn.aes(x='model', y='RMSE', fill='variant')
     + pn.geom_col(position='dodge', stat='summary')
-    + pn.geom_errorbar(position=pn.position_dodge(width=0.9), stat='summary')
+    + pn.geom_errorbar(position='dodge', stat='summary')
     + pn.scale_fill_brewer('qual', 'Dark2')
 )
 ```
