@@ -2,9 +2,9 @@ local lib = import 'src/codex.libsonnet';
 
 local docs = std.parseJson(importstr 'manifests/documents.json');
 
-// create a stage to pre-render each page
 {
   stages: {
+    // create a stage to pre-render each page
     [std.format('page/%s', [lib.removeSuffix(doc.key)])]: {
       cmd: std.format('quarto render %s --profile prerender', [doc.key]),
       deps: [
