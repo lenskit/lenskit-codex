@@ -1,13 +1,17 @@
 ---
-title: FlexMF Explicit on ML1M
+title: FlexMF Explicit
+pagetitle: ML1M - FlexMF Explicit
 echo: false
 deps:
 - sweeps/random/flexmf-explicit-random
+- sweeps/random/flexmf-explicit-hyperopt
 ---
 
 This page analyzes the hyperparameter tuning results for the FlexMF scorer in
 explicit-feedback mode (a biased matrix factorization model trained with
 PyTorch).
+
+
 
 ```{python}
 from codex.reporting.prelude import *
@@ -24,7 +28,7 @@ best_id = result['trial_id']
 
 ```{python}
 from codex.models.flexmf_explicit import SEARCH_SPACE
-show_param_space(SEARCH_SPACE)
+show_param_space(SEARCH_SPACE, result['config'])
 ```
 
 ## Final Result

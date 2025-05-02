@@ -2,7 +2,7 @@
   spec:: {
     name: 'ML1M',
     fn: 'ml-1m',
-    template: '../_templates',
+    template: '../_template',
     splits: ['random'],
     searches: ['random', 'hyperopt'],
   },

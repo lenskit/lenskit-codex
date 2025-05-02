@@ -1,23 +1,25 @@
 ---
-title: FlexMF Logistic on ML1M
-abstract-title: FlexMF Logistic
-toc-title: FlexMF Logistic
+title: FlexMF Logistic
+pagetitle: ML1M - FlexMF Logistic
 echo: false
 deps:
 - sweeps/random/flexmf-logistic-random
+- sweeps/random/flexmf-logistic-hyperopt
 ---
 
 This page analyzes the hyperparameter tuning results for the FlexMF scorer in
 implicit-feedback mode with logistic loss (Logistic Matrix Factorization).
+
+
 
 ```{python}
 from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('flexmf-logistic', method='hyperopt')
-iters = load_sweep_iters('flexmf-logistic', method='hyperopt')
-result = load_sweep_result('flexmf-logistic', method='hyperopt')
+runs = load_sweep_runs('flexmf-logistic')
+iters = load_sweep_iters('flexmf-logistic')
+result = load_sweep_result('flexmf-logistic')
 best_id = result['trial_id']
 ```
 

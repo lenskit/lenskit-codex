@@ -228,21 +228,26 @@
     ]
   },
   "movielens/ML1M/iknn-explicit.qmd": {
-    "title": "Explicit Item KNN on ML1M",
+    "title": "IKNN Explicit",
+    "pagetitle": "ML1M - IKNN Explicit",
     "echo": false,
     "deps": [
-      "sweeps/random/IKNN-Explicit-grid"
+      "sweeps/random/iknn-explicit-random",
+      "sweeps/random/iknn-explicit-hyperopt"
     ]
   },
   "movielens/ML1M/iknn-implicit.qmd": {
-    "title": "Implicit Item KNN on ML1M",
+    "title": "IKNN Implicit",
+    "pagetitle": "ML1M - IKNN Implicit",
     "echo": false,
     "deps": [
-      "sweeps/random/IKNN-Implicit-grid"
+      "sweeps/random/iknn-implicit-random",
+      "sweeps/random/iknn-implicit-hyperopt"
     ]
   },
   "movielens/ML1M/summary.qmd": {
-    "title": "ML1M Performance Summary",
+    "title": "Performance Summary",
+    "pagetitle": "ML1M Performance Summary",
     "order": 1,
     "deps": [
       "run-summary.csv",
@@ -250,33 +255,57 @@
     ]
   },
   "movielens/ML1M/bias.qmd": {
-    "title": "Bias on ML1M",
+    "title": "Bias Predictor",
+    "pagetitle": "ML1M - Bias",
     "echo": false,
     "deps": [
-      "sweeps/random/bias-random"
+      "sweeps/random/bias-random",
+      "sweeps/random/bias-hyperopt"
     ]
   },
   "movielens/ML1M/flexmf-explicit.qmd": {
-    "title": "FlexMF Explicit on ML1M",
+    "title": "FlexMF Explicit",
+    "pagetitle": "ML1M - FlexMF Explicit",
     "echo": false,
     "deps": [
-      "sweeps/random/flexmf-explicit-random"
+      "sweeps/random/flexmf-explicit-random",
+      "sweeps/random/flexmf-explicit-hyperopt"
     ]
   },
   "movielens/ML1M/als-biased.qmd": {
-    "title": "ALS BiasedMF on LM1M",
+    "title": "ALS BiasedMF",
+    "pagetitle": "ML1M - ALS BiasedMF",
     "echo": false,
     "deps": [
-      "sweeps/random/als-biased-random"
+      "sweeps/random/als-biased-random",
+      "sweeps/random/als-biased-hyperopt"
     ]
   },
   "movielens/ML1M/flexmf-logistic.qmd": {
-    "title": "FlexMF Logistic on ML1M",
-    "abstract-title": "FlexMF Logistic",
-    "toc-title": "FlexMF Logistic",
+    "title": "FlexMF Logistic",
+    "pagetitle": "ML1M - FlexMF Logistic",
     "echo": false,
     "deps": [
-      "sweeps/random/flexmf-logistic-random"
+      "sweeps/random/flexmf-logistic-random",
+      "sweeps/random/flexmf-logistic-hyperopt"
+    ]
+  },
+  "movielens/ML1M/flexmf-bpr.qmd": {
+    "title": "FlexMF BPR",
+    "pagetitle": "ML1M - FlexMF BPR",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-bpr-random",
+      "sweeps/random/flexmf-bpr-hyperopt"
+    ]
+  },
+  "movielens/ML1M/flexmf-warp.qmd": {
+    "title": "FlexMF WARP",
+    "pagetitle": "ML1M - FlexMF WARP",
+    "echo": false,
+    "deps": [
+      "sweeps/random/flexmf-warp-random",
+      "sweeps/random/flexmf-warp-hyperopt"
     ]
   },
   "movielens/ML20M/als-biasedmf.qmd": {
