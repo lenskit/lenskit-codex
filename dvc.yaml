@@ -134,6 +134,16 @@ stages:
       - movielens/ML100K/sweeps/random/uknn-implicit-random
     outs:
       - _freeze/movielens/ML100K/uknn-implicit
+  page/movielens/ML10M/als-biased:
+    cmd: quarto render movielens/ML10M/als-biased.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML10M/als-biased.qmd
+      - movielens/ML10M/sweeps/temporal/als-biased-random
+      - movielens/ML10M/sweeps/temporal/als-biased-hyperopt
+    outs:
+      - _freeze/movielens/ML10M/als-biased
   page/movielens/ML10M/als-biasedmf:
     cmd: quarto render movielens/ML10M/als-biasedmf.qmd --profile prerender
     deps:
@@ -158,7 +168,8 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML10M/bias.qmd
-      - movielens/ML10M/sweeps/temporal/Bias-grid
+      - movielens/ML10M/sweeps/temporal/bias-random
+      - movielens/ML10M/sweeps/temporal/bias-hyperopt
     outs:
       - _freeze/movielens/ML10M/bias
   page/movielens/ML10M/description:
@@ -177,6 +188,7 @@ stages:
       - _quarto.yml
       - movielens/ML10M/flexmf-bpr.qmd
       - movielens/ML10M/sweeps/temporal/flexmf-bpr-random
+      - movielens/ML10M/sweeps/temporal/flexmf-bpr-hyperopt
     outs:
       - _freeze/movielens/ML10M/flexmf-bpr
   page/movielens/ML10M/flexmf-explicit:
@@ -186,8 +198,49 @@ stages:
       - _quarto.yml
       - movielens/ML10M/flexmf-explicit.qmd
       - movielens/ML10M/sweeps/temporal/flexmf-explicit-random
+      - movielens/ML10M/sweeps/temporal/flexmf-explicit-hyperopt
     outs:
       - _freeze/movielens/ML10M/flexmf-explicit
+  page/movielens/ML10M/flexmf-logistic:
+    cmd: quarto render movielens/ML10M/flexmf-logistic.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML10M/flexmf-logistic.qmd
+      - movielens/ML10M/sweeps/temporal/flexmf-logistic-random
+      - movielens/ML10M/sweeps/temporal/flexmf-logistic-hyperopt
+    outs:
+      - _freeze/movielens/ML10M/flexmf-logistic
+  page/movielens/ML10M/flexmf-warp:
+    cmd: quarto render movielens/ML10M/flexmf-warp.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML10M/flexmf-warp.qmd
+      - movielens/ML10M/sweeps/temporal/flexmf-warp-random
+      - movielens/ML10M/sweeps/temporal/flexmf-warp-hyperopt
+    outs:
+      - _freeze/movielens/ML10M/flexmf-warp
+  page/movielens/ML10M/iknn-explicit:
+    cmd: quarto render movielens/ML10M/iknn-explicit.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML10M/iknn-explicit.qmd
+      - movielens/ML10M/sweeps/temporal/iknn-explicit-random
+      - movielens/ML10M/sweeps/temporal/iknn-explicit-hyperopt
+    outs:
+      - _freeze/movielens/ML10M/iknn-explicit
+  page/movielens/ML10M/iknn-implicit:
+    cmd: quarto render movielens/ML10M/iknn-implicit.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML10M/iknn-implicit.qmd
+      - movielens/ML10M/sweeps/temporal/iknn-implicit-random
+      - movielens/ML10M/sweeps/temporal/iknn-implicit-hyperopt
+    outs:
+      - _freeze/movielens/ML10M/iknn-implicit
   page/movielens/ML10M/splitting:
     cmd: quarto render movielens/ML10M/splitting.qmd --profile prerender
     deps:
