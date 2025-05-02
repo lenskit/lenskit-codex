@@ -1,15 +1,14 @@
 ---
-title: FlexMF Explicit
-pagetitle: ML10M - FlexMF Explicit
+title: ALS BiasedMF
+pagetitle: ML10M - ALS BiasedMF
 echo: false
 deps:
-- sweeps/temporal/flexmf-explicit-random
-- sweeps/temporal/flexmf-explicit-hyperopt
+- sweeps/temporal/als-biased-random
+- sweeps/temporal/als-biased-hyperopt
 ---
 
-This page analyzes the hyperparameter tuning results for the FlexMF scorer in
-explicit-feedback mode (a biased matrix factorization model trained with
-PyTorch).
+This page analyzes the hyperparameter tuning results for biased matrix
+factorization with ALS.
 
 
 
@@ -18,16 +17,16 @@ from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('flexmf-explicit')
-iters = load_sweep_iters('flexmf-explicit')
-result = load_sweep_result('flexmf-explicit')
+runs = load_sweep_runs('als-biased')
+iters = load_sweep_iters('als-biased')
+result = load_sweep_result('als-biased')
 best_id = result['trial_id']
 ```
 
 ## Parameter Search Space
 
 ```{python}
-from codex.models.flexmf_explicit import SEARCH_SPACE
+from codex.models.als_biased import SEARCH_SPACE
 show_param_space(SEARCH_SPACE, result['config'])
 ```
 
@@ -64,26 +63,51 @@ fundamental logic, so let's look at performance as a fufnction of it:
 
 ::: {.panel-tabset}
 
-#### Learning Rate
+#### User Reg.
 
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.learning_rate', y='RMSE')
+    + pn.aes(x='config.regularization.user', y='RMSE')
     + pn.geom_point()
     + pn.scale_x_log10()
+    + pn.labs(x='User Regularization')
 )
 ```
 
-#### Regularization
+#### User Damp.
 
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.regularization', y='RMSE', color='config.reg_method', shape='config.reg_method')
+    + pn.aes(x='config.damping.user', y='RMSE')
     + pn.geom_point()
     + pn.scale_x_log10()
-    + pn.labs(color='Reg. Method', shape='Reg. Method', x='Regularization')
+    + pn.labs(x='User Damping')
+)
+```
+
+#### Item Reg.
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.regularization.item', y='RMSE')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='Item Regularization')
+)
+```
+
+#### Item Damp.
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.damping.item', y='RMSE')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='Item Damping')
 )
 ```
 

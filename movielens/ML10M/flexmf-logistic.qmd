@@ -1,15 +1,14 @@
 ---
-title: FlexMF Explicit
-pagetitle: ML10M - FlexMF Explicit
+title: FlexMF Logistic
+pagetitle: ML10M - FlexMF Logistic
 echo: false
 deps:
-- sweeps/temporal/flexmf-explicit-random
-- sweeps/temporal/flexmf-explicit-hyperopt
+- sweeps/temporal/flexmf-logistic-random
+- sweeps/temporal/flexmf-logistic-hyperopt
 ---
 
 This page analyzes the hyperparameter tuning results for the FlexMF scorer in
-explicit-feedback mode (a biased matrix factorization model trained with
-PyTorch).
+implicit-feedback mode with logistic loss (Logistic Matrix Factorization).
 
 
 
@@ -18,20 +17,20 @@ from codex.reporting.prelude import *
 ```
 
 ```{python}
-runs = load_sweep_runs('flexmf-explicit')
-iters = load_sweep_iters('flexmf-explicit')
-result = load_sweep_result('flexmf-explicit')
+runs = load_sweep_runs('flexmf-logistic')
+iters = load_sweep_iters('flexmf-logistic')
+result = load_sweep_result('flexmf-logistic')
 best_id = result['trial_id']
 ```
 
 ## Parameter Search Space
 
 ```{python}
-from codex.models.flexmf_explicit import SEARCH_SPACE
+from codex.models.flexmf_logistic import SEARCH_SPACE
 show_param_space(SEARCH_SPACE, result['config'])
 ```
 
-## Final Result
+### Final Result
 
 Searching selected the following configuration:
 
@@ -45,6 +44,7 @@ With these metrics:
 rich.print(result)
 ```
 
+
 ## Parameter Analysis
 
 ### Embedding Size
@@ -55,10 +55,41 @@ fundamental logic, so let's look at performance as a fufnction of it:
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.embedding_size', y='RMSE')
+    + pn.aes(x='config.embedding_size', y='RBP')
     + pn.geom_point()
 )
 ```
+
+### Data Handling
+
+::: {.panel-tabset}
+
+
+#### Negative Count
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.negative_count', y='RBP')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='Negative Count')
+)
+```
+
+#### Postive Weight
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.positive_weight', y='RBP')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='Positive Weight')
+)
+```
+
+:::
 
 ### Learning Parameters
 
@@ -69,7 +100,7 @@ fundamental logic, so let's look at performance as a fufnction of it:
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.learning_rate', y='RMSE')
+    + pn.aes(x='config.learning_rate', y='RBP')
     + pn.geom_point()
     + pn.scale_x_log10()
 )
@@ -80,7 +111,7 @@ fundamental logic, so let's look at performance as a fufnction of it:
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.regularization', y='RMSE', color='config.reg_method', shape='config.reg_method')
+    + pn.aes(x='config.regularization', y='RBP', color='config.reg_method', shape='config.reg_method')
     + pn.geom_point()
     + pn.scale_x_log10()
     + pn.labs(color='Reg. Method', shape='Reg. Method', x='Regularization')
@@ -107,8 +138,9 @@ How did the metric progress in the best result?
 best_iters = iters[iters['trial_id'] == best_id]
 (
     pn.ggplot(best_iters)
-    + pn.aes(x='training_iteration', y='RMSE')
+    + pn.aes(x='training_iteration', y='RBP')
     + pn.geom_line()
+    + pn.ggtitle(f'Best Progress ({best_id})')
 )
 ```
 
@@ -121,7 +153,7 @@ full_trials = last_results['trial_id']
 full_iters = iters[iters['trial_id'].isin(full_trials)]
 (
     pn.ggplot(full_iters)
-    + pn.aes(x='training_iteration', y='RMSE', color='trial_id')
+    + pn.aes(x='training_iteration', y='RBP', color='trial_id')
     + pn.geom_line()
 )
 ```

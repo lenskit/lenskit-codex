@@ -1,133 +1,105 @@
 ---
-title: Bias on ML10M
+title: Bias Predictor
+pagetitle: ML10M - Bias
 echo: false
 deps:
-- sweeps/temporal/Bias-grid
+- sweeps/temporal/bias-random
+- sweeps/temporal/bias-hyperopt
 ---
 
+This page analyzes the behavior and hyperparameter search for the Bias scoring
+model on ML10M.
+
+
+
+
 ```{python}
-import json
-from pathlib import Path
-import pandas as pd
-import numpy as np
-import plotnine as pn
-import matplotlib.pyplot as plt
+from codex.reporting.prelude import *
 ```
 
 ```{python}
-from codex.reporting.plots import DEFAULTS
+runs = load_sweep_runs('bias')
+result = load_sweep_result('bias')
 ```
+
+## Parameter Search Space
 
 ```{python}
-sweep_dir = Path('sweeps/temporal')
-model_name = 'Bias'
+from codex.models.bias import SEARCH_SPACE
+show_param_space(SEARCH_SPACE, result['config'])
 ```
 
-## Grid Search Results
+## Final Result
+
+Searching selected the following configuration:
 
 ```{python}
-with open(sweep_dir / f'{model_name}-grid' / 'runs.json', 'rt') as jsf:
-    run_data = [json.loads(line) for line in jsf]
-grid_runs = pd.json_normalize(run_data)
+rich.print(result['config'])
 ```
+
+With these metrics:
 
 ```{python}
-cfg_rmse = grid_runs.groupby(['params.user_damping', 'params.item_damping'])['metrics.RMSE'].mean().reset_index()
-cfg_rmse = cfg_rmse.astype({'params.user_damping': 'str'})
-(
-    pn.ggplot(cfg_rmse)
-    + pn.aes(x='params.item_damping', y='metrics.RMSE', color='params.user_damping', shape='params.user_damping')
-    + pn.geom_line()
-    + pn.ylab('Per-user RMSE')
-    + pn.scale_color_brewer('qual', 'Dark2')
-)
+rich.print(result)
 ```
 
-User damping will have no effect on rankings.
+## Metric Response
 
-```{python}
-cfg_topn = grid_runs.groupby(['params.item_damping'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
-(
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.item_damping', y='metrics.RBP')
-    + pn.geom_line()
-    + pn.ylab('Mean RBP')
-)
-```
+How does RMSE change with each setting independently?
 
+::: {.panel-tabset}
+
+### User Damping
 
 ```{python}
 (
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.item_damping', y='metrics.NDCG')
-    + pn.geom_line()
-    + pn.ylab('Mean NDCG')
+    pn.ggplot(runs)
+    + pn.aes(x='config.damping.user', y='RMSE')
+    + pn.geom_point()
 )
 ```
+
+### Item Damping
 
 ```{python}
 (
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.item_damping', y='metrics.RecipRank')
-    + pn.geom_line()
-    + pn.ylab('Mean RecipRank')
+    pn.ggplot(runs)
+    + pn.aes(x='config.damping.item', y='RMSE')
+    + pn.geom_point()
 )
 ```
 
-## Random Search
+:::
+
+## Best Configurations
+
+Since this is an explicit-feedback rating prediction model, our primary search
+criteria is RMSE. The configuration with the best RMSE is:
 
 ```{python}
-with open(sweep_dir / f'{model_name}-temporal' / 'runs.json', 'rt') as jsf:
-    run_data = [json.loads(line) for line in jsf]
-temporal_runs = pd.json_normalize(run_data)
+pd.concat({
+    'Random': runs.nsmallest(1, 'RMSE')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
+}, names=['Method']).reset_index(-1, drop=True)
 ```
+
+If we instead searched for RBP, we would select:
+
+```{python}
+pd.concat({
+    'Random': runs.nlargest(1, 'RBP')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
+}, names=['Method']).reset_index(-1, drop=True)
+```
+
+## Search Geometry
 
 What is the geometry of the search space?
 
 ```{python}
 (
-    pn.ggplot(temporal_runs)
-    + pn.aes(x='params.user_damping', y='params.item_damping')
+    pn.ggplot(runs)
+    + pn.aes(x='config.damping.user', y='config.damping.item')
     + pn.geom_density_2d()
+    + pn.scale_x_log10()
+    + pn.scale_y_log10()
 )
-```
-
-How does RMSE change with each setting independently?
-
-```{python}
-(
-    pn.ggplot(temporal_runs)
-    + pn.aes(x='params.user_damping', y='metrics.RMSE')
-    + pn.geom_point()
-    + pn.geom_smooth()
-)
-```
-
-```{python}
-(
-    pn.ggplot(temporal_runs)
-    + pn.aes(x='params.item_damping', y='metrics.RMSE')
-    + pn.geom_point()
-    + pn.geom_smooth(method='lm')
-)
-```
-
-## Best Configurations
-
-Best by RMSE:
-
-```{python}
-pd.concat({
-    'Grid': grid_runs.nsmallest(1, 'metrics.RMSE')[['params.user_damping', 'params.item_damping', 'metrics.RBP', 'metrics.RMSE']],
-    'Random': temporal_runs.nsmallest(1, 'metrics.RMSE')[['params.user_damping', 'params.item_damping', 'metrics.RBP', 'metrics.RMSE']],
-}, names=['Method']).reset_index(-1, drop=True)
-```
-
-Best by RBP:
-
-```{python}
-pd.concat({
-    'Grid': grid_runs.nlargest(1, 'metrics.RBP')[['params.user_damping', 'params.item_damping', 'metrics.RBP', 'metrics.RMSE']],
-    'Random': temporal_runs.nlargest(1, 'metrics.RBP')[['params.user_damping', 'params.item_damping', 'metrics.RBP', 'metrics.RMSE']],
-}, names=['Method']).reset_index(-1, drop=True)
 ```
