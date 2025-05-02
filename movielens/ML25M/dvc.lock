@@ -1782,8 +1782,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: c5d0e6edfe9f708afc1a0ef953fb7025
-      size: 433
+      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
+      size: 1478
     - path: dataset
       hash: md5
       md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
@@ -1796,8 +1796,8 @@ stages:
     outs:
     - path: runs/temporal/iknn-implicit-default
       hash: md5
-      md5: 366a70787f1be363d0009a78647e5adb.dir
-      size: 5938929
+      md5: 9f465598840948fbdb3c029a87af05d6.dir
+      size: 6021453
       nfiles: 4
   run-temporal-default-iknn-explicit:
     cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
@@ -1805,8 +1805,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: 93bcfed829fef1ede127494331886a89
-      size: 432
+      md5: 150dfcaa2c5ae533410cc3e20060cecb
+      size: 1538
     - path: dataset
       hash: md5
       md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
@@ -1819,8 +1819,8 @@ stages:
     outs:
     - path: runs/temporal/iknn-explicit-default
       hash: md5
-      md5: 5c702b0d0d1131d76c31207f14ad1e2d.dir
-      size: 11965356
+      md5: 54f54fa1a2f1dd2a31c17ddb3834e80a.dir
+      size: 11996176
       nfiles: 5
   run-temporal-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
@@ -1851,8 +1851,8 @@ stages:
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
-      md5: 40e4db1c37e4058f292a549e47b1e3e2
-      size: 324
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
     - path: dataset
       hash: md5
       md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
@@ -1865,8 +1865,8 @@ stages:
     outs:
     - path: runs/temporal/bias-default
       hash: md5
-      md5: 8f8195c521e4dfc1fae44b9f14478938.dir
-      size: 7705323
+      md5: b5f23c9cedde026a34c656a29a61b526.dir
+      size: 7694259
       nfiles: 5
   run-temporal-default-implicit-bpr:
     cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
@@ -1874,8 +1874,8 @@ stages:
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
       hash: md5
-      md5: a00edb9b5a98478d5cfbc76cedbe7ead
-      size: 318
+      md5: 0e653a0d87446ef4e0129b75d976c49e
+      size: 427
     - path: dataset
       hash: md5
       md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
@@ -1888,8 +1888,8 @@ stages:
     outs:
     - path: runs/temporal/implicit-bpr-default
       hash: md5
-      md5: 7a11513b8c8216378ad7a87877444d97.dir
-      size: 6471202
+      md5: fcda6e54dd924569104be36df7d06723.dir
+      size: 6548431
       nfiles: 4
   sweep-bias-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
@@ -1913,3 +1913,141 @@ stages:
       hash: md5
       md5: 5350b426d43bbe870df0570e1bbd0fe9
       size: 789
+  run-temporal-default-flexmf-bpr:
+    cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
+      -o runs/temporal/flexmf-bpr-default flexmf-bpr
+    deps:
+    - path: ../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: 94acb427f7b39b627be488ba2558067c
+      size: 663
+    - path: dataset
+      hash: md5
+      md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
+      size: 242676391
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 77faa6b8f17f977f3461da1d1350d2ac
+      size: 120
+    outs:
+    - path: runs/temporal/flexmf-bpr-default
+      hash: md5
+      md5: 065fbcb43756713b75de531a4cdad3cb.dir
+      size: 5817233
+      nfiles: 4
+  run-temporal-default-flexmf-warp:
+    cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
+      -o runs/temporal/flexmf-warp-default flexmf-warp
+    deps:
+    - path: ../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: dataset
+      hash: md5
+      md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
+      size: 242676391
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 77faa6b8f17f977f3461da1d1350d2ac
+      size: 120
+    outs:
+    - path: runs/temporal/flexmf-warp-default
+      hash: md5
+      md5: 38e5a09b485c80b88aae443afe212c56.dir
+      size: 6362167
+      nfiles: 4
+  run-temporal-default-flexmf-logistic:
+    cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
+      -o runs/temporal/flexmf-logistic-default flexmf-logistic
+    deps:
+    - path: ../../src/codex/models/flexmf_logistic.py
+      hash: md5
+      md5: bbad471f8ca28fa9c5a9818432bc7ac8
+      size: 748
+    - path: dataset
+      hash: md5
+      md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
+      size: 242676391
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 77faa6b8f17f977f3461da1d1350d2ac
+      size: 120
+    outs:
+    - path: runs/temporal/flexmf-logistic-default
+      hash: md5
+      md5: aa46bfe94e839d463d3c91ea7d66a655.dir
+      size: 5795298
+      nfiles: 4
+  run-temporal-default-als-implicit:
+    cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
+      -o runs/temporal/als-implicit-default als-implicit
+    deps:
+    - path: ../../src/codex/models/als_implicit.py
+      hash: md5
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
+    - path: dataset
+      hash: md5
+      md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
+      size: 242676391
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 77faa6b8f17f977f3461da1d1350d2ac
+      size: 120
+    outs:
+    - path: runs/temporal/als-implicit-default
+      hash: md5
+      md5: d3c1495af5e4df0f256623221ca4a395.dir
+      size: 6204579
+      nfiles: 4
+  run-temporal-default-flexmf-explicit:
+    cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
+      -o runs/temporal/flexmf-explicit-default flexmf-explicit
+    deps:
+    - path: ../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 9271360109ed53980623529abafbc7a4
+      size: 527
+    - path: dataset
+      hash: md5
+      md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
+      size: 242676391
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 77faa6b8f17f977f3461da1d1350d2ac
+      size: 120
+    outs:
+    - path: runs/temporal/flexmf-explicit-default
+      hash: md5
+      md5: 65ea6c0308e6c316d407e554ca2fe6f7.dir
+      size: 12365780
+      nfiles: 5
+  run-temporal-default-als-biased:
+    cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
+      -o runs/temporal/als-biased-default als-biased
+    deps:
+    - path: ../../src/codex/models/als_biased.py
+      hash: md5
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
+    - path: dataset
+      hash: md5
+      md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
+      size: 242676391
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 77faa6b8f17f977f3461da1d1350d2ac
+      size: 120
+    outs:
+    - path: runs/temporal/als-biased-default
+      hash: md5
+      md5: 6d36b0a424d93327951049c180ba366f.dir
+      size: 12571160
+      nfiles: 5
