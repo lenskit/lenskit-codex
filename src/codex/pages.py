@@ -29,5 +29,7 @@ def render_templates(ds: DataSetInfo, src: Path, dst: Path):
         logger.info("rendering document %s to %s", file.name, dst)
         tmpl = env.get_template(file.name)
         res = tmpl.render(ds=ds)
+        if res[-1] != "\n":
+            res += "\n"
         out_file = dst / file.name
         out_file.write_text(res)
