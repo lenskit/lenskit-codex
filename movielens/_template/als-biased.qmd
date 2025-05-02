@@ -1,12 +1,24 @@
 ---
-title: ALS BiasedMF on LM1M
+title: ALS BiasedMF
+pagetitle: {{ ds.name }} - ALS BiasedMF
 echo: false
 deps:
-- sweeps/random/als-biased-random
+{% for split in ds.splits %}
+{% for search in ds.searches %}
+- sweeps/{{split}}/als-biased-{{search}}
+{% endfor %}
+{% endfor %}
 ---
 
 This page analyzes the hyperparameter tuning results for biased matrix
 factorization with ALS.
+
+{% if false %}
+```{python}
+import os
+os.chdir('../ML10M')
+```
+{% endif %}
 
 ```{python}
 from codex.reporting.prelude import *
@@ -23,7 +35,7 @@ best_id = result['trial_id']
 
 ```{python}
 from codex.models.als_biased import SEARCH_SPACE
-show_param_space(SEARCH_SPACE)
+show_param_space(SEARCH_SPACE, result['config'])
 ```
 
 ## Final Result
@@ -39,7 +51,6 @@ With these metrics:
 ```{python}
 rich.print(result)
 ```
-
 
 ## Parameter Analysis
 
