@@ -25,6 +25,7 @@ class DVCPipeline(BaseModel):
 
 class CodexPipeline(DVCPipeline):
     info: DataSetInfo | None = None
+    models: list[str] = []
     page_templates: Path | None = None
     extra_files: dict[str, str | dict[str, JsonValue]] = {}
 

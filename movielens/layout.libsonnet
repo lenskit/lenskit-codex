@@ -8,7 +8,9 @@ local sweep = import 'sweeps.libsonnet';
   local spec = super.spec,
   local runs = runlib.makeRuns(spec),
 
-  info: spec,
+  info: spec {
+    models: lib.activeModels(spec.name),
+  },
   page_templates: std.get(spec, 'template', default=null),
 
   stages: data.prepare(spec)

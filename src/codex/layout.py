@@ -28,7 +28,7 @@ class DataSetInfo(BaseModel):
     """
 
     name: str = "UNNAMED"
-    fn: str | None = None
+    models: list[str] = []
     splits: list[str] = []
     searches: list[str] = []
 
