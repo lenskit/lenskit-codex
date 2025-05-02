@@ -236,30 +236,26 @@ stages:
       size: 2986200
       nfiles: 11
   page/movielens/index:
-    cmd: quarto render movielens/index.qmd --profile prerender
+    cmd: quarto render movielens/index.qmd
     deps:
-    - path: _quarto-prerender.yml
-      hash: md5
-      md5: fe1f6b982acadfdd675d7bf14a819ab8
-      size: 40
     - path: _quarto.yml
       hash: md5
       md5: 97356d9c9d3ad8ce685d8954d36ec42d
       size: 1299
     - path: movielens/index.qmd
       hash: md5
-      md5: e1cde67ee520fdd3065324031f647dd9
-      size: 2262
+      md5: 6b26f58c14fe7ac60aee49db6f116cfd
+      size: 2270
     - path: movielens/merged-stats.duckdb
       hash: md5
-      md5: bb118dfd13cd9df789447d3b65e54329
-      size: 29372416
+      md5: c01a0b90ae50a6d91517c21225afa050
+      size: 32780288
     outs:
     - path: _freeze/movielens/index
       hash: md5
-      md5: b8bab78edd7a2fa6d55046d83c3504d2.dir
-      size: 190006
-      nfiles: 4
+      md5: 2706f86bed556b67e48d1168e1d8365d.dir
+      size: 96280
+      nfiles: 2
   page/movielens/ML100K/bias:
     cmd: quarto render movielens/ML100K/bias.qmd
     deps:
