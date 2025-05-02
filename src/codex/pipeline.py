@@ -12,28 +12,59 @@ from os import fspath
 from pathlib import Path
 
 import yaml
+from pydantic import BaseModel, Field, JsonValue
 
 logger = logging.getLogger(__name__)
 
 
-def render_dvc_pipeline(path: Path | str):
-    import _jsonnet
+class DVCPipeline(BaseModel):
+    stages: dict[str, JsonValue]
 
+
+class CodexPipeline(DVCPipeline):
+    extra_files: dict[str, str | dict[str, JsonValue]] = Field(
+        alias="extraFiles", default_factory=dict
+    )
+
+    @classmethod
+    def load(cls, path: Path) -> CodexPipeline:
+        import _jsonnet
+
+        data = _jsonnet.evaluate_file(fspath(path))
+        return cls.model_validate_json(data)
+
+    def dvc_object(self) -> DVCPipeline:
+        """
+        Get the object stripped down to its DVC content.
+        """
+        return DVCPipeline.model_validate(self.model_dump())
+
+
+def render_dvc_pipeline(path: Path | str):
     path = Path(path)
     print("rendering", path)
-    data = _jsonnet.evaluate_file(fspath(path))
-    data = json.loads(data)
+    pipeline = CodexPipeline.load(path)
 
-    if extras := data.get("extraFiles", None):
-        del data["extraFiles"]
-        for name, content in extras.items():
-            epath = path.parent / name
-            print("saving extra file", epath)
-            epath.write_text(content)
+    for name, content in pipeline.extra_files.items():
+        epath = path.parent / name
+        print("saving extra file", epath)
+        with open(epath, "wt") as ef:
+            if isinstance(content, dict):
+                if re.match(r"\.ya?ml", epath.suffix):
+                    yaml.safe_dump(content, ef)
+                elif epath.suffix == ".json":
+                    json.dump(content, ef)
+                    print(file=ef)
+                else:
+                    raise ValueError(f"unknown file type {epath.suffix} for object data")
+            elif isinstance(content, str):
+                ef.write(content)
+            else:
+                raise TypeError(f"unsupported content type {type(content)}")
 
     out = path.parent / "dvc.yaml"
     with out.open("wt") as yf:
-        yaml.safe_dump(data, yf)
+        yaml.safe_dump(pipeline.dvc_object().model_dump(mode="yaml", exclude_unset=True), yf)
 
 
 def render_dvc_gitignores():
