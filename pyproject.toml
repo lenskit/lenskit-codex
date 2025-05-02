@@ -23,6 +23,9 @@ exclude = [".git", "__pycache__", "build", "dist", "*/tests/*", ".pixi/*"]
 select = ["E", "F", "I"]
 unfixable = ["F401"]
 
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = ["F403", "F405"]
+
 [tool.pyright]
 exclude = [".pixi/*"]
 typeCheckingMode = "basic"
