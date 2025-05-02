@@ -156,22 +156,6 @@ stages:
       - movielens/ML10M/sweeps/temporal/als-biased-hyperopt
     outs:
       - _freeze/movielens/ML10M/als-biased
-  page/movielens/ML10M/als-biasedmf:
-    cmd: quarto render movielens/ML10M/als-biasedmf.qmd
-    deps:
-      - _quarto.yml
-      - movielens/ML10M/als-biasedmf.qmd
-      - movielens/ML10M/sweeps/temporal/BiasedMF-ALS-grid
-    outs:
-      - _freeze/movielens/ML10M/als-biasedmf
-  page/movielens/ML10M/als-implicitmf:
-    cmd: quarto render movielens/ML10M/als-implicitmf.qmd
-    deps:
-      - _quarto.yml
-      - movielens/ML10M/als-implicitmf.qmd
-      - movielens/ML10M/sweeps/temporal/ImplicitMF-ALS-grid
-    outs:
-      - _freeze/movielens/ML10M/als-implicitmf
   page/movielens/ML10M/bias:
     cmd: quarto render movielens/ML10M/bias.qmd
     deps:
@@ -411,22 +395,6 @@ stages:
       - movielens/ML20M/sweeps/temporal/als-biased-optuna
     outs:
       - _freeze/movielens/ML20M/als-biased
-  page/movielens/ML20M/als-biasedmf:
-    cmd: quarto render movielens/ML20M/als-biasedmf.qmd
-    deps:
-      - _quarto.yml
-      - movielens/ML20M/als-biasedmf.qmd
-      - movielens/ML20M/sweeps/temporal/BiasedMF-ALS-grid
-    outs:
-      - _freeze/movielens/ML20M/als-biasedmf
-  page/movielens/ML20M/als-implicitmf:
-    cmd: quarto render movielens/ML20M/als-implicitmf.qmd
-    deps:
-      - _quarto.yml
-      - movielens/ML20M/als-implicitmf.qmd
-      - movielens/ML20M/sweeps/temporal/ImplicitMF-ALS-grid
-    outs:
-      - _freeze/movielens/ML20M/als-implicitmf
   page/movielens/ML20M/bias:
     cmd: quarto render movielens/ML20M/bias.qmd
     deps:
