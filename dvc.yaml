@@ -384,6 +384,17 @@ stages:
       - movielens/ML1M/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML1M/summary
+  page/movielens/ML20M/als-biased:
+    cmd: quarto render movielens/ML20M/als-biased.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML20M/als-biased.qmd
+      - movielens/ML20M/sweeps/temporal/als-biased-random
+      - movielens/ML20M/sweeps/temporal/als-biased-hyperopt
+      - movielens/ML20M/sweeps/temporal/als-biased-optuna
+    outs:
+      - _freeze/movielens/ML20M/als-biased
   page/movielens/ML20M/als-biasedmf:
     cmd: quarto render movielens/ML20M/als-biasedmf.qmd --profile prerender
     deps:
@@ -408,7 +419,9 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML20M/bias.qmd
-      - movielens/ML20M/sweeps/temporal/Bias-grid
+      - movielens/ML20M/sweeps/temporal/bias-random
+      - movielens/ML20M/sweeps/temporal/bias-hyperopt
+      - movielens/ML20M/sweeps/temporal/bias-optuna
     outs:
       - _freeze/movielens/ML20M/bias
   page/movielens/ML20M/description:
@@ -420,13 +433,59 @@ stages:
       - movielens/ML20M/stats.duckdb
     outs:
       - _freeze/movielens/ML20M/description
+  page/movielens/ML20M/flexmf-bpr:
+    cmd: quarto render movielens/ML20M/flexmf-bpr.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML20M/flexmf-bpr.qmd
+      - movielens/ML20M/sweeps/temporal/flexmf-bpr-random
+      - movielens/ML20M/sweeps/temporal/flexmf-bpr-hyperopt
+      - movielens/ML20M/sweeps/temporal/flexmf-bpr-optuna
+    outs:
+      - _freeze/movielens/ML20M/flexmf-bpr
+  page/movielens/ML20M/flexmf-explicit:
+    cmd: quarto render movielens/ML20M/flexmf-explicit.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML20M/flexmf-explicit.qmd
+      - movielens/ML20M/sweeps/temporal/flexmf-explicit-random
+      - movielens/ML20M/sweeps/temporal/flexmf-explicit-hyperopt
+      - movielens/ML20M/sweeps/temporal/flexmf-explicit-optuna
+    outs:
+      - _freeze/movielens/ML20M/flexmf-explicit
+  page/movielens/ML20M/flexmf-logistic:
+    cmd: quarto render movielens/ML20M/flexmf-logistic.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML20M/flexmf-logistic.qmd
+      - movielens/ML20M/sweeps/temporal/flexmf-logistic-random
+      - movielens/ML20M/sweeps/temporal/flexmf-logistic-hyperopt
+      - movielens/ML20M/sweeps/temporal/flexmf-logistic-optuna
+    outs:
+      - _freeze/movielens/ML20M/flexmf-logistic
+  page/movielens/ML20M/flexmf-warp:
+    cmd: quarto render movielens/ML20M/flexmf-warp.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML20M/flexmf-warp.qmd
+      - movielens/ML20M/sweeps/temporal/flexmf-warp-random
+      - movielens/ML20M/sweeps/temporal/flexmf-warp-hyperopt
+      - movielens/ML20M/sweeps/temporal/flexmf-warp-optuna
+    outs:
+      - _freeze/movielens/ML20M/flexmf-warp
   page/movielens/ML20M/iknn-explicit:
     cmd: quarto render movielens/ML20M/iknn-explicit.qmd --profile prerender
     deps:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML20M/iknn-explicit.qmd
-      - movielens/ML20M/sweeps/temporal/IKNN-Explicit-grid
+      - movielens/ML20M/sweeps/temporal/iknn-explicit-random
+      - movielens/ML20M/sweeps/temporal/iknn-explicit-hyperopt
+      - movielens/ML20M/sweeps/temporal/iknn-explicit-optuna
     outs:
       - _freeze/movielens/ML20M/iknn-explicit
   page/movielens/ML20M/iknn-implicit:
@@ -435,7 +494,9 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML20M/iknn-implicit.qmd
-      - movielens/ML20M/sweeps/temporal/IKNN-Implicit-grid
+      - movielens/ML20M/sweeps/temporal/iknn-implicit-random
+      - movielens/ML20M/sweeps/temporal/iknn-implicit-hyperopt
+      - movielens/ML20M/sweeps/temporal/iknn-implicit-optuna
     outs:
       - _freeze/movielens/ML20M/iknn-implicit
   page/movielens/ML20M/splitting:

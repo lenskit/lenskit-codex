@@ -1,8 +1,11 @@
 ---
-title: Explicit Item KNN on ML20M
+title: IKNN Explicit
+pagetitle: ML20M - IKNN Explicit
 echo: false
 deps:
-- sweeps/temporal/IKNN-Explicit-grid
+- sweeps/temporal/iknn-explicit-random
+- sweeps/temporal/iknn-explicit-hyperopt
+- sweeps/temporal/iknn-explicit-optuna
 ---
 
 ```{python}
@@ -14,68 +17,83 @@ import plotnine as pn
 import matplotlib.pyplot as plt
 ```
 
-```{python}
-from codex.reporting.plots import DEFAULTS
-```
+This page analyzes the hyperparameter tuning results for the ItemKNN scorer in
+explicit-feedback mode.
 
-```{python}
-sweep_dir = Path('sweeps/temporal')
-sweep_name = 'IKNN-Explicit-grid'
-
-with open(sweep_dir / sweep_name / 'runs.json', 'rt') as jsf:
-    run_data = [json.loads(line) for line in jsf]
-runs = pd.json_normalize(run_data)
-```
-
-## Parameter Sweeps
-
-For the per-user temporal crossfolding data split, we use the first partition of
-the fold for parameter tuning.
-
-### Prediction Accuracy
 
 
 ```{python}
-cfg_rmse = runs.groupby(['params.nnbrs', 'params.min_nbrs'])['metrics.RMSE'].mean().reset_index()
-cfg_rmse = cfg_rmse.astype({'params.min_nbrs': 'str'})
-(
-    pn.ggplot(cfg_rmse)
-    + pn.aes(x='params.nnbrs', y='metrics.RMSE', color='params.min_nbrs', shape='params.min_nbrs')
-    + pn.geom_line()
-    + pn.ylab('Per-user RMSE')
-    + pn.scale_color_brewer('qual', 'Dark2')
-)
+from codex.reporting.prelude import *
 ```
-
-### Top-N Ranking
 
 ```{python}
-cfg_topn = runs.groupby(['params.nnbrs', 'params.min_nbrs'])[['metrics.RBP', 'metrics.NDCG', 'metrics.RecipRank']].mean().reset_index()
-cfg_topn = cfg_topn.astype({'params.min_nbrs': 'str'})
-(
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.nnbrs', y='metrics.RBP', color='params.min_nbrs', shape='params.min_nbrs')
-    + pn.geom_line()
-    + pn.ylab('Mean RBP')
-    + pn.scale_color_brewer('qual', 'Dark2')
-)
+runs = load_sweep_runs('iknn-explicit')
+result = load_sweep_result('iknn-explicit')
+best_id = result['trial_id']
 ```
+
+## Parameter Search Space
+
+```{python}
+from codex.models.iknn_explicit import SEARCH_SPACE
+show_param_space(SEARCH_SPACE, result['config'])
+```
+
+### Final Result
+
+Searching selected the following configuration:
+
+```{python}
+rich.print(result['config'])
+```
+
+With these metrics:
+
+```{python}
+rich.print(result)
+```
+
+## Parameter Behavior
+
+### Neighborhood Size
+
+The neighborhood size is key argument to consider, let's look at RMSE with
+repspect to that:
 
 ```{python}
 (
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.nnbrs', y='metrics.NDCG', color='params.min_nbrs', shape='params.min_nbrs')
-    + pn.geom_line()
-    + pn.ylab('Mean NDCG')
-    + pn.scale_color_brewer('qual', 'Dark2')
+    pn.ggplot(runs)
+    + pn.aes(x='config.max_nbrs', y='RMSE')
+    + pn.geom_point()
 )
 ```
 
+### Filtering
+
+There are two filtering parameters we also test — minimum neighbors and mininmum
+simialrity.
+
+::: {.panel-tabset}
+
+#### Min Nbrs
+
 ```{python}
 (
-    pn.ggplot(cfg_topn)
-    + pn.aes(x='params.nnbrs', y='metrics.RecipRank', color='params.min_nbrs', shape='params.min_nbrs')
-    + pn.geom_line()
-    + pn.ylab('Mean RecipRank')
+    pn.ggplot(runs)
+    + pn.aes(x='config.min_nbrs', y='RMSE')
+    + pn.geom_point()
 )
 ```
+
+#### Min Sim
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.min_sim', y='RMSE')
+    + pn.scale_x_log10()
+    + pn.geom_point()
+)
+```
+
+:::

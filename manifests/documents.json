@@ -333,6 +333,16 @@
       "run-user-metrics.parquet"
     ]
   },
+  "movielens/ML20M/als-biased.qmd": {
+    "title": "ALS BiasedMF",
+    "pagetitle": "ML20M - ALS BiasedMF",
+    "echo": false,
+    "deps": [
+      "sweeps/temporal/als-biased-random",
+      "sweeps/temporal/als-biased-hyperopt",
+      "sweeps/temporal/als-biased-optuna"
+    ]
+  },
   "movielens/ML20M/als-biasedmf.qmd": {
     "title": "ALS BiasedMF on ML20M",
     "echo": false,
@@ -348,10 +358,13 @@
     ]
   },
   "movielens/ML20M/bias.qmd": {
-    "title": "Bias on ML20M",
+    "title": "Bias Predictor",
+    "pagetitle": "ML20M - Bias",
     "echo": false,
     "deps": [
-      "sweeps/temporal/Bias-grid"
+      "sweeps/temporal/bias-random",
+      "sweeps/temporal/bias-hyperopt",
+      "sweeps/temporal/bias-optuna"
     ]
   },
   "movielens/ML20M/description.qmd": {
@@ -362,18 +375,64 @@
       "stats.duckdb"
     ]
   },
-  "movielens/ML20M/iknn-explicit.qmd": {
-    "title": "Explicit Item KNN on ML20M",
+  "movielens/ML20M/flexmf-bpr.qmd": {
+    "title": "FlexMF BPR",
+    "pagetitle": "ML20M - FlexMF BPR",
     "echo": false,
     "deps": [
-      "sweeps/temporal/IKNN-Explicit-grid"
+      "sweeps/temporal/flexmf-bpr-random",
+      "sweeps/temporal/flexmf-bpr-hyperopt",
+      "sweeps/temporal/flexmf-bpr-optuna"
+    ]
+  },
+  "movielens/ML20M/flexmf-explicit.qmd": {
+    "title": "FlexMF Explicit",
+    "pagetitle": "ML20M - FlexMF Explicit",
+    "echo": false,
+    "deps": [
+      "sweeps/temporal/flexmf-explicit-random",
+      "sweeps/temporal/flexmf-explicit-hyperopt",
+      "sweeps/temporal/flexmf-explicit-optuna"
+    ]
+  },
+  "movielens/ML20M/flexmf-logistic.qmd": {
+    "title": "FlexMF Logistic",
+    "pagetitle": "ML20M - FlexMF Logistic",
+    "echo": false,
+    "deps": [
+      "sweeps/temporal/flexmf-logistic-random",
+      "sweeps/temporal/flexmf-logistic-hyperopt",
+      "sweeps/temporal/flexmf-logistic-optuna"
+    ]
+  },
+  "movielens/ML20M/flexmf-warp.qmd": {
+    "title": "FlexMF WARP",
+    "pagetitle": "ML20M - FlexMF WARP",
+    "echo": false,
+    "deps": [
+      "sweeps/temporal/flexmf-warp-random",
+      "sweeps/temporal/flexmf-warp-hyperopt",
+      "sweeps/temporal/flexmf-warp-optuna"
+    ]
+  },
+  "movielens/ML20M/iknn-explicit.qmd": {
+    "title": "IKNN Explicit",
+    "pagetitle": "ML20M - IKNN Explicit",
+    "echo": false,
+    "deps": [
+      "sweeps/temporal/iknn-explicit-random",
+      "sweeps/temporal/iknn-explicit-hyperopt",
+      "sweeps/temporal/iknn-explicit-optuna"
     ]
   },
   "movielens/ML20M/iknn-implicit.qmd": {
-    "title": "Implicit Item KNN on ML20M",
+    "title": "IKNN Implicit",
+    "pagetitle": "ML20M - IKNN Implicit",
     "echo": false,
     "deps": [
-      "sweeps/temporal/IKNN-Implicit-grid"
+      "sweeps/temporal/iknn-implicit-random",
+      "sweeps/temporal/iknn-implicit-hyperopt",
+      "sweeps/temporal/iknn-implicit-optuna"
     ]
   },
   "movielens/ML20M/splitting.qmd": {
@@ -384,7 +443,8 @@
     ]
   },
   "movielens/ML20M/summary.qmd": {
-    "title": "ML20M Performance Summary",
+    "title": "Performance Summary",
+    "pagetitle": "ML20M Performance Summary",
     "order": 1,
     "deps": [
       "run-summary.csv",
