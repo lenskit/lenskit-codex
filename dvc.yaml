@@ -138,7 +138,7 @@ stages:
       - _quarto-prerender.yml
       - _quarto.yml
       - movielens/ML100K/tuning.qmd
-      - movielens/ML100K/sweeps
+      - movielens/ML100K/sweeps/random/
     outs:
       - _freeze/movielens/ML100K/tuning
   page/movielens/ML100K/uknn-explicit:
@@ -289,6 +289,15 @@ stages:
       - movielens/ML10M/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML10M/summary
+  page/movielens/ML10M/tuning:
+    cmd: quarto render movielens/ML10M/tuning.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML10M/tuning.qmd
+      - movielens/ML10M/sweeps/temporal/
+    outs:
+      - _freeze/movielens/ML10M/tuning
   page/movielens/ML10M/uknn-explicit:
     cmd: quarto render movielens/ML10M/uknn-explicit.qmd --profile prerender
     deps:
@@ -408,6 +417,15 @@ stages:
       - movielens/ML1M/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML1M/summary
+  page/movielens/ML1M/tuning:
+    cmd: quarto render movielens/ML1M/tuning.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML1M/tuning.qmd
+      - movielens/ML1M/sweeps/random/
+    outs:
+      - _freeze/movielens/ML1M/tuning
   page/movielens/ML1M/uknn-explicit:
     cmd: quarto render movielens/ML1M/uknn-explicit.qmd --profile prerender
     deps:
@@ -562,6 +580,15 @@ stages:
       - movielens/ML20M/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML20M/summary
+  page/movielens/ML20M/tuning:
+    cmd: quarto render movielens/ML20M/tuning.qmd --profile prerender
+    deps:
+      - _quarto-prerender.yml
+      - _quarto.yml
+      - movielens/ML20M/tuning.qmd
+      - movielens/ML20M/sweeps/temporal/
+    outs:
+      - _freeze/movielens/ML20M/tuning
   page/movielens/ML25M/description:
     cmd: quarto render movielens/ML25M/description.qmd --profile prerender
     deps:
