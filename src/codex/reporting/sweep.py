@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import pandas as pd
+from glom import glom
 from IPython.display import Markdown
 from prettytable import PrettyTable, TableStyle
 from pydantic import JsonValue
@@ -64,7 +65,7 @@ def show_param_space(space, config: dict[str, JsonValue] | None = None):
             values = "{} ≤ $x$ ≤ {}".format(v.lower, v.upper)
         row = [k, v.__class__.__name__, dist, values]
         if config is not None:
-            sv = config[k]
+            sv = glom(config, k)
             if isinstance(sv, float):
                 sv = "{:.3g}".format(sv)
             row.append(sv)

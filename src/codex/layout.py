@@ -28,7 +28,9 @@ class DataSetInfo(BaseModel, extra="forbid"):
     """
 
     name: str = "UNNAMED"
+    fn: str | None = None
     splits: list[str] = []
+    searches: list[str] = []
 
     @property
     def default_split(self) -> str:

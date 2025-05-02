@@ -20,7 +20,7 @@ from lenskit.logging import get_logger
 from rich.console import Console
 from tabulate import tabulate
 
-from .data import DATA_INFO
+from .data import DATA_INFO, filter_part
 from .plots import DEFAULTS, label_memory, scale_x_memory, scale_y_memory
 from .sweep import load_sweep_iters, load_sweep_result, load_sweep_runs, show_param_space
 
@@ -32,6 +32,7 @@ rich = Console()
 
 __all__ = [
     "DATA_INFO",
+    "filter_part",
     "log",
     "rich",
     "json",

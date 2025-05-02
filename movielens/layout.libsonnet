@@ -13,6 +13,7 @@ local sweep = import 'sweeps.libsonnet';
           + runlib.stages('../..', runs)
           + results.collect(runs),
   extraFiles: {
+    'dataset.yml': std.manifestYamlDoc(spec, quote_keys=false),
     'runs/manifest.csv': runlib.runManifest(runs),
   },
 }

@@ -1,0 +1,114 @@
+---
+title: Bias Predictor
+order: 2
+pagetitle: {{ ds.name }} - Bias
+echo: false
+deps:
+{% for split in ds.splits %}
+{% for search in ds.searches %}
+- sweeps/{{split}}/bias-{{search}}
+{% endfor %}
+{% endfor %}
+---
+
+This page analyzes the behavior and hyperparameter search for the Bias scoring
+model on {{ ds.name }}.
+
+
+{% if false %}
+```{python}
+import os
+os.chdir('../ML10M')
+```
+{% endif %}
+
+```{python}
+from codex.reporting.prelude import *
+```
+
+```{python}
+runs = load_sweep_runs('bias')
+result = load_sweep_result('bias')
+```
+
+## Parameter Search Space
+
+```{python}
+from codex.models.bias import SEARCH_SPACE
+show_param_space(SEARCH_SPACE, result['config'])
+```
+
+## Final Result
+
+Searching selected the following configuration:
+
+```{python}
+rich.print(result['config'])
+```
+
+With these metrics:
+
+```{python}
+rich.print(result)
+```
+
+## Metric Response
+
+How does RMSE change with each setting independently?
+
+::: {.panel-tabset}
+
+### User Damping
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.damping.user', y='RMSE')
+    + pn.geom_point()
+)
+```
+
+### Item Damping
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.damping.item', y='RMSE')
+    + pn.geom_point()
+)
+```
+
+:::
+
+## Best Configurations
+
+Since this is an explicit-feedback rating prediction model, our primary search
+criteria is RMSE. The configuration with the best RMSE is:
+
+```{python}
+pd.concat({
+    'Random': runs.nsmallest(1, 'RMSE')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
+}, names=['Method']).reset_index(-1, drop=True)
+```
+
+If we instead searched for RBP, we would select:
+
+```{python}
+pd.concat({
+    'Random': runs.nlargest(1, 'RBP')[['config.damping.user', 'config.damping.item', 'RBP', 'RMSE']],
+}, names=['Method']).reset_index(-1, drop=True)
+```
+
+## Search Geometry
+
+What is the geometry of the search space?
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.damping.user', y='config.damping.item')
+    + pn.geom_density_2d()
+    + pn.scale_x_log10()
+    + pn.scale_y_log10()
+)
+```
