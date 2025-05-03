@@ -37,7 +37,7 @@ def fetch_web_assets(c: Context):
 
 
 @task
-def render_page_templates(c: Context):
+def render_page_templates(c: Context, include: str | None = None):
     "Render page templates."
     ds_yamls = glob("**/dvc.jsonnet", recursive=True)
     for dsjn in ds_yamls:
@@ -47,7 +47,7 @@ def render_page_templates(c: Context):
         if pipe.page_templates:
             assert pipe.info is not None, "no info for pipeline"
             print("rendering templates for", ds_dir)
-            render_templates(pipe.info, ds_dir / pipe.page_templates, ds_dir)
+            render_templates(pipe.info, ds_dir / pipe.page_templates, ds_dir, include)
 
 
 @task(render_page_templates)

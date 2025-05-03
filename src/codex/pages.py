@@ -24,7 +24,7 @@ def front_matter(path: Path | str | None = None, *, text: str | None = None):
         return {}
 
 
-def render_templates(ds: DataSetInfo, src: Path, dst: Path):
+def render_templates(ds: DataSetInfo, src: Path, dst: Path, glob: str | None = None):
     "Render page templates."
     import jinja2
 
@@ -34,6 +34,9 @@ def render_templates(ds: DataSetInfo, src: Path, dst: Path):
     loader = jinja2.FileSystemLoader(src)
     env = jinja2.Environment(autoescape=False, loader=loader)
     for file in src.glob("*.qmd"):
+        if glob is not None and not file.match(glob):
+            continue
+
         logger.debug("rendering document %s to %s", file.name, dst)
         tmpl = env.get_template(file.name)
         res = tmpl.render(ds=ds)

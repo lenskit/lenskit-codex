@@ -11,6 +11,7 @@ This page provides an analysis of the hyperparameter sweeps to get a handle on
 how different tuning methods are performing.  We use these results from early
 data sets to select the most efficient strategies for other data sets.
 
+
 All results are validation error.
 
 ```{python}
@@ -127,3 +128,51 @@ tnr['RBPLoss'] = (tnr['FinalBestRBP'] - tnr['MaxRBP']) / tnr['FinalBestRBP']
 
 Loss drops pretty quick for intelligent searches, going under 5% by about 30
 iterations on ML10M.
+
+## Exploring Loss Loss
+
+This is an interactive display so we can directly examine the results of stopping
+the search at different trial counts.
+
+```{python}
+best_rbps = topn_runs.groupby(['model', 'search'])['RBP'].max().unstack()
+ojs_define(
+    runs=topn_runs,
+    best_rbps=best_rbps.reset_index(),
+)
+```
+
+
+```{ojs}
+viewof max_trial = Inputs.range(
+  [20, 100],
+  {value: 100, step: 5, label: "Maximum trials:"}
+)
+```
+
+```{ojs}
+filt_runs = transpose(runs).filter((run) => run.TrialNum <= max_trial)
+best_list = transpose(best_rbps)
+rbp_lookup = Object.fromEntries(best_list.map((m) => [m.model, m]))
+
+function makeRunTable(cutoff) {
+    let tbl = [];
+    for (let mrec of best_list) {
+        let row = {model: mrec.model};
+        for (let search in mrec) {
+            if (search == 'model') continue;
+
+            let runs = filt_runs.filter((r) => r.model == mrec.model && r.search == search && r.TrialNum <= cutoff);
+            let run = runs[runs.length - 1]
+            if (run) {
+                row[search] = `${run.MaxRBP.toFixed(3)} / ${mrec[search].toFixed(3)}`;
+            }
+        }
+        tbl.push(row);
+    }
+    return tbl;
+}
+
+search_tbl = makeRunTable(max_trial);
+Inputs.table(search_tbl)
+```
