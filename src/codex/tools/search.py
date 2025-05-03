@@ -43,8 +43,8 @@ _log = get_logger(__name__)
 @click.option("--optuna", "method", flag_value="optuna", help="use Optuna search")
 @click.option(
     "--metric",
-    type=click.Choice(["RMSE", "RBP", "RecipRank", "NDCG"]),
-    default="RBP",
+    type=click.Choice(["RMSE", "LogRBP", "RBP", "RecipRank", "NDCG"]),
+    default="LogRBP",
     help="Select the metric to optimize",
 )
 @click.argument("MODEL")
