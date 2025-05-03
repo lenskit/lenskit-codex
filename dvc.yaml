@@ -154,6 +154,7 @@ stages:
       - movielens/ML10M/als-biased.qmd
       - movielens/ML10M/sweeps/temporal/als-biased-random
       - movielens/ML10M/sweeps/temporal/als-biased-hyperopt
+      - movielens/ML10M/sweeps/temporal/als-biased-optuna
     outs:
       - _freeze/movielens/ML10M/als-biased
   page/movielens/ML10M/bias:
@@ -163,6 +164,7 @@ stages:
       - movielens/ML10M/bias.qmd
       - movielens/ML10M/sweeps/temporal/bias-random
       - movielens/ML10M/sweeps/temporal/bias-hyperopt
+      - movielens/ML10M/sweeps/temporal/bias-optuna
     outs:
       - _freeze/movielens/ML10M/bias
   page/movielens/ML10M/description:
@@ -180,6 +182,7 @@ stages:
       - movielens/ML10M/flexmf-bpr.qmd
       - movielens/ML10M/sweeps/temporal/flexmf-bpr-random
       - movielens/ML10M/sweeps/temporal/flexmf-bpr-hyperopt
+      - movielens/ML10M/sweeps/temporal/flexmf-bpr-optuna
     outs:
       - _freeze/movielens/ML10M/flexmf-bpr
   page/movielens/ML10M/flexmf-explicit:
@@ -189,6 +192,7 @@ stages:
       - movielens/ML10M/flexmf-explicit.qmd
       - movielens/ML10M/sweeps/temporal/flexmf-explicit-random
       - movielens/ML10M/sweeps/temporal/flexmf-explicit-hyperopt
+      - movielens/ML10M/sweeps/temporal/flexmf-explicit-optuna
     outs:
       - _freeze/movielens/ML10M/flexmf-explicit
   page/movielens/ML10M/flexmf-logistic:
@@ -198,6 +202,7 @@ stages:
       - movielens/ML10M/flexmf-logistic.qmd
       - movielens/ML10M/sweeps/temporal/flexmf-logistic-random
       - movielens/ML10M/sweeps/temporal/flexmf-logistic-hyperopt
+      - movielens/ML10M/sweeps/temporal/flexmf-logistic-optuna
     outs:
       - _freeze/movielens/ML10M/flexmf-logistic
   page/movielens/ML10M/flexmf-warp:
@@ -207,6 +212,7 @@ stages:
       - movielens/ML10M/flexmf-warp.qmd
       - movielens/ML10M/sweeps/temporal/flexmf-warp-random
       - movielens/ML10M/sweeps/temporal/flexmf-warp-hyperopt
+      - movielens/ML10M/sweeps/temporal/flexmf-warp-optuna
     outs:
       - _freeze/movielens/ML10M/flexmf-warp
   page/movielens/ML10M/iknn-explicit:
@@ -216,6 +222,7 @@ stages:
       - movielens/ML10M/iknn-explicit.qmd
       - movielens/ML10M/sweeps/temporal/iknn-explicit-random
       - movielens/ML10M/sweeps/temporal/iknn-explicit-hyperopt
+      - movielens/ML10M/sweeps/temporal/iknn-explicit-optuna
     outs:
       - _freeze/movielens/ML10M/iknn-explicit
   page/movielens/ML10M/iknn-implicit:
@@ -225,6 +232,7 @@ stages:
       - movielens/ML10M/iknn-implicit.qmd
       - movielens/ML10M/sweeps/temporal/iknn-implicit-random
       - movielens/ML10M/sweeps/temporal/iknn-implicit-hyperopt
+      - movielens/ML10M/sweeps/temporal/iknn-implicit-optuna
     outs:
       - _freeze/movielens/ML10M/iknn-implicit
   page/movielens/ML10M/splitting:
@@ -259,6 +267,7 @@ stages:
       - movielens/ML10M/uknn-explicit.qmd
       - movielens/ML10M/sweeps/temporal/uknn-explicit-random
       - movielens/ML10M/sweeps/temporal/uknn-explicit-hyperopt
+      - movielens/ML10M/sweeps/temporal/uknn-explicit-optuna
     outs:
       - _freeze/movielens/ML10M/uknn-explicit
   page/movielens/ML10M/uknn-implicit:
@@ -268,6 +277,7 @@ stages:
       - movielens/ML10M/uknn-implicit.qmd
       - movielens/ML10M/sweeps/temporal/uknn-implicit-random
       - movielens/ML10M/sweeps/temporal/uknn-implicit-hyperopt
+      - movielens/ML10M/sweeps/temporal/uknn-implicit-optuna
     outs:
       - _freeze/movielens/ML10M/uknn-implicit
   page/movielens/ML1M/als-biased:
@@ -277,6 +287,7 @@ stages:
       - movielens/ML1M/als-biased.qmd
       - movielens/ML1M/sweeps/random/als-biased-random
       - movielens/ML1M/sweeps/random/als-biased-hyperopt
+      - movielens/ML1M/sweeps/random/als-biased-optuna
     outs:
       - _freeze/movielens/ML1M/als-biased
   page/movielens/ML1M/bias:
@@ -286,6 +297,7 @@ stages:
       - movielens/ML1M/bias.qmd
       - movielens/ML1M/sweeps/random/bias-random
       - movielens/ML1M/sweeps/random/bias-hyperopt
+      - movielens/ML1M/sweeps/random/bias-optuna
     outs:
       - _freeze/movielens/ML1M/bias
   page/movielens/ML1M/description:
@@ -303,6 +315,7 @@ stages:
       - movielens/ML1M/flexmf-bpr.qmd
       - movielens/ML1M/sweeps/random/flexmf-bpr-random
       - movielens/ML1M/sweeps/random/flexmf-bpr-hyperopt
+      - movielens/ML1M/sweeps/random/flexmf-bpr-optuna
     outs:
       - _freeze/movielens/ML1M/flexmf-bpr
   page/movielens/ML1M/flexmf-explicit:
@@ -312,6 +325,7 @@ stages:
       - movielens/ML1M/flexmf-explicit.qmd
       - movielens/ML1M/sweeps/random/flexmf-explicit-random
       - movielens/ML1M/sweeps/random/flexmf-explicit-hyperopt
+      - movielens/ML1M/sweeps/random/flexmf-explicit-optuna
     outs:
       - _freeze/movielens/ML1M/flexmf-explicit
   page/movielens/ML1M/flexmf-logistic:
@@ -321,6 +335,7 @@ stages:
       - movielens/ML1M/flexmf-logistic.qmd
       - movielens/ML1M/sweeps/random/flexmf-logistic-random
       - movielens/ML1M/sweeps/random/flexmf-logistic-hyperopt
+      - movielens/ML1M/sweeps/random/flexmf-logistic-optuna
     outs:
       - _freeze/movielens/ML1M/flexmf-logistic
   page/movielens/ML1M/flexmf-warp:
@@ -330,6 +345,7 @@ stages:
       - movielens/ML1M/flexmf-warp.qmd
       - movielens/ML1M/sweeps/random/flexmf-warp-random
       - movielens/ML1M/sweeps/random/flexmf-warp-hyperopt
+      - movielens/ML1M/sweeps/random/flexmf-warp-optuna
     outs:
       - _freeze/movielens/ML1M/flexmf-warp
   page/movielens/ML1M/iknn-explicit:
@@ -339,6 +355,7 @@ stages:
       - movielens/ML1M/iknn-explicit.qmd
       - movielens/ML1M/sweeps/random/iknn-explicit-random
       - movielens/ML1M/sweeps/random/iknn-explicit-hyperopt
+      - movielens/ML1M/sweeps/random/iknn-explicit-optuna
     outs:
       - _freeze/movielens/ML1M/iknn-explicit
   page/movielens/ML1M/iknn-implicit:
@@ -348,6 +365,7 @@ stages:
       - movielens/ML1M/iknn-implicit.qmd
       - movielens/ML1M/sweeps/random/iknn-implicit-random
       - movielens/ML1M/sweeps/random/iknn-implicit-hyperopt
+      - movielens/ML1M/sweeps/random/iknn-implicit-optuna
     outs:
       - _freeze/movielens/ML1M/iknn-implicit
   page/movielens/ML1M/summary:
@@ -374,6 +392,7 @@ stages:
       - movielens/ML1M/uknn-explicit.qmd
       - movielens/ML1M/sweeps/random/uknn-explicit-random
       - movielens/ML1M/sweeps/random/uknn-explicit-hyperopt
+      - movielens/ML1M/sweeps/random/uknn-explicit-optuna
     outs:
       - _freeze/movielens/ML1M/uknn-explicit
   page/movielens/ML1M/uknn-implicit:
@@ -383,6 +402,7 @@ stages:
       - movielens/ML1M/uknn-implicit.qmd
       - movielens/ML1M/sweeps/random/uknn-implicit-random
       - movielens/ML1M/sweeps/random/uknn-implicit-hyperopt
+      - movielens/ML1M/sweeps/random/uknn-implicit-optuna
     outs:
       - _freeze/movielens/ML1M/uknn-implicit
   page/movielens/ML20M/als-biased:
