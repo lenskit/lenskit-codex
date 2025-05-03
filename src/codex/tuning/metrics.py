@@ -1,13 +1,48 @@
 from __future__ import annotations
 
+import numpy as np
 from lenskit.batch import BatchResults
+from lenskit.data import ItemList
 from lenskit.logging import Task, get_logger
-from lenskit.metrics import NDCG, RBP, RMSE, RecipRank, RunAnalysis
+from lenskit.metrics import NDCG, RBP, RMSE, ListMetric, RankingMetricBase, RecipRank, RunAnalysis
 from lenskit.splitting import TTSplit
+from scipy.special import logsumexp
 
 from codex.models import ModelDef
 
 _log = get_logger(__name__)
+
+
+class LogRBP(ListMetric, RankingMetricBase):
+    patience: float
+    normalize: bool
+
+    def __init__(self, k: int | None = None, *, patience: float = 0.85, normalize: bool = False):
+        super().__init__(k)
+        self.patience = patience
+        self.normalize = normalize
+
+    @property
+    def label(self):
+        if self.k is not None:
+            return f"LogRBP@{self.k}"
+        else:
+            return "LogRBP"
+
+    def measure_list(self, recs: ItemList, test: ItemList) -> float:
+        recs = self.truncate(recs)
+        k = len(recs)
+
+        nrel = len(test)
+        if nrel == 0:
+            return np.nan
+
+        items = recs.ids()
+        good = np.isin(items, test.ids())
+        # γ^(r-1)
+        disc = np.arange(k) * np.log(self.patience)
+        rbp = logsumexp(disc[good])
+        return rbp - np.log(1 - self.patience)
 
 
 def measure(
@@ -21,6 +56,7 @@ def measure(
     log.debug("measuring recommendation lists")
     recm = RunAnalysis()
     recm.add_metric(RBP())
+    recm.add_metric(LogRBP())
     recm.add_metric(NDCG())
     recm.add_metric(RecipRank())
     rec_metrics = recm.measure(results.output("recommendations"), data.test)
@@ -35,6 +71,11 @@ def measure(
     df = rec_metrics.list_summary()
 
     metrics = df.loc[:, "mean"].to_dict()
+
+    # compute LogRBP mean correctly
+    lrbp = rec_metrics.list_metrics()["LogRBP"]
+    metrics["LogRBP"] = logsumexp(lrbp) - np.log(len(lrbp))
+
     if train_task is not None:
         metrics["TrainTask"] = train_task.task_id
         metrics["TrainTime"] = train_task.duration
