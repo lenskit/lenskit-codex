@@ -35,10 +35,10 @@ jobs:
         run: uv sync --no-default-groups --locked
 
       - name: Fetch site assets
-        run: pixi run -e publish invoke fetch-web-assets
+        run: uv run --no-default-groups --locked invoke fetch-web-assets
 
       - name: Render site content
-        run: pixi run -e publish invoke render-site
+        run: uv run --no-default-groups --locked invoke render-site
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
