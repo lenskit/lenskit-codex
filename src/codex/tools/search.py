@@ -44,7 +44,7 @@ _log = get_logger(__name__)
 @click.option(
     "--metric",
     type=click.Choice(["RMSE", "LogRBP", "RBP", "RecipRank", "NDCG"]),
-    default="LogRBP",
+    default="RBP",
     help="Select the metric to optimize",
 )
 @click.argument("MODEL")
