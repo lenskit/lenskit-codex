@@ -518,7 +518,7 @@ stages:
           cache: false
   sweep-als-implicit-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=LogRBP als-implicit sweeps/temporal/als-implicit-hyperopt
+      --metric=RBP als-implicit sweeps/temporal/als-implicit-hyperopt
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_implicit.py
@@ -528,7 +528,7 @@ stages:
           cache: false
   sweep-als-implicit-temporal-optuna:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=LogRBP als-implicit sweeps/temporal/als-implicit-optuna
+      --metric=RBP als-implicit sweeps/temporal/als-implicit-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_implicit.py
@@ -538,7 +538,7 @@ stages:
           cache: false
   sweep-als-implicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=LogRBP als-implicit sweeps/temporal/als-implicit-random
+      --metric=RBP als-implicit sweeps/temporal/als-implicit-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_implicit.py
@@ -578,7 +578,7 @@ stages:
           cache: false
   sweep-flexmf-bpr-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=LogRBP flexmf-bpr sweeps/temporal/flexmf-bpr-hyperopt
+      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-hyperopt
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_bpr.py
@@ -588,7 +588,7 @@ stages:
           cache: false
   sweep-flexmf-bpr-temporal-optuna:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=LogRBP flexmf-bpr sweeps/temporal/flexmf-bpr-optuna
+      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_bpr.py
@@ -598,7 +598,7 @@ stages:
           cache: false
   sweep-flexmf-bpr-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=LogRBP flexmf-bpr sweeps/temporal/flexmf-bpr-random
+      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_bpr.py
@@ -638,7 +638,7 @@ stages:
           cache: false
   sweep-flexmf-logistic-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=LogRBP flexmf-logistic sweeps/temporal/flexmf-logistic-hyperopt
+      --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-hyperopt
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_logistic.py
@@ -648,7 +648,7 @@ stages:
           cache: false
   sweep-flexmf-logistic-temporal-optuna:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=LogRBP flexmf-logistic sweeps/temporal/flexmf-logistic-optuna
+      --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_logistic.py
@@ -658,7 +658,7 @@ stages:
           cache: false
   sweep-flexmf-logistic-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=LogRBP flexmf-logistic sweeps/temporal/flexmf-logistic-random
+      --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_logistic.py
@@ -668,7 +668,7 @@ stages:
           cache: false
   sweep-flexmf-warp-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=LogRBP flexmf-warp sweeps/temporal/flexmf-warp-hyperopt
+      --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-hyperopt
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_warp.py
@@ -678,7 +678,7 @@ stages:
           cache: false
   sweep-flexmf-warp-temporal-optuna:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=LogRBP flexmf-warp sweeps/temporal/flexmf-warp-optuna
+      --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_warp.py
@@ -688,7 +688,7 @@ stages:
           cache: false
   sweep-flexmf-warp-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=LogRBP flexmf-warp sweeps/temporal/flexmf-warp-random
+      --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_warp.py
@@ -728,7 +728,7 @@ stages:
           cache: false
   sweep-iknn-implicit-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=LogRBP iknn-implicit sweeps/temporal/iknn-implicit-hyperopt
+      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-hyperopt
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_implicit.py
@@ -738,7 +738,7 @@ stages:
           cache: false
   sweep-iknn-implicit-temporal-optuna:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=LogRBP iknn-implicit sweeps/temporal/iknn-implicit-optuna
+      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_implicit.py
@@ -748,7 +748,7 @@ stages:
           cache: false
   sweep-iknn-implicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=LogRBP iknn-implicit sweeps/temporal/iknn-implicit-random
+      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_implicit.py
@@ -758,7 +758,7 @@ stages:
           cache: false
   sweep-implicit-bpr-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=LogRBP implicit-bpr sweeps/temporal/implicit-bpr-hyperopt
+      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-hyperopt
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/implicit_bpr.py
@@ -768,7 +768,7 @@ stages:
           cache: false
   sweep-implicit-bpr-temporal-optuna:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=LogRBP implicit-bpr sweeps/temporal/implicit-bpr-optuna
+      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/implicit_bpr.py
@@ -778,7 +778,7 @@ stages:
           cache: false
   sweep-implicit-bpr-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=LogRBP implicit-bpr sweeps/temporal/implicit-bpr-random
+      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/implicit_bpr.py

@@ -11,7 +11,7 @@ local lib = import '../src/codex.libsonnet';
         if split == 'random' then '--test-part=0' else '--test-part=valid',
         if std.objectHas(m.value, 'search_points') then std.format('--sample-count=%s', m.value.search_points),
         '--' + method,
-        if m.value.predictor then '--metric=RMSE' else '--metric=LogRBP',
+        if m.value.predictor then '--metric=RMSE' else '--metric=RBP',
         m.key,
         out_dir,
       ]),
