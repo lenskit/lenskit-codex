@@ -87,7 +87,7 @@ def render_pipeline(c: Context):
     for file in glob("**/dvc.jsonnet", recursive=True):
         render_dvc_pipeline(file)
 
-    c.run("dprint fmt '**/dvc.yaml'")
+    c.run("dprint fmt '**/dvc.yaml' '**/dataset.yml'")
 
 
 @task(render_pipeline)
