@@ -3965,3 +3965,81 @@ stages:
       hash: md5
       md5: f3ffab2d25397bd218f0ad359b867783
       size: 760
+  run-temporal-optuna-best-flexmf-logistic:
+    cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-logistic-optuna.json
+      --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-optuna-best
+      flexmf-logistic
+    deps:
+    - path: ../../src/codex/models/flexmf_logistic.py
+      hash: md5
+      md5: bbad471f8ca28fa9c5a9818432bc7ac8
+      size: 748
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    - path: sweeps/temporal/flexmf-logistic-optuna.json
+      hash: md5
+      md5: f3ffab2d25397bd218f0ad359b867783
+      size: 760
+    outs:
+    - path: runs/temporal/flexmf-logistic-optuna-best
+      hash: md5
+      md5: 4714fd3222bda19ab7c6d57ff9fd305c.dir
+      size: 3881084
+      nfiles: 4
+  sweep-implicit-bpr-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-optuna
+    deps:
+    - path: ../../src/codex/models/implicit_bpr.py
+      hash: md5
+      md5: 0e653a0d87446ef4e0129b75d976c49e
+      size: 427
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: sweeps/temporal/implicit-bpr-optuna
+      hash: md5
+      md5: 2d05be20ce7fcdc9f10f3d9a71efd0a1.dir
+      size: 879306
+      nfiles: 4
+    - path: sweeps/temporal/implicit-bpr-optuna.json
+      hash: md5
+      md5: 2ef017b36737c11020fec92ede9490cd
+      size: 874
+  run-temporal-optuna-best-implicit-bpr:
+    cmd: lenskit codex generate --param-file sweeps/temporal/implicit-bpr-optuna.json
+      --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/implicit-bpr-optuna-best
+      implicit-bpr
+    deps:
+    - path: ../../src/codex/models/implicit_bpr.py
+      hash: md5
+      md5: 0e653a0d87446ef4e0129b75d976c49e
+      size: 427
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    - path: sweeps/temporal/implicit-bpr-optuna.json
+      hash: md5
+      md5: 2ef017b36737c11020fec92ede9490cd
+      size: 874
+    outs:
+    - path: runs/temporal/implicit-bpr-optuna-best
+      hash: md5
+      md5: 091077eccea965cecb2b38410faf6e7e.dir
+      size: 3982027
+      nfiles: 4
