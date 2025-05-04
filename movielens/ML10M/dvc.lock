@@ -2463,8 +2463,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: c8c56d4290ddce217c25b839ad71d566
-      size: 1490
+      md5: 150dfcaa2c5ae533410cc3e20060cecb
+      size: 1538
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -2472,13 +2472,13 @@ stages:
     outs:
     - path: sweeps/temporal/iknn-explicit-random
       hash: md5
-      md5: 7e5c0a80a7971bf0ee7211c7addd51a4.dir
-      size: 396277
+      md5: 863eb1c694b2505c4769e5d25d7a0246.dir
+      size: 466947
       nfiles: 4
     - path: sweeps/temporal/iknn-explicit-random.json
       hash: md5
-      md5: 56c728b367d20ea05d61f4dcfcb245ce
-      size: 807
+      md5: 406923ade70ba89af471af6e376b11df
+      size: 828
   sweep-iknn-implicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
       --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
@@ -2508,8 +2508,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: c8c56d4290ddce217c25b839ad71d566
-      size: 1490
+      md5: 150dfcaa2c5ae533410cc3e20060cecb
+      size: 1538
     - path: dataset
       hash: md5
       md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
@@ -2521,13 +2521,13 @@ stages:
       size: 120
     - path: sweeps/temporal/iknn-explicit-random.json
       hash: md5
-      md5: 56c728b367d20ea05d61f4dcfcb245ce
-      size: 807
+      md5: 406923ade70ba89af471af6e376b11df
+      size: 828
     outs:
     - path: runs/temporal/iknn-explicit-random-best
       hash: md5
-      md5: 7de3cd9ad100ac75c88eb00556997b66.dir
-      size: 7086688
+      md5: 6f8d2bd5b350c7c6223f9f5033535314.dir
+      size: 7080619
       nfiles: 5
   run-temporal-random-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/iknn-implicit-random.json
