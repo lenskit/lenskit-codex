@@ -2124,8 +2124,8 @@ stages:
       size: 9921586
       nfiles: 5
   sweep-bias-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RMSE bias sweeps/temporal/bias-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RMSE bias sweeps/temporal/bias-random
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
@@ -2146,8 +2146,8 @@ stages:
       md5: 867da93c19f88f702910dec68722d22d
       size: 793
   sweep-implicit-bpr-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-random
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
       hash: md5
@@ -2168,8 +2168,8 @@ stages:
       md5: 944c6b07174dfa29e5ec307987b239f8
       size: 839
   sweep-iknn-implicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
@@ -2245,8 +2245,8 @@ stages:
       size: 10724712
       nfiles: 5
   sweep-iknn-explicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-random
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
@@ -2323,8 +2323,8 @@ stages:
       size: 6236870
       nfiles: 4
   sweep-flexmf-explicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-random
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
       hash: md5
@@ -2345,8 +2345,8 @@ stages:
       md5: b735da961c27444cc24d3d96dc5d179f
       size: 660
   sweep-als-implicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP als-implicit sweeps/temporal/als-implicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RBP als-implicit sweeps/temporal/als-implicit-random
     deps:
     - path: ../../src/codex/models/als_implicit.py
       hash: md5
@@ -2459,8 +2459,8 @@ stages:
       size: 11758147
       nfiles: 5
   sweep-flexmf-logistic-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-random
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
@@ -2509,8 +2509,8 @@ stages:
       size: 6170371
       nfiles: 4
   sweep-flexmf-warp-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-random
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
       hash: md5
@@ -2633,8 +2633,8 @@ stages:
       size: 6019454
       nfiles: 4
   sweep-flexmf-bpr-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-random
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
       hash: md5
@@ -2683,8 +2683,8 @@ stages:
       size: 6082134
       nfiles: 4
   sweep-als-biased-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RMSE als-biased sweeps/temporal/als-biased-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RMSE als-biased sweeps/temporal/als-biased-random
     deps:
     - path: ../../src/codex/models/als_biased.py
       hash: md5
@@ -2761,8 +2761,8 @@ stages:
       size: 11985559
       nfiles: 5
   sweep-iknn-implicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --hyperopt --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-hyperopt
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
@@ -2811,8 +2811,8 @@ stages:
       size: 5914442
       nfiles: 4
   sweep-als-implicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=RBP als-implicit sweeps/temporal/als-implicit-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --hyperopt --metric=RBP als-implicit sweeps/temporal/als-implicit-hyperopt
     deps:
     - path: ../../src/codex/models/als_implicit.py
       hash: md5
@@ -2833,8 +2833,8 @@ stages:
       md5: 3445a4b58e6b3dfbf1383e6f2fc3910a
       size: 713
   sweep-flexmf-logistic-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --hyperopt --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
@@ -2883,8 +2883,8 @@ stages:
       size: 6137000
       nfiles: 4
   sweep-iknn-explicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --hyperopt --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-hyperopt
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
@@ -2933,8 +2933,8 @@ stages:
       size: 11955375
       nfiles: 5
   sweep-implicit-bpr-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --hyperopt --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-hyperopt
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
       hash: md5
@@ -2983,8 +2983,8 @@ stages:
       size: 6317723
       nfiles: 4
   sweep-flexmf-explicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --hyperopt --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
       hash: md5
@@ -3033,8 +3033,8 @@ stages:
       size: 12016103
       nfiles: 5
   sweep-bias-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=RMSE bias sweeps/temporal/bias-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --hyperopt --metric=RMSE bias sweeps/temporal/bias-hyperopt
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
@@ -3082,8 +3082,8 @@ stages:
       size: 10728404
       nfiles: 5
   sweep-flexmf-bpr-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --hyperopt --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
       hash: md5
@@ -3160,8 +3160,8 @@ stages:
       size: 6150877
       nfiles: 4
   sweep-flexmf-warp-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --hyperopt --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
       hash: md5
@@ -3210,8 +3210,8 @@ stages:
       size: 6144040
       nfiles: 4
   sweep-als-biased-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=RMSE als-biased sweeps/temporal/als-biased-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --hyperopt --metric=RMSE als-biased sweeps/temporal/als-biased-hyperopt
     deps:
     - path: ../../src/codex/models/als_biased.py
       hash: md5
@@ -3260,8 +3260,8 @@ stages:
       size: 13044709
       nfiles: 5
   sweep-bias-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RMSE bias sweeps/temporal/bias-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RMSE bias sweeps/temporal/bias-optuna
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
@@ -3309,8 +3309,8 @@ stages:
       size: 10738245
       nfiles: 5
   sweep-flexmf-logistic-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-optuna
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
@@ -3359,8 +3359,8 @@ stages:
       size: 6171057
       nfiles: 4
   sweep-iknn-explicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-optuna
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
@@ -3409,8 +3409,8 @@ stages:
       size: 11969365
       nfiles: 5
   sweep-als-biased-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RMSE als-biased sweeps/temporal/als-biased-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RMSE als-biased sweeps/temporal/als-biased-optuna
     deps:
     - path: ../../src/codex/models/als_biased.py
       hash: md5
@@ -3431,8 +3431,8 @@ stages:
       md5: 46a99ad80154df25e661412d4c6c0b51
       size: 703
   sweep-flexmf-bpr-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-optuna
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
       hash: md5
@@ -3481,8 +3481,8 @@ stages:
       size: 6150502
       nfiles: 4
   sweep-flexmf-explicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-optuna
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
       hash: md5
@@ -3503,8 +3503,8 @@ stages:
       md5: a9137691c1e1fb0cdbff3770358bdac5
       size: 660
   sweep-flexmf-warp-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-optuna
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
       hash: md5
@@ -3525,8 +3525,8 @@ stages:
       md5: a0c2010d9da180ebda395009dd4854d7
       size: 653
   sweep-implicit-bpr-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-optuna
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
       hash: md5
@@ -3603,8 +3603,8 @@ stages:
       size: 6094358
       nfiles: 4
   sweep-iknn-implicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-optuna
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
@@ -3681,8 +3681,8 @@ stages:
       size: 12724851
       nfiles: 5
   sweep-als-implicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RBP als-implicit sweeps/temporal/als-implicit-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RBP als-implicit sweeps/temporal/als-implicit-optuna
     deps:
     - path: ../../src/codex/models/als_implicit.py
       hash: md5
