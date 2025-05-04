@@ -36,7 +36,7 @@ dependencies = [
   "jupyter-cache",
 
   "dvc ~=3.50",
-  "quarto-cli ~=1.7",
+  "quarto-cli ~=1.7; platform_machine != 'aarch64'",
 ]
 
 [dependency-groups]
@@ -46,15 +46,16 @@ run = [
   "lenskit @ https://github.com/lenskit/lkpy.git",
 ]
 cpu = ["torch ~=2.6"]
-cuda = ["torch ~=2.6"]
+cuda = ["torch ~=2.6.0", "triton"]
 dev = [
   "jsonnet ~=0.20.0",
   "jinja2 ~=3.1",
-  "line_profiler ~=4.1",
+  "line_profiler ~=4.1; platform_machine != 'aarch64'",
   "ruff >=0.4",
   "ipython >=8",
   "jupyterlab >=3",
   "parquet-tools ~=0.2.16",
+  "pre-commit ~= 4.0",
   { include-group = "run" },
 ]
 
@@ -64,6 +65,9 @@ conflicts = [[{ group = "cpu" }, { group = "cuda" }]]
 [tool.uv.sources]
 torch = [
   { index = "pytorch-cpu", group = "cpu" },
+  { index = "pytorch-cuda", group = "cuda", marker = "sys_platform != 'darwin'" },
+]
+triton = [
   { index = "pytorch-cuda", group = "cuda" },
 ]
 

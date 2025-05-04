@@ -3,7 +3,8 @@ revision = 1
 requires-python = "==3.12.*"
 resolution-markers = [
     "platform_machine == 'x86_64' and sys_platform == 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda'",
-    "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')",
+    "sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda'",
+    "platform_machine != 'x86_64' and sys_platform == 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda'",
     "sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda'",
     "platform_machine == 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda'",
     "platform_machine != 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda'",
@@ -206,15 +207,15 @@ wheels = [
 
 [[package]]
 name = "asyncssh"
-version = "2.20.0"
+version = "2.21.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cryptography" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/43/f5/365489721f98bb1cd5e3d48f397598e1be5b2695301e2d685b64cfdab51d/asyncssh-2.20.0.tar.gz", hash = "sha256:020b6e384b2328ef8683908ad8e73de9ec2b9b62fd964571ea957bba98412983", size = 534719 }
+sdist = { url = "https://files.pythonhosted.org/packages/e8/d6/823ed5a227f7da70b33681e49eec4a36fae31b9296b27a8d6aead2bd3f77/asyncssh-2.21.0.tar.gz", hash = "sha256:450fe13bb8d86a8f4e7d7b5fafce7791181ca3e7c92e15bbc45dfb25866e48b3", size = 539740 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f2/c5/7a9d42c065f272f74792663194966a68810e851a34c0dd080246bd7308f5/asyncssh-2.20.0-py3-none-any.whl", hash = "sha256:af6888d937c07a4bf31293335a6166b4d87608cdb5957b49547da6ad87ecf174", size = 373109 },
+    { url = "https://files.pythonhosted.org/packages/99/56/db25216aa7f385ec71fdc489af80812171515cddbe68c0e515e98a291390/asyncssh-2.21.0-py3-none-any.whl", hash = "sha256:cf7f3dfa52b2cb4ad31f0d77ff0d0a8fdd850203da84a0e72e62c36fdd4daf4b", size = 374919 },
 ]
 
 [[package]]
@@ -294,30 +295,30 @@ wheels = [
 
 [[package]]
 name = "boto3"
-version = "1.38.7"
+version = "1.38.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "botocore" },
     { name = "jmespath" },
     { name = "s3transfer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ab/43/3c2d1bbbef0d187c1dc0e7ec7e8f213c7653c8464ba903613bf856656fcb/boto3-1.38.7.tar.gz", hash = "sha256:0269f793f0affc646b95c2cd12d42a4db49d5f30ef1073f616a112a384933f8e", size = 111804 }
+sdist = { url = "https://files.pythonhosted.org/packages/b1/8e/bf339382eaff15b3575d23b2b6f06769765001234c2ccaafa50a20931379/boto3-1.38.8.tar.gz", hash = "sha256:6bbc75bb51be9c5a33d07a4adf13d133c60f77b7c47bef1c46fda90b1297a867", size = 111798 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0e/fc/9a50d28515b35fcc6f33fad33732951a5c9fd8fba096e47c0df7885d72ae/boto3-1.38.7-py3-none-any.whl", hash = "sha256:c548983189b0a88f09cd4c572519b1923695b25cd877def58b61e03f41a6fd96", size = 139901 },
+    { url = "https://files.pythonhosted.org/packages/84/d9/1bd6c2a6c3d3bf1d8b0be52c39230bd1e14bb55b7ecc04f42fcb68b27343/boto3-1.38.8-py3-none-any.whl", hash = "sha256:f3a4d79f499f567d327d2d8846d02ad18244d2927f88858a42a2438f52d9a0ef", size = 139899 },
 ]
 
 [[package]]
 name = "botocore"
-version = "1.38.7"
+version = "1.38.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "jmespath" },
     { name = "python-dateutil" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/44/c7/e290008036749e43f615adada8b7e73bf2405d4b1913de375b5c8f01daa1/botocore-1.38.7.tar.gz", hash = "sha256:5c6df7171390437683072aadc0d2dfbcbfa72df52a134a5d4bed811ed214c3df", size = 13869944 }
+sdist = { url = "https://files.pythonhosted.org/packages/1e/18/1ec9220e180106d8055365a9bb4926db9840211c65f5fd70a5a90b0873cf/botocore-1.38.8.tar.gz", hash = "sha256:68d739300cc94232373517b27c5570de6ae6d809a2db644f30219f5c8e0371ce", size = 13871026 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/07/65/074339f9f48a4152b9d9f1a73d39a202e652c00354507455baacdca5efe9/botocore-1.38.7-py3-none-any.whl", hash = "sha256:a002ec18cc02c4b039d20c39ca88ecf2fdb9533c0a5f3670e8c0fcdd3ee4a045", size = 13531844 },
+    { url = "https://files.pythonhosted.org/packages/b4/66/e5a314d1e868cd35ec5c5d11360387c2a85e8d408f084616337f1a282c61/botocore-1.38.8-py3-none-any.whl", hash = "sha256:f6ae08a56fe94e18d2aa223611a3b5e94123315d0cb3cb85764b029b2326c710", size = 13531917 },
 ]
 
 [[package]]
@@ -368,6 +369,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/d4/38/ca8a4f639065f14ae0f1d9751e70447a261f1a30fa7547a828ae08142465/cffi-1.17.1-cp312-cp312-musllinux_1_1_x86_64.whl", hash = "sha256:4ceb10419a9adf4460ea14cfd6bc43d08701f0835e979bf821052f1805850fe8", size = 488736 },
     { url = "https://files.pythonhosted.org/packages/86/c5/28b2d6f799ec0bdecf44dced2ec5ed43e0eb63097b0f58c293583b406582/cffi-1.17.1-cp312-cp312-win32.whl", hash = "sha256:a08d7e755f8ed21095a310a693525137cfe756ce62d066e53f502a83dc550f65", size = 172448 },
     { url = "https://files.pythonhosted.org/packages/50/b9/db34c4755a7bd1cb2d1603ac3863f22bcecbd1ba29e5ee841a4bc510b294/cffi-1.17.1-cp312-cp312-win_amd64.whl", hash = "sha256:51392eae71afec0d0c8fb1a53b204dbb3bcabcb3c9b807eedf3e1e6ccf2de903", size = 181976 },
+]
+
+[[package]]
+name = "cfgv"
+version = "3.4.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/11/74/539e56497d9bd1d484fd863dd69cbbfa653cd2aa27abfe35653494d85e94/cfgv-3.4.0.tar.gz", hash = "sha256:e52591d4c5f5dead8e0f673fb16db7949d2cfb3f7da4582893288f0ded8fe560", size = 7114 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c5/55/51844dd50c4fc7a33b653bfaba4c2456f06955289ca770a5dbd5fd267374/cfgv-3.4.0-py2.py3-none-any.whl", hash = "sha256:b7265b1f29fd3316bfcd2b330d63d024f2bfd8bcb8b0272f8e19a504856c48f9", size = 7249 },
 ]
 
 [[package]]
@@ -626,6 +636,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/cb/98/2c3e927d30cf366cba80cd68b36ab3eecdd3a203715131f1eaa3c2fb20b9/distfit-1.8.6.tar.gz", hash = "sha256:f1e8f5b28c39edcfbd10474512f43be7f4b060420538bac115caa74008425260", size = 42517 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c9/d7/e6f104071ecff996a8ebc2df666e3b4490d05740246348983e519bfc9baf/distfit-1.8.6-py3-none-any.whl", hash = "sha256:919e98d2063bfa46c2662b29db6412333968a54f5ace81dd986452c4bb08a7e6", size = 40917 },
+]
+
+[[package]]
+name = "distlib"
+version = "0.3.9"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0d/dd/1bec4c5ddb504ca60fc29472f3d27e8d4da1257a854e1d96742f15c1d02d/distlib-0.3.9.tar.gz", hash = "sha256:a60f20dea646b8a33f3e7772f74dc0b2d0772d2837ee1342a00645c81edf9403", size = 613923 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/91/a1/cf2472db20f7ce4a6be1253a81cfdf85ad9c7885ffbed7047fb72c24cf87/distlib-0.3.9-py2.py3-none-any.whl", hash = "sha256:47f8c22fd27c27e25a65601af709b38e4f0a45ea4fc2e710f65755fa8caaaf87", size = 468973 },
 ]
 
 [[package]]
@@ -1129,6 +1148,15 @@ wheels = [
 ]
 
 [[package]]
+name = "identify"
+version = "2.6.10"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0c/83/b6ea0334e2e7327084a46aaaf71f2146fc061a192d6518c0d020120cd0aa/identify-2.6.10.tar.gz", hash = "sha256:45e92fd704f3da71cc3880036633f48b4b7265fd4de2b57627cb157216eb7eb8", size = 99201 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2b/d3/85feeba1d097b81a44bcffa6a0beab7b4dfffe78e82fc54978d3ac380736/identify-2.6.10-py2.py3-none-any.whl", hash = "sha256:5f34248f54136beed1a7ba6a6b5c4b6cf21ff495aac7c359e1ef831ae3b8ab25", size = 99101 },
+]
+
+[[package]]
 name = "idna"
 version = "3.10"
 source = { registry = "https://pypi.org/simple" }
@@ -1322,11 +1350,11 @@ wheels = [
 
 [[package]]
 name = "joblib"
-version = "1.4.2"
+version = "1.5.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/64/33/60135848598c076ce4b231e1b1895170f45fbcaeaa2c9d5e38b04db70c35/joblib-1.4.2.tar.gz", hash = "sha256:2382c5816b2636fbd20a09e0f4e9dad4736765fdfb7dca582943b9c1366b3f0e", size = 2116621 }
+sdist = { url = "https://files.pythonhosted.org/packages/30/08/8bd4a0250247861420a040b33ccf42f43c426ac91d99405374ef117e5872/joblib-1.5.0.tar.gz", hash = "sha256:d8757f955389a3dd7a23152e43bc297c2e0c2d3060056dad0feefc88a06939b5", size = 330234 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/91/29/df4b9b42f2be0b623cbd5e2140cafcaa2bef0759a00b7b70104dcfe2fb51/joblib-1.4.2-py3-none-any.whl", hash = "sha256:06d478d5674cbc267e7496a410ee875abd68e4340feff4490bcb7afb88060ae6", size = 301817 },
+    { url = "https://files.pythonhosted.org/packages/da/d3/13ee227a148af1c693654932b8b0b02ed64af5e1f7406d56b088b57574cd/joblib-1.5.0-py3-none-any.whl", hash = "sha256:206144b320246485b712fc8cc51f017de58225fa8b414a1fe1764a7231aca491", size = 307682 },
 ]
 
 [[package]]
@@ -1525,7 +1553,7 @@ dependencies = [
     { name = "overrides" },
     { name = "packaging" },
     { name = "prometheus-client" },
-    { name = "pywinpty", marker = "(os_name == 'nt' and platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu') or (os_name == 'nt' and sys_platform != 'darwin') or (os_name != 'nt' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "pywinpty", marker = "(os_name == 'nt' and platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (os_name == 'nt' and sys_platform != 'darwin') or (os_name != 'nt' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "pyzmq" },
     { name = "send2trash" },
     { name = "terminado" },
@@ -1543,7 +1571,7 @@ name = "jupyter-server-terminals"
 version = "0.5.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "pywinpty", marker = "(os_name == 'nt' and platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu') or (os_name == 'nt' and sys_platform != 'darwin') or (os_name != 'nt' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "pywinpty", marker = "(os_name == 'nt' and platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (os_name == 'nt' and sys_platform != 'darwin') or (os_name != 'nt' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "terminado" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/fc/d5/562469734f476159e99a55426d697cbf8e7eb5efe89fb0e0b4f83a3d3459/jupyter_server_terminals-0.5.3.tar.gz", hash = "sha256:5ae0295167220e9ace0edcfdb212afd2b01ee8d179fe6f23c899590e9b8a5269", size = 31430 }
@@ -1680,10 +1708,11 @@ dependencies = [
     { name = "scipy" },
     { name = "structlog" },
     { name = "threadpoolctl" },
+    { name = "torch", version = "2.6.0", source = { registry = "https://pypi.org/simple" }, marker = "(platform_machine != 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine == 'x86_64' and sys_platform == 'darwin' and extra != 'group-13-lenskit-codex-cpu') or (platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "torch", version = "2.6.0+cu126", source = { registry = "https://download.pytorch.org/whl/cu126" }, marker = "(sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "torch", version = "2.7.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine != 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "torch", version = "2.7.0", source = { registry = "https://pypi.org/simple" }, marker = "(extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda')" },
+    { name = "torch", version = "2.7.0", source = { registry = "https://pypi.org/simple" }, marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "torch", version = "2.7.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu')" },
-    { name = "torch", version = "2.7.0+cu126", source = { registry = "https://download.pytorch.org/whl/cu126" }, marker = "extra == 'group-13-lenskit-codex-cuda'" },
     { name = "typing-extensions" },
     { name = "xopen" },
 ]
@@ -1711,7 +1740,7 @@ dependencies = [
     { name = "pyarrow", version = "20.0.0", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine != 'x86_64' or sys_platform != 'darwin' or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "pydantic" },
     { name = "pyyaml" },
-    { name = "quarto-cli" },
+    { name = "quarto-cli", marker = "platform_machine != 'aarch64' or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "requests" },
     { name = "seaborn" },
     { name = "statsmodels" },
@@ -1725,7 +1754,9 @@ cpu = [
     { name = "torch", version = "2.7.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "(platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu')" },
 ]
 cuda = [
-    { name = "torch", version = "2.7.0+cu126", source = { registry = "https://download.pytorch.org/whl/cu126" } },
+    { name = "torch", version = "2.6.0", source = { registry = "https://pypi.org/simple" }, marker = "(sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "torch", version = "2.6.0+cu126", source = { registry = "https://download.pytorch.org/whl/cu126" }, marker = "(sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "triton", version = "3.3.0", source = { registry = "https://download.pytorch.org/whl/cu126" } },
 ]
 dev = [
     { name = "ipython" },
@@ -1733,9 +1764,10 @@ dev = [
     { name = "jsonnet" },
     { name = "jupyterlab" },
     { name = "lenskit" },
-    { name = "line-profiler" },
+    { name = "line-profiler", marker = "platform_machine != 'aarch64' or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "numpy" },
     { name = "parquet-tools" },
+    { name = "pre-commit" },
     { name = "ray", extra = ["tune"] },
     { name = "ruff" },
 ]
@@ -1764,7 +1796,7 @@ requires-dist = [
     { name = "pyarrow", specifier = ">=16" },
     { name = "pydantic", specifier = ">=2.8,<3" },
     { name = "pyyaml", specifier = "~=6.0" },
-    { name = "quarto-cli", specifier = "~=1.7" },
+    { name = "quarto-cli", marker = "platform_machine != 'aarch64'", specifier = "~=1.7" },
     { name = "requests", specifier = ">=2.32.3,<3" },
     { name = "seaborn", specifier = "~=0.13.2" },
     { name = "statsmodels", specifier = "~=0.14.4" },
@@ -1774,16 +1806,21 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 cpu = [{ name = "torch", specifier = "~=2.6", index = "https://download.pytorch.org/whl/cpu", conflict = { package = "lenskit-codex", group = "cpu" } }]
-cuda = [{ name = "torch", specifier = "~=2.6", index = "https://download.pytorch.org/whl/cu126", conflict = { package = "lenskit-codex", group = "cuda" } }]
+cuda = [
+    { name = "torch", marker = "sys_platform != 'darwin'", specifier = "~=2.6.0", index = "https://download.pytorch.org/whl/cu126", conflict = { package = "lenskit-codex", group = "cuda" } },
+    { name = "torch", marker = "sys_platform == 'darwin'", specifier = "~=2.6.0" },
+    { name = "triton", index = "https://download.pytorch.org/whl/cu126", conflict = { package = "lenskit-codex", group = "cuda" } },
+]
 dev = [
     { name = "ipython", specifier = ">=8" },
     { name = "jinja2", specifier = "~=3.1" },
     { name = "jsonnet", specifier = "~=0.20.0" },
     { name = "jupyterlab", specifier = ">=3" },
     { name = "lenskit", git = "https://github.com/lenskit/lkpy.git" },
-    { name = "line-profiler", specifier = "~=4.1" },
+    { name = "line-profiler", marker = "platform_machine != 'aarch64'", specifier = "~=4.1" },
     { name = "numpy", specifier = "~=2.0" },
     { name = "parquet-tools", specifier = "~=0.2.16" },
+    { name = "pre-commit", specifier = "~=4.0" },
     { name = "ray", extras = ["tune"], specifier = "~=2.45" },
     { name = "ruff", specifier = ">=0.4" },
 ]
@@ -1908,7 +1945,7 @@ wheels = [
 
 [[package]]
 name = "mizani"
-version = "0.13.3"
+version = "0.13.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
@@ -1916,9 +1953,9 @@ dependencies = [
     { name = "scipy" },
     { name = "tzdata", marker = "sys_platform == 'emscripten' or sys_platform == 'win32' or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/97/46/4e46557d893962cc2db79ec49109f6a1064a4a2d08850bb15a8b0b9253e4/mizani-0.13.3.tar.gz", hash = "sha256:8325ccce41803122803a664d7a4996a285cb0641f3e2fd67a94a762901d81f3c", size = 765571 }
+sdist = { url = "https://files.pythonhosted.org/packages/63/11/10c4ce1f442e221586f89fb8a7db80568fadb07d2fd4f1c99e902deab4c2/mizani-0.13.5.tar.gz", hash = "sha256:99c3306fc3217d3840dfd3468feadd9a7664935a07ae4f7e8b3889e46b48ac73", size = 765696 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5c/08/556a1de98bdfe67f944de07bac555c651bd21b23094c26b4ff8e6f241c33/mizani-0.13.3-py3-none-any.whl", hash = "sha256:073235f58a2df47c6601a86b64b029964d5e2429622a6d2d5edd23634550c719", size = 127950 },
+    { url = "https://files.pythonhosted.org/packages/21/e7/172f47bc0016f3ea247ad2671ff8d355340f6ae2d0799725a1f3d358daae/mizani-0.13.5-py3-none-any.whl", hash = "sha256:f6024cf3b5780457d7aa56725946857fd9908215efcd5460399d2bc3267ac329", size = 127934 },
 ]
 
 [[package]]
@@ -2058,6 +2095,15 @@ wheels = [
 ]
 
 [[package]]
+name = "nodeenv"
+version = "1.9.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/16/fc88b08840de0e0a72a2f9d8c6bae36be573e475a6326ae854bcc549fc45/nodeenv-1.9.1.tar.gz", hash = "sha256:6ec12890a2dab7946721edbfbcd91f3319c6ccc9aec47be7c7e6b7011ee6645f", size = 47437 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d2/1d/1b658dbd2b9fa9c4c9f32accbfc0205d532c8c6194dc0f2a4c0428e7128a/nodeenv-1.9.1-py2.py3-none-any.whl", hash = "sha256:ba11c9782d29c27c70ffbdda2d7415098754709be8a7056d79a737cd901155c9", size = 22314 },
+]
+
+[[package]]
 name = "notebook"
 version = "7.4.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2152,7 +2198,7 @@ name = "nvidia-cudnn-cu12"
 version = "9.5.1.17"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-cublas-cu12", marker = "platform_machine != 'x86_64' or sys_platform != 'darwin'" },
+    { name = "nvidia-cublas-cu12", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/99/93/a201a12d3ec1caa8c6ac34c1c2f9eeb696b886f0c36ff23c638b46603bd0/nvidia_cudnn_cu12-9.5.1.17-py3-none-manylinux_2_28_aarch64.whl", hash = "sha256:9fd4584468533c61873e5fda8ca41bac3a38bcb2d12350830c69b0a96a7e4def", size = 570523509 },
@@ -2165,7 +2211,7 @@ name = "nvidia-cufft-cu12"
 version = "11.3.0.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-nvjitlink-cu12", marker = "platform_machine != 'x86_64' or sys_platform != 'darwin'" },
+    { name = "nvidia-nvjitlink-cu12", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1f/37/c50d2b2f2c07e146776389e3080f4faf70bcc4fa6e19d65bb54ca174ebc3/nvidia_cufft_cu12-11.3.0.4-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:d16079550df460376455cba121db6564089176d9bac9e4f360493ca4741b22a6", size = 200164144 },
@@ -2201,9 +2247,9 @@ name = "nvidia-cusolver-cu12"
 version = "11.7.1.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-cublas-cu12", marker = "platform_machine != 'x86_64' or sys_platform != 'darwin'" },
-    { name = "nvidia-cusparse-cu12", marker = "platform_machine != 'x86_64' or sys_platform != 'darwin'" },
-    { name = "nvidia-nvjitlink-cu12", marker = "platform_machine != 'x86_64' or sys_platform != 'darwin'" },
+    { name = "nvidia-cublas-cu12", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "nvidia-cusparse-cu12", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "nvidia-nvjitlink-cu12", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/93/17/dbe1aa865e4fdc7b6d4d0dd308fdd5aaab60f939abfc0ea1954eac4fb113/nvidia_cusolver_cu12-11.7.1.2-py3-none-manylinux2014_aarch64.whl", hash = "sha256:0ce237ef60acde1efc457335a2ddadfd7610b892d94efee7b776c64bb1cac9e0", size = 157833628 },
@@ -2218,7 +2264,7 @@ name = "nvidia-cusparse-cu12"
 version = "12.5.4.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "nvidia-nvjitlink-cu12", marker = "platform_machine != 'x86_64' or sys_platform != 'darwin'" },
+    { name = "nvidia-nvjitlink-cu12", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/eb/eb/6681efd0aa7df96b4f8067b3ce7246833dd36830bb4cec8896182773db7d/nvidia_cusparse_cu12-12.5.4.2-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:d25b62fb18751758fe3c93a4a08eff08effedfe4edf1c6bb5afd0890fe88f887", size = 216451147 },
@@ -2460,6 +2506,22 @@ wheels = [
 ]
 
 [[package]]
+name = "pre-commit"
+version = "4.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cfgv" },
+    { name = "identify" },
+    { name = "nodeenv" },
+    { name = "pyyaml" },
+    { name = "virtualenv" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/08/39/679ca9b26c7bb2999ff122d50faa301e49af82ca9c066ec061cfbc0c6784/pre_commit-4.2.0.tar.gz", hash = "sha256:601283b9757afd87d40c4c4a9b2b5de9637a8ea02eaff7adc2d0fb4e04841146", size = 193424 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/88/74/a88bf1b1efeae488a0c0b7bdf71429c313722d1fc0f377537fbe554e6180/pre_commit-4.2.0-py2.py3-none-any.whl", hash = "sha256:a009ca7205f1eb497d10b845e52c838a98b6cdd2102a6c8e4540e94ee75c58bd", size = 220707 },
+]
+
+[[package]]
 name = "prettytable"
 version = "3.16.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2590,7 +2652,8 @@ name = "pyarrow"
 version = "20.0.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')",
+    "sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda'",
+    "platform_machine != 'x86_64' and sys_platform == 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda'",
     "sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda'",
     "platform_machine != 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda'",
     "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda')",
@@ -2659,14 +2722,14 @@ wheels = [
 
 [[package]]
 name = "pydot"
-version = "3.0.4"
+version = "4.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pyparsing" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/66/dd/e0e6a4fb84c22050f6a9701ad9fd6a67ef82faa7ba97b97eb6fdc6b49b34/pydot-3.0.4.tar.gz", hash = "sha256:3ce88b2558f3808b0376f22bfa6c263909e1c3981e2a7b629b65b451eee4a25d", size = 168167 }
+sdist = { url = "https://files.pythonhosted.org/packages/d1/c3/6034ed1ebf2e3ba95a0e35fa7c43104e40444c0ed2b5325702c63e824dbf/pydot-4.0.0.tar.gz", hash = "sha256:12f16493337cade2f7631b87c8ccd299ba2e251f3ee5d0732a058df2887afe97", size = 161793 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b0/5f/1ebfd430df05c4f9e438dd3313c4456eab937d976f6ab8ce81a98f9fb381/pydot-3.0.4-py3-none-any.whl", hash = "sha256:bfa9c3fc0c44ba1d132adce131802d7df00429d1a79cc0346b0a5cd374dbe9c6", size = 35776 },
+    { url = "https://files.pythonhosted.org/packages/0a/16/984c0cf5073a23154b1f95c9d131b14c9fea83bfadae4ba8fc169daded11/pydot-4.0.0-py3-none-any.whl", hash = "sha256:cf86e13a6cfe2a96758a9702537f77e0ac1368db8ef277b4d3b34473ea425c97", size = 37535 },
 ]
 
 [[package]]
@@ -3079,11 +3142,11 @@ wheels = [
 
 [[package]]
 name = "setuptools"
-version = "80.1.0"
+version = "80.2.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/aa/b2/bd26ed086b842b68c8fe9aac380ad7e5118cf84fa7abd45bb059a88368a8/setuptools-80.1.0.tar.gz", hash = "sha256:2e308396e1d83de287ada2c2fd6e64286008fe6aca5008e0b6a8cb0e2c86eedd", size = 1354038 }
+sdist = { url = "https://files.pythonhosted.org/packages/24/65/19a02e93da9d9f118ecb311419a353ae68a8e236c057bf164c866daa227f/setuptools-80.2.0.tar.gz", hash = "sha256:16a390b41627e1455567193435e7cafa9101803ffaa2fdd9ecd0af098301981d", size = 1354232 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8b/f6/126c9309c8fe93e5d6bb850593cd58d591daf2da45cc78b61e48d8d95879/setuptools-80.1.0-py3-none-any.whl", hash = "sha256:ea0e7655c05b74819f82e76e11a85b31779fee7c4969e82f72bab0664e8317e4", size = 1240689 },
+    { url = "https://files.pythonhosted.org/packages/51/95/522fb99f76ecf2efe0a372ee02665a3cda1e5653b37514fd05c98f05a9cf/setuptools-80.2.0-py3-none-any.whl", hash = "sha256:5f982284ad5d644764e1985baca205e235651b55f9a7ea8d46878d37104aa5e5", size = 1240763 },
 ]
 
 [[package]]
@@ -3239,8 +3302,31 @@ wheels = [
 
 [[package]]
 name = "sympy"
+version = "1.13.1"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "platform_machine == 'x86_64' and sys_platform == 'darwin'",
+    "sys_platform != 'darwin'",
+    "platform_machine != 'x86_64' and sys_platform == 'darwin'",
+]
+dependencies = [
+    { name = "mpmath" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ca/99/5a5b6f19ff9f083671ddf7b9632028436167cd3d33e11015754e41b249a4/sympy-1.13.1.tar.gz", hash = "sha256:9cebf7e04ff162015ce31c9c6c9144daa34a93bd082f54fd8f12deca4f47515f", size = 7533040 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b2/fe/81695a1aa331a842b582453b605175f419fe8540355886031328089d840a/sympy-1.13.1-py3-none-any.whl", hash = "sha256:db36cdc64bf61b9b24578b6f7bab1ecdd2452cf008f34faa33776680c26d66f8", size = 6189177 },
+]
+
+[[package]]
+name = "sympy"
 version = "1.14.0"
 source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda'",
+    "platform_machine == 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda'",
+    "platform_machine != 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda'",
+    "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda')",
+]
 dependencies = [
     { name = "mpmath" },
 ]
@@ -3287,7 +3373,7 @@ version = "0.18.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ptyprocess", marker = "os_name != 'nt' or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "pywinpty", marker = "(os_name == 'nt' and platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu') or (os_name == 'nt' and sys_platform != 'darwin') or (os_name != 'nt' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "pywinpty", marker = "(os_name == 'nt' and platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (os_name == 'nt' and sys_platform != 'darwin') or (os_name != 'nt' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "tornado" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/8a/11/965c6fd8e5cc254f1fe142d547387da17a8ebfd75a3455f637c663fb38a0/terminado-0.18.1.tar.gz", hash = "sha256:de09f2c4b85de4765f7714688fff57d3e75bad1f909b589fde880460c753fd2e", size = 32701 }
@@ -3336,6 +3422,52 @@ wheels = [
 
 [[package]]
 name = "torch"
+version = "2.6.0"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "platform_machine == 'x86_64' and sys_platform == 'darwin'",
+    "platform_machine != 'x86_64' and sys_platform == 'darwin'",
+]
+dependencies = [
+    { name = "filelock", marker = "sys_platform == 'darwin'" },
+    { name = "fsspec", marker = "sys_platform == 'darwin'" },
+    { name = "jinja2", marker = "sys_platform == 'darwin'" },
+    { name = "networkx", marker = "sys_platform == 'darwin'" },
+    { name = "setuptools", marker = "sys_platform == 'darwin'" },
+    { name = "sympy", version = "1.13.1", source = { registry = "https://pypi.org/simple" }, marker = "sys_platform == 'darwin'" },
+    { name = "typing-extensions", marker = "sys_platform == 'darwin'" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e5/35/0c52d708144c2deb595cd22819a609f78fdd699b95ff6f0ebcd456e3c7c1/torch-2.6.0-cp312-cp312-manylinux1_x86_64.whl", hash = "sha256:2bb8987f3bb1ef2675897034402373ddfc8f5ef0e156e2d8cfc47cacafdda4a9", size = 766624563 },
+    { url = "https://files.pythonhosted.org/packages/01/d6/455ab3fbb2c61c71c8842753b566012e1ed111e7a4c82e0e1c20d0c76b62/torch-2.6.0-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:b789069020c5588c70d5c2158ac0aa23fd24a028f34a8b4fcb8fcb4d7efcf5fb", size = 95607867 },
+    { url = "https://files.pythonhosted.org/packages/18/cf/ae99bd066571656185be0d88ee70abc58467b76f2f7c8bfeb48735a71fe6/torch-2.6.0-cp312-cp312-win_amd64.whl", hash = "sha256:7e1448426d0ba3620408218b50aa6ada88aeae34f7a239ba5431f6c8774b1239", size = 204120469 },
+    { url = "https://files.pythonhosted.org/packages/81/b4/605ae4173aa37fb5aa14605d100ff31f4f5d49f617928c9f486bb3aaec08/torch-2.6.0-cp312-none-macosx_11_0_arm64.whl", hash = "sha256:9a610afe216a85a8b9bc9f8365ed561535c93e804c2a317ef7fabcc5deda0989", size = 66532538 },
+]
+
+[[package]]
+name = "torch"
+version = "2.6.0+cu126"
+source = { registry = "https://download.pytorch.org/whl/cu126" }
+resolution-markers = [
+    "sys_platform != 'darwin'",
+]
+dependencies = [
+    { name = "filelock", marker = "(sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "fsspec", marker = "(sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "jinja2", marker = "(sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "networkx", marker = "(sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "setuptools", marker = "(sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "sympy", version = "1.13.1", source = { registry = "https://pypi.org/simple" }, marker = "(sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "typing-extensions", marker = "(sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/cu126/torch-2.6.0%2Bcu126-cp312-cp312-linux_aarch64.whl", hash = "sha256:993e0e99c472df1d2746c3233ef8e88d992904fe75b8996a2c15439c43ff46c4" },
+    { url = "https://download.pytorch.org/whl/cu126/torch-2.6.0%2Bcu126-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:6bc5b9126daa3ac1e4d920b731da9f9503ff1f56204796de124e080f5cc3570e" },
+    { url = "https://download.pytorch.org/whl/cu126/torch-2.6.0%2Bcu126-cp312-cp312-win_amd64.whl", hash = "sha256:b10c39c83e5d1afd639b5c9f5683b351e97e41390a93f59c59187004a9949924" },
+]
+
+[[package]]
+name = "torch"
 version = "2.7.0"
 source = { registry = "https://download.pytorch.org/whl/cpu" }
 resolution-markers = [
@@ -3347,7 +3479,7 @@ dependencies = [
     { name = "jinja2", marker = "(platform_machine != 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "networkx", marker = "(platform_machine != 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "setuptools", marker = "(platform_machine != 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "sympy", marker = "(platform_machine != 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "sympy", version = "1.14.0", source = { registry = "https://pypi.org/simple" }, marker = "(platform_machine != 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "typing-extensions", marker = "(platform_machine != 'x86_64' and sys_platform == 'darwin' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
 ]
 wheels = [
@@ -3359,14 +3491,13 @@ name = "torch"
 version = "2.7.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "platform_machine == 'x86_64' and sys_platform == 'darwin'",
     "platform_machine != 'x86_64' or sys_platform != 'darwin'",
 ]
 dependencies = [
-    { name = "filelock", marker = "(extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda')" },
-    { name = "fsspec", marker = "(extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda')" },
-    { name = "jinja2", marker = "(extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda')" },
-    { name = "networkx", marker = "(extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda')" },
+    { name = "filelock", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "fsspec", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "jinja2", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "networkx", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "nvidia-cublas-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "nvidia-cuda-cupti-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "nvidia-cuda-nvrtc-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
@@ -3381,10 +3512,10 @@ dependencies = [
     { name = "nvidia-nccl-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "nvidia-nvjitlink-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
     { name = "nvidia-nvtx-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "setuptools", marker = "(extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda')" },
-    { name = "sympy", marker = "(extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda')" },
-    { name = "triton", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "typing-extensions", marker = "(extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda')" },
+    { name = "setuptools", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "sympy", version = "1.14.0", source = { registry = "https://pypi.org/simple" }, marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "triton", version = "3.3.0", source = { registry = "https://pypi.org/simple" }, marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
+    { name = "typing-extensions", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/aa/5e/ac759f4c0ab7c01feffa777bd68b43d2ac61560a9770eeac074b450f81d4/torch-2.7.0-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:36a6368c7ace41ad1c0f69f18056020b6a5ca47bedaca9a2f3b578f5a104c26c", size = 99013250 },
@@ -3407,7 +3538,7 @@ dependencies = [
     { name = "jinja2", marker = "(platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu')" },
     { name = "networkx", marker = "(platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu')" },
     { name = "setuptools", marker = "(platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu')" },
-    { name = "sympy", marker = "(platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu')" },
+    { name = "sympy", version = "1.14.0", source = { registry = "https://pypi.org/simple" }, marker = "(platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu')" },
     { name = "typing-extensions", marker = "(platform_machine == 'x86_64' and extra == 'group-13-lenskit-codex-cpu') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra == 'group-13-lenskit-codex-cpu')" },
 ]
 wheels = [
@@ -3415,43 +3546,6 @@ wheels = [
     { url = "https://download.pytorch.org/whl/cpu/torch-2.7.0%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:64123c05615e27368c7a7816f6e39c6d219998693beabde0b0b9cedf91b5ed8b" },
     { url = "https://download.pytorch.org/whl/cpu/torch-2.7.0%2Bcpu-cp312-cp312-win_amd64.whl", hash = "sha256:69e25c973bdd7ea24b0fa9f9792114950afaeb8f819e5723819b923f50989175" },
     { url = "https://download.pytorch.org/whl/cpu/torch-2.7.0%2Bcpu-cp312-cp312-win_arm64.whl", hash = "sha256:1d7a6f33868276770a657beec7f77c7726b4da9d0739eff1b3ae64cc9a09d8e3" },
-]
-
-[[package]]
-name = "torch"
-version = "2.7.0+cu126"
-source = { registry = "https://download.pytorch.org/whl/cu126" }
-resolution-markers = [
-    "platform_machine == 'x86_64' and sys_platform == 'darwin'",
-    "platform_machine != 'x86_64' or sys_platform != 'darwin'",
-]
-dependencies = [
-    { name = "filelock", marker = "extra == 'group-13-lenskit-codex-cuda'" },
-    { name = "fsspec", marker = "extra == 'group-13-lenskit-codex-cuda'" },
-    { name = "jinja2", marker = "extra == 'group-13-lenskit-codex-cuda'" },
-    { name = "networkx", marker = "extra == 'group-13-lenskit-codex-cuda'" },
-    { name = "nvidia-cublas-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-cuda-cupti-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-cuda-nvrtc-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-cuda-runtime-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-cudnn-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-cufft-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-cufile-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-curand-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-cusolver-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-cusparse-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-cusparselt-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-nccl-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-nvjitlink-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "nvidia-nvtx-cu12", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "setuptools", marker = "extra == 'group-13-lenskit-codex-cuda'" },
-    { name = "sympy", marker = "extra == 'group-13-lenskit-codex-cuda'" },
-    { name = "triton", marker = "(platform_machine == 'x86_64' and sys_platform == 'linux' and extra == 'group-13-lenskit-codex-cuda') or (platform_machine != 'x86_64' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda') or (sys_platform != 'linux' and extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
-    { name = "typing-extensions", marker = "extra == 'group-13-lenskit-codex-cuda'" },
-]
-wheels = [
-    { url = "https://download.pytorch.org/whl/cu126/torch-2.7.0%2Bcu126-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:4933a51bfb906f34b44c23c6ea28fdfef5bf14a3c79a43d5d798285e29eba295" },
-    { url = "https://download.pytorch.org/whl/cu126/torch-2.7.0%2Bcu126-cp312-cp312-win_amd64.whl", hash = "sha256:30bd9e92038c391b3b08b541c9bc803cb54e45fda63b61f7469bba6de372b065" },
 ]
 
 [[package]]
@@ -3496,9 +3590,29 @@ wheels = [
 [[package]]
 name = "triton"
 version = "3.3.0"
-source = { registry = "https://pypi.org/simple" }
+source = { registry = "https://download.pytorch.org/whl/cu126" }
+resolution-markers = [
+    "platform_machine == 'x86_64' and sys_platform == 'darwin'",
+    "sys_platform != 'darwin'",
+    "platform_machine != 'x86_64' and sys_platform == 'darwin'",
+]
 dependencies = [
-    { name = "setuptools", marker = "platform_machine != 'x86_64' or sys_platform != 'darwin'" },
+    { name = "setuptools" },
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/triton-3.3.0-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/triton-3.3.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl" },
+]
+
+[[package]]
+name = "triton"
+version = "3.3.0"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "platform_machine != 'x86_64' or sys_platform != 'darwin'",
+]
+dependencies = [
+    { name = "setuptools", marker = "(platform_machine != 'x86_64' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (sys_platform != 'darwin' and extra != 'group-13-lenskit-codex-cpu' and extra != 'group-13-lenskit-codex-cuda') or (extra == 'group-13-lenskit-codex-cpu' and extra == 'group-13-lenskit-codex-cuda')" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/11/53/ce18470914ab6cfbec9384ee565d23c4d1c55f0548160b1c7b33000b11fd/triton-3.3.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:b68c778f6c4218403a6bd01be7484f6dc9e20fe2083d22dd8aef33e3b87a10a3", size = 156504509 },
@@ -3583,6 +3697,20 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/bd/e4/d07b5f29d283596b9727dd5275ccbceb63c44a1a82aa9e4bfd20426762ac/vine-5.1.0.tar.gz", hash = "sha256:8b62e981d35c41049211cf62a0a1242d8c1ee9bd15bb196ce38aefd6799e61e0", size = 48980 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/03/ff/7c0c86c43b3cbb927e0ccc0255cb4057ceba4799cd44ae95174ce8e8b5b2/vine-5.1.0-py3-none-any.whl", hash = "sha256:40fdf3c48b2cfe1c38a49e9ae2da6fda88e4794c810050a728bd7413811fb1dc", size = 9636 },
+]
+
+[[package]]
+name = "virtualenv"
+version = "20.30.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "distlib" },
+    { name = "filelock" },
+    { name = "platformdirs" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/38/e0/633e369b91bbc664df47dcb5454b6c7cf441e8f5b9d0c250ce9f0546401e/virtualenv-20.30.0.tar.gz", hash = "sha256:800863162bcaa5450a6e4d721049730e7f2dae07720e0902b0e4040bd6f9ada8", size = 4346945 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4c/ed/3cfeb48175f0671ec430ede81f628f9fb2b1084c9064ca67ebe8c0ed6a05/virtualenv-20.30.0-py3-none-any.whl", hash = "sha256:e34302959180fca3af42d1800df014b35019490b119eba981af27f2fa486e5d6", size = 4329461 },
 ]
 
 [[package]]
