@@ -260,7 +260,7 @@ stages:
           cache: false
   sweep-als-implicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP als-implicit sweeps/temporal/als-implicit-random
+      --metric=LogRBP als-implicit sweeps/temporal/als-implicit-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_implicit.py
@@ -280,7 +280,7 @@ stages:
           cache: false
   sweep-flexmf-bpr-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-random
+      --metric=LogRBP flexmf-bpr sweeps/temporal/flexmf-bpr-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_bpr.py
@@ -300,7 +300,7 @@ stages:
           cache: false
   sweep-flexmf-logistic-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-random
+      --metric=LogRBP flexmf-logistic sweeps/temporal/flexmf-logistic-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_logistic.py
@@ -310,7 +310,7 @@ stages:
           cache: false
   sweep-flexmf-warp-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-random
+      --metric=LogRBP flexmf-warp sweeps/temporal/flexmf-warp-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_warp.py
@@ -330,7 +330,7 @@ stages:
           cache: false
   sweep-iknn-implicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-random
+      --metric=LogRBP iknn-implicit sweeps/temporal/iknn-implicit-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_implicit.py
@@ -340,7 +340,7 @@ stages:
           cache: false
   sweep-implicit-bpr-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-random
+      --metric=LogRBP implicit-bpr sweeps/temporal/implicit-bpr-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/implicit_bpr.py
