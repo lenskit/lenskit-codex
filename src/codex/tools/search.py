@@ -62,8 +62,6 @@ def run_search(
     console = stdout_console()
     log = _log.bind(model=model, dataset=ds_name, split=split.stem)
     mod_def = load_model(model)
-    if sample_count is None:
-        sample_count = mod_def.options.get("search_points", 100)  # type: ignore
 
     ray.tune.utils.log.set_verbosity(0)
     controller = TuningBuilder(mod_def, out, sample_count, metric)

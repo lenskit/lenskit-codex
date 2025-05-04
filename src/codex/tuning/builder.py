@@ -28,6 +28,13 @@ from .stopper import RelativePlateauStopper
 
 _log = get_logger(__name__)
 
+# default sample counts for each sampler, if we override
+DEFAULT_SAMPLE_COUNT = {
+    "random": 60,
+    "optuna": 25,
+    "hyperopt": 30,
+}
+
 
 class TuningBuilder:
     """
@@ -36,7 +43,7 @@ class TuningBuilder:
 
     model: ModelDef
     out_dir: Path
-    sample_count: int
+    sample_count: int | None
     job_limit: int | None
     metric: str
     random_seed: np.random.SeedSequence
@@ -117,7 +124,6 @@ class TuningBuilder:
             "setting up parallel tuner",
             cpus=paracfg.total_threads,
             job_limit=self.job_limit,
-            num_samples=self.sample_count,
         )
         self.spec["job_limit"] = self.job_limit
         self.harness = ray.tune.with_resources(
@@ -128,14 +134,20 @@ class TuningBuilder:
         searcher = ray.tune.search.BasicVariantGenerator(
             random_state=default_rng(self.random_seed.spawn(1)[0])
         )
+        if self.sample_count is None:
+            self.sample_count = DEFAULT_SAMPLE_COUNT["random"]
         return self._create_tuner(searcher)
 
     def create_hyperopt_tuner(self) -> ray.tune.Tuner:
         searcher = HyperOptSearch(random_state_seed=int_seed(self.random_seed.spawn(1)[0]))
+        if self.sample_count is None:
+            self.sample_count = DEFAULT_SAMPLE_COUNT["hyperopt"]
         return self._create_tuner(searcher)
 
     def create_optuna_tuner(self) -> ray.tune.Tuner:
         searcher = OptunaSearch(seed=int_seed(self.random_seed.spawn(1)[0]))
+        if self.sample_count is None:
+            self.sample_count = DEFAULT_SAMPLE_COUNT["optuna"]
         return self._create_tuner(searcher)
 
     def _create_tuner(self, searcher) -> ray.tune.Tuner:
@@ -183,6 +195,8 @@ class TuningBuilder:
 
         self.spec["searcher"] = "random"
 
+        assert isinstance(self.sample_count, int)
+        self.log.info("creating tuner for %d samples", self.sample_count)
         self.tuner = ray.tune.Tuner(
             self.harness,
             param_space=self.model.search_space,

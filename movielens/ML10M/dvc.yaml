@@ -879,8 +879,8 @@ stages:
       - sweeps/temporal/implicit-bpr-random.json:
           cache: false
   sweep-uknn-explicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
-      --hyperopt --metric=RMSE uknn-explicit sweeps/temporal/uknn-explicit-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RMSE uknn-explicit sweeps/temporal/uknn-explicit-hyperopt
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/uknn_explicit.py
@@ -889,8 +889,8 @@ stages:
       - sweeps/temporal/uknn-explicit-hyperopt.json:
           cache: false
   sweep-uknn-explicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
-      --optuna --metric=RMSE uknn-explicit sweeps/temporal/uknn-explicit-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RMSE uknn-explicit sweeps/temporal/uknn-explicit-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/uknn_explicit.py
@@ -899,8 +899,8 @@ stages:
       - sweeps/temporal/uknn-explicit-optuna.json:
           cache: false
   sweep-uknn-explicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
-      --random --metric=RMSE uknn-explicit sweeps/temporal/uknn-explicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RMSE uknn-explicit sweeps/temporal/uknn-explicit-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/uknn_explicit.py
@@ -909,8 +909,8 @@ stages:
       - sweeps/temporal/uknn-explicit-random.json:
           cache: false
   sweep-uknn-implicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
-      --hyperopt --metric=RBP uknn-implicit sweeps/temporal/uknn-implicit-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
+      --metric=RBP uknn-implicit sweeps/temporal/uknn-implicit-hyperopt
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/uknn_implicit.py
@@ -919,8 +919,8 @@ stages:
       - sweeps/temporal/uknn-implicit-hyperopt.json:
           cache: false
   sweep-uknn-implicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
-      --optuna --metric=RBP uknn-implicit sweeps/temporal/uknn-implicit-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RBP uknn-implicit sweeps/temporal/uknn-implicit-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/uknn_implicit.py
@@ -929,8 +929,8 @@ stages:
       - sweeps/temporal/uknn-implicit-optuna.json:
           cache: false
   sweep-uknn-implicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=60
-      --random --metric=RBP uknn-implicit sweeps/temporal/uknn-implicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
+      --metric=RBP uknn-implicit sweeps/temporal/uknn-implicit-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/uknn_implicit.py

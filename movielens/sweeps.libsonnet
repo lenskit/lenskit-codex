@@ -1,5 +1,14 @@
 local lib = import '../src/codex.libsonnet';
 
+local searchPointsArg(spec, model) =
+  local spec_pts = std.get(spec, 'search_points');
+  local model_pts = std.get(model, 'search_points');
+  if spec_pts != null && model_pts != null then
+    std.format('--sample-count=%s', std.min(spec_pts, model_pts))
+  else if spec_pts != null then
+    std.format('--sample-count=%s', spec_pts)
+;
+
 {
   allSweepStages(spec): {
     [std.join('-', ['sweep', m.key, split, method])]: {
@@ -9,7 +18,7 @@ local lib = import '../src/codex.libsonnet';
         'search',
         std.format('--split=splits/%s.toml', [split]),
         if split == 'random' then '--test-part=0' else '--test-part=valid',
-        if std.objectHas(m.value, 'search_points') then std.format('--sample-count=%s', m.value.search_points),
+        searchPointsArg(spec, m.value),
         '--' + method,
         if m.value.predictor then '--metric=RMSE' else '--metric=RBP',
         m.key,
