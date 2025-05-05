@@ -10,6 +10,15 @@ from pydantic import BaseModel
 
 from .layout import codex_root
 
+_config: CodexConfig | None = None
+
+
+def get_config() -> CodexConfig:
+    global _config
+    if _config is None:
+        _config = load_config()
+    return _config
+
 
 def load_config() -> CodexConfig:
     cfg_file = codex_root() / "config.toml"
@@ -19,7 +28,13 @@ def load_config() -> CodexConfig:
 
 class CodexConfig(BaseModel, extra="allow"):
     random: RandomConfig
+    tuning: dict[str, TuningConfig]
 
 
 class RandomConfig(BaseModel):
     seed: int
+
+
+class TuningConfig(BaseModel):
+    points: int
+    default: bool = False

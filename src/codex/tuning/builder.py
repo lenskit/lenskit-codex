@@ -20,6 +20,7 @@ from codex.random import int_seed, rng_seed
 from codex.runlog import DataModel
 from codex.splitting import load_split_set
 
+from ..config import get_config
 from .iterative import IterativeEval
 from .job import DEFAULT_MAX_EPOCHS, TuningJobData
 from .reporting import ProgressReport, StatusCallback
@@ -27,13 +28,6 @@ from .simple import SimplePointEval
 from .stopper import RelativePlateauStopper
 
 _log = get_logger(__name__)
-
-# default sample counts for each sampler, if we override
-DEFAULT_SAMPLE_COUNT = {
-    "random": 60,
-    "optuna": 40,
-    "hyperopt": 60,
-}
 
 
 class TuningBuilder:
@@ -135,19 +129,22 @@ class TuningBuilder:
             random_state=default_rng(self.random_seed.spawn(1)[0])
         )
         if self.sample_count is None:
-            self.sample_count = DEFAULT_SAMPLE_COUNT["random"]
+            config = get_config()
+            self.sample_count = config.tuning["random"].points
         return self._create_tuner(searcher)
 
     def create_hyperopt_tuner(self) -> ray.tune.Tuner:
         searcher = HyperOptSearch(random_state_seed=int_seed(self.random_seed.spawn(1)[0]))
         if self.sample_count is None:
-            self.sample_count = DEFAULT_SAMPLE_COUNT["hyperopt"]
+            config = get_config()
+            self.sample_count = config.tuning["hyperopt"].points
         return self._create_tuner(searcher)
 
     def create_optuna_tuner(self) -> ray.tune.Tuner:
         searcher = OptunaSearch(seed=int_seed(self.random_seed.spawn(1)[0]))
         if self.sample_count is None:
-            self.sample_count = DEFAULT_SAMPLE_COUNT["optuna"]
+            config = get_config()
+            self.sample_count = config.tuning["optuna"].points
         return self._create_tuner(searcher)
 
     def _create_tuner(self, searcher) -> ray.tune.Tuner:
