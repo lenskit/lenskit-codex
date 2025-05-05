@@ -13,8 +13,8 @@ SEARCH_SPACE = {
         "item": rt.loguniform(1e-5, 1),
     },
     "damping": {
-        "user": rt.loguniform(1e-6, 100),
-        "item": rt.loguniform(1e-6, 100),
+        "user": rt.loguniform(1e-12, 100),
+        "item": rt.loguniform(1e-12, 100),
     },
 }
 
