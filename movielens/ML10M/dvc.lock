@@ -2254,8 +2254,8 @@ stages:
       size: 6135324
       nfiles: 5
   sweep-bias-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RMSE bias sweeps/temporal/bias-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RMSE bias sweeps/temporal/bias-random
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
@@ -2268,13 +2268,13 @@ stages:
     outs:
     - path: sweeps/temporal/bias-random
       hash: md5
-      md5: 0399f5639503defc417ab221596b71b3.dir
-      size: 736814
+      md5: e43816f94130991f42c89b9f9bae88aa.dir
+      size: 756103
       nfiles: 4
     - path: sweeps/temporal/bias-random.json
       hash: md5
-      md5: 19ff384a9a9d97b6ee0cab91358d4552
-      size: 782
+      md5: a7eccec517399ac6c9ec5453c1d36c37
+      size: 820
   run-temporal-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
       -o runs/temporal/popular-default popular
@@ -2549,17 +2549,17 @@ stages:
       size: 120
     - path: sweeps/temporal/iknn-implicit-random.json
       hash: md5
-      md5: 6f82b762c4d7ec7c82126c8e3ba19d7a
-      size: 777
+      md5: c9908c71a2622aaf6e7df92ecee101b9
+      size: 792
     outs:
     - path: runs/temporal/iknn-implicit-random-best
       hash: md5
-      md5: 34e94157575b423f1b2836c49fe842c9.dir
-      size: 3711561
+      md5: 9f214c272f84f54bbf6b516415f1efd9.dir
+      size: 3710735
       nfiles: 4
   sweep-implicit-bpr-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-random
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
       hash: md5
@@ -2572,13 +2572,13 @@ stages:
     outs:
     - path: sweeps/temporal/implicit-bpr-random
       hash: md5
-      md5: c52c5a18fb17ee2854fb00b05cddab23.dir
-      size: 419407
-      nfiles: 3
+      md5: e4572aa7a200454fd8c5c6d934414f82.dir
+      size: 825485
+      nfiles: 4
     - path: sweeps/temporal/implicit-bpr-random.json
       hash: md5
-      md5: f0d0b74f095f29aec3cca064d6a7035d
-      size: 854
+      md5: 5568ac4ec6a288c3e7619d14e3c0cf71
+      size: 875
   run-temporal-random-best-uknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/uknn-explicit-random.json
       --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/uknn-explicit-random-best
@@ -2654,13 +2654,13 @@ stages:
       size: 120
     - path: sweeps/temporal/bias-random.json
       hash: md5
-      md5: 19ff384a9a9d97b6ee0cab91358d4552
-      size: 782
+      md5: a7eccec517399ac6c9ec5453c1d36c37
+      size: 820
     outs:
     - path: runs/temporal/bias-random-best
       hash: md5
-      md5: 579a23654ffea0eed96ad5e7c94184b2.dir
-      size: 6432295
+      md5: dad5bcb104e9fbccfd2d46eca189858c.dir
+      size: 6437555
       nfiles: 5
   run-temporal-random-best-implicit-bpr:
     cmd: lenskit codex generate --param-file sweeps/temporal/implicit-bpr-random.json
@@ -2682,17 +2682,17 @@ stages:
       size: 120
     - path: sweeps/temporal/implicit-bpr-random.json
       hash: md5
-      md5: f0d0b74f095f29aec3cca064d6a7035d
-      size: 854
+      md5: 5568ac4ec6a288c3e7619d14e3c0cf71
+      size: 875
     outs:
     - path: runs/temporal/implicit-bpr-random-best
       hash: md5
-      md5: fd860bb5f312bae23d25c7afa66d68d8.dir
-      size: 3921701
+      md5: 22dd016937326824e97575b4224c7ec3.dir
+      size: 3920474
       nfiles: 4
   sweep-flexmf-bpr-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-random
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
       hash: md5
@@ -2705,16 +2705,16 @@ stages:
     outs:
     - path: sweeps/temporal/flexmf-bpr-random
       hash: md5
-      md5: 6cf908826a02a66c174cebfe7f50f94d.dir
-      size: 1408742
+      md5: d0409f66236b23617c9a1da8a105c245.dir
+      size: 1313503
       nfiles: 5
     - path: sweeps/temporal/flexmf-bpr-random.json
       hash: md5
-      md5: 91b62642be1f3152a1a749840be86ecb
-      size: 674
+      md5: 4b5fc0a9c4d0e284dd85d42395cef9ec
+      size: 703
   sweep-flexmf-explicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RMSE flexmf-explicit sweeps/temporal/flexmf-explicit-random
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
       hash: md5
@@ -2727,13 +2727,13 @@ stages:
     outs:
     - path: sweeps/temporal/flexmf-explicit-random
       hash: md5
-      md5: 7ae587185dfd96b990b826a40209cce9.dir
-      size: 5914906210
+      md5: a3bccace55196420f2053a7507da7da2.dir
+      size: 1130326
       nfiles: 5
     - path: sweeps/temporal/flexmf-explicit-random.json
       hash: md5
-      md5: 6ec5456ba51847f23766abbc61705342
-      size: 765
+      md5: 90b8ebf4f7f48bc77d6f0d4e9ae9b39f
+      size: 681
   sweep-flexmf-logistic-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
       --random --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-random
@@ -2870,13 +2870,13 @@ stages:
       size: 120
     - path: sweeps/temporal/flexmf-bpr-hyperopt.json
       hash: md5
-      md5: 4062fc1e3b51c97e36dd3d4e98cb59ac
-      size: 670
+      md5: bba4fa979d3e0e55daa4efb92df37db7
+      size: 698
     outs:
     - path: runs/temporal/flexmf-bpr-hyperopt-best
       hash: md5
-      md5: a7e5b094e4f87c20c882723efe4b8cd6.dir
-      size: 3817280
+      md5: cdf7d419658f2aa6e52535e6de9730de.dir
+      size: 3888133
       nfiles: 4
   run-temporal-default-flexmf-explicit:
     cmd: lenskit codex generate --default --ds-name=ML10M --split=splits/temporal.toml
@@ -2943,13 +2943,13 @@ stages:
       size: 120
     - path: sweeps/temporal/flexmf-explicit-random.json
       hash: md5
-      md5: 6ec5456ba51847f23766abbc61705342
-      size: 765
+      md5: 90b8ebf4f7f48bc77d6f0d4e9ae9b39f
+      size: 681
     outs:
     - path: runs/temporal/flexmf-explicit-random-best
       hash: md5
-      md5: c58cac04b3108a8c3b3ae416a9dfcecf.dir
-      size: 7153189
+      md5: 5800c68464d53f4019b46383b6d59754.dir
+      size: 7172095
       nfiles: 5
   sweep-implicit-bpr-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
@@ -3220,8 +3220,8 @@ stages:
       size: 3879992
       nfiles: 4
   sweep-als-implicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP als-implicit sweeps/temporal/als-implicit-random
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --random --metric=RBP als-implicit sweeps/temporal/als-implicit-random
     deps:
     - path: ../../src/codex/models/als_implicit.py
       hash: md5
@@ -3234,13 +3234,13 @@ stages:
     outs:
     - path: sweeps/temporal/als-implicit-random
       hash: md5
-      md5: cdc71bd6dad5d7ec4d74810a345638f8.dir
-      size: 769150
+      md5: 25ba40b4abd3fc977fbcf2ea690dec3f.dir
+      size: 1256199
       nfiles: 5
     - path: sweeps/temporal/als-implicit-random.json
       hash: md5
-      md5: ef0b9d7ef1b330175fa3473c7196baf4
-      size: 743
+      md5: b696419be686b6da837ea9eebd9ac593
+      size: 747
   run-temporal-random-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-implicit-random.json
       --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/als-implicit-random-best
@@ -3261,13 +3261,13 @@ stages:
       size: 120
     - path: sweeps/temporal/als-implicit-random.json
       hash: md5
-      md5: ef0b9d7ef1b330175fa3473c7196baf4
-      size: 743
+      md5: b696419be686b6da837ea9eebd9ac593
+      size: 747
     outs:
     - path: runs/temporal/als-implicit-random-best
       hash: md5
-      md5: 45b7fceeb0d9580a354236b26497ddbb.dir
-      size: 3863071
+      md5: eceddf18b827156b43307e3400a641b9.dir
+      size: 3840253
       nfiles: 4
   sweep-iknn-implicit-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
@@ -3413,13 +3413,13 @@ stages:
       size: 120
     - path: sweeps/temporal/flexmf-bpr-random.json
       hash: md5
-      md5: 91b62642be1f3152a1a749840be86ecb
-      size: 674
+      md5: 4b5fc0a9c4d0e284dd85d42395cef9ec
+      size: 703
     outs:
     - path: runs/temporal/flexmf-bpr-random-best
       hash: md5
-      md5: e060dc5ed6413f657f1773bada601e6f.dir
-      size: 3816536
+      md5: d2b500fe444a92f913ddda0abdb50993.dir
+      size: 3818078
       nfiles: 4
   run-temporal-hyperopt-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-biased-hyperopt.json
@@ -3469,22 +3469,22 @@ stages:
       size: 120
     - path: sweeps/temporal/als-implicit-hyperopt.json
       hash: md5
-      md5: 18445cf2185475940faa226f7a783f47
-      size: 706
+      md5: 0bcff432ad87d88977eea3a9fb9c65d0
+      size: 734
     outs:
     - path: runs/temporal/als-implicit-hyperopt-best
       hash: md5
-      md5: f15b93b6312c3d1fd64a44916c8c0964.dir
-      size: 3844768
+      md5: 5145fca73a1a4e8004bef2e6bf67e4b0.dir
+      size: 3858221
       nfiles: 4
   sweep-bias-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --hyperopt
-      --metric=RMSE bias sweeps/temporal/bias-hyperopt
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --hyperopt --metric=RMSE bias sweeps/temporal/bias-hyperopt
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
-      md5: 79d1ef7f11afd2f4a19828a1c0d1072d
-      size: 322
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -3492,21 +3492,21 @@ stages:
     outs:
     - path: sweeps/temporal/bias-hyperopt
       hash: md5
-      md5: 4877a80fcff1abe4fe9a860ebe3a606f.dir
-      size: 774188
+      md5: fd97206d4ec9cc40b8c2239b2c4568e8.dir
+      size: 792476
       nfiles: 4
     - path: sweeps/temporal/bias-hyperopt.json
       hash: md5
-      md5: 5654ae6cb239a3efa07ee72938500109
-      size: 778
+      md5: 621a6861182bf8b7d90771762f185ad2
+      size: 812
   run-temporal-hyperopt-best-bias:
     cmd: lenskit codex generate --param-file sweeps/temporal/bias-hyperopt.json --ds-name=ML10M
       --split=splits/temporal.toml -o runs/temporal/bias-hyperopt-best bias
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
-      md5: 79d1ef7f11afd2f4a19828a1c0d1072d
-      size: 322
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
     - path: dataset
       hash: md5
       md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
@@ -3518,13 +3518,13 @@ stages:
       size: 120
     - path: sweeps/temporal/bias-hyperopt.json
       hash: md5
-      md5: 5654ae6cb239a3efa07ee72938500109
-      size: 778
+      md5: 621a6861182bf8b7d90771762f185ad2
+      size: 812
     outs:
     - path: runs/temporal/bias-hyperopt-best
       hash: md5
-      md5: 1595dcf053664524b006322254178806.dir
-      size: 6431506
+      md5: b965b16dae8f1fcc16158f9d78ffab91.dir
+      size: 6431803
       nfiles: 5
   run-temporal-hyperopt-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-logistic-hyperopt.json
@@ -3841,13 +3841,13 @@ stages:
       size: 120
     - path: sweeps/temporal/flexmf-bpr-optuna.json
       hash: md5
-      md5: dc2d6b28a124d158a2c177d0dff79838
-      size: 673
+      md5: 9871f220994a1f6c1100aa935659fd01
+      size: 699
     outs:
     - path: runs/temporal/flexmf-bpr-optuna-best
       hash: md5
-      md5: 0e7c4f15410fc1323385f245f7ebbe56.dir
-      size: 3893557
+      md5: 606ec6865435a1ef6f64d85af05f92fa.dir
+      size: 3817233
       nfiles: 4
   sweep-flexmf-explicit-temporal-optuna:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
@@ -3922,8 +3922,8 @@ stages:
       md5: a982cd7f11cfa4552f885ee87b94c164
       size: 818
   sweep-als-biased-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RMSE als-biased sweeps/temporal/als-biased-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RMSE als-biased sweeps/temporal/als-biased-optuna
     deps:
     - path: ../../src/codex/models/als_biased.py
       hash: md5
@@ -3936,13 +3936,13 @@ stages:
     outs:
     - path: sweeps/temporal/als-biased-optuna
       hash: md5
-      md5: d0258042aeabae11a64ba9467fea3019.dir
-      size: 1317379
+      md5: 9f947af6a5b7b772fe4a2ce16047a209.dir
+      size: 1332792
       nfiles: 5
     - path: sweeps/temporal/als-biased-optuna.json
       hash: md5
-      md5: eb79fc91df31f3bc39d0eb57b6c7741c
-      size: 737
+      md5: d0c50c24e5994235a06308c2e06aa102
+      size: 735
   sweep-flexmf-logistic-temporal-optuna:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
       --optuna --metric=RBP flexmf-logistic sweeps/temporal/flexmf-logistic-optuna
@@ -4170,3 +4170,81 @@ stages:
       md5: aea9a11ae0bf1f0105034813af41967e.dir
       size: 6431972
       nfiles: 5
+  run-temporal-optuna-best-als-biased:
+    cmd: lenskit codex generate --param-file sweeps/temporal/als-biased-optuna.json
+      --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/als-biased-optuna-best
+      als-biased
+    deps:
+    - path: ../../src/codex/models/als_biased.py
+      hash: md5
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    - path: sweeps/temporal/als-biased-optuna.json
+      hash: md5
+      md5: d0c50c24e5994235a06308c2e06aa102
+      size: 735
+    outs:
+    - path: runs/temporal/als-biased-optuna-best
+      hash: md5
+      md5: 3113f671680019b58c4b8b9871c2eb61.dir
+      size: 7376491
+      nfiles: 5
+  sweep-iknn-implicit-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-optuna
+    deps:
+    - path: ../../src/codex/models/iknn_implicit.py
+      hash: md5
+      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
+      size: 1478
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: sweeps/temporal/iknn-implicit-optuna
+      hash: md5
+      md5: ca83f046b9b74a7f6b11a1b3a5fb886f.dir
+      size: 801196
+      nfiles: 4
+    - path: sweeps/temporal/iknn-implicit-optuna.json
+      hash: md5
+      md5: 1734c554e32855d994f3680e390f2304
+      size: 786
+  run-temporal-optuna-best-iknn-implicit:
+    cmd: lenskit codex generate --param-file sweeps/temporal/iknn-implicit-optuna.json
+      --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/iknn-implicit-optuna-best
+      iknn-implicit
+    deps:
+    - path: ../../src/codex/models/iknn_implicit.py
+      hash: md5
+      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
+      size: 1478
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    - path: sweeps/temporal/iknn-implicit-optuna.json
+      hash: md5
+      md5: 1734c554e32855d994f3680e390f2304
+      size: 786
+    outs:
+    - path: runs/temporal/iknn-implicit-optuna-best
+      hash: md5
+      md5: cc3557359dd14ad6f9389a970924a4bd.dir
+      size: 3709238
+      nfiles: 4
