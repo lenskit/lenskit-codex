@@ -76,6 +76,7 @@ def list_models(c: Context):
             "searchable": bool(mod.search_space),
         }
         models[mod.name].update(mod.options)
+    models = {k: models[k] for k in sorted(models.keys())}
 
     with open("manifests/models.json", "wt") as jsf:
         json.dump(models, jsf, indent=2)
