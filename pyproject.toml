@@ -59,7 +59,6 @@ dev = [
 ]
 
 [tool.uv]
-index-strategy = "unsafe-best-match"
 environments = [
   "sys_platform == 'darwin' and platform_machine == 'arm64'",
   "sys_platform == 'linux' and platform_machine == 'x86_64'",
@@ -68,10 +67,6 @@ environments = [
 
 [tool.uv.sources]
 lenskit = [{ index = "lenskit" }]
-torch = [
-  # { index = "pytorch-cpu", marker = "sys_platform != 'linux'" },
-  { index = "pytorch-cuda", marker = "sys_platform == 'linux'" },
-]
 # triton = [
 #  { index = "pytorch-cuda", group = "cuda" },
 # ]
@@ -82,9 +77,8 @@ url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/simple/"
 explicit = true
 
 [[tool.uv.index]]
-name = "pytorch-cuda"
-url = "https://download.pytorch.org/whl/cu128"
-explicit = true
+name = "lk-torch-cuda"
+url = "https://pypi.lenskit.org/torch/cu128"
 
 [project.entry-points."lenskit.cli.plugins"]
 lenskit-codex = "codex.tools:codex"

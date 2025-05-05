@@ -12,7 +12,6 @@ stages:
       - runs/temporal/flexmf-warp-default
       - runs/temporal/iknn-explicit-default
       - runs/temporal/iknn-implicit-default
-      - runs/temporal/implicit-bpr-default
       - runs/temporal/popular-default
       - runs/temporal/als-biased-random-best
       - runs/temporal/als-implicit-random-best
@@ -23,7 +22,6 @@ stages:
       - runs/temporal/flexmf-warp-random-best
       - runs/temporal/iknn-explicit-random-best
       - runs/temporal/iknn-implicit-random-best
-      - runs/temporal/implicit-bpr-random-best
       - runs/temporal/als-biased-hyperopt-best
       - runs/temporal/als-implicit-hyperopt-best
       - runs/temporal/bias-hyperopt-best
@@ -33,7 +31,6 @@ stages:
       - runs/temporal/flexmf-warp-hyperopt-best
       - runs/temporal/iknn-explicit-hyperopt-best
       - runs/temporal/iknn-implicit-hyperopt-best
-      - runs/temporal/implicit-bpr-hyperopt-best
       - runs/temporal/als-biased-optuna-best
       - runs/temporal/als-implicit-optuna-best
       - runs/temporal/bias-optuna-best
@@ -43,7 +40,6 @@ stages:
       - runs/temporal/flexmf-warp-optuna-best
       - runs/temporal/iknn-explicit-optuna-best
       - runs/temporal/iknn-implicit-optuna-best
-      - runs/temporal/implicit-bpr-optuna-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -134,15 +130,6 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/iknn-implicit-default
-  run-temporal-default-implicit-bpr:
-    cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
-      -o runs/temporal/implicit-bpr-default implicit-bpr
-    deps:
-      - ../../src/codex/models/implicit_bpr.py
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal/implicit-bpr-default
   run-temporal-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/popular-default popular
@@ -250,17 +237,6 @@ stages:
       - sweeps/temporal/iknn-implicit-hyperopt.json
     outs:
       - runs/temporal/iknn-implicit-hyperopt-best
-  run-temporal-hyperopt-best-implicit-bpr:
-    cmd: lenskit codex generate --param-file sweeps/temporal/implicit-bpr-hyperopt.json
-      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/implicit-bpr-hyperopt-best
-      implicit-bpr
-    deps:
-      - ../../src/codex/models/implicit_bpr.py
-      - dataset
-      - splits/temporal.toml
-      - sweeps/temporal/implicit-bpr-hyperopt.json
-    outs:
-      - runs/temporal/implicit-bpr-hyperopt-best
   run-temporal-optuna-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-biased-optuna.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-biased-optuna-best
@@ -359,17 +335,6 @@ stages:
       - sweeps/temporal/iknn-implicit-optuna.json
     outs:
       - runs/temporal/iknn-implicit-optuna-best
-  run-temporal-optuna-best-implicit-bpr:
-    cmd: lenskit codex generate --param-file sweeps/temporal/implicit-bpr-optuna.json
-      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/implicit-bpr-optuna-best
-      implicit-bpr
-    deps:
-      - ../../src/codex/models/implicit_bpr.py
-      - dataset
-      - splits/temporal.toml
-      - sweeps/temporal/implicit-bpr-optuna.json
-    outs:
-      - runs/temporal/implicit-bpr-optuna-best
   run-temporal-random-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-biased-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-biased-random-best
@@ -468,17 +433,6 @@ stages:
       - sweeps/temporal/iknn-implicit-random.json
     outs:
       - runs/temporal/iknn-implicit-random-best
-  run-temporal-random-best-implicit-bpr:
-    cmd: lenskit codex generate --param-file sweeps/temporal/implicit-bpr-random.json
-      --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/implicit-bpr-random-best
-      implicit-bpr
-    deps:
-      - ../../src/codex/models/implicit_bpr.py
-      - dataset
-      - splits/temporal.toml
-      - sweeps/temporal/implicit-bpr-random.json
-    outs:
-      - runs/temporal/implicit-bpr-random-best
   stats:
     cmd: lenskit codex sql -D ds_name=ML20M -f ../ml-stats.sql stats.duckdb
     deps:
@@ -755,34 +709,4 @@ stages:
     outs:
       - sweeps/temporal/iknn-implicit-random
       - sweeps/temporal/iknn-implicit-random.json:
-          cache: false
-  sweep-implicit-bpr-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
-      --hyperopt --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-hyperopt
-    deps:
-      - splits/temporal.toml
-      - ../../src/codex/models/implicit_bpr.py
-    outs:
-      - sweeps/temporal/implicit-bpr-hyperopt
-      - sweeps/temporal/implicit-bpr-hyperopt.json:
-          cache: false
-  sweep-implicit-bpr-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
-      --optuna --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-optuna
-    deps:
-      - splits/temporal.toml
-      - ../../src/codex/models/implicit_bpr.py
-    outs:
-      - sweeps/temporal/implicit-bpr-optuna
-      - sweeps/temporal/implicit-bpr-optuna.json:
-          cache: false
-  sweep-implicit-bpr-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
-      --random --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-random
-    deps:
-      - splits/temporal.toml
-      - ../../src/codex/models/implicit_bpr.py
-    outs:
-      - sweeps/temporal/implicit-bpr-random
-      - sweeps/temporal/implicit-bpr-random.json:
           cache: false

@@ -12,7 +12,6 @@ stages:
       - runs/temporal/flexmf-warp-default
       - runs/temporal/iknn-explicit-default
       - runs/temporal/iknn-implicit-default
-      - runs/temporal/implicit-bpr-default
       - runs/temporal/popular-default
       - runs/temporal/als-biased-random-best
       - runs/temporal/als-implicit-random-best
@@ -23,7 +22,6 @@ stages:
       - runs/temporal/flexmf-warp-random-best
       - runs/temporal/iknn-explicit-random-best
       - runs/temporal/iknn-implicit-random-best
-      - runs/temporal/implicit-bpr-random-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -114,15 +112,6 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/iknn-implicit-default
-  run-temporal-default-implicit-bpr:
-    cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
-      -o runs/temporal/implicit-bpr-default implicit-bpr
-    deps:
-      - ../../src/codex/models/implicit_bpr.py
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal/implicit-bpr-default
   run-temporal-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
       -o runs/temporal/popular-default popular
@@ -230,17 +219,6 @@ stages:
       - sweeps/temporal/iknn-implicit-random.json
     outs:
       - runs/temporal/iknn-implicit-random-best
-  run-temporal-random-best-implicit-bpr:
-    cmd: lenskit codex generate --param-file sweeps/temporal/implicit-bpr-random.json
-      --ds-name=ML25M --split=splits/temporal.toml -o runs/temporal/implicit-bpr-random-best
-      implicit-bpr
-    deps:
-      - ../../src/codex/models/implicit_bpr.py
-      - dataset
-      - splits/temporal.toml
-      - sweeps/temporal/implicit-bpr-random.json
-    outs:
-      - runs/temporal/implicit-bpr-random-best
   stats:
     cmd: lenskit codex sql -D ds_name=ML25M -f ../ml-stats.sql stats.duckdb
     deps:
@@ -337,14 +315,4 @@ stages:
     outs:
       - sweeps/temporal/iknn-implicit-random
       - sweeps/temporal/iknn-implicit-random.json:
-          cache: false
-  sweep-implicit-bpr-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --random
-      --metric=RBP implicit-bpr sweeps/temporal/implicit-bpr-random
-    deps:
-      - splits/temporal.toml
-      - ../../src/codex/models/implicit_bpr.py
-    outs:
-      - sweeps/temporal/implicit-bpr-random
-      - sweeps/temporal/implicit-bpr-random.json:
           cache: false
