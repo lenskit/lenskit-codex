@@ -51,4 +51,6 @@ def render_templates(ds: DataSetInfo, src: Path, dst: Path, glob: str | None = N
 
         logger.info("saving document %s to %s", file.name, dst)
         out_file = dst / file.name
-        out_file.write_text(res)
+        out_tmp = dst / f".{file.name}.tmp"
+        out_tmp.write_text(res)
+        out_tmp.rename(out_file)
