@@ -3,6 +3,6 @@
     name: 'ML32M',
     fn: 'ml-32m',
     splits: ['temporal'],
-    searches: ['random'],
+    searches: ['optuna'],
   },
 } + import '../layout.libsonnet'
