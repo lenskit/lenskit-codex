@@ -2476,13 +2476,13 @@ stages:
       size: 3830885
       nfiles: 5
   sweep-als-implicit-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RBP als-implicit sweeps/random/als-implicit-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RBP als-implicit sweeps/random/als-implicit-hyperopt
     deps:
     - path: ../../src/codex/models/als_implicit.py
       hash: md5
-      md5: ac7d3d2eadc9ce22b5d3c58ed79071ec
-      size: 520
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
     - path: splits/random.parquet
       hash: md5
       md5: e76a6b995411abb5ba2ade811e7f8d1f
@@ -2490,13 +2490,13 @@ stages:
     outs:
     - path: sweeps/random/als-implicit-hyperopt
       hash: md5
-      md5: 56dd1d4eb650ddd7203fea727bddd7aa.dir
-      size: 2983420600
+      md5: b9a38ef07a0c60aa6730dba2bbbcdb5d.dir
+      size: 1354953
       nfiles: 5
     - path: sweeps/random/als-implicit-hyperopt.json
       hash: md5
-      md5: b2f3c4d65d114bd4aa765cf923237e1c
-      size: 709
+      md5: ce90c9d589b2efb706a4dd2de1539ca3
+      size: 734
   run-random-hyperopt-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/als-implicit-hyperopt.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/als-implicit-hyperopt-best
@@ -2504,8 +2504,8 @@ stages:
     deps:
     - path: ../../src/codex/models/als_implicit.py
       hash: md5
-      md5: ac7d3d2eadc9ce22b5d3c58ed79071ec
-      size: 520
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -2517,13 +2517,13 @@ stages:
       size: 358913
     - path: sweeps/random/als-implicit-hyperopt.json
       hash: md5
-      md5: b2f3c4d65d114bd4aa765cf923237e1c
-      size: 709
+      md5: ce90c9d589b2efb706a4dd2de1539ca3
+      size: 734
     outs:
     - path: runs/random/als-implicit-hyperopt-best
       hash: md5
-      md5: ccd2fdad9333579b8110a4996cdb7dd3.dir
-      size: 3842361
+      md5: a08762ae5aecb3d1fef60cf068fe187f.dir
+      size: 3845720
       nfiles: 4
   sweep-bias-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt

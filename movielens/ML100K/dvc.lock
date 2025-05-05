@@ -3143,8 +3143,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 8086baf7fbf099e8e4090a30220756b9
-      size: 1430
+      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
+      size: 1478
     - path: splits/random.parquet
       hash: md5
       md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
@@ -3152,13 +3152,13 @@ stages:
     outs:
     - path: sweeps/random/iknn-implicit-hyperopt
       hash: md5
-      md5: 7be6e210f5126a8a2c3b1a7d9d760ec0.dir
-      size: 766219
+      md5: f39b50b60dac8a241c8d1fa69c53696c.dir
+      size: 259756
       nfiles: 4
     - path: sweeps/random/iknn-implicit-hyperopt.json
       hash: md5
-      md5: e4c53800c1dee465098c823e280deafc
-      size: 782
+      md5: 94dd81a476d500b6eec62ed52987bd9f
+      size: 810
   run-random-hyperopt-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-implicit-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-implicit-hyperopt-best

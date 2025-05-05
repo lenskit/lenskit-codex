@@ -3900,8 +3900,8 @@ stages:
       size: 3790182
       nfiles: 4
   sweep-bias-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
-      --metric=RMSE bias sweeps/temporal/bias-optuna
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RMSE bias sweeps/temporal/bias-optuna
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
@@ -3914,13 +3914,13 @@ stages:
     outs:
     - path: sweeps/temporal/bias-optuna
       hash: md5
-      md5: 833013d01fba07f7aa69d0dec0b357b5.dir
-      size: 785823
+      md5: 8899ab4af82f7779aee8fe3ab352b11b.dir
+      size: 803358
       nfiles: 4
     - path: sweeps/temporal/bias-optuna.json
       hash: md5
-      md5: 148d09beaa69256abc66377da0d7b615
-      size: 781
+      md5: a982cd7f11cfa4552f885ee87b94c164
+      size: 818
   sweep-als-biased-temporal-optuna:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
       --metric=RMSE als-biased sweeps/temporal/als-biased-optuna
@@ -4093,3 +4093,25 @@ stages:
       md5: 07225d4dce7bb83aec013ed5ad0deb4e.dir
       size: 3826302
       nfiles: 4
+  sweep-iknn-explicit-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
+      --optuna --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-optuna
+    deps:
+    - path: ../../src/codex/models/iknn_explicit.py
+      hash: md5
+      md5: 150dfcaa2c5ae533410cc3e20060cecb
+      size: 1538
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: sweeps/temporal/iknn-explicit-optuna
+      hash: md5
+      md5: c0812ceae7414703073ef151b1804450.dir
+      size: 814516
+      nfiles: 4
+    - path: sweeps/temporal/iknn-explicit-optuna.json
+      hash: md5
+      md5: b221f62ee4f13f03a94e469af18ef2a2
+      size: 823
