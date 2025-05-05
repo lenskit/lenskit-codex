@@ -11,7 +11,7 @@ def codex_root() -> Path:
     """
     Get the root directory of the codex.
     """
-    assert (ROOT_DIR / "pixi.toml").exists()
+    assert (ROOT_DIR / "pyproject.toml").exists()
     return ROOT_DIR
 
 
