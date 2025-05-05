@@ -24,6 +24,9 @@ local searchPointsArg(spec, model) =
         m.key,
         out_dir,
       ]),
+      params: if !std.objectHas(spec, 'search_points') then [
+        { '../../config.toml': [std.format('tuning.%s.points', [method])] },
+      ] else [],
       deps: [
         std.format('splits/%s.%s', [
           split,
