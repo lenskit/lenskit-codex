@@ -9,7 +9,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, NamedTuple
 
 import plotnine as pn
-from humanize import naturalsize
+from humanize import metric, naturalsize
 from mizani.palettes import brewer_pal
 
 if TYPE_CHECKING:
@@ -49,6 +49,14 @@ def scale_x_memory():
 
 def scale_y_memory():
     return pn.scale_y_continuous(labels=label_memory)
+
+
+def scale_x_metric():
+    return pn.scale_x_continuous(labels=lambda ns: [metric(n) for n in ns])
+
+
+def scale_y_metric():
+    return pn.scale_y_continuous(labels=lambda ns: [metric(n) for n in ns])
 
 
 DEFAULTS = DisplayOptions.brewer()
