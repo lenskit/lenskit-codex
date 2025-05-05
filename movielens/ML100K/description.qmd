@@ -1,34 +1,25 @@
 ---
-title: ML100K Data Description
+title: Data Description
+pagetitle: ML100K Data Description
 order: 0
 echo: false
 deps:
 - stats.duckdb
 ---
 
+
+
 ```{python}
 NAME = 'ML100K'
 ```
 
 ```{python}
-import pandas as pd
-import numpy as np
-import plotnine as pn
-import matplotlib.pyplot as plt
+from codex.reporting.prelude import *
+from codex.stats import GlobalRatingStats, pop_gini
+from codex.dbutil import to_dataclass
 import duckdb
 ```
 
-```{python}
-from IPython.display import Markdown
-from tabulate import tabulate
-from humanize import intcomma, metric
-```
-
-```{python}
-from codex.stats import GlobalRatingStats, pop_gini
-from codex.dbutil import to_dataclass
-from codex.reporting.plots import DEFAULTS
-```
 
 ```{python}
 db = duckdb.connect('stats.duckdb', read_only=True)
@@ -46,10 +37,10 @@ user_stats = db.table('user_stats').df()
 ```{python}
 density = stats.n_ratings / (stats.n_users * stats.n_items)
 Markdown(tabulate([
-    ('Ratings', intcomma(stats.n_ratings)),
-    ('Users', intcomma(stats.n_users)),
-    ('Items', intcomma(stats.n_items)),
-    ('Density', '{:.3f}%'.format(density * 100)),
+    ('Ratings', '{:,d}'.format(stats.n_ratings)),
+    ('Users', '{:,d}'.format(stats.n_users)),
+    ('Items', '{:,d}'.format(stats.n_items)),
+    ('Density', '{:.3%}'.format(density)),
     ('Item Gini', '{:.3f}'.format(pop_gini(item_stats))),
     ('Start Date', stats.first_rating),
     ('End Date', stats.last_rating),
@@ -159,9 +150,7 @@ months['cum_ratings'] = months['n_ratings'].cumsum()
     pn.ggplot(months)
     + pn.aes(x='fracyear', y='cum_ratings')
     + pn.geom_area(fill=DEFAULTS.fill_color)
-    + pn.scale_y_continuous(labels=lambda ns: [
-        metric(n) for n in ns
-    ])
+    + scale_y_metric()
     + pn.xlab('Year')
     + pn.ylab('Total Cumulative Ratings')
     + pn.ggtitle(f'{NAME} Rating Growth')
@@ -175,9 +164,7 @@ How many ratings are we getting each month through the life of the data set?
     pn.ggplot(months)
     + pn.aes(x='fracyear', y='n_ratings')
     + pn.geom_line()
-    + pn.scale_y_continuous(labels=lambda ns: [
-        metric(n) for n in ns
-    ])
+    + scale_y_metric()
     + pn.xlab('Year')
     + pn.ylab('Monthly # of Ratings')
     + pn.ggtitle(f'{NAME} Rating Volume by Month')
@@ -193,9 +180,7 @@ Monthly unique users is a good measure of user activity.
     pn.ggplot(months)
     + pn.aes(x='fracyear', y='n_users')
     + pn.geom_line(color=DEFAULTS.line_color)
-    + pn.scale_y_continuous(labels=lambda ns: [
-        metric(n) for n in ns
-    ])
+    + scale_y_metric()
     + pn.xlab('Year')
     + pn.ylab('Unique Users per Month')
     + pn.ggtitle(f'{NAME} Monthly Unique Users')
@@ -213,7 +198,8 @@ user_stats['days'] = user_stats['length'].dt.total_seconds() / (24 * 60 * 60)
     + pn.aes(x='days')
     + pn.geom_histogram(bins=100, fill=DEFAULTS.fill_color)
     + pn.scale_x_symlog()
-    + pn.xlab("Acocunt Duration (days)")
+    + pn.xlab("Account Duration (days)")
     + pn.ylab('# of Users')
+    + pn.ggtitle(f"{NAME} Distribution of Account Durations")
 )
 ```
