@@ -1,14 +1,47 @@
 {
+  "bias": {
+    "src_path": "src/codex/models/bias.py",
+    "predictor": true,
+    "searchable": true
+  },
   "popular": {
     "src_path": "src/codex/models/popular.py",
     "predictor": false,
     "searchable": false
   },
-  "flexmf-bpr": {
-    "src_path": "src/codex/models/flexmf_bpr.py",
+  "iknn-implicit": {
+    "src_path": "src/codex/models/iknn_implicit.py",
+    "predictor": false,
+    "searchable": true
+  },
+  "iknn-explicit": {
+    "src_path": "src/codex/models/iknn_explicit.py",
+    "predictor": true,
+    "searchable": true
+  },
+  "uknn-implicit": {
+    "src_path": "src/codex/models/uknn_implicit.py",
     "predictor": false,
     "searchable": true,
-    "max_epochs": 50
+    "ds_include": [
+      "ML1*"
+    ],
+    "search_points": 60
+  },
+  "uknn-explicit": {
+    "src_path": "src/codex/models/uknn_explicit.py",
+    "predictor": true,
+    "searchable": true,
+    "ds_include": [
+      "ML1*"
+    ],
+    "search_points": 60
+  },
+  "als-implicit": {
+    "src_path": "src/codex/models/als_implicit.py",
+    "predictor": false,
+    "searchable": true,
+    "max_epochs": 30
   },
   "flexmf-explicit": {
     "src_path": "src/codex/models/flexmf_explicit.py",
@@ -18,6 +51,12 @@
   },
   "flexmf-logistic": {
     "src_path": "src/codex/models/flexmf_logistic.py",
+    "predictor": false,
+    "searchable": true,
+    "max_epochs": 50
+  },
+  "flexmf-bpr": {
+    "src_path": "src/codex/models/flexmf_bpr.py",
     "predictor": false,
     "searchable": true,
     "max_epochs": 50
@@ -33,44 +72,5 @@
     "predictor": true,
     "searchable": true,
     "max_epochs": 30
-  },
-  "als-implicit": {
-    "src_path": "src/codex/models/als_implicit.py",
-    "predictor": false,
-    "searchable": true,
-    "max_epochs": 30
-  },
-  "bias": {
-    "src_path": "src/codex/models/bias.py",
-    "predictor": true,
-    "searchable": true
-  },
-  "iknn-explicit": {
-    "src_path": "src/codex/models/iknn_explicit.py",
-    "predictor": true,
-    "searchable": true
-  },
-  "iknn-implicit": {
-    "src_path": "src/codex/models/iknn_implicit.py",
-    "predictor": false,
-    "searchable": true
-  },
-  "uknn-explicit": {
-    "src_path": "src/codex/models/uknn_explicit.py",
-    "predictor": true,
-    "searchable": true,
-    "ds_include": [
-      "ML1*"
-    ],
-    "search_points": 60
-  },
-  "uknn-implicit": {
-    "src_path": "src/codex/models/uknn_implicit.py",
-    "predictor": false,
-    "searchable": true,
-    "ds_include": [
-      "ML1*"
-    ],
-    "search_points": 60
   }
 }
