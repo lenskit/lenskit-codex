@@ -139,8 +139,8 @@ stages:
       size: 1299
     - path: movielens/ML100K/description.qmd
       hash: md5
-      md5: c0d848ff27aba8f4f7fb72050792bd86
-      size: 5882
+      md5: a0fa9879a18c2dc0dc1ad3400dfce48b
+      size: 4711
     - path: movielens/ML100K/stats.duckdb
       hash: md5
       md5: f6c5dd39337143b19ab383176583ab61
@@ -148,9 +148,9 @@ stages:
     outs:
     - path: _freeze/movielens/ML100K/description
       hash: md5
-      md5: 2dc5bd4266279bef81aaba85d1321ddc.dir
-      size: 507898
-      nfiles: 11
+      md5: 7a3d295d4def6145367ee372c4adbebe.dir
+      size: 289311
+      nfiles: 10
   page/movielens/ML10M/description:
     cmd: quarto render movielens/ML10M/description.qmd
     deps:
@@ -160,8 +160,8 @@ stages:
       size: 1299
     - path: movielens/ML10M/description.qmd
       hash: md5
-      md5: 39d4a35c2bc65fb13209242ac2c98c16
-      size: 5880
+      md5: 3b52b6768e0550eeb6f758f409b91f63
+      size: 4709
     - path: movielens/ML10M/stats.duckdb
       hash: md5
       md5: 4463979e309e3131c0876d4f7896d68c
@@ -169,9 +169,9 @@ stages:
     outs:
     - path: _freeze/movielens/ML10M/description
       hash: md5
-      md5: 2cd8c2372a37273b0fce5f4394bd6ef0.dir
-      size: 2145445
-      nfiles: 11
+      md5: 1dfb43cf220b7e3c5a52521cf13e7664.dir
+      size: 327819
+      nfiles: 10
   page/movielens/ML1M/description:
     cmd: quarto render movielens/ML1M/description.qmd
     deps:
@@ -181,8 +181,8 @@ stages:
       size: 1299
     - path: movielens/ML1M/description.qmd
       hash: md5
-      md5: 7a6e22abe67885935263fd4ea1841496
-      size: 5878
+      md5: a62de088df1eaa66a271e46c4a6462e2
+      size: 4707
     - path: movielens/ML1M/stats.duckdb
       hash: md5
       md5: 969c2543acc09afa098ffd83e1790036
@@ -190,9 +190,9 @@ stages:
     outs:
     - path: _freeze/movielens/ML1M/description
       hash: md5
-      md5: c275b68318eae72b8a995d73ebb6753a.dir
-      size: 980031
-      nfiles: 11
+      md5: 24aee120d74e1cdb2942cc1378333a37.dir
+      size: 316558
+      nfiles: 10
   page/movielens/ML20M/description:
     cmd: quarto render movielens/ML20M/description.qmd
     deps:
@@ -269,24 +269,24 @@ stages:
       size: 1890
     - path: movielens/ML100K/sweeps/random/bias-hyperopt
       hash: md5
-      md5: 57570330f6762345908eb85f2c9ea363.dir
-      size: 764830
+      md5: 5831c3d73f6b04936a70cb6aa3b2b0f7.dir
+      size: 773625
       nfiles: 4
     - path: movielens/ML100K/sweeps/random/bias-optuna
       hash: md5
-      md5: 9bd0ff9cd355f461f294d2329b10e8bf.dir
-      size: 774760
+      md5: cba0ec0a662648ce775a395ef11a7ee6.dir
+      size: 214815
       nfiles: 4
     - path: movielens/ML100K/sweeps/random/bias-random
       hash: md5
-      md5: 5df31dc5314791b443f37bf4fc2f1725.dir
-      size: 396663
+      md5: 7f5e0a0325586788fac7255773aafffb.dir
+      size: 456262
       nfiles: 4
     outs:
     - path: _freeze/movielens/ML100K/bias
       hash: md5
-      md5: dae058d67440c9e6d9f1493e25bc87ce.dir
-      size: 223310
+      md5: 3926e33b0c18e517e014a406f9471508.dir
+      size: 169413
       nfiles: 4
   page/movielens/ML100K/biasedmf:
     cmd: quarto render movielens/ML100K/biasedmf.qmd
@@ -318,24 +318,24 @@ stages:
       size: 1472
     - path: movielens/ML100K/sweeps/random/iknn-explicit-hyperopt
       hash: md5
-      md5: 5bdf02d1637581a9cb1292755f2137ff.dir
-      size: 781683
+      md5: 2f66bb1fea2396f5a814b118e09a863a.dir
+      size: 264247
       nfiles: 4
     - path: movielens/ML100K/sweeps/random/iknn-explicit-optuna
       hash: md5
-      md5: fe03fb7a82310118e5fac084a66b9532.dir
-      size: 784456
+      md5: 22aca99f8df20799b05c6a745a6ab4ce.dir
+      size: 217452
       nfiles: 4
     - path: movielens/ML100K/sweeps/random/iknn-explicit-random
       hash: md5
-      md5: 47798252848d292ee329b41ec13ed3df.dir
-      size: 391387
+      md5: a831fe65b360d352e93c9fb940301a20.dir
+      size: 747106
       nfiles: 4
     outs:
     - path: _freeze/movielens/ML100K/iknn-explicit
       hash: md5
-      md5: 2bc1284e1dd91c88c86cc1f5e381c65d.dir
-      size: 275559
+      md5: 4454b6b8e4e884cdda17a59958e293f1.dir
+      size: 275484
       nfiles: 4
   page/movielens/ML100K/implicitmf:
     cmd: quarto render movielens/ML100K/implicitmf.qmd
@@ -367,24 +367,24 @@ stages:
       size: 1469
     - path: movielens/ML100K/sweeps/random/iknn-implicit-hyperopt
       hash: md5
-      md5: 7be6e210f5126a8a2c3b1a7d9d760ec0.dir
-      size: 766219
+      md5: f39b50b60dac8a241c8d1fa69c53696c.dir
+      size: 259756
       nfiles: 4
     - path: movielens/ML100K/sweeps/random/iknn-implicit-optuna
       hash: md5
-      md5: e50431ded54efe5970c46d93b26e6709.dir
-      size: 769900
+      md5: 21bf93621e4d3246777ccb0bb770490c.dir
+      size: 779676
       nfiles: 4
     - path: movielens/ML100K/sweeps/random/iknn-implicit-random
       hash: md5
-      md5: 691c9585d437521558b2a2c583a9511e.dir
-      size: 379342
+      md5: 735bf346bff73d7cbaf9db4c2e63c7e1.dir
+      size: 453475
       nfiles: 4
     outs:
     - path: _freeze/movielens/ML100K/iknn-implicit
       hash: md5
-      md5: 22b7fa09f15807f29bc98326c04fc0ff.dir
-      size: 256682
+      md5: a3ffe59474f6f2b90a45fc5305cad135.dir
+      size: 182446
       nfiles: 4
   page/movielens/ML100K/als-biasedmf:
     cmd: quarto render movielens/ML100K/als-biasedmf.qmd --profile prerender
@@ -499,23 +499,28 @@ stages:
       size: 1299
     - path: movielens/ML10M/bias.qmd
       hash: md5
-      md5: 706a6f14359d5dece273f7f43ab33423
-      size: 1864
+      md5: 7eb604e6aeffd9e727e2127debe068af
+      size: 1894
     - path: movielens/ML10M/sweeps/temporal/bias-hyperopt
       hash: md5
-      md5: 4877a80fcff1abe4fe9a860ebe3a606f.dir
-      size: 774188
+      md5: fd97206d4ec9cc40b8c2239b2c4568e8.dir
+      size: 792476
+      nfiles: 4
+    - path: movielens/ML10M/sweeps/temporal/bias-optuna
+      hash: md5
+      md5: 8899ab4af82f7779aee8fe3ab352b11b.dir
+      size: 803358
       nfiles: 4
     - path: movielens/ML10M/sweeps/temporal/bias-random
       hash: md5
-      md5: 1e1d976ed21715d11724efdad8d31259.dir
-      size: 736686
+      md5: e43816f94130991f42c89b9f9bae88aa.dir
+      size: 756103
       nfiles: 4
     outs:
     - path: _freeze/movielens/ML10M/bias
       hash: md5
-      md5: 22b7788bef0fbc4d783ff5034d059c0e.dir
-      size: 217094
+      md5: de6aad2a053edda324389bb742db9d3e.dir
+      size: 217326
       nfiles: 4
   page/movielens/ML10M/iknn-explicit:
     cmd: quarto render movielens/ML10M/iknn-explicit.qmd
@@ -526,23 +531,28 @@ stages:
       size: 1299
     - path: movielens/ML10M/iknn-explicit.qmd
       hash: md5
-      md5: da9f4aada5fe50bf4aaf375922b11c9c
-      size: 1438
+      md5: ad49ef7e55ce97e9814f00b360dfa419
+      size: 1477
     - path: movielens/ML10M/sweeps/temporal/iknn-explicit-hyperopt
       hash: md5
-      md5: 8319f8cabf3cc580523df43d324f3602.dir
-      size: 794709
+      md5: 405fd688c2a0e8e4c755539c8b667d99.dir
+      size: 813563
+      nfiles: 4
+    - path: movielens/ML10M/sweeps/temporal/iknn-explicit-optuna
+      hash: md5
+      md5: c0812ceae7414703073ef151b1804450.dir
+      size: 814516
       nfiles: 4
     - path: movielens/ML10M/sweeps/temporal/iknn-explicit-random
       hash: md5
-      md5: 7e5c0a80a7971bf0ee7211c7addd51a4.dir
-      size: 396277
+      md5: 42148a6f0b9bb02f1d9f39a8aecac1d8.dir
+      size: 770950
       nfiles: 4
     outs:
     - path: _freeze/movielens/ML10M/iknn-explicit
       hash: md5
-      md5: f79801c578b31ab88940765465fb5305.dir
-      size: 268630
+      md5: d74be3db4b6a5fff3b45fe0cd17b18d3.dir
+      size: 268958
       nfiles: 4
   page/movielens/ML10M/iknn-implicit:
     cmd: quarto render movielens/ML10M/iknn-implicit.qmd
@@ -553,23 +563,28 @@ stages:
       size: 1299
     - path: movielens/ML10M/iknn-implicit.qmd
       hash: md5
-      md5: f696dccc6d594a785fd207ad31f798dc
-      size: 1435
+      md5: 0a28169d0756ee790966c226843ba3fe
+      size: 1474
     - path: movielens/ML10M/sweeps/temporal/iknn-implicit-hyperopt
       hash: md5
-      md5: a169b7dde3221166ff87d737fd85df4e.dir
-      size: 779892
+      md5: 100f9fa2d9c3ac99681b79f57e21088d.dir
+      size: 797989
+      nfiles: 4
+    - path: movielens/ML10M/sweeps/temporal/iknn-implicit-optuna
+      hash: md5
+      md5: ca83f046b9b74a7f6b11a1b3a5fb886f.dir
+      size: 801196
       nfiles: 4
     - path: movielens/ML10M/sweeps/temporal/iknn-implicit-random
       hash: md5
-      md5: edba3a551ef8bbfac554bbb0c70e7b23.dir
-      size: 384772
+      md5: ac9a5fa7c5698de4ef3dd30bd810c55b.dir
+      size: 752317
       nfiles: 4
     outs:
     - path: _freeze/movielens/ML10M/iknn-implicit
       hash: md5
-      md5: 51647f8c04289074b12a4e95aacdc53b.dir
-      size: 269069
+      md5: 1e64113a8538b31597bf28e83812a264.dir
+      size: 259263
       nfiles: 4
   page/movielens/ML1M/als-biasedmf:
     cmd: quarto render movielens/ML1M/als-biasedmf.qmd --profile prerender
@@ -632,23 +647,28 @@ stages:
       size: 1299
     - path: movielens/ML1M/bias.qmd
       hash: md5
-      md5: 5a4e5dfa9cdf6ade30e1385b4f6ce460
-      size: 1858
+      md5: ae8d0ef5e168079b7a7bef544897a515
+      size: 1886
     - path: movielens/ML1M/sweeps/random/bias-hyperopt
       hash: md5
-      md5: 0468fc2d43611b97a45f56d9cd3f5282.dir
-      size: 762427
+      md5: fbb2febb0391d057558f2db5a26dfac4.dir
+      size: 790903
+      nfiles: 4
+    - path: movielens/ML1M/sweeps/random/bias-optuna
+      hash: md5
+      md5: 9c299fe85208cf0c521898012f769a30.dir
+      size: 800554
       nfiles: 4
     - path: movielens/ML1M/sweeps/random/bias-random
       hash: md5
-      md5: 00a19ae667484f99daf17517657ed5fd.dir
-      size: 392035
-      nfiles: 3
+      md5: e5ba94ce7a54b46367adb7781ef9177d.dir
+      size: 753567
+      nfiles: 4
     outs:
     - path: _freeze/movielens/ML1M/bias
       hash: md5
-      md5: 39b772a1a5c6606959908887a7c1205c.dir
-      size: 216860
+      md5: b8c346f4f490bd658b7677867376f54f.dir
+      size: 217071
       nfiles: 4
   page/movielens/ML1M/iknn-explicit:
     cmd: quarto render movielens/ML1M/iknn-explicit.qmd
@@ -659,23 +679,28 @@ stages:
       size: 1299
     - path: movielens/ML1M/iknn-explicit.qmd
       hash: md5
-      md5: e0aec94452f4c99210a834b57c844a40
-      size: 1433
+      md5: 44d6d38d55bef328031239cec828e211
+      size: 1470
     - path: movielens/ML1M/sweeps/random/iknn-explicit-hyperopt
       hash: md5
-      md5: e33513b16ccecd79efc253d65483783b.dir
-      size: 785049
+      md5: 612531d42cc2980e3b7cd745b59918f3.dir
+      size: 810787
+      nfiles: 4
+    - path: movielens/ML1M/sweeps/random/iknn-explicit-optuna
+      hash: md5
+      md5: 31aa83ce1370ffc540a8908b125142af.dir
+      size: 811726
       nfiles: 4
     - path: movielens/ML1M/sweeps/random/iknn-explicit-random
       hash: md5
-      md5: a8f80ceb134fb279edc52657cdeaf922.dir
-      size: 740813
+      md5: 83235746c43148792438010f08a5b0c0.dir
+      size: 768419
       nfiles: 4
     outs:
     - path: _freeze/movielens/ML1M/iknn-explicit
       hash: md5
-      md5: f8502776d0f4d6137d200d875c93231d.dir
-      size: 270712
+      md5: 39f7427034ee706dec422e0ee39df696.dir
+      size: 271076
       nfiles: 4
   page/movielens/ML1M/iknn-implicit:
     cmd: quarto render movielens/ML1M/iknn-implicit.qmd
@@ -686,23 +711,28 @@ stages:
       size: 1299
     - path: movielens/ML1M/iknn-implicit.qmd
       hash: md5
-      md5: 75ee561b106aff6aa58cb313917ac411
-      size: 1430
+      md5: f37f6bd1bfb9b9ed1b3c8c67da817cb7
+      size: 1467
     - path: movielens/ML1M/sweeps/random/iknn-implicit-hyperopt
       hash: md5
-      md5: d80788f1f2b145fe85b229b72187497b.dir
-      size: 768395
+      md5: b48ce2143e8ab87c0eef21a309a6028a.dir
+      size: 794620
+      nfiles: 4
+    - path: movielens/ML1M/sweeps/random/iknn-implicit-optuna
+      hash: md5
+      md5: 92c421ac1340767451be0c71add6ce70.dir
+      size: 794554
       nfiles: 4
     - path: movielens/ML1M/sweeps/random/iknn-implicit-random
       hash: md5
-      md5: d9f5153284a3ce9d89d6e3faf1da1f5e.dir
-      size: 724713
+      md5: f1d1d1f403df4081c7042f40bb62cc18.dir
+      size: 749188
       nfiles: 4
     outs:
     - path: _freeze/movielens/ML1M/iknn-implicit
       hash: md5
-      md5: 585566279cdda83376c36ef70ddec497.dir
-      size: 261434
+      md5: 765de15ec02587019ec340122e6844aa.dir
+      size: 258756
       nfiles: 4
   page/movielens/ML20M/als-biasedmf:
     cmd: quarto render movielens/ML20M/als-biasedmf.qmd --profile prerender
@@ -1037,12 +1067,12 @@ stages:
       size: 1299
     - path: movielens/ML100K/run-summary.csv
       hash: md5
-      md5: aa90f4bec59ad510aba152d6d8d13168
-      size: 75927
+      md5: 019487c583a410d1eecb26fb95b6206d
+      size: 76281
     - path: movielens/ML100K/run-user-metrics.parquet
       hash: md5
-      md5: 966486de17b69e7b500e8436a013e102
-      size: 973590
+      md5: 86dfed546d6eb3e948a5709d1e9557cb
+      size: 979079
     - path: movielens/ML100K/summary.qmd
       hash: md5
       md5: 8e8bc48ce3331dfe716d31afd3a0f7b8
@@ -1050,8 +1080,8 @@ stages:
     outs:
     - path: _freeze/movielens/ML100K/summary
       hash: md5
-      md5: 4a107ec0a65f91ffdd14afb9d7b3eb63.dir
-      size: 610694
+      md5: 56cfdda734dba2718dee305bb9ef6a2a.dir
+      size: 615244
       nfiles: 9
   page/eval-meta/attention:
     cmd: quarto render eval-meta/attention.qmd --profile prerender
@@ -1167,12 +1197,12 @@ stages:
       size: 1299
     - path: movielens/ML10M/run-summary.csv
       hash: md5
-      md5: aa4aaacb2d3805e334cdd57b614cf9ff
-      size: 24700
+      md5: 6c5a2a4c4170fe12c9c2f7280b9ba5ce
+      size: 31454
     - path: movielens/ML10M/run-user-metrics.parquet
       hash: md5
-      md5: 9b86df0ff320877ca8746c42474754fa
-      size: 6351209
+      md5: 3e8d773406ace391eba493bf57d44cf7
+      size: 8460113
     - path: movielens/ML10M/summary.qmd
       hash: md5
       md5: b5dd362211b878fde1a2316258ddb974
@@ -1180,8 +1210,8 @@ stages:
     outs:
     - path: _freeze/movielens/ML10M/summary
       hash: md5
-      md5: 26b3e4304fc21ef42bafd778350e9c0e.dir
-      size: 546459
+      md5: 02760ddd66776cd6e578880703bd5592.dir
+      size: 608853
       nfiles: 9
   page/movielens/ML1M/summary:
     cmd: quarto render movielens/ML1M/summary.qmd
@@ -1192,12 +1222,12 @@ stages:
       size: 1299
     - path: movielens/ML1M/run-summary.csv
       hash: md5
-      md5: bfe41665dabdaeaa8ba97d3e40f91533
-      size: 59464
+      md5: dc8e4627bfbba97110ee818267bcfe7d
+      size: 77578
     - path: movielens/ML1M/run-user-metrics.parquet
       hash: md5
-      md5: 84ca2c9cb3cdfd5dc26f2d17c72bde6f
-      size: 4111133
+      md5: c7aac6489e5ceeb5f4c0573d843d1eea
+      size: 5348006
     - path: movielens/ML1M/summary.qmd
       hash: md5
       md5: edd10190b7039a90588d41084bd6ebc5
@@ -1205,8 +1235,8 @@ stages:
     outs:
     - path: _freeze/movielens/ML1M/summary
       hash: md5
-      md5: 84f4506e3050c3b7e5dc46496df6df4c.dir
-      size: 550056
+      md5: 038d128b8ab170d9e2664734fe3dc37b.dir
+      size: 611907
       nfiles: 9
   page/movielens/ML20M/summary:
     cmd: quarto render movielens/ML20M/summary.qmd
@@ -1271,14 +1301,14 @@ stages:
       size: 2656
     - path: movielens/ML100K/sweeps/random/als-biased-random
       hash: md5
-      md5: 1cc1c968e3f08a3b5bcab6f7cb6f6bcc.dir
-      size: 1089260
+      md5: 75fbd73f5c3a0dcaeba6b00ac923d208.dir
+      size: 651016
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML100K/als-implicit
       hash: md5
-      md5: 8d63cfef2debbbde3081310a26db0322.dir
-      size: 138485
+      md5: a1fd1a514e5e8e25aa8cbb07395b3162.dir
+      size: 120619
       nfiles: 6
   page/movielens/ML100K/flexmf-logistic:
     cmd: quarto render movielens/ML100K/flexmf-logistic.qmd
@@ -1321,8 +1351,8 @@ stages:
       size: 1299
     - path: movielens/ML100K/flexmf-bpr.qmd
       hash: md5
-      md5: 9480181827a9c3830dc8ff700703738f
-      size: 2944
+      md5: c8ea7adc5397c4e607465b3d56fe617b
+      size: 2750
     - path: movielens/ML100K/sweeps/random/flexmf-bpr-hyperopt
       hash: md5
       md5: 76cb9355f3a84225bbf4a615e7504ea8.dir
@@ -1341,8 +1371,8 @@ stages:
     outs:
     - path: _freeze/movielens/ML100K/flexmf-bpr
       hash: md5
-      md5: a81609df95373c3168625cf57e47b668.dir
-      size: 1029437
+      md5: ca873c39e655eebc4e982d2e5ca0226c.dir
+      size: 1007117
       nfiles: 23
   page/movielens/ML100K/als-biased:
     cmd: quarto render movielens/ML100K/als-biased.qmd
@@ -1357,24 +1387,24 @@ stages:
       size: 2734
     - path: movielens/ML100K/sweeps/random/als-biased-hyperopt
       hash: md5
-      md5: 01e6bd2862836b706fe64a0e976e423b.dir
-      size: 332303965
+      md5: 596b488d024b6f64e3aff76306aa6a1a.dir
+      size: 1203068
       nfiles: 5
     - path: movielens/ML100K/sweeps/random/als-biased-optuna
       hash: md5
-      md5: 7177a1c77ce4816cb5d03f15a7cfbd2a.dir
-      size: 940402437
+      md5: cdb038e62ba01b7a98029de35031cc6f.dir
+      size: 359591
       nfiles: 5
     - path: movielens/ML100K/sweeps/random/als-biased-random
       hash: md5
-      md5: 1cc1c968e3f08a3b5bcab6f7cb6f6bcc.dir
-      size: 1089260
+      md5: 75fbd73f5c3a0dcaeba6b00ac923d208.dir
+      size: 651016
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML100K/als-biased
       hash: md5
-      md5: f2c66b29630c178a1b2c3c9bfbede617.dir
-      size: 496114
+      md5: 72194709a8373e244bda8ca84d2e48c6.dir
+      size: 362248
       nfiles: 9
   page/movielens/ML100K/uknn-implicit:
     cmd: quarto render movielens/ML100K/uknn-implicit.qmd
@@ -1385,18 +1415,18 @@ stages:
       size: 1299
     - path: movielens/ML100K/sweeps/random/uknn-implicit-hyperopt
       hash: md5
-      md5: bf673fb5c22dae8cda2863af8d3cb3a3.dir
-      size: 471417
+      md5: 5587896e01dde597b36435776b06da23.dir
+      size: 259729
       nfiles: 4
     - path: movielens/ML100K/sweeps/random/uknn-implicit-optuna
       hash: md5
-      md5: da757f3abfe53153a4e93c5a365d031b.dir
-      size: 464697
+      md5: b1a73030aa54d3c829af6c1745617e3e.dir
+      size: 214047
       nfiles: 4
     - path: movielens/ML100K/sweeps/random/uknn-implicit-random
       hash: md5
-      md5: a7ea248ac1dac10669c5bf7e42ce252e.dir
-      size: 231711
+      md5: 5ecc03bd11145bc00680befa10b7b253.dir
+      size: 453940
       nfiles: 4
     - path: movielens/ML100K/uknn-implicit.qmd
       hash: md5
@@ -1405,8 +1435,8 @@ stages:
     outs:
     - path: _freeze/movielens/ML100K/uknn-implicit
       hash: md5
-      md5: 206403bb6382ab22bc3b3a566e81b88f.dir
-      size: 179235
+      md5: d5b3975df006365f9fe297d7a85c944a.dir
+      size: 179395
       nfiles: 4
   page/movielens/ML100K/flexmf-explicit:
     cmd: quarto render movielens/ML100K/flexmf-explicit.qmd
@@ -1449,18 +1479,18 @@ stages:
       size: 1299
     - path: movielens/ML100K/sweeps/random/uknn-explicit-hyperopt
       hash: md5
-      md5: 79cad5bcfb1817d0694dba3a1891768e.dir
-      size: 481031
+      md5: 69c4cdf59b5759e3cd323697ff0724b6.dir
+      size: 264429
       nfiles: 4
     - path: movielens/ML100K/sweeps/random/uknn-explicit-optuna
       hash: md5
-      md5: 0c09c0dba3719dc695e07655bd92b0bc.dir
-      size: 474372
+      md5: bae61de0bdac3c0905e634e4befd5ea7.dir
+      size: 217386
       nfiles: 4
     - path: movielens/ML100K/sweeps/random/uknn-explicit-random
       hash: md5
-      md5: d0892140ce362cea8d27d78d7a744a1e.dir
-      size: 239109
+      md5: 48775c3b467f1a5fbf300c1cd0113785.dir
+      size: 464404
       nfiles: 4
     - path: movielens/ML100K/uknn-explicit.qmd
       hash: md5
@@ -1469,8 +1499,8 @@ stages:
     outs:
     - path: _freeze/movielens/ML100K/uknn-explicit
       hash: md5
-      md5: 2aea3b58d470cabb84c170ab2b635aba.dir
-      size: 187218
+      md5: f9d52dd67265a7fb2c0ee052bba8dabe.dir
+      size: 187458
       nfiles: 4
   page/movielens/ML1M/als-biased:
     cmd: quarto render movielens/ML1M/als-biased.qmd
@@ -1481,23 +1511,28 @@ stages:
       size: 1299
     - path: movielens/ML1M/als-biased.qmd
       hash: md5
-      md5: 098662150beaf510ba2797bd3269a943
-      size: 2698
+      md5: 2489a10074c358d5f5ac9b00745da8e5
+      size: 2732
     - path: movielens/ML1M/sweeps/random/als-biased-hyperopt
       hash: md5
-      md5: 9392a5fa7a3b09c66044ef92f54c26ca.dir
-      size: 5639579802
+      md5: 0b788a5c5897dc014f707b830dde794b.dir
+      size: 1339253
+      nfiles: 5
+    - path: movielens/ML1M/sweeps/random/als-biased-optuna
+      hash: md5
+      md5: e634172d285ea5f98fc8c3c7179f1fbf.dir
+      size: 1298719
       nfiles: 5
     - path: movielens/ML1M/sweeps/random/als-biased-random
       hash: md5
-      md5: 39a8252e9b523fa255cc97954003c855.dir
-      size: 519416
+      md5: 51e253d3f10769ff8815053c26910798.dir
+      size: 683008
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML1M/als-biased
       hash: md5
-      md5: a6c73c92effc2456f589e9326d16ae07.dir
-      size: 493337
+      md5: 70b3401f438ae3efe60ef066575c4dc6.dir
+      size: 364648
       nfiles: 9
   page/movielens/ML100K/tuning:
     cmd: quarto render movielens/ML100K/tuning.qmd
@@ -1508,18 +1543,18 @@ stages:
       size: 1299
     - path: movielens/ML100K/sweeps/random/
       hash: md5
-      md5: 27d234e33eeb9a8625aa2c17eaa68a89.dir
-      size: 3486729188
-      nfiles: 199
+      md5: 6db87b6fde868edb0e908224c9781417.dir
+      size: 1203062546
+      nfiles: 187
     - path: movielens/ML100K/tuning.qmd
       hash: md5
-      md5: c3e51419791b1ca6ebffa8dcff5d0988
-      size: 3665
+      md5: 0ca845a108b4bf287cf678dbd9b28001
+      size: 4884
     outs:
     - path: _freeze/movielens/ML100K/tuning
       hash: md5
-      md5: ba6fdf5f1c8730452e9bbe685cc986dd.dir
-      size: 400119
+      md5: 8480ad5821d2f3ce4fe686945a14b837.dir
+      size: 501446
       nfiles: 4
   page/movielens/ML1M/flexmf-logistic:
     cmd: quarto render movielens/ML1M/flexmf-logistic.qmd
@@ -1530,23 +1565,28 @@ stages:
       size: 1299
     - path: movielens/ML1M/flexmf-logistic.qmd
       hash: md5
-      md5: a0bbe1b5c87e64ece9a9786dda4d6925
-      size: 2953
+      md5: 88f3049a74d5a54484e296ac26a5e5f7
+      size: 2992
     - path: movielens/ML1M/sweeps/random/flexmf-logistic-hyperopt
       hash: md5
-      md5: 55e81b77f8c5d4d75f1a5e90d0eaf805.dir
-      size: 314591167
+      md5: 2ee67672c28ad183d6423b1c641c8e8f.dir
+      size: 1539891
+      nfiles: 5
+    - path: movielens/ML1M/sweeps/random/flexmf-logistic-optuna
+      hash: md5
+      md5: 8921ca9c770dc74e38557c06de7dd2c7.dir
+      size: 1899854
       nfiles: 5
     - path: movielens/ML1M/sweeps/random/flexmf-logistic-random
       hash: md5
-      md5: df0debc328acf6d9464552fe7764fbaf.dir
-      size: 499466351
+      md5: 6fbe90a93c0cb60be5380c0626579137.dir
+      size: 1464409
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML1M/flexmf-logistic
       hash: md5
-      md5: 9e48346f35fb5b6cd89be4b9048ae270.dir
-      size: 481894
+      md5: 0f6b569d6614d08e09caa5efb37faa46.dir
+      size: 481654
       nfiles: 9
   page/movielens/ML1M/flexmf-explicit:
     cmd: quarto render movielens/ML1M/flexmf-explicit.qmd
@@ -1557,23 +1597,28 @@ stages:
       size: 1299
     - path: movielens/ML1M/flexmf-explicit.qmd
       hash: md5
-      md5: 496f9481664f68dbe1ff99386c38d655
-      size: 2485
+      md5: 8ab506ec3c420384cf6b9e402a80758b
+      size: 2524
     - path: movielens/ML1M/sweeps/random/flexmf-explicit-hyperopt
       hash: md5
-      md5: 55e6daf45949b78cc94e2bf3bd5c3fc0.dir
-      size: 239784596
+      md5: a7f2472ce73919421761f638908d6db2.dir
+      size: 1296867
+      nfiles: 5
+    - path: movielens/ML1M/sweeps/random/flexmf-explicit-optuna
+      hash: md5
+      md5: e6adaf535a6ca257f4e978ac8239e14f.dir
+      size: 1341287
       nfiles: 5
     - path: movielens/ML1M/sweeps/random/flexmf-explicit-random
       hash: md5
-      md5: ffc8c81ae8b5ee5c7ff8681abd1af912.dir
-      size: 501385949
+      md5: bc6149af7e35fda6dddccab7962f353f.dir
+      size: 1172793
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML1M/flexmf-explicit
       hash: md5
-      md5: bc6724fde921f4b96cb706b435daf678.dir
-      size: 297135
+      md5: e7d2effba6354c60f76f752524a1cb20.dir
+      size: 296298
       nfiles: 7
   page/movielens/ML10M/flexmf-bpr:
     cmd: quarto render movielens/ML10M/flexmf-bpr.qmd
@@ -1584,23 +1629,28 @@ stages:
       size: 1299
     - path: movielens/ML10M/flexmf-bpr.qmd
       hash: md5
-      md5: 38dfdab16f0345cfcc46806514ad6e48
-      size: 2913
+      md5: e6440f272a3aa048751db42d8ef3fada
+      size: 2755
     - path: movielens/ML10M/sweeps/temporal/flexmf-bpr-hyperopt
       hash: md5
-      md5: 4bd8e58370642323462a23cfd8a62092.dir
-      size: 1668892
+      md5: 70efb5a49a81914c3855b9199c40ae8d.dir
+      size: 1416521
+      nfiles: 5
+    - path: movielens/ML10M/sweeps/temporal/flexmf-bpr-optuna
+      hash: md5
+      md5: 814d89ab81b8f02ec6718cfc6ba8337a.dir
+      size: 1515899
       nfiles: 5
     - path: movielens/ML10M/sweeps/temporal/flexmf-bpr-random
       hash: md5
-      md5: 6cf908826a02a66c174cebfe7f50f94d.dir
-      size: 1408742
+      md5: d0409f66236b23617c9a1da8a105c245.dir
+      size: 1313503
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML10M/flexmf-bpr
       hash: md5
-      md5: c2eaa2c15c3565f3e2b7d8978a75c014.dir
-      size: 423296
+      md5: da0755b6bbb8e39549c0676d2388d288.dir
+      size: 396264
       nfiles: 8
   page/movielens/ML10M/flexmf-explicit:
     cmd: quarto render movielens/ML10M/flexmf-explicit.qmd
@@ -1611,23 +1661,28 @@ stages:
       size: 1299
     - path: movielens/ML10M/flexmf-explicit.qmd
       hash: md5
-      md5: fb99049a39a37a8bd334520f90130cd6
-      size: 2490
+      md5: df7e0aa982e10ad8e97424f701242bc0
+      size: 2531
     - path: movielens/ML10M/sweeps/temporal/flexmf-explicit-hyperopt
       hash: md5
-      md5: 54ac8e28dd5175786ad5979219d6a879.dir
-      size: 1304834
+      md5: 804f7aed0e2c1a8c89122dde66631db5.dir
+      size: 1217010
+      nfiles: 5
+    - path: movielens/ML10M/sweeps/temporal/flexmf-explicit-optuna
+      hash: md5
+      md5: 95b31f8151c07438abf4f36aa462ce92.dir
+      size: 1301049
       nfiles: 5
     - path: movielens/ML10M/sweeps/temporal/flexmf-explicit-random
       hash: md5
-      md5: 7ae587185dfd96b990b826a40209cce9.dir
-      size: 5914906210
+      md5: a3bccace55196420f2053a7507da7da2.dir
+      size: 1130326
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML10M/flexmf-explicit
       hash: md5
-      md5: 58f5258019ce8e8a4d50f47c64116c00.dir
-      size: 294949
+      md5: 3f00cbccfe34fe5f632c99d6b6564421.dir
+      size: 289203
       nfiles: 7
   page/movielens/ML1M/flexmf-bpr:
     cmd: quarto render movielens/ML1M/flexmf-bpr.qmd
@@ -1638,23 +1693,28 @@ stages:
       size: 1299
     - path: movielens/ML1M/flexmf-bpr.qmd
       hash: md5
-      md5: aa85ae65deb35f479a099a6921293382
-      size: 2908
+      md5: fe8eeab97a7b222bd4b481482833e4c8
+      size: 2748
     - path: movielens/ML1M/sweeps/random/flexmf-bpr-hyperopt
       hash: md5
-      md5: 20915ecb2cd0d1736e3294153ac8b1b1.dir
-      size: 342430485
+      md5: 3b0b8afea1e4ca09d7090777ebbcdeac.dir
+      size: 1470838
+      nfiles: 5
+    - path: movielens/ML1M/sweeps/random/flexmf-bpr-optuna
+      hash: md5
+      md5: c4b2d6fc9f60f04a3eb3f055c52a1e2b.dir
+      size: 1846267
       nfiles: 5
     - path: movielens/ML1M/sweeps/random/flexmf-bpr-random
       hash: md5
-      md5: d507443821f2296a85a2b882a212020e.dir
-      size: 502347687
+      md5: 4df98d520598d7ae8d5b04202c1a31fa.dir
+      size: 1261699
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML1M/flexmf-bpr
       hash: md5
-      md5: 80ea710f9214b876867092279dbcddb2.dir
-      size: 959438
+      md5: 3ba3173ca0868d0346d1b2613891e8c7.dir
+      size: 939666
       nfiles: 22
   page/movielens/ML1M/flexmf-warp:
     cmd: quarto render movielens/ML1M/flexmf-warp.qmd
@@ -1665,23 +1725,28 @@ stages:
       size: 1299
     - path: movielens/ML1M/flexmf-warp.qmd
       hash: md5
-      md5: 48cd46e0f0b9f4a8a90ec259961154a6
-      size: 2449
+      md5: 50a4b5ef9711e7e676a2814696ca8841
+      size: 2484
     - path: movielens/ML1M/sweeps/random/flexmf-warp-hyperopt
       hash: md5
-      md5: d427e542abc3cab22205178e2fe35c04.dir
-      size: 1700273
+      md5: 2dd575c78d91a732c6d9003ace6bdd34.dir
+      size: 1430715
+      nfiles: 5
+    - path: movielens/ML1M/sweeps/random/flexmf-warp-optuna
+      hash: md5
+      md5: 5314380b85048a0a1b467555477ff58d.dir
+      size: 1681885
       nfiles: 5
     - path: movielens/ML1M/sweeps/random/flexmf-warp-random
       hash: md5
-      md5: 4f0afd0ac9dc1dad33dd8f94a1a069a1.dir
-      size: 1346709
+      md5: 62ea3bc28d35931f98039db91d4fb96d.dir
+      size: 1218969
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML1M/flexmf-warp
       hash: md5
-      md5: 14943ebd21358af9e615abf277fc904c.dir
-      size: 315198
+      md5: 1ce0e35c364e2a76c716d530bfe31803.dir
+      size: 303126
       nfiles: 7
   page/movielens/ML1M/uknn-explicit:
     cmd: quarto render movielens/ML1M/uknn-explicit.qmd
@@ -1692,23 +1757,28 @@ stages:
       size: 1299
     - path: movielens/ML1M/sweeps/random/uknn-explicit-hyperopt
       hash: md5
-      md5: 88a20bc0f40ed036708ec13f786ed475.dir
-      size: 482179
+      md5: e467a758e0d842db304b8f795950c9cb.dir
+      size: 499258
+      nfiles: 4
+    - path: movielens/ML1M/sweeps/random/uknn-explicit-optuna
+      hash: md5
+      md5: 52860a1ba7b513d8ee1aad2756c9d911.dir
+      size: 480526
       nfiles: 4
     - path: movielens/ML1M/sweeps/random/uknn-explicit-random
       hash: md5
-      md5: 8a81fd64b55c608b82c3dc7ac0e3c3ec.dir
-      size: 236836
-      nfiles: 3
+      md5: 16b94d61905a1387b3a206c03bef0e8d.dir
+      size: 454156
+      nfiles: 4
     - path: movielens/ML1M/uknn-explicit.qmd
       hash: md5
-      md5: 1b1c029c805fb6e5dcee81fd41ab41c8
-      size: 1433
+      md5: 8a62ec1cbfc8440897e2e2a3fff62968
+      size: 1470
     outs:
     - path: _freeze/movielens/ML1M/uknn-explicit
       hash: md5
-      md5: 1e07f552be903ddacdbd770e9cb4940a.dir
-      size: 188736
+      md5: 9b95b5f826d19a0d8e39eba1b3d37e17.dir
+      size: 188718
       nfiles: 4
   page/movielens/ML1M/uknn-implicit:
     cmd: quarto render movielens/ML1M/uknn-implicit.qmd
@@ -1719,23 +1789,28 @@ stages:
       size: 1299
     - path: movielens/ML1M/sweeps/random/uknn-implicit-hyperopt
       hash: md5
-      md5: 06144a6384a7242a6b53a54244638c31.dir
-      size: 472651
+      md5: be7ed36014ed5dbc4f8bc9b916f2b5e8.dir
+      size: 477868
+      nfiles: 4
+    - path: movielens/ML1M/sweeps/random/uknn-implicit-optuna
+      hash: md5
+      md5: 14f2e070a8ab092e3b435d3530cf261f.dir
+      size: 481590
       nfiles: 4
     - path: movielens/ML1M/sweeps/random/uknn-implicit-random
       hash: md5
-      md5: 0b56986be1f3adf724d9dacef03482c2.dir
-      size: 231873
-      nfiles: 3
+      md5: a83c976b0afac6d3e47556ea54989ff7.dir
+      size: 455055
+      nfiles: 4
     - path: movielens/ML1M/uknn-implicit.qmd
       hash: md5
-      md5: 69d1d51e63a806969e99df4ed0b0234d
-      size: 1430
+      md5: 34eb075671516c209f965477ad7a1dd4
+      size: 1467
     outs:
     - path: _freeze/movielens/ML1M/uknn-implicit
       hash: md5
-      md5: 40633d5011517e41c68d19887cb19f1a.dir
-      size: 190532
+      md5: e5f7ca5c64d475a332acaa9d4785d802.dir
+      size: 186205
       nfiles: 4
   page/movielens/ML1M/tuning:
     cmd: quarto render movielens/ML1M/tuning.qmd
@@ -1746,18 +1821,18 @@ stages:
       size: 1299
     - path: movielens/ML1M/sweeps/random/
       hash: md5
-      md5: 521b07c4849ddd9d3ccdaa72e3d9e9b1.dir
-      size: 14000509283
-      nfiles: 129
+      md5: b69e1f27d3aa36414f6a3e618d8abadd.dir
+      size: 35053289
+      nfiles: 187
     - path: movielens/ML1M/tuning.qmd
       hash: md5
-      md5: 0f24a63c5fe804b0c053bbf9987ac37d
-      size: 3663
+      md5: fed341908bd4c0204a4374336b6a7520
+      size: 4882
     outs:
     - path: _freeze/movielens/ML1M/tuning
       hash: md5
-      md5: 9d798ec69ac9b3f7efc3cad46519dbc6.dir
-      size: 292323
+      md5: fcb0c0313b7234761a6857adafe92dba.dir
+      size: 577673
       nfiles: 4
   page/movielens/ML100K/flexmf-warp:
     cmd: quarto render movielens/ML100K/flexmf-warp.qmd
@@ -1800,23 +1875,28 @@ stages:
       size: 1299
     - path: movielens/ML10M/als-biased.qmd
       hash: md5
-      md5: 665b13081edd3247cc0a0fd91d4b8873
-      size: 2703
+      md5: 895f0c96c8518aff67f8958d21579849
+      size: 2739
     - path: movielens/ML10M/sweeps/temporal/als-biased-hyperopt
       hash: md5
-      md5: 9b52f208d572e5148f337b2ab256683f.dir
-      size: 1360072
+      md5: 59e32cd85502a4563f9da1d21a48b40b.dir
+      size: 1269642
+      nfiles: 5
+    - path: movielens/ML10M/sweeps/temporal/als-biased-optuna
+      hash: md5
+      md5: 9f947af6a5b7b772fe4a2ce16047a209.dir
+      size: 1332792
       nfiles: 5
     - path: movielens/ML10M/sweeps/temporal/als-biased-random
       hash: md5
-      md5: c1c0d29c9e06d8e7cf309e5a859cd1da.dir
-      size: 1290588
+      md5: dc9edfee6a2a5a7979f561969eacaf08.dir
+      size: 1153046
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML10M/als-biased
       hash: md5
-      md5: e24fb9330b61c04085678bdc66c389af.dir
-      size: 493298
+      md5: 7b70cfad6f9230c3037a5e36b55f6f22.dir
+      size: 493494
       nfiles: 9
   page/movielens/ML10M/flexmf-logistic:
     cmd: quarto render movielens/ML10M/flexmf-logistic.qmd
@@ -1827,23 +1907,28 @@ stages:
       size: 1299
     - path: movielens/ML10M/flexmf-logistic.qmd
       hash: md5
-      md5: 87a13661c0ca2a0940f46ce731e9b090
-      size: 2958
+      md5: 5075fcbc290d4e70666acb16ed624755
+      size: 2999
     - path: movielens/ML10M/sweeps/temporal/flexmf-logistic-hyperopt
       hash: md5
-      md5: 98b387597f22b90df10478b96db4d5f9.dir
-      size: 1651209
+      md5: 394f76a47cb4eb5e1da107c1a5b45a9d.dir
+      size: 1625357
+      nfiles: 5
+    - path: movielens/ML10M/sweeps/temporal/flexmf-logistic-optuna
+      hash: md5
+      md5: 9306f0358013d1a7b5aa92921b6334cc.dir
+      size: 1734446
       nfiles: 5
     - path: movielens/ML10M/sweeps/temporal/flexmf-logistic-random
       hash: md5
-      md5: 1316a7e0a8fe19d8f9c7ef3b891e49f1.dir
-      size: 5867227501
+      md5: cd0914a8b9635ad6202c218b581eccac.dir
+      size: 1226575
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML10M/flexmf-logistic
       hash: md5
-      md5: da949248030bdb3271ea60efb384df0b.dir
-      size: 479481
+      md5: 749015f2f490079ec4598e428cc90c5e.dir
+      size: 476280
       nfiles: 9
   page/movielens/ML10M/flexmf-warp:
     cmd: quarto render movielens/ML10M/flexmf-warp.qmd
@@ -1854,23 +1939,28 @@ stages:
       size: 1299
     - path: movielens/ML10M/flexmf-warp.qmd
       hash: md5
-      md5: 9c3c93883ff22bab82388183a99d03d8
-      size: 2454
+      md5: 3f2ef4af00219f09b0f5d41bca0145ff
+      size: 2491
     - path: movielens/ML10M/sweeps/temporal/flexmf-warp-hyperopt
       hash: md5
-      md5: 8e4407dc2e24e582d0af37f4e8f894e1.dir
-      size: 1614277
+      md5: cb4adc2d57bc42628b9a0c312bf1f045.dir
+      size: 1398953
+      nfiles: 5
+    - path: movielens/ML10M/sweeps/temporal/flexmf-warp-optuna
+      hash: md5
+      md5: 463dc036bf2d56678a97b332fa9d78d2.dir
+      size: 1712712
       nfiles: 5
     - path: movielens/ML10M/sweeps/temporal/flexmf-warp-random
       hash: md5
-      md5: 18bebee2d8ff266ea6201b02fc31546d.dir
-      size: 1451954
+      md5: 9b6adf900428335bb4b97c4334a5339b.dir
+      size: 1219534
       nfiles: 5
     outs:
     - path: _freeze/movielens/ML10M/flexmf-warp
       hash: md5
-      md5: 8272463758d40f64a8460efd4ef2a0d6.dir
-      size: 305639
+      md5: 1d211a936a18424bf8156f0f88be86dc.dir
+      size: 303396
       nfiles: 7
   page/movielens/ML10M/tuning:
     cmd: quarto render movielens/ML10M/tuning.qmd
@@ -1881,18 +1971,18 @@ stages:
       size: 1299
     - path: movielens/ML10M/sweeps/temporal/
       hash: md5
-      md5: f7c2e21763f6140936c4bfb601df762f.dir
-      size: 11803199994
-      nfiles: 130
+      md5: 329d023c77dfbe7d6733a27ba027c82d.dir
+      size: 34567940
+      nfiles: 187
     - path: movielens/ML10M/tuning.qmd
       hash: md5
-      md5: fc7bc73572dae604d2fd4be9624a3f19
-      size: 3666
+      md5: 34b299d0c1c98b32d89dcd876dce9d63
+      size: 4885
     outs:
     - path: _freeze/movielens/ML10M/tuning
       hash: md5
-      md5: adb69e8c65d6afcc827b50e5736507b9.dir
-      size: 298998
+      md5: d775a2f3bd5af4f97f7f7730e377c4d5.dir
+      size: 565463
       nfiles: 4
   page/movielens/ML10M/uknn-explicit:
     cmd: quarto render movielens/ML10M/uknn-explicit.qmd
@@ -1903,23 +1993,28 @@ stages:
       size: 1299
     - path: movielens/ML10M/sweeps/temporal/uknn-explicit-hyperopt
       hash: md5
-      md5: d05189753f7b05650a758863d593ecef.dir
-      size: 489101
+      md5: 8998555f9ac2231d9331f535ae69d1b3.dir
+      size: 501234
+      nfiles: 4
+    - path: movielens/ML10M/sweeps/temporal/uknn-explicit-optuna
+      hash: md5
+      md5: 6031c171aa137eac1aff21b42bcaa296.dir
+      size: 482468
       nfiles: 4
     - path: movielens/ML10M/sweeps/temporal/uknn-explicit-random
       hash: md5
-      md5: d2e2fdff766f66b424174ff71503f3b7.dir
-      size: 238082
-      nfiles: 3
+      md5: d922f428aef02f0b69f96f27814d81b7.dir
+      size: 467508
+      nfiles: 4
     - path: movielens/ML10M/uknn-explicit.qmd
       hash: md5
-      md5: 2a412448a296013181af8819ec96eabf
-      size: 1438
+      md5: 332d4266db3babb04cf583b9ab909c12
+      size: 1477
     outs:
     - path: _freeze/movielens/ML10M/uknn-explicit
       hash: md5
-      md5: 8f3f793ee14c0b6e927bba7d236718e1.dir
-      size: 186914
+      md5: 456c1c785b6c13aeabd905f9105a6ac4.dir
+      size: 193441
       nfiles: 4
   page/movielens/ML10M/uknn-implicit:
     cmd: quarto render movielens/ML10M/uknn-implicit.qmd
@@ -1930,23 +2025,28 @@ stages:
       size: 1299
     - path: movielens/ML10M/sweeps/temporal/uknn-implicit-hyperopt
       hash: md5
-      md5: 36878e8d017463b589c370e979d2ce05.dir
-      size: 479374
+      md5: 4915b14849331712fa8d4f1e8c5f9c2c.dir
+      size: 490591
+      nfiles: 4
+    - path: movielens/ML10M/sweeps/temporal/uknn-implicit-optuna
+      hash: md5
+      md5: 76db2d1b1257dd03963c9631e318aa24.dir
+      size: 482109
       nfiles: 4
     - path: movielens/ML10M/sweeps/temporal/uknn-implicit-random
       hash: md5
-      md5: 81262a7ffb02b279f0e8393e1753e15c.dir
-      size: 233425
-      nfiles: 3
+      md5: c5513b7b5801faa935f892ea5c56dbc6.dir
+      size: 446190
+      nfiles: 4
     - path: movielens/ML10M/uknn-implicit.qmd
       hash: md5
-      md5: c1eaa502e630869b9d660e405fe9d28c
-      size: 1435
+      md5: 55fe8315d1857246edf071baef4eb60b
+      size: 1474
     outs:
     - path: _freeze/movielens/ML10M/uknn-implicit
       hash: md5
-      md5: e8a727952c6f083975fa313ab4a84b39.dir
-      size: 184911
+      md5: cb283bee867c9109147ac906c7283e32.dir
+      size: 186642
       nfiles: 4
   page/movielens/ML20M/als-biased:
     cmd: quarto render movielens/ML20M/als-biased.qmd

@@ -79,18 +79,6 @@ fundamental logic, so let's look at performance as a fufnction of it:
 )
 ```
 
-#### Postive Weight
-
-```{python}
-(
-    pn.ggplot(runs)
-    + pn.aes(x='config.positive_weight', y='RBP')
-    + pn.geom_point()
-    + pn.scale_x_log10()
-    + pn.labs(x='Positive Weight')
-)
-```
-
 :::
 
 ### Learning Parameters
