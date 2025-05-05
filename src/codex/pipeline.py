@@ -108,6 +108,7 @@ def render_dvc_gitignores():
 
     for d, ign in ignores.items():
         fn = Path(d) / ".gitignore"
+        fn.parent.mkdir(exist_ok=True, parents=True)
         print("writing", fn)
         with fn.open("wt") as gif:
             for f in sorted(ign):
