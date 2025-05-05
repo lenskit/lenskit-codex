@@ -1490,8 +1490,8 @@ stages:
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
-      md5: 79d1ef7f11afd2f4a19828a1c0d1072d
-      size: 322
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -1504,17 +1504,17 @@ stages:
     outs:
     - path: runs/random/bias-default
       hash: md5
-      md5: 0237044896e748f83adf427aa3efd297.dir
-      size: 3099851
+      md5: 9da8cd8beef1527e222176442463f366.dir
+      size: 3101105
       nfiles: 5
   sweep-bias-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
-      bias sweeps/random/bias-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --random --metric=RMSE bias sweeps/random/bias-random
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
-      md5: 79d1ef7f11afd2f4a19828a1c0d1072d
-      size: 322
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
     - path: splits/random.parquet
       hash: md5
       md5: e76a6b995411abb5ba2ade811e7f8d1f
@@ -1522,21 +1522,21 @@ stages:
     outs:
     - path: sweeps/random/bias-random
       hash: md5
-      md5: 00a19ae667484f99daf17517657ed5fd.dir
-      size: 392035
-      nfiles: 3
+      md5: e5ba94ce7a54b46367adb7781ef9177d.dir
+      size: 753567
+      nfiles: 4
     - path: sweeps/random/bias-random.json
       hash: md5
-      md5: 129fbea96ad1efdf76baf45e5fd392d8
-      size: 790
+      md5: 9307768019b5b64826521530c5a8b5a9
+      size: 811
   run-random-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=ML1M
       --split=splits/random.toml -o runs/random/bias-random-best bias
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
-      md5: 79d1ef7f11afd2f4a19828a1c0d1072d
-      size: 322
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -1548,13 +1548,13 @@ stages:
       size: 358913
     - path: sweeps/random/bias-random.json
       hash: md5
-      md5: 129fbea96ad1efdf76baf45e5fd392d8
-      size: 790
+      md5: 9307768019b5b64826521530c5a8b5a9
+      size: 811
     outs:
     - path: runs/random/bias-random-best
       hash: md5
-      md5: 9613dce15204f3f92480b28ad20f622c.dir
-      size: 3255331
+      md5: 9b6b0449ea40abf0f4250b4ae8d701d5.dir
+      size: 3258482
       nfiles: 5
   run-random-default-iknn-explicit:
     cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
@@ -1562,8 +1562,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: c8c56d4290ddce217c25b839ad71d566
-      size: 1490
+      md5: 150dfcaa2c5ae533410cc3e20060cecb
+      size: 1538
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -1576,8 +1576,8 @@ stages:
     outs:
     - path: runs/random/iknn-explicit-default
       hash: md5
-      md5: 7ea660ab43b0872f709437797ed481c3.dir
-      size: 3855937
+      md5: 16195d7ef49e64c8b6657acf565e5096.dir
+      size: 3854823
       nfiles: 5
   run-random-default-iknn-implicit:
     cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
@@ -1585,8 +1585,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 8086baf7fbf099e8e4090a30220756b9
-      size: 1430
+      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
+      size: 1478
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -1599,8 +1599,8 @@ stages:
     outs:
     - path: runs/random/iknn-implicit-default
       hash: md5
-      md5: 26480f177cceb1f8660350ca3d403353.dir
-      size: 3617911
+      md5: 3130aeaa915a1fd07ea399742619e332.dir
+      size: 3617381
       nfiles: 4
   run-random-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
@@ -1626,13 +1626,13 @@ stages:
       size: 773026
       nfiles: 4
   sweep-iknn-explicit-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
-      iknn-explicit sweeps/random/iknn-explicit-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --random --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-random
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: c8c56d4290ddce217c25b839ad71d566
-      size: 1490
+      md5: 150dfcaa2c5ae533410cc3e20060cecb
+      size: 1538
     - path: splits/random.parquet
       hash: md5
       md5: e76a6b995411abb5ba2ade811e7f8d1f
@@ -1640,13 +1640,13 @@ stages:
     outs:
     - path: sweeps/random/iknn-explicit-random
       hash: md5
-      md5: a8f80ceb134fb279edc52657cdeaf922.dir
-      size: 740813
+      md5: 83235746c43148792438010f08a5b0c0.dir
+      size: 768419
       nfiles: 4
     - path: sweeps/random/iknn-explicit-random.json
       hash: md5
-      md5: a2dc98eb22b35dc5f4d92f0595fb957c
-      size: 811
+      md5: bc7e77eacce6916f81a4ec1add95f8c6
+      size: 829
   run-random-random-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-random.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/iknn-explicit-random-best
@@ -1654,8 +1654,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: c8c56d4290ddce217c25b839ad71d566
-      size: 1490
+      md5: 150dfcaa2c5ae533410cc3e20060cecb
+      size: 1538
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -1667,17 +1667,17 @@ stages:
       size: 358913
     - path: sweeps/random/iknn-explicit-random.json
       hash: md5
-      md5: a2dc98eb22b35dc5f4d92f0595fb957c
-      size: 811
+      md5: bc7e77eacce6916f81a4ec1add95f8c6
+      size: 829
     outs:
     - path: runs/random/iknn-explicit-random-best
       hash: md5
-      md5: 42ecb5732bc29469971062c743a36048.dir
-      size: 3857930
+      md5: 508116a2cf37ec3bb527998a9e9339fb.dir
+      size: 3860091
       nfiles: 5
   sweep-iknn-implicit-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
-      iknn-implicit sweeps/random/iknn-implicit-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --random --metric=RBP iknn-implicit sweeps/random/iknn-implicit-random
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
@@ -1690,13 +1690,13 @@ stages:
     outs:
     - path: sweeps/random/iknn-implicit-random
       hash: md5
-      md5: 62e0110d889d696dddc41376c2e87311.dir
-      size: 733063
+      md5: f1d1d1f403df4081c7042f40bb62cc18.dir
+      size: 749188
       nfiles: 4
     - path: sweeps/random/iknn-implicit-random.json
       hash: md5
-      md5: d835ba00fe4c40f943dac576ad24ce55
-      size: 770
+      md5: 8463f40f5f3f46441b7e1f49d4a2c045
+      size: 797
   run-random-random-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-implicit-random.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/iknn-implicit-random-best
@@ -1717,17 +1717,17 @@ stages:
       size: 358913
     - path: sweeps/random/iknn-implicit-random.json
       hash: md5
-      md5: d835ba00fe4c40f943dac576ad24ce55
-      size: 770
+      md5: 8463f40f5f3f46441b7e1f49d4a2c045
+      size: 797
     outs:
     - path: runs/random/iknn-implicit-random-best
       hash: md5
-      md5: 413735f73dd5f66088d230bfcb564c5d.dir
-      size: 3623997
+      md5: 98aefb9d5dda32fbf7b3f9043b2c5a3d.dir
+      size: 3623783
       nfiles: 4
   sweep-implicit-bpr-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
-      implicit-bpr sweeps/random/implicit-bpr-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --random --metric=RBP implicit-bpr sweeps/random/implicit-bpr-random
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
       hash: md5
@@ -1740,13 +1740,13 @@ stages:
     outs:
     - path: sweeps/random/implicit-bpr-random
       hash: md5
-      md5: be4288931731d1e5cbd02163f327f05b.dir
-      size: 415612
-      nfiles: 3
+      md5: c1ea50bb026512b4d9deca9ca175908a.dir
+      size: 823276
+      nfiles: 4
     - path: sweeps/random/implicit-bpr-random.json
       hash: md5
-      md5: 21f00ce255ee99b6c77f2361ecfd1dca
-      size: 847
+      md5: 32efef35f52b39734d205f4e56a4bb61
+      size: 887
   run-random-random-best-implicit-bpr:
     cmd: lenskit codex generate --param-file sweeps/random/implicit-bpr-random.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/implicit-bpr-random-best
@@ -1767,13 +1767,13 @@ stages:
       size: 358913
     - path: sweeps/random/implicit-bpr-random.json
       hash: md5
-      md5: 21f00ce255ee99b6c77f2361ecfd1dca
-      size: 847
+      md5: 32efef35f52b39734d205f4e56a4bb61
+      size: 887
     outs:
     - path: runs/random/implicit-bpr-random-best
       hash: md5
-      md5: ec6111059ad91c69c08e072e53dbe46a.dir
-      size: 3820406
+      md5: d46530af72db553ed2cbf0e723a46f8a.dir
+      size: 3836220
       nfiles: 4
   run-random-default-implicit-bpr:
     cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
@@ -1804,8 +1804,8 @@ stages:
     deps:
     - path: ../../src/codex/models/uknn_explicit.py
       hash: md5
-      md5: c7321a52e640ca8eb6c5276309d72a63
-      size: 438
+      md5: 377333540df2c8c89202831eaa51c815
+      size: 436
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -1818,8 +1818,8 @@ stages:
     outs:
     - path: runs/random/uknn-explicit-default
       hash: md5
-      md5: 090c865ac05c11de5b970905a80a4c08.dir
-      size: 3838626
+      md5: 913672851c9a76b4cbe78496db6065b9.dir
+      size: 3841350
       nfiles: 5
   run-random-default-uknn-implicit:
     cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
@@ -1827,8 +1827,8 @@ stages:
     deps:
     - path: ../../src/codex/models/uknn_implicit.py
       hash: md5
-      md5: 0ca87563e0c0f3d827ff7678c85529cc
-      size: 439
+      md5: 9e76eaa9c81700514942f6b7f5984170
+      size: 437
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -1841,8 +1841,8 @@ stages:
     outs:
     - path: runs/random/uknn-implicit-default
       hash: md5
-      md5: eedece2e9f74abd4299a3e6bc63eb683.dir
-      size: 3795669
+      md5: 525fd706e86850b4c094fdabf4074525.dir
+      size: 3840247
       nfiles: 4
   sweep-uknn-explicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
@@ -1900,8 +1900,8 @@ stages:
     deps:
     - path: ../../src/codex/models/uknn_implicit.py
       hash: md5
-      md5: 0ca87563e0c0f3d827ff7678c85529cc
-      size: 439
+      md5: 9e76eaa9c81700514942f6b7f5984170
+      size: 437
     - path: splits/random.parquet
       hash: md5
       md5: e76a6b995411abb5ba2ade811e7f8d1f
@@ -1909,13 +1909,13 @@ stages:
     outs:
     - path: sweeps/random/uknn-implicit-random
       hash: md5
-      md5: 0b56986be1f3adf724d9dacef03482c2.dir
-      size: 231873
-      nfiles: 3
+      md5: a83c976b0afac6d3e47556ea54989ff7.dir
+      size: 455055
+      nfiles: 4
     - path: sweeps/random/uknn-implicit-random.json
       hash: md5
-      md5: 5fc813770854188c4fecc850e2e9c39d
-      size: 769
+      md5: 1286e09a12464b2aefd1bf99b516dd71
+      size: 799
   run-random-random-best-uknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/uknn-implicit-random.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-implicit-random-best
@@ -1923,8 +1923,8 @@ stages:
     deps:
     - path: ../../src/codex/models/uknn_implicit.py
       hash: md5
-      md5: 0ca87563e0c0f3d827ff7678c85529cc
-      size: 439
+      md5: 9e76eaa9c81700514942f6b7f5984170
+      size: 437
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -1936,17 +1936,17 @@ stages:
       size: 358913
     - path: sweeps/random/uknn-implicit-random.json
       hash: md5
-      md5: 5fc813770854188c4fecc850e2e9c39d
-      size: 769
+      md5: 1286e09a12464b2aefd1bf99b516dd71
+      size: 799
     outs:
     - path: runs/random/uknn-implicit-random-best
       hash: md5
-      md5: 84da1010e0b40a38802f637be2450ce3.dir
-      size: 3755975
+      md5: b145b75fb6e6d728db38ad3a6644505c.dir
+      size: 3801595
       nfiles: 4
   sweep-flexmf-explicit-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
-      flexmf-explicit sweeps/random/flexmf-explicit-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --random --metric=RMSE flexmf-explicit sweeps/random/flexmf-explicit-random
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
       hash: md5
@@ -1959,13 +1959,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-explicit-random
       hash: md5
-      md5: ffc8c81ae8b5ee5c7ff8681abd1af912.dir
-      size: 501385949
+      md5: bc6149af7e35fda6dddccab7962f353f.dir
+      size: 1172793
       nfiles: 5
     - path: sweeps/random/flexmf-explicit-random.json
       hash: md5
-      md5: 33bdb768acc672d68f53120026a80a0c
-      size: 660
+      md5: cb8960c1cf386b5163f4a9ca6ab1bfcd
+      size: 692
   sweep-als-biased-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
       als-biased sweeps/random/als-biased-random
@@ -1989,8 +1989,8 @@ stages:
       md5: 81ec0d24d9f74e74d6add5179795b9f2
       size: 849
   sweep-implicit-bpr-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RBP implicit-bpr sweeps/random/implicit-bpr-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RBP implicit-bpr sweeps/random/implicit-bpr-hyperopt
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
       hash: md5
@@ -2003,13 +2003,13 @@ stages:
     outs:
     - path: sweeps/random/implicit-bpr-hyperopt
       hash: md5
-      md5: fcd7c0e02676be5004cfd4676ed44da7.dir
-      size: 847290
+      md5: 0976958c6f8bf3e472d01c1a472a38f2.dir
+      size: 875450
       nfiles: 4
     - path: sweeps/random/implicit-bpr-hyperopt.json
       hash: md5
-      md5: cc4def4fb437402a77f274b1f3e7fd30
-      size: 849
+      md5: 8a0acf876c35f16a53d7bceb4d4ca26e
+      size: 874
   run-random-random-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/random/als-biased-random.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/als-biased-random-best
@@ -2044,8 +2044,8 @@ stages:
     deps:
     - path: ../../src/codex/models/als_implicit.py
       hash: md5
-      md5: ac7d3d2eadc9ce22b5d3c58ed79071ec
-      size: 520
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -2058,8 +2058,8 @@ stages:
     outs:
     - path: runs/random/als-implicit-default
       hash: md5
-      md5: 06622af4907a5766d03570f234056473.dir
-      size: 3752162
+      md5: 2e8c284731affb0e2f66555583a45114.dir
+      size: 3748830
       nfiles: 4
   sweep-uknn-implicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
@@ -2107,8 +2107,8 @@ stages:
       size: 3724224
       nfiles: 4
   sweep-flexmf-bpr-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RBP flexmf-bpr sweeps/random/flexmf-bpr-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RBP flexmf-bpr sweeps/random/flexmf-bpr-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
       hash: md5
@@ -2121,16 +2121,16 @@ stages:
     outs:
     - path: sweeps/random/flexmf-bpr-hyperopt
       hash: md5
-      md5: 20915ecb2cd0d1736e3294153ac8b1b1.dir
-      size: 342430485
+      md5: 3b0b8afea1e4ca09d7090777ebbcdeac.dir
+      size: 1470838
       nfiles: 5
     - path: sweeps/random/flexmf-bpr-hyperopt.json
       hash: md5
-      md5: e7b2d888ae1ff525b127b02cb23d47d1
-      size: 676
+      md5: d95f363aa23765b2a4545e2dd6af7523
+      size: 702
   sweep-flexmf-logistic-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RBP flexmf-logistic sweeps/random/flexmf-logistic-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RBP flexmf-logistic sweeps/random/flexmf-logistic-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
@@ -2143,13 +2143,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-logistic-hyperopt
       hash: md5
-      md5: 55e81b77f8c5d4d75f1a5e90d0eaf805.dir
-      size: 314591167
+      md5: 2ee67672c28ad183d6423b1c641c8e8f.dir
+      size: 1539891
       nfiles: 5
     - path: sweeps/random/flexmf-logistic-hyperopt.json
       hash: md5
-      md5: c6267b1c121b5a60e34686f29fe4c658
-      size: 729
+      md5: 890d6bf5505b3cbdfb94de32d70d7f30
+      size: 756
   run-random-hyperopt-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-logistic-hyperopt.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-logistic-hyperopt-best
@@ -2170,13 +2170,13 @@ stages:
       size: 358913
     - path: sweeps/random/flexmf-logistic-hyperopt.json
       hash: md5
-      md5: c6267b1c121b5a60e34686f29fe4c658
-      size: 729
+      md5: 890d6bf5505b3cbdfb94de32d70d7f30
+      size: 756
     outs:
     - path: runs/random/flexmf-logistic-hyperopt-best
       hash: md5
-      md5: a5e1fcc1baefd7f55cf649f6f8fdd11a.dir
-      size: 3810895
+      md5: 6b2997fc22f432f37bed1fdcfd856332.dir
+      size: 3836057
       nfiles: 4
   run-random-default-flexmf-explicit:
     cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
@@ -2207,8 +2207,8 @@ stages:
     deps:
     - path: ../../src/codex/models/als_biased.py
       hash: md5
-      md5: 2aa6b8812d1ff7107ea59f6f57987159
-      size: 477
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -2221,8 +2221,8 @@ stages:
     outs:
     - path: runs/random/als-biased-default
       hash: md5
-      md5: 12cb6260de42886ed3213ad353a06571.dir
-      size: 3838653
+      md5: 805882381dc03b66dedc717b0dadd3ef.dir
+      size: 3831932
       nfiles: 5
   run-random-default-flexmf-logistic:
     cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
@@ -2248,13 +2248,13 @@ stages:
       size: 3646217
       nfiles: 4
   sweep-als-implicit-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
-      als-implicit sweeps/random/als-implicit-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --random --metric=RBP als-implicit sweeps/random/als-implicit-random
     deps:
     - path: ../../src/codex/models/als_implicit.py
       hash: md5
-      md5: ac7d3d2eadc9ce22b5d3c58ed79071ec
-      size: 520
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
     - path: splits/random.parquet
       hash: md5
       md5: e76a6b995411abb5ba2ade811e7f8d1f
@@ -2262,13 +2262,13 @@ stages:
     outs:
     - path: sweeps/random/als-implicit-random
       hash: md5
-      md5: 877fe1dd0dc69d32a90041bdc3a4df8f.dir
-      size: 2967057358
+      md5: 8f4a70cd82500e60155adcd791cdd494.dir
+      size: 1277764
       nfiles: 5
     - path: sweeps/random/als-implicit-random.json
       hash: md5
-      md5: 6fd2ef66261d17bf012d0229173d7aea
-      size: 717
+      md5: b603ce8a041c0655ae52ada3c5ef0244
+      size: 744
   run-random-random-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/als-implicit-random.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/als-implicit-random-best
@@ -2276,8 +2276,8 @@ stages:
     deps:
     - path: ../../src/codex/models/als_implicit.py
       hash: md5
-      md5: ac7d3d2eadc9ce22b5d3c58ed79071ec
-      size: 520
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -2289,17 +2289,17 @@ stages:
       size: 358913
     - path: sweeps/random/als-implicit-random.json
       hash: md5
-      md5: 6fd2ef66261d17bf012d0229173d7aea
-      size: 717
+      md5: b603ce8a041c0655ae52ada3c5ef0244
+      size: 744
     outs:
     - path: runs/random/als-implicit-random-best
       hash: md5
-      md5: 2447d3bb199150cf2afc5038ef9a22b1.dir
-      size: 3840877
+      md5: cb41fa2f3d8401ae393be7d9b094476f.dir
+      size: 3837717
       nfiles: 4
   sweep-flexmf-bpr-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
-      flexmf-bpr sweeps/random/flexmf-bpr-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --random --metric=RBP flexmf-bpr sweeps/random/flexmf-bpr-random
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
       hash: md5
@@ -2312,13 +2312,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-bpr-random
       hash: md5
-      md5: d507443821f2296a85a2b882a212020e.dir
-      size: 502347687
+      md5: 4df98d520598d7ae8d5b04202c1a31fa.dir
+      size: 1261699
       nfiles: 5
     - path: sweeps/random/flexmf-bpr-random.json
       hash: md5
-      md5: de22f5456725423a91c875289b164164
-      size: 679
+      md5: e2780642f85864164dc52d5a5bc6bf9f
+      size: 708
   run-random-random-best-flexmf-bpr:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-bpr-random.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-bpr-random-best
@@ -2339,13 +2339,13 @@ stages:
       size: 358913
     - path: sweeps/random/flexmf-bpr-random.json
       hash: md5
-      md5: de22f5456725423a91c875289b164164
-      size: 679
+      md5: e2780642f85864164dc52d5a5bc6bf9f
+      size: 708
     outs:
     - path: runs/random/flexmf-bpr-random-best
       hash: md5
-      md5: d08f0769461974b8b96a84ecbfa49b82.dir
-      size: 3721809
+      md5: a996cd7e5bedcd5d46a90bb706a3ed89.dir
+      size: 3733298
       nfiles: 4
   run-random-random-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-explicit-random.json
@@ -2367,17 +2367,17 @@ stages:
       size: 358913
     - path: sweeps/random/flexmf-explicit-random.json
       hash: md5
-      md5: 33bdb768acc672d68f53120026a80a0c
-      size: 660
+      md5: cb8960c1cf386b5163f4a9ca6ab1bfcd
+      size: 692
     outs:
     - path: runs/random/flexmf-explicit-random-best
       hash: md5
-      md5: 6b5c4d6138397adebd50e05e010ac5f5.dir
-      size: 3891580
+      md5: 1ef47759edd04114b91d5e2deafa1346.dir
+      size: 3899413
       nfiles: 5
   sweep-flexmf-logistic-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
-      flexmf-logistic sweeps/random/flexmf-logistic-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --random --metric=RBP flexmf-logistic sweeps/random/flexmf-logistic-random
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
@@ -2390,13 +2390,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-logistic-random
       hash: md5
-      md5: df0debc328acf6d9464552fe7764fbaf.dir
-      size: 499466351
+      md5: 6fbe90a93c0cb60be5380c0626579137.dir
+      size: 1464409
       nfiles: 5
     - path: sweeps/random/flexmf-logistic-random.json
       hash: md5
-      md5: 658aa513c7143cd22379181ad3714cf2
-      size: 731
+      md5: 69389c729c57e8730dcd89a968451ee6
+      size: 755
   run-random-random-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-logistic-random.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-logistic-random-best
@@ -2417,22 +2417,22 @@ stages:
       size: 358913
     - path: sweeps/random/flexmf-logistic-random.json
       hash: md5
-      md5: 658aa513c7143cd22379181ad3714cf2
-      size: 731
+      md5: 69389c729c57e8730dcd89a968451ee6
+      size: 755
     outs:
     - path: runs/random/flexmf-logistic-random-best
       hash: md5
-      md5: 9c367bdbea8a38334637be0d3b4fb598.dir
-      size: 3797402
+      md5: 36a03cb09b513ed7bccc994e84bd9b7f.dir
+      size: 3723967
       nfiles: 4
   sweep-als-biased-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RMSE als-biased sweeps/random/als-biased-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RMSE als-biased sweeps/random/als-biased-hyperopt
     deps:
     - path: ../../src/codex/models/als_biased.py
       hash: md5
-      md5: 2aa6b8812d1ff7107ea59f6f57987159
-      size: 477
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
     - path: splits/random.parquet
       hash: md5
       md5: e76a6b995411abb5ba2ade811e7f8d1f
@@ -2440,13 +2440,13 @@ stages:
     outs:
     - path: sweeps/random/als-biased-hyperopt
       hash: md5
-      md5: 9392a5fa7a3b09c66044ef92f54c26ca.dir
-      size: 5639579802
+      md5: 0b788a5c5897dc014f707b830dde794b.dir
+      size: 1339253
       nfiles: 5
     - path: sweeps/random/als-biased-hyperopt.json
       hash: md5
-      md5: 6056f3d24b5ba2cc8b9399326e311d1a
-      size: 714
+      md5: a6f405d66d69bb04fdf3a41770ceb851
+      size: 741
   run-random-hyperopt-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/random/als-biased-hyperopt.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/als-biased-hyperopt-best
@@ -2454,8 +2454,8 @@ stages:
     deps:
     - path: ../../src/codex/models/als_biased.py
       hash: md5
-      md5: 2aa6b8812d1ff7107ea59f6f57987159
-      size: 477
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -2467,13 +2467,13 @@ stages:
       size: 358913
     - path: sweeps/random/als-biased-hyperopt.json
       hash: md5
-      md5: 6056f3d24b5ba2cc8b9399326e311d1a
-      size: 714
+      md5: a6f405d66d69bb04fdf3a41770ceb851
+      size: 741
     outs:
     - path: runs/random/als-biased-hyperopt-best
       hash: md5
-      md5: 57ad478985ed91f5be9a5dc8ea047e16.dir
-      size: 3830885
+      md5: 394fa0f8bfe085d88724c73c26f7148e.dir
+      size: 3827687
       nfiles: 5
   sweep-als-implicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
@@ -2526,13 +2526,13 @@ stages:
       size: 3845720
       nfiles: 4
   sweep-bias-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RMSE bias sweeps/random/bias-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RMSE bias sweeps/random/bias-hyperopt
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
-      md5: 79d1ef7f11afd2f4a19828a1c0d1072d
-      size: 322
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
     - path: splits/random.parquet
       hash: md5
       md5: e76a6b995411abb5ba2ade811e7f8d1f
@@ -2540,21 +2540,21 @@ stages:
     outs:
     - path: sweeps/random/bias-hyperopt
       hash: md5
-      md5: 0468fc2d43611b97a45f56d9cd3f5282.dir
-      size: 762427
+      md5: fbb2febb0391d057558f2db5a26dfac4.dir
+      size: 790903
       nfiles: 4
     - path: sweeps/random/bias-hyperopt.json
       hash: md5
-      md5: dbdfb108efc19a1ed29cc6f9724d908e
-      size: 786
+      md5: fb2124c253ee349fc81c098aabe09765
+      size: 814
   run-random-hyperopt-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-hyperopt.json --ds-name=ML1M
       --split=splits/random.toml -o runs/random/bias-hyperopt-best bias
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
-      md5: 79d1ef7f11afd2f4a19828a1c0d1072d
-      size: 322
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -2566,13 +2566,13 @@ stages:
       size: 358913
     - path: sweeps/random/bias-hyperopt.json
       hash: md5
-      md5: dbdfb108efc19a1ed29cc6f9724d908e
-      size: 786
+      md5: fb2124c253ee349fc81c098aabe09765
+      size: 814
     outs:
     - path: runs/random/bias-hyperopt-best
       hash: md5
-      md5: 226a622259173acb3975c26387513103.dir
-      size: 3255970
+      md5: 982a47c1c35bbb6d3619b659dbb4f186.dir
+      size: 3253649
       nfiles: 5
   run-random-hyperopt-best-flexmf-bpr:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-bpr-hyperopt.json
@@ -2594,17 +2594,17 @@ stages:
       size: 358913
     - path: sweeps/random/flexmf-bpr-hyperopt.json
       hash: md5
-      md5: e7b2d888ae1ff525b127b02cb23d47d1
-      size: 676
+      md5: d95f363aa23765b2a4545e2dd6af7523
+      size: 702
     outs:
     - path: runs/random/flexmf-bpr-hyperopt-best
       hash: md5
-      md5: b815a5fea9f1dc486cd8283bd2423049.dir
-      size: 3737089
+      md5: 1d90171361b245a6309f3aa90ae410e7.dir
+      size: 3738575
       nfiles: 4
   sweep-flexmf-explicit-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RMSE flexmf-explicit sweeps/random/flexmf-explicit-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RMSE flexmf-explicit sweeps/random/flexmf-explicit-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
       hash: md5
@@ -2617,13 +2617,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-explicit-hyperopt
       hash: md5
-      md5: 55e6daf45949b78cc94e2bf3bd5c3fc0.dir
-      size: 239784596
+      md5: a7f2472ce73919421761f638908d6db2.dir
+      size: 1296867
       nfiles: 5
     - path: sweeps/random/flexmf-explicit-hyperopt.json
       hash: md5
-      md5: 0fc83bc0a66de85895a4bdfb9a665c10
-      size: 660
+      md5: 457916c5b31aa825cc6e6915da060270
+      size: 688
   run-random-hyperopt-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-explicit-hyperopt.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-explicit-hyperopt-best
@@ -2644,22 +2644,22 @@ stages:
       size: 358913
     - path: sweeps/random/flexmf-explicit-hyperopt.json
       hash: md5
-      md5: 0fc83bc0a66de85895a4bdfb9a665c10
-      size: 660
+      md5: 457916c5b31aa825cc6e6915da060270
+      size: 688
     outs:
     - path: runs/random/flexmf-explicit-hyperopt-best
       hash: md5
-      md5: 2957f151e45128b138f9dd8ba6357678.dir
-      size: 3909950
+      md5: 27ec34661a770223d93ca4d0da33611c.dir
+      size: 3913293
       nfiles: 5
   sweep-iknn-explicit-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-hyperopt
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: c8c56d4290ddce217c25b839ad71d566
-      size: 1490
+      md5: 150dfcaa2c5ae533410cc3e20060cecb
+      size: 1538
     - path: splits/random.parquet
       hash: md5
       md5: e76a6b995411abb5ba2ade811e7f8d1f
@@ -2667,13 +2667,13 @@ stages:
     outs:
     - path: sweeps/random/iknn-explicit-hyperopt
       hash: md5
-      md5: e33513b16ccecd79efc253d65483783b.dir
-      size: 785049
+      md5: 612531d42cc2980e3b7cd745b59918f3.dir
+      size: 810787
       nfiles: 4
     - path: sweeps/random/iknn-explicit-hyperopt.json
       hash: md5
-      md5: 76a8bbd6880f2746a18bd0e86e8ea842
-      size: 799
+      md5: 0666f3e1650169a7d46d4f5a50116c56
+      size: 830
   run-random-hyperopt-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-hyperopt.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/iknn-explicit-hyperopt-best
@@ -2681,8 +2681,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: c8c56d4290ddce217c25b839ad71d566
-      size: 1490
+      md5: 150dfcaa2c5ae533410cc3e20060cecb
+      size: 1538
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -2694,22 +2694,22 @@ stages:
       size: 358913
     - path: sweeps/random/iknn-explicit-hyperopt.json
       hash: md5
-      md5: 76a8bbd6880f2746a18bd0e86e8ea842
-      size: 799
+      md5: 0666f3e1650169a7d46d4f5a50116c56
+      size: 830
     outs:
     - path: runs/random/iknn-explicit-hyperopt-best
       hash: md5
-      md5: 1ffbd4344af627cc9502c32a7a6baa33.dir
-      size: 3863656
+      md5: 93233eeb1d4deee8d6864f586968db8b.dir
+      size: 3866542
       nfiles: 5
   sweep-iknn-implicit-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RBP iknn-implicit sweeps/random/iknn-implicit-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RBP iknn-implicit sweeps/random/iknn-implicit-hyperopt
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 8086baf7fbf099e8e4090a30220756b9
-      size: 1430
+      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
+      size: 1478
     - path: splits/random.parquet
       hash: md5
       md5: e76a6b995411abb5ba2ade811e7f8d1f
@@ -2717,13 +2717,13 @@ stages:
     outs:
     - path: sweeps/random/iknn-implicit-hyperopt
       hash: md5
-      md5: d80788f1f2b145fe85b229b72187497b.dir
-      size: 768395
+      md5: b48ce2143e8ab87c0eef21a309a6028a.dir
+      size: 794620
       nfiles: 4
     - path: sweeps/random/iknn-implicit-hyperopt.json
       hash: md5
-      md5: b44912aa4b3a3858e466715cf6d4dc14
-      size: 768
+      md5: 746c2c1a3b688b1761c0c725f43732b8
+      size: 786
   run-random-hyperopt-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-implicit-hyperopt.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/iknn-implicit-hyperopt-best
@@ -2731,8 +2731,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 8086baf7fbf099e8e4090a30220756b9
-      size: 1430
+      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
+      size: 1478
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -2744,13 +2744,13 @@ stages:
       size: 358913
     - path: sweeps/random/iknn-implicit-hyperopt.json
       hash: md5
-      md5: b44912aa4b3a3858e466715cf6d4dc14
-      size: 768
+      md5: 746c2c1a3b688b1761c0c725f43732b8
+      size: 786
     outs:
     - path: runs/random/iknn-implicit-hyperopt-best
       hash: md5
-      md5: 845e3e1b78b77d91f951c30c9ee0f6ae.dir
-      size: 3624060
+      md5: b1af29a47458739b0741b1bac4bd9071.dir
+      size: 3624281
       nfiles: 4
   run-random-hyperopt-best-implicit-bpr:
     cmd: lenskit codex generate --param-file sweeps/random/implicit-bpr-hyperopt.json
@@ -2772,13 +2772,13 @@ stages:
       size: 358913
     - path: sweeps/random/implicit-bpr-hyperopt.json
       hash: md5
-      md5: cc4def4fb437402a77f274b1f3e7fd30
-      size: 849
+      md5: 8a0acf876c35f16a53d7bceb4d4ca26e
+      size: 874
     outs:
     - path: runs/random/implicit-bpr-hyperopt-best
       hash: md5
-      md5: 4a99a728c00178fa6ba033bb6195773e.dir
-      size: 3800840
+      md5: 2ebc717c7b607233f8330d1ab079560c.dir
+      size: 3802623
       nfiles: 4
   sweep-uknn-explicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
@@ -2786,8 +2786,8 @@ stages:
     deps:
     - path: ../../src/codex/models/uknn_explicit.py
       hash: md5
-      md5: c7321a52e640ca8eb6c5276309d72a63
-      size: 438
+      md5: 377333540df2c8c89202831eaa51c815
+      size: 436
     - path: splits/random.parquet
       hash: md5
       md5: e76a6b995411abb5ba2ade811e7f8d1f
@@ -2795,13 +2795,13 @@ stages:
     outs:
     - path: sweeps/random/uknn-explicit-hyperopt
       hash: md5
-      md5: 88a20bc0f40ed036708ec13f786ed475.dir
-      size: 482179
+      md5: e467a758e0d842db304b8f795950c9cb.dir
+      size: 499258
       nfiles: 4
     - path: sweeps/random/uknn-explicit-hyperopt.json
       hash: md5
-      md5: 29dac6369e928aed22ca41d4bbe15279
-      size: 803
+      md5: 80c601a5003d4373f2fd04e574ca619f
+      size: 826
   run-random-hyperopt-best-uknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/uknn-explicit-hyperopt.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-explicit-hyperopt-best
@@ -2809,8 +2809,8 @@ stages:
     deps:
     - path: ../../src/codex/models/uknn_explicit.py
       hash: md5
-      md5: c7321a52e640ca8eb6c5276309d72a63
-      size: 438
+      md5: 377333540df2c8c89202831eaa51c815
+      size: 436
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -2822,13 +2822,13 @@ stages:
       size: 358913
     - path: sweeps/random/uknn-explicit-hyperopt.json
       hash: md5
-      md5: 29dac6369e928aed22ca41d4bbe15279
-      size: 803
+      md5: 80c601a5003d4373f2fd04e574ca619f
+      size: 826
     outs:
     - path: runs/random/uknn-explicit-hyperopt-best
       hash: md5
-      md5: ee9b2af8e5929a9e6134d5b40d6a0a9a.dir
-      size: 3856828
+      md5: 341ff43abc09efcd442bc65debc55420.dir
+      size: 3856012
       nfiles: 5
   run-random-hyperopt-best-uknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/uknn-implicit-hyperopt.json
@@ -2837,8 +2837,8 @@ stages:
     deps:
     - path: ../../src/codex/models/uknn_implicit.py
       hash: md5
-      md5: 0ca87563e0c0f3d827ff7678c85529cc
-      size: 439
+      md5: 9e76eaa9c81700514942f6b7f5984170
+      size: 437
     - path: dataset
       hash: md5
       md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
@@ -2850,13 +2850,13 @@ stages:
       size: 358913
     - path: sweeps/random/uknn-implicit-hyperopt.json
       hash: md5
-      md5: a4e9fa22bb490650243ba3ced8773aaa
-      size: 771
+      md5: dc56df3722fa1deecdfbc4f64f1ebf97
+      size: 776
     outs:
     - path: runs/random/uknn-implicit-hyperopt-best
       hash: md5
-      md5: 4364cbf3a16438de60ba6018a07408b3.dir
-      size: 3802478
+      md5: 6e47cb5dc790a68eb2384d9216a0ee11.dir
+      size: 3801144
       nfiles: 4
   run-random-default-flexmf-warp:
     cmd: lenskit codex generate --default --ds-name=ML1M --split=splits/random.toml
@@ -2882,8 +2882,8 @@ stages:
       size: 3735068
       nfiles: 4
   sweep-flexmf-warp-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
-      flexmf-warp sweeps/random/flexmf-warp-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --random --metric=RBP flexmf-warp sweeps/random/flexmf-warp-random
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
       hash: md5
@@ -2896,13 +2896,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-warp-random
       hash: md5
-      md5: 4f0afd0ac9dc1dad33dd8f94a1a069a1.dir
-      size: 1346709
+      md5: 62ea3bc28d35931f98039db91d4fb96d.dir
+      size: 1218969
       nfiles: 5
     - path: sweeps/random/flexmf-warp-random.json
       hash: md5
-      md5: 34d0e4c23fa3b5caa415cee98df04181
-      size: 658
+      md5: a0795de014dd87a06cff8b96afebfda7
+      size: 686
   run-random-random-best-flexmf-warp:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-warp-random.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-warp-random-best
@@ -2923,17 +2923,17 @@ stages:
       size: 358913
     - path: sweeps/random/flexmf-warp-random.json
       hash: md5
-      md5: 34d0e4c23fa3b5caa415cee98df04181
-      size: 658
+      md5: a0795de014dd87a06cff8b96afebfda7
+      size: 686
     outs:
     - path: runs/random/flexmf-warp-random-best
       hash: md5
-      md5: 67dacdc1b68c7f015b4afd64c78c7e69.dir
-      size: 3709747
+      md5: 0acebb3e94d1a162374f7282443e35f6.dir
+      size: 3702514
       nfiles: 4
   sweep-flexmf-warp-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RBP flexmf-warp sweeps/random/flexmf-warp-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RBP flexmf-warp sweeps/random/flexmf-warp-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
       hash: md5
@@ -2946,13 +2946,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-warp-hyperopt
       hash: md5
-      md5: d427e542abc3cab22205178e2fe35c04.dir
-      size: 1700273
+      md5: 2dd575c78d91a732c6d9003ace6bdd34.dir
+      size: 1430715
       nfiles: 5
     - path: sweeps/random/flexmf-warp-hyperopt.json
       hash: md5
-      md5: 7bbe63f16cd7d06f9836ab511f2ba50e
-      size: 652
+      md5: 6d04bf63a753f9b4e638fcf02a7e6a87
+      size: 682
   run-random-hyperopt-best-flexmf-warp:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-warp-hyperopt.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-warp-hyperopt-best
@@ -2973,17 +2973,17 @@ stages:
       size: 358913
     - path: sweeps/random/flexmf-warp-hyperopt.json
       hash: md5
-      md5: 7bbe63f16cd7d06f9836ab511f2ba50e
-      size: 652
+      md5: 6d04bf63a753f9b4e638fcf02a7e6a87
+      size: 682
     outs:
     - path: runs/random/flexmf-warp-hyperopt-best
       hash: md5
-      md5: 37dde2f634769434fb8c614c37f3cf1c.dir
-      size: 3703043
+      md5: ba0344260875c00c8f0b667519880632.dir
+      size: 3737348
       nfiles: 4
   sweep-flexmf-logistic-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RBP
-      flexmf-logistic sweeps/random/flexmf-logistic-optuna
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RBP flexmf-logistic sweeps/random/flexmf-logistic-optuna
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
@@ -2996,13 +2996,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-logistic-optuna
       hash: md5
-      md5: c2d76715e724707224faa8f3d7841457.dir
-      size: 1999465
+      md5: 8921ca9c770dc74e38557c06de7dd2c7.dir
+      size: 1899854
       nfiles: 5
     - path: sweeps/random/flexmf-logistic-optuna.json
       hash: md5
-      md5: 933581515f3bbfc0c0731f26243b88f8
-      size: 723
+      md5: 7bd34fc0017020fac6831de9800bf3f8
+      size: 753
   run-random-optuna-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-logistic-optuna.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-logistic-optuna-best
@@ -3023,13 +3023,13 @@ stages:
       size: 358913
     - path: sweeps/random/flexmf-logistic-optuna.json
       hash: md5
-      md5: 933581515f3bbfc0c0731f26243b88f8
-      size: 723
+      md5: 7bd34fc0017020fac6831de9800bf3f8
+      size: 753
     outs:
     - path: runs/random/flexmf-logistic-optuna-best
       hash: md5
-      md5: d36a5931b0a36435dc41a6eaf2092624.dir
-      size: 3801063
+      md5: 16df5d67b2f3dd83a28a335293279f5d.dir
+      size: 3803027
       nfiles: 4
   sweep-uknn-explicit-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
@@ -3054,8 +3054,8 @@ stages:
       md5: 094115ef81174a9b837e35e1bec3164e
       size: 795
   sweep-implicit-bpr-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RBP
-      implicit-bpr sweeps/random/implicit-bpr-optuna
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RBP implicit-bpr sweeps/random/implicit-bpr-optuna
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
       hash: md5
@@ -3068,16 +3068,16 @@ stages:
     outs:
     - path: sweeps/random/implicit-bpr-optuna
       hash: md5
-      md5: db3a407935655bcd57e5dbd5896b4004.dir
-      size: 857985
+      md5: 6f0d96534c0e3b6955c6b4c1a5d446a2.dir
+      size: 878417
       nfiles: 4
     - path: sweeps/random/implicit-bpr-optuna.json
       hash: md5
-      md5: 17fd866ec03770fe8a36db155ad9e273
-      size: 849
+      md5: f4545dbdc4b08c2aa6254babb099d2a4
+      size: 884
   sweep-flexmf-warp-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RBP
-      flexmf-warp sweeps/random/flexmf-warp-optuna
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RBP flexmf-warp sweeps/random/flexmf-warp-optuna
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
       hash: md5
@@ -3090,13 +3090,13 @@ stages:
     outs:
     - path: sweeps/random/flexmf-warp-optuna
       hash: md5
-      md5: 936d65930d37bd1b245e88ee75f1c4a1.dir
-      size: 1637355
+      md5: 5314380b85048a0a1b467555477ff58d.dir
+      size: 1681885
       nfiles: 5
     - path: sweeps/random/flexmf-warp-optuna.json
       hash: md5
-      md5: 48fb72239a744212702bd53db1ecb038
-      size: 653
+      md5: 6b89335e2c9dbfe34621c0ca20cfa6aa
+      size: 681
   run-random-optuna-best-flexmf-warp:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-warp-optuna.json
       --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-warp-optuna-best
@@ -3117,17 +3117,17 @@ stages:
       size: 358913
     - path: sweeps/random/flexmf-warp-optuna.json
       hash: md5
-      md5: 48fb72239a744212702bd53db1ecb038
-      size: 653
+      md5: 6b89335e2c9dbfe34621c0ca20cfa6aa
+      size: 681
     outs:
     - path: runs/random/flexmf-warp-optuna-best
       hash: md5
-      md5: a4999ee414af8f16624da98067609885.dir
-      size: 3730328
+      md5: 0b38071d0324921ed8c0dd9dffd814f9.dir
+      size: 3721482
       nfiles: 4
   sweep-bias-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RMSE
-      bias sweeps/random/bias-optuna
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RMSE bias sweeps/random/bias-optuna
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
@@ -3140,13 +3140,13 @@ stages:
     outs:
     - path: sweeps/random/bias-optuna
       hash: md5
-      md5: c8a2b9b802c5c7a01e60fd2ab7b09d77.dir
-      size: 782037
+      md5: 9c299fe85208cf0c521898012f769a30.dir
+      size: 800554
       nfiles: 4
     - path: sweeps/random/bias-optuna.json
       hash: md5
-      md5: d4c57e05aa1306ac17b1522498c234cf
-      size: 782
+      md5: 1b0d69dd0a0319d51a40c832e660aab5
+      size: 820
   run-random-optuna-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-optuna.json --ds-name=ML1M
       --split=splits/random.toml -o runs/random/bias-optuna-best bias
@@ -3166,11 +3166,417 @@ stages:
       size: 358913
     - path: sweeps/random/bias-optuna.json
       hash: md5
-      md5: d4c57e05aa1306ac17b1522498c234cf
-      size: 782
+      md5: 1b0d69dd0a0319d51a40c832e660aab5
+      size: 820
     outs:
     - path: runs/random/bias-optuna-best
       hash: md5
-      md5: 4c997be0368a970a0814686a3b143cc5.dir
-      size: 3257059
+      md5: c65b552efa439e9b8bfad464da8381d5.dir
+      size: 3254971
+      nfiles: 5
+  sweep-flexmf-explicit-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RMSE flexmf-explicit sweeps/random/flexmf-explicit-optuna
+    deps:
+    - path: ../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 9271360109ed53980623529abafbc7a4
+      size: 527
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/flexmf-explicit-optuna
+      hash: md5
+      md5: e6adaf535a6ca257f4e978ac8239e14f.dir
+      size: 1341287
+      nfiles: 5
+    - path: sweeps/random/flexmf-explicit-optuna.json
+      hash: md5
+      md5: e2f9d0e07eb863f203dbfedbc7ffba7a
+      size: 683
+  sweep-als-implicit-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RBP als-implicit sweeps/random/als-implicit-optuna
+    deps:
+    - path: ../../src/codex/models/als_implicit.py
+      hash: md5
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/als-implicit-optuna
+      hash: md5
+      md5: 5cfa8a7f3732d35e46fc203977e4e1e7.dir
+      size: 1522392
+      nfiles: 5
+    - path: sweeps/random/als-implicit-optuna.json
+      hash: md5
+      md5: 7b7422264be964f2c6a2db6b04fd8bbb
+      size: 739
+  run-random-optuna-best-als-implicit:
+    cmd: lenskit codex generate --param-file sweeps/random/als-implicit-optuna.json
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/als-implicit-optuna-best
+      als-implicit
+    deps:
+    - path: ../../src/codex/models/als_implicit.py
+      hash: md5
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/als-implicit-optuna.json
+      hash: md5
+      md5: 7b7422264be964f2c6a2db6b04fd8bbb
+      size: 739
+    outs:
+    - path: runs/random/als-implicit-optuna-best
+      hash: md5
+      md5: 9d6b2534bef979d5eb4ed130de157a2b.dir
+      size: 3842728
+      nfiles: 4
+  sweep-als-biased-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RMSE als-biased sweeps/random/als-biased-optuna
+    deps:
+    - path: ../../src/codex/models/als_biased.py
+      hash: md5
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/als-biased-optuna
+      hash: md5
+      md5: e634172d285ea5f98fc8c3c7179f1fbf.dir
+      size: 1298719
+      nfiles: 5
+    - path: sweeps/random/als-biased-optuna.json
+      hash: md5
+      md5: d315ea2f70effff4dd695d7c66ed7541
+      size: 742
+  run-random-optuna-best-als-biased:
+    cmd: lenskit codex generate --param-file sweeps/random/als-biased-optuna.json
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/als-biased-optuna-best
+      als-biased
+    deps:
+    - path: ../../src/codex/models/als_biased.py
+      hash: md5
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/als-biased-optuna.json
+      hash: md5
+      md5: d315ea2f70effff4dd695d7c66ed7541
+      size: 742
+    outs:
+    - path: runs/random/als-biased-optuna-best
+      hash: md5
+      md5: 1b077e1ef94b25d04fdc8234c32a2c1b.dir
+      size: 3838355
+      nfiles: 5
+  sweep-iknn-implicit-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RBP iknn-implicit sweeps/random/iknn-implicit-optuna
+    deps:
+    - path: ../../src/codex/models/iknn_implicit.py
+      hash: md5
+      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
+      size: 1478
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/iknn-implicit-optuna
+      hash: md5
+      md5: 92c421ac1340767451be0c71add6ce70.dir
+      size: 794554
+      nfiles: 4
+    - path: sweeps/random/iknn-implicit-optuna.json
+      hash: md5
+      md5: e29e4737f2d3faaebb6d8ccc651efbd6
+      size: 797
+  run-random-optuna-best-iknn-implicit:
+    cmd: lenskit codex generate --param-file sweeps/random/iknn-implicit-optuna.json
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/iknn-implicit-optuna-best
+      iknn-implicit
+    deps:
+    - path: ../../src/codex/models/iknn_implicit.py
+      hash: md5
+      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
+      size: 1478
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/iknn-implicit-optuna.json
+      hash: md5
+      md5: e29e4737f2d3faaebb6d8ccc651efbd6
+      size: 797
+    outs:
+    - path: runs/random/iknn-implicit-optuna-best
+      hash: md5
+      md5: b36f861fc5796e32bf79ec9c4e9c4ef2.dir
+      size: 3626429
+      nfiles: 4
+  sweep-uknn-implicit-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
+      --optuna --metric=RBP uknn-implicit sweeps/random/uknn-implicit-optuna
+    deps:
+    - path: ../../src/codex/models/uknn_implicit.py
+      hash: md5
+      md5: 9e76eaa9c81700514942f6b7f5984170
+      size: 437
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/uknn-implicit-optuna
+      hash: md5
+      md5: 14f2e070a8ab092e3b435d3530cf261f.dir
+      size: 481590
+      nfiles: 4
+    - path: sweeps/random/uknn-implicit-optuna.json
+      hash: md5
+      md5: 2bcf658cfba0547217bdde9d0652e8b5
+      size: 804
+  run-random-optuna-best-uknn-implicit:
+    cmd: lenskit codex generate --param-file sweeps/random/uknn-implicit-optuna.json
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-implicit-optuna-best
+      uknn-implicit
+    deps:
+    - path: ../../src/codex/models/uknn_implicit.py
+      hash: md5
+      md5: 9e76eaa9c81700514942f6b7f5984170
+      size: 437
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/uknn-implicit-optuna.json
+      hash: md5
+      md5: 2bcf658cfba0547217bdde9d0652e8b5
+      size: 804
+    outs:
+    - path: runs/random/uknn-implicit-optuna-best
+      hash: md5
+      md5: d71f7b4ea054403b96695e782f33c805.dir
+      size: 3801279
+      nfiles: 4
+  sweep-flexmf-bpr-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RBP flexmf-bpr sweeps/random/flexmf-bpr-optuna
+    deps:
+    - path: ../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: 94acb427f7b39b627be488ba2558067c
+      size: 663
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/flexmf-bpr-optuna
+      hash: md5
+      md5: c4b2d6fc9f60f04a3eb3f055c52a1e2b.dir
+      size: 1846267
+      nfiles: 5
+    - path: sweeps/random/flexmf-bpr-optuna.json
+      hash: md5
+      md5: 65d8da051fb0c2c6a49bc2a994f52b32
+      size: 703
+  run-random-optuna-best-flexmf-bpr:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-bpr-optuna.json
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-bpr-optuna-best
+      flexmf-bpr
+    deps:
+    - path: ../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: 94acb427f7b39b627be488ba2558067c
+      size: 663
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/flexmf-bpr-optuna.json
+      hash: md5
+      md5: 65d8da051fb0c2c6a49bc2a994f52b32
+      size: 703
+    outs:
+    - path: runs/random/flexmf-bpr-optuna-best
+      hash: md5
+      md5: 9e0d7d1f48bcf856966c3bf8899d4042.dir
+      size: 3738344
+      nfiles: 4
+  run-random-optuna-best-flexmf-explicit:
+    cmd: lenskit codex generate --param-file sweeps/random/flexmf-explicit-optuna.json
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/flexmf-explicit-optuna-best
+      flexmf-explicit
+    deps:
+    - path: ../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 9271360109ed53980623529abafbc7a4
+      size: 527
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/flexmf-explicit-optuna.json
+      hash: md5
+      md5: e2f9d0e07eb863f203dbfedbc7ffba7a
+      size: 683
+    outs:
+    - path: runs/random/flexmf-explicit-optuna-best
+      hash: md5
+      md5: 888cf676f8155466f101268f382acec8.dir
+      size: 3901860
+      nfiles: 5
+  sweep-iknn-explicit-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-optuna
+    deps:
+    - path: ../../src/codex/models/iknn_explicit.py
+      hash: md5
+      md5: 150dfcaa2c5ae533410cc3e20060cecb
+      size: 1538
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: sweeps/random/iknn-explicit-optuna
+      hash: md5
+      md5: 31aa83ce1370ffc540a8908b125142af.dir
+      size: 811726
+      nfiles: 4
+    - path: sweeps/random/iknn-explicit-optuna.json
+      hash: md5
+      md5: 2deaab87082710982c79ef8a564840b4
+      size: 820
+  run-random-optuna-best-iknn-explicit:
+    cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-optuna.json
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/iknn-explicit-optuna-best
+      iknn-explicit
+    deps:
+    - path: ../../src/codex/models/iknn_explicit.py
+      hash: md5
+      md5: 150dfcaa2c5ae533410cc3e20060cecb
+      size: 1538
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/iknn-explicit-optuna.json
+      hash: md5
+      md5: 2deaab87082710982c79ef8a564840b4
+      size: 820
+    outs:
+    - path: runs/random/iknn-explicit-optuna-best
+      hash: md5
+      md5: 6723b40ca06ac4aec84ba7711ecb1b99.dir
+      size: 3864534
+      nfiles: 5
+  run-random-optuna-best-implicit-bpr:
+    cmd: lenskit codex generate --param-file sweeps/random/implicit-bpr-optuna.json
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/implicit-bpr-optuna-best
+      implicit-bpr
+    deps:
+    - path: ../../src/codex/models/implicit_bpr.py
+      hash: md5
+      md5: 0e653a0d87446ef4e0129b75d976c49e
+      size: 427
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/implicit-bpr-optuna.json
+      hash: md5
+      md5: f4545dbdc4b08c2aa6254babb099d2a4
+      size: 884
+    outs:
+    - path: runs/random/implicit-bpr-optuna-best
+      hash: md5
+      md5: 7165c25bb0cd4fe783cd7226461eccc4.dir
+      size: 3800188
+      nfiles: 4
+  run-random-optuna-best-uknn-explicit:
+    cmd: lenskit codex generate --param-file sweeps/random/uknn-explicit-optuna.json
+      --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-explicit-optuna-best
+      uknn-explicit
+    deps:
+    - path: ../../src/codex/models/uknn_explicit.py
+      hash: md5
+      md5: 377333540df2c8c89202831eaa51c815
+      size: 436
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    - path: sweeps/random/uknn-explicit-optuna.json
+      hash: md5
+      md5: 094115ef81174a9b837e35e1bec3164e
+      size: 795
+    outs:
+    - path: runs/random/uknn-explicit-optuna-best
+      hash: md5
+      md5: e9481ba6bf7b24bdd8e4b3bdc8db4377.dir
+      size: 3833270
       nfiles: 5
