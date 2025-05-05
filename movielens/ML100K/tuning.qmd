@@ -40,6 +40,7 @@ runs = pd.concat({
     for k, df in all_runs.items()
 }, names=names)
 runs = runs.reset_index(names).reset_index(drop=True)
+runs = runs[runs['RBP'].notnull()]
 iters = pd.concat({
     k: df[['trial_id', 'training_iteration', 'timestamp', 'time_this_iter_s', 'RBP', 'NDCG']
           + (['RMSE'] if 'RMSE' in df.columns else [])]
@@ -88,6 +89,7 @@ topn_runs['MaxNDCG'] = topn_runs.groupby(
 (
     pn.ggplot(topn_runs)
     + pn.aes(x='TrialNum', y='MaxNDCG', color='model')
+    + pn.geom_vline(xintercept=40, color='grey', linetype='dotted')
     + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
     + pn.geom_line(pn.aes(y='NDCG'), alpha=0.2)
     + pn.geom_line()
@@ -116,6 +118,7 @@ tnr['RBPLoss'] = (tnr['FinalBestRBP'] - tnr['MaxRBP']) / tnr['FinalBestRBP']
 (
     pn.ggplot(tnr)
     + pn.aes(x='TrialNum', y='RBPLoss', color='model')
+    + pn.geom_vline(xintercept=40, color='grey', linetype='dotted')
     + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
     + pn.geom_hline(yintercept=0.01, color='grey', linetype='dashed')
     + pn.geom_hline(yintercept=0.05, color='pink', linetype='dashed')
