@@ -31,8 +31,8 @@ _log = get_logger(__name__)
 # default sample counts for each sampler, if we override
 DEFAULT_SAMPLE_COUNT = {
     "random": 60,
-    "optuna": 25,
-    "hyperopt": 30,
+    "optuna": 40,
+    "hyperopt": 60,
 }
 
 
