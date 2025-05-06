@@ -6,5 +6,6 @@
     splits: ['random'],
     searches: ['random', 'hyperopt', 'optuna'],
     search_points: 100,
+    search_frozen: true,
   },
 } + import '../layout.libsonnet'

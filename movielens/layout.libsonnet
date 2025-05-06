@@ -5,7 +5,7 @@ local runlib = import 'runs.libsonnet';
 local sweep = import 'sweeps.libsonnet';
 
 {
-  local spec = super.spec,
+  local spec = sweep.search_defaults + super.spec,
   local runs = runlib.makeRuns(spec),
 
   info: spec {

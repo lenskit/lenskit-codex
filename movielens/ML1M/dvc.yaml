@@ -549,6 +549,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/als_biased.py
+    frozen: true
     outs:
       - sweeps/random/als-biased-hyperopt
       - sweeps/random/als-biased-hyperopt.json:
@@ -560,6 +561,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/als_biased.py
+    frozen: true
     outs:
       - sweeps/random/als-biased-optuna
       - sweeps/random/als-biased-optuna.json:
@@ -571,6 +573,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/als_biased.py
+    frozen: true
     outs:
       - sweeps/random/als-biased-random
       - sweeps/random/als-biased-random.json:
@@ -582,6 +585,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/als_implicit.py
+    frozen: true
     outs:
       - sweeps/random/als-implicit-hyperopt
       - sweeps/random/als-implicit-hyperopt.json:
@@ -593,6 +597,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/als_implicit.py
+    frozen: true
     outs:
       - sweeps/random/als-implicit-optuna
       - sweeps/random/als-implicit-optuna.json:
@@ -604,6 +609,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/als_implicit.py
+    frozen: true
     outs:
       - sweeps/random/als-implicit-random
       - sweeps/random/als-implicit-random.json:
@@ -615,6 +621,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/bias.py
+    frozen: true
     outs:
       - sweeps/random/bias-hyperopt
       - sweeps/random/bias-hyperopt.json:
@@ -626,6 +633,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/bias.py
+    frozen: true
     outs:
       - sweeps/random/bias-optuna
       - sweeps/random/bias-optuna.json:
@@ -637,6 +645,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/bias.py
+    frozen: true
     outs:
       - sweeps/random/bias-random
       - sweeps/random/bias-random.json:
@@ -648,6 +657,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_bpr.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-bpr-hyperopt
       - sweeps/random/flexmf-bpr-hyperopt.json:
@@ -659,6 +669,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_bpr.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-bpr-optuna
       - sweeps/random/flexmf-bpr-optuna.json:
@@ -670,6 +681,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_bpr.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-bpr-random
       - sweeps/random/flexmf-bpr-random.json:
@@ -681,6 +693,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_explicit.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-explicit-hyperopt
       - sweeps/random/flexmf-explicit-hyperopt.json:
@@ -692,6 +705,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_explicit.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-explicit-optuna
       - sweeps/random/flexmf-explicit-optuna.json:
@@ -703,6 +717,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_explicit.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-explicit-random
       - sweeps/random/flexmf-explicit-random.json:
@@ -714,6 +729,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_logistic.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-logistic-hyperopt
       - sweeps/random/flexmf-logistic-hyperopt.json:
@@ -725,6 +741,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_logistic.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-logistic-optuna
       - sweeps/random/flexmf-logistic-optuna.json:
@@ -736,6 +753,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_logistic.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-logistic-random
       - sweeps/random/flexmf-logistic-random.json:
@@ -747,6 +765,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_warp.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-warp-hyperopt
       - sweeps/random/flexmf-warp-hyperopt.json:
@@ -758,6 +777,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_warp.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-warp-optuna
       - sweeps/random/flexmf-warp-optuna.json:
@@ -769,6 +789,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/flexmf_warp.py
+    frozen: true
     outs:
       - sweeps/random/flexmf-warp-random
       - sweeps/random/flexmf-warp-random.json:
@@ -780,6 +801,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/iknn_explicit.py
+    frozen: true
     outs:
       - sweeps/random/iknn-explicit-hyperopt
       - sweeps/random/iknn-explicit-hyperopt.json:
@@ -791,6 +813,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/iknn_explicit.py
+    frozen: true
     outs:
       - sweeps/random/iknn-explicit-optuna
       - sweeps/random/iknn-explicit-optuna.json:
@@ -802,6 +825,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/iknn_explicit.py
+    frozen: true
     outs:
       - sweeps/random/iknn-explicit-random
       - sweeps/random/iknn-explicit-random.json:
@@ -813,6 +837,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/iknn_implicit.py
+    frozen: true
     outs:
       - sweeps/random/iknn-implicit-hyperopt
       - sweeps/random/iknn-implicit-hyperopt.json:
@@ -824,6 +849,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/iknn_implicit.py
+    frozen: true
     outs:
       - sweeps/random/iknn-implicit-optuna
       - sweeps/random/iknn-implicit-optuna.json:
@@ -835,6 +861,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/iknn_implicit.py
+    frozen: true
     outs:
       - sweeps/random/iknn-implicit-random
       - sweeps/random/iknn-implicit-random.json:
@@ -846,6 +873,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/uknn_explicit.py
+    frozen: true
     outs:
       - sweeps/random/uknn-explicit-hyperopt
       - sweeps/random/uknn-explicit-hyperopt.json:
@@ -857,6 +885,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/uknn_explicit.py
+    frozen: true
     outs:
       - sweeps/random/uknn-explicit-optuna
       - sweeps/random/uknn-explicit-optuna.json:
@@ -868,6 +897,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/uknn_explicit.py
+    frozen: true
     outs:
       - sweeps/random/uknn-explicit-random
       - sweeps/random/uknn-explicit-random.json:
@@ -879,6 +909,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/uknn_implicit.py
+    frozen: true
     outs:
       - sweeps/random/uknn-implicit-hyperopt
       - sweeps/random/uknn-implicit-hyperopt.json:
@@ -890,6 +921,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/uknn_implicit.py
+    frozen: true
     outs:
       - sweeps/random/uknn-implicit-optuna
       - sweeps/random/uknn-implicit-optuna.json:
@@ -901,6 +933,7 @@ stages:
     deps:
       - splits/random.parquet
       - ../../src/codex/models/uknn_implicit.py
+    frozen: true
     outs:
       - sweeps/random/uknn-implicit-random
       - sweeps/random/uknn-implicit-random.json:

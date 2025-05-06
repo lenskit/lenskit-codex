@@ -1,15 +1,22 @@
 local lib = import '../src/codex.libsonnet';
 
+local search_defaults = {
+  searches: ['optuna'],
+  search_points: null,
+  search_frozen: false,
+};
+
 local searchPointsArg(spec, model) =
-  local spec_pts = std.get(spec, 'search_points');
   local model_pts = std.get(model, 'search_points');
-  if spec_pts != null && model_pts != null then
-    std.format('--sample-count=%s', std.min(spec_pts, model_pts))
-  else if spec_pts != null then
-    std.format('--sample-count=%s', spec_pts)
+  if spec.search_points != null && model_pts != null then
+    std.format('--sample-count=%s', std.min(spec.search_points, model_pts))
+  else if spec.search_points != null then
+    std.format('--sample-count=%s', spec.search_points)
 ;
 
 {
+  search_defaults: search_defaults,
+
   allSweepStages(spec): {
     [std.join('-', ['sweep', m.key, split, method])]: {
       local out_dir = std.format('sweeps/%s/%s-%s', [split, m.key, method]),
@@ -24,7 +31,7 @@ local searchPointsArg(spec, model) =
         m.key,
         out_dir,
       ]),
-      params: if !std.objectHas(spec, 'search_points') then [
+      params: if spec.search_points == null then [
         { '../../config.toml': [std.format('tuning.%s.points', [method])] },
       ] else [],
       deps: [
@@ -38,7 +45,7 @@ local searchPointsArg(spec, model) =
         out_dir,
         { [out_dir + '.json']: { cache: false } },
       ],
-    }
+    } + if spec.search_frozen then { frozen: true } else {}
     for split in spec.splits
     for method in spec.searches
     for m in std.objectKeysValues(lib.activeModels(spec.name))
