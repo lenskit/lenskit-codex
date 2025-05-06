@@ -26,11 +26,6 @@ def load_config() -> CodexConfig:
     return CodexConfig.model_validate(cfg_data)
 
 
-class CodexConfig(BaseModel, extra="allow"):
-    random: RandomConfig
-    tuning: dict[str, TuningConfig]
-
-
 class RandomConfig(BaseModel):
     seed: int
 
@@ -38,3 +33,13 @@ class RandomConfig(BaseModel):
 class TuningConfig(BaseModel):
     points: int
     default: bool = False
+
+
+class PowerConfig(BaseModel):
+    co2e_rate: float | None = None
+
+
+class CodexConfig(BaseModel, extra="allow"):
+    random: RandomConfig
+    tuning: dict[str, TuningConfig] = {}
+    power: PowerConfig = PowerConfig()
