@@ -60,7 +60,7 @@ class PowerConfig(BaseModel):
 
 
 class MachineConfig(BaseModel):
-    idle_watts: float | None
+    idle_watts: float | None = None
     "Idle power draw (in watts)."
 
     power_queries: dict[str, str] = {}
@@ -69,6 +69,15 @@ class MachineConfig(BaseModel):
 
 class CodexConfig(BaseModel, extra="allow"):
     random: RandomConfig
+    machine: str | None = None
     tuning: dict[str, TuningConfig] = {}
     power: PowerConfig = PowerConfig()
     machines: dict[str, MachineConfig] = {}
+
+    @property
+    def machine_config(self) -> MachineConfig:
+        if self.machine is not None:
+            if machine := self.machines.get(self.machine, None):
+                return machine
+
+        return MachineConfig()
