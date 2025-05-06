@@ -20,8 +20,6 @@ SEARCH_BASE_CONFIG = ItemKNNConfig(
     max_nbrs=20, save_nbrs=10000, min_sim=1.0e-6, feedback="explicit"
 )
 
-TUNE_CPUS = 2
-
 
 class TuningModelFactory:
     model: ItemKNNScorer | None = None
