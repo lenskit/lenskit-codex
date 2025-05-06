@@ -1870,13 +1870,13 @@ stages:
       size: 636591
       nfiles: 5
   sweep-iknn-implicit-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RBP
-      iknn-implicit sweeps/random/iknn-implicit-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --random --metric=RBP iknn-implicit sweeps/random/iknn-implicit-random
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
-      size: 1478
+      md5: 19526e2f21adaaa5c6808cd1b78df8b4
+      size: 1463
     - path: splits/random.parquet
       hash: md5
       md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
@@ -1989,13 +1989,13 @@ stages:
       size: 178197
       nfiles: 4
   sweep-iknn-explicit-random-random:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --random --metric=RMSE
-      iknn-explicit sweeps/random/iknn-explicit-random
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --random --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-random
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: 150dfcaa2c5ae533410cc3e20060cecb
-      size: 1538
+      md5: 4d62e3f9e25f49528a273c2509624777
+      size: 1523
     - path: splits/random.parquet
       hash: md5
       md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
@@ -2739,13 +2739,13 @@ stages:
       size: 696022
       nfiles: 4
   sweep-iknn-explicit-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-hyperopt
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: 150dfcaa2c5ae533410cc3e20060cecb
-      size: 1538
+      md5: 4d62e3f9e25f49528a273c2509624777
+      size: 1523
     - path: splits/random.parquet
       hash: md5
       md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
@@ -2817,13 +2817,13 @@ stages:
       size: 718850
       nfiles: 5
   sweep-iknn-implicit-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RBP
-      iknn-implicit sweeps/random/iknn-implicit-optuna
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RBP iknn-implicit sweeps/random/iknn-implicit-optuna
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
-      size: 1478
+      md5: 19526e2f21adaaa5c6808cd1b78df8b4
+      size: 1463
     - path: splits/random.parquet
       hash: md5
       md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
@@ -3138,13 +3138,13 @@ stages:
       size: 702530
       nfiles: 4
   sweep-iknn-implicit-random-hyperopt:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --hyperopt
-      --metric=RBP iknn-implicit sweeps/random/iknn-implicit-hyperopt
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --hyperopt --metric=RBP iknn-implicit sweeps/random/iknn-implicit-hyperopt
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
-      size: 1478
+      md5: 19526e2f21adaaa5c6808cd1b78df8b4
+      size: 1463
     - path: splits/random.parquet
       hash: md5
       md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
@@ -3543,13 +3543,13 @@ stages:
       size: 706763
       nfiles: 4
   sweep-iknn-explicit-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --optuna --metric=RMSE
-      iknn-explicit sweeps/random/iknn-explicit-optuna
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
+      --optuna --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-optuna
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: 150dfcaa2c5ae533410cc3e20060cecb
-      size: 1538
+      md5: 4d62e3f9e25f49528a273c2509624777
+      size: 1523
     - path: splits/random.parquet
       hash: md5
       md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
