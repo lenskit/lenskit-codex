@@ -1,5 +1,6 @@
-from lenskit.logging import get_logger
+from lenskit.logging import get_logger, stdout_console
 
+from codex.config import load_config
 from codex.runlog import human_power, power_metrics
 
 from .. import codex
@@ -10,6 +11,14 @@ _log = get_logger(__name__)
 @codex.group("debug")
 def debug():
     pass
+
+
+@debug.command("config")
+def debug_config():
+    "Dump configuration object."
+    console = stdout_console()
+    config = load_config()
+    console.print_json(config.model_dump_json())
 
 
 @debug.command("power")

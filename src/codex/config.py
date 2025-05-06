@@ -6,11 +6,17 @@ from __future__ import annotations
 
 import tomllib
 
+from deepmerge import always_merger
+from lenskit.logging import get_logger
 from pydantic import BaseModel
 
 from .layout import codex_root
 
+_log = get_logger(__name__)
+
 _config: CodexConfig | None = None
+
+CONFIG_FILES = {"config.toml": True, "config.local.toml": False}
 
 
 def get_config() -> CodexConfig:
@@ -21,9 +27,20 @@ def get_config() -> CodexConfig:
 
 
 def load_config() -> CodexConfig:
-    cfg_file = codex_root() / "config.toml"
-    cfg_data = tomllib.loads(cfg_file.read_text())
-    return CodexConfig.model_validate(cfg_data)
+    config = {}
+    root = codex_root()
+    for file, warn in CONFIG_FILES.items():
+        path = root / file
+        if path.exists():
+            _log.debug("reading configuration", file=file, dir=str(root))
+            cfg = tomllib.loads(path.read_text())
+            config = always_merger.merge(config, cfg)
+        elif warn:
+            _log.warning("configuration file %s not found", file, dir=str(root))
+        else:
+            _log.debug("configuration file not found", file=file, dir=str(root))
+
+    return CodexConfig.model_validate(config)
 
 
 class RandomConfig(BaseModel):
@@ -37,9 +54,21 @@ class TuningConfig(BaseModel):
 
 class PowerConfig(BaseModel):
     co2e_rate: float | None = None
+    "The CO2 equivalency rate (in kgCO2 / MWh)."
+    prometheus_url: str | None = None
+    "URL for Prometheus endpoint."
+
+
+class MachineConfig(BaseModel):
+    idle_watts: float | None
+    "Idle power draw (in watts)."
+
+    power_queries: dict[str, str] = {}
+    "Prometheus queries for power draw."
 
 
 class CodexConfig(BaseModel, extra="allow"):
     random: RandomConfig
     tuning: dict[str, TuningConfig] = {}
     power: PowerConfig = PowerConfig()
+    machines: dict[str, MachineConfig] = {}
