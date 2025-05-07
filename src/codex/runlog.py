@@ -8,7 +8,6 @@ import datetime as dt
 import os
 import socket
 import subprocess as sp
-import tomllib
 from collections.abc import Iterable
 from pathlib import Path
 from uuid import UUID
@@ -17,49 +16,29 @@ import lenskit
 import requests
 import structlog
 import zstandard
-from deepmerge import always_merger
 from humanize import metric
 from lenskit.logging import Task
 from pydantic import BaseModel, Field, JsonValue
 from typing_extensions import override
 
+from codex.config import get_config
 from codex.layout import codex_root
 
 _log = structlog.stdlib.get_logger(__name__)
-_config: RunlogConfig | None = None
 
 CONFIGS = ["config.toml", "local.toml"]
 
 
+def runlog_dir() -> Path:
+    return codex_root() / "run-log"
+
+
+def lobby_dir() -> Path:
+    return runlog_dir() / "lobby"
+
+
 def configure():
-    global _config
-    if _config is not None:
-        _log.warn("already configured")
-
-    root = codex_root()
-    rl_base = root / "run-log"
-    log = _log.bind(root=rl_base)
-
-    cfg = RunlogConfig(base_dir=rl_base).model_dump()
-    for cfg_name in CONFIGS:
-        cfile = rl_base / cfg_name
-        if cfile.exists():
-            log.debug("reading RL configuration", file=cfile)
-            with cfile.open("rb") as f:
-                contrib = tomllib.load(f)
-
-            always_merger.merge(cfg, contrib)
-
-    _config = RunlogConfig.model_validate(cfg)
-    _config.lobby_dir.mkdir(exist_ok=True)
-
-
-def get_config() -> RunlogConfig:
-    if _config is None:
-        configure()
-
-    assert _config is not None
-    return _config
+    lobby_dir().mkdir(exist_ok=True)
 
 
 def machine_name() -> str:
@@ -67,38 +46,11 @@ def machine_name() -> str:
         return name
     else:
         cfg = get_config()
-        if cfg.machine_name:
-            return cfg.machine_name
+        if cfg.machine:
+            return cfg.machine
         else:
             _log.warning("no machine name configured")
             return socket.gethostname()
-
-
-class RunlogConfig(BaseModel):
-    """
-    Schema for runlog configuration file (``runlog/config.toml`` and ``runlog/local.toml``).
-    """
-
-    base_dir: Path
-    machine_name: str | None = None
-    prometheus: PrometheusConfig | None = None
-
-    @property
-    def lobby_dir(self):
-        return self.base_dir / "lobby"
-
-    @property
-    def db_dir(self):
-        return self.base_dir / "db"
-
-
-class PrometheusConfig(BaseModel):
-    url: str
-    """
-    URL to Prometheus instance.
-    """
-
-    queries: dict[str, str] = Field(default_factory=dict)
 
 
 class DataModel(BaseModel):
@@ -135,8 +87,7 @@ class CodexTask(Task):
     @override
     def start(self):
         if self._save_file is None and self.parent_id is None:
-            cfg = get_config()
-            self.save_to_file(cfg.lobby_dir / f"{self.task_id}.json")
+            self.save_to_file(lobby_dir() / f"{self.task_id}.json")
 
         super().start()
 
@@ -145,24 +96,21 @@ class CodexTask(Task):
         res = super().update_resources()
 
         config = get_config()
-        if prom := config.prometheus:
-            url = config.prometheus.url + "/api/v1/query"
+        if url := config.power.prometheus_url:
+            machine = config.machine_config
             assert self.duration is not None
             time_ms = int(self.duration * 1000)
-            if "cpu_power" in prom.queries:
-                self.cpu_power = _get_prometheus_metric(url, prom.queries["cpu_power"], time_ms)
-            if "gpu_power" in prom.queries:
-                self.gpu_power = _get_prometheus_metric(url, prom.queries["gpu_power"], time_ms)
-            if "chassis_power" in prom.queries:
-                self.chassis_power = _get_prometheus_metric(
-                    url, prom.queries["chassis_power"], time_ms
-                )
+            if query := machine.power_queries.get("cpu"):
+                self.cpu_power = _get_prometheus_metric(url, query, time_ms)
+            if query := machine.power_queries.get("gpu"):
+                self.gpu_power = _get_prometheus_metric(url, query, time_ms)
+            if query := machine.power_queries.get("chassis"):
+                self.chassis_power = _get_prometheus_metric(url, query, time_ms)
 
         return res
 
 
 class RunLogDB:
-    config: RunlogConfig
     open_files: dict[str, RunLogDBFile]
 
     def __init__(self):
@@ -173,7 +121,7 @@ class RunLogDB:
         key = "{:4d}-{:02d}".format(date.year, date.month)
         dbf = self.open_files.get(key, None)
         if dbf is None:
-            path = self.config.db_dir / f"{key}.ndjson.zst"
+            path = runlog_dir() / f"{key}.ndjson.zst"
             if path.exists():
                 dbf = RunLogDBFile.read_db(path)
             else:
@@ -252,12 +200,13 @@ def power_metrics(name: str, duration: float):
     time_ms = int(duration * 1000)
 
     config = get_config()
-    prom = config.prometheus
+    prom = config.power.prometheus_url
     if not prom:
         return None
-    url = prom.url + "/api/v1/query"
-    if name in prom.queries:
-        return _get_prometheus_metric(url, prom.queries[name], time_ms)
+    url = prom + "/api/v1/query"
+    machine = config.machine_config
+    if query := machine.power_queries.get(name):
+        return _get_prometheus_metric(url, query, time_ms)
 
 
 def _get_prometheus_metric(url: str, query: str, time_ms: int) -> float | None:
