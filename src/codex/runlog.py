@@ -96,7 +96,8 @@ class CodexTask(Task):
         res = super().update_resources()
 
         config = get_config()
-        if url := config.power.prometheus_url:
+        if prom_base := config.power.prometheus_url:
+            url = prom_base + "/api/v1/query"
             machine = config.machine_config
             assert self.duration is not None
             time_ms = int(self.duration * 1000)
