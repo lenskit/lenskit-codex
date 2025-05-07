@@ -1782,8 +1782,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
       hash: md5
-      md5: 78a77893ede2d2d19b98b1ecfcf5b08c
-      size: 1478
+      md5: 19526e2f21adaaa5c6808cd1b78df8b4
+      size: 1463
     - path: dataset
       hash: md5
       md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
@@ -1796,8 +1796,8 @@ stages:
     outs:
     - path: runs/temporal/iknn-implicit-default
       hash: md5
-      md5: 9f465598840948fbdb3c029a87af05d6.dir
-      size: 6021453
+      md5: 76bca562a80a2a46e248f3a37ced3977.dir
+      size: 6288112
       nfiles: 4
   run-temporal-default-iknn-explicit:
     cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml
@@ -1805,8 +1805,8 @@ stages:
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
       hash: md5
-      md5: 150dfcaa2c5ae533410cc3e20060cecb
-      size: 1538
+      md5: 4d62e3f9e25f49528a273c2509624777
+      size: 1523
     - path: dataset
       hash: md5
       md5: 516bdf9dab4ad71fa0bae71b68c3896a.dir
@@ -1819,8 +1819,8 @@ stages:
     outs:
     - path: runs/temporal/iknn-explicit-default
       hash: md5
-      md5: 54f54fa1a2f1dd2a31c17ddb3834e80a.dir
-      size: 11996176
+      md5: 520477c73c56c1883370a802e93d664f.dir
+      size: 14174845
       nfiles: 5
   run-temporal-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML25M --split=splits/temporal.toml

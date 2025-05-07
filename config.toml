@@ -17,5 +17,10 @@ co2e_rate = 269.7514
 [machines.screamer]
 idle_watts = 81
 
+[machines.screamer.power_queries]
+chassis = 'sum_over_time((apcupsd_nominal_power_watts{{machine="screamer"}} * (apcupsd_ups_load_percent{{machine="screamer"}} / 100))[{time}ms:1s])'
+cpu = 'delta(node_rapl_package_joules_total{{machine="screamer"}}[{time}ms:1s])'
+gpu = 'sum_over_time((nvidia_gpu_power_usage_milliwatts{{machine="screamer"}} / 1000)[{time}ms:1s])'
+
 [machines.cruncher]
 idle_watts = 220
