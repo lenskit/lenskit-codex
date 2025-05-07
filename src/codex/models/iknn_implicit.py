@@ -34,7 +34,7 @@ class TuningModelFactory:
             return ItemKNNScorer(DEFAULT_CONFIG)
 
         shrunk = ItemKNNScorer(config)
-        m2 = self.model.sim_matrix.tocoo()
+        m2 = self.model.sim_matrix.to_scipy().tocoo()
         mask = m2.data >= shrunk.config.min_sim
         matrix = csr_array((m2.data[mask], (m2.row[mask], m2.col[mask])), shape=m2.shape)
         shrunk.items = self.model.items
