@@ -556,12 +556,85 @@
       "sweeps/temporal/"
     ]
   },
+  "movielens/ML25M/als-biased.qmd": {
+    "title": "ALS BiasedMF",
+    "pagetitle": "ML25M - ALS BiasedMF",
+    "echo": false,
+    "model": "als-biased",
+    "deps": [
+      "sweeps/temporal/als-biased-optuna"
+    ]
+  },
+  "movielens/ML25M/bias.qmd": {
+    "title": "Bias Predictor",
+    "pagetitle": "ML25M - Bias",
+    "echo": false,
+    "model": "bias",
+    "deps": [
+      "sweeps/temporal/bias-optuna"
+    ]
+  },
   "movielens/ML25M/description.qmd": {
-    "title": "ML25M Data Description",
+    "title": "Data Description",
+    "pagetitle": "ML25M Data Description",
     "order": 0,
     "echo": false,
     "deps": [
       "stats.duckdb"
+    ]
+  },
+  "movielens/ML25M/flexmf-bpr.qmd": {
+    "title": "FlexMF BPR",
+    "pagetitle": "ML25M - FlexMF BPR",
+    "echo": false,
+    "model": "flexmf-bpr",
+    "deps": [
+      "sweeps/temporal/flexmf-bpr-optuna"
+    ]
+  },
+  "movielens/ML25M/flexmf-explicit.qmd": {
+    "title": "FlexMF Explicit",
+    "pagetitle": "ML25M - FlexMF Explicit",
+    "echo": false,
+    "model": "flexmf-explicit",
+    "deps": [
+      "sweeps/temporal/flexmf-explicit-optuna"
+    ]
+  },
+  "movielens/ML25M/flexmf-logistic.qmd": {
+    "title": "FlexMF Logistic",
+    "pagetitle": "ML25M - FlexMF Logistic",
+    "echo": false,
+    "model": "flexmf-logistic",
+    "deps": [
+      "sweeps/temporal/flexmf-logistic-optuna"
+    ]
+  },
+  "movielens/ML25M/flexmf-warp.qmd": {
+    "title": "FlexMF WARP",
+    "pagetitle": "ML25M - FlexMF WARP",
+    "echo": false,
+    "model": "flexmf-warp",
+    "deps": [
+      "sweeps/temporal/flexmf-warp-optuna"
+    ]
+  },
+  "movielens/ML25M/iknn-explicit.qmd": {
+    "title": "IKNN Explicit",
+    "pagetitle": "ML25M - IKNN Explicit",
+    "echo": false,
+    "model": "iknn-explicit",
+    "deps": [
+      "sweeps/temporal/iknn-explicit-optuna"
+    ]
+  },
+  "movielens/ML25M/iknn-implicit.qmd": {
+    "title": "IKNN Implicit",
+    "pagetitle": "ML25M - IKNN Implicit",
+    "echo": false,
+    "model": "iknn-implicit",
+    "deps": [
+      "sweeps/temporal/iknn-implicit-optuna"
     ]
   },
   "movielens/ML25M/splitting.qmd": {
@@ -572,19 +645,102 @@
     ]
   },
   "movielens/ML25M/summary.qmd": {
-    "title": "ML25M Performance Summary",
+    "title": "Performance Summary",
+    "pagetitle": "ML25M Performance Summary",
     "order": 1,
     "deps": [
       "run-summary.csv",
       "run-user-metrics.parquet"
     ]
   },
+  "movielens/ML25M/tuning.qmd": {
+    "title": "Tuning Analysis",
+    "pagetitle": "ML25M Tuning Analysis",
+    "order": 4,
+    "jupyter": "python3",
+    "deps": [
+      "sweeps/temporal/"
+    ]
+  },
+  "movielens/ML32M/als-biased.qmd": {
+    "title": "ALS BiasedMF",
+    "pagetitle": "ML32M - ALS BiasedMF",
+    "echo": false,
+    "model": "als-biased",
+    "deps": [
+      "sweeps/temporal/als-biased-optuna"
+    ]
+  },
+  "movielens/ML32M/bias.qmd": {
+    "title": "Bias Predictor",
+    "pagetitle": "ML32M - Bias",
+    "echo": false,
+    "model": "bias",
+    "deps": [
+      "sweeps/temporal/bias-optuna"
+    ]
+  },
   "movielens/ML32M/description.qmd": {
-    "title": "ML32M Data Description",
+    "title": "Data Description",
+    "pagetitle": "ML32M Data Description",
     "order": 0,
     "echo": false,
     "deps": [
       "stats.duckdb"
+    ]
+  },
+  "movielens/ML32M/flexmf-bpr.qmd": {
+    "title": "FlexMF BPR",
+    "pagetitle": "ML32M - FlexMF BPR",
+    "echo": false,
+    "model": "flexmf-bpr",
+    "deps": [
+      "sweeps/temporal/flexmf-bpr-optuna"
+    ]
+  },
+  "movielens/ML32M/flexmf-explicit.qmd": {
+    "title": "FlexMF Explicit",
+    "pagetitle": "ML32M - FlexMF Explicit",
+    "echo": false,
+    "model": "flexmf-explicit",
+    "deps": [
+      "sweeps/temporal/flexmf-explicit-optuna"
+    ]
+  },
+  "movielens/ML32M/flexmf-logistic.qmd": {
+    "title": "FlexMF Logistic",
+    "pagetitle": "ML32M - FlexMF Logistic",
+    "echo": false,
+    "model": "flexmf-logistic",
+    "deps": [
+      "sweeps/temporal/flexmf-logistic-optuna"
+    ]
+  },
+  "movielens/ML32M/flexmf-warp.qmd": {
+    "title": "FlexMF WARP",
+    "pagetitle": "ML32M - FlexMF WARP",
+    "echo": false,
+    "model": "flexmf-warp",
+    "deps": [
+      "sweeps/temporal/flexmf-warp-optuna"
+    ]
+  },
+  "movielens/ML32M/iknn-explicit.qmd": {
+    "title": "IKNN Explicit",
+    "pagetitle": "ML32M - IKNN Explicit",
+    "echo": false,
+    "model": "iknn-explicit",
+    "deps": [
+      "sweeps/temporal/iknn-explicit-optuna"
+    ]
+  },
+  "movielens/ML32M/iknn-implicit.qmd": {
+    "title": "IKNN Implicit",
+    "pagetitle": "ML32M - IKNN Implicit",
+    "echo": false,
+    "model": "iknn-implicit",
+    "deps": [
+      "sweeps/temporal/iknn-implicit-optuna"
     ]
   },
   "movielens/ML32M/splitting.qmd": {
@@ -592,6 +748,24 @@
     "order": 1,
     "deps": [
       "stats.duckdb"
+    ]
+  },
+  "movielens/ML32M/summary.qmd": {
+    "title": "Performance Summary",
+    "pagetitle": "ML32M Performance Summary",
+    "order": 1,
+    "deps": [
+      "run-summary.csv",
+      "run-user-metrics.parquet"
+    ]
+  },
+  "movielens/ML32M/tuning.qmd": {
+    "title": "Tuning Analysis",
+    "pagetitle": "ML32M Tuning Analysis",
+    "order": 4,
+    "jupyter": "python3",
+    "deps": [
+      "sweeps/temporal/"
     ]
   },
   "movielens/index.qmd": {

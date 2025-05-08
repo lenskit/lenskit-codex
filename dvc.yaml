@@ -518,6 +518,22 @@ stages:
       - movielens/ML20M/sweeps/temporal/
     outs:
       - _freeze/movielens/ML20M/tuning
+  page/movielens/ML25M/als-biased:
+    cmd: quarto render movielens/ML25M/als-biased.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML25M/als-biased.qmd
+      - movielens/ML25M/sweeps/temporal/als-biased-optuna
+    outs:
+      - _freeze/movielens/ML25M/als-biased
+  page/movielens/ML25M/bias:
+    cmd: quarto render movielens/ML25M/bias.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML25M/bias.qmd
+      - movielens/ML25M/sweeps/temporal/bias-optuna
+    outs:
+      - _freeze/movielens/ML25M/bias
   page/movielens/ML25M/description:
     cmd: quarto render movielens/ML25M/description.qmd
     deps:
@@ -526,6 +542,54 @@ stages:
       - movielens/ML25M/stats.duckdb
     outs:
       - _freeze/movielens/ML25M/description
+  page/movielens/ML25M/flexmf-bpr:
+    cmd: quarto render movielens/ML25M/flexmf-bpr.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML25M/flexmf-bpr.qmd
+      - movielens/ML25M/sweeps/temporal/flexmf-bpr-optuna
+    outs:
+      - _freeze/movielens/ML25M/flexmf-bpr
+  page/movielens/ML25M/flexmf-explicit:
+    cmd: quarto render movielens/ML25M/flexmf-explicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML25M/flexmf-explicit.qmd
+      - movielens/ML25M/sweeps/temporal/flexmf-explicit-optuna
+    outs:
+      - _freeze/movielens/ML25M/flexmf-explicit
+  page/movielens/ML25M/flexmf-logistic:
+    cmd: quarto render movielens/ML25M/flexmf-logistic.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML25M/flexmf-logistic.qmd
+      - movielens/ML25M/sweeps/temporal/flexmf-logistic-optuna
+    outs:
+      - _freeze/movielens/ML25M/flexmf-logistic
+  page/movielens/ML25M/flexmf-warp:
+    cmd: quarto render movielens/ML25M/flexmf-warp.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML25M/flexmf-warp.qmd
+      - movielens/ML25M/sweeps/temporal/flexmf-warp-optuna
+    outs:
+      - _freeze/movielens/ML25M/flexmf-warp
+  page/movielens/ML25M/iknn-explicit:
+    cmd: quarto render movielens/ML25M/iknn-explicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML25M/iknn-explicit.qmd
+      - movielens/ML25M/sweeps/temporal/iknn-explicit-optuna
+    outs:
+      - _freeze/movielens/ML25M/iknn-explicit
+  page/movielens/ML25M/iknn-implicit:
+    cmd: quarto render movielens/ML25M/iknn-implicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML25M/iknn-implicit.qmd
+      - movielens/ML25M/sweeps/temporal/iknn-implicit-optuna
+    outs:
+      - _freeze/movielens/ML25M/iknn-implicit
   page/movielens/ML25M/splitting:
     cmd: quarto render movielens/ML25M/splitting.qmd
     deps:
@@ -543,6 +607,30 @@ stages:
       - movielens/ML25M/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML25M/summary
+  page/movielens/ML25M/tuning:
+    cmd: quarto render movielens/ML25M/tuning.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML25M/tuning.qmd
+      - movielens/ML25M/sweeps/temporal/
+    outs:
+      - _freeze/movielens/ML25M/tuning
+  page/movielens/ML32M/als-biased:
+    cmd: quarto render movielens/ML32M/als-biased.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML32M/als-biased.qmd
+      - movielens/ML32M/sweeps/temporal/als-biased-optuna
+    outs:
+      - _freeze/movielens/ML32M/als-biased
+  page/movielens/ML32M/bias:
+    cmd: quarto render movielens/ML32M/bias.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML32M/bias.qmd
+      - movielens/ML32M/sweeps/temporal/bias-optuna
+    outs:
+      - _freeze/movielens/ML32M/bias
   page/movielens/ML32M/description:
     cmd: quarto render movielens/ML32M/description.qmd
     deps:
@@ -551,6 +639,54 @@ stages:
       - movielens/ML32M/stats.duckdb
     outs:
       - _freeze/movielens/ML32M/description
+  page/movielens/ML32M/flexmf-bpr:
+    cmd: quarto render movielens/ML32M/flexmf-bpr.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML32M/flexmf-bpr.qmd
+      - movielens/ML32M/sweeps/temporal/flexmf-bpr-optuna
+    outs:
+      - _freeze/movielens/ML32M/flexmf-bpr
+  page/movielens/ML32M/flexmf-explicit:
+    cmd: quarto render movielens/ML32M/flexmf-explicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML32M/flexmf-explicit.qmd
+      - movielens/ML32M/sweeps/temporal/flexmf-explicit-optuna
+    outs:
+      - _freeze/movielens/ML32M/flexmf-explicit
+  page/movielens/ML32M/flexmf-logistic:
+    cmd: quarto render movielens/ML32M/flexmf-logistic.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML32M/flexmf-logistic.qmd
+      - movielens/ML32M/sweeps/temporal/flexmf-logistic-optuna
+    outs:
+      - _freeze/movielens/ML32M/flexmf-logistic
+  page/movielens/ML32M/flexmf-warp:
+    cmd: quarto render movielens/ML32M/flexmf-warp.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML32M/flexmf-warp.qmd
+      - movielens/ML32M/sweeps/temporal/flexmf-warp-optuna
+    outs:
+      - _freeze/movielens/ML32M/flexmf-warp
+  page/movielens/ML32M/iknn-explicit:
+    cmd: quarto render movielens/ML32M/iknn-explicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML32M/iknn-explicit.qmd
+      - movielens/ML32M/sweeps/temporal/iknn-explicit-optuna
+    outs:
+      - _freeze/movielens/ML32M/iknn-explicit
+  page/movielens/ML32M/iknn-implicit:
+    cmd: quarto render movielens/ML32M/iknn-implicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML32M/iknn-implicit.qmd
+      - movielens/ML32M/sweeps/temporal/iknn-implicit-optuna
+    outs:
+      - _freeze/movielens/ML32M/iknn-implicit
   page/movielens/ML32M/splitting:
     cmd: quarto render movielens/ML32M/splitting.qmd
     deps:
@@ -559,6 +695,23 @@ stages:
       - movielens/ML32M/stats.duckdb
     outs:
       - _freeze/movielens/ML32M/splitting
+  page/movielens/ML32M/summary:
+    cmd: quarto render movielens/ML32M/summary.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML32M/summary.qmd
+      - movielens/ML32M/run-summary.csv
+      - movielens/ML32M/run-user-metrics.parquet
+    outs:
+      - _freeze/movielens/ML32M/summary
+  page/movielens/ML32M/tuning:
+    cmd: quarto render movielens/ML32M/tuning.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML32M/tuning.qmd
+      - movielens/ML32M/sweeps/temporal/
+    outs:
+      - _freeze/movielens/ML32M/tuning
   page/movielens/index:
     cmd: quarto render movielens/index.qmd
     deps:

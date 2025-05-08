@@ -1,0 +1,151 @@
+---
+title: ALS BiasedMF
+pagetitle: ML32M - ALS BiasedMF
+echo: false
+model: als-biased
+deps:
+- sweeps/temporal/als-biased-optuna
+---
+
+This page analyzes the hyperparameter tuning results for biased matrix
+factorization with ALS.
+
+
+
+```{python}
+from codex.reporting.prelude import *
+```
+
+```{python}
+runs = load_sweep_runs('als-biased')
+iters = load_sweep_iters('als-biased')
+result = load_sweep_result('als-biased')
+best_id = result['trial_id']
+```
+
+## Parameter Search Space
+
+```{python}
+from codex.models.als_biased import SEARCH_SPACE
+show_param_space(SEARCH_SPACE, result['config'])
+```
+
+## Final Result
+
+Searching selected the following configuration:
+
+```{python}
+rich.print(result['config'])
+```
+
+With these metrics:
+
+```{python}
+rich.print(result)
+```
+
+## Parameter Analysis
+
+### Embedding Size
+
+The embedding size is the hyperparameter that most affects the model's
+fundamental logic, so let's look at performance as a fufnction of it:
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.embedding_size', y='RMSE')
+    + pn.geom_point()
+)
+```
+
+### Learning Parameters
+
+::: {.panel-tabset}
+
+#### User Reg.
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.regularization.user', y='RMSE')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='User Regularization')
+)
+```
+
+#### User Damp.
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.damping.user', y='RMSE')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='User Damping')
+)
+```
+
+#### Item Reg.
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.regularization.item', y='RMSE')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='Item Regularization')
+)
+```
+
+#### Item Damp.
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.damping.item', y='RMSE')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(x='Item Damping')
+)
+```
+
+:::
+
+## Iteration Completion
+
+How many iterations, on average, did we complete?
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='training_iteration')
+    + pn.geom_histogram(binwidth=1)
+)
+```
+
+How did the metric progress in the best result?
+
+```{python}
+best_iters = iters[iters['trial_id'] == best_id]
+(
+    pn.ggplot(best_iters)
+    + pn.aes(x='training_iteration', y='RMSE')
+    + pn.geom_line()
+)
+```
+
+How did the metric progress in the longest results?
+
+```{python}
+max_iter = iters['training_iteration'].max()
+last_results = iters[iters['training_iteration'] == max_iter]
+full_trials = last_results['trial_id']
+full_iters = iters[iters['trial_id'].isin(full_trials)]
+(
+    pn.ggplot(full_iters)
+    + pn.aes(x='training_iteration', y='RMSE', color='trial_id')
+    + pn.geom_line()
+)
+```

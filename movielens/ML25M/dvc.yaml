@@ -232,6 +232,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_biased.py
+    frozen: true
     outs:
       - sweeps/temporal/als-biased-optuna
       - sweeps/temporal/als-biased-optuna.json:
@@ -245,6 +246,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_implicit.py
+    frozen: true
     outs:
       - sweeps/temporal/als-implicit-optuna
       - sweeps/temporal/als-implicit-optuna.json:
@@ -258,6 +260,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/bias.py
+    frozen: true
     outs:
       - sweeps/temporal/bias-optuna
       - sweeps/temporal/bias-optuna.json:
@@ -271,6 +274,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_bpr.py
+    frozen: true
     outs:
       - sweeps/temporal/flexmf-bpr-optuna
       - sweeps/temporal/flexmf-bpr-optuna.json:
@@ -284,6 +288,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_explicit.py
+    frozen: true
     outs:
       - sweeps/temporal/flexmf-explicit-optuna
       - sweeps/temporal/flexmf-explicit-optuna.json:
@@ -297,6 +302,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_logistic.py
+    frozen: true
     outs:
       - sweeps/temporal/flexmf-logistic-optuna
       - sweeps/temporal/flexmf-logistic-optuna.json:
@@ -310,6 +316,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_warp.py
+    frozen: true
     outs:
       - sweeps/temporal/flexmf-warp-optuna
       - sweeps/temporal/flexmf-warp-optuna.json:
@@ -323,6 +330,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_explicit.py
+    frozen: true
     outs:
       - sweeps/temporal/iknn-explicit-optuna
       - sweeps/temporal/iknn-explicit-optuna.json:
@@ -336,6 +344,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_implicit.py
+    frozen: true
     outs:
       - sweeps/temporal/iknn-implicit-optuna
       - sweeps/temporal/iknn-implicit-optuna.json:

@@ -1,0 +1,128 @@
+---
+title: FlexMF WARP
+pagetitle: ML25M - FlexMF WARP
+echo: false
+model: flexmf-warp
+deps:
+- sweeps/temporal/flexmf-warp-optuna
+---
+
+This page analyzes the hyperparameter tuning results for the FlexMF scorer in
+implicit-feedback mode with WARP loss.
+
+
+
+```{python}
+from codex.reporting.prelude import *
+```
+
+```{python}
+runs = load_sweep_runs('flexmf-warp')
+iters = load_sweep_iters('flexmf-warp')
+result = load_sweep_result('flexmf-warp')
+best_id = result['trial_id']
+```
+
+## Parameter Search Space
+
+```{python}
+from codex.models.flexmf_warp import SEARCH_SPACE
+show_param_space(SEARCH_SPACE, result['config'])
+```
+
+### Final Result
+
+Searching selected the following configuration:
+
+```{python}
+rich.print(result['config'])
+```
+
+With these metrics:
+
+```{python}
+rich.print(result)
+```
+
+
+## Parameter Analysis
+
+### Embedding Size
+
+The embedding size is the hyperparameter that most affects the model's
+fundamental logic, so let's look at performance as a fufnction of it:
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.embedding_size', y='RBP')
+    + pn.geom_point()
+)
+```
+
+### Learning Parameters
+
+::: {.panel-tabset}
+
+#### Learning Rate
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.learning_rate', y='RBP')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+)
+```
+
+#### Regularization
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.regularization', y='RBP', color='config.reg_method', shape='config.reg_method')
+    + pn.geom_point()
+    + pn.scale_x_log10()
+    + pn.labs(color='Reg. Method', shape='Reg. Method', x='Regularization')
+)
+```
+
+:::
+
+## Iteration Completion
+
+How many iterations, on average, did we complete?
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='training_iteration')
+    + pn.geom_histogram(binwidth=1)
+)
+```
+
+How did the metric progress in the best result?
+
+```{python}
+best_iters = iters[iters['trial_id'] == best_id]
+(
+    pn.ggplot(best_iters)
+    + pn.aes(x='training_iteration', y='RBP')
+    + pn.geom_line()
+    + pn.ggtitle(f'Best Progress ({best_id})')
+)
+```
+
+How did the metric progress in the longest results?
+
+```{python}
+max_iter = iters['training_iteration'].max()
+last_results = iters[iters['training_iteration'] == max_iter]
+full_trials = last_results['trial_id']
+full_iters = iters[iters['trial_id'].isin(full_trials)]
+(
+    pn.ggplot(full_iters)
+    + pn.aes(x='training_iteration', y='RBP', color='trial_id')
+    + pn.geom_line()
+)
+```
