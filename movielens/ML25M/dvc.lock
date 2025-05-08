@@ -2421,3 +2421,53 @@ stages:
       md5: 57a5746274397192e4fd9e907b2ac730.dir
       size: 6236247
       nfiles: 4
+  sweep-iknn-explicit-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-optuna
+    deps:
+    - path: ../../src/codex/models/iknn_explicit.py
+      hash: md5
+      md5: ae32a88616dffc09e52e00200d1e86e0
+      size: 1597
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 77faa6b8f17f977f3461da1d1350d2ac
+      size: 120
+    params:
+      ../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/temporal/iknn-explicit-optuna
+      hash: md5
+      md5: eb7af8ef91f195c11374e3d8bc71f032.dir
+      size: 336460
+      nfiles: 4
+    - path: sweeps/temporal/iknn-explicit-optuna.json
+      hash: md5
+      md5: 2001446520776ffddb0b77dd6752f662
+      size: 816
+  sweep-iknn-implicit-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --optuna
+      --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-optuna
+    deps:
+    - path: ../../src/codex/models/iknn_implicit.py
+      hash: md5
+      md5: 13168e6d529dc0536d293ba434e76ff0
+      size: 1537
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 77faa6b8f17f977f3461da1d1350d2ac
+      size: 120
+    params:
+      ../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/temporal/iknn-implicit-optuna
+      hash: md5
+      md5: 2a6cb5688dffe4763853e5a37ea7682c.dir
+      size: 330774
+      nfiles: 4
+    - path: sweeps/temporal/iknn-implicit-optuna.json
+      hash: md5
+      md5: 661c1f19a684d74616cc57b67b8199b4
+      size: 799
