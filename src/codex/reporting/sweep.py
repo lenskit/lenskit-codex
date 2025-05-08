@@ -24,7 +24,7 @@ def load_sweep_runs(model, split=None, method="optuna") -> pd.DataFrame:
     return pd.json_normalize(run_data)
 
 
-def load_sweep_iters(model, split=None, method="random") -> pd.DataFrame:
+def load_sweep_iters(model, split=None, method="optuna") -> pd.DataFrame:
     base = Path()
     if split is None:
         split = DATA_INFO.default_split
@@ -34,7 +34,7 @@ def load_sweep_iters(model, split=None, method="random") -> pd.DataFrame:
     return pd.json_normalize(run_data)
 
 
-def load_sweep_result(model, split=None, method="random") -> dict:
+def load_sweep_result(model, split=None, method="optuna") -> dict:
     base = Path()
     if split is None:
         split = DATA_INFO.default_split
