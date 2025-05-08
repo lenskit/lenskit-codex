@@ -10,16 +10,18 @@ deps:
 ---
 
 This page provides an analysis of the hyperparameter sweeps to get a handle on
-how different tuning methods are performing.  We use these results from early
+how different tuning methods are performing. We use these results from early
 data sets to select the most efficient strategies for other data sets.
 
 All results are validation error.
 
 {%- if false %}
+
 ```{python}
 import os
 os.chdir('../ML1M')
 ```
+
 {% endif %}
 
 ```{python}
@@ -29,7 +31,7 @@ from codex.reporting.prelude import *
 ```
 
 ```{python}
-names = ['model', 'search']
+names = ["model", "search"]
 all_runs = {}
 all_iters = {}
 for model in DATA_INFO.models:
@@ -40,29 +42,36 @@ for model in DATA_INFO.models:
             except FileNotFoundError as e:
                 continue
             try:
-                all_iters[(model,search)] = load_sweep_iters(model, split=split, method=search)
+                all_iters[(model, search)] = load_sweep_iters(model, split=split, method=search)
             except FileNotFoundError:
                 pass
-runs = pd.concat({
-    k: df[['trial_id', 'timestamp', 'RBP', 'NDCG']
-          + (['RMSE'] if 'RMSE' in df.columns else [])]
-    for k, df in all_runs.items()
-}, names=names)
+
+runs = pd.concat(
+    {
+        k: df[["trial_id", "timestamp", "RBP", "NDCG"] + (["RMSE"] if "RMSE" in df.columns else [])]
+        for k, df in all_runs.items()
+    },
+    names=names,
+)
 runs = runs.reset_index(names).reset_index(drop=True)
-runs = runs[runs['RBP'].notnull()]
-iters = pd.concat({
-    k: df[['trial_id', 'training_iteration', 'timestamp', 'time_this_iter_s', 'RBP', 'NDCG']
-          + (['RMSE'] if 'RMSE' in df.columns else [])]
-    for k, df in all_iters.items()
-}, names=names)
+runs = runs[runs["RBP"].notnull()]
+iters = pd.concat(
+    {
+        k: df[
+            ["trial_id", "training_iteration", "timestamp", "time_this_iter_s", "RBP", "NDCG"]
+            + (["RMSE"] if "RMSE" in df.columns else [])
+        ]
+        for k, df in all_iters.items()
+    },
+    names=names,
+)
 iters = iters.reset_index(names).reset_index(drop=True)
 ```
-
 
 ## Trial Performance
 
 These charts display the maximum performance so far as the search
-progresses through its trials.  The vertical lines are at 60 trials.
+progresses through its trials. The vertical lines are at 60 trials.
 
 ```{python}
 topn_runs = runs[runs['RMSE'].isnull()].copy().sort_values('timestamp')
@@ -100,7 +109,6 @@ if n_trials >= 55:
 
 ### NDCG
 
-
 ```{python}
 plot = (
     pn.ggplot(topn_runs)
@@ -128,7 +136,7 @@ so the NDCG performance may not be fully reflective.
 
 Our goal on the smaller MovieLens data sets, using longer searches, is to
 determine where to stop searching, and which methods are more efficient at
-searching the space.  To better assess this, let's look at the _loss_ relative
+searching the space. To better assess this, let's look at the _loss_ relative
 to each method's best performance if we stop at each trial point.
 
 ```{python}
@@ -168,7 +176,6 @@ ojs_define(
     best_rbps=best_rbps.reset_index(),
 )
 ```
-
 
 ```{ojs}
 viewof max_trial = Inputs.range(
