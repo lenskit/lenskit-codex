@@ -35,10 +35,14 @@ jobs:
         run: uv sync --no-default-groups --locked
 
       - name: Fetch site assets
-        run: uv run --no-default-groups --locked invoke fetch-web-assets
+        run: uv run invoke fetch-web-assets
+        env:
+          UV_NO_SYNC: y
 
       - name: Render site content
-        run: uv run --no-default-groups --locked invoke render-site
+        run: uv run invoke render-site
+        env:
+          UV_NO_SYNC: y
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
