@@ -37,12 +37,12 @@ jobs:
       - name: Fetch site assets
         run: uv run invoke fetch-web-assets
         env:
-          UV_NO_SYNC: y
+          UV_NO_SYNC: 1
 
       - name: Render site content
         run: uv run invoke render-site
         env:
-          UV_NO_SYNC: y
+          UV_NO_SYNC: 1
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
