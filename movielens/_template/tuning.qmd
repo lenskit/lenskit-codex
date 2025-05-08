@@ -58,6 +58,7 @@ iters = pd.concat({
 iters = iters.reset_index(names).reset_index(drop=True)
 ```
 
+
 ## Trial Performance
 
 These charts display the maximum performance so far as the search
@@ -74,6 +75,7 @@ topn_runs['MaxRBP'] = topn_runs.groupby(
 topn_runs['MaxNDCG'] = topn_runs.groupby(
     ['model', 'search']
 )['NDCG'].cummax()
+n_trials = topn_runs['TrialNum'].max()
 ```
 
 ::: {.panel-tabset}
@@ -81,11 +83,15 @@ topn_runs['MaxNDCG'] = topn_runs.groupby(
 ### RBP
 
 ```{python}
-(
+plot = (
     pn.ggplot(topn_runs)
     + pn.aes(x='TrialNum', y='MaxRBP', color='model')
     + pn.geom_vline(xintercept=40, color='grey', linetype='dotted')
-    + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
+)
+if n_trials >= 55:
+    plot = plot + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
+(
+    plot
     + pn.geom_line(pn.aes(y='RBP'), alpha=0.2)
     + pn.geom_line()
     + pn.facet_grid('search')
@@ -96,12 +102,16 @@ topn_runs['MaxNDCG'] = topn_runs.groupby(
 
 
 ```{python}
-(
+plot = (
     pn.ggplot(topn_runs)
     + pn.aes(x='TrialNum', y='MaxNDCG', color='model')
     + pn.geom_vline(xintercept=40, color='grey', linetype='dotted')
-    + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
-    + pn.geom_line(pn.aes(y='NDCG'), alpha=0.2)
+)
+if n_trials >= 55:
+    plot = plot + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
+(
+    plot
+    + pn.geom_line(pn.aes(y='RBP'), alpha=0.2)
     + pn.geom_line()
     + pn.facet_grid('search')
 )
@@ -116,8 +126,10 @@ so the NDCG performance may not be fully reflective.
 
 ## Loss
 
-Our goal is to determine where to stop searching, and which methods are more
-efficient at searching the space.  To better assess this, let's look at the _loss_ relative to each method's best performance if we stop at each trial point.
+Our goal on the smaller MovieLens data sets, using longer searches, is to
+determine where to stop searching, and which methods are more efficient at
+searching the space.  To better assess this, let's look at the _loss_ relative
+to each method's best performance if we stop at each trial point.
 
 ```{python}
 max_rbp = topn_runs.groupby(
@@ -125,11 +137,16 @@ max_rbp = topn_runs.groupby(
 )['RBP'].max().to_frame('FinalBestRBP')
 tnr = topn_runs.join(max_rbp, on=['model', 'search'])
 tnr['RBPLoss'] = (tnr['FinalBestRBP'] - tnr['MaxRBP']) / tnr['FinalBestRBP']
-(
+
+plot = (
     pn.ggplot(tnr)
     + pn.aes(x='TrialNum', y='RBPLoss', color='model')
     + pn.geom_vline(xintercept=40, color='grey', linetype='dotted')
-    + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
+)
+if n_trials >= 55:
+    plot = plot + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
+(
+    plot
     + pn.geom_hline(yintercept=0.01, color='grey', linetype='dashed')
     + pn.geom_hline(yintercept=0.05, color='pink', linetype='dashed')
     + pn.geom_line()
@@ -137,9 +154,6 @@ tnr['RBPLoss'] = (tnr['FinalBestRBP'] - tnr['MaxRBP']) / tnr['FinalBestRBP']
     + pn.facet_grid('search')
 )
 ```
-
-Loss drops pretty quick for intelligent searches, going under 5% by about 30
-iterations on ML10M.
 
 ## Exploring Loss Loss
 
@@ -149,6 +163,7 @@ the search at different trial counts.
 ```{python}
 best_rbps = topn_runs.groupby(['model', 'search'])['RBP'].max().unstack()
 ojs_define(
+    ntrials=n_trials,
     runs=topn_runs,
     best_rbps=best_rbps.reset_index(),
 )
@@ -157,8 +172,8 @@ ojs_define(
 
 ```{ojs}
 viewof max_trial = Inputs.range(
-  [20, 100],
-  {value: 100, step: 5, label: "Maximum trials:"}
+  [20, ntrials],
+  {value: ntrials, step: 5, label: "Maximum trials:"}
 )
 ```
 
