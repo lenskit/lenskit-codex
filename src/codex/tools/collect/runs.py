@@ -4,7 +4,7 @@ from pathlib import Path
 import structlog
 from pydantic import ValidationError
 
-from codex.runlog import CodexTask, RunLogDB, get_config
+from codex.runlog import CodexTask, RunLogDB, lobby_dir
 
 from . import collect
 
@@ -15,10 +15,9 @@ _log = structlog.stdlib.get_logger(__name__)
 def collect_runlog():
     "Collect run log entries into the main log files."
     log = _log.bind()
-    cfg = get_config()
     rldb = RunLogDB()
 
-    files = list(cfg.lobby_dir.glob("*.json"))
+    files = list(lobby_dir().glob("*.json"))
     log.info("collecting %d files from the lobby", len(files))
     integrated: list[Path] = []
     for tf in files:

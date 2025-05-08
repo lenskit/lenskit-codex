@@ -112,27 +112,38 @@ class CodexTask(Task):
 
 
 class RunLogDB:
-    open_files: dict[str, RunLogDBFile]
+    path: Path
+    "The path to the run log."
+    _open_files: dict[str, RunLogDBFile]
+    "Cache of Runlog files that have been opened."
 
     def __init__(self):
-        self.config = get_config()
-        self.open_files = {}
+        self.path = runlog_dir()
+        self._open_files = {}
+
+    @property
+    def lobby_dir(self) -> Path:
+        return self.path / "lobby"
+
+    @property
+    def db_dir(self) -> Path:
+        return self.path / "db"
 
     def get_file(self, date: dt.date) -> RunLogDBFile:
         key = "{:4d}-{:02d}".format(date.year, date.month)
-        dbf = self.open_files.get(key, None)
+        dbf = self._open_files.get(key, None)
         if dbf is None:
-            path = runlog_dir() / f"{key}.ndjson.zst"
+            path = self.db_dir / f"{key}.ndjson.zst"
             if path.exists():
                 dbf = RunLogDBFile.read_db(path)
             else:
                 dbf = RunLogDBFile(path)
-            self.open_files[key] = dbf
+            self._open_files[key] = dbf
 
         return dbf
 
     def save_all(self):
-        for dbf in self.open_files.values():
+        for dbf in self._open_files.values():
             dbf.save_db()
 
 
