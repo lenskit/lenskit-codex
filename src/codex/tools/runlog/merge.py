@@ -11,7 +11,7 @@ _log = structlog.stdlib.get_logger(__name__)
 
 
 @runlog.command("merge")
-@click.argument("file", type=Path, is_required=True, help="File to merge into the log.")
+@click.argument("file", type=Path, required=True)
 def merge_runlog(file: Path):
     "Merge run log entries from a log file into the main log files."
     log = _log.bind(file=str(file))
