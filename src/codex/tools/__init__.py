@@ -7,13 +7,13 @@ import os
 
 import click
 
-from .. import runlog
+from ..runlog import configure
 
 
 @click.group("codex")
 def codex():
     "LensKit codex tools"
-    runlog.configure()
+    configure()
     logging.getLogger("ray").setLevel(logging.DEBUG)
     os.environ["RAY_AIR_NEW_OUTPUT"] = "0"
 
@@ -25,6 +25,7 @@ from . import (  # noqa: F401, E402
     duckscript,
     generate,
     movielens,
+    runlog,
     search,
     split,
     test_measure,

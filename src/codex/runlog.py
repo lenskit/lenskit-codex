@@ -142,6 +142,13 @@ class RunLogDB:
 
         return dbf
 
+    def add_task(self, task: Task):
+        if task.start_time is None:
+            raise ValueError(f"task {task.task_id} has no start time")
+        date = dt.datetime.fromtimestamp(task.start_time)
+        dbf = self.get_file(date)
+        dbf.add_task(task)
+
     def save_all(self):
         for dbf in self._open_files.values():
             dbf.save_db()

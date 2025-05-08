@@ -1,4 +1,3 @@
-import datetime as dt
 from pathlib import Path
 
 import structlog
@@ -6,12 +5,12 @@ from pydantic import ValidationError
 
 from codex.runlog import CodexTask, RunLogDB, lobby_dir
 
-from . import collect
+from . import runlog
 
 _log = structlog.stdlib.get_logger(__name__)
 
 
-@collect.command("runlog")
+@runlog.command("collect")
 def collect_runlog():
     "Collect run log entries into the main log files."
     log = _log.bind()
@@ -36,9 +35,7 @@ def collect_runlog():
             flog.warning("task has no start time, skipping")
             continue
 
-        date = dt.datetime.fromtimestamp(task.start_time)
-        dbf = rldb.get_file(date)
-        dbf.add_task(task)
+        rldb.add_task(task)
         integrated.append(tf)
 
     rldb.save_all()
