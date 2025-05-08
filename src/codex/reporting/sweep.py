@@ -14,7 +14,7 @@ from pydantic import JsonValue
 from .data import DATA_INFO
 
 
-def load_sweep_runs(model, split=None, method="random") -> pd.DataFrame:
+def load_sweep_runs(model, split=None, method="optuna") -> pd.DataFrame:
     base = Path()
     if split is None:
         split = DATA_INFO.default_split
