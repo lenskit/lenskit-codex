@@ -75,6 +75,7 @@ topn_runs['MaxNDCG'] = topn_runs.groupby(
 (
     pn.ggplot(topn_runs)
     + pn.aes(x='TrialNum', y='MaxRBP', color='model')
+    + pn.geom_vline(xintercept=40, color='grey', linetype='dotted')
     + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
     + pn.geom_line(pn.aes(y='RBP'), alpha=0.2)
     + pn.geom_line()
@@ -139,6 +140,7 @@ the search at different trial counts.
 ```{python}
 best_rbps = topn_runs.groupby(['model', 'search'])['RBP'].max().unstack()
 ojs_define(
+    ntrials=topn_runs['TrialNum'].max(),
     runs=topn_runs,
     best_rbps=best_rbps.reset_index(),
 )
@@ -147,8 +149,8 @@ ojs_define(
 
 ```{ojs}
 viewof max_trial = Inputs.range(
-  [20, 100],
-  {value: 100, step: 5, label: "Maximum trials:"}
+  [20, ntrials],
+  {value: ntrials, step: 5, label: "Maximum trials:"}
 )
 ```
 
