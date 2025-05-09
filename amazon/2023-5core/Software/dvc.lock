@@ -1,0 +1,15 @@
+schema: '2.0'
+stages:
+  import:
+    cmd: lenskit codex amazon import-train -o dataset ../data/Software.train.csv.gz
+    deps:
+    - path: ../data/Software.train.csv.gz
+      hash: md5
+      md5: 7b5cfbb0ed1a4c9877820f1d38192374
+      size: 25432577
+    outs:
+    - path: dataset
+      hash: md5
+      md5: 184d183bc1442421b611dc8a4f0abcd6.dir
+      size: 14534571
+      nfiles: 5

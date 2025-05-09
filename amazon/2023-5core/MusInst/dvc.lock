@@ -1,0 +1,15 @@
+schema: '2.0'
+stages:
+  import:
+    cmd: lenskit codex amazon import-train -o dataset ../data/Musical_Instruments.train.csv.gz
+    deps:
+    - path: ../data/Musical_Instruments.train.csv.gz
+      hash: md5
+      md5: a1d9b08759ee1685abc91e5f768d292f
+      size: 9431776
+    outs:
+    - path: dataset
+      hash: md5
+      md5: ed2b9487fa74058e8fcedd45329e13e1.dir
+      size: 5279415
+      nfiles: 5
