@@ -54,6 +54,7 @@ def render_dvc_pipeline(path: Path | str):
     for name, content in pipeline.extra_files.items():
         epath = path.parent / name
         print("saving extra file", epath)
+        epath.parent.mkdir(exist_ok=True, parents=True)
         with open(epath, "wt") as ef:
             if isinstance(content, dict):
                 if re.match(r"\.ya?ml", epath.suffix):

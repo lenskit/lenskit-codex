@@ -1,0 +1,7 @@
+stages:
+  import:
+    cmd: lenskit codex amazon import-train -o dataset ../data/Software.train.csv.gz
+    deps:
+      - ../data/Software.train.csv.gz
+    outs:
+      - dataset
