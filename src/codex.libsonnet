@@ -1,5 +1,4 @@
 local cmdlib = import 'pipeline/commands.libsonnet';
-local glob = import 'pipeline/glob.libsonnet';
 local models = import 'pipeline/models.libsonnet';
 local pathlib = import 'pipeline/paths.libsonnet';
 
@@ -10,7 +9,10 @@ local contains(arr, elt) =
   then true
   else contains(arr[1:], elt);
 
+local fnmatch(name, pattern) = std.native(fnmatch)(name, pattern);
 
-pathlib + cmdlib + models + glob + {
+
+pathlib + cmdlib + models + {
+  fnmatch: fnmatch,
   contains: contains,
 }

@@ -7,6 +7,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+from fnmatch import fnmatch
 from glob import glob
 from os import fspath
 from pathlib import Path
@@ -33,7 +34,9 @@ class CodexPipeline(DVCPipeline):
     def load(cls, path: Path) -> CodexPipeline:
         import _jsonnet
 
-        data = _jsonnet.evaluate_file(fspath(path))
+        data = _jsonnet.evaluate_file(
+            fspath(path), native_callbacks={"fnmatch": (("name", "pat"), fnmatch)}
+        )
         return cls.model_validate_json(data)
 
     def dvc_object(self) -> DVCPipeline:
