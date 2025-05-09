@@ -1772,6 +1772,7 @@ dev = [
     { name = "optuna", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "parquet-tools", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "pre-commit", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
+    { name = "pyarrow-stubs", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "ray", extra = ["tune"], marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "ruff", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "torch", version = "2.7.0", source = { registry = "https://pypi.lenskit.org/torch/cu128" }, marker = "platform_machine == 'arm64' and sys_platform == 'darwin'" },
@@ -1827,6 +1828,7 @@ dev = [
     { name = "optuna", specifier = "~=4.0" },
     { name = "parquet-tools", specifier = "~=0.2.16" },
     { name = "pre-commit", specifier = "~=4.0" },
+    { name = "pyarrow-stubs", specifier = ">=19.2" },
     { name = "ray", extras = ["tune"], specifier = "~=2.45" },
     { name = "ruff", specifier = ">=0.4" },
     { name = "torch", specifier = "~=2.7.0" },
@@ -2612,6 +2614,18 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/bb/1b/2168d6050e52ff1e6cefc61d600723870bf569cbf41d13db939c8cf97a16/pyarrow-20.0.0-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:4250e28a22302ce8692d3a0e8ec9d9dde54ec00d237cff4dfa9c1fbf79e472a8", size = 42295639, upload-time = "2025-04-27T12:30:21.949Z" },
     { url = "https://files.pythonhosted.org/packages/b2/66/2d976c0c7158fd25591c8ca55aee026e6d5745a021915a1835578707feb3/pyarrow-20.0.0-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:89e030dc58fc760e4010148e6ff164d2f44441490280ef1e97a542375e41058e", size = 42908549, upload-time = "2025-04-27T12:30:29.551Z" },
     { url = "https://files.pythonhosted.org/packages/31/a9/dfb999c2fc6911201dcbf348247f9cc382a8990f9ab45c12eabfd7243a38/pyarrow-20.0.0-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:6102b4864d77102dbbb72965618e204e550135a940c2534711d5ffa787df2a5a", size = 44557216, upload-time = "2025-04-27T12:30:36.977Z" },
+]
+
+[[package]]
+name = "pyarrow-stubs"
+version = "19.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyarrow", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d8/f0/50a40613805e7a5beaf35d105d45f3e8dfaa1b9284f5d35de9127b296ecd/pyarrow_stubs-19.2.tar.gz", hash = "sha256:4c6862dec8a9d9ff9bd4a404cf3df02a1b2cbf07f9737a1441a72eee4611190d", size = 86065, upload-time = "2025-04-30T06:33:51.429Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/75/21/17511736ec80c4a22f56dcc9409266b5c1f52fe9a53555dc9d3f3a8cf35d/pyarrow_stubs-19.2-py3-none-any.whl", hash = "sha256:43601f94b377edd2ed73256d029077bf5118a1db86257c5fcd6783b640d06907", size = 82601, upload-time = "2025-04-30T06:33:49.954Z" },
 ]
 
 [[package]]
