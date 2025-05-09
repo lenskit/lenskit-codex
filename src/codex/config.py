@@ -5,6 +5,7 @@ RNG utilities.
 from __future__ import annotations
 
 import tomllib
+from fnmatch import fnmatch
 
 from deepmerge import always_merger
 from lenskit.logging import get_logger
@@ -67,10 +68,27 @@ class MachineConfig(BaseModel):
     "Prometheus queries for power draw."
 
 
+class ModelRule(BaseModel):
+    model: str
+    data: str
+
+    def matches_model(self, model: str):
+        return fnmatch(model, self.model)
+
+
+class ModelConfig(BaseModel):
+    """
+    Model configuration rules.
+    """
+
+    include: list[ModelRule] = []
+
+
 class CodexConfig(BaseModel, extra="allow"):
     random: RandomConfig
     machine: str | None = None
     tuning: dict[str, TuningConfig] = {}
+    models: ModelConfig = ModelConfig()
     power: PowerConfig = PowerConfig()
     machines: dict[str, MachineConfig] = {}
 

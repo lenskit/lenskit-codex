@@ -43,12 +43,18 @@
   "iknn-explicit": {
     "src_path": "src/codex/models/iknn_explicit.py",
     "predictor": true,
-    "searchable": true
+    "searchable": true,
+    "ds_include": [
+      "ML*"
+    ]
   },
   "iknn-implicit": {
     "src_path": "src/codex/models/iknn_implicit.py",
     "predictor": false,
-    "searchable": true
+    "searchable": true,
+    "ds_include": [
+      "ML*"
+    ]
   },
   "popular": {
     "src_path": "src/codex/models/popular.py",
@@ -60,6 +66,7 @@
     "predictor": true,
     "searchable": true,
     "ds_include": [
+      "ML1*",
       "ML1*"
     ],
     "search_points": 60
@@ -69,6 +76,7 @@
     "predictor": false,
     "searchable": true,
     "ds_include": [
+      "ML1*",
       "ML1*"
     ],
     "search_points": 60

@@ -10,6 +10,14 @@ points = 60
 [tuning.random]
 points = 60
 
+[[models.include]]
+model = "uknn-*"
+data = "ML1*"
+
+[[models.include]]
+model = "iknn-*"
+data = "ML*"
+
 [power]
 # kgCO2 / MWh - Philadelphia is in RFC East (RFCE)
 co2e_rate = 269.7514

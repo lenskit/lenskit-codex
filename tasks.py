@@ -65,7 +65,10 @@ def list_documents(c: Context):
 @task
 def list_models(c: Context):
     "List the available recommendation models."
+    from codex.config import get_config
     from codex.models import discover_models, load_model
+
+    config = get_config()
 
     models = {}
     for mod_name in discover_models():
@@ -76,6 +79,12 @@ def list_models(c: Context):
             "searchable": bool(mod.search_space),
         }
         models[mod.name].update(mod.options)
+        for rule in config.models.include:
+            if rule.matches_model(mod.name):
+                if "ds_include" not in models[mod.name]:
+                    models[mod.name]["ds_include"] = []
+                models[mod.name]["ds_include"].append(rule.data)
+
     models = {k: models[k] for k in sorted(models.keys())}
 
     with open("manifests/models.json", "wt") as jsf:
