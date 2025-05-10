@@ -19,7 +19,6 @@ def codex():
 
 
 from . import (  # noqa: F401, E402
-    amazon,
     collect,
     debug,
     duckscript,
