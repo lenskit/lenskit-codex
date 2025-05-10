@@ -5,7 +5,7 @@ local cat_pipes = {
   [m.key + '/dvc.yaml']: {
     stages: {
       'import': {
-        local src = std.format('../data/%s.csv.zst', [m.value]),
+        local src = std.format('../data/%s.train.csv.gz', [m.value]),
         cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', src, 'dataset']),
         deps: [src],
         outs: ['dataset'],
