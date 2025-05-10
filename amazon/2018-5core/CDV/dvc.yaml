@@ -1,7 +1,7 @@
 stages:
   import:
-    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz dataset
+    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.csv.zst dataset
     deps:
-      - ../data/CDs_and_Vinyl.train.csv.gz
+      - ../data/CDs_and_Vinyl.csv.zst
     outs:
       - dataset

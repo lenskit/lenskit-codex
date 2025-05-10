@@ -1,7 +1,7 @@
 stages:
   import:
-    cmd: lenskit data convert --amazon ../data/Musical_Instruments.csv.zst dataset
+    cmd: lenskit data convert --amazon ../data/Musical_Instruments.train.csv.gz dataset
     deps:
-      - ../data/Musical_Instruments.csv.zst
+      - ../data/Musical_Instruments.train.csv.gz
     outs:
       - dataset
