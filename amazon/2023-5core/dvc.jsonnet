@@ -6,7 +6,7 @@ local cat_pipes = {
     stages: {
       'import': {
         local src = std.format('../data/%s.train.csv.gz', [m.value]),
-        cmd: lib.codex_cmd(['amazon', 'import-train', '-o', 'dataset', src]),
+        cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', src, 'dataset']),
         deps: [src],
         outs: ['dataset'],
       },

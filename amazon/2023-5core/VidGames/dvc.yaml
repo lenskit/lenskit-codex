@@ -1,6 +1,6 @@
 stages:
   import:
-    cmd: lenskit codex amazon import-train -o dataset ../data/Video_Games.train.csv.gz
+    cmd: lenskit data convert --amazon ../data/Video_Games.train.csv.gz dataset
     deps:
       - ../data/Video_Games.train.csv.gz
     outs:
