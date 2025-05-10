@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   import:
-    cmd: lenskit codex amazon import-train -o dataset ../data/CDs_and_Vinyl.train.csv.gz
+    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz dataset
     deps:
     - path: ../data/CDs_and_Vinyl.train.csv.gz
       hash: md5
@@ -10,6 +10,6 @@ stages:
     outs:
     - path: dataset
       hash: md5
-      md5: 6db57b0360fdda8ded747859ac89a087.dir
-      size: 17342774
+      md5: 15b10977d7889919647237f7aeca4ee3.dir
+      size: 17455240
       nfiles: 5
