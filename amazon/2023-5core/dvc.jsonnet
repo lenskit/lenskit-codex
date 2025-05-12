@@ -1,8 +1,16 @@
 local lib = import '../../src/codex.libsonnet';
 local categories = std.parseYaml(importstr 'categories.yml');
 
+
 local cat_pipes = {
   [m.key + '/dvc.yaml']: {
+    local spec = {
+      name: m.key,
+      splits: ['fixed'],
+      searches: ['optuna'],
+    },
+    local runs = lib.runsForSplit(spec, 'fixed', 'dir'),
+
     stages: {
       'import-valid-train': {
         local src = std.format('../data/%s.train.csv.gz', [m.value]),
@@ -29,7 +37,7 @@ local cat_pipes = {
         deps: [src],
         outs: ['splits/fixed/test/test.parquet'],
       },
-    },
+    } + lib.runStages('../../..', runs),
   }
   for m in std.objectKeysValues(categories)
 };
