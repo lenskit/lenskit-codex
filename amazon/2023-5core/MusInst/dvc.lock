@@ -13,3 +13,60 @@ stages:
       md5: ed2b9487fa74058e8fcedd45329e13e1.dir
       size: 5279415
       nfiles: 5
+  import-test-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/Musical_Instruments.test.csv.gz
+      splits/fixed/test/test.parquet
+    deps:
+    - path: ../data/Musical_Instruments.test.csv.gz
+      hash: md5
+      md5: 7bd4540b0b29282b4910aa1988cc6349
+      size: 1737026
+    outs:
+    - path: splits/fixed/test/test.parquet
+      hash: md5
+      md5: 5894b8004d8ea9636a82d8ba0ca319d1
+      size: 770406
+  import-valid-train:
+    cmd: lenskit data convert --amazon ../data/Musical_Instruments.train.csv.gz splits/fixed/valid/train.dataset
+    deps:
+    - path: ../data/Musical_Instruments.train.csv.gz
+      hash: md5
+      md5: a1d9b08759ee1685abc91e5f768d292f
+      size: 9431776
+    outs:
+    - path: splits/fixed/valid/train.dataset
+      hash: md5
+      md5: a6b34ed49f26648848fef2ae05b5ceeb.dir
+      size: 5328976
+      nfiles: 5
+  import-test-train:
+    cmd: lenskit data convert --amazon ../data/Musical_Instruments.train.csv.gz ../data/Musical_Instruments.valid.csv.gz
+      splits/fixed/test/train.dataset
+    deps:
+    - path: ../data/Musical_Instruments.train.csv.gz
+      hash: md5
+      md5: a1d9b08759ee1685abc91e5f768d292f
+      size: 9431776
+    - path: ../data/Musical_Instruments.valid.csv.gz
+      hash: md5
+      md5: 5333a84211e0f3b2a76ea848a3a75f7d
+      size: 1786891
+    outs:
+    - path: splits/fixed/test/train.dataset
+      hash: md5
+      md5: 926d041800128c3f8a75e91a1700da30.dir
+      size: 5720596
+      nfiles: 5
+  import-valid-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/Musical_Instruments.valid.csv.gz
+      splits/fixed/valid/test.parquet
+    deps:
+    - path: ../data/Musical_Instruments.valid.csv.gz
+      hash: md5
+      md5: 5333a84211e0f3b2a76ea848a3a75f7d
+      size: 1786891
+    outs:
+    - path: splits/fixed/valid/test.parquet
+      hash: md5
+      md5: 713b557df125e1a66483d678fda8c379
+      size: 812899

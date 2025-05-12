@@ -13,3 +13,59 @@ stages:
       md5: 184d183bc1442421b611dc8a4f0abcd6.dir
       size: 14534571
       nfiles: 5
+  import-test-train:
+    cmd: lenskit data convert --amazon ../data/Software.train.csv.gz ../data/Software.valid.csv.gz
+      splits/fixed/test/train.dataset
+    deps:
+    - path: ../data/Software.train.csv.gz
+      hash: md5
+      md5: 7b5cfbb0ed1a4c9877820f1d38192374
+      size: 25432577
+    - path: ../data/Software.valid.csv.gz
+      hash: md5
+      md5: 5d886c3388d748283a24eacf424a521d
+      size: 1393199
+    outs:
+    - path: splits/fixed/test/train.dataset
+      hash: md5
+      md5: 9bdfeb4e3960c80df0025cf135b84dff.dir
+      size: 15095928
+      nfiles: 5
+  import-test-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/Software.test.csv.gz splits/fixed/test/test.parquet
+    deps:
+    - path: ../data/Software.test.csv.gz
+      hash: md5
+      md5: 28ee12c81d368c35ae1970f985581cf8
+      size: 850336
+    outs:
+    - path: splits/fixed/test/test.parquet
+      hash: md5
+      md5: debf42023efd1d092b92487aacaefbf9
+      size: 355923
+  import-valid-train:
+    cmd: lenskit data convert --amazon ../data/Software.train.csv.gz splits/fixed/valid/train.dataset
+    deps:
+    - path: ../data/Software.train.csv.gz
+      hash: md5
+      md5: 7b5cfbb0ed1a4c9877820f1d38192374
+      size: 25432577
+    outs:
+    - path: splits/fixed/valid/train.dataset
+      hash: md5
+      md5: 06a90ad97e1a55441290ef88d74c766d.dir
+      size: 14730200
+      nfiles: 5
+  import-valid-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/Software.valid.csv.gz
+      splits/fixed/valid/test.parquet
+    deps:
+    - path: ../data/Software.valid.csv.gz
+      hash: md5
+      md5: 5d886c3388d748283a24eacf424a521d
+      size: 1393199
+    outs:
+    - path: splits/fixed/valid/test.parquet
+      hash: md5
+      md5: 9e0433976bf3a3f5928bd35762bbbd60
+      size: 615344

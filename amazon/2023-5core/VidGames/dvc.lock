@@ -23,8 +23,8 @@ stages:
     outs:
     - path: splits/fixed/valid/train.dataset
       hash: md5
-      md5: e33957e65284a1cdda383e65964c343e.dir
-      size: 8988426
+      md5: af92c1f22474e96fc9aa7f1f55f5a4a8.dir
+      size: 8988469
       nfiles: 5
   import-valid-test:
     cmd: lenskit data convert --amazon --item-lists ../data/Video_Games.valid.csv.gz
@@ -37,8 +37,8 @@ stages:
     outs:
     - path: splits/fixed/valid/test.parquet
       hash: md5
-      md5: c1adf6ce274e7a629c00bd1fd4cdc805
-      size: 711781
+      md5: f6037e80a107947c1b6334afc23b0bb8
+      size: 711768
   import-test-test:
     cmd: lenskit data convert --amazon --item-lists ../data/Video_Games.test.csv.gz
       splits/fixed/test/test.parquet
@@ -50,8 +50,8 @@ stages:
     outs:
     - path: splits/fixed/test/test.parquet
       hash: md5
-      md5: 474e45884ff857a3997a62c11cd7c397
-      size: 770641
+      md5: a7e4eb1512603de785688970e4be6b24
+      size: 770628
   import-test-train:
     cmd: lenskit data convert --amazon ../data/Video_Games.train.csv.gz ../data/Video_Games.valid.csv.gz
       splits/fixed/test/train.dataset
@@ -67,8 +67,8 @@ stages:
     outs:
     - path: splits/fixed/test/train.dataset
       hash: md5
-      md5: 19b2e491c70e2369976af2e45a34ca40.dir
-      size: 9353228
+      md5: 9b07f5194df50ab18c592f86ab404dc5.dir
+      size: 9353271
       nfiles: 5
   run-fixed-default-als-implicit:
     cmd: lenskit codex generate --default --ds-name=VidGames --split=splits/fixed

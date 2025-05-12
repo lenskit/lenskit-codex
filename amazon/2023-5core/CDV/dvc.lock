@@ -23,8 +23,8 @@ stages:
     outs:
     - path: splits/fixed/valid/train.dataset
       hash: md5
-      md5: 15b10977d7889919647237f7aeca4ee3.dir
-      size: 17455240
+      md5: 54b3836f55b2fceaf80b654131ecdeca.dir
+      size: 17455283
       nfiles: 5
   import-full-train:
     cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz ../data/CDs_and_Vinyl.valid.csv.gz
@@ -55,8 +55,8 @@ stages:
     outs:
     - path: splits/fixed/valid/test.parquet
       hash: md5
-      md5: e8db9cf4d4289e22be6b146102b8dce8
-      size: 630198
+      md5: faadcf5855ea6ceb27f48fe3b8bf37ed
+      size: 630185
   import-test-test:
     cmd: lenskit data convert --amazon --item-lists ../data/CDs_and_Vinyl.test.csv.gz
       splits/fixed/test/test.parquet
@@ -68,8 +68,8 @@ stages:
     outs:
     - path: splits/fixed/test/test.parquet
       hash: md5
-      md5: 7bf42cb6d4eb50cae07f479a7a6133f1
-      size: 421339
+      md5: 5e5124caf70c8f49f071f615ed6263de
+      size: 421326
   import-test-train:
     cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz ../data/CDs_and_Vinyl.valid.csv.gz
       splits/fixed/test/train.dataset
@@ -85,8 +85,8 @@ stages:
     outs:
     - path: splits/fixed/test/train.dataset
       hash: md5
-      md5: dc321505f06a051d99ef184607c66d69.dir
-      size: 17730609
+      md5: 4cae0c3883bdcb271357e0d29b55838f.dir
+      size: 17730652
       nfiles: 5
   run-fixed-default-flexmf-warp:
     cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/flexmf-warp-default
