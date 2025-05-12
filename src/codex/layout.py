@@ -49,6 +49,9 @@ def load_data_info(path: str | Path | None = None):
     else:
         path = Path(path)
 
-    with open(path / "dataset.yml", "rt") as yf:
-        data = yaml.safe_load(yf)
-    return DataSetInfo.model_validate(data)
+    try:
+        with open(path / "dataset.yml", "rt") as yf:
+            data = yaml.safe_load(yf)
+        return DataSetInfo.model_validate(data)
+    except FileNotFoundError:
+        return None

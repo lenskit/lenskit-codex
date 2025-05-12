@@ -26,5 +26,7 @@
   relative: function(p1, p2)
     std.native('relpath')(p1, p2),
 
+  resolvePath: std.native('resolve_path'),
+
   glob: std.native('glob'),
 }

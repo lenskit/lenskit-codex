@@ -6,18 +6,20 @@ local docs = std.parseJson(importstr 'manifests/documents.json');
   stages: {
     // create a stage to pre-render each page
     [std.format('page/%s', [lib.removeSuffix(doc.key)])]: {
+      local dir = lib.dirname(doc.key),
+
       cmd: std.format('quarto render %s', [doc.key]),
       deps: [
         '_quarto.yml',
         doc.key,
       ] + [
-        lib.relative(lib.dirname(doc.key), dep)
+        lib.resolvePath(dir, dep)
         for dep in std.get(doc.value, 'deps', [])
       ],
       outs: [
         std.format('_freeze/%s', [lib.removeSuffix(doc.key)]),
       ] + [
-        lib.relative(lib.dirname(doc.key), out)
+        lib.resolvePath(dir, out)
         for out in std.get(doc.value, 'outs', [])
       ],
     }

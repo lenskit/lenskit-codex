@@ -7,7 +7,7 @@ CREATE TEMPORARY VIEW raw_ratings AS
 SELECT
     CAST(regexp_extract(filename, '(\w+)\.\w+\.csv.gz', 1) AS category) AS category,
     CAST(regexp_extract(filename, '\w+\.(\w+)\.csv.gz', 1) AS partition) AS part,
-    user_id, item_id, cast(rating FLOAT), epoch_ms(timestamp) AS timestamp
+    user_id, parent_asin AS item_id, cast(rating AS FLOAT) AS rating, epoch_ms(timestamp) AS timestamp
 FROM read_csv('data/*.csv.gz', filename=TRUE);
 
 SELECT log_msg('computing file statistics');

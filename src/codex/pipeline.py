@@ -8,6 +8,7 @@ import json
 import logging
 import re
 from fnmatch import fnmatch
+from functools import partial
 from glob import glob
 from os import fspath
 from pathlib import Path
@@ -51,6 +52,7 @@ class CodexPipeline(DVCPipeline):
                     ("path",),
                     lambda path: (ROOT_DIR / path).relative_to(pdir, walk_up=True).as_posix(),
                 ),
+                "resolve_path": (("p1", "p2"), partial(_resolve_path, pdir)),
                 "parse_path": (("path",), _parse_path),
                 "glob": (("glob",), lambda g: [p.as_posix() for p in pdir.glob(g)]),
             },
@@ -145,3 +147,11 @@ def _parse_path(src: str):
         "stem": path.stem,
         "suffix": path.suffix,
     }
+
+
+def _resolve_path(base: Path, *paths: str):
+    path = base
+    for part in paths:
+        path = path / part
+    path = path.resolve()
+    return path.relative_to(ROOT_DIR).as_posix()

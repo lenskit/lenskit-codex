@@ -6,6 +6,8 @@ DATA_INFO = load_data_info()
 
 
 def filter_part(data: pd.DataFrame, part: str):
+    assert DATA_INFO is not None
+
     if "random" in DATA_INFO.splits:
         if part == "test":
             mask = data["part"] != 0

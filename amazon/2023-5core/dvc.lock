@@ -2873,305 +2873,305 @@ stages:
       md5: 7eef9fcef6bfe3a2acd43f2a755f94ac
       size: 9637440
   collect-stats:
-    cmd: lenskit-codex run-duck-sql -f bench-stats.sql stats.duckdb
+    cmd: lenskit codex sql -f bench-stats.sql stats.duckdb
     deps:
     - path: bench-stats.sql
       hash: md5
-      md5: 8e0b36371a1065e493ae32081e2621db
-      size: 2324
-    - path: data/Arts_Crafts_and_Sewing.test.parquet
-      hash: md5
-      md5: 6830453fa6d60727ad75e4c900857bd1
-      size: 1990894
-    - path: data/Arts_Crafts_and_Sewing.train.parquet
-      hash: md5
-      md5: 896e54c59d2126a84655ce6d3442a0c4
-      size: 13503325
-    - path: data/Arts_Crafts_and_Sewing.valid.parquet
-      hash: md5
-      md5: 26a4d80fe61997724772b6a0c0a64304
-      size: 1915164
-    - path: data/Automotive.test.parquet
-      hash: md5
-      md5: 5b43a8cb0ccfefae9057ad039426b3e5
-      size: 5976912
-    - path: data/Automotive.train.parquet
-      hash: md5
-      md5: 75d04bd6361a3b8d3ec6bf6ba37d1aa0
-      size: 47339331
-    - path: data/Automotive.valid.parquet
-      hash: md5
-      md5: 7df4eb4cb5fd75de45f96f2e7ae3962d
-      size: 6514840
-    - path: data/Baby_Products.test.parquet
-      hash: md5
-      md5: c099efc10e5c258cb7773fbaaa521c58
-      size: 884597
-    - path: data/Baby_Products.train.parquet
-      hash: md5
-      md5: ecc7a296e577744e9c062d248442c74b
-      size: 10202985
-    - path: data/Baby_Products.valid.parquet
-      hash: md5
-      md5: 19d28a7b3a52341c213adf667956bd14
-      size: 696172
-    - path: data/Beauty_and_Personal_Care.test.parquet
-      hash: md5
-      md5: 5d12e4a3474bdccd19e8a312dfc81a58
-      size: 9488986
-    - path: data/Beauty_and_Personal_Care.train.parquet
-      hash: md5
-      md5: d88dd2a214838c1ce804d20614d18c0f
-      size: 47639545
-    - path: data/Beauty_and_Personal_Care.valid.parquet
-      hash: md5
-      md5: 5762b15efee001c43f4af7e7e5c634d1
-      size: 7413059
-    - path: data/Books.test.parquet
-      hash: md5
-      md5: e53ebe1ccd4a95046969455afb798671
-      size: 3188513
-    - path: data/Books.train.parquet
-      hash: md5
-      md5: 5e6650fa49efd7e822cceefea1dfc379
-      size: 85718091
-    - path: data/Books.valid.parquet
-      hash: md5
-      md5: 6aee3447f041fb8890b2e151ff28fa4c
-      size: 4145629
-    - path: data/CDs_and_Vinyl.test.parquet
-      hash: md5
-      md5: a9d82e2c3ceceb0e52aee09f67641584
-      size: 220296
-    - path: data/CDs_and_Vinyl.train.parquet
-      hash: md5
-      md5: cb064f3af13c1297f3c218e8ef23d8c2
-      size: 14370565
-    - path: data/CDs_and_Vinyl.valid.parquet
-      hash: md5
-      md5: 6bd1799c6d6897618822b06b3841d3fe
-      size: 312751
-    - path: data/Cell_Phones_and_Accessories.test.parquet
-      hash: md5
-      md5: 348ad61e6a8be4e08755db5aab55ee0c
-      size: 2789500
-    - path: data/Cell_Phones_and_Accessories.train.parquet
-      hash: md5
-      md5: b9035c3e44ce6cbbfad90db8f1ccbd74
-      size: 21156918
-    - path: data/Cell_Phones_and_Accessories.valid.parquet
-      hash: md5
-      md5: 9de2dc3917a9ed04395c2e8ea8d7697f
-      size: 2256837
-    - path: data/Clothing_Shoes_and_Jewelry.test.parquet
-      hash: md5
-      md5: de7518bea0033db97c7a1d066a621168
-      size: 30795218
-    - path: data/Clothing_Shoes_and_Jewelry.train.parquet
-      hash: md5
-      md5: 7663b0dce42d63c6c1674ff6eca52937
-      size: 165352017
-    - path: data/Clothing_Shoes_and_Jewelry.valid.parquet
-      hash: md5
-      md5: 309caff976e74e90f29733dfd4398943
-      size: 29024497
-    - path: data/Electronics.test.parquet
-      hash: md5
-      md5: e2b8ff2ecb9cbe385368d1c3c5be82d1
-      size: 11439364
-    - path: data/Electronics.train.parquet
-      hash: md5
-      md5: 427ac3ef13c460f1ac912566902f78ea
-      size: 127446006
-    - path: data/Electronics.valid.parquet
-      hash: md5
-      md5: 75281f69a2a9a1fed9f1e5f99d11890f
-      size: 11046946
-    - path: data/Grocery_and_Gourmet_Food.test.parquet
-      hash: md5
-      md5: 5e86112e42e3b2c12442b255eea236c0
-      size: 4167524
-    - path: data/Grocery_and_Gourmet_Food.train.parquet
-      hash: md5
-      md5: 4d3252c8866fb35df6103b5cf04c26a7
-      size: 29487617
-    - path: data/Grocery_and_Gourmet_Food.valid.parquet
-      hash: md5
-      md5: 328a7d977a48d3f2ccb8fc8ca4374ea2
-      size: 4980656
-    - path: data/Health_and_Household.test.parquet
-      hash: md5
-      md5: b2df58c4dae055fa03219a8bb07d9102
-      size: 8582505
-    - path: data/Health_and_Household.train.parquet
-      hash: md5
-      md5: f5becd65eb364b7fb0b1909150d6f6f6
-      size: 53032779
-    - path: data/Health_and_Household.valid.parquet
-      hash: md5
-      md5: 431818759b4d74ac4841ee404e70fc3a
-      size: 7849925
-    - path: data/Home_and_Kitchen.test.parquet
-      hash: md5
-      md5: cc202cc0848028b6eff061a4bcfc767a
-      size: 33801442
-    - path: data/Home_and_Kitchen.train.parquet
-      hash: md5
-      md5: 28d12695b7fa3bd8a2f54deba202310e
-      size: 210098476
-    - path: data/Home_and_Kitchen.valid.parquet
-      hash: md5
-      md5: bc0c65ebee90d6d16cc348538559cf69
-      size: 31504108
-    - path: data/Industrial_and_Scientific.test.parquet
-      hash: md5
-      md5: 2f48505163220353235c679d079d6a8f
-      size: 639255
-    - path: data/Industrial_and_Scientific.train.parquet
-      hash: md5
-      md5: d0063b4df466f176988bb8ea5dd3dfca
-      size: 2883098
-    - path: data/Industrial_and_Scientific.valid.parquet
-      hash: md5
-      md5: 66542f6b1a01038d78ab511843819e43
-      size: 427647
-    - path: data/Kindle_Store.test.parquet
-      hash: md5
-      md5: 7eef9fcef6bfe3a2acd43f2a755f94ac
-      size: 9637440
-    - path: data/Kindle_Store.train.parquet
-      hash: md5
-      md5: d176ec0b98745377152862161962863b
-      size: 131476786
-    - path: data/Kindle_Store.valid.parquet
-      hash: md5
-      md5: 9a3f3e87a4d5caaeee240727ea575a06
-      size: 11650886
-    - path: data/Movies_and_TV.test.parquet
-      hash: md5
-      md5: 08e7d29e6739dce08cec7429ea648d1c
-      size: 1451808
-    - path: data/Movies_and_TV.train.parquet
-      hash: md5
-      md5: 9fe17fdf28a07d186faee53aba66f24c
-      size: 67191284
-    - path: data/Movies_and_TV.valid.parquet
-      hash: md5
-      md5: 6aed7d3fc77632b1eda90d142caa4e58
-      size: 2040966
-    - path: data/Musical_Instruments.test.parquet
-      hash: md5
-      md5: 26e82fb21f70017ca7d0f171cb0039e8
-      size: 404348
-    - path: data/Musical_Instruments.train.parquet
-      hash: md5
-      md5: 80c0ecccc6e973263dbcee7c6e0e3913
-      size: 4109391
-    - path: data/Musical_Instruments.valid.parquet
-      hash: md5
-      md5: 51007f4f825c80e3c4c8a72898022f43
-      size: 396457
-    - path: data/Office_Products.test.parquet
-      hash: md5
-      md5: f7dcfa9ba039143f1fc93c3e697d1352
-      size: 2038825
-    - path: data/Office_Products.train.parquet
-      hash: md5
-      md5: 73f4d6f0aa18d303e3d9bb4f1b5e7256
-      size: 14079066
-    - path: data/Office_Products.valid.parquet
-      hash: md5
-      md5: 56b45be4c53dd772fc0012f65df838e2
-      size: 1386884
-    - path: data/Patio_Lawn_and_Garden.test.parquet
-      hash: md5
-      md5: 5f1c3bb74c92fb2af49de30bd8e70399
-      size: 4395886
-    - path: data/Patio_Lawn_and_Garden.train.parquet
-      hash: md5
-      md5: b5632530f98e843e9e35c0e9222f6788
-      size: 25218364
-    - path: data/Patio_Lawn_and_Garden.valid.parquet
-      hash: md5
-      md5: baaa0c206aeb7ab63efde7d97d4a6b35
-      size: 4232803
-    - path: data/Pet_Supplies.test.parquet
-      hash: md5
-      md5: f1727d4946b67dc7d179281277ea3159
-      size: 5486505
-    - path: data/Pet_Supplies.train.parquet
-      hash: md5
-      md5: ba49b98d0f667ee68f7a737af7f4dfdf
-      size: 40517337
-    - path: data/Pet_Supplies.valid.parquet
-      hash: md5
-      md5: 6315ce8388adca75da00951df5dcbbe2
-      size: 5260626
-    - path: data/Software.test.parquet
-      hash: md5
-      md5: 89014405ba98a9513e7c6a7ab9e1b182
-      size: 176532
-    - path: data/Software.train.parquet
-      hash: md5
-      md5: 4a45a7adebf149020bf1f3065eb17388
-      size: 11527255
-    - path: data/Software.valid.parquet
-      hash: md5
-      md5: 8733c85cc153b227cd5ea85e3c35536d
-      size: 323958
-    - path: data/Sports_and_Outdoors.test.parquet
-      hash: md5
-      md5: ce8828e5a94066276edac88d875e33f1
-      size: 3228607
-    - path: data/Sports_and_Outdoors.train.parquet
-      hash: md5
-      md5: 2f8ea2fdc9f148ba986a809ccb9cac41
-      size: 27949628
-    - path: data/Sports_and_Outdoors.valid.parquet
-      hash: md5
-      md5: 88477d9e2b0b6508129121d8a6e988ce
-      size: 2528779
-    - path: data/Tools_and_Home_Improvement.test.parquet
-      hash: md5
-      md5: af8d35499f798428bcef7d953e6f8a49
-      size: 9645876
-    - path: data/Tools_and_Home_Improvement.train.parquet
-      hash: md5
-      md5: b5ab75c4f90fe04c3fc809b21c4033d0
-      size: 59377982
-    - path: data/Tools_and_Home_Improvement.valid.parquet
-      hash: md5
-      md5: 2bc8fd0cd7d7bec9c13b50333ca3df37
-      size: 8191254
-    - path: data/Toys_and_Games.test.parquet
-      hash: md5
-      md5: 7e0c838c80e7743635ac70617802f2ec
-      size: 4122003
-    - path: data/Toys_and_Games.train.parquet
-      hash: md5
-      md5: b93aa1af8d1caef62ffa90a6fe0d440d
-      size: 30483569
-    - path: data/Toys_and_Games.valid.parquet
-      hash: md5
-      md5: 9b2c15c9ab021e89c5faaf41be915a65
-      size: 3033166
-    - path: data/Video_Games.test.parquet
-      hash: md5
-      md5: cf987af7328180c52207f9ee5e4a11c1
-      size: 398572
-    - path: data/Video_Games.train.parquet
-      hash: md5
-      md5: 0dadcf947e6da761cef79cf8bf48b0a2
-      size: 7056173
-    - path: data/Video_Games.valid.parquet
-      hash: md5
-      md5: c7a783a8c76237588c36b3492cb177ac
-      size: 333591
+      md5: 171165ac4843cdabc48c1e2c70ea7ee8
+      size: 2348
+    - path: data/Arts_Crafts_and_Sewing.test.csv.gz
+      hash: md5
+      md5: 403adf5856eb4cbe34b92e76a2fe1c34
+      size: 8079910
+    - path: data/Arts_Crafts_and_Sewing.train.csv.gz
+      hash: md5
+      md5: 7decb89d701fb2a69680f04485b48fa6
+      size: 30995841
+    - path: data/Arts_Crafts_and_Sewing.valid.csv.gz
+      hash: md5
+      md5: f8ef98db7c132b777f3e25dd3fa06d2f
+      size: 7962436
+    - path: data/Automotive.test.csv.gz
+      hash: md5
+      md5: 72c29fdb736cfec6eb520515b1dd53f8
+      size: 27181518
+    - path: data/Automotive.train.csv.gz
+      hash: md5
+      md5: 4c585d79cabbd857eab50559b4ebf4f0
+      size: 107742925
+    - path: data/Automotive.valid.csv.gz
+      hash: md5
+      md5: 51cf8508cb262ca6107ab01e95f8b517
+      size: 29337051
+    - path: data/Baby_Products.test.csv.gz
+      hash: md5
+      md5: 0474baa9899ff3473cd0de81f0adb014
+      size: 3328544
+    - path: data/Baby_Products.train.csv.gz
+      hash: md5
+      md5: f9a1c55a680f9ff2647677d8cdfb81a0
+      size: 23500223
+    - path: data/Baby_Products.valid.csv.gz
+      hash: md5
+      md5: 657b39315c7a1accb421e02210096e07
+      size: 2917369
+    - path: data/Beauty_and_Personal_Care.test.csv.gz
+      hash: md5
+      md5: 092628010cf2aba8c6b95b61084aba06
+      size: 39888459
+    - path: data/Beauty_and_Personal_Care.train.csv.gz
+      hash: md5
+      md5: 337e1993521f11ba102cc09f30bfad6a
+      size: 110996563
+    - path: data/Beauty_and_Personal_Care.valid.csv.gz
+      hash: md5
+      md5: 67fc522653cf3146162a21017cda47c3
+      size: 33121464
+    - path: data/Books.test.csv.gz
+      hash: md5
+      md5: 22d49de2c5d25e729db283b8bc409156
+      size: 22866890
+    - path: data/Books.train.csv.gz
+      hash: md5
+      md5: c9bae9646a333245378b384e506a892a
+      size: 200166977
+    - path: data/Books.valid.csv.gz
+      hash: md5
+      md5: 580ff64b410805641eeb64c00987e2f8
+      size: 25317388
+    - path: data/CDs_and_Vinyl.test.csv.gz
+      hash: md5
+      md5: 66d76238e903c0e6807e881790705712
+      size: 1273480
+    - path: data/CDs_and_Vinyl.train.csv.gz
+      hash: md5
+      md5: 52f026f7362db207ff7bcc8696025da0
+      size: 32949116
+    - path: data/CDs_and_Vinyl.valid.csv.gz
+      hash: md5
+      md5: 6b746db4246195b2fb1b8fd239c1204b
+      size: 1782019
+    - path: data/Cell_Phones_and_Accessories.test.csv.gz
+      hash: md5
+      md5: f1a24620ee1d6c04c6632ddda346b020
+      size: 11989115
+    - path: data/Cell_Phones_and_Accessories.train.csv.gz
+      hash: md5
+      md5: 023a5bc3efac70e65cc4e1914dd640a0
+      size: 50136518
+    - path: data/Cell_Phones_and_Accessories.valid.csv.gz
+      hash: md5
+      md5: 03db577c1e2bff622883fb364c4319b2
+      size: 10763179
+    - path: data/Clothing_Shoes_and_Jewelry.test.csv.gz
+      hash: md5
+      md5: e115a22856bd1566ab8fb9b3bc4b1680
+      size: 135418744
+    - path: data/Clothing_Shoes_and_Jewelry.train.csv.gz
+      hash: md5
+      md5: 97430e87cd569226ccb96ef216bc8a3e
+      size: 387003859
+    - path: data/Clothing_Shoes_and_Jewelry.valid.csv.gz
+      hash: md5
+      md5: f30b363b02eaaa68eee66ea74b51de7e
+      size: 130985165
+    - path: data/Electronics.test.csv.gz
+      hash: md5
+      md5: d5851b84350f9040bfd89a7f3a4e39d6
+      size: 59706322
+    - path: data/Electronics.train.csv.gz
+      hash: md5
+      md5: 63a1e8a27c8ab5e9b2bb2362d90d71af
+      size: 291870849
+    - path: data/Electronics.valid.csv.gz
+      hash: md5
+      md5: c86e52bf71f53d29302489fe2d08aed7
+      size: 60998902
+    - path: data/Grocery_and_Gourmet_Food.test.csv.gz
+      hash: md5
+      md5: 832837da495f8d243238a9d69ed18d07
+      size: 19603496
+    - path: data/Grocery_and_Gourmet_Food.train.csv.gz
+      hash: md5
+      md5: c8f147e1796e57361eda6f9f4c6ea54d
+      size: 68113217
+    - path: data/Grocery_and_Gourmet_Food.valid.csv.gz
+      hash: md5
+      md5: 8bd8d4f79bf1a21b967b2b4c6834a90e
+      size: 21857518
+    - path: data/Health_and_Household.test.csv.gz
+      hash: md5
+      md5: 3fe62a86716f5d7993e25852bd6f987c
+      size: 39150082
+    - path: data/Health_and_Household.train.csv.gz
+      hash: md5
+      md5: e472d338e6073f0cf4a14cc4a0991e36
+      size: 124541879
+    - path: data/Health_and_Household.valid.csv.gz
+      hash: md5
+      md5: bf0bde61e1fe1734f179951b3300fd38
+      size: 37157390
+    - path: data/Home_and_Kitchen.test.csv.gz
+      hash: md5
+      md5: 721567b3b59c3daa049b311c1502e8f9
+      size: 155697034
+    - path: data/Home_and_Kitchen.train.csv.gz
+      hash: md5
+      md5: d0c6777ce0dd73bb899d7fea382fe1b6
+      size: 487962700
+    - path: data/Home_and_Kitchen.valid.csv.gz
+      hash: md5
+      md5: f4f9c9b7a447ccd140eacae9446b5718
+      size: 150886324
+    - path: data/Industrial_and_Scientific.test.csv.gz
+      hash: md5
+      md5: beec341361368869ab098ebe77463b40
+      size: 2392881
+    - path: data/Industrial_and_Scientific.train.csv.gz
+      hash: md5
+      md5: dbce994f298412dc2a4e2f6839e991ed
+      size: 6774883
+    - path: data/Industrial_and_Scientific.valid.csv.gz
+      hash: md5
+      md5: d2706e9e95fa40d7e4dcb47a298850e7
+      size: 1787185
+    - path: data/Kindle_Store.test.csv.gz
+      hash: md5
+      md5: e69880467b21f9724644995e5de3c6b7
+      size: 76684779
+    - path: data/Kindle_Store.train.csv.gz
+      hash: md5
+      md5: 693b03c3670d011e952c50eb83895e1f
+      size: 352327053
+    - path: data/Kindle_Store.valid.csv.gz
+      hash: md5
+      md5: ba75f4de011bd2c8c5e03007638522d5
+      size: 85698319
+    - path: data/Movies_and_TV.test.csv.gz
+      hash: md5
+      md5: d0ac012c8af271f246f428fd2ab9a36c
+      size: 11316619
+    - path: data/Movies_and_TV.train.csv.gz
+      hash: md5
+      md5: f4443d6ae13a61b69f83ba1cbf663b77
+      size: 156128085
+    - path: data/Movies_and_TV.valid.csv.gz
+      hash: md5
+      md5: c18b344ae98c74bc9697946fdf7767a6
+      size: 11997632
+    - path: data/Musical_Instruments.test.csv.gz
+      hash: md5
+      md5: 7bd4540b0b29282b4910aa1988cc6349
+      size: 1737026
+    - path: data/Musical_Instruments.train.csv.gz
+      hash: md5
+      md5: a1d9b08759ee1685abc91e5f768d292f
+      size: 9431776
+    - path: data/Musical_Instruments.valid.csv.gz
+      hash: md5
+      md5: 5333a84211e0f3b2a76ea848a3a75f7d
+      size: 1786891
+    - path: data/Office_Products.test.csv.gz
+      hash: md5
+      md5: 15c37aba40a39ade6835e063f0d37cde
+      size: 7928557
+    - path: data/Office_Products.train.csv.gz
+      hash: md5
+      md5: 5cbb97836776f69d29682134f623f3d9
+      size: 32406473
+    - path: data/Office_Products.valid.csv.gz
+      hash: md5
+      md5: f4cbc7895de6d1f1f31e0f53ed18c3f7
+      size: 6375061
+    - path: data/Patio_Lawn_and_Garden.test.csv.gz
+      hash: md5
+      md5: f86cdcab5ace621918252fce992a45e9
+      size: 18639288
+    - path: data/Patio_Lawn_and_Garden.train.csv.gz
+      hash: md5
+      md5: 6d534fd8597eb6b8ee567695d0f8beb1
+      size: 58323206
+    - path: data/Patio_Lawn_and_Garden.valid.csv.gz
+      hash: md5
+      md5: 6a98e45550c5978a3519e9cc31cc5026
+      size: 18537791
+    - path: data/Pet_Supplies.test.csv.gz
+      hash: md5
+      md5: b3564f99d32fd3a0e61ed05413d2b05f
+      size: 23946261
+    - path: data/Pet_Supplies.train.csv.gz
+      hash: md5
+      md5: a4386269f83ffbe830b1f82e667681f9
+      size: 93208836
+    - path: data/Pet_Supplies.valid.csv.gz
+      hash: md5
+      md5: 554bc3be533d80b312042c1ec8ce47fb
+      size: 23814773
+    - path: data/Software.test.csv.gz
+      hash: md5
+      md5: 28ee12c81d368c35ae1970f985581cf8
+      size: 850336
+    - path: data/Software.train.csv.gz
+      hash: md5
+      md5: 7b5cfbb0ed1a4c9877820f1d38192374
+      size: 25432577
+    - path: data/Software.valid.csv.gz
+      hash: md5
+      md5: 5d886c3388d748283a24eacf424a521d
+      size: 1393199
+    - path: data/Sports_and_Outdoors.test.csv.gz
+      hash: md5
+      md5: 2a865e4589d47ba0cd659420737e9718
+      size: 13487071
+    - path: data/Sports_and_Outdoors.train.csv.gz
+      hash: md5
+      md5: 3c2a6d35deccf862666634e4f33ad287
+      size: 64210142
+    - path: data/Sports_and_Outdoors.valid.csv.gz
+      hash: md5
+      md5: 8d1a0e513087f68f144425ca50ae0fde
+      size: 12125533
+    - path: data/Tools_and_Home_Improvement.test.csv.gz
+      hash: md5
+      md5: 2ba66ae2c4918096a1e847c3d7aa479c
+      size: 42654397
+    - path: data/Tools_and_Home_Improvement.train.csv.gz
+      hash: md5
+      md5: 685e1f7be000432b56af04bef7b3e07c
+      size: 137338466
+    - path: data/Tools_and_Home_Improvement.valid.csv.gz
+      hash: md5
+      md5: b7b36838aa41b09033e23cd651e3a8e3
+      size: 39101306
+    - path: data/Toys_and_Games.test.csv.gz
+      hash: md5
+      md5: ad7345a51204a9aad2bf27f0e3343ed3
+      size: 15907254
+    - path: data/Toys_and_Games.train.csv.gz
+      hash: md5
+      md5: f63fb62ca7e21202b2fb0a4f113dd623
+      size: 69293339
+    - path: data/Toys_and_Games.valid.csv.gz
+      hash: md5
+      md5: ee8314d0fed7b4784cb2e83a2752ac85
+      size: 13450434
+    - path: data/Video_Games.test.csv.gz
+      hash: md5
+      md5: cf9c346ffe32cf46fd1f661032f29841
+      size: 1672711
+    - path: data/Video_Games.train.csv.gz
+      hash: md5
+      md5: cf52cdcd1bc96c0251cf525fd3373bf5
+      size: 15690763
+    - path: data/Video_Games.valid.csv.gz
+      hash: md5
+      md5: 5b29cd361999229e92cc7c3c49d3bc08
+      size: 1558363
     outs:
     - path: stats.duckdb
       hash: md5
-      md5: d9b781dd2606a5b3ab4f374844e09818
-      size: 711733248
+      md5: 38a458464e6b43f9c6b37efd9847f8f6
+      size: 1225535488
   run-default-Popular-test@Sports_and_Outdoors:
     cmd: python ../../action.py generate --default --train=data/Sports_and_Outdoors.train.parquet
       --train=data/Sports_and_Outdoors.valid.parquet --test=data/Sports_and_Outdoors.test.parquet

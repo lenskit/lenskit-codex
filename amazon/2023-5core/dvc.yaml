@@ -1,6 +1,6 @@
 stages:
   collect-stats:
-    cmd: lenskit codex run-duck-dql -f bench-stats.sql stats.duckdb
+    cmd: lenskit codex sql -f bench-stats.sql stats.duckdb
     deps:
       - bench-stats.sql
       - /home/mde48/lenskit/lenskit-codex/amazon/2023-5core/data/Software.train.csv.gz

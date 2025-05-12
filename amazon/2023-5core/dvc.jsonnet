@@ -62,7 +62,7 @@ local cat_pipes = {
 {
   stages: {
     'collect-stats': {
-      cmd: lib.codex_cmd(['run-duck-dql', '-f', 'bench-stats.sql', 'stats.duckdb']),
+      cmd: lib.codex_cmd(['sql', '-f', 'bench-stats.sql', 'stats.duckdb']),
       outs: ['stats.duckdb'],
       deps: [
         'bench-stats.sql',
