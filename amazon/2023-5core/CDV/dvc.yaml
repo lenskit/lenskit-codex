@@ -1,7 +1,15 @@
 stages:
-  import:
-    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz dataset
+  import-full-train:
+    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz ../data/CDs_and_Vinyl.valid.csv.gz
+      dataset
+    deps:
+      - ../data/CDs_and_Vinyl.train.csv.gz
+      - ../data/CDs_and_Vinyl.valid.csv.gz
+    outs:
+      - dataset
+  import-valid-train:
+    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz dataset.valid
     deps:
       - ../data/CDs_and_Vinyl.train.csv.gz
     outs:
-      - dataset
+      - dataset.valid

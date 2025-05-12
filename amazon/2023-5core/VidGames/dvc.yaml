@@ -1,7 +1,15 @@
 stages:
-  import:
-    cmd: lenskit data convert --amazon ../data/Video_Games.train.csv.gz dataset
+  import-full-train:
+    cmd: lenskit data convert --amazon ../data/Video_Games.train.csv.gz ../data/Video_Games.valid.csv.gz
+      dataset
+    deps:
+      - ../data/Video_Games.train.csv.gz
+      - ../data/Video_Games.valid.csv.gz
+    outs:
+      - dataset
+  import-valid-train:
+    cmd: lenskit data convert --amazon ../data/Video_Games.train.csv.gz dataset.valid
     deps:
       - ../data/Video_Games.train.csv.gz
     outs:
-      - dataset
+      - dataset.valid

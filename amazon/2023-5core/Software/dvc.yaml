@@ -1,7 +1,15 @@
 stages:
-  import:
-    cmd: lenskit data convert --amazon ../data/Software.train.csv.gz dataset
+  import-full-train:
+    cmd: lenskit data convert --amazon ../data/Software.train.csv.gz ../data/Software.valid.csv.gz
+      dataset
+    deps:
+      - ../data/Software.train.csv.gz
+      - ../data/Software.valid.csv.gz
+    outs:
+      - dataset
+  import-valid-train:
+    cmd: lenskit data convert --amazon ../data/Software.train.csv.gz dataset.valid
     deps:
       - ../data/Software.train.csv.gz
     outs:
-      - dataset
+      - dataset.valid
