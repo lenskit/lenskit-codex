@@ -1,4 +1,3 @@
-from os import fspath
 from pathlib import Path
 
 import structlog
@@ -21,7 +20,9 @@ __all__ = [
 
 def load_split_set(path: Path) -> SplitSet:
     log = _log.bind(path=str(path))
-    if path.exists():
+    if path.is_dir():
+        return FixedSplitSet(path)
+    else:
         log.debug("loading split spec")
         spec = load_split_spec(path)
         src = path.parent / spec.source
@@ -35,11 +36,3 @@ def load_split_set(path: Path) -> SplitSet:
                 assert spec.crossfold is not None
                 assert spec.holdout is not None
                 return CrossfoldSplitSet(path.with_suffix(".parquet"), src)
-
-    elif path.with_name(path.name + ".train.parquet").exists():
-        log.debug("found parquet file, using fixed set")
-        return FixedSplitSet(fspath(path))
-
-    else:
-        log.error("neither file nor train.parquet exists")
-        raise RuntimeError("cannot detect type of split set")

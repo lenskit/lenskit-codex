@@ -17,8 +17,10 @@ _log = structlog.stdlib.get_logger(__name__)
 
 
 @codex.command("generate")
-@click.option("--default", "config", help="use default configuration", flag_value="default")
-@click.option("--param-file", "config", metavar="FILE", help="configure model from FILE")
+@click.option("--default", "config", help="Use default model configuration.", flag_value="default")
+@click.option(
+    "--param-file", "config", metavar="FILE", default="default", help="Configure model from FILE."
+)
 @click.option(
     "-n",
     "--list-length",
@@ -27,14 +29,17 @@ _log = structlog.stdlib.get_logger(__name__)
     help="control recommendation list length",
     default=100,
 )
-@click.option("-o", "--output", "out_dir", type=Path, metavar="N", help="specify output directory")
-@click.option("--ds-name", help="name of the dataset")
-@click.option("--split", "split", type=Path, help="path to the split spec (or base file)")
+@click.option("-o", "--output", "out_dir", type=Path, metavar="N", help="Specify output directory.")
+@click.option("--ds-name", help="Name of the dataset.")
+@click.option(
+    "--split", "split", type=Path, required=True, help="Path to the split spec or directory."
+)
 @click.option(
     "-p",
     "--test-part",
     metavar="PARTS",
-    help="test on specified part(s), comma-separated; -part to negate",
+    required=True,
+    help="Test on specified part(s), comma-separated; -part to negate.",
 )
 @click.argument("MODEL", required=True)
 def generate(
@@ -42,8 +47,8 @@ def generate(
     config: str | Path,
     out_dir: Path,
     split: Path,
+    test_part: str,
     ds_name: str | None = None,
-    test_part: str | None = None,
     list_length: int = 100,
 ):
     """

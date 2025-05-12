@@ -6,16 +6,28 @@ local cat_pipes = {
     stages: {
       'import-valid-train': {
         local src = std.format('../data/%s.train.csv.gz', [m.value]),
-        cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', src, 'dataset.valid']),
+        cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', src, 'splits/fixed/valid/train.dataset']),
         deps: [src],
-        outs: ['dataset.valid'],
+        outs: ['splits/fixed/valid/train.dataset'],
       },
-      'import-full-train': {
+      'import-valid-test': {
+        local src = std.format('../data/%s.valid.csv.gz', [m.value]),
+        cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', '--item-lists', src, 'splits/fixed/valid/test.parquet']),
+        deps: [src],
+        outs: ['splits/fixed/valid/test.parquet'],
+      },
+      'import-test-train': {
         local train = std.format('../data/%s.train.csv.gz', [m.value]),
         local valid = std.format('../data/%s.valid.csv.gz', [m.value]),
-        cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', train, valid, 'dataset']),
+        cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', train, valid, 'splits/fixed/test/train.dataset']),
         deps: [train, valid],
-        outs: ['dataset'],
+        outs: ['splits/fixed/test/train.dataset'],
+      },
+      'import-test-test': {
+        local src = std.format('../data/%s.test.csv.gz', [m.value]),
+        cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', '--item-lists', src, 'splits/fixed/test/test.parquet']),
+        deps: [src],
+        outs: ['splits/fixed/test/test.parquet'],
       },
     },
   }

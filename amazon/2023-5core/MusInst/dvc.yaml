@@ -1,15 +1,29 @@
 stages:
-  import-full-train:
+  import-test-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/Musical_Instruments.test.csv.gz
+      splits/fixed/test/test.parquet
+    deps:
+      - ../data/Musical_Instruments.test.csv.gz
+    outs:
+      - splits/fixed/test/test.parquet
+  import-test-train:
     cmd: lenskit data convert --amazon ../data/Musical_Instruments.train.csv.gz ../data/Musical_Instruments.valid.csv.gz
-      dataset
+      splits/fixed/test/train.dataset
     deps:
       - ../data/Musical_Instruments.train.csv.gz
       - ../data/Musical_Instruments.valid.csv.gz
     outs:
-      - dataset
+      - splits/fixed/test/train.dataset
+  import-valid-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/Musical_Instruments.valid.csv.gz
+      splits/fixed/valid/test.parquet
+    deps:
+      - ../data/Musical_Instruments.valid.csv.gz
+    outs:
+      - splits/fixed/valid/test.parquet
   import-valid-train:
-    cmd: lenskit data convert --amazon ../data/Musical_Instruments.train.csv.gz dataset.valid
+    cmd: lenskit data convert --amazon ../data/Musical_Instruments.train.csv.gz splits/fixed/valid/train.dataset
     deps:
       - ../data/Musical_Instruments.train.csv.gz
     outs:
-      - dataset.valid
+      - splits/fixed/valid/train.dataset

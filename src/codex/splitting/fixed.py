@@ -1,8 +1,8 @@
-from typing import Sequence, override
+from pathlib import Path
+from typing import override
 
-import pandas as pd
 import structlog
-from lenskit.data import ItemListCollection, UserIDKey, from_interactions_df
+from lenskit.data import Dataset, ItemListCollection
 from lenskit.splitting import TTSplit
 
 from ._base import SplitSet
@@ -15,29 +15,24 @@ class FixedSplitSet(SplitSet):
     A fixed train/validate/test split.
     """
 
-    file_base: str
-    parts: list[str]
+    base_dir: Path
     log: structlog.stdlib.BoundLogger
 
-    def __init__(self, file_base: str, parts: Sequence[str] = ("test", "valid")):
-        self.file_base = file_base
-        self.parts = list(parts)
-        self.log = _log.bind(base=file_base)
+    def __init__(self, base_dir: Path):
+        self.base_dir = base_dir
+        self.log = _log.bind(base=str(base_dir))
+
+    @property
+    def parts(self):
+        return [f.parent.name for f in self.base_dir.glob("*/train.dataset")]
 
     @override
     def get_part(self, part: str) -> TTSplit:
-        train = self._read_part("train")
-        if part == "test" and "valid" in self.parts:
-            valid = self._read_part("valid")
-            train = pd.concat([train, valid], ignore_index=True)
+        part_dir = self.base_dir / part
+        if not part_dir.exists():
+            raise FileNotFoundError(str(part_dir))
 
-        train = from_interactions_df(train)
+        train = Dataset.load(part_dir / "train.dataset")
+        test = ItemListCollection.load_parquet(part_dir / "test.parquet")
 
-        test = self._read_part(part)
-        test = ItemListCollection.from_df(test, UserIDKey)
         return TTSplit(train, test)
-
-    def _read_part(self, part) -> pd.DataFrame:
-        fn = f"{self.file_base}.{part}.parquet"
-        self.log.info("reading file", part=part)
-        return pd.read_parquet(fn)

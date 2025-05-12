@@ -1,15 +1,29 @@
 stages:
-  import-full-train:
+  import-test-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/CDs_and_Vinyl.test.csv.gz
+      splits/fixed/test/test.parquet
+    deps:
+      - ../data/CDs_and_Vinyl.test.csv.gz
+    outs:
+      - splits/fixed/test/test.parquet
+  import-test-train:
     cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz ../data/CDs_and_Vinyl.valid.csv.gz
-      dataset
+      splits/fixed/test/train.dataset
     deps:
       - ../data/CDs_and_Vinyl.train.csv.gz
       - ../data/CDs_and_Vinyl.valid.csv.gz
     outs:
-      - dataset
+      - splits/fixed/test/train.dataset
+  import-valid-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/CDs_and_Vinyl.valid.csv.gz
+      splits/fixed/valid/test.parquet
+    deps:
+      - ../data/CDs_and_Vinyl.valid.csv.gz
+    outs:
+      - splits/fixed/valid/test.parquet
   import-valid-train:
-    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz dataset.valid
+    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz splits/fixed/valid/train.dataset
     deps:
       - ../data/CDs_and_Vinyl.train.csv.gz
     outs:
-      - dataset.valid
+      - splits/fixed/valid/train.dataset

@@ -14,14 +14,14 @@ stages:
       size: 17455240
       nfiles: 5
   import-valid-train:
-    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz dataset.valid
+    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz splits/fixed/valid/train.dataset
     deps:
     - path: ../data/CDs_and_Vinyl.train.csv.gz
       hash: md5
       md5: 52f026f7362db207ff7bcc8696025da0
       size: 32949116
     outs:
-    - path: dataset.valid
+    - path: splits/fixed/valid/train.dataset
       hash: md5
       md5: 15b10977d7889919647237f7aeca4ee3.dir
       size: 17455240
@@ -44,3 +44,29 @@ stages:
       md5: dc321505f06a051d99ef184607c66d69.dir
       size: 17730609
       nfiles: 5
+  import-valid-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/CDs_and_Vinyl.valid.csv.gz
+      splits/fixed/valid/test.parquet
+    deps:
+    - path: ../data/CDs_and_Vinyl.valid.csv.gz
+      hash: md5
+      md5: 6b746db4246195b2fb1b8fd239c1204b
+      size: 1782019
+    outs:
+    - path: splits/fixed/valid/test.parquet
+      hash: md5
+      md5: e8db9cf4d4289e22be6b146102b8dce8
+      size: 630198
+  import-test-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/CDs_and_Vinyl.test.csv.gz
+      splits/fixed/test/test.parquet
+    deps:
+    - path: ../data/CDs_and_Vinyl.test.csv.gz
+      hash: md5
+      md5: 66d76238e903c0e6807e881790705712
+      size: 1273480
+    outs:
+    - path: splits/fixed/test/test.parquet
+      hash: md5
+      md5: 7bf42cb6d4eb50cae07f479a7a6133f1
+      size: 421339
