@@ -13,7 +13,6 @@ from itertools import batched
 from pathlib import Path
 
 import pandas as pd
-import pyarrow as pa
 import ray
 from lenskit import Pipeline, predict, recommend
 from lenskit.data import ID, ItemList, ItemListCollection, UserIDKey
@@ -33,7 +32,7 @@ from lenskit.metrics import (
 from pydantic import JsonValue
 
 from codex.cluster import ensure_cluster_init
-from codex.outputs import PRED_FIELDS, REC_FIELDS, DummySink, ItemListCollector, ObjectSink
+from codex.outputs import DummySink, ItemListCollector, ObjectSink
 
 _log = get_logger(__name__)
 
@@ -188,12 +187,10 @@ class InferenceResultCollector:
 
     def __init__(self, rec_output: Path, pred_output: Path | None):
         rec_output.parent.mkdir(parents=True, exist_ok=True)
-        self.rec_collector = ItemListCollector(rec_output, {"user_id": pa.int64()}, REC_FIELDS)
+        self.rec_collector = ItemListCollector(rec_output, ["user_id"])
         if pred_output is not None:
             pred_output.parent.mkdir(parents=True, exist_ok=True)
-            self.pred_collector = ItemListCollector(
-                pred_output, {"user_id": pa.int64()}, PRED_FIELDS
-            )
+            self.pred_collector = ItemListCollector(pred_output, ["user_id"])
 
     def write_output(self, recs: ItemList, preds: ItemList | None, **key: ID):
         self.rec_collector.write_list(recs, **key)

@@ -10,7 +10,6 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import IO, Literal
 
-import pyarrow as pa
 import structlog
 import zstandard
 from lenskit.data import ID, ItemList, ListILC
@@ -23,9 +22,6 @@ _log = structlog.stdlib.get_logger(__name__)
 
 type RunLog = Literal["run", "inference", "training"]
 type ListSet = Literal["recommendations", "predictions"]
-
-REC_FIELDS = {"item_id": pa.int32(), "rank": pa.int32(), "score": pa.float32()}
-PRED_FIELDS = {"item_id": pa.int32(), "score": pa.float32()}
 
 
 class RunOutput:
@@ -189,29 +185,20 @@ class ItemListCollector:
     path: Path
     batch_size: int
     batch: ListILC
-    writer: ParquetWriter
+    writer: ParquetWriter | None = None
     key_fields: list[str]
-    list_fields: dict[str, pa.DataType]
 
     def __init__(
         self,
         path: Path,
-        key_fields: dict[str, pa.DataType],
-        list_fields: dict[str, pa.DataType],
+        key_fields: list[str],
         batch_size: int = 5000,
     ):
         self.path = path
         self.batch_size = batch_size
-        self.key_fields = list(key_fields.keys())
-        self.list_fields = list_fields
+        self.key_fields = key_fields.copy()
 
-        self.batch = ListILC(self.key_fields)
-        fields = key_fields | {"items": pa.list_(pa.struct(list_fields))}
-        self.writer = ParquetWriter(
-            self.path,
-            pa.schema(fields),
-            compression="snappy",
-        )
+        self.batch = ListILC(self.key_fields)  # type: ignore
 
     def write_list(self, list: ItemList, *key: ID, **kw: ID):
         self.batch.add(list, *key, **kw)
@@ -220,10 +207,19 @@ class ItemListCollector:
 
     def finish(self):
         self._write_batch()
-        self.writer.close()
+        if self.writer is not None:
+            self.writer.close()
 
     def _write_batch(self):
         if len(self.batch):
-            for rb in self.batch.record_batches(self.batch_size, self.list_fields):
+            for rb in self.batch.record_batches(self.batch_size):
+                if self.writer is None:
+                    self.writer = ParquetWriter(
+                        self.path,
+                        rb.schema,
+                        compression="snappy",
+                    )
+
                 self.writer.write_batch(rb)
-            self.batch = ListILC(self.key_fields)
+
+            self.batch = ListILC(self.key_fields)  # type: ignore
