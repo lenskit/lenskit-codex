@@ -1,5 +1,6 @@
 local lib = import '../../src/codex.libsonnet';
-local categories = std.parseYaml(importstr 'categories.yml');
+// local categories = std.parseYaml(importstr 'categories.yml');
+local categories = {};
 
 local cat_pipes = {
   [m.key + '/dvc.yaml']: {

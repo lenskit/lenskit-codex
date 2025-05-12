@@ -35,6 +35,7 @@ class CodexPipeline(DVCPipeline):
         import _jsonnet
 
         pdir = path.parent.absolute()
+        logger.debug("evaluating JSONNet file %s", str(path))
 
         data = _jsonnet.evaluate_file(
             fspath(path),

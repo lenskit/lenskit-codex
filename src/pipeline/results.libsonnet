@@ -1,5 +1,5 @@
 local cmds = import './commands.libsonnet';
-local runs = import './runs.libsonnet';
+local runlib = import './runs.libsonnet';
 
 
 {
@@ -12,7 +12,7 @@ local runs = import './runs.libsonnet';
         '-L runs/manifest.csv',
       ]),
       deps: [
-        'runs/' + runs.runPath(run)
+        'runs/' + runlib.runPath(run)
         for run in runs
       ],
       outs: ['run-summary.csv', 'run-user-metrics.parquet'],
