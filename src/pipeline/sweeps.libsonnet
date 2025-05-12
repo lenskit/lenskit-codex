@@ -19,8 +19,10 @@ local searchPointsArg(spec, model) =
 {
   search_defaults: search_defaults,
 
-  allSweepStages(spec_in):
+  allSweepStages(spec_in, subdir=null):
     local spec = search_defaults + spec_in;
+    local root = if subdir == null then paths.projectRoot else '../' + paths.projectRoot;
+
     {
 
       [std.join('-', ['sweep', m.key, split, method])]: {
@@ -37,14 +39,14 @@ local searchPointsArg(spec, model) =
           out_dir,
         ]),
         params: if spec.search_points == null then [
-          { [paths.projectPath('config.toml')]: [std.format('tuning.%s.points', [method])] },
+          { [root + '/config.toml']: [std.format('tuning.%s.points', [method])] },
         ] else [],
         deps: [
           std.format('splits/%s.%s', [
             split,
             if split == 'random' then 'parquet' else 'toml',
           ]),
-          paths.projectPath(m.value.src_path),
+          root + '/' + m.value.src_path,
         ],
         outs: [
           out_dir,
