@@ -181,8 +181,8 @@ stages:
     outs:
       - runs/fixed/flexmf-warp-optuna-best
   sweep-als-biased-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
-      --metric=RMSE als-biased sweeps/fixed/als-biased-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
+      als-biased sweeps/fixed/als-biased-optuna
     deps:
       - splits/fixed.toml
       - ../../src/codex/models/als_biased.py
@@ -194,8 +194,8 @@ stages:
       - ../../config.toml:
           - tuning.optuna.points
   sweep-als-implicit-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
-      --metric=RBP als-implicit sweeps/fixed/als-implicit-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
+      als-implicit sweeps/fixed/als-implicit-optuna
     deps:
       - splits/fixed.toml
       - ../../src/codex/models/als_implicit.py
@@ -207,8 +207,8 @@ stages:
       - ../../config.toml:
           - tuning.optuna.points
   sweep-bias-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
-      --metric=RMSE bias sweeps/fixed/bias-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
+      bias sweeps/fixed/bias-optuna
     deps:
       - splits/fixed.toml
       - ../../src/codex/models/bias.py
@@ -220,8 +220,8 @@ stages:
       - ../../config.toml:
           - tuning.optuna.points
   sweep-flexmf-bpr-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
-      --metric=RBP flexmf-bpr sweeps/fixed/flexmf-bpr-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
+      flexmf-bpr sweeps/fixed/flexmf-bpr-optuna
     deps:
       - splits/fixed.toml
       - ../../src/codex/models/flexmf_bpr.py
@@ -233,8 +233,8 @@ stages:
       - ../../config.toml:
           - tuning.optuna.points
   sweep-flexmf-explicit-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
-      --metric=RMSE flexmf-explicit sweeps/fixed/flexmf-explicit-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
+      flexmf-explicit sweeps/fixed/flexmf-explicit-optuna
     deps:
       - splits/fixed.toml
       - ../../src/codex/models/flexmf_explicit.py
@@ -246,8 +246,8 @@ stages:
       - ../../config.toml:
           - tuning.optuna.points
   sweep-flexmf-logistic-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
-      --metric=RBP flexmf-logistic sweeps/fixed/flexmf-logistic-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
+      flexmf-logistic sweeps/fixed/flexmf-logistic-optuna
     deps:
       - splits/fixed.toml
       - ../../src/codex/models/flexmf_logistic.py
@@ -259,8 +259,8 @@ stages:
       - ../../config.toml:
           - tuning.optuna.points
   sweep-flexmf-warp-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
-      --metric=RBP flexmf-warp sweeps/fixed/flexmf-warp-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
+      flexmf-warp sweeps/fixed/flexmf-warp-optuna
     deps:
       - splits/fixed.toml
       - ../../src/codex/models/flexmf_warp.py

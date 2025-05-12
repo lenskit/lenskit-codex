@@ -27,7 +27,7 @@ local searchPointsArg(spec, model) =
 
         cmd: cmds.codex_cmd([
           'search',
-          std.format('--split=splits/%s.toml', [split]),
+          '--split=splits/' + split + (if split == 'fixed' then '' else '.toml'),
           if split == 'random' then '--test-part=0' else '--test-part=valid',
           searchPointsArg(spec, m.value),
           '--' + method,
