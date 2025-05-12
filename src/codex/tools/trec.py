@@ -23,26 +23,27 @@ def export():
 
 
 @export.command("qrels")
+@click.option("-o", "--output", type=Path, metavar="FILE", help="Write output to FILE.")
 @click.argument("FILE", type=Path)
-def export_qrels(file: Path):
+def export_qrels(output: Path, file: Path):
     "Export QREL files from truth data."
     if file.suffix != ".parquet":
         _log.info("only parquet files can be exported at present")
 
-    outf = file.with_suffix(".qrels.gz")
     with connect() as db:
         _log.info("reading test data from %s", file)
         tbl = db.read_parquet(fspath(file))
         qrels = tbl.query(
             "ratings",
             """
-            SELECT user_id, 0, item_id, CAST(rating AS int)
-            FROM ratings
-            ORDER BY user_id, item_id
+            WITH unpacked AS (SELECT user_id, unnest(items) AS item FROM ratings)
+            SELECT user_id, 0, item.item_id, CAST(item.rating AS int)
+            FROM unpacked
+            ORDER BY user_id, item.item_id
             """,
         )
-        _log.info("saving qrels to %s", outf)
-        qrels.write_csv(fspath(outf), sep="\t", header=False, compression="gzip")
+        _log.info("saving qrels to %s", output)
+        qrels.write_csv(fspath(output), sep="\t", header=False, compression="gzip")
 
 
 @export.command("runs")

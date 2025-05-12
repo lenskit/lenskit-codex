@@ -37,6 +37,17 @@ local cat_pipes = {
         deps: [src],
         outs: ['splits/fixed/test/test.parquet'],
       },
+
+      'export-valid-qrels': {
+        cmd: lib.codex_cmd(['trec', 'export', 'qrels', '-o', 'splits/fixed/valid.qrels.gz', 'splits/fixed/valid/test.parquet']),
+        deps: ['splits/fixed/valid/test.parquet'],
+        outs: ['splits/fixed/valid.qrels.gz'],
+      },
+      'export-test-qrels': {
+        cmd: lib.codex_cmd(['trec', 'export', 'qrels', '-o', 'splits/fixed/test.qrels.gz', 'splits/fixed/test/test.parquet']),
+        deps: ['splits/fixed/test/test.parquet'],
+        outs: ['splits/fixed/test.qrels.gz'],
+      },
     } + lib.allSweepStages(spec, m.key) + lib.runStages(runs, m.key) + lib.collectRuns(runs),
   }
   for m in std.objectKeysValues(categories)

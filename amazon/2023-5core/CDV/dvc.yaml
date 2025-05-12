@@ -21,6 +21,18 @@ stages:
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
+  export-test-qrels:
+    cmd: lenskit codex trec export qrels -o splits/fixed/test.qrels.gz splits/fixed/test/test.parquet
+    deps:
+      - splits/fixed/test/test.parquet
+    outs:
+      - splits/fixed/test.qrels.gz
+  export-valid-qrels:
+    cmd: lenskit codex trec export qrels -o splits/fixed/valid.qrels.gz splits/fixed/valid/test.parquet
+    deps:
+      - splits/fixed/valid/test.parquet
+    outs:
+      - splits/fixed/valid.qrels.gz
   import-test-test:
     cmd: lenskit data convert --amazon --item-lists ../data/CDs_and_Vinyl.test.csv.gz
       splits/fixed/test/test.parquet

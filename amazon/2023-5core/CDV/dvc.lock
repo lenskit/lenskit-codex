@@ -240,3 +240,27 @@ stages:
       md5: 3c90dd08f3062f5b4f1f22ea2b0c7904.dir
       size: 5215310
       nfiles: 5
+  export-valid-qrels:
+    cmd: lenskit codex trec export qrels -o splits/fixed/valid.qrels.zst splits/fixed/valid/test.parquet
+    deps:
+    - path: splits/fixed/valid/test.parquet
+      hash: md5
+      md5: faadcf5855ea6ceb27f48fe3b8bf37ed
+      size: 630185
+    outs:
+    - path: splits/fixed/valid.qrels.zst
+      hash: md5
+      md5: 54bce71d1b63d40b09ddf8e7fa64e797
+      size: 413041
+  export-test-qrels:
+    cmd: lenskit codex trec export qrels -o splits/fixed/test.qrels.zst splits/fixed/test/test.parquet
+    deps:
+    - path: splits/fixed/test/test.parquet
+      hash: md5
+      md5: 5e5124caf70c8f49f071f615ed6263de
+      size: 421326
+    outs:
+    - path: splits/fixed/test.qrels.zst
+      hash: md5
+      md5: 5615dc4a937daf6ad126694a2c3ca755
+      size: 275599
