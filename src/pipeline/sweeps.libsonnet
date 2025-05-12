@@ -1,5 +1,6 @@
 local cmds = import './commands.libsonnet';
 local models = import './models.libsonnet';
+local paths = import './paths.libsonnet';
 
 local search_defaults = {
   searches: ['optuna'],
@@ -36,14 +37,14 @@ local searchPointsArg(spec, model) =
           out_dir,
         ]),
         params: if spec.search_points == null then [
-          { '../../config.toml': [std.format('tuning.%s.points', [method])] },
+          { [paths.projectPath('config.toml')]: [std.format('tuning.%s.points', [method])] },
         ] else [],
         deps: [
           std.format('splits/%s.%s', [
             split,
             if split == 'random' then 'parquet' else 'toml',
           ]),
-          '../../' + m.value.src_path,
+          paths.projectPath(m.value.src_path),
         ],
         outs: [
           out_dir,

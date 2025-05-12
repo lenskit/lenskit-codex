@@ -49,7 +49,7 @@ class CodexPipeline(DVCPipeline):
                 "project_root": ((), lambda: ROOT_DIR.relative_to(pdir, walk_up=True).as_posix()),
                 "project_path": (
                     ("path",),
-                    lambda: (ROOT_DIR / path).relative_to(pdir, walk_up=True).as_posix(),
+                    lambda path: (ROOT_DIR / path).relative_to(pdir, walk_up=True).as_posix(),
                 ),
                 "parse_path": (("path",), _parse_path),
             },
