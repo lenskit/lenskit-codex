@@ -4,7 +4,8 @@ local paths = import './paths.libsonnet';
 
 local runPath(run) =
   std.format('%s/%s-%s', [run.split, run.model, run.variant]);
-local runStages(runs) =
+local runStages(runs, subdir=null) =
+  local root = if subdir == null then paths.projectRoot else '../' + paths.projectRoot;
   {
     [run.name]: {
       local path = runPath(run),
@@ -15,7 +16,7 @@ local runStages(runs) =
         run.model,
       ]),
       outs: ['runs/' + path],
-      deps: [std.format('%s/src/codex/models/%s.py', [paths.projectRoot, std.strReplace(run.model, '-', '_')])] + std.get(run, 'deps', []),
+      deps: [std.format('%s/src/codex/models/%s.py', [root, std.strReplace(run.model, '-', '_')])] + std.get(run, 'deps', []),
     }
     for run in runs
   };
