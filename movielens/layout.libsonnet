@@ -23,7 +23,7 @@ local makeRuns(spec) = std.flattenArrays([
 
   stages: data.prepare(spec)
           + sweep.allSweepStages(spec)
-          + lib.runStages('../..', runs)
+          + lib.runStages(runs)
           + results.collect(runs),
   extra_files: {
     'runs/manifest.csv': lib.runManifest(runs),

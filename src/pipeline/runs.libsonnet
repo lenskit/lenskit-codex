@@ -4,7 +4,7 @@ local paths = import './paths.libsonnet';
 
 local runPath(run) =
   std.format('%s/%s-%s', [run.split, run.model, run.variant]);
-local runStages(origin, runs) =
+local runStages(runs) =
   {
     [run.name]: {
       local path = runPath(run),
