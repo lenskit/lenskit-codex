@@ -1,4 +1,5 @@
-local lib = import '../src/codex.libsonnet';
+local cmds = import './commands.libsonnet';
+local models = import './models.libsonnet';
 
 local runPath(run) =
   std.format('%s/%s-%s', [run.split, run.model, run.variant]);
@@ -6,7 +7,7 @@ local runStages(origin, runs) =
   {
     [run.name]: {
       local path = runPath(run),
-      cmd: lib.codex_cmd(['generate'] + run.args + [
+      cmd: cmds.codex_cmd(['generate'] + run.args + [
         '--ds-name=' + run.dataset,
         std.format('--split=splits/%s.toml', [run.split]),
         '-o runs/' + path,
@@ -25,11 +26,13 @@ local runManifest(runs) = std.join('\n', [
   for run in runs
 ] + ['']);
 
-local runsForSplit(spec, split) =
+local runsForSplit(spec, split, dep_type) =
   local splitDep =
-    if split == 'random'
+    if dep_type == 'parquet'
     then std.format('splits/%s.parquet', [split])
-    else std.format('splits/%s.toml', [split]);
+    else if dep_type == 'toml'
+    then std.format('splits/%s.toml', [split])
+    else std.format('splits/%s', [split]);
   [
     {
       name: std.format('run-%s-default-%s', [split, model]),
@@ -40,7 +43,7 @@ local runsForSplit(spec, split) =
       variant: 'default',
       deps: ['dataset', splitDep],
     }
-    for model in std.objectFields(lib.activeModels(spec.name))
+    for model in std.objectFields(models.activeModels(spec.name))
   ] + [
     {
       local model = m.key,
@@ -59,19 +62,14 @@ local runsForSplit(spec, split) =
       ],
     }
     for search in spec.searches
-    for m in std.objectKeysValues(lib.activeModels(spec.name))
+    for m in std.objectKeysValues(models.activeModels(spec.name))
     if m.value.searchable
   ];
 
-local makeRuns(spec) =
-  std.flattenArrays([
-    runsForSplit(spec, split)
-    for split in spec.splits
-  ]);
 
 {
-  makeRuns: makeRuns,
-  stages: runStages,
+  runsForSplit: runsForSplit,
+  runStages: runStages,
   runPath: runPath,
   runManifest: runManifest,
 }

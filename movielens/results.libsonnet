@@ -1,5 +1,4 @@
 local lib = import '../src/codex.libsonnet';
-local runlib = import './runs.libsonnet';
 
 
 {
@@ -12,7 +11,7 @@ local runlib = import './runs.libsonnet';
         '-L runs/manifest.csv',
       ]),
       deps: [
-        'runs/' + runlib.runPath(run)
+        'runs/' + lib.runPath(run)
         for run in runs
       ],
       outs: ['run-summary.csv', 'run-user-metrics.parquet'],
