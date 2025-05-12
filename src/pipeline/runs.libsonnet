@@ -29,12 +29,12 @@ local runManifest(runs) = std.join('\n', [
 ] + ['']);
 
 local runsForSplit(spec, split, dep_type) =
-  local splitDep =
+  local deps =
     if dep_type == 'parquet'
-    then std.format('splits/%s.parquet', [split])
+    then ['dataset', std.format('splits/%s.parquet', [split])]
     else if dep_type == 'toml'
-    then std.format('splits/%s.toml', [split])
-    else std.format('splits/%s', [split]);
+    then ['dataset', std.format('splits/%s.toml', [split])]
+    else [std.format('splits/%s', [split])];
   [
     {
       name: std.format('run-%s-default-%s', [split, model]),
@@ -43,7 +43,7 @@ local runsForSplit(spec, split, dep_type) =
       model: model,
       split: split,
       variant: 'default',
-      deps: ['dataset', splitDep],
+      deps: deps,
     }
     for model in std.objectFields(models.activeModels(spec.name))
   ] + [
@@ -57,11 +57,7 @@ local runsForSplit(spec, split, dep_type) =
       model: model,
       split: split,
       variant: search + '-best',
-      deps: [
-        'dataset',
-        splitDep,
-        params,
-      ],
+      deps: deps + [params],
     }
     for search in spec.searches
     for m in std.objectKeysValues(models.activeModels(spec.name))

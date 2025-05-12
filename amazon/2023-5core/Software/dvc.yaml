@@ -31,7 +31,6 @@ stages:
       -o runs/fixed/als-biased-default als-biased
     deps:
       - ../../../src/codex/models/als_biased.py
-      - dataset
       - splits/fixed
     outs:
       - runs/fixed/als-biased-default
@@ -40,7 +39,6 @@ stages:
       -o runs/fixed/als-implicit-default als-implicit
     deps:
       - ../../../src/codex/models/als_implicit.py
-      - dataset
       - splits/fixed
     outs:
       - runs/fixed/als-implicit-default
@@ -49,7 +47,6 @@ stages:
       -o runs/fixed/bias-default bias
     deps:
       - ../../../src/codex/models/bias.py
-      - dataset
       - splits/fixed
     outs:
       - runs/fixed/bias-default
@@ -58,7 +55,6 @@ stages:
       -o runs/fixed/flexmf-bpr-default flexmf-bpr
     deps:
       - ../../../src/codex/models/flexmf_bpr.py
-      - dataset
       - splits/fixed
     outs:
       - runs/fixed/flexmf-bpr-default
@@ -67,7 +63,6 @@ stages:
       -o runs/fixed/flexmf-explicit-default flexmf-explicit
     deps:
       - ../../../src/codex/models/flexmf_explicit.py
-      - dataset
       - splits/fixed
     outs:
       - runs/fixed/flexmf-explicit-default
@@ -76,7 +71,6 @@ stages:
       -o runs/fixed/flexmf-logistic-default flexmf-logistic
     deps:
       - ../../../src/codex/models/flexmf_logistic.py
-      - dataset
       - splits/fixed
     outs:
       - runs/fixed/flexmf-logistic-default
@@ -85,7 +79,6 @@ stages:
       -o runs/fixed/flexmf-warp-default flexmf-warp
     deps:
       - ../../../src/codex/models/flexmf_warp.py
-      - dataset
       - splits/fixed
     outs:
       - runs/fixed/flexmf-warp-default
@@ -94,7 +87,6 @@ stages:
       -o runs/fixed/popular-default popular
     deps:
       - ../../../src/codex/models/popular.py
-      - dataset
       - splits/fixed
     outs:
       - runs/fixed/popular-default
@@ -103,7 +95,6 @@ stages:
       --split=splits/fixed.toml -o runs/fixed/als-biased-optuna-best als-biased
     deps:
       - ../../../src/codex/models/als_biased.py
-      - dataset
       - splits/fixed
       - sweeps/fixed/als-biased-optuna.json
     outs:
@@ -114,7 +105,6 @@ stages:
       als-implicit
     deps:
       - ../../../src/codex/models/als_implicit.py
-      - dataset
       - splits/fixed
       - sweeps/fixed/als-implicit-optuna.json
     outs:
@@ -124,7 +114,6 @@ stages:
       --split=splits/fixed.toml -o runs/fixed/bias-optuna-best bias
     deps:
       - ../../../src/codex/models/bias.py
-      - dataset
       - splits/fixed
       - sweeps/fixed/bias-optuna.json
     outs:
@@ -134,7 +123,6 @@ stages:
       --split=splits/fixed.toml -o runs/fixed/flexmf-bpr-optuna-best flexmf-bpr
     deps:
       - ../../../src/codex/models/flexmf_bpr.py
-      - dataset
       - splits/fixed
       - sweeps/fixed/flexmf-bpr-optuna.json
     outs:
@@ -145,7 +133,6 @@ stages:
       flexmf-explicit
     deps:
       - ../../../src/codex/models/flexmf_explicit.py
-      - dataset
       - splits/fixed
       - sweeps/fixed/flexmf-explicit-optuna.json
     outs:
@@ -156,7 +143,6 @@ stages:
       flexmf-logistic
     deps:
       - ../../../src/codex/models/flexmf_logistic.py
-      - dataset
       - splits/fixed
       - sweeps/fixed/flexmf-logistic-optuna.json
     outs:
@@ -167,7 +153,6 @@ stages:
       flexmf-warp
     deps:
       - ../../../src/codex/models/flexmf_warp.py
-      - dataset
       - splits/fixed
       - sweeps/fixed/flexmf-warp-optuna.json
     outs:

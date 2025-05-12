@@ -70,3 +70,21 @@ stages:
       hash: md5
       md5: 7bf42cb6d4eb50cae07f479a7a6133f1
       size: 421339
+  import-test-train:
+    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz ../data/CDs_and_Vinyl.valid.csv.gz
+      splits/fixed/test/train.dataset
+    deps:
+    - path: ../data/CDs_and_Vinyl.train.csv.gz
+      hash: md5
+      md5: 52f026f7362db207ff7bcc8696025da0
+      size: 32949116
+    - path: ../data/CDs_and_Vinyl.valid.csv.gz
+      hash: md5
+      md5: 6b746db4246195b2fb1b8fd239c1204b
+      size: 1782019
+    outs:
+    - path: splits/fixed/test/train.dataset
+      hash: md5
+      md5: dc321505f06a051d99ef184607c66d69.dir
+      size: 17730609
+      nfiles: 5
