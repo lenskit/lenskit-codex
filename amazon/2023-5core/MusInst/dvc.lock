@@ -70,3 +70,219 @@ stages:
       hash: md5
       md5: 713b557df125e1a66483d678fda8c379
       size: 812899
+  export-trec-qrels@valid:
+    cmd: lenskit codex trec export qrels -o splits/fixed/valid.qrels.gz splits/fixed/valid/test.parquet
+    deps:
+    - path: splits/fixed/valid/test.parquet
+      hash: md5
+      md5: 713b557df125e1a66483d678fda8c379
+      size: 812899
+    outs:
+    - path: splits/fixed/valid.qrels.gz
+      hash: md5
+      md5: bd38afdea876026e251ca54e8b53144e
+      size: 582595
+  export-trec-qrels@test:
+    cmd: lenskit codex trec export qrels -o splits/fixed/test.qrels.gz splits/fixed/test/test.parquet
+    deps:
+    - path: splits/fixed/test/test.parquet
+      hash: md5
+      md5: 5894b8004d8ea9636a82d8ba0ca319d1
+      size: 770406
+    outs:
+    - path: splits/fixed/test.qrels.gz
+      hash: md5
+      md5: 12ffbafa749cdae878d41cab8d1d9261
+      size: 544225
+  run-fixed-default-flexmf-bpr:
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
+      runs/fixed/flexmf-bpr-default flexmf-bpr
+    deps:
+    - path: ../../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: 94acb427f7b39b627be488ba2558067c
+      size: 663
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    outs:
+    - path: runs/fixed/flexmf-bpr-default
+      hash: md5
+      md5: 6eb4c551704154ed5b347f701b5b65f5.dir
+      size: 15318605
+      nfiles: 4
+  run-fixed-default-als-biased:
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
+      runs/fixed/als-biased-default als-biased
+    deps:
+    - path: ../../../src/codex/models/als_biased.py
+      hash: md5
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    outs:
+    - path: runs/fixed/als-biased-default
+      hash: md5
+      md5: b16408b505bbc726d929fee4644ec3c7.dir
+      size: 16844067
+      nfiles: 5
+  run-fixed-default-flexmf-explicit:
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
+      runs/fixed/flexmf-explicit-default flexmf-explicit
+    deps:
+    - path: ../../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 9271360109ed53980623529abafbc7a4
+      size: 527
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    outs:
+    - path: runs/fixed/flexmf-explicit-default
+      hash: md5
+      md5: b55885459163d330e20c65e233ec7cbb.dir
+      size: 17143588
+      nfiles: 5
+  run-fixed-default-bias:
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
+      runs/fixed/bias-default bias
+    deps:
+    - path: ../../../src/codex/models/bias.py
+      hash: md5
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    outs:
+    - path: runs/fixed/bias-default
+      hash: md5
+      md5: 1890f03b5c86c6e4b68f99d8fe91d8d3.dir
+      size: 6929946
+      nfiles: 5
+  run-fixed-default-flexmf-warp:
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
+      runs/fixed/flexmf-warp-default flexmf-warp
+    deps:
+    - path: ../../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    outs:
+    - path: runs/fixed/flexmf-warp-default
+      hash: md5
+      md5: 29d6d67362cca6ba2c89821f5990d96d.dir
+      size: 15296143
+      nfiles: 4
+  run-fixed-default-popular:
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
+      runs/fixed/popular-default popular
+    deps:
+    - path: ../../../src/codex/models/popular.py
+      hash: md5
+      md5: c1b8d18adf4c2f7d9807ad4f8c766732
+      size: 56
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    outs:
+    - path: runs/fixed/popular-default
+      hash: md5
+      md5: 1c1b4e7aebdd4aa980021066d8d5dc59.dir
+      size: 1278118
+      nfiles: 4
+  run-fixed-default-als-implicit:
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
+      runs/fixed/als-implicit-default als-implicit
+    deps:
+    - path: ../../../src/codex/models/als_implicit.py
+      hash: md5
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    outs:
+    - path: runs/fixed/als-implicit-default
+      hash: md5
+      md5: 72afad7b6d7c8be4b97136ab1ea420c9.dir
+      size: 14933003
+      nfiles: 4
+  run-fixed-default-flexmf-logistic:
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
+      runs/fixed/flexmf-logistic-default flexmf-logistic
+    deps:
+    - path: ../../../src/codex/models/flexmf_logistic.py
+      hash: md5
+      md5: bbad471f8ca28fa9c5a9818432bc7ac8
+      size: 748
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    outs:
+    - path: runs/fixed/flexmf-logistic-default
+      hash: md5
+      md5: ed4107d39bf14c65395454f3d73f5aae.dir
+      size: 15364791
+      nfiles: 4
+  export-trec-default-runs:
+    cmd: lenskit codex trec export runs -o runs/fixed/default.run.gz runs/fixed/*-default
+    deps:
+    - path: runs/fixed/als-biased-default/recommendations.parquet
+      hash: md5
+      md5: 453af2e77a0bc98419b0e6b96c2d1c26
+      size: 13953730
+    - path: runs/fixed/als-implicit-default/recommendations.parquet
+      hash: md5
+      md5: a67455d5274dd4767f840c2a812f26a4
+      size: 14368761
+    - path: runs/fixed/bias-default/recommendations.parquet
+      hash: md5
+      md5: 3dd27590d1f2dbe9a15f30ab4b0ae6d0
+      size: 4059650
+    - path: runs/fixed/flexmf-bpr-default/recommendations.parquet
+      hash: md5
+      md5: dd784d3afd8a39a619f89386f2dc6073
+      size: 14844664
+    - path: runs/fixed/flexmf-explicit-default/recommendations.parquet
+      hash: md5
+      md5: 401ad8444b03aa66d383b21781ca2ceb
+      size: 14269382
+    - path: runs/fixed/flexmf-logistic-default/recommendations.parquet
+      hash: md5
+      md5: dfcc978a762da632d69871c4c4820a45
+      size: 14890739
+    - path: runs/fixed/flexmf-warp-default/recommendations.parquet
+      hash: md5
+      md5: 99d1ef57b2da47262de02306c47fbba0
+      size: 14822062
+    - path: runs/fixed/popular-default/recommendations.parquet
+      hash: md5
+      md5: e44b21c9354f3bae900537e21055839a
+      size: 706987
+    outs:
+    - path: runs/fixed/default.run.gz
+      hash: md5
+      md5: 962d67560c16da3575bb4ba42a25c286
+      size: 229367332

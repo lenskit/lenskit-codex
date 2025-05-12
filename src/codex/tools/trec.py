@@ -47,29 +47,31 @@ def export_qrels(output: Path, file: Path):
 
 
 @export.command("runs")
-@click.argument("RUN", nargs=-1, type=Path)
-@click.argument("OUT", type=Path)
-def export_runs(recs: list[Path], out: Path):
+@click.option("-o", "--output", type=Path)
+@click.argument("RECS", nargs=-1, type=Path)
+def export_runs(output: Path, recs: list[Path]):
     "Export runs in TREC-compatible format."
     # <query id><iteration><document id><rank><score>[<run id>]
 
     with connect() as db:
         db.execute("""
             CREATE TABLE recs (
-                user_id VARCHAR, iter VARCHAR, item_id VARCHAR, score FLOAT, run VARCHAR
+                user_id VARCHAR, iter VARCHAR, item_id VARCHAR, rank INT, score FLOAT, run VARCHAR
             )
         """)
         for rd in recs:
             rf = rd / "recommendations.parquet"
             _log.info("loading recommendations from %s", rf)
-            query = """
-                WITH unpacked AS (SELECT user_id, UNNEST(items) AS item FROM %s)
+            query = f"""
+                WITH unpacked AS (SELECT part, user_id, UNNEST(items) AS item FROM '{fspath(rf)}')
                 INSERT INTO recs
-                SELECT user_id, part, item.item_id, item.rank, ROUND(COALESCE(item.score, 0), 4), %s
+                SELECT user_id, part, item.item_id, item.rank, ROUND(COALESCE(item.score, 0), 4), ?
                 FROM unpacked
-                ORDER BY user_id, item.rank
             """
-            db.execute(query, [fspath(rf), rd.name])
+            db.execute(query, [rd.name])
 
-        _log.info("saving runs to %s", out)
-        db.execute("COPY recs TO %s (FORMAT CSV, SEP '\\t', HEADER FALSE)", [fspath(out)])
+        _log.info("saving runs to %s", output)
+        db.execute(
+            f"COPY (SELECT * FROM recs ORDER BY run, user_id, iter, rank) TO '{fspath(output)}'"
+            " (FORMAT CSV, SEP '\\t', HEADER FALSE)"
+        )
