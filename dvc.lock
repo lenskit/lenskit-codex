@@ -1022,30 +1022,26 @@ stages:
       size: 329825
       nfiles: 10
   page/amazon/2023-5core/index:
-    cmd: quarto render amazon/2023-5core/index.qmd --profile prerender
+    cmd: quarto render amazon/2023-5core/index.qmd
     deps:
-    - path: _quarto-prerender.yml
-      hash: md5
-      md5: fe1f6b982acadfdd675d7bf14a819ab8
-      size: 40
     - path: _quarto.yml
       hash: md5
       md5: 97356d9c9d3ad8ce685d8954d36ec42d
       size: 1299
     - path: amazon/2023-5core/index.qmd
       hash: md5
-      md5: cfa73de172277071a1b9fb5fbdc69ea1
-      size: 1253
+      md5: 76d623509a8f96f69a461b4ef8c8d55a
+      size: 1057
     - path: amazon/2023-5core/stats.duckdb
       hash: md5
-      md5: d9b781dd2606a5b3ab4f374844e09818
-      size: 711733248
+      md5: 38a458464e6b43f9c6b37efd9847f8f6
+      size: 1225535488
     outs:
     - path: _freeze/amazon/2023-5core/index
       hash: md5
-      md5: 8af3038b06f2da345cd846c4a38c2f8f.dir
-      size: 43823
-      nfiles: 2
+      md5: 8786bffc8cb72aaa2a63387b6df27763.dir
+      size: 22217
+      nfiles: 1
   page/movielens/ML100K/summary:
     cmd: quarto render movielens/ML100K/summary.qmd
     deps:
