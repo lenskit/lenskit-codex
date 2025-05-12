@@ -11,7 +11,7 @@ local runStages(runs, subdir=null) =
       local path = runPath(run),
       cmd: cmds.codex_cmd(['generate'] + run.args + [
         '--ds-name=' + run.dataset,
-        std.format('--split=splits/%s.toml', [run.split]),
+        '--split=splits/' + run.split + (if run.split == 'fixed' then '' else '.toml'),
         '-o runs/' + path,
         run.model,
       ]),

@@ -21,6 +21,7 @@ __all__ = [
 def load_split_set(path: Path) -> SplitSet:
     log = _log.bind(path=str(path))
     if path.is_dir():
+        log.debug("loading split directory")
         return FixedSplitSet(path)
     else:
         log.debug("loading split spec")

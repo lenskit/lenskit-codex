@@ -27,7 +27,7 @@ stages:
     outs:
       - splits/fixed/valid/train.dataset
   run-fixed-default-als-biased:
-    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed.toml
+    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed
       -o runs/fixed/als-biased-default als-biased
     deps:
       - ../../../src/codex/models/als_biased.py
@@ -35,7 +35,7 @@ stages:
     outs:
       - runs/fixed/als-biased-default
   run-fixed-default-als-implicit:
-    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed.toml
+    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed
       -o runs/fixed/als-implicit-default als-implicit
     deps:
       - ../../../src/codex/models/als_implicit.py
@@ -43,7 +43,7 @@ stages:
     outs:
       - runs/fixed/als-implicit-default
   run-fixed-default-bias:
-    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed.toml
+    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed
       -o runs/fixed/bias-default bias
     deps:
       - ../../../src/codex/models/bias.py
@@ -51,7 +51,7 @@ stages:
     outs:
       - runs/fixed/bias-default
   run-fixed-default-flexmf-bpr:
-    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed.toml
+    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed
       -o runs/fixed/flexmf-bpr-default flexmf-bpr
     deps:
       - ../../../src/codex/models/flexmf_bpr.py
@@ -59,7 +59,7 @@ stages:
     outs:
       - runs/fixed/flexmf-bpr-default
   run-fixed-default-flexmf-explicit:
-    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed.toml
+    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed
       -o runs/fixed/flexmf-explicit-default flexmf-explicit
     deps:
       - ../../../src/codex/models/flexmf_explicit.py
@@ -67,7 +67,7 @@ stages:
     outs:
       - runs/fixed/flexmf-explicit-default
   run-fixed-default-flexmf-logistic:
-    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed.toml
+    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed
       -o runs/fixed/flexmf-logistic-default flexmf-logistic
     deps:
       - ../../../src/codex/models/flexmf_logistic.py
@@ -75,7 +75,7 @@ stages:
     outs:
       - runs/fixed/flexmf-logistic-default
   run-fixed-default-flexmf-warp:
-    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed.toml
+    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed
       -o runs/fixed/flexmf-warp-default flexmf-warp
     deps:
       - ../../../src/codex/models/flexmf_warp.py
@@ -83,7 +83,7 @@ stages:
     outs:
       - runs/fixed/flexmf-warp-default
   run-fixed-default-popular:
-    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed.toml
+    cmd: lenskit codex generate --default --ds-name=Software --split=splits/fixed
       -o runs/fixed/popular-default popular
     deps:
       - ../../../src/codex/models/popular.py
@@ -92,7 +92,7 @@ stages:
       - runs/fixed/popular-default
   run-fixed-optuna-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/fixed/als-biased-optuna.json --ds-name=Software
-      --split=splits/fixed.toml -o runs/fixed/als-biased-optuna-best als-biased
+      --split=splits/fixed -o runs/fixed/als-biased-optuna-best als-biased
     deps:
       - ../../../src/codex/models/als_biased.py
       - splits/fixed
@@ -101,7 +101,7 @@ stages:
       - runs/fixed/als-biased-optuna-best
   run-fixed-optuna-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/fixed/als-implicit-optuna.json
-      --ds-name=Software --split=splits/fixed.toml -o runs/fixed/als-implicit-optuna-best
+      --ds-name=Software --split=splits/fixed -o runs/fixed/als-implicit-optuna-best
       als-implicit
     deps:
       - ../../../src/codex/models/als_implicit.py
@@ -111,7 +111,7 @@ stages:
       - runs/fixed/als-implicit-optuna-best
   run-fixed-optuna-best-bias:
     cmd: lenskit codex generate --param-file sweeps/fixed/bias-optuna.json --ds-name=Software
-      --split=splits/fixed.toml -o runs/fixed/bias-optuna-best bias
+      --split=splits/fixed -o runs/fixed/bias-optuna-best bias
     deps:
       - ../../../src/codex/models/bias.py
       - splits/fixed
@@ -120,7 +120,7 @@ stages:
       - runs/fixed/bias-optuna-best
   run-fixed-optuna-best-flexmf-bpr:
     cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-bpr-optuna.json --ds-name=Software
-      --split=splits/fixed.toml -o runs/fixed/flexmf-bpr-optuna-best flexmf-bpr
+      --split=splits/fixed -o runs/fixed/flexmf-bpr-optuna-best flexmf-bpr
     deps:
       - ../../../src/codex/models/flexmf_bpr.py
       - splits/fixed
@@ -129,7 +129,7 @@ stages:
       - runs/fixed/flexmf-bpr-optuna-best
   run-fixed-optuna-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-explicit-optuna.json
-      --ds-name=Software --split=splits/fixed.toml -o runs/fixed/flexmf-explicit-optuna-best
+      --ds-name=Software --split=splits/fixed -o runs/fixed/flexmf-explicit-optuna-best
       flexmf-explicit
     deps:
       - ../../../src/codex/models/flexmf_explicit.py
@@ -139,7 +139,7 @@ stages:
       - runs/fixed/flexmf-explicit-optuna-best
   run-fixed-optuna-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-logistic-optuna.json
-      --ds-name=Software --split=splits/fixed.toml -o runs/fixed/flexmf-logistic-optuna-best
+      --ds-name=Software --split=splits/fixed -o runs/fixed/flexmf-logistic-optuna-best
       flexmf-logistic
     deps:
       - ../../../src/codex/models/flexmf_logistic.py
@@ -149,7 +149,7 @@ stages:
       - runs/fixed/flexmf-logistic-optuna-best
   run-fixed-optuna-best-flexmf-warp:
     cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-warp-optuna.json
-      --ds-name=Software --split=splits/fixed.toml -o runs/fixed/flexmf-warp-optuna-best
+      --ds-name=Software --split=splits/fixed -o runs/fixed/flexmf-warp-optuna-best
       flexmf-warp
     deps:
       - ../../../src/codex/models/flexmf_warp.py
