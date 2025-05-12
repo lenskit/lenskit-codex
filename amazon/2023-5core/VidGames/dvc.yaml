@@ -31,7 +31,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=VidGames --split=splits/fixed.toml
       -o runs/fixed/als-biased-default als-biased
     deps:
-      - ../../../src/codex/models/als_biased.py
+      - ../../src/codex/models/als_biased.py
       - dataset
       - splits/fixed
     outs:
@@ -40,7 +40,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=VidGames --split=splits/fixed.toml
       -o runs/fixed/als-implicit-default als-implicit
     deps:
-      - ../../../src/codex/models/als_implicit.py
+      - ../../src/codex/models/als_implicit.py
       - dataset
       - splits/fixed
     outs:
@@ -49,7 +49,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=VidGames --split=splits/fixed.toml
       -o runs/fixed/bias-default bias
     deps:
-      - ../../../src/codex/models/bias.py
+      - ../../src/codex/models/bias.py
       - dataset
       - splits/fixed
     outs:
@@ -58,7 +58,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=VidGames --split=splits/fixed.toml
       -o runs/fixed/flexmf-bpr-default flexmf-bpr
     deps:
-      - ../../../src/codex/models/flexmf_bpr.py
+      - ../../src/codex/models/flexmf_bpr.py
       - dataset
       - splits/fixed
     outs:
@@ -67,7 +67,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=VidGames --split=splits/fixed.toml
       -o runs/fixed/flexmf-explicit-default flexmf-explicit
     deps:
-      - ../../../src/codex/models/flexmf_explicit.py
+      - ../../src/codex/models/flexmf_explicit.py
       - dataset
       - splits/fixed
     outs:
@@ -76,7 +76,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=VidGames --split=splits/fixed.toml
       -o runs/fixed/flexmf-logistic-default flexmf-logistic
     deps:
-      - ../../../src/codex/models/flexmf_logistic.py
+      - ../../src/codex/models/flexmf_logistic.py
       - dataset
       - splits/fixed
     outs:
@@ -85,7 +85,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=VidGames --split=splits/fixed.toml
       -o runs/fixed/flexmf-warp-default flexmf-warp
     deps:
-      - ../../../src/codex/models/flexmf_warp.py
+      - ../../src/codex/models/flexmf_warp.py
       - dataset
       - splits/fixed
     outs:
@@ -94,7 +94,7 @@ stages:
     cmd: lenskit codex generate --default --ds-name=VidGames --split=splits/fixed.toml
       -o runs/fixed/popular-default popular
     deps:
-      - ../../../src/codex/models/popular.py
+      - ../../src/codex/models/popular.py
       - dataset
       - splits/fixed
     outs:
@@ -103,7 +103,7 @@ stages:
     cmd: lenskit codex generate --param-file sweeps/fixed/als-biased-optuna.json --ds-name=VidGames
       --split=splits/fixed.toml -o runs/fixed/als-biased-optuna-best als-biased
     deps:
-      - ../../../src/codex/models/als_biased.py
+      - ../../src/codex/models/als_biased.py
       - dataset
       - splits/fixed
       - sweeps/fixed/als-biased-optuna.json
@@ -114,7 +114,7 @@ stages:
       --ds-name=VidGames --split=splits/fixed.toml -o runs/fixed/als-implicit-optuna-best
       als-implicit
     deps:
-      - ../../../src/codex/models/als_implicit.py
+      - ../../src/codex/models/als_implicit.py
       - dataset
       - splits/fixed
       - sweeps/fixed/als-implicit-optuna.json
@@ -124,7 +124,7 @@ stages:
     cmd: lenskit codex generate --param-file sweeps/fixed/bias-optuna.json --ds-name=VidGames
       --split=splits/fixed.toml -o runs/fixed/bias-optuna-best bias
     deps:
-      - ../../../src/codex/models/bias.py
+      - ../../src/codex/models/bias.py
       - dataset
       - splits/fixed
       - sweeps/fixed/bias-optuna.json
@@ -134,7 +134,7 @@ stages:
     cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-bpr-optuna.json --ds-name=VidGames
       --split=splits/fixed.toml -o runs/fixed/flexmf-bpr-optuna-best flexmf-bpr
     deps:
-      - ../../../src/codex/models/flexmf_bpr.py
+      - ../../src/codex/models/flexmf_bpr.py
       - dataset
       - splits/fixed
       - sweeps/fixed/flexmf-bpr-optuna.json
@@ -145,7 +145,7 @@ stages:
       --ds-name=VidGames --split=splits/fixed.toml -o runs/fixed/flexmf-explicit-optuna-best
       flexmf-explicit
     deps:
-      - ../../../src/codex/models/flexmf_explicit.py
+      - ../../src/codex/models/flexmf_explicit.py
       - dataset
       - splits/fixed
       - sweeps/fixed/flexmf-explicit-optuna.json
@@ -156,7 +156,7 @@ stages:
       --ds-name=VidGames --split=splits/fixed.toml -o runs/fixed/flexmf-logistic-optuna-best
       flexmf-logistic
     deps:
-      - ../../../src/codex/models/flexmf_logistic.py
+      - ../../src/codex/models/flexmf_logistic.py
       - dataset
       - splits/fixed
       - sweeps/fixed/flexmf-logistic-optuna.json
@@ -167,7 +167,7 @@ stages:
       --ds-name=VidGames --split=splits/fixed.toml -o runs/fixed/flexmf-warp-optuna-best
       flexmf-warp
     deps:
-      - ../../../src/codex/models/flexmf_warp.py
+      - ../../src/codex/models/flexmf_warp.py
       - dataset
       - splits/fixed
       - sweeps/fixed/flexmf-warp-optuna.json

@@ -15,7 +15,7 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, JsonValue
 
-from .layout import DataSetInfo
+from .layout import ROOT_DIR, DataSetInfo
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +34,24 @@ class CodexPipeline(DVCPipeline):
     def load(cls, path: Path) -> CodexPipeline:
         import _jsonnet
 
+        pdir = path.parent.absolute()
+
         data = _jsonnet.evaluate_file(
-            fspath(path), native_callbacks={"fnmatch": (("name", "pat"), fnmatch)}
+            fspath(path),
+            native_callbacks={
+                "fnmatch": (("name", "pat"), fnmatch),
+                "relpath": (
+                    ("src", "tgt"),
+                    lambda p1, p2: Path(p1).relative_to(p2, walk_up=True).as_posix(),
+                ),
+                "pipeline_dir": ((), lambda: pdir.relative_to(ROOT_DIR)),
+                "project_root": ((), lambda: ROOT_DIR.relative_to(pdir, walk_up=True).as_posix()),
+                "project_path": (
+                    ("path",),
+                    lambda: (ROOT_DIR / path).relative_to(pdir, walk_up=True).as_posix(),
+                ),
+                "parse_path": (("path",), _parse_path),
+            },
         )
         return cls.model_validate_json(data)
 
@@ -117,3 +133,13 @@ def render_dvc_gitignores():
         with fn.open("wt") as gif:
             for f in sorted(ign):
                 print(f, file=gif)
+
+
+def _parse_path(src: str):
+    path = Path(src)
+    return {
+        "dir": path.parent.as_posix(),
+        "name": path.name,
+        "stem": path.stem,
+        "suffix": path.suffix,
+    }

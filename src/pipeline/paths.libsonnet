@@ -1,19 +1,10 @@
-local makeRelativePath = function(pt1, pt2)
-  local l1 = std.length(pt1);
-  local l2 = std.length(pt2);
-  if l1 == 0 || l2 == 0
-  then pt1 + pt2
-  else if pt2[0] == '.'
-  then makeRelativePath(pt1, pt2[1:l2])
-  else if pt2[0] == '..'
-  then makeRelativePath(pt1[0:l1 - 1], pt2[1:l2])
-  else pt1 + pt2;
-
 {
-  dirname: function(path)
-    local parts = std.split(path, '/');
+  parsePath: std.native('parse_path'),
+  projectRoot: std.native('project_root')(),
+  projectPath: std.native('project_path'),
 
-    std.join('/', parts[0:std.length(parts) - 1]),
+  dirname: function(path)
+    self.parsePath(path).dir,
 
   basename: function(path)
     local parts = std.split(path, '/');
@@ -33,8 +24,5 @@ local makeRelativePath = function(pt1, pt2)
     else path,
 
   relative: function(p1, p2)
-    local pt1 = std.split(std.stripChars(p1, '/'), '/');
-    local l1 = std.split(std.stripChars(p2, '/'), '/');
-    local pt2 = std.split(p2, '/');
-    std.join('/', makeRelativePath(pt1, pt2)),
+    std.native('relpath')(p1, p2),
 }
