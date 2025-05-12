@@ -38,7 +38,6 @@ _log = structlog.stdlib.get_logger(__name__)
     "-p",
     "--test-part",
     metavar="PARTS",
-    required=True,
     help="Test on specified part(s), comma-separated; -part to negate.",
 )
 @click.argument("MODEL", required=True)
@@ -47,7 +46,7 @@ def generate(
     config: str | Path,
     out_dir: Path,
     split: Path,
-    test_part: str,
+    test_part: str | None,
     ds_name: str | None = None,
     list_length: int = 100,
 ):
