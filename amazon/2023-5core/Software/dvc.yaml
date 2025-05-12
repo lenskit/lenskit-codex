@@ -183,7 +183,7 @@ stages:
     cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
       als-biased sweeps/fixed/als-biased-optuna
     deps:
-      - splits/fixed.toml
+      - splits/fixed
       - ../../../src/codex/models/als_biased.py
     outs:
       - sweeps/fixed/als-biased-optuna
@@ -196,7 +196,7 @@ stages:
     cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
       als-implicit sweeps/fixed/als-implicit-optuna
     deps:
-      - splits/fixed.toml
+      - splits/fixed
       - ../../../src/codex/models/als_implicit.py
     outs:
       - sweeps/fixed/als-implicit-optuna
@@ -209,7 +209,7 @@ stages:
     cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
       bias sweeps/fixed/bias-optuna
     deps:
-      - splits/fixed.toml
+      - splits/fixed
       - ../../../src/codex/models/bias.py
     outs:
       - sweeps/fixed/bias-optuna
@@ -222,7 +222,7 @@ stages:
     cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
       flexmf-bpr sweeps/fixed/flexmf-bpr-optuna
     deps:
-      - splits/fixed.toml
+      - splits/fixed
       - ../../../src/codex/models/flexmf_bpr.py
     outs:
       - sweeps/fixed/flexmf-bpr-optuna
@@ -235,7 +235,7 @@ stages:
     cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
       flexmf-explicit sweeps/fixed/flexmf-explicit-optuna
     deps:
-      - splits/fixed.toml
+      - splits/fixed
       - ../../../src/codex/models/flexmf_explicit.py
     outs:
       - sweeps/fixed/flexmf-explicit-optuna
@@ -248,7 +248,7 @@ stages:
     cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
       flexmf-logistic sweeps/fixed/flexmf-logistic-optuna
     deps:
-      - splits/fixed.toml
+      - splits/fixed
       - ../../../src/codex/models/flexmf_logistic.py
     outs:
       - sweeps/fixed/flexmf-logistic-optuna
@@ -261,7 +261,7 @@ stages:
     cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
       flexmf-warp sweeps/fixed/flexmf-warp-optuna
     deps:
-      - splits/fixed.toml
+      - splits/fixed
       - ../../../src/codex/models/flexmf_warp.py
     outs:
       - sweeps/fixed/flexmf-warp-optuna
