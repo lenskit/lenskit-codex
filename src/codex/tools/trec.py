@@ -36,7 +36,7 @@ def export_qrels(output: Path, file: Path):
         qrels = tbl.query(
             "ratings",
             """
-            WITH unpacked AS (SELECT user_id, unnest(items) AS item FROM ratings)
+            WITH unpacked AS (SELECT user_id, UNNEST(items) AS item FROM ratings)
             SELECT user_id, 0, item.item_id, CAST(item.rating AS int)
             FROM unpacked
             ORDER BY user_id, item.item_id
@@ -47,28 +47,29 @@ def export_qrels(output: Path, file: Path):
 
 
 @export.command("runs")
-@click.option("-r", "--run", type=int, help="select a single run to output")
-@click.argument("DB", type=Path)
+@click.argument("RUN", nargs=-1, type=Path)
 @click.argument("OUT", type=Path)
-def export_runs(db: Path, out: Path, run: int | None = None):
+def export_runs(recs: list[Path], out: Path):
     "Export runs in TREC-compatible format."
     # <query id><iteration><document id><rank><score>[<run id>]
 
-    with connect(fspath(db), read_only=True) as cxn:
-        if run is not None:
-            params = [run]
-            filter = "WHERE run == ?"
-        else:
-            params = []
-            filter = ""
+    with connect() as db:
+        db.execute("""
+            CREATE TABLE recs (
+                user_id VARCHAR, iter VARCHAR, item_id VARCHAR, score FLOAT, run VARCHAR
+            )
+        """)
+        for rd in recs:
+            rf = rd / "recommendations.parquet"
+            _log.info("loading recommendations from %s", rf)
+            query = """
+                WITH unpacked AS (SELECT user_id, UNNEST(items) AS item FROM %s)
+                INSERT INTO recs
+                SELECT user_id, part, item.item_id, item.rank, ROUND(COALESCE(item.score, 0), 4), %s
+                FROM unpacked
+                ORDER BY user_id, item.rank
+            """
+            db.execute(query, [fspath(rf), rd.name])
 
-        query = f"""
-            SELECT user_id, 0, item_id, rank, ROUND(COALESCE(score, 0), 4), run
-            FROM recommendations
-            {filter}
-            ORDER BY run, user, rank
-        """
-        _log.info("saving run to %s", out)
-        cxn.execute(
-            f"COPY ({query}) TO '{fspath(out)}' (FORMAT CSV, SEP '\\t', HEADER FALSE)", params
-        )
+        _log.info("saving runs to %s", out)
+        db.execute("COPY recs TO %s (FORMAT CSV, SEP '\\t', HEADER FALSE)", [fspath(out)])

@@ -7,7 +7,7 @@ local runPath(run) =
 local runStages(runs, subdir=null) =
   local root = if subdir == null then paths.projectRoot else '../' + paths.projectRoot;
   {
-    [run.name]: {
+    ['run-' + run.name]: {
       local path = runPath(run),
       cmd: cmds.codex_cmd(['generate'] + run.args + [
         '--ds-name=' + run.dataset,
@@ -37,7 +37,7 @@ local runsForSplit(spec, split, dep_type) =
     else [std.format('splits/%s', [split])];
   [
     {
-      name: std.format('run-%s-default-%s', [split, model]),
+      name: std.format('%s-default-%s', [split, model]),
       dataset: spec.name,
       args: ['--default'],
       model: model,
@@ -51,7 +51,7 @@ local runsForSplit(spec, split, dep_type) =
       local model = m.key,
       local params = std.format('sweeps/%s/%s-%s.json', [split, model, search]),
 
-      name: std.format('run-%s-%s-best-%s', [split, search, model]),
+      name: std.format('%s-%s-best-%s', [split, search, model]),
       dataset: spec.name,
       args: ['--param-file', params],
       model: model,

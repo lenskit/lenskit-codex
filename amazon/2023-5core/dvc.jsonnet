@@ -38,15 +38,21 @@ local cat_pipes = {
         outs: ['splits/fixed/test/test.parquet'],
       },
 
-      'export-valid-qrels': {
-        cmd: lib.codex_cmd(['trec', 'export', 'qrels', '-o', 'splits/fixed/valid.qrels.gz', 'splits/fixed/valid/test.parquet']),
-        deps: ['splits/fixed/valid/test.parquet'],
-        outs: ['splits/fixed/valid.qrels.gz'],
+      'export-trec-qrels': {
+        foreach: ['test', 'valid'],
+        do: {
+          cmd: lib.codex_cmd(['trec', 'export', 'qrels', '-o', 'splits/fixed/${item}.qrels.gz', 'splits/fixed/${item}/test.parquet']),
+          deps: ['splits/fixed/${item}/test.parquet'],
+          outs: ['splits/fixed/${item}.qrels.gz'],
+        },
       },
-      'export-test-qrels': {
-        cmd: lib.codex_cmd(['trec', 'export', 'qrels', '-o', 'splits/fixed/test.qrels.gz', 'splits/fixed/test/test.parquet']),
-        deps: ['splits/fixed/test/test.parquet'],
-        outs: ['splits/fixed/test.qrels.gz'],
+      'export-trec-default-runs': {
+        cmd: lib.codex_cmd(['trec', 'export', 'runs', '-o', 'runs/fixed/default.run.gz', 'runs/fixed/*-default']),
+        deps: [
+          std.format('runs/fixed/%s-default/recommendations.parquet', [model])
+          for model in std.objectFields(lib.activeModels(m.key))
+        ],
+        outs: ['runs/fixed/default.run.gz'],
       },
     } + lib.allSweepStages(spec, m.key) + lib.runStages(runs, m.key) + lib.collectRuns(runs),
   }

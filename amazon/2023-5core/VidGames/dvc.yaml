@@ -21,18 +21,29 @@ stages:
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
-  export-test-qrels:
-    cmd: lenskit codex trec export qrels -o splits/fixed/test.qrels.gz splits/fixed/test/test.parquet
+  export-trec-default-runs:
+    cmd: lenskit codex trec export runs -o runs/fixed/default.run.gz runs/fixed/*-default
     deps:
-      - splits/fixed/test/test.parquet
+      - runs/fixed/als-biased-default/recommendations.parquet
+      - runs/fixed/als-implicit-default/recommendations.parquet
+      - runs/fixed/bias-default/recommendations.parquet
+      - runs/fixed/flexmf-bpr-default/recommendations.parquet
+      - runs/fixed/flexmf-explicit-default/recommendations.parquet
+      - runs/fixed/flexmf-logistic-default/recommendations.parquet
+      - runs/fixed/flexmf-warp-default/recommendations.parquet
+      - runs/fixed/popular-default/recommendations.parquet
     outs:
-      - splits/fixed/test.qrels.gz
-  export-valid-qrels:
-    cmd: lenskit codex trec export qrels -o splits/fixed/valid.qrels.gz splits/fixed/valid/test.parquet
-    deps:
-      - splits/fixed/valid/test.parquet
-    outs:
-      - splits/fixed/valid.qrels.gz
+      - runs/fixed/default.run.gz
+  export-trec-qrels:
+    do:
+      cmd: lenskit codex trec export qrels -o splits/fixed/${item}.qrels.gz splits/fixed/${item}/test.parquet
+      deps:
+        - splits/fixed/${item}/test.parquet
+      outs:
+        - splits/fixed/${item}.qrels.gz
+    foreach:
+      - test
+      - valid
   import-test-test:
     cmd: lenskit data convert --amazon --item-lists ../data/Video_Games.test.csv.gz
       splits/fixed/test/test.parquet
