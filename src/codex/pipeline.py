@@ -52,6 +52,7 @@ class CodexPipeline(DVCPipeline):
                     lambda path: (ROOT_DIR / path).relative_to(pdir, walk_up=True).as_posix(),
                 ),
                 "parse_path": (("path",), _parse_path),
+                "glob": (("glob",), lambda g: [p.as_posix() for p in pdir.glob(g)]),
             },
         )
         return cls.model_validate_json(data)

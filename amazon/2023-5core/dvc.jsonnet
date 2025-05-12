@@ -60,6 +60,14 @@ local cat_pipes = {
 };
 
 {
-  stages: {},
+  stages: {
+    'collect-stats': {
+      cmd: lib.codex_cmd(['run-duck-dql', '-f', 'bench-stats.sql', 'stats.duckdb']),
+      outs: ['stats.duckdb'],
+      deps: [
+        'bench-stats.sql',
+      ] + lib.glob('data/*.csv.gz'),
+    },
+  },
   extra_files: cat_pipes,
 }

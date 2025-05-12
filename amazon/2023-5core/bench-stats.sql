@@ -1,14 +1,14 @@
 SET enable_progress_bar = TRUE;
 
 CREATE TYPE partition AS ENUM ('train', 'valid', 'test');
-CREATE TYPE category AS ENUM (SELECT DISTINCT regexp_extract(file, '(\w+)\.\w+\.parquet', 1) FROM glob('data/*.parquet'));
+CREATE TYPE category AS ENUM (SELECT DISTINCT regexp_extract(file, '(\w+)\.\w+\.csv.gz', 1) FROM glob('data/*.csv.gz'));
 
 CREATE TEMPORARY VIEW raw_ratings AS
 SELECT
-    CAST(regexp_extract(filename, '(\w+)\.\w+\.parquet', 1) AS category) AS category,
-    CAST(regexp_extract(filename, '\w+\.(\w+)\.parquet', 1) AS partition) AS part,
-    user_id, item_id, rating, epoch_ms(timestamp * 1000) AS timestamp
-FROM read_parquet('data/*.parquet', filename=TRUE);
+    CAST(regexp_extract(filename, '(\w+)\.\w+\.csv.gz', 1) AS category) AS category,
+    CAST(regexp_extract(filename, '\w+\.(\w+)\.csv.gz', 1) AS partition) AS part,
+    user_id, item_id, cast(rating FLOAT), epoch_ms(timestamp) AS timestamp
+FROM read_csv('data/*.csv.gz', filename=TRUE);
 
 SELECT log_msg('computing file statistics');
 CREATE TABLE file_stats AS

@@ -25,4 +25,6 @@
 
   relative: function(p1, p2)
     std.native('relpath')(p1, p2),
+
+  glob: std.native('glob'),
 }
