@@ -1,4 +1,26 @@
 stages:
+  collect-metrics:
+    cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
+      -L runs/manifest.csv
+    deps:
+      - runs/fixed/als-biased-default
+      - runs/fixed/als-implicit-default
+      - runs/fixed/bias-default
+      - runs/fixed/flexmf-bpr-default
+      - runs/fixed/flexmf-explicit-default
+      - runs/fixed/flexmf-logistic-default
+      - runs/fixed/flexmf-warp-default
+      - runs/fixed/popular-default
+      - runs/fixed/als-biased-optuna-best
+      - runs/fixed/als-implicit-optuna-best
+      - runs/fixed/bias-optuna-best
+      - runs/fixed/flexmf-bpr-optuna-best
+      - runs/fixed/flexmf-explicit-optuna-best
+      - runs/fixed/flexmf-logistic-optuna-best
+      - runs/fixed/flexmf-warp-optuna-best
+    outs:
+      - run-summary.csv
+      - run-user-metrics.parquet
   import-test-test:
     cmd: lenskit data convert --amazon --item-lists ../data/Software.test.csv.gz splits/fixed/test/test.parquet
     deps:
@@ -157,3 +179,94 @@ stages:
       - sweeps/fixed/flexmf-warp-optuna.json
     outs:
       - runs/fixed/flexmf-warp-optuna-best
+  sweep-als-biased-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
+      --metric=RMSE als-biased sweeps/fixed/als-biased-optuna
+    deps:
+      - splits/fixed.toml
+      - ../../src/codex/models/als_biased.py
+    outs:
+      - sweeps/fixed/als-biased-optuna
+      - sweeps/fixed/als-biased-optuna.json:
+          cache: false
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+  sweep-als-implicit-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
+      --metric=RBP als-implicit sweeps/fixed/als-implicit-optuna
+    deps:
+      - splits/fixed.toml
+      - ../../src/codex/models/als_implicit.py
+    outs:
+      - sweeps/fixed/als-implicit-optuna
+      - sweeps/fixed/als-implicit-optuna.json:
+          cache: false
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+  sweep-bias-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
+      --metric=RMSE bias sweeps/fixed/bias-optuna
+    deps:
+      - splits/fixed.toml
+      - ../../src/codex/models/bias.py
+    outs:
+      - sweeps/fixed/bias-optuna
+      - sweeps/fixed/bias-optuna.json:
+          cache: false
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+  sweep-flexmf-bpr-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
+      --metric=RBP flexmf-bpr sweeps/fixed/flexmf-bpr-optuna
+    deps:
+      - splits/fixed.toml
+      - ../../src/codex/models/flexmf_bpr.py
+    outs:
+      - sweeps/fixed/flexmf-bpr-optuna
+      - sweeps/fixed/flexmf-bpr-optuna.json:
+          cache: false
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+  sweep-flexmf-explicit-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
+      --metric=RMSE flexmf-explicit sweeps/fixed/flexmf-explicit-optuna
+    deps:
+      - splits/fixed.toml
+      - ../../src/codex/models/flexmf_explicit.py
+    outs:
+      - sweeps/fixed/flexmf-explicit-optuna
+      - sweeps/fixed/flexmf-explicit-optuna.json:
+          cache: false
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+  sweep-flexmf-logistic-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
+      --metric=RBP flexmf-logistic sweeps/fixed/flexmf-logistic-optuna
+    deps:
+      - splits/fixed.toml
+      - ../../src/codex/models/flexmf_logistic.py
+    outs:
+      - sweeps/fixed/flexmf-logistic-optuna
+      - sweeps/fixed/flexmf-logistic-optuna.json:
+          cache: false
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+  sweep-flexmf-warp-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed.toml --test-part=valid --optuna
+      --metric=RBP flexmf-warp sweeps/fixed/flexmf-warp-optuna
+    deps:
+      - splits/fixed.toml
+      - ../../src/codex/models/flexmf_warp.py
+    outs:
+      - sweeps/fixed/flexmf-warp-optuna
+      - sweeps/fixed/flexmf-warp-optuna.json:
+          cache: false
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points

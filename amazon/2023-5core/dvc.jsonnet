@@ -37,7 +37,7 @@ local cat_pipes = {
         deps: [src],
         outs: ['splits/fixed/test/test.parquet'],
       },
-    } + lib.runStages(runs, m.key),
+    } + lib.allSweepStages(spec) + lib.runStages(runs, m.key) + lib.collectRuns(runs),
   }
   for m in std.objectKeysValues(categories)
 };
