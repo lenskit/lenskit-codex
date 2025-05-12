@@ -88,3 +88,155 @@ stages:
       md5: dc321505f06a051d99ef184607c66d69.dir
       size: 17730609
       nfiles: 5
+  run-fixed-default-flexmf-warp:
+    cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/flexmf-warp-default
+      flexmf-warp
+    deps:
+    - path: ../../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: splits/fixed
+      hash: md5
+      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
+      size: 36237460
+      nfiles: 14
+    outs:
+    - path: runs/fixed/flexmf-warp-default
+      hash: md5
+      md5: 218237f3ccf97f4fa0bb9d23694efadb.dir
+      size: 14523424
+      nfiles: 4
+  run-fixed-default-flexmf-explicit:
+    cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/flexmf-explicit-default
+      flexmf-explicit
+    deps:
+    - path: ../../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 9271360109ed53980623529abafbc7a4
+      size: 527
+    - path: splits/fixed
+      hash: md5
+      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
+      size: 36237460
+      nfiles: 14
+    outs:
+    - path: runs/fixed/flexmf-explicit-default
+      hash: md5
+      md5: 4dfab4c2eb3e02fa3d13bf469fb9098a.dir
+      size: 12306560
+      nfiles: 5
+  run-fixed-default-als-implicit:
+    cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/als-implicit-default
+      als-implicit
+    deps:
+    - path: ../../../src/codex/models/als_implicit.py
+      hash: md5
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
+    - path: splits/fixed
+      hash: md5
+      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
+      size: 36237460
+      nfiles: 14
+    outs:
+    - path: runs/fixed/als-implicit-default
+      hash: md5
+      md5: 44b4f510e921a88997555c22606550fd.dir
+      size: 10846059
+      nfiles: 4
+  run-fixed-default-flexmf-bpr:
+    cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/flexmf-bpr-default
+      flexmf-bpr
+    deps:
+    - path: ../../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: 94acb427f7b39b627be488ba2558067c
+      size: 663
+    - path: splits/fixed
+      hash: md5
+      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
+      size: 36237460
+      nfiles: 14
+    outs:
+    - path: runs/fixed/flexmf-bpr-default
+      hash: md5
+      md5: 0e017fda9771da4952db36e0c644e603.dir
+      size: 14548218
+      nfiles: 4
+  run-fixed-default-popular:
+    cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/popular-default
+      popular
+    deps:
+    - path: ../../../src/codex/models/popular.py
+      hash: md5
+      md5: c1b8d18adf4c2f7d9807ad4f8c766732
+      size: 56
+    - path: splits/fixed
+      hash: md5
+      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
+      size: 36237460
+      nfiles: 14
+    outs:
+    - path: runs/fixed/popular-default
+      hash: md5
+      md5: 39f614a77e3046a85dd90aff2f3ae7a7.dir
+      size: 725385
+      nfiles: 4
+  run-fixed-default-als-biased:
+    cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/als-biased-default
+      als-biased
+    deps:
+    - path: ../../../src/codex/models/als_biased.py
+      hash: md5
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
+    - path: splits/fixed
+      hash: md5
+      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
+      size: 36237460
+      nfiles: 14
+    outs:
+    - path: runs/fixed/als-biased-default
+      hash: md5
+      md5: 396aaa833ce8babcd0b08c542fe3bcec.dir
+      size: 12041866
+      nfiles: 5
+  run-fixed-default-flexmf-logistic:
+    cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/flexmf-logistic-default
+      flexmf-logistic
+    deps:
+    - path: ../../../src/codex/models/flexmf_logistic.py
+      hash: md5
+      md5: bbad471f8ca28fa9c5a9818432bc7ac8
+      size: 748
+    - path: splits/fixed
+      hash: md5
+      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
+      size: 36237460
+      nfiles: 14
+    outs:
+    - path: runs/fixed/flexmf-logistic-default
+      hash: md5
+      md5: 6542a26ddbd78427953a47949bd8bc0a.dir
+      size: 13228571
+      nfiles: 4
+  run-fixed-default-bias:
+    cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/bias-default
+      bias
+    deps:
+    - path: ../../../src/codex/models/bias.py
+      hash: md5
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
+    - path: splits/fixed
+      hash: md5
+      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
+      size: 36237460
+      nfiles: 14
+    outs:
+    - path: runs/fixed/bias-default
+      hash: md5
+      md5: 3c90dd08f3062f5b4f1f22ea2b0c7904.dir
+      size: 5215310
+      nfiles: 5
