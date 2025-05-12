@@ -1,7 +1,5 @@
 local lib = import '../src/codex.libsonnet';
 local data = import 'data.libsonnet';
-local results = import 'results.libsonnet';
-local sweep = import 'sweeps.libsonnet';
 
 local makeRuns(spec) = std.flattenArrays([
   lib.runsForSplit(
@@ -13,7 +11,7 @@ local makeRuns(spec) = std.flattenArrays([
 ]);
 
 {
-  local spec = sweep.search_defaults + super.spec,
+  local spec = lib.search_defaults + super.spec,
   local runs = makeRuns(spec),
 
   info: spec {
@@ -22,9 +20,9 @@ local makeRuns(spec) = std.flattenArrays([
   page_templates: std.get(spec, 'template', default=null),
 
   stages: data.prepare(spec)
-          + sweep.allSweepStages(spec)
+          + lib.allSweepStages(spec)
           + lib.runStages(runs)
-          + results.collect(runs),
+          + lib.collectRuns(runs),
   extra_files: {
     'runs/manifest.csv': lib.runManifest(runs),
   },

@@ -1,4 +1,5 @@
-local lib = import '../src/codex.libsonnet';
+local cmds = import './commands.libsonnet';
+local models = import './models.libsonnet';
 
 local search_defaults = {
   searches: ['optuna'],
@@ -21,7 +22,7 @@ local searchPointsArg(spec, model) =
     [std.join('-', ['sweep', m.key, split, method])]: {
       local out_dir = std.format('sweeps/%s/%s-%s', [split, m.key, method]),
 
-      cmd: lib.codex_cmd([
+      cmd: cmds.codex_cmd([
         'search',
         std.format('--split=splits/%s.toml', [split]),
         if split == 'random' then '--test-part=0' else '--test-part=valid',
@@ -48,7 +49,7 @@ local searchPointsArg(spec, model) =
     } + if spec.search_frozen then { frozen: true } else {}
     for split in spec.splits
     for method in spec.searches
-    for m in std.objectKeysValues(lib.activeModels(spec.name))
+    for m in std.objectKeysValues(models.activeModels(spec.name))
     if m.value.searchable
   },
 }
