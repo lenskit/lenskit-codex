@@ -633,3 +633,91 @@ stages:
       md5: 715f8d86bd908fb621f1f2f1733a2d76.dir
       size: 14052688
       nfiles: 4
+  collect-metrics:
+    cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
+      -L runs/manifest.csv
+    deps:
+    - path: runs/fixed/als-biased-default
+      hash: md5
+      md5: b16408b505bbc726d929fee4644ec3c7.dir
+      size: 16844067
+      nfiles: 5
+    - path: runs/fixed/als-biased-optuna-best
+      hash: md5
+      md5: 339113414cc38ddabe63e0e4e7e89d62.dir
+      size: 13506873
+      nfiles: 5
+    - path: runs/fixed/als-implicit-default
+      hash: md5
+      md5: 72afad7b6d7c8be4b97136ab1ea420c9.dir
+      size: 14933003
+      nfiles: 4
+    - path: runs/fixed/als-implicit-optuna-best
+      hash: md5
+      md5: fcfcebec492860f11adb4dde6a3e9d0e.dir
+      size: 14676139
+      nfiles: 4
+    - path: runs/fixed/bias-default
+      hash: md5
+      md5: 1890f03b5c86c6e4b68f99d8fe91d8d3.dir
+      size: 6929946
+      nfiles: 5
+    - path: runs/fixed/bias-optuna-best
+      hash: md5
+      md5: 3e828ac0b42e1e0fa5322e45c4721c1e.dir
+      size: 10811263
+      nfiles: 5
+    - path: runs/fixed/flexmf-bpr-default
+      hash: md5
+      md5: 6eb4c551704154ed5b347f701b5b65f5.dir
+      size: 15318605
+      nfiles: 4
+    - path: runs/fixed/flexmf-bpr-optuna-best
+      hash: md5
+      md5: 40c3095e4c99b862bb4c4c56712640af.dir
+      size: 14898605
+      nfiles: 4
+    - path: runs/fixed/flexmf-explicit-default
+      hash: md5
+      md5: b55885459163d330e20c65e233ec7cbb.dir
+      size: 17143588
+      nfiles: 5
+    - path: runs/fixed/flexmf-explicit-optuna-best
+      hash: md5
+      md5: 26a1190ee30c27d97fee80e9eb4d345d.dir
+      size: 17237941
+      nfiles: 5
+    - path: runs/fixed/flexmf-logistic-default
+      hash: md5
+      md5: ed4107d39bf14c65395454f3d73f5aae.dir
+      size: 15364791
+      nfiles: 4
+    - path: runs/fixed/flexmf-logistic-optuna-best
+      hash: md5
+      md5: ac28835ef727ab315d2d68c76695f9f5.dir
+      size: 14684173
+      nfiles: 4
+    - path: runs/fixed/flexmf-warp-default
+      hash: md5
+      md5: 29d6d67362cca6ba2c89821f5990d96d.dir
+      size: 15296143
+      nfiles: 4
+    - path: runs/fixed/flexmf-warp-optuna-best
+      hash: md5
+      md5: 715f8d86bd908fb621f1f2f1733a2d76.dir
+      size: 14052688
+      nfiles: 4
+    - path: runs/fixed/popular-default
+      hash: md5
+      md5: 1c1b4e7aebdd4aa980021066d8d5dc59.dir
+      size: 1278118
+      nfiles: 4
+    outs:
+    - path: run-summary.csv
+      hash: md5
+      md5: e2a899014f99a20965f01552c2726a90
+      size: 9821
+    - path: run-user-metrics.parquet
+      hash: md5
+      md5: 631b3b1bea8706d79000c49220033bf0
+      size: 3803553
