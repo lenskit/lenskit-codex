@@ -1,11 +1,25 @@
 from __future__ import annotations
 
 import numpy as np
+import pandas as pd
+from lenskit import Pipeline, predict, recommend
 from lenskit.batch import BatchResults
-from lenskit.data import ItemList
+from lenskit.data import ID, ItemList, ItemListCollection
 from lenskit.logging import Task, get_logger
-from lenskit.metrics import NDCG, RBP, RMSE, ListMetric, RankingMetricBase, RecipRank, RunAnalysis
+from lenskit.metrics import (
+    DCG,
+    NDCG,
+    RBP,
+    RMSE,
+    Hit,
+    ListMetric,
+    RankingMetricBase,
+    RecipRank,
+    RunAnalysis,
+    call_metric,
+)
 from lenskit.splitting import TTSplit
+from pydantic import JsonValue
 from scipy.special import logsumexp
 
 from codex.models import ModelDef
@@ -84,4 +98,61 @@ def measure(
         metrics["TestTask"] = test_task.task_id
         metrics["TestTime"] = test_task.duration
         metrics["TestCPU"] = test_task.cpu_time
+    return metrics
+
+
+def measure_pipeline(
+    model: ModelDef,
+    pipe: Pipeline,
+    test_users: ItemListCollection,
+    train_task: Task | None = None,
+    test_task: Task | None = None,
+):
+    metrics = [measure_user(model, pipe, key.user_id, test) for key, test in test_users.items()]
+    metric_df = pd.DataFrame.from_records(metrics)
+    metric_df = metric_df.drop(columns=["user_id"])
+    agg_metrics = metric_df.mean().to_dict()
+
+    if train_task is not None:
+        agg_metrics["TrainTask"] = train_task.task_id
+        agg_metrics["TrainTime"] = train_task.duration
+        agg_metrics["TrainCPU"] = train_task.cpu_time
+    if test_task is not None:
+        test_task.update_resources()
+        agg_metrics["TestTask"] = test_task.task_id
+        agg_metrics["TestTime"] = test_task.duration
+        agg_metrics["TestCPU"] = test_task.cpu_time
+    return agg_metrics
+
+
+def measure_user(model: ModelDef, pipe: Pipeline, user_id: ID, test: ItemList):
+    recs = recommend(pipe, query=user_id)
+    if model.is_predictor:
+        preds = predict(pipe, query=user_id, items=test)
+    else:
+        preds = None
+    return measure_list(model, user_id, recs, preds, test)
+
+
+def measure_list(
+    model: ModelDef,
+    user_id: ID,
+    recs: ItemList,
+    preds: ItemList | None,
+    test: ItemList,
+):
+    log = _log.bind(model=model.name, user_id=user_id)
+    log.debug("measuring recommendation list")
+
+    metrics: dict[str, JsonValue] = {"user_id": user_id}  # type: ignore
+    metrics["RBP"] = float(call_metric(RBP, recs, test))
+    metrics["DCG"] = float(call_metric(DCG, recs, test))
+    metrics["NDCG"] = float(call_metric(NDCG, recs, test))
+    metrics["RecipRank"] = float(call_metric(RecipRank, recs, test))
+    metrics["Hit10"] = float(call_metric(Hit, recs, test, k=10))
+
+    if preds is not None:
+        log.debug("measuring rating predictions")
+        metrics["RMSE"] = call_metric(RMSE, preds, test)
+
     return metrics

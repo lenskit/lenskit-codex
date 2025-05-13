@@ -26,7 +26,7 @@ from codex.recpipe import base_pipeline, replace_scorer
 from codex.runlog import CodexTask, ScorerModel
 
 from .job import TuningJobData
-from .metrics import measure
+from .metrics import measure_pipeline
 
 _log = get_logger(__name__)
 
@@ -91,10 +91,7 @@ class IterativeEval(ray.tune.Trainable):
         elog.debug("training iteration finished", result=vals)
 
         elog.debug("generating recommendations", n_queries=len(self.data.test))
-        results = self.runner.run(self.pipe, self.data.test)
-
-        elog.debug("measuring iteration results")
-        metrics = measure(self.mod_def, results, self.data, self.task, None)
+        metrics = measure_pipeline(self.mod_def, self.pipe, self.data.test)
         metrics["max_epochs"] = self.job.epoch_limit
         if epoch == self.job.epoch_limit:
             metrics[ray.tune.result.DONE] = True

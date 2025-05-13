@@ -4,7 +4,6 @@ Simple (non-iterative) evaluation of points.
 
 from __future__ import annotations
 
-from lenskit.batch import BatchPipelineRunner
 from lenskit.logging import get_logger
 from lenskit.logging.worker import send_task
 from pydantic_core import to_json
@@ -15,7 +14,7 @@ from codex.runlog import CodexTask, ScorerModel
 from codex.training import train_task
 from codex.tuning.job import TuningJobData
 
-from .metrics import measure
+from .metrics import measure_pipeline
 
 _log = get_logger(__name__)
 
@@ -41,10 +40,10 @@ class SimplePointEval:
         )
         send_task(task)
 
-        runner = BatchPipelineRunner(n_jobs=1)  # single-threaded inside tuning
-        runner.recommend()
-        if mod_def.is_predictor:
-            runner.predict()
+        # runner = BatchPipelineRunner(n_jobs=1)  # single-threaded inside tuning
+        # runner.recommend()
+        # if mod_def.is_predictor:
+        #     runner.predict()
 
         with CodexTask(
             label=f"measure {mod_def.name}",
@@ -54,7 +53,7 @@ class SimplePointEval:
             scorer=ScorerModel(name=mod_def.name, config=config),
             data=self.job.data_info,
         ) as test_task:
-            results = runner.run(pipe, data.test)
+            results = measure_pipeline(mod_def, pipe, data.test)
 
         send_task(test_task)
-        return measure(mod_def, results, data, task, test_task)
+        return results
