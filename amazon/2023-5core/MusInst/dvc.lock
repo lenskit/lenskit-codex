@@ -509,3 +509,127 @@ stages:
       hash: md5
       md5: 6df21fa46a35816ec94b6e8bf24783c4
       size: 693
+  run-fixed-optuna-best-flexmf-explicit:
+    cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-explicit-optuna.json
+      --ds-name=MusInst --split=splits/fixed -o runs/fixed/flexmf-explicit-optuna-best
+      flexmf-explicit
+    deps:
+    - path: ../../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 9271360109ed53980623529abafbc7a4
+      size: 527
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    - path: sweeps/fixed/flexmf-explicit-optuna.json
+      hash: md5
+      md5: 6df21fa46a35816ec94b6e8bf24783c4
+      size: 693
+    outs:
+    - path: runs/fixed/flexmf-explicit-optuna-best
+      hash: md5
+      md5: 26a1190ee30c27d97fee80e9eb4d345d.dir
+      size: 17237941
+      nfiles: 5
+  sweep-als-implicit-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
+      als-implicit sweeps/fixed/als-implicit-optuna
+    deps:
+    - path: ../../../src/codex/models/als_implicit.py
+      hash: md5
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    params:
+      ../../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/fixed/als-implicit-optuna
+      hash: md5
+      md5: 1b7d8b2b8c49795a1d2456b41ca7c0af.dir
+      size: 874011
+      nfiles: 5
+    - path: sweeps/fixed/als-implicit-optuna.json
+      hash: md5
+      md5: 0ccbef0974b794b6c62322cef9dce1e4
+      size: 741
+  run-fixed-optuna-best-als-implicit:
+    cmd: lenskit codex generate --param-file sweeps/fixed/als-implicit-optuna.json
+      --ds-name=MusInst --split=splits/fixed -o runs/fixed/als-implicit-optuna-best
+      als-implicit
+    deps:
+    - path: ../../../src/codex/models/als_implicit.py
+      hash: md5
+      md5: cb29269f8b896866c0ae2aeceadd6d69
+      size: 590
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    - path: sweeps/fixed/als-implicit-optuna.json
+      hash: md5
+      md5: 0ccbef0974b794b6c62322cef9dce1e4
+      size: 741
+    outs:
+    - path: runs/fixed/als-implicit-optuna-best
+      hash: md5
+      md5: fcfcebec492860f11adb4dde6a3e9d0e.dir
+      size: 14676139
+      nfiles: 4
+  sweep-flexmf-warp-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
+      flexmf-warp sweeps/fixed/flexmf-warp-optuna
+    deps:
+    - path: ../../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    params:
+      ../../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/fixed/flexmf-warp-optuna
+      hash: md5
+      md5: de5bf5c3fe4dc716a2204b64d43f8751.dir
+      size: 565168
+      nfiles: 5
+    - path: sweeps/fixed/flexmf-warp-optuna.json
+      hash: md5
+      md5: dbc737b7d0fdc0025cf525d17f35e6c0
+      size: 622
+  run-fixed-optuna-best-flexmf-warp:
+    cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-warp-optuna.json
+      --ds-name=MusInst --split=splits/fixed -o runs/fixed/flexmf-warp-optuna-best
+      flexmf-warp
+    deps:
+    - path: ../../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    - path: sweeps/fixed/flexmf-warp-optuna.json
+      hash: md5
+      md5: dbc737b7d0fdc0025cf525d17f35e6c0
+      size: 622
+    outs:
+    - path: runs/fixed/flexmf-warp-optuna-best
+      hash: md5
+      md5: 715f8d86bd908fb621f1f2f1733a2d76.dir
+      size: 14052688
+      nfiles: 4
