@@ -57,7 +57,7 @@ local categoryPipelineFiles(ds_key, ds_name) = {
     } + lib.allSweepStages(spec, ds_key) + lib.runStages(runs, ds_key) + lib.collectRuns(runs),
   },
 
-  [ds_key + 'runs/manifest.csv']: lib.runManifest(runs),
+  [ds_key + '/runs/manifest.csv']: lib.runManifest(runs),
 };
 
 {
