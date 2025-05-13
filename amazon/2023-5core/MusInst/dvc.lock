@@ -385,3 +385,127 @@ stages:
       md5: ac28835ef727ab315d2d68c76695f9f5.dir
       size: 14684173
       nfiles: 4
+  sweep-als-biased-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
+      als-biased sweeps/fixed/als-biased-optuna
+    deps:
+    - path: ../../../src/codex/models/als_biased.py
+      hash: md5
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    params:
+      ../../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/fixed/als-biased-optuna
+      hash: md5
+      md5: 53383a9ec803b5b07090f6a4d0df0e46.dir
+      size: 460353
+      nfiles: 5
+    - path: sweeps/fixed/als-biased-optuna.json
+      hash: md5
+      md5: 96038f352a06b81234db874b82304cea
+      size: 736
+  run-fixed-optuna-best-als-biased:
+    cmd: lenskit codex generate --param-file sweeps/fixed/als-biased-optuna.json --ds-name=MusInst
+      --split=splits/fixed -o runs/fixed/als-biased-optuna-best als-biased
+    deps:
+    - path: ../../../src/codex/models/als_biased.py
+      hash: md5
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    - path: sweeps/fixed/als-biased-optuna.json
+      hash: md5
+      md5: 96038f352a06b81234db874b82304cea
+      size: 736
+    outs:
+    - path: runs/fixed/als-biased-optuna-best
+      hash: md5
+      md5: 339113414cc38ddabe63e0e4e7e89d62.dir
+      size: 13506873
+      nfiles: 5
+  sweep-bias-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
+      bias sweeps/fixed/bias-optuna
+    deps:
+    - path: ../../../src/codex/models/bias.py
+      hash: md5
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    params:
+      ../../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/fixed/bias-optuna
+      hash: md5
+      md5: 2c36a12046bdc323d34598be9d716a5c.dir
+      size: 332884
+      nfiles: 4
+    - path: sweeps/fixed/bias-optuna.json
+      hash: md5
+      md5: 8dec32e7540d408f3d088bc5c41228c9
+      size: 818
+  run-fixed-optuna-best-bias:
+    cmd: lenskit codex generate --param-file sweeps/fixed/bias-optuna.json --ds-name=MusInst
+      --split=splits/fixed -o runs/fixed/bias-optuna-best bias
+    deps:
+    - path: ../../../src/codex/models/bias.py
+      hash: md5
+      md5: 8331a4d32969fb83a78c4e43114b9d2a
+      size: 458
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    - path: sweeps/fixed/bias-optuna.json
+      hash: md5
+      md5: 8dec32e7540d408f3d088bc5c41228c9
+      size: 818
+    outs:
+    - path: runs/fixed/bias-optuna-best
+      hash: md5
+      md5: 3e828ac0b42e1e0fa5322e45c4721c1e.dir
+      size: 10811263
+      nfiles: 5
+  sweep-flexmf-explicit-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
+      flexmf-explicit sweeps/fixed/flexmf-explicit-optuna
+    deps:
+    - path: ../../../src/codex/models/flexmf_explicit.py
+      hash: md5
+      md5: 9271360109ed53980623529abafbc7a4
+      size: 527
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    params:
+      ../../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/fixed/flexmf-explicit-optuna
+      hash: md5
+      md5: 365dc1abece77b794069f9cd722f6e3b.dir
+      size: 471097
+      nfiles: 5
+    - path: sweeps/fixed/flexmf-explicit-optuna.json
+      hash: md5
+      md5: 6df21fa46a35816ec94b6e8bf24783c4
+      size: 693
