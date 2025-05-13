@@ -5,8 +5,6 @@ Batch inference code. Eventually this will probably move into LensKit.
 # pyright: basic
 from __future__ import annotations
 
-import asyncio
-import math
 import os
 from dataclasses import dataclass
 from itertools import batched
@@ -29,12 +27,16 @@ from lenskit.metrics import (
     RunAnalysisResult,
     call_metric,
 )
+from lenskit.parallel import get_parallel_config
 from pydantic import JsonValue
 
 from codex.cluster import ensure_cluster_init
 from codex.outputs import DummySink, ItemListCollector, ObjectSink
 
 _log = get_logger(__name__)
+
+BATCH_SIZE = 1000
+PAR_CFG = get_parallel_config()
 
 
 @dataclass
@@ -65,7 +67,7 @@ def recommend_and_save(
     n_users = len(test)
     log = _log.bind(n_users=n_users, n_recs=n_recs)
 
-    if "LK_SEQUENTIAL" in os.environ or (n_users < 500 and not prefer_async):
+    if "LK_SEQUENTIAL" in os.environ or (n_users < BATCH_SIZE and not prefer_async):
         log.info("recommending in-process")
 
         collector = InferenceResultCollector(rec_output, pred_output)
@@ -89,8 +91,7 @@ def recommend_and_save(
 
         collector = ray.remote(InferenceResultCollector).remote(rec_output, pred_output)
 
-        task = _run_batches_async(pipe_h, test, n_recs, collector, metric_collector)
-        metric_list = asyncio.run(task)
+        metric_list = _run_batches_async(pipe_h, test, n_recs, collector, metric_collector)
         ray.get(collector.finish.remote())
 
     df = pd.DataFrame.from_records(metric_list).set_index("user_id")
@@ -107,49 +108,61 @@ def recommend_and_save(
     )
 
 
-async def _run_batches_async(pipe_h, test, n_recs: int, collector, metric_collector):
+def _run_batches_async(pipe_h, test, n_recs: int, collector, metric_collector):
     n_users = len(test)
-    # max of 64 batches
-    batch_size = max(500, math.ceil(n_users / 64))
 
-    log = _log.bind(n_users=n_users, n_recs=n_recs, batch_size=batch_size)
+    log = _log.bind(n_users=n_users, n_recs=n_recs)
     log.info("launching asynchronous inference")
+    pc = get_parallel_config()
+    n_pending = pc.processes * 2
 
-    tasks = []
+    n_batches = 1
+    all_metrics = []
+    waiting = []
 
     with item_progress("generate", n_users) as pb:
-        async with asyncio.TaskGroup() as tg:
-            for batch in batched(test, batch_size):
-                task = _run_and_await_batch(pipe_h, batch, n_recs, pb, collector, metric_collector)
-                tasks.append(tg.create_task(task))
+        for batch in batched(test, BATCH_SIZE):
+            task = run_pipeline_batch.remote(pipe_h, batch, n_recs, collector)
 
-    log.info("finished inference", n_batches=len(tasks))
-    return [m for res in tasks for m in res.result()]
+            waiting.append(task)
+            while len(waiting) > n_pending:
+                done, waiting = ray.wait(waiting)
+                for result in done:
+                    result = ray.get(result)
+                    n_batches += 1
+                    for metrics in result:
+                        metric_collector.write_object(metrics)
+                        all_metrics.append(metrics)
+                    pb.update()
+
+        while waiting:
+            done, waiting = ray.wait(waiting)
+            for result in done:
+                result = ray.get(result)
+                n_batches += 1
+                for metrics in result:
+                    metric_collector.write_object(metrics)
+                    all_metrics.append(metrics)
+                pb.update()
+
+    log.info("finished inference", n_batches=n_batches)
+    return all_metrics
 
 
-async def _run_and_await_batch(pipe_h, batch, n_recs, pb, collector, metric_collector):
-    mlist = []
-    async for metrics in run_pipeline_batch.remote(pipe_h, batch, n_recs, collector):
-        metrics = ray.get(metrics)
-        mlist.append(metrics)
-        if metric_collector is not None:
-            metric_collector.write_object(metrics)
-        pb.update()
-
-    return mlist
-
-
-@ray.remote
+@ray.remote(num_cpus=PAR_CFG.threads)
 def run_pipeline_batch(pipeline, batch, n_recs: int, collector):
     with Task("pipeline batch", reset_hwm=True, subprocess=True) as task:
+        metrics = []
+
         for user, data in batch:
             result = run_pipeline(pipeline, user, data, n_recs)
             t = collector.write_output.remote(result.recs, result.preds, user_id=user.user_id)
             ray.get(t)
 
-            yield result.metrics
+            metrics.append(result.metrics)
 
     send_task(task)
+    return metrics
 
 
 def run_pipeline(
