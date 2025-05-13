@@ -98,14 +98,14 @@ stages:
       size: 657
     - path: splits/fixed
       hash: md5
-      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
-      size: 36237460
-      nfiles: 14
+      md5: d4e22abc5855ed28172f8b693a4d08b1.dir
+      size: 37614864
+      nfiles: 19
     outs:
     - path: runs/fixed/flexmf-warp-default
       hash: md5
-      md5: 218237f3ccf97f4fa0bb9d23694efadb.dir
-      size: 14523424
+      md5: d2e88b17ae2ffbedb39f2e5e38b7459b.dir
+      size: 14522591
       nfiles: 4
   run-fixed-default-flexmf-explicit:
     cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/flexmf-explicit-default
@@ -117,14 +117,14 @@ stages:
       size: 527
     - path: splits/fixed
       hash: md5
-      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
-      size: 36237460
-      nfiles: 14
+      md5: d4e22abc5855ed28172f8b693a4d08b1.dir
+      size: 37614864
+      nfiles: 19
     outs:
     - path: runs/fixed/flexmf-explicit-default
       hash: md5
-      md5: 4dfab4c2eb3e02fa3d13bf469fb9098a.dir
-      size: 12306560
+      md5: 71d8126878936fcfd2a1a179229ea1bb.dir
+      size: 12308006
       nfiles: 5
   run-fixed-default-als-implicit:
     cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/als-implicit-default
@@ -136,14 +136,14 @@ stages:
       size: 590
     - path: splits/fixed
       hash: md5
-      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
-      size: 36237460
-      nfiles: 14
+      md5: d4e22abc5855ed28172f8b693a4d08b1.dir
+      size: 37614864
+      nfiles: 19
     outs:
     - path: runs/fixed/als-implicit-default
       hash: md5
-      md5: 44b4f510e921a88997555c22606550fd.dir
-      size: 10846059
+      md5: fd0399dd279b39128513af57f8e57632.dir
+      size: 10853908
       nfiles: 4
   run-fixed-default-flexmf-bpr:
     cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/flexmf-bpr-default
@@ -155,14 +155,14 @@ stages:
       size: 663
     - path: splits/fixed
       hash: md5
-      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
-      size: 36237460
-      nfiles: 14
+      md5: d4e22abc5855ed28172f8b693a4d08b1.dir
+      size: 37614864
+      nfiles: 19
     outs:
     - path: runs/fixed/flexmf-bpr-default
       hash: md5
-      md5: 0e017fda9771da4952db36e0c644e603.dir
-      size: 14548218
+      md5: abba9fe502b4f7556fc5872f8b04bdcc.dir
+      size: 14547102
       nfiles: 4
   run-fixed-default-popular:
     cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/popular-default
@@ -174,14 +174,14 @@ stages:
       size: 56
     - path: splits/fixed
       hash: md5
-      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
-      size: 36237460
-      nfiles: 14
+      md5: d4e22abc5855ed28172f8b693a4d08b1.dir
+      size: 37614864
+      nfiles: 19
     outs:
     - path: runs/fixed/popular-default
       hash: md5
-      md5: 39f614a77e3046a85dd90aff2f3ae7a7.dir
-      size: 725385
+      md5: 8dd41183bae8506b7d8117089d9d5410.dir
+      size: 724941
       nfiles: 4
   run-fixed-default-als-biased:
     cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/als-biased-default
@@ -193,14 +193,14 @@ stages:
       size: 547
     - path: splits/fixed
       hash: md5
-      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
-      size: 36237460
-      nfiles: 14
+      md5: d4e22abc5855ed28172f8b693a4d08b1.dir
+      size: 37614864
+      nfiles: 19
     outs:
     - path: runs/fixed/als-biased-default
       hash: md5
-      md5: 396aaa833ce8babcd0b08c542fe3bcec.dir
-      size: 12041866
+      md5: 93fc2c81a90319c4aadf7b3b6e153a1c.dir
+      size: 12026223
       nfiles: 5
   run-fixed-default-flexmf-logistic:
     cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/flexmf-logistic-default
@@ -212,14 +212,14 @@ stages:
       size: 748
     - path: splits/fixed
       hash: md5
-      md5: fb9e2b4aa46c57b8a45796783e430ff4.dir
-      size: 36237460
-      nfiles: 14
+      md5: d4e22abc5855ed28172f8b693a4d08b1.dir
+      size: 37614864
+      nfiles: 19
     outs:
     - path: runs/fixed/flexmf-logistic-default
       hash: md5
-      md5: 6542a26ddbd78427953a47949bd8bc0a.dir
-      size: 13228571
+      md5: ba006045a355b4a2fe385c44c3576815.dir
+      size: 13214803
       nfiles: 4
   run-fixed-default-bias:
     cmd: lenskit codex generate --default --ds-name=CDV --split=splits/fixed -o runs/fixed/bias-default
@@ -288,3 +288,43 @@ stages:
       hash: md5
       md5: 54bce71d1b63d40b09ddf8e7fa64e797
       size: 413041
+  export-trec-default-runs:
+    cmd: lenskit codex trec export runs -o runs/fixed/default.run.gz runs/fixed/*-default
+    deps:
+    - path: runs/fixed/als-biased-default/recommendations.parquet
+      hash: md5
+      md5: 5e62e76f4787135d34b28fbbe678842b
+      size: 10086323
+    - path: runs/fixed/als-implicit-default/recommendations.parquet
+      hash: md5
+      md5: ffa3b9de47a5198b9681ea705d9eda9c
+      size: 10486175
+    - path: runs/fixed/bias-default/recommendations.parquet
+      hash: md5
+      md5: c30b7993eafc1d764a70155fa20591bd
+      size: 3284834
+    - path: runs/fixed/flexmf-bpr-default/recommendations.parquet
+      hash: md5
+      md5: ac3b85a46328e78cfb98f160ce83971b
+      size: 14218575
+    - path: runs/fixed/flexmf-explicit-default/recommendations.parquet
+      hash: md5
+      md5: 74210eb7169cac7660b5bcfe7d032884
+      size: 10377060
+    - path: runs/fixed/flexmf-logistic-default/recommendations.parquet
+      hash: md5
+      md5: 8618ee83e7daced2172bdc45515649e6
+      size: 12887946
+    - path: runs/fixed/flexmf-warp-default/recommendations.parquet
+      hash: md5
+      md5: 056a70319a9eadc21ec44399dafb4eca
+      size: 14193673
+    - path: runs/fixed/popular-default/recommendations.parquet
+      hash: md5
+      md5: aa0d4e305cf0c41a28a4b7608dfbb912
+      size: 382314
+    outs:
+    - path: runs/fixed/default.run.gz
+      hash: md5
+      md5: 755d082b9f8de0c832b44048ae552d47
+      size: 145639002
