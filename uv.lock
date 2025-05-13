@@ -1700,8 +1700,8 @@ wheels = [
 
 [[package]]
 name = "lenskit"
-version = "2025.3.0a3.dev276+g119e19b2"
-source = { registry = "https://pypi.lenskit.org/lenskit-dev/" }
+version = "2025.3.0a3"
+source = { git = "https://github.com/mdekstrand/lkpy.git?rev=feature%2Famazon-data#c1b61056372a9eb200d78a482b5666422675f534" }
 dependencies = [
     { name = "click", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "humanize", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
@@ -1721,13 +1721,6 @@ dependencies = [
     { name = "torch", version = "2.7.0+cu128", source = { registry = "https://pypi.lenskit.org/torch/cu128" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "typing-extensions", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "xopen", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
-]
-sdist = { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2025.3.0a3.dev276%2Bg119e19b2.tar.gz" }
-wheels = [
-    { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2025.3.0a3.dev276%2Bg119e19b2-cp311-abi3-macosx_10_12_x86_64.whl" },
-    { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2025.3.0a3.dev276%2Bg119e19b2-cp311-abi3-macosx_11_0_arm64.whl" },
-    { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2025.3.0a3.dev276%2Bg119e19b2-cp311-abi3-manylinux_2_28_aarch64.whl" },
-    { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2025.3.0a3.dev276%2Bg119e19b2-cp311-abi3-manylinux_2_28_x86_64.whl" },
 ]
 
 [[package]]
@@ -1822,7 +1815,7 @@ dev = [
     { name = "jinja2", specifier = "~=3.1" },
     { name = "jsonnet", specifier = "~=0.20.0" },
     { name = "jupyterlab", specifier = ">=3" },
-    { name = "lenskit", specifier = ">=2025.3.0a3.dev262", index = "https://pypi.lenskit.org/lenskit-dev/" },
+    { name = "lenskit", git = "https://github.com/mdekstrand/lkpy.git?rev=feature%2Famazon-data" },
     { name = "line-profiler", marker = "platform_machine != 'aarch64'", specifier = "~=4.1" },
     { name = "numpy", specifier = "~=2.0" },
     { name = "optuna", specifier = "~=4.0" },
@@ -1836,7 +1829,7 @@ dev = [
 ]
 run = [
     { name = "hyperopt", specifier = "~=0.2.7" },
-    { name = "lenskit", specifier = ">=2025.3.0a3.dev262", index = "https://pypi.lenskit.org/lenskit-dev/" },
+    { name = "lenskit", git = "https://github.com/mdekstrand/lkpy.git?rev=feature%2Famazon-data" },
     { name = "numpy", specifier = "~=2.0" },
     { name = "optuna", specifier = "~=4.0" },
     { name = "ray", extras = ["tune"], specifier = "~=2.45" },
