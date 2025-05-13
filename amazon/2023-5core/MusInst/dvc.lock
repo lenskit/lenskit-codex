@@ -286,3 +286,102 @@ stages:
       hash: md5
       md5: 962d67560c16da3575bb4ba42a25c286
       size: 229367332
+  sweep-flexmf-bpr-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
+      flexmf-bpr sweeps/fixed/flexmf-bpr-optuna
+    deps:
+    - path: ../../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: 94acb427f7b39b627be488ba2558067c
+      size: 663
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    params:
+      ../../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/fixed/flexmf-bpr-optuna
+      hash: md5
+      md5: 5722b1ddabcacaca4d66ef3c3aa4d8e9.dir
+      size: 650019
+      nfiles: 5
+    - path: sweeps/fixed/flexmf-bpr-optuna.json
+      hash: md5
+      md5: b9a9cce456524614d9181aca0b1186a5
+      size: 702
+  run-fixed-optuna-best-flexmf-bpr:
+    cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-bpr-optuna.json --ds-name=MusInst
+      --split=splits/fixed -o runs/fixed/flexmf-bpr-optuna-best flexmf-bpr
+    deps:
+    - path: ../../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: 94acb427f7b39b627be488ba2558067c
+      size: 663
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    - path: sweeps/fixed/flexmf-bpr-optuna.json
+      hash: md5
+      md5: b9a9cce456524614d9181aca0b1186a5
+      size: 702
+    outs:
+    - path: runs/fixed/flexmf-bpr-optuna-best
+      hash: md5
+      md5: 40c3095e4c99b862bb4c4c56712640af.dir
+      size: 14898605
+      nfiles: 4
+  sweep-flexmf-logistic-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
+      flexmf-logistic sweeps/fixed/flexmf-logistic-optuna
+    deps:
+    - path: ../../../src/codex/models/flexmf_logistic.py
+      hash: md5
+      md5: bbad471f8ca28fa9c5a9818432bc7ac8
+      size: 748
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    params:
+      ../../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/fixed/flexmf-logistic-optuna
+      hash: md5
+      md5: a2e05bff58534c23988d8b8180767df4.dir
+      size: 665579
+      nfiles: 5
+    - path: sweeps/fixed/flexmf-logistic-optuna.json
+      hash: md5
+      md5: 886b4412043800a84ced58dfb41697f1
+      size: 751
+  run-fixed-optuna-best-flexmf-logistic:
+    cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-logistic-optuna.json
+      --ds-name=MusInst --split=splits/fixed -o runs/fixed/flexmf-logistic-optuna-best
+      flexmf-logistic
+    deps:
+    - path: ../../../src/codex/models/flexmf_logistic.py
+      hash: md5
+      md5: bbad471f8ca28fa9c5a9818432bc7ac8
+      size: 748
+    - path: splits/fixed
+      hash: md5
+      md5: 04866b19651dbd01fbe4e5ea59adaaa9.dir
+      size: 13759835
+      nfiles: 17
+    - path: sweeps/fixed/flexmf-logistic-optuna.json
+      hash: md5
+      md5: 886b4412043800a84ced58dfb41697f1
+      size: 751
+    outs:
+    - path: runs/fixed/flexmf-logistic-optuna-best
+      hash: md5
+      md5: ac28835ef727ab315d2d68c76695f9f5.dir
+      size: 14684173
+      nfiles: 4
