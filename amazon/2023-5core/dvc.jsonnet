@@ -1,38 +1,38 @@
 local lib = import '../../src/codex.libsonnet';
 local categories = std.parseYaml(importstr 'categories.yml');
 
+local categoryPipelineFiles(ds_key, ds_name) = {
+  local spec = {
+    name: ds_key,
+    splits: ['fixed'],
+    searches: ['optuna'],
+  },
+  local runs = lib.runsForSplit(spec, 'fixed', 'dir'),
 
-local cat_pipes = {
-  [m.key + '/dvc.yaml']: {
-    local spec = {
-      name: m.key,
-      splits: ['fixed'],
-      searches: ['optuna'],
-    },
-    local runs = lib.runsForSplit(spec, 'fixed', 'dir'),
+  [ds_key + '/dvc.yaml']: {
 
     stages: {
       'import-valid-train': {
-        local src = std.format('../data/%s.train.csv.gz', [m.value]),
+        local src = std.format('../data/%s.train.csv.gz', [ds_name]),
         cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', src, 'splits/fixed/valid/train.dataset']),
         deps: [src],
         outs: ['splits/fixed/valid/train.dataset'],
       },
       'import-valid-test': {
-        local src = std.format('../data/%s.valid.csv.gz', [m.value]),
+        local src = std.format('../data/%s.valid.csv.gz', [ds_name]),
         cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', '--item-lists', src, 'splits/fixed/valid/test.parquet']),
         deps: [src],
         outs: ['splits/fixed/valid/test.parquet'],
       },
       'import-test-train': {
-        local train = std.format('../data/%s.train.csv.gz', [m.value]),
-        local valid = std.format('../data/%s.valid.csv.gz', [m.value]),
+        local train = std.format('../data/%s.train.csv.gz', [ds_name]),
+        local valid = std.format('../data/%s.valid.csv.gz', [ds_name]),
         cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', train, valid, 'splits/fixed/test/train.dataset']),
         deps: [train, valid],
         outs: ['splits/fixed/test/train.dataset'],
       },
       'import-test-test': {
-        local src = std.format('../data/%s.test.csv.gz', [m.value]),
+        local src = std.format('../data/%s.test.csv.gz', [ds_name]),
         cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', '--item-lists', src, 'splits/fixed/test/test.parquet']),
         deps: [src],
         outs: ['splits/fixed/test/test.parquet'],
@@ -50,13 +50,15 @@ local cat_pipes = {
         cmd: lib.codex_cmd(['trec', 'export', 'runs', '-o', 'runs/fixed/default.run.gz', 'runs/fixed/*-default']),
         deps: [
           std.format('runs/fixed/%s-default/recommendations.parquet', [model])
-          for model in std.objectFields(lib.activeModels(m.key))
+          for model in std.objectFields(lib.activeModels(ds_key))
         ],
         outs: ['runs/fixed/default.run.gz'],
       },
-    } + lib.allSweepStages(spec, m.key) + lib.runStages(runs, m.key) + lib.collectRuns(runs),
-  }
-  for m in std.objectKeysValues(categories)
+    } + lib.allSweepStages(spec, ds_key) + lib.runStages(runs, ds_key) + lib.collectRuns(runs),
+    manifest: lib.runManifest(runs),
+  },
+
+  [ds_key + 'runs/manifest.csv']: lib.runManifest(runs),
 };
 
 {
@@ -69,5 +71,5 @@ local cat_pipes = {
       ] + lib.glob('data/*.csv.gz'),
     },
   },
-  extra_files: cat_pipes,
+  extra_files: lib.mergeAll([categoryPipelineFiles(m.key, m.value) for m in std.objectKeysValues(categories)]),
 }

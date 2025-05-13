@@ -1,4 +1,5 @@
 local cmdlib = import 'pipeline/commands.libsonnet';
+local lists = import 'pipeline/lists.libsonnet';
 local models = import 'pipeline/models.libsonnet';
 local pathlib = import 'pipeline/paths.libsonnet';
 local results = import 'pipeline/results.libsonnet';
@@ -15,7 +16,7 @@ local contains(arr, elt) =
 local fnmatch(name, pattern) = std.native(fnmatch)(name, pattern);
 
 
-pathlib + cmdlib + models + runs + sweeps + results + {
+lists + pathlib + cmdlib + models + runs + sweeps + results + {
   fnmatch: fnmatch,
   contains: contains,
 }
