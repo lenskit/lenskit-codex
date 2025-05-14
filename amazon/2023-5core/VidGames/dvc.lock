@@ -286,3 +286,78 @@ stages:
       hash: md5
       md5: 294c314ec52ab235e84f23804561e4f9
       size: 228617829
+  sweep-als-biased-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
+      als-biased sweeps/fixed/als-biased-optuna
+    deps:
+    - path: ../../../src/codex/models/als_biased.py
+      hash: md5
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
+    - path: splits/fixed
+      hash: md5
+      md5: 25230c805acd506b8b11003757ad8446.dir
+      size: 20894072
+      nfiles: 17
+    params:
+      ../../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/fixed/als-biased-optuna
+      hash: md5
+      md5: 26fdf7705a693b7e85ce6f115de01f6b.dir
+      size: 446403
+      nfiles: 5
+    - path: sweeps/fixed/als-biased-optuna.json
+      hash: md5
+      md5: b943e86a47231a54862d1c1f04a04bc7
+      size: 673
+  run-fixed-optuna-best-als-biased:
+    cmd: lenskit codex generate --param-file sweeps/fixed/als-biased-optuna.json --ds-name=VidGames
+      --split=splits/fixed -o runs/fixed/als-biased-optuna-best als-biased
+    deps:
+    - path: ../../../src/codex/models/als_biased.py
+      hash: md5
+      md5: 935c03f45335b812ed7b6aa63bed914e
+      size: 547
+    - path: splits/fixed
+      hash: md5
+      md5: 25230c805acd506b8b11003757ad8446.dir
+      size: 20894072
+      nfiles: 17
+    - path: sweeps/fixed/als-biased-optuna.json
+      hash: md5
+      md5: b943e86a47231a54862d1c1f04a04bc7
+      size: 673
+    outs:
+    - path: runs/fixed/als-biased-optuna-best
+      hash: md5
+      md5: 716b6a572e259999d85ca0c901308041.dir
+      size: 13026224
+      nfiles: 5
+  sweep-flexmf-warp-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
+      flexmf-warp sweeps/fixed/flexmf-warp-optuna
+    deps:
+    - path: ../../../src/codex/models/flexmf_warp.py
+      hash: md5
+      md5: 8b8cb5b55016546658102325f51dedf9
+      size: 657
+    - path: splits/fixed
+      hash: md5
+      md5: 25230c805acd506b8b11003757ad8446.dir
+      size: 20894072
+      nfiles: 17
+    params:
+      ../../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/fixed/flexmf-warp-optuna
+      hash: md5
+      md5: fbe101fbe1965edbc811499570fec481.dir
+      size: 543662
+      nfiles: 5
+    - path: sweeps/fixed/flexmf-warp-optuna.json
+      hash: md5
+      md5: 5c09b71ba7846f399ef05b5da16b9b87
+      size: 624
