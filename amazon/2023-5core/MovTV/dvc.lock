@@ -1,0 +1,83 @@
+schema: '2.0'
+stages:
+  import-test-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/Movies_and_TV.test.csv.gz
+      splits/fixed/test/test.parquet
+    deps:
+    - path: ../data/Movies_and_TV.test.csv.gz
+      hash: md5
+      md5: d0ac012c8af271f246f428fd2ab9a36c
+      size: 11316619
+    outs:
+    - path: splits/fixed/test/test.parquet
+      hash: md5
+      md5: fce547cfec9a85a6ac957cd7f28878f2
+      size: 2973515
+  export-trec-qrels@test:
+    cmd: lenskit codex trec export qrels -o splits/fixed/test.qrels.gz splits/fixed/test/test.parquet
+    deps:
+    - path: splits/fixed/test/test.parquet
+      hash: md5
+      md5: fce547cfec9a85a6ac957cd7f28878f2
+      size: 2973515
+    outs:
+    - path: splits/fixed/test.qrels.gz
+      hash: md5
+      md5: 748cff158a57ace7e14d960737dfeb58
+      size: 1987231
+  import-valid-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/Movies_and_TV.valid.csv.gz
+      splits/fixed/valid/test.parquet
+    deps:
+    - path: ../data/Movies_and_TV.valid.csv.gz
+      hash: md5
+      md5: c18b344ae98c74bc9697946fdf7767a6
+      size: 11997632
+    outs:
+    - path: splits/fixed/valid/test.parquet
+      hash: md5
+      md5: bbfc3beb86d941bef977a0c9a3974c38
+      size: 4163791
+  export-trec-qrels@valid:
+    cmd: lenskit codex trec export qrels -o splits/fixed/valid.qrels.gz splits/fixed/valid/test.parquet
+    deps:
+    - path: splits/fixed/valid/test.parquet
+      hash: md5
+      md5: bbfc3beb86d941bef977a0c9a3974c38
+      size: 4163791
+    outs:
+    - path: splits/fixed/valid.qrels.gz
+      hash: md5
+      md5: 5335d0c58bdc685b98ee0a4476767449
+      size: 2741091
+  import-test-train:
+    cmd: lenskit data convert --amazon ../data/Movies_and_TV.train.csv.gz ../data/Movies_and_TV.valid.csv.gz
+      splits/fixed/test/train.dataset
+    deps:
+    - path: ../data/Movies_and_TV.train.csv.gz
+      hash: md5
+      md5: f4443d6ae13a61b69f83ba1cbf663b77
+      size: 156128085
+    - path: ../data/Movies_and_TV.valid.csv.gz
+      hash: md5
+      md5: c18b344ae98c74bc9697946fdf7767a6
+      size: 11997632
+    outs:
+    - path: splits/fixed/test/train.dataset
+      hash: md5
+      md5: 6720f5e897d4f0eb63b3618733ffa20b.dir
+      size: 86452487
+      nfiles: 5
+  import-valid-train:
+    cmd: lenskit data convert --amazon ../data/Movies_and_TV.train.csv.gz splits/fixed/valid/train.dataset
+    deps:
+    - path: ../data/Movies_and_TV.train.csv.gz
+      hash: md5
+      md5: f4443d6ae13a61b69f83ba1cbf663b77
+      size: 156128085
+    outs:
+    - path: splits/fixed/valid/train.dataset
+      hash: md5
+      md5: f6da2cfba0e4755bf96edfa88196b086.dir
+      size: 84249833
+      nfiles: 5
