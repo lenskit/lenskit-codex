@@ -40,8 +40,9 @@ run = [
   "optuna ~=4.0",
   "hyperopt ~=0.2.7",
   "numpy ~=2.0",
-  "lenskit >=2025.3.0a3.dev290",
+  # "lenskit >=2025.3.0a3.dev290",
   # "lenskit @ git+https://github.com/mdekstrand/lkpy.git@feature/amazon-data",
+  "lenskit @ git+https://github.com/lenskit/lkpy.git",
 ]
 dev = [
   "jsonnet ~=0.20.0",
@@ -72,7 +73,7 @@ required-environments = [
 ]
 
 [tool.uv.sources]
-lenskit = [{ index = "lenskit" }]
+# lenskit = [{ index = "lenskit" }]
 # triton = [
 #  { index = "pytorch-cuda", group = "cuda" },
 # ]
