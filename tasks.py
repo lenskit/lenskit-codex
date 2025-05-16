@@ -1,6 +1,8 @@
 import json
+import logging
 import os
 import re
+import sys
 from glob import glob
 from pathlib import Path
 
@@ -9,7 +11,19 @@ from invoke.tasks import task
 
 from codex.layout import codex_root
 from codex.pages import front_matter, render_templates
-from codex.pipeline import CodexPipeline, render_dvc_gitignores, render_dvc_pipeline
+from codex.pipeline import (
+    CodexPipeline,
+    CodexPipelineDef,
+    render_dvc_gitignores,
+)
+
+cdl = logging.getLogger("codex")
+if not logging.root.handlers:
+    _cdl_h = logging.StreamHandler(sys.stderr)
+    _cdl_h.setLevel(logging.INFO)
+    cdl.addHandler(_cdl_h)
+    cdl.setLevel(logging.INFO)
+logger = logging.getLogger("codex.tasks")
 
 os.chdir(codex_root())
 
@@ -43,7 +57,7 @@ def render_page_templates(c: Context, include: str | None = None):
     for dsjn in ds_yamls:
         dsjn = Path(dsjn)
         ds_dir = dsjn.parent
-        pipe = CodexPipeline.load(dsjn)
+        pipe = CodexPipelineDef.load(dsjn)
         if pipe.page_templates:
             assert pipe.info is not None, "no info for pipeline"
             print("rendering templates for", ds_dir)
@@ -94,9 +108,13 @@ def list_models(c: Context):
 
 @task(list_documents, list_models)
 def render_pipeline(c: Context):
-    for file in glob("**/dvc.jsonnet", recursive=True):
-        render_dvc_pipeline(file)
+    pipeline = CodexPipeline()
+    pipeline.scan()
 
+    for path, pipe in pipeline:
+        pipe.render()
+
+    logger.info("formatting pipeline definitions")
     c.run("dprint fmt '**/dvc.yaml' '**/dataset.yml'")
 
 

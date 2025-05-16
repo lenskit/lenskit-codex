@@ -7,6 +7,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+from collections.abc import Iterator
 from fnmatch import fnmatch
 from functools import partial
 from glob import glob
@@ -21,18 +22,58 @@ from .layout import ROOT_DIR, DataSetInfo
 logger = logging.getLogger(__name__)
 
 
+class CodexPipeline:
+    """
+    Class representing the entire codex pipeline.
+    """
+
+    root: Path
+    dir_pipes: dict[str, CodexPipelineDef]
+
+    def __init__(self, root: Path = ROOT_DIR):
+        self.root = root
+        self.dir_pipes = {}
+
+    def scan(self):
+        """
+        Scan and load the pipeline.
+        """
+
+        self.dir_pipes = {}
+        for file in self.root.glob("**/dvc.jsonnet"):
+            pipe = CodexPipelineDef.load(file)
+            self._add_pipeline(file.parent, pipe)
+
+    def _add_pipeline(self, path: Path, pipe: CodexPipelineDef):
+        pstr = path.relative_to(self.root).as_posix()
+        logger.debug("adding pipeline for %s", pstr)
+        self.dir_pipes[pstr] = pipe
+        pipe.path = pstr
+        for sd, sdpipe in pipe.subdirs.items():
+            self._add_pipeline(path / sd, sdpipe)
+
+    def __iter__(self) -> Iterator[tuple[str, CodexPipelineDef]]:
+        return iter(self.dir_pipes.items())
+
+
 class DVCPipeline(BaseModel):
     stages: dict[str, JsonValue]
 
 
-class CodexPipeline(DVCPipeline):
+class CodexPipelineDef(DVCPipeline):
+    """
+    Data loaded from a single pipeline definition file.
+    """
+
+    path: str | None = None
     info: DataSetInfo | None = None
     models: list[str] = []
     page_templates: Path | None = None
+    subdirs: dict[str, CodexPipelineDef] = {}
     extra_files: dict[str, str | dict[str, JsonValue]] = {}
 
     @classmethod
-    def load(cls, path: Path) -> CodexPipeline:
+    def load(cls, path: Path) -> CodexPipelineDef:
         import _jsonnet
 
         pdir = path.parent.absolute()
@@ -59,43 +100,61 @@ class CodexPipeline(DVCPipeline):
         )
         return cls.model_validate_json(data)
 
+    def render(self, dir: Path | None = None):
+        logger.debug("rendering pipelines in %s", dir or self.path)
+        self.save_dvc(dir)
+        self.save_info(dir)
+        self.save_extras(dir)
+
+    def save_dvc(self, dir: Path | None = None):
+        out = self._file_path("dvc.yaml", dir)
+        logger.info("saving %s", out)
+        with out.open("wt") as yf:
+            print("# Generated file — DO NOT EDIT", file=yf)
+            print("#", file=yf)
+            print("# This file is generated from dvc.jsonnet.", file=yf)
+
+            yaml.safe_dump(self.dvc_object().model_dump(mode="yaml", exclude_unset=True), yf)
+
+    def save_info(self, dir: Path | None = None):
+        if self.info is not None:
+            out = self._file_path("dataset.yml", dir)
+            logger.debug("saving %s", out)
+            with open(out, "wt") as yf:
+                yaml.safe_dump(self.info.model_dump(mode="json"), yf)
+
+    def save_extras(self, dir: Path | None = None):
+        for name, content in self.extra_files.items():
+            epath = self._file_path(name, dir)
+            logger.debug("saving extra file %s", epath)
+            epath.parent.mkdir(exist_ok=True, parents=True)
+            with open(epath, "wt") as ef:
+                if isinstance(content, dict):
+                    if re.match(r"\.ya?ml", epath.suffix):
+                        yaml.safe_dump(content, ef)
+                    elif epath.suffix == ".json":
+                        json.dump(content, ef)
+                        print(file=ef)
+                    else:
+                        raise ValueError(f"unknown file type {epath.suffix} for object data")
+                elif isinstance(content, str):
+                    ef.write(content)
+                else:
+                    raise TypeError(f"unsupported content type {type(content)}")
+
+    def _file_path(self, name: str, dir: Path | None = None):
+        if dir is None:
+            if self.path is not None:
+                dir = ROOT_DIR / self.path
+            else:
+                raise ValueError("no output path specified")
+        return dir / name
+
     def dvc_object(self) -> DVCPipeline:
         """
         Get the object stripped down to its DVC content.
         """
         return DVCPipeline.model_validate(self.model_dump())
-
-
-def render_dvc_pipeline(path: Path | str):
-    path = Path(path)
-    print("rendering", path)
-    pipeline = CodexPipeline.load(path)
-
-    for name, content in pipeline.extra_files.items():
-        epath = path.parent / name
-        print("saving extra file", epath)
-        epath.parent.mkdir(exist_ok=True, parents=True)
-        with open(epath, "wt") as ef:
-            if isinstance(content, dict):
-                if re.match(r"\.ya?ml", epath.suffix):
-                    yaml.safe_dump(content, ef)
-                elif epath.suffix == ".json":
-                    json.dump(content, ef)
-                    print(file=ef)
-                else:
-                    raise ValueError(f"unknown file type {epath.suffix} for object data")
-            elif isinstance(content, str):
-                ef.write(content)
-            else:
-                raise TypeError(f"unsupported content type {type(content)}")
-
-    out = path.parent / "dvc.yaml"
-    with out.open("wt") as yf:
-        yaml.safe_dump(pipeline.dvc_object().model_dump(mode="yaml", exclude_unset=True), yf)
-
-    if pipeline.info is not None:
-        with open(path.parent / "dataset.yml", "wt") as yf:
-            yaml.safe_dump(pipeline.info.model_dump(mode="json"), yf)
 
 
 def render_dvc_gitignores():

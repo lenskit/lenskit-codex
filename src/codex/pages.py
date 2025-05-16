@@ -46,10 +46,10 @@ def render_templates(ds: DataSetInfo, src: Path, dst: Path, glob: str | None = N
         meta = front_matter(text=res)
         if mod := meta.get("model"):
             if mod not in ds.models:
-                logger.info("skipping document %s to %s")
+                logger.debug("skipping document %s for %s", file.name, dst)
                 continue
 
-        logger.info("saving document %s to %s", file.name, dst)
+        logger.debug("saving document %s to %s", file.name, dst)
         out_file = dst / file.name
         out_tmp = dst / f".{file.name}.tmp"
         out_tmp.write_text(res)
