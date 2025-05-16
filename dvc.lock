@@ -2569,3 +2569,28 @@ stages:
       md5: ee3c01f25dddea1c3acaeea9f87edabf.dir
       size: 151363
       nfiles: 4
+  page/amazon/2023-5core/CDV/index:
+    cmd: quarto render amazon/2023-5core/CDV/index.qmd
+    deps:
+    - path: _quarto.yml
+      hash: md5
+      md5: 14beb3434da173aad8760aa9dc7887fd
+      size: 1310
+    - path: amazon/2023-5core/CDV/index.qmd
+      hash: md5
+      md5: 65ec814f8b15a1b690a66663f8c38ee8
+      size: 4616
+    - path: amazon/2023-5core/CDV/run-summary.csv
+      hash: md5
+      md5: ecca51b362bc6ef725eb7ead0f9ad89f
+      size: 9858
+    - path: amazon/2023-5core/CDV/run-user-metrics.parquet
+      hash: md5
+      md5: 1b250317a5f1ddbf7808c7b8389719b1
+      size: 2364207
+    outs:
+    - path: _freeze/amazon/2023-5core/CDV/index
+      hash: md5
+      md5: 988fe8e234eb8ce9ec61e326e7d287c4.dir
+      size: 364111
+      nfiles: 9
