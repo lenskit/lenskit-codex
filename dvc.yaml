@@ -1,4 +1,4 @@
-# Generated file — DO NOT EDIT
+# Codex Generated File — DO NOT EDIT
 #
 # This file is generated from dvc.jsonnet.
 stages:
@@ -9,8 +9,10 @@ stages:
       - amazon/2023-5core/CDV/index.qmd
       - amazon/2023-5core/CDV/run-summary.csv
       - amazon/2023-5core/CDV/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/amazon/2023-5core/CDV/index
+    params: []
   page/amazon/2023-5core/Elec/index:
     cmd: quarto render amazon/2023-5core/Elec/index.qmd
     deps:
@@ -18,8 +20,10 @@ stages:
       - amazon/2023-5core/Elec/index.qmd
       - amazon/2023-5core/Elec/run-summary.csv
       - amazon/2023-5core/Elec/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/amazon/2023-5core/Elec/index
+    params: []
   page/amazon/2023-5core/MovTV/index:
     cmd: quarto render amazon/2023-5core/MovTV/index.qmd
     deps:
@@ -27,8 +31,10 @@ stages:
       - amazon/2023-5core/MovTV/index.qmd
       - amazon/2023-5core/MovTV/run-summary.csv
       - amazon/2023-5core/MovTV/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/amazon/2023-5core/MovTV/index
+    params: []
   page/amazon/2023-5core/MusInst/index:
     cmd: quarto render amazon/2023-5core/MusInst/index.qmd
     deps:
@@ -36,8 +42,10 @@ stages:
       - amazon/2023-5core/MusInst/index.qmd
       - amazon/2023-5core/MusInst/run-summary.csv
       - amazon/2023-5core/MusInst/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/amazon/2023-5core/MusInst/index
+    params: []
   page/amazon/2023-5core/Pet/index:
     cmd: quarto render amazon/2023-5core/Pet/index.qmd
     deps:
@@ -45,8 +53,10 @@ stages:
       - amazon/2023-5core/Pet/index.qmd
       - amazon/2023-5core/Pet/run-summary.csv
       - amazon/2023-5core/Pet/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/amazon/2023-5core/Pet/index
+    params: []
   page/amazon/2023-5core/Software/index:
     cmd: quarto render amazon/2023-5core/Software/index.qmd
     deps:
@@ -54,8 +64,10 @@ stages:
       - amazon/2023-5core/Software/index.qmd
       - amazon/2023-5core/Software/run-summary.csv
       - amazon/2023-5core/Software/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/amazon/2023-5core/Software/index
+    params: []
   page/amazon/2023-5core/VidGames/index:
     cmd: quarto render amazon/2023-5core/VidGames/index.qmd
     deps:
@@ -63,23 +75,29 @@ stages:
       - amazon/2023-5core/VidGames/index.qmd
       - amazon/2023-5core/VidGames/run-summary.csv
       - amazon/2023-5core/VidGames/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/amazon/2023-5core/VidGames/index
+    params: []
   page/amazon/2023-5core/index:
     cmd: quarto render amazon/2023-5core/index.qmd
     deps:
       - _quarto.yml
       - amazon/2023-5core/index.qmd
       - amazon/2023-5core/stats.duckdb
+    metrics: []
     outs:
       - _freeze/amazon/2023-5core/index
+    params: []
   page/eval-meta/attention:
     cmd: quarto render eval-meta/attention.qmd
     deps:
       - _quarto.yml
       - eval-meta/attention.qmd
+    metrics: []
     outs:
       - _freeze/eval-meta/attention
+    params: []
   page/movielens/ML100K/als-biased:
     cmd: quarto render movielens/ML100K/als-biased.qmd
     deps:
@@ -88,16 +106,20 @@ stages:
       - movielens/ML100K/sweeps/random/als-biased-random
       - movielens/ML100K/sweeps/random/als-biased-hyperopt
       - movielens/ML100K/sweeps/random/als-biased-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/als-biased
+    params: []
   page/movielens/ML100K/als-implicit:
     cmd: quarto render movielens/ML100K/als-implicit.qmd
     deps:
       - _quarto.yml
       - movielens/ML100K/als-implicit.qmd
       - movielens/ML100K/sweeps/random/als-biased-random
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/als-implicit
+    params: []
   page/movielens/ML100K/bias:
     cmd: quarto render movielens/ML100K/bias.qmd
     deps:
@@ -106,16 +128,20 @@ stages:
       - movielens/ML100K/sweeps/random/bias-random
       - movielens/ML100K/sweeps/random/bias-hyperopt
       - movielens/ML100K/sweeps/random/bias-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/bias
+    params: []
   page/movielens/ML100K/description:
     cmd: quarto render movielens/ML100K/description.qmd
     deps:
       - _quarto.yml
       - movielens/ML100K/description.qmd
       - movielens/ML100K/stats.duckdb
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/description
+    params: []
   page/movielens/ML100K/flexmf-bpr:
     cmd: quarto render movielens/ML100K/flexmf-bpr.qmd
     deps:
@@ -124,8 +150,10 @@ stages:
       - movielens/ML100K/sweeps/random/flexmf-bpr-random
       - movielens/ML100K/sweeps/random/flexmf-bpr-hyperopt
       - movielens/ML100K/sweeps/random/flexmf-bpr-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/flexmf-bpr
+    params: []
   page/movielens/ML100K/flexmf-explicit:
     cmd: quarto render movielens/ML100K/flexmf-explicit.qmd
     deps:
@@ -134,8 +162,10 @@ stages:
       - movielens/ML100K/sweeps/random/flexmf-explicit-random
       - movielens/ML100K/sweeps/random/flexmf-explicit-hyperopt
       - movielens/ML100K/sweeps/random/flexmf-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/flexmf-explicit
+    params: []
   page/movielens/ML100K/flexmf-logistic:
     cmd: quarto render movielens/ML100K/flexmf-logistic.qmd
     deps:
@@ -144,8 +174,10 @@ stages:
       - movielens/ML100K/sweeps/random/flexmf-logistic-random
       - movielens/ML100K/sweeps/random/flexmf-logistic-hyperopt
       - movielens/ML100K/sweeps/random/flexmf-logistic-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/flexmf-logistic
+    params: []
   page/movielens/ML100K/flexmf-warp:
     cmd: quarto render movielens/ML100K/flexmf-warp.qmd
     deps:
@@ -154,8 +186,10 @@ stages:
       - movielens/ML100K/sweeps/random/flexmf-warp-random
       - movielens/ML100K/sweeps/random/flexmf-warp-hyperopt
       - movielens/ML100K/sweeps/random/flexmf-warp-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/flexmf-warp
+    params: []
   page/movielens/ML100K/iknn-explicit:
     cmd: quarto render movielens/ML100K/iknn-explicit.qmd
     deps:
@@ -164,8 +198,10 @@ stages:
       - movielens/ML100K/sweeps/random/iknn-explicit-random
       - movielens/ML100K/sweeps/random/iknn-explicit-hyperopt
       - movielens/ML100K/sweeps/random/iknn-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/iknn-explicit
+    params: []
   page/movielens/ML100K/iknn-implicit:
     cmd: quarto render movielens/ML100K/iknn-implicit.qmd
     deps:
@@ -174,8 +210,10 @@ stages:
       - movielens/ML100K/sweeps/random/iknn-implicit-random
       - movielens/ML100K/sweeps/random/iknn-implicit-hyperopt
       - movielens/ML100K/sweeps/random/iknn-implicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/iknn-implicit
+    params: []
   page/movielens/ML100K/summary:
     cmd: quarto render movielens/ML100K/summary.qmd
     deps:
@@ -183,16 +221,20 @@ stages:
       - movielens/ML100K/summary.qmd
       - movielens/ML100K/run-summary.csv
       - movielens/ML100K/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/summary
+    params: []
   page/movielens/ML100K/tuning:
     cmd: quarto render movielens/ML100K/tuning.qmd
     deps:
       - _quarto.yml
       - movielens/ML100K/tuning.qmd
       - movielens/ML100K/sweeps/random
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/tuning
+    params: []
   page/movielens/ML100K/uknn-explicit:
     cmd: quarto render movielens/ML100K/uknn-explicit.qmd
     deps:
@@ -201,8 +243,10 @@ stages:
       - movielens/ML100K/sweeps/random/uknn-explicit-random
       - movielens/ML100K/sweeps/random/uknn-explicit-hyperopt
       - movielens/ML100K/sweeps/random/uknn-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/uknn-explicit
+    params: []
   page/movielens/ML100K/uknn-implicit:
     cmd: quarto render movielens/ML100K/uknn-implicit.qmd
     deps:
@@ -211,8 +255,10 @@ stages:
       - movielens/ML100K/sweeps/random/uknn-implicit-random
       - movielens/ML100K/sweeps/random/uknn-implicit-hyperopt
       - movielens/ML100K/sweeps/random/uknn-implicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML100K/uknn-implicit
+    params: []
   page/movielens/ML10M/als-biased:
     cmd: quarto render movielens/ML10M/als-biased.qmd
     deps:
@@ -221,8 +267,10 @@ stages:
       - movielens/ML10M/sweeps/temporal/als-biased-random
       - movielens/ML10M/sweeps/temporal/als-biased-hyperopt
       - movielens/ML10M/sweeps/temporal/als-biased-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/als-biased
+    params: []
   page/movielens/ML10M/bias:
     cmd: quarto render movielens/ML10M/bias.qmd
     deps:
@@ -231,16 +279,20 @@ stages:
       - movielens/ML10M/sweeps/temporal/bias-random
       - movielens/ML10M/sweeps/temporal/bias-hyperopt
       - movielens/ML10M/sweeps/temporal/bias-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/bias
+    params: []
   page/movielens/ML10M/description:
     cmd: quarto render movielens/ML10M/description.qmd
     deps:
       - _quarto.yml
       - movielens/ML10M/description.qmd
       - movielens/ML10M/stats.duckdb
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/description
+    params: []
   page/movielens/ML10M/flexmf-bpr:
     cmd: quarto render movielens/ML10M/flexmf-bpr.qmd
     deps:
@@ -249,8 +301,10 @@ stages:
       - movielens/ML10M/sweeps/temporal/flexmf-bpr-random
       - movielens/ML10M/sweeps/temporal/flexmf-bpr-hyperopt
       - movielens/ML10M/sweeps/temporal/flexmf-bpr-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/flexmf-bpr
+    params: []
   page/movielens/ML10M/flexmf-explicit:
     cmd: quarto render movielens/ML10M/flexmf-explicit.qmd
     deps:
@@ -259,8 +313,10 @@ stages:
       - movielens/ML10M/sweeps/temporal/flexmf-explicit-random
       - movielens/ML10M/sweeps/temporal/flexmf-explicit-hyperopt
       - movielens/ML10M/sweeps/temporal/flexmf-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/flexmf-explicit
+    params: []
   page/movielens/ML10M/flexmf-logistic:
     cmd: quarto render movielens/ML10M/flexmf-logistic.qmd
     deps:
@@ -269,8 +325,10 @@ stages:
       - movielens/ML10M/sweeps/temporal/flexmf-logistic-random
       - movielens/ML10M/sweeps/temporal/flexmf-logistic-hyperopt
       - movielens/ML10M/sweeps/temporal/flexmf-logistic-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/flexmf-logistic
+    params: []
   page/movielens/ML10M/flexmf-warp:
     cmd: quarto render movielens/ML10M/flexmf-warp.qmd
     deps:
@@ -279,8 +337,10 @@ stages:
       - movielens/ML10M/sweeps/temporal/flexmf-warp-random
       - movielens/ML10M/sweeps/temporal/flexmf-warp-hyperopt
       - movielens/ML10M/sweeps/temporal/flexmf-warp-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/flexmf-warp
+    params: []
   page/movielens/ML10M/iknn-explicit:
     cmd: quarto render movielens/ML10M/iknn-explicit.qmd
     deps:
@@ -289,8 +349,10 @@ stages:
       - movielens/ML10M/sweeps/temporal/iknn-explicit-random
       - movielens/ML10M/sweeps/temporal/iknn-explicit-hyperopt
       - movielens/ML10M/sweeps/temporal/iknn-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/iknn-explicit
+    params: []
   page/movielens/ML10M/iknn-implicit:
     cmd: quarto render movielens/ML10M/iknn-implicit.qmd
     deps:
@@ -299,16 +361,20 @@ stages:
       - movielens/ML10M/sweeps/temporal/iknn-implicit-random
       - movielens/ML10M/sweeps/temporal/iknn-implicit-hyperopt
       - movielens/ML10M/sweeps/temporal/iknn-implicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/iknn-implicit
+    params: []
   page/movielens/ML10M/splitting:
     cmd: quarto render movielens/ML10M/splitting.qmd
     deps:
       - _quarto.yml
       - movielens/ML10M/splitting.qmd
       - movielens/ML10M/stats.duckdb
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/splitting
+    params: []
   page/movielens/ML10M/summary:
     cmd: quarto render movielens/ML10M/summary.qmd
     deps:
@@ -316,16 +382,20 @@ stages:
       - movielens/ML10M/summary.qmd
       - movielens/ML10M/run-summary.csv
       - movielens/ML10M/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/summary
+    params: []
   page/movielens/ML10M/tuning:
     cmd: quarto render movielens/ML10M/tuning.qmd
     deps:
       - _quarto.yml
       - movielens/ML10M/tuning.qmd
       - movielens/ML10M/sweeps/temporal
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/tuning
+    params: []
   page/movielens/ML10M/uknn-explicit:
     cmd: quarto render movielens/ML10M/uknn-explicit.qmd
     deps:
@@ -334,8 +404,10 @@ stages:
       - movielens/ML10M/sweeps/temporal/uknn-explicit-random
       - movielens/ML10M/sweeps/temporal/uknn-explicit-hyperopt
       - movielens/ML10M/sweeps/temporal/uknn-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/uknn-explicit
+    params: []
   page/movielens/ML10M/uknn-implicit:
     cmd: quarto render movielens/ML10M/uknn-implicit.qmd
     deps:
@@ -344,8 +416,10 @@ stages:
       - movielens/ML10M/sweeps/temporal/uknn-implicit-random
       - movielens/ML10M/sweeps/temporal/uknn-implicit-hyperopt
       - movielens/ML10M/sweeps/temporal/uknn-implicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML10M/uknn-implicit
+    params: []
   page/movielens/ML1M/als-biased:
     cmd: quarto render movielens/ML1M/als-biased.qmd
     deps:
@@ -354,8 +428,10 @@ stages:
       - movielens/ML1M/sweeps/random/als-biased-random
       - movielens/ML1M/sweeps/random/als-biased-hyperopt
       - movielens/ML1M/sweeps/random/als-biased-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/als-biased
+    params: []
   page/movielens/ML1M/bias:
     cmd: quarto render movielens/ML1M/bias.qmd
     deps:
@@ -364,16 +440,20 @@ stages:
       - movielens/ML1M/sweeps/random/bias-random
       - movielens/ML1M/sweeps/random/bias-hyperopt
       - movielens/ML1M/sweeps/random/bias-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/bias
+    params: []
   page/movielens/ML1M/description:
     cmd: quarto render movielens/ML1M/description.qmd
     deps:
       - _quarto.yml
       - movielens/ML1M/description.qmd
       - movielens/ML1M/stats.duckdb
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/description
+    params: []
   page/movielens/ML1M/flexmf-bpr:
     cmd: quarto render movielens/ML1M/flexmf-bpr.qmd
     deps:
@@ -382,8 +462,10 @@ stages:
       - movielens/ML1M/sweeps/random/flexmf-bpr-random
       - movielens/ML1M/sweeps/random/flexmf-bpr-hyperopt
       - movielens/ML1M/sweeps/random/flexmf-bpr-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/flexmf-bpr
+    params: []
   page/movielens/ML1M/flexmf-explicit:
     cmd: quarto render movielens/ML1M/flexmf-explicit.qmd
     deps:
@@ -392,8 +474,10 @@ stages:
       - movielens/ML1M/sweeps/random/flexmf-explicit-random
       - movielens/ML1M/sweeps/random/flexmf-explicit-hyperopt
       - movielens/ML1M/sweeps/random/flexmf-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/flexmf-explicit
+    params: []
   page/movielens/ML1M/flexmf-logistic:
     cmd: quarto render movielens/ML1M/flexmf-logistic.qmd
     deps:
@@ -402,8 +486,10 @@ stages:
       - movielens/ML1M/sweeps/random/flexmf-logistic-random
       - movielens/ML1M/sweeps/random/flexmf-logistic-hyperopt
       - movielens/ML1M/sweeps/random/flexmf-logistic-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/flexmf-logistic
+    params: []
   page/movielens/ML1M/flexmf-warp:
     cmd: quarto render movielens/ML1M/flexmf-warp.qmd
     deps:
@@ -412,8 +498,10 @@ stages:
       - movielens/ML1M/sweeps/random/flexmf-warp-random
       - movielens/ML1M/sweeps/random/flexmf-warp-hyperopt
       - movielens/ML1M/sweeps/random/flexmf-warp-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/flexmf-warp
+    params: []
   page/movielens/ML1M/iknn-explicit:
     cmd: quarto render movielens/ML1M/iknn-explicit.qmd
     deps:
@@ -422,8 +510,10 @@ stages:
       - movielens/ML1M/sweeps/random/iknn-explicit-random
       - movielens/ML1M/sweeps/random/iknn-explicit-hyperopt
       - movielens/ML1M/sweeps/random/iknn-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/iknn-explicit
+    params: []
   page/movielens/ML1M/iknn-implicit:
     cmd: quarto render movielens/ML1M/iknn-implicit.qmd
     deps:
@@ -432,8 +522,10 @@ stages:
       - movielens/ML1M/sweeps/random/iknn-implicit-random
       - movielens/ML1M/sweeps/random/iknn-implicit-hyperopt
       - movielens/ML1M/sweeps/random/iknn-implicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/iknn-implicit
+    params: []
   page/movielens/ML1M/summary:
     cmd: quarto render movielens/ML1M/summary.qmd
     deps:
@@ -441,16 +533,20 @@ stages:
       - movielens/ML1M/summary.qmd
       - movielens/ML1M/run-summary.csv
       - movielens/ML1M/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/summary
+    params: []
   page/movielens/ML1M/tuning:
     cmd: quarto render movielens/ML1M/tuning.qmd
     deps:
       - _quarto.yml
       - movielens/ML1M/tuning.qmd
       - movielens/ML1M/sweeps/random
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/tuning
+    params: []
   page/movielens/ML1M/uknn-explicit:
     cmd: quarto render movielens/ML1M/uknn-explicit.qmd
     deps:
@@ -459,8 +555,10 @@ stages:
       - movielens/ML1M/sweeps/random/uknn-explicit-random
       - movielens/ML1M/sweeps/random/uknn-explicit-hyperopt
       - movielens/ML1M/sweeps/random/uknn-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/uknn-explicit
+    params: []
   page/movielens/ML1M/uknn-implicit:
     cmd: quarto render movielens/ML1M/uknn-implicit.qmd
     deps:
@@ -469,8 +567,10 @@ stages:
       - movielens/ML1M/sweeps/random/uknn-implicit-random
       - movielens/ML1M/sweeps/random/uknn-implicit-hyperopt
       - movielens/ML1M/sweeps/random/uknn-implicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML1M/uknn-implicit
+    params: []
   page/movielens/ML20M/als-biased:
     cmd: quarto render movielens/ML20M/als-biased.qmd
     deps:
@@ -479,8 +579,10 @@ stages:
       - movielens/ML20M/sweeps/temporal/als-biased-random
       - movielens/ML20M/sweeps/temporal/als-biased-hyperopt
       - movielens/ML20M/sweeps/temporal/als-biased-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/als-biased
+    params: []
   page/movielens/ML20M/bias:
     cmd: quarto render movielens/ML20M/bias.qmd
     deps:
@@ -489,16 +591,20 @@ stages:
       - movielens/ML20M/sweeps/temporal/bias-random
       - movielens/ML20M/sweeps/temporal/bias-hyperopt
       - movielens/ML20M/sweeps/temporal/bias-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/bias
+    params: []
   page/movielens/ML20M/description:
     cmd: quarto render movielens/ML20M/description.qmd
     deps:
       - _quarto.yml
       - movielens/ML20M/description.qmd
       - movielens/ML20M/stats.duckdb
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/description
+    params: []
   page/movielens/ML20M/flexmf-bpr:
     cmd: quarto render movielens/ML20M/flexmf-bpr.qmd
     deps:
@@ -507,8 +613,10 @@ stages:
       - movielens/ML20M/sweeps/temporal/flexmf-bpr-random
       - movielens/ML20M/sweeps/temporal/flexmf-bpr-hyperopt
       - movielens/ML20M/sweeps/temporal/flexmf-bpr-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/flexmf-bpr
+    params: []
   page/movielens/ML20M/flexmf-explicit:
     cmd: quarto render movielens/ML20M/flexmf-explicit.qmd
     deps:
@@ -517,8 +625,10 @@ stages:
       - movielens/ML20M/sweeps/temporal/flexmf-explicit-random
       - movielens/ML20M/sweeps/temporal/flexmf-explicit-hyperopt
       - movielens/ML20M/sweeps/temporal/flexmf-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/flexmf-explicit
+    params: []
   page/movielens/ML20M/flexmf-logistic:
     cmd: quarto render movielens/ML20M/flexmf-logistic.qmd
     deps:
@@ -527,8 +637,10 @@ stages:
       - movielens/ML20M/sweeps/temporal/flexmf-logistic-random
       - movielens/ML20M/sweeps/temporal/flexmf-logistic-hyperopt
       - movielens/ML20M/sweeps/temporal/flexmf-logistic-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/flexmf-logistic
+    params: []
   page/movielens/ML20M/flexmf-warp:
     cmd: quarto render movielens/ML20M/flexmf-warp.qmd
     deps:
@@ -537,8 +649,10 @@ stages:
       - movielens/ML20M/sweeps/temporal/flexmf-warp-random
       - movielens/ML20M/sweeps/temporal/flexmf-warp-hyperopt
       - movielens/ML20M/sweeps/temporal/flexmf-warp-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/flexmf-warp
+    params: []
   page/movielens/ML20M/iknn-explicit:
     cmd: quarto render movielens/ML20M/iknn-explicit.qmd
     deps:
@@ -547,8 +661,10 @@ stages:
       - movielens/ML20M/sweeps/temporal/iknn-explicit-random
       - movielens/ML20M/sweeps/temporal/iknn-explicit-hyperopt
       - movielens/ML20M/sweeps/temporal/iknn-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/iknn-explicit
+    params: []
   page/movielens/ML20M/iknn-implicit:
     cmd: quarto render movielens/ML20M/iknn-implicit.qmd
     deps:
@@ -557,16 +673,20 @@ stages:
       - movielens/ML20M/sweeps/temporal/iknn-implicit-random
       - movielens/ML20M/sweeps/temporal/iknn-implicit-hyperopt
       - movielens/ML20M/sweeps/temporal/iknn-implicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/iknn-implicit
+    params: []
   page/movielens/ML20M/splitting:
     cmd: quarto render movielens/ML20M/splitting.qmd
     deps:
       - _quarto.yml
       - movielens/ML20M/splitting.qmd
       - movielens/ML20M/stats.duckdb
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/splitting
+    params: []
   page/movielens/ML20M/summary:
     cmd: quarto render movielens/ML20M/summary.qmd
     deps:
@@ -574,96 +694,120 @@ stages:
       - movielens/ML20M/summary.qmd
       - movielens/ML20M/run-summary.csv
       - movielens/ML20M/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/summary
+    params: []
   page/movielens/ML20M/tuning:
     cmd: quarto render movielens/ML20M/tuning.qmd
     deps:
       - _quarto.yml
       - movielens/ML20M/tuning.qmd
       - movielens/ML20M/sweeps/temporal
+    metrics: []
     outs:
       - _freeze/movielens/ML20M/tuning
+    params: []
   page/movielens/ML25M/als-biased:
     cmd: quarto render movielens/ML25M/als-biased.qmd
     deps:
       - _quarto.yml
       - movielens/ML25M/als-biased.qmd
       - movielens/ML25M/sweeps/temporal/als-biased-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/als-biased
+    params: []
   page/movielens/ML25M/bias:
     cmd: quarto render movielens/ML25M/bias.qmd
     deps:
       - _quarto.yml
       - movielens/ML25M/bias.qmd
       - movielens/ML25M/sweeps/temporal/bias-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/bias
+    params: []
   page/movielens/ML25M/description:
     cmd: quarto render movielens/ML25M/description.qmd
     deps:
       - _quarto.yml
       - movielens/ML25M/description.qmd
       - movielens/ML25M/stats.duckdb
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/description
+    params: []
   page/movielens/ML25M/flexmf-bpr:
     cmd: quarto render movielens/ML25M/flexmf-bpr.qmd
     deps:
       - _quarto.yml
       - movielens/ML25M/flexmf-bpr.qmd
       - movielens/ML25M/sweeps/temporal/flexmf-bpr-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/flexmf-bpr
+    params: []
   page/movielens/ML25M/flexmf-explicit:
     cmd: quarto render movielens/ML25M/flexmf-explicit.qmd
     deps:
       - _quarto.yml
       - movielens/ML25M/flexmf-explicit.qmd
       - movielens/ML25M/sweeps/temporal/flexmf-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/flexmf-explicit
+    params: []
   page/movielens/ML25M/flexmf-logistic:
     cmd: quarto render movielens/ML25M/flexmf-logistic.qmd
     deps:
       - _quarto.yml
       - movielens/ML25M/flexmf-logistic.qmd
       - movielens/ML25M/sweeps/temporal/flexmf-logistic-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/flexmf-logistic
+    params: []
   page/movielens/ML25M/flexmf-warp:
     cmd: quarto render movielens/ML25M/flexmf-warp.qmd
     deps:
       - _quarto.yml
       - movielens/ML25M/flexmf-warp.qmd
       - movielens/ML25M/sweeps/temporal/flexmf-warp-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/flexmf-warp
+    params: []
   page/movielens/ML25M/iknn-explicit:
     cmd: quarto render movielens/ML25M/iknn-explicit.qmd
     deps:
       - _quarto.yml
       - movielens/ML25M/iknn-explicit.qmd
       - movielens/ML25M/sweeps/temporal/iknn-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/iknn-explicit
+    params: []
   page/movielens/ML25M/iknn-implicit:
     cmd: quarto render movielens/ML25M/iknn-implicit.qmd
     deps:
       - _quarto.yml
       - movielens/ML25M/iknn-implicit.qmd
       - movielens/ML25M/sweeps/temporal/iknn-implicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/iknn-implicit
+    params: []
   page/movielens/ML25M/splitting:
     cmd: quarto render movielens/ML25M/splitting.qmd
     deps:
       - _quarto.yml
       - movielens/ML25M/splitting.qmd
       - movielens/ML25M/stats.duckdb
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/splitting
+    params: []
   page/movielens/ML25M/summary:
     cmd: quarto render movielens/ML25M/summary.qmd
     deps:
@@ -671,96 +815,120 @@ stages:
       - movielens/ML25M/summary.qmd
       - movielens/ML25M/run-summary.csv
       - movielens/ML25M/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/summary
+    params: []
   page/movielens/ML25M/tuning:
     cmd: quarto render movielens/ML25M/tuning.qmd
     deps:
       - _quarto.yml
       - movielens/ML25M/tuning.qmd
       - movielens/ML25M/sweeps/temporal
+    metrics: []
     outs:
       - _freeze/movielens/ML25M/tuning
+    params: []
   page/movielens/ML32M/als-biased:
     cmd: quarto render movielens/ML32M/als-biased.qmd
     deps:
       - _quarto.yml
       - movielens/ML32M/als-biased.qmd
       - movielens/ML32M/sweeps/temporal/als-biased-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/als-biased
+    params: []
   page/movielens/ML32M/bias:
     cmd: quarto render movielens/ML32M/bias.qmd
     deps:
       - _quarto.yml
       - movielens/ML32M/bias.qmd
       - movielens/ML32M/sweeps/temporal/bias-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/bias
+    params: []
   page/movielens/ML32M/description:
     cmd: quarto render movielens/ML32M/description.qmd
     deps:
       - _quarto.yml
       - movielens/ML32M/description.qmd
       - movielens/ML32M/stats.duckdb
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/description
+    params: []
   page/movielens/ML32M/flexmf-bpr:
     cmd: quarto render movielens/ML32M/flexmf-bpr.qmd
     deps:
       - _quarto.yml
       - movielens/ML32M/flexmf-bpr.qmd
       - movielens/ML32M/sweeps/temporal/flexmf-bpr-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/flexmf-bpr
+    params: []
   page/movielens/ML32M/flexmf-explicit:
     cmd: quarto render movielens/ML32M/flexmf-explicit.qmd
     deps:
       - _quarto.yml
       - movielens/ML32M/flexmf-explicit.qmd
       - movielens/ML32M/sweeps/temporal/flexmf-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/flexmf-explicit
+    params: []
   page/movielens/ML32M/flexmf-logistic:
     cmd: quarto render movielens/ML32M/flexmf-logistic.qmd
     deps:
       - _quarto.yml
       - movielens/ML32M/flexmf-logistic.qmd
       - movielens/ML32M/sweeps/temporal/flexmf-logistic-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/flexmf-logistic
+    params: []
   page/movielens/ML32M/flexmf-warp:
     cmd: quarto render movielens/ML32M/flexmf-warp.qmd
     deps:
       - _quarto.yml
       - movielens/ML32M/flexmf-warp.qmd
       - movielens/ML32M/sweeps/temporal/flexmf-warp-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/flexmf-warp
+    params: []
   page/movielens/ML32M/iknn-explicit:
     cmd: quarto render movielens/ML32M/iknn-explicit.qmd
     deps:
       - _quarto.yml
       - movielens/ML32M/iknn-explicit.qmd
       - movielens/ML32M/sweeps/temporal/iknn-explicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/iknn-explicit
+    params: []
   page/movielens/ML32M/iknn-implicit:
     cmd: quarto render movielens/ML32M/iknn-implicit.qmd
     deps:
       - _quarto.yml
       - movielens/ML32M/iknn-implicit.qmd
       - movielens/ML32M/sweeps/temporal/iknn-implicit-optuna
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/iknn-implicit
+    params: []
   page/movielens/ML32M/splitting:
     cmd: quarto render movielens/ML32M/splitting.qmd
     deps:
       - _quarto.yml
       - movielens/ML32M/splitting.qmd
       - movielens/ML32M/stats.duckdb
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/splitting
+    params: []
   page/movielens/ML32M/summary:
     cmd: quarto render movielens/ML32M/summary.qmd
     deps:
@@ -768,21 +936,27 @@ stages:
       - movielens/ML32M/summary.qmd
       - movielens/ML32M/run-summary.csv
       - movielens/ML32M/run-user-metrics.parquet
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/summary
+    params: []
   page/movielens/ML32M/tuning:
     cmd: quarto render movielens/ML32M/tuning.qmd
     deps:
       - _quarto.yml
       - movielens/ML32M/tuning.qmd
       - movielens/ML32M/sweeps/temporal
+    metrics: []
     outs:
       - _freeze/movielens/ML32M/tuning
+    params: []
   page/movielens/index:
     cmd: quarto render movielens/index.qmd
     deps:
       - _quarto.yml
       - movielens/index.qmd
       - movielens/merged-stats.duckdb
+    metrics: []
     outs:
       - _freeze/movielens/index
+    params: []

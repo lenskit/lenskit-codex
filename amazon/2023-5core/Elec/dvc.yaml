@@ -1,4 +1,4 @@
-# Generated file — DO NOT EDIT
+# Codex Generated File — DO NOT EDIT
 #
 # This file is generated from dvc.jsonnet.
 stages:
@@ -21,9 +21,11 @@ stages:
       - runs/fixed/flexmf-explicit-optuna-best
       - runs/fixed/flexmf-logistic-optuna-best
       - runs/fixed/flexmf-warp-optuna-best
+    metrics: []
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
+    params: []
   export-trec-default-runs:
     cmd: lenskit codex trec export runs -o runs/fixed/default.run.gz runs/fixed/*-default
     deps:
@@ -35,15 +37,19 @@ stages:
       - runs/fixed/flexmf-logistic-default/recommendations.parquet
       - runs/fixed/flexmf-warp-default/recommendations.parquet
       - runs/fixed/popular-default/recommendations.parquet
+    metrics: []
     outs:
       - runs/fixed/default.run.gz
+    params: []
   export-trec-qrels:
     do:
       cmd: lenskit codex trec export qrels -o splits/fixed/${item}.qrels.gz splits/fixed/${item}/test.parquet
       deps:
         - splits/fixed/${item}/test.parquet
+      metrics: []
       outs:
         - splits/fixed/${item}.qrels.gz
+      params: []
     foreach:
       - test
       - valid
@@ -52,93 +58,117 @@ stages:
       splits/fixed/test/test.parquet
     deps:
       - ../data/Electronics.test.csv.gz
+    metrics: []
     outs:
       - splits/fixed/test/test.parquet
+    params: []
   import-test-train:
     cmd: lenskit data convert --amazon ../data/Electronics.train.csv.gz ../data/Electronics.valid.csv.gz
       splits/fixed/test/train.dataset
     deps:
       - ../data/Electronics.train.csv.gz
       - ../data/Electronics.valid.csv.gz
+    metrics: []
     outs:
       - splits/fixed/test/train.dataset
+    params: []
   import-valid-test:
     cmd: lenskit data convert --amazon --item-lists ../data/Electronics.valid.csv.gz
       splits/fixed/valid/test.parquet
     deps:
       - ../data/Electronics.valid.csv.gz
+    metrics: []
     outs:
       - splits/fixed/valid/test.parquet
+    params: []
   import-valid-train:
     cmd: lenskit data convert --amazon ../data/Electronics.train.csv.gz splits/fixed/valid/train.dataset
     deps:
       - ../data/Electronics.train.csv.gz
+    metrics: []
     outs:
       - splits/fixed/valid/train.dataset
+    params: []
   run-fixed-default-als-biased:
     cmd: lenskit codex generate --default --ds-name=Elec --split=splits/fixed -o runs/fixed/als-biased-default
       als-biased
     deps:
       - ../../../src/codex/models/als_biased.py
       - splits/fixed
+    metrics: []
     outs:
       - runs/fixed/als-biased-default
+    params: []
   run-fixed-default-als-implicit:
     cmd: lenskit codex generate --default --ds-name=Elec --split=splits/fixed -o runs/fixed/als-implicit-default
       als-implicit
     deps:
       - ../../../src/codex/models/als_implicit.py
       - splits/fixed
+    metrics: []
     outs:
       - runs/fixed/als-implicit-default
+    params: []
   run-fixed-default-bias:
     cmd: lenskit codex generate --default --ds-name=Elec --split=splits/fixed -o runs/fixed/bias-default
       bias
     deps:
       - ../../../src/codex/models/bias.py
       - splits/fixed
+    metrics: []
     outs:
       - runs/fixed/bias-default
+    params: []
   run-fixed-default-flexmf-bpr:
     cmd: lenskit codex generate --default --ds-name=Elec --split=splits/fixed -o runs/fixed/flexmf-bpr-default
       flexmf-bpr
     deps:
       - ../../../src/codex/models/flexmf_bpr.py
       - splits/fixed
+    metrics: []
     outs:
       - runs/fixed/flexmf-bpr-default
+    params: []
   run-fixed-default-flexmf-explicit:
     cmd: lenskit codex generate --default --ds-name=Elec --split=splits/fixed -o runs/fixed/flexmf-explicit-default
       flexmf-explicit
     deps:
       - ../../../src/codex/models/flexmf_explicit.py
       - splits/fixed
+    metrics: []
     outs:
       - runs/fixed/flexmf-explicit-default
+    params: []
   run-fixed-default-flexmf-logistic:
     cmd: lenskit codex generate --default --ds-name=Elec --split=splits/fixed -o runs/fixed/flexmf-logistic-default
       flexmf-logistic
     deps:
       - ../../../src/codex/models/flexmf_logistic.py
       - splits/fixed
+    metrics: []
     outs:
       - runs/fixed/flexmf-logistic-default
+    params: []
   run-fixed-default-flexmf-warp:
     cmd: lenskit codex generate --default --ds-name=Elec --split=splits/fixed -o runs/fixed/flexmf-warp-default
       flexmf-warp
     deps:
       - ../../../src/codex/models/flexmf_warp.py
       - splits/fixed
+    metrics: []
     outs:
       - runs/fixed/flexmf-warp-default
+    params: []
   run-fixed-default-popular:
     cmd: lenskit codex generate --default --ds-name=Elec --split=splits/fixed -o runs/fixed/popular-default
       popular
     deps:
       - ../../../src/codex/models/popular.py
       - splits/fixed
+    metrics: []
     outs:
       - runs/fixed/popular-default
+    params: []
   run-fixed-optuna-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/fixed/als-biased-optuna.json --ds-name=Elec
       --split=splits/fixed -o runs/fixed/als-biased-optuna-best als-biased
@@ -146,8 +176,10 @@ stages:
       - ../../../src/codex/models/als_biased.py
       - splits/fixed
       - sweeps/fixed/als-biased-optuna.json
+    metrics: []
     outs:
       - runs/fixed/als-biased-optuna-best
+    params: []
   run-fixed-optuna-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/fixed/als-implicit-optuna.json
       --ds-name=Elec --split=splits/fixed -o runs/fixed/als-implicit-optuna-best als-implicit
@@ -155,8 +187,10 @@ stages:
       - ../../../src/codex/models/als_implicit.py
       - splits/fixed
       - sweeps/fixed/als-implicit-optuna.json
+    metrics: []
     outs:
       - runs/fixed/als-implicit-optuna-best
+    params: []
   run-fixed-optuna-best-bias:
     cmd: lenskit codex generate --param-file sweeps/fixed/bias-optuna.json --ds-name=Elec
       --split=splits/fixed -o runs/fixed/bias-optuna-best bias
@@ -164,8 +198,10 @@ stages:
       - ../../../src/codex/models/bias.py
       - splits/fixed
       - sweeps/fixed/bias-optuna.json
+    metrics: []
     outs:
       - runs/fixed/bias-optuna-best
+    params: []
   run-fixed-optuna-best-flexmf-bpr:
     cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-bpr-optuna.json --ds-name=Elec
       --split=splits/fixed -o runs/fixed/flexmf-bpr-optuna-best flexmf-bpr
@@ -173,8 +209,10 @@ stages:
       - ../../../src/codex/models/flexmf_bpr.py
       - splits/fixed
       - sweeps/fixed/flexmf-bpr-optuna.json
+    metrics: []
     outs:
       - runs/fixed/flexmf-bpr-optuna-best
+    params: []
   run-fixed-optuna-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-explicit-optuna.json
       --ds-name=Elec --split=splits/fixed -o runs/fixed/flexmf-explicit-optuna-best
@@ -183,8 +221,10 @@ stages:
       - ../../../src/codex/models/flexmf_explicit.py
       - splits/fixed
       - sweeps/fixed/flexmf-explicit-optuna.json
+    metrics: []
     outs:
       - runs/fixed/flexmf-explicit-optuna-best
+    params: []
   run-fixed-optuna-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-logistic-optuna.json
       --ds-name=Elec --split=splits/fixed -o runs/fixed/flexmf-logistic-optuna-best
@@ -193,8 +233,10 @@ stages:
       - ../../../src/codex/models/flexmf_logistic.py
       - splits/fixed
       - sweeps/fixed/flexmf-logistic-optuna.json
+    metrics: []
     outs:
       - runs/fixed/flexmf-logistic-optuna-best
+    params: []
   run-fixed-optuna-best-flexmf-warp:
     cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-warp-optuna.json
       --ds-name=Elec --split=splits/fixed -o runs/fixed/flexmf-warp-optuna-best flexmf-warp
@@ -202,14 +244,17 @@ stages:
       - ../../../src/codex/models/flexmf_warp.py
       - splits/fixed
       - sweeps/fixed/flexmf-warp-optuna.json
+    metrics: []
     outs:
       - runs/fixed/flexmf-warp-optuna-best
+    params: []
   sweep-als-biased-fixed-optuna:
     cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
       als-biased sweeps/fixed/als-biased-optuna
     deps:
       - splits/fixed
       - ../../../src/codex/models/als_biased.py
+    metrics: []
     outs:
       - sweeps/fixed/als-biased-optuna
       - sweeps/fixed/als-biased-optuna.json:
@@ -223,6 +268,7 @@ stages:
     deps:
       - splits/fixed
       - ../../../src/codex/models/als_implicit.py
+    metrics: []
     outs:
       - sweeps/fixed/als-implicit-optuna
       - sweeps/fixed/als-implicit-optuna.json:
@@ -236,6 +282,7 @@ stages:
     deps:
       - splits/fixed
       - ../../../src/codex/models/bias.py
+    metrics: []
     outs:
       - sweeps/fixed/bias-optuna
       - sweeps/fixed/bias-optuna.json:
@@ -249,6 +296,7 @@ stages:
     deps:
       - splits/fixed
       - ../../../src/codex/models/flexmf_bpr.py
+    metrics: []
     outs:
       - sweeps/fixed/flexmf-bpr-optuna
       - sweeps/fixed/flexmf-bpr-optuna.json:
@@ -262,6 +310,7 @@ stages:
     deps:
       - splits/fixed
       - ../../../src/codex/models/flexmf_explicit.py
+    metrics: []
     outs:
       - sweeps/fixed/flexmf-explicit-optuna
       - sweeps/fixed/flexmf-explicit-optuna.json:
@@ -275,6 +324,7 @@ stages:
     deps:
       - splits/fixed
       - ../../../src/codex/models/flexmf_logistic.py
+    metrics: []
     outs:
       - sweeps/fixed/flexmf-logistic-optuna
       - sweeps/fixed/flexmf-logistic-optuna.json:
@@ -288,6 +338,7 @@ stages:
     deps:
       - splits/fixed
       - ../../../src/codex/models/flexmf_warp.py
+    metrics: []
     outs:
       - sweeps/fixed/flexmf-warp-optuna
       - sweeps/fixed/flexmf-warp-optuna.json:

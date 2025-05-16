@@ -1,4 +1,4 @@
-# Generated file — DO NOT EDIT
+# Codex Generated File — DO NOT EDIT
 #
 # This file is generated from dvc.jsonnet.
 stages:
@@ -43,15 +43,19 @@ stages:
       - runs/temporal/flexmf-warp-optuna-best
       - runs/temporal/iknn-explicit-optuna-best
       - runs/temporal/iknn-implicit-optuna-best
+    metrics: []
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
+    params: []
   import:
     cmd: lenskit data convert --movielens ml-20m.zip dataset
     deps:
       - ml-20m.zip
+    metrics: []
     outs:
       - dataset
+    params: []
   run-temporal-default-als-biased:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/als-biased-default als-biased
@@ -59,8 +63,10 @@ stages:
       - ../../src/codex/models/als_biased.py
       - dataset
       - splits/temporal.toml
+    metrics: []
     outs:
       - runs/temporal/als-biased-default
+    params: []
   run-temporal-default-als-implicit:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/als-implicit-default als-implicit
@@ -68,8 +74,10 @@ stages:
       - ../../src/codex/models/als_implicit.py
       - dataset
       - splits/temporal.toml
+    metrics: []
     outs:
       - runs/temporal/als-implicit-default
+    params: []
   run-temporal-default-bias:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/bias-default bias
@@ -77,8 +85,10 @@ stages:
       - ../../src/codex/models/bias.py
       - dataset
       - splits/temporal.toml
+    metrics: []
     outs:
       - runs/temporal/bias-default
+    params: []
   run-temporal-default-flexmf-bpr:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/flexmf-bpr-default flexmf-bpr
@@ -86,8 +96,10 @@ stages:
       - ../../src/codex/models/flexmf_bpr.py
       - dataset
       - splits/temporal.toml
+    metrics: []
     outs:
       - runs/temporal/flexmf-bpr-default
+    params: []
   run-temporal-default-flexmf-explicit:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/flexmf-explicit-default flexmf-explicit
@@ -95,8 +107,10 @@ stages:
       - ../../src/codex/models/flexmf_explicit.py
       - dataset
       - splits/temporal.toml
+    metrics: []
     outs:
       - runs/temporal/flexmf-explicit-default
+    params: []
   run-temporal-default-flexmf-logistic:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/flexmf-logistic-default flexmf-logistic
@@ -104,8 +118,10 @@ stages:
       - ../../src/codex/models/flexmf_logistic.py
       - dataset
       - splits/temporal.toml
+    metrics: []
     outs:
       - runs/temporal/flexmf-logistic-default
+    params: []
   run-temporal-default-flexmf-warp:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/flexmf-warp-default flexmf-warp
@@ -113,8 +129,10 @@ stages:
       - ../../src/codex/models/flexmf_warp.py
       - dataset
       - splits/temporal.toml
+    metrics: []
     outs:
       - runs/temporal/flexmf-warp-default
+    params: []
   run-temporal-default-iknn-explicit:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/iknn-explicit-default iknn-explicit
@@ -122,8 +140,10 @@ stages:
       - ../../src/codex/models/iknn_explicit.py
       - dataset
       - splits/temporal.toml
+    metrics: []
     outs:
       - runs/temporal/iknn-explicit-default
+    params: []
   run-temporal-default-iknn-implicit:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/iknn-implicit-default iknn-implicit
@@ -131,8 +151,10 @@ stages:
       - ../../src/codex/models/iknn_implicit.py
       - dataset
       - splits/temporal.toml
+    metrics: []
     outs:
       - runs/temporal/iknn-implicit-default
+    params: []
   run-temporal-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML20M --split=splits/temporal.toml
       -o runs/temporal/popular-default popular
@@ -140,8 +162,10 @@ stages:
       - ../../src/codex/models/popular.py
       - dataset
       - splits/temporal.toml
+    metrics: []
     outs:
       - runs/temporal/popular-default
+    params: []
   run-temporal-hyperopt-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-biased-hyperopt.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-biased-hyperopt-best
@@ -151,8 +175,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/als-biased-hyperopt.json
+    metrics: []
     outs:
       - runs/temporal/als-biased-hyperopt-best
+    params: []
   run-temporal-hyperopt-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-implicit-hyperopt.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-implicit-hyperopt-best
@@ -162,8 +188,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/als-implicit-hyperopt.json
+    metrics: []
     outs:
       - runs/temporal/als-implicit-hyperopt-best
+    params: []
   run-temporal-hyperopt-best-bias:
     cmd: lenskit codex generate --param-file sweeps/temporal/bias-hyperopt.json --ds-name=ML20M
       --split=splits/temporal.toml -o runs/temporal/bias-hyperopt-best bias
@@ -172,8 +200,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/bias-hyperopt.json
+    metrics: []
     outs:
       - runs/temporal/bias-hyperopt-best
+    params: []
   run-temporal-hyperopt-best-flexmf-bpr:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-bpr-hyperopt.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-hyperopt-best
@@ -183,8 +213,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-bpr-hyperopt.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-bpr-hyperopt-best
+    params: []
   run-temporal-hyperopt-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-explicit-hyperopt.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-hyperopt-best
@@ -194,8 +226,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-explicit-hyperopt.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-explicit-hyperopt-best
+    params: []
   run-temporal-hyperopt-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-logistic-hyperopt.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-hyperopt-best
@@ -205,8 +239,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-logistic-hyperopt.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-logistic-hyperopt-best
+    params: []
   run-temporal-hyperopt-best-flexmf-warp:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-warp-hyperopt.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-warp-hyperopt-best
@@ -216,8 +252,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-warp-hyperopt.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-warp-hyperopt-best
+    params: []
   run-temporal-hyperopt-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/iknn-explicit-hyperopt.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-hyperopt-best
@@ -227,8 +265,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/iknn-explicit-hyperopt.json
+    metrics: []
     outs:
       - runs/temporal/iknn-explicit-hyperopt-best
+    params: []
   run-temporal-hyperopt-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/iknn-implicit-hyperopt.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-implicit-hyperopt-best
@@ -238,8 +278,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/iknn-implicit-hyperopt.json
+    metrics: []
     outs:
       - runs/temporal/iknn-implicit-hyperopt-best
+    params: []
   run-temporal-optuna-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-biased-optuna.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-biased-optuna-best
@@ -249,8 +291,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/als-biased-optuna.json
+    metrics: []
     outs:
       - runs/temporal/als-biased-optuna-best
+    params: []
   run-temporal-optuna-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-implicit-optuna.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-implicit-optuna-best
@@ -260,8 +304,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/als-implicit-optuna.json
+    metrics: []
     outs:
       - runs/temporal/als-implicit-optuna-best
+    params: []
   run-temporal-optuna-best-bias:
     cmd: lenskit codex generate --param-file sweeps/temporal/bias-optuna.json --ds-name=ML20M
       --split=splits/temporal.toml -o runs/temporal/bias-optuna-best bias
@@ -270,8 +316,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/bias-optuna.json
+    metrics: []
     outs:
       - runs/temporal/bias-optuna-best
+    params: []
   run-temporal-optuna-best-flexmf-bpr:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-bpr-optuna.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-optuna-best
@@ -281,8 +329,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-bpr-optuna.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-bpr-optuna-best
+    params: []
   run-temporal-optuna-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-explicit-optuna.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-optuna-best
@@ -292,8 +342,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-explicit-optuna.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-explicit-optuna-best
+    params: []
   run-temporal-optuna-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-logistic-optuna.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-optuna-best
@@ -303,8 +355,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-logistic-optuna.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-logistic-optuna-best
+    params: []
   run-temporal-optuna-best-flexmf-warp:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-warp-optuna.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-warp-optuna-best
@@ -314,8 +368,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-warp-optuna.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-warp-optuna-best
+    params: []
   run-temporal-optuna-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/iknn-explicit-optuna.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-optuna-best
@@ -325,8 +381,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/iknn-explicit-optuna.json
+    metrics: []
     outs:
       - runs/temporal/iknn-explicit-optuna-best
+    params: []
   run-temporal-optuna-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/iknn-implicit-optuna.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-implicit-optuna-best
@@ -336,8 +394,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/iknn-implicit-optuna.json
+    metrics: []
     outs:
       - runs/temporal/iknn-implicit-optuna-best
+    params: []
   run-temporal-random-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-biased-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-biased-random-best
@@ -347,8 +407,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/als-biased-random.json
+    metrics: []
     outs:
       - runs/temporal/als-biased-random-best
+    params: []
   run-temporal-random-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/als-implicit-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-implicit-random-best
@@ -358,8 +420,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/als-implicit-random.json
+    metrics: []
     outs:
       - runs/temporal/als-implicit-random-best
+    params: []
   run-temporal-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/temporal/bias-random.json --ds-name=ML20M
       --split=splits/temporal.toml -o runs/temporal/bias-random-best bias
@@ -368,8 +432,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/bias-random.json
+    metrics: []
     outs:
       - runs/temporal/bias-random-best
+    params: []
   run-temporal-random-best-flexmf-bpr:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-bpr-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-random-best
@@ -379,8 +445,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-bpr-random.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-bpr-random-best
+    params: []
   run-temporal-random-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-explicit-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-random-best
@@ -390,8 +458,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-explicit-random.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-explicit-random-best
+    params: []
   run-temporal-random-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-logistic-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-random-best
@@ -401,8 +471,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-logistic-random.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-logistic-random-best
+    params: []
   run-temporal-random-best-flexmf-warp:
     cmd: lenskit codex generate --param-file sweeps/temporal/flexmf-warp-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-warp-random-best
@@ -412,8 +484,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/flexmf-warp-random.json
+    metrics: []
     outs:
       - runs/temporal/flexmf-warp-random-best
+    params: []
   run-temporal-random-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/iknn-explicit-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-random-best
@@ -423,8 +497,10 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/iknn-explicit-random.json
+    metrics: []
     outs:
       - runs/temporal/iknn-explicit-random-best
+    params: []
   run-temporal-random-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/temporal/iknn-implicit-random.json
       --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-implicit-random-best
@@ -434,22 +510,26 @@ stages:
       - dataset
       - splits/temporal.toml
       - sweeps/temporal/iknn-implicit-random.json
+    metrics: []
     outs:
       - runs/temporal/iknn-implicit-random-best
+    params: []
   stats:
     cmd: lenskit codex sql -D ds_name=ML20M -f ../ml-stats.sql stats.duckdb
     deps:
       - ../ml-stats.sql
       - dataset
+    metrics: []
     outs:
       - stats.duckdb
+    params: []
   sweep-als-biased-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid --sample-count=100
       --hyperopt --metric=RMSE als-biased sweeps/temporal/als-biased-hyperopt
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_biased.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/als-biased-hyperopt
       - sweeps/temporal/als-biased-hyperopt.json:
@@ -461,7 +541,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_biased.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/als-biased-optuna
       - sweeps/temporal/als-biased-optuna.json:
@@ -473,7 +553,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_biased.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/als-biased-random
       - sweeps/temporal/als-biased-random.json:
@@ -485,7 +565,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_implicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/als-implicit-hyperopt
       - sweeps/temporal/als-implicit-hyperopt.json:
@@ -497,7 +577,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_implicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/als-implicit-optuna
       - sweeps/temporal/als-implicit-optuna.json:
@@ -509,7 +589,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_implicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/als-implicit-random
       - sweeps/temporal/als-implicit-random.json:
@@ -521,7 +601,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/bias.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/bias-hyperopt
       - sweeps/temporal/bias-hyperopt.json:
@@ -533,7 +613,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/bias.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/bias-optuna
       - sweeps/temporal/bias-optuna.json:
@@ -545,7 +625,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/bias.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/bias-random
       - sweeps/temporal/bias-random.json:
@@ -557,7 +637,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_bpr.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-bpr-hyperopt
       - sweeps/temporal/flexmf-bpr-hyperopt.json:
@@ -569,7 +649,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_bpr.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-bpr-optuna
       - sweeps/temporal/flexmf-bpr-optuna.json:
@@ -581,7 +661,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_bpr.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-bpr-random
       - sweeps/temporal/flexmf-bpr-random.json:
@@ -593,7 +673,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_explicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-explicit-hyperopt
       - sweeps/temporal/flexmf-explicit-hyperopt.json:
@@ -605,7 +685,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_explicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-explicit-optuna
       - sweeps/temporal/flexmf-explicit-optuna.json:
@@ -617,7 +697,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_explicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-explicit-random
       - sweeps/temporal/flexmf-explicit-random.json:
@@ -629,7 +709,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_logistic.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-logistic-hyperopt
       - sweeps/temporal/flexmf-logistic-hyperopt.json:
@@ -641,7 +721,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_logistic.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-logistic-optuna
       - sweeps/temporal/flexmf-logistic-optuna.json:
@@ -653,7 +733,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_logistic.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-logistic-random
       - sweeps/temporal/flexmf-logistic-random.json:
@@ -665,7 +745,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_warp.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-warp-hyperopt
       - sweeps/temporal/flexmf-warp-hyperopt.json:
@@ -677,7 +757,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_warp.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-warp-optuna
       - sweeps/temporal/flexmf-warp-optuna.json:
@@ -689,7 +769,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_warp.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/flexmf-warp-random
       - sweeps/temporal/flexmf-warp-random.json:
@@ -701,7 +781,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_explicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/iknn-explicit-hyperopt
       - sweeps/temporal/iknn-explicit-hyperopt.json:
@@ -713,7 +793,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_explicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/iknn-explicit-optuna
       - sweeps/temporal/iknn-explicit-optuna.json:
@@ -725,7 +805,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_explicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/iknn-explicit-random
       - sweeps/temporal/iknn-explicit-random.json:
@@ -737,7 +817,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_implicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/iknn-implicit-hyperopt
       - sweeps/temporal/iknn-implicit-hyperopt.json:
@@ -749,7 +829,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_implicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/iknn-implicit-optuna
       - sweeps/temporal/iknn-implicit-optuna.json:
@@ -761,7 +841,7 @@ stages:
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/iknn_implicit.py
-    frozen: true
+    metrics: []
     outs:
       - sweeps/temporal/iknn-implicit-random
       - sweeps/temporal/iknn-implicit-random.json:

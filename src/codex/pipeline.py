@@ -11,10 +11,13 @@ from collections.abc import Iterator
 from fnmatch import fnmatch
 from functools import partial
 from glob import glob
+from itertools import chain
 from os import fspath
 from pathlib import Path
+from typing import Annotated, TypeAlias
 
 import yaml
+from annotated_types import MaxLen, MinLen
 from pydantic import BaseModel, JsonValue
 
 from .layout import ROOT_DIR, DataSetInfo
@@ -41,7 +44,7 @@ class CodexPipeline:
 
         self.dir_pipes = {}
         for file in self.root.glob("**/dvc.jsonnet"):
-            pipe = CodexPipelineDef.load(file)
+            pipe = CodexPipelineDef.load_jsonnet(file)
             self._add_pipeline(file.parent, pipe)
 
     def _add_pipeline(self, path: Path, pipe: CodexPipelineDef):
@@ -57,7 +60,34 @@ class CodexPipeline:
 
 
 class DVCPipeline(BaseModel):
-    stages: dict[str, JsonValue]
+    stages: dict[str, DVCStage | DVCForeachStage]
+
+    @classmethod
+    def load_yaml(cls, path: Path):
+        with open(path, "rt") as yf:
+            data = yaml.safe_load(yf)
+            return cls.model_validate(data)
+
+
+class DVCOutOptions(BaseModel):
+    cache: bool
+
+
+DVCOut: TypeAlias = Annotated[dict[str, DVCOutOptions], MaxLen(1), MinLen(1)]
+
+
+class DVCStage(BaseModel):
+    cmd: str
+    wdir: str | None = None
+    deps: list[str] = []
+    outs: list[str | DVCOut] = []
+    metrics: list[str | DVCOut] = []
+    params: list[str | dict[str, list[str]]] = []
+
+
+class DVCForeachStage(BaseModel):
+    foreach: list[str | dict[str, JsonValue]]
+    do: DVCStage
 
 
 class CodexPipelineDef(DVCPipeline):
@@ -73,7 +103,7 @@ class CodexPipelineDef(DVCPipeline):
     extra_files: dict[str, str | dict[str, JsonValue]] = {}
 
     @classmethod
-    def load(cls, path: Path) -> CodexPipelineDef:
+    def load_jsonnet(cls, path: Path) -> CodexPipelineDef:
         import _jsonnet
 
         pdir = path.parent.absolute()
@@ -110,7 +140,7 @@ class CodexPipelineDef(DVCPipeline):
         out = self._file_path("dvc.yaml", dir)
         logger.info("saving %s", out)
         with out.open("wt") as yf:
-            print("# Generated file — DO NOT EDIT", file=yf)
+            print("# Codex Generated File — DO NOT EDIT", file=yf)
             print("#", file=yf)
             print("# This file is generated from dvc.jsonnet.", file=yf)
 
@@ -170,16 +200,18 @@ def render_dvc_gitignores():
             )
 
     for dvc in glob("**/dvc.yaml", recursive=True, include_hidden=False):
+        dvc = Path(dvc)
         print("scanning", dvc, "for outputs")
-        pl_dir = Path(dvc).parent
-        with open(dvc, "rt") as yf:
-            pipe = yaml.safe_load(yf)
-        stages = pipe["stages"]
-        for stage in stages.values():
-            wdir = stage.get("wdir", None)
-            wdp = pl_dir if wdir is None else pl_dir / wdir
+        pl_dir = dvc.parent
+        pipe = DVCPipeline.load_yaml(dvc)
+        for stage in pipe.stages.values():
+            if not isinstance(stage, DVCStage):
+                # we ignore foreach stages
+                continue
+
+            wdp = pl_dir if stage.wdir is None else pl_dir / stage.wdir
             wdp = wdp.resolve()
-            for out in stage.get("outs", []):
+            for out in chain(stage.outs, stage.metrics):
                 if not isinstance(out, str):
                     continue
 
@@ -187,9 +219,8 @@ def render_dvc_gitignores():
                 out_p = out_p.resolve().relative_to(root)
 
                 out_dir = out_p.parent.as_posix()
-                if out_dir not in ignores:
-                    ignores[out_dir] = set()
-                ignores[out_dir].add("/" + out_p.name)
+                out_ign = ignores.setdefault(out_dir, set())
+                out_ign.add("/" + out_p.name)
 
     for d, ign in ignores.items():
         fn = Path(d) / ".gitignore"
