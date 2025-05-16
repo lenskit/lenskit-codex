@@ -52,9 +52,9 @@ def fetch_web_assets(c: Context):
 @task
 def render_page_templates(c: Context, include: str | None = None):
     "Render page templates."
-    pipeline = CodexPipeline()
+    pipeline = CodexPipeline.instance()
     pipeline.scan()
-    for pipe_dir, pipe in pipeline:
+    for pipe_dir, pipe in pipeline.defs():
         ds_dir = Path(pipe_dir)
         if pipe.page_templates:
             assert pipe.info is not None, "no info for pipeline"
@@ -72,6 +72,8 @@ def list_documents(c: Context):
     with open("manifests/documents.json", "wt") as jsf:
         json.dump(docs, jsf, indent=2)
         print(file=jsf)
+
+    CodexPipeline.instance().reset()
 
 
 @task
@@ -103,13 +105,15 @@ def list_models(c: Context):
         json.dump(models, jsf, indent=2)
         print(file=jsf)
 
+    CodexPipeline.instance().reset()
+
 
 @task(list_documents, list_models)
 def render_pipeline(c: Context):
-    pipeline = CodexPipeline()
+    pipeline = CodexPipeline.instance()
     pipeline.scan()
 
-    for path, pipe in pipeline:
+    for path, pipe in pipeline.defs():
         pipe.render()
 
     logger.info("formatting pipeline definitions")

@@ -14,7 +14,7 @@ from glob import glob
 from itertools import chain
 from os import fspath
 from pathlib import Path
-from typing import Annotated, TypeAlias
+from typing import Annotated, ClassVar, TypeAlias
 
 import yaml
 from annotated_types import MaxLen, MinLen
@@ -30,22 +30,44 @@ class CodexPipeline:
     Class representing the entire codex pipeline.
     """
 
+    INSTANCE: ClassVar[CodexPipeline] | None = None
     root: Path
-    dir_pipes: dict[str, CodexPipelineDef]
+    dir_pipes: dict[str, DVCPipeline]
 
     def __init__(self, root: Path = ROOT_DIR):
         self.root = root
         self.dir_pipes = {}
 
-    def scan(self):
+    @classmethod
+    def instance(cls):
+        if cls.INSTANCE is None:
+            cls.INSTANCE = CodexPipeline()
+        return cls.INSTANCE
+
+    def reset(self):
+        """
+        Reset the instance so it will be rescanned.
+        """
+        self.dir_pipes = {}
+
+    def scan(self, *, jsonnet: bool = True, rescan: bool = False):
         """
         Scan and load the pipeline.
         """
+        if self.dir_pipes and not rescan:
+            return
 
         self.dir_pipes = {}
-        for file in self.root.glob("**/dvc.jsonnet"):
-            pipe = CodexPipelineDef.load_jsonnet(file)
-            self._add_pipeline(file.parent, pipe)
+        if jsonnet:
+            for file in self.root.glob("**/dvc.jsonnet"):
+                pipe = CodexPipelineDef.load_jsonnet(file)
+                self._add_pipeline(file.parent, pipe)
+
+        for file in self.root.glob("**/dvc.yaml"):
+            path = file.parent.relative_to(self.root).as_posix()
+            if path not in self.dir_pipes:
+                logger.debug("loading raw YAML %s", path)
+                self.dir_pipes[path] = DVCPipeline.load_yaml(file)
 
     def _add_pipeline(self, path: Path, pipe: CodexPipelineDef):
         pstr = path.relative_to(self.root).as_posix()
@@ -55,7 +77,10 @@ class CodexPipeline:
         for sd, sdpipe in pipe.subdirs.items():
             self._add_pipeline(path / sd, sdpipe)
 
-    def __iter__(self) -> Iterator[tuple[str, CodexPipelineDef]]:
+    def defs(self) -> Iterator[tuple[str, CodexPipelineDef]]:
+        return ((d, p) for (d, p) in self if isinstance(p, CodexPipelineDef))
+
+    def __iter__(self) -> Iterator[tuple[str, DVCPipeline]]:
         return iter(self.dir_pipes.items())
 
 
@@ -190,8 +215,12 @@ class CodexPipelineDef(DVCPipeline):
 
 
 def render_dvc_gitignores():
+    pipeline = CodexPipeline.instance()
+    pipeline.scan(jsonnet=False)
+
     root = Path().resolve()
     ignores = {}
+
     for gi in glob("**/.gitignore", recursive=True, include_hidden=False):
         gi_dir = Path(gi).parent.as_posix()
         with open(gi, "rt") as gif:
@@ -199,11 +228,9 @@ def render_dvc_gitignores():
                 line.strip() for line in gif if not re.match(r"^\s*(#.*)?$", line)
             )
 
-    for dvc in glob("**/dvc.yaml", recursive=True, include_hidden=False):
-        dvc = Path(dvc)
-        print("scanning", dvc, "for outputs")
-        pl_dir = dvc.parent
-        pipe = DVCPipeline.load_yaml(dvc)
+    for pl_dir, pipe in pipeline:
+        pl_dir = Path(pl_dir).resolve()
+        print("scanning", pl_dir, "for outputs")
         for stage in pipe.stages.values():
             if not isinstance(stage, DVCStage):
                 # we ignore foreach stages
