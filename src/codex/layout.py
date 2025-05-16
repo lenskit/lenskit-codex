@@ -1,8 +1,8 @@
 from os import PathLike
 from pathlib import Path
 
-import yaml
 from pydantic import BaseModel
+from ruamel.yaml import YAML
 
 ROOT_DIR = Path(__file__).parent.parent.parent
 
@@ -55,8 +55,8 @@ def load_data_info(path: str | Path | None = None):
         path = Path(path)
 
     try:
-        with open(path / "dataset.yml", "rt") as yf:
-            data = yaml.safe_load(yf)
+        yaml = YAML(typ="safe")
+        data = yaml.load(path / "dataset.yml")
         return DataSetInfo.model_validate(data)
     except FileNotFoundError:
         return None

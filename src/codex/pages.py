@@ -2,7 +2,7 @@ import logging
 import re
 from pathlib import Path
 
-import yaml
+from ruamel.yaml import YAML
 
 from codex.layout import DataSetInfo
 
@@ -19,7 +19,8 @@ def front_matter(path: Path | str | None = None, *, text: str | None = None):
 
     if m := re.match(r"^---+\s*\n(.*?)\n---+", text, re.DOTALL):
         logger.debug("found metadata")
-        return yaml.safe_load(m.group(1))
+        yaml = YAML(typ="safe")
+        return yaml.load(m.group(1))
     else:
         return {}
 
