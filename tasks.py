@@ -116,9 +116,6 @@ def render_pipeline(c: Context):
     for path, pipe in pipeline.defs():
         pipe.render()
 
-    logger.info("formatting pipeline definitions")
-    c.run("dprint fmt '**/dvc.yaml' '**/dataset.yml'")
-
 
 @task(render_pipeline)
 def update_gitignore(c):

@@ -19,6 +19,7 @@ from typing import Annotated, ClassVar, TypeAlias
 import yaml
 from annotated_types import MaxLen, MinLen
 from pydantic import BaseModel, JsonValue
+from ruamel.yaml import YAML
 
 from .layout import ROOT_DIR, DataSetInfo
 
@@ -104,10 +105,10 @@ DVCOut: TypeAlias = Annotated[dict[str, DVCOutOptions], MaxLen(1), MinLen(1)]
 class DVCStage(BaseModel):
     cmd: str
     wdir: str | None = None
+    params: list[str | dict[str, list[str]]] = []
     deps: list[str] = []
     outs: list[str | DVCOut] = []
     metrics: list[str | DVCOut] = []
-    params: list[str | dict[str, list[str]]] = []
 
 
 class DVCForeachStage(BaseModel):
@@ -164,21 +165,32 @@ class CodexPipelineDef(DVCPipeline):
     def save_dvc(self, dir: Path | None = None):
         out = self._file_path("dvc.yaml", dir)
         logger.info("saving %s", out)
+        yaml = YAML()
+        yaml.indent(mapping=2, sequence=4, offset=2)
+
         with out.open("wt") as yf:
             print("# Codex Generated File — DO NOT EDIT", file=yf)
             print("#", file=yf)
             print("# This file is generated from dvc.jsonnet.", file=yf)
 
-            yaml.safe_dump(
-                self.dvc_object().model_dump(mode="yaml", exclude_unset=True, exclude_none=True), yf
+            yaml.dump(
+                self.dvc_object().model_dump(
+                    mode="yaml", exclude_unset=True, exclude_none=True, exclude_defaults=True
+                ),
+                yf,
             )
 
     def save_info(self, dir: Path | None = None):
         if self.info is not None:
+            yaml = YAML()
+            yaml.indent(mapping=2, sequence=4, offset=2)
+
             out = self._file_path("dataset.yml", dir)
             logger.debug("saving %s", out)
             with open(out, "wt") as yf:
-                yaml.safe_dump(self.info.model_dump(mode="json"), yf)
+                yaml.dump(
+                    self.info.model_dump(mode="json", exclude_none=True, exclude_defaults=True), yf
+                )
 
     def save_extras(self, dir: Path | None = None):
         for name, content in self.extra_files.items():

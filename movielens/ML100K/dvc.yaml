@@ -51,19 +51,15 @@ stages:
       - runs/random/iknn-implicit-optuna-best
       - runs/random/uknn-explicit-optuna-best
       - runs/random/uknn-implicit-optuna-best
-    metrics: []
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
-    params: []
   import:
     cmd: lenskit data convert --movielens ml-100k.zip dataset
     deps:
       - ml-100k.zip
-    metrics: []
     outs:
       - dataset
-    params: []
   run-random-default-als-biased:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/als-biased-default als-biased
@@ -71,10 +67,8 @@ stages:
       - ../../src/codex/models/als_biased.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/als-biased-default
-    params: []
   run-random-default-als-implicit:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/als-implicit-default als-implicit
@@ -82,10 +76,8 @@ stages:
       - ../../src/codex/models/als_implicit.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/als-implicit-default
-    params: []
   run-random-default-bias:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/bias-default bias
@@ -93,10 +85,8 @@ stages:
       - ../../src/codex/models/bias.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/bias-default
-    params: []
   run-random-default-flexmf-bpr:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/flexmf-bpr-default flexmf-bpr
@@ -104,10 +94,8 @@ stages:
       - ../../src/codex/models/flexmf_bpr.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/flexmf-bpr-default
-    params: []
   run-random-default-flexmf-explicit:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/flexmf-explicit-default flexmf-explicit
@@ -115,10 +103,8 @@ stages:
       - ../../src/codex/models/flexmf_explicit.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/flexmf-explicit-default
-    params: []
   run-random-default-flexmf-logistic:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/flexmf-logistic-default flexmf-logistic
@@ -126,10 +112,8 @@ stages:
       - ../../src/codex/models/flexmf_logistic.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/flexmf-logistic-default
-    params: []
   run-random-default-flexmf-warp:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/flexmf-warp-default flexmf-warp
@@ -137,10 +121,8 @@ stages:
       - ../../src/codex/models/flexmf_warp.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/flexmf-warp-default
-    params: []
   run-random-default-iknn-explicit:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/iknn-explicit-default iknn-explicit
@@ -148,10 +130,8 @@ stages:
       - ../../src/codex/models/iknn_explicit.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/iknn-explicit-default
-    params: []
   run-random-default-iknn-implicit:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/iknn-implicit-default iknn-implicit
@@ -159,10 +139,8 @@ stages:
       - ../../src/codex/models/iknn_implicit.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/iknn-implicit-default
-    params: []
   run-random-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/popular-default popular
@@ -170,10 +148,8 @@ stages:
       - ../../src/codex/models/popular.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/popular-default
-    params: []
   run-random-default-uknn-explicit:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/uknn-explicit-default uknn-explicit
@@ -181,10 +157,8 @@ stages:
       - ../../src/codex/models/uknn_explicit.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/uknn-explicit-default
-    params: []
   run-random-default-uknn-implicit:
     cmd: lenskit codex generate --default --ds-name=ML100K --split=splits/random.toml
       -o runs/random/uknn-implicit-default uknn-implicit
@@ -192,10 +166,8 @@ stages:
       - ../../src/codex/models/uknn_implicit.py
       - dataset
       - splits/random.parquet
-    metrics: []
     outs:
       - runs/random/uknn-implicit-default
-    params: []
   run-random-hyperopt-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/random/als-biased-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/als-biased-hyperopt-best
@@ -205,10 +177,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/als-biased-hyperopt.json
-    metrics: []
     outs:
       - runs/random/als-biased-hyperopt-best
-    params: []
   run-random-hyperopt-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/als-implicit-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/als-implicit-hyperopt-best
@@ -218,10 +188,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/als-implicit-hyperopt.json
-    metrics: []
     outs:
       - runs/random/als-implicit-hyperopt-best
-    params: []
   run-random-hyperopt-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-hyperopt.json --ds-name=ML100K
       --split=splits/random.toml -o runs/random/bias-hyperopt-best bias
@@ -230,10 +198,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/bias-hyperopt.json
-    metrics: []
     outs:
       - runs/random/bias-hyperopt-best
-    params: []
   run-random-hyperopt-best-flexmf-bpr:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-bpr-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-bpr-hyperopt-best
@@ -243,10 +209,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-bpr-hyperopt.json
-    metrics: []
     outs:
       - runs/random/flexmf-bpr-hyperopt-best
-    params: []
   run-random-hyperopt-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-explicit-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-explicit-hyperopt-best
@@ -256,10 +220,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-explicit-hyperopt.json
-    metrics: []
     outs:
       - runs/random/flexmf-explicit-hyperopt-best
-    params: []
   run-random-hyperopt-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-logistic-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-logistic-hyperopt-best
@@ -269,10 +231,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-logistic-hyperopt.json
-    metrics: []
     outs:
       - runs/random/flexmf-logistic-hyperopt-best
-    params: []
   run-random-hyperopt-best-flexmf-warp:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-warp-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-warp-hyperopt-best
@@ -282,10 +242,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-warp-hyperopt.json
-    metrics: []
     outs:
       - runs/random/flexmf-warp-hyperopt-best
-    params: []
   run-random-hyperopt-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-hyperopt-best
@@ -295,10 +253,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/iknn-explicit-hyperopt.json
-    metrics: []
     outs:
       - runs/random/iknn-explicit-hyperopt-best
-    params: []
   run-random-hyperopt-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-implicit-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-implicit-hyperopt-best
@@ -308,10 +264,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/iknn-implicit-hyperopt.json
-    metrics: []
     outs:
       - runs/random/iknn-implicit-hyperopt-best
-    params: []
   run-random-hyperopt-best-uknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/uknn-explicit-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-explicit-hyperopt-best
@@ -321,10 +275,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/uknn-explicit-hyperopt.json
-    metrics: []
     outs:
       - runs/random/uknn-explicit-hyperopt-best
-    params: []
   run-random-hyperopt-best-uknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/uknn-implicit-hyperopt.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-implicit-hyperopt-best
@@ -334,10 +286,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/uknn-implicit-hyperopt.json
-    metrics: []
     outs:
       - runs/random/uknn-implicit-hyperopt-best
-    params: []
   run-random-optuna-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/random/als-biased-optuna.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/als-biased-optuna-best
@@ -347,10 +297,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/als-biased-optuna.json
-    metrics: []
     outs:
       - runs/random/als-biased-optuna-best
-    params: []
   run-random-optuna-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/als-implicit-optuna.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/als-implicit-optuna-best
@@ -360,10 +308,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/als-implicit-optuna.json
-    metrics: []
     outs:
       - runs/random/als-implicit-optuna-best
-    params: []
   run-random-optuna-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-optuna.json --ds-name=ML100K
       --split=splits/random.toml -o runs/random/bias-optuna-best bias
@@ -372,10 +318,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/bias-optuna.json
-    metrics: []
     outs:
       - runs/random/bias-optuna-best
-    params: []
   run-random-optuna-best-flexmf-bpr:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-bpr-optuna.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-bpr-optuna-best
@@ -385,10 +329,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-bpr-optuna.json
-    metrics: []
     outs:
       - runs/random/flexmf-bpr-optuna-best
-    params: []
   run-random-optuna-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-explicit-optuna.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-explicit-optuna-best
@@ -398,10 +340,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-explicit-optuna.json
-    metrics: []
     outs:
       - runs/random/flexmf-explicit-optuna-best
-    params: []
   run-random-optuna-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-logistic-optuna.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-logistic-optuna-best
@@ -411,10 +351,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-logistic-optuna.json
-    metrics: []
     outs:
       - runs/random/flexmf-logistic-optuna-best
-    params: []
   run-random-optuna-best-flexmf-warp:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-warp-optuna.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-warp-optuna-best
@@ -424,10 +362,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-warp-optuna.json
-    metrics: []
     outs:
       - runs/random/flexmf-warp-optuna-best
-    params: []
   run-random-optuna-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-optuna.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-optuna-best
@@ -437,10 +373,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/iknn-explicit-optuna.json
-    metrics: []
     outs:
       - runs/random/iknn-explicit-optuna-best
-    params: []
   run-random-optuna-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-implicit-optuna.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-implicit-optuna-best
@@ -450,10 +384,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/iknn-implicit-optuna.json
-    metrics: []
     outs:
       - runs/random/iknn-implicit-optuna-best
-    params: []
   run-random-optuna-best-uknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/uknn-explicit-optuna.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-explicit-optuna-best
@@ -463,10 +395,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/uknn-explicit-optuna.json
-    metrics: []
     outs:
       - runs/random/uknn-explicit-optuna-best
-    params: []
   run-random-optuna-best-uknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/uknn-implicit-optuna.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-implicit-optuna-best
@@ -476,10 +406,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/uknn-implicit-optuna.json
-    metrics: []
     outs:
       - runs/random/uknn-implicit-optuna-best
-    params: []
   run-random-random-best-als-biased:
     cmd: lenskit codex generate --param-file sweeps/random/als-biased-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/als-biased-random-best
@@ -489,10 +417,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/als-biased-random.json
-    metrics: []
     outs:
       - runs/random/als-biased-random-best
-    params: []
   run-random-random-best-als-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/als-implicit-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/als-implicit-random-best
@@ -502,10 +428,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/als-implicit-random.json
-    metrics: []
     outs:
       - runs/random/als-implicit-random-best
-    params: []
   run-random-random-best-bias:
     cmd: lenskit codex generate --param-file sweeps/random/bias-random.json --ds-name=ML100K
       --split=splits/random.toml -o runs/random/bias-random-best bias
@@ -514,10 +438,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/bias-random.json
-    metrics: []
     outs:
       - runs/random/bias-random-best
-    params: []
   run-random-random-best-flexmf-bpr:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-bpr-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-bpr-random-best
@@ -527,10 +449,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-bpr-random.json
-    metrics: []
     outs:
       - runs/random/flexmf-bpr-random-best
-    params: []
   run-random-random-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-explicit-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-explicit-random-best
@@ -540,10 +460,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-explicit-random.json
-    metrics: []
     outs:
       - runs/random/flexmf-explicit-random-best
-    params: []
   run-random-random-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-logistic-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-logistic-random-best
@@ -553,10 +471,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-logistic-random.json
-    metrics: []
     outs:
       - runs/random/flexmf-logistic-random-best
-    params: []
   run-random-random-best-flexmf-warp:
     cmd: lenskit codex generate --param-file sweeps/random/flexmf-warp-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-warp-random-best
@@ -566,10 +482,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/flexmf-warp-random.json
-    metrics: []
     outs:
       - runs/random/flexmf-warp-random-best
-    params: []
   run-random-random-best-iknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-explicit-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-random-best
@@ -579,10 +493,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/iknn-explicit-random.json
-    metrics: []
     outs:
       - runs/random/iknn-explicit-random-best
-    params: []
   run-random-random-best-iknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/iknn-implicit-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-implicit-random-best
@@ -592,10 +504,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/iknn-implicit-random.json
-    metrics: []
     outs:
       - runs/random/iknn-implicit-random-best
-    params: []
   run-random-random-best-uknn-explicit:
     cmd: lenskit codex generate --param-file sweeps/random/uknn-explicit-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-explicit-random-best
@@ -605,10 +515,8 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/uknn-explicit-random.json
-    metrics: []
     outs:
       - runs/random/uknn-explicit-random-best
-    params: []
   run-random-random-best-uknn-implicit:
     cmd: lenskit codex generate --param-file sweeps/random/uknn-implicit-random.json
       --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-implicit-random-best
@@ -618,424 +526,353 @@ stages:
       - dataset
       - splits/random.parquet
       - sweeps/random/uknn-implicit-random.json
-    metrics: []
     outs:
       - runs/random/uknn-implicit-random-best
-    params: []
   split-random:
     cmd: lenskit codex split random.toml
-    deps:
-      - random.toml
-      - ../dataset
-    metrics: []
-    outs:
-      - random.parquet
+    wdir: splits
     params:
       - ../../../config.toml:
           - random.seed
-    wdir: splits
+    deps:
+      - random.toml
+      - ../dataset
+    outs:
+      - random.parquet
   stats:
     cmd: lenskit codex sql -D ds_name=ML100K -f ../ml-stats.sql stats.duckdb
     deps:
       - ../ml-stats.sql
       - dataset
-    metrics: []
     outs:
       - stats.duckdb
-    params: []
   sweep-als-biased-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --hyperopt --metric=RMSE als-biased sweeps/random/als-biased-hyperopt
     deps:
       - splits/random.toml
       - ../../src/codex/models/als_biased.py
-    metrics: []
     outs:
       - sweeps/random/als-biased-hyperopt
       - sweeps/random/als-biased-hyperopt.json:
           cache: false
-    params: []
   sweep-als-biased-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --optuna --metric=RMSE als-biased sweeps/random/als-biased-optuna
     deps:
       - splits/random.toml
       - ../../src/codex/models/als_biased.py
-    metrics: []
     outs:
       - sweeps/random/als-biased-optuna
       - sweeps/random/als-biased-optuna.json:
           cache: false
-    params: []
   sweep-als-biased-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --random --metric=RMSE als-biased sweeps/random/als-biased-random
     deps:
       - splits/random.toml
       - ../../src/codex/models/als_biased.py
-    metrics: []
     outs:
       - sweeps/random/als-biased-random
       - sweeps/random/als-biased-random.json:
           cache: false
-    params: []
   sweep-als-implicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --hyperopt --metric=RBP als-implicit sweeps/random/als-implicit-hyperopt
     deps:
       - splits/random.toml
       - ../../src/codex/models/als_implicit.py
-    metrics: []
     outs:
       - sweeps/random/als-implicit-hyperopt
       - sweeps/random/als-implicit-hyperopt.json:
           cache: false
-    params: []
   sweep-als-implicit-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --optuna --metric=RBP als-implicit sweeps/random/als-implicit-optuna
     deps:
       - splits/random.toml
       - ../../src/codex/models/als_implicit.py
-    metrics: []
     outs:
       - sweeps/random/als-implicit-optuna
       - sweeps/random/als-implicit-optuna.json:
           cache: false
-    params: []
   sweep-als-implicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --random --metric=RBP als-implicit sweeps/random/als-implicit-random
     deps:
       - splits/random.toml
       - ../../src/codex/models/als_implicit.py
-    metrics: []
     outs:
       - sweeps/random/als-implicit-random
       - sweeps/random/als-implicit-random.json:
           cache: false
-    params: []
   sweep-bias-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --hyperopt --metric=RMSE bias sweeps/random/bias-hyperopt
     deps:
       - splits/random.toml
       - ../../src/codex/models/bias.py
-    metrics: []
     outs:
       - sweeps/random/bias-hyperopt
       - sweeps/random/bias-hyperopt.json:
           cache: false
-    params: []
   sweep-bias-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --optuna --metric=RMSE bias sweeps/random/bias-optuna
     deps:
       - splits/random.toml
       - ../../src/codex/models/bias.py
-    metrics: []
     outs:
       - sweeps/random/bias-optuna
       - sweeps/random/bias-optuna.json:
           cache: false
-    params: []
   sweep-bias-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --random --metric=RMSE bias sweeps/random/bias-random
     deps:
       - splits/random.toml
       - ../../src/codex/models/bias.py
-    metrics: []
     outs:
       - sweeps/random/bias-random
       - sweeps/random/bias-random.json:
           cache: false
-    params: []
   sweep-flexmf-bpr-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --hyperopt --metric=RBP flexmf-bpr sweeps/random/flexmf-bpr-hyperopt
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_bpr.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-bpr-hyperopt
       - sweeps/random/flexmf-bpr-hyperopt.json:
           cache: false
-    params: []
   sweep-flexmf-bpr-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --optuna --metric=RBP flexmf-bpr sweeps/random/flexmf-bpr-optuna
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_bpr.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-bpr-optuna
       - sweeps/random/flexmf-bpr-optuna.json:
           cache: false
-    params: []
   sweep-flexmf-bpr-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --random --metric=RBP flexmf-bpr sweeps/random/flexmf-bpr-random
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_bpr.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-bpr-random
       - sweeps/random/flexmf-bpr-random.json:
           cache: false
-    params: []
   sweep-flexmf-explicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --hyperopt --metric=RMSE flexmf-explicit sweeps/random/flexmf-explicit-hyperopt
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_explicit.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-explicit-hyperopt
       - sweeps/random/flexmf-explicit-hyperopt.json:
           cache: false
-    params: []
   sweep-flexmf-explicit-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --optuna --metric=RMSE flexmf-explicit sweeps/random/flexmf-explicit-optuna
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_explicit.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-explicit-optuna
       - sweeps/random/flexmf-explicit-optuna.json:
           cache: false
-    params: []
   sweep-flexmf-explicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --random --metric=RMSE flexmf-explicit sweeps/random/flexmf-explicit-random
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_explicit.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-explicit-random
       - sweeps/random/flexmf-explicit-random.json:
           cache: false
-    params: []
   sweep-flexmf-logistic-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --hyperopt --metric=RBP flexmf-logistic sweeps/random/flexmf-logistic-hyperopt
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_logistic.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-logistic-hyperopt
       - sweeps/random/flexmf-logistic-hyperopt.json:
           cache: false
-    params: []
   sweep-flexmf-logistic-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --optuna --metric=RBP flexmf-logistic sweeps/random/flexmf-logistic-optuna
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_logistic.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-logistic-optuna
       - sweeps/random/flexmf-logistic-optuna.json:
           cache: false
-    params: []
   sweep-flexmf-logistic-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --random --metric=RBP flexmf-logistic sweeps/random/flexmf-logistic-random
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_logistic.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-logistic-random
       - sweeps/random/flexmf-logistic-random.json:
           cache: false
-    params: []
   sweep-flexmf-warp-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --hyperopt --metric=RBP flexmf-warp sweeps/random/flexmf-warp-hyperopt
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_warp.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-warp-hyperopt
       - sweeps/random/flexmf-warp-hyperopt.json:
           cache: false
-    params: []
   sweep-flexmf-warp-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --optuna --metric=RBP flexmf-warp sweeps/random/flexmf-warp-optuna
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_warp.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-warp-optuna
       - sweeps/random/flexmf-warp-optuna.json:
           cache: false
-    params: []
   sweep-flexmf-warp-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --random --metric=RBP flexmf-warp sweeps/random/flexmf-warp-random
     deps:
       - splits/random.toml
       - ../../src/codex/models/flexmf_warp.py
-    metrics: []
     outs:
       - sweeps/random/flexmf-warp-random
       - sweeps/random/flexmf-warp-random.json:
           cache: false
-    params: []
   sweep-iknn-explicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --hyperopt --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-hyperopt
     deps:
       - splits/random.toml
       - ../../src/codex/models/iknn_explicit.py
-    metrics: []
     outs:
       - sweeps/random/iknn-explicit-hyperopt
       - sweeps/random/iknn-explicit-hyperopt.json:
           cache: false
-    params: []
   sweep-iknn-explicit-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --optuna --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-optuna
     deps:
       - splits/random.toml
       - ../../src/codex/models/iknn_explicit.py
-    metrics: []
     outs:
       - sweeps/random/iknn-explicit-optuna
       - sweeps/random/iknn-explicit-optuna.json:
           cache: false
-    params: []
   sweep-iknn-explicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --random --metric=RMSE iknn-explicit sweeps/random/iknn-explicit-random
     deps:
       - splits/random.toml
       - ../../src/codex/models/iknn_explicit.py
-    metrics: []
     outs:
       - sweeps/random/iknn-explicit-random
       - sweeps/random/iknn-explicit-random.json:
           cache: false
-    params: []
   sweep-iknn-implicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --hyperopt --metric=RBP iknn-implicit sweeps/random/iknn-implicit-hyperopt
     deps:
       - splits/random.toml
       - ../../src/codex/models/iknn_implicit.py
-    metrics: []
     outs:
       - sweeps/random/iknn-implicit-hyperopt
       - sweeps/random/iknn-implicit-hyperopt.json:
           cache: false
-    params: []
   sweep-iknn-implicit-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --optuna --metric=RBP iknn-implicit sweeps/random/iknn-implicit-optuna
     deps:
       - splits/random.toml
       - ../../src/codex/models/iknn_implicit.py
-    metrics: []
     outs:
       - sweeps/random/iknn-implicit-optuna
       - sweeps/random/iknn-implicit-optuna.json:
           cache: false
-    params: []
   sweep-iknn-implicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=100
       --random --metric=RBP iknn-implicit sweeps/random/iknn-implicit-random
     deps:
       - splits/random.toml
       - ../../src/codex/models/iknn_implicit.py
-    metrics: []
     outs:
       - sweeps/random/iknn-implicit-random
       - sweeps/random/iknn-implicit-random.json:
           cache: false
-    params: []
   sweep-uknn-explicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
       --hyperopt --metric=RMSE uknn-explicit sweeps/random/uknn-explicit-hyperopt
     deps:
       - splits/random.toml
       - ../../src/codex/models/uknn_explicit.py
-    metrics: []
     outs:
       - sweeps/random/uknn-explicit-hyperopt
       - sweeps/random/uknn-explicit-hyperopt.json:
           cache: false
-    params: []
   sweep-uknn-explicit-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
       --optuna --metric=RMSE uknn-explicit sweeps/random/uknn-explicit-optuna
     deps:
       - splits/random.toml
       - ../../src/codex/models/uknn_explicit.py
-    metrics: []
     outs:
       - sweeps/random/uknn-explicit-optuna
       - sweeps/random/uknn-explicit-optuna.json:
           cache: false
-    params: []
   sweep-uknn-explicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
       --random --metric=RMSE uknn-explicit sweeps/random/uknn-explicit-random
     deps:
       - splits/random.toml
       - ../../src/codex/models/uknn_explicit.py
-    metrics: []
     outs:
       - sweeps/random/uknn-explicit-random
       - sweeps/random/uknn-explicit-random.json:
           cache: false
-    params: []
   sweep-uknn-implicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
       --hyperopt --metric=RBP uknn-implicit sweeps/random/uknn-implicit-hyperopt
     deps:
       - splits/random.toml
       - ../../src/codex/models/uknn_implicit.py
-    metrics: []
     outs:
       - sweeps/random/uknn-implicit-hyperopt
       - sweeps/random/uknn-implicit-hyperopt.json:
           cache: false
-    params: []
   sweep-uknn-implicit-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
       --optuna --metric=RBP uknn-implicit sweeps/random/uknn-implicit-optuna
     deps:
       - splits/random.toml
       - ../../src/codex/models/uknn_implicit.py
-    metrics: []
     outs:
       - sweeps/random/uknn-implicit-optuna
       - sweeps/random/uknn-implicit-optuna.json:
           cache: false
-    params: []
   sweep-uknn-implicit-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 --sample-count=60
       --random --metric=RBP uknn-implicit sweeps/random/uknn-implicit-random
     deps:
       - splits/random.toml
       - ../../src/codex/models/uknn_implicit.py
-    metrics: []
     outs:
       - sweeps/random/uknn-implicit-random
       - sweeps/random/uknn-implicit-random.json:
           cache: false
-    params: []
