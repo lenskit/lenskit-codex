@@ -4,7 +4,7 @@ from typing import Any
 import numpy as np
 import ray.tune
 import ray.tune.result
-from lenskit.logging import get_logger, item_progress
+from lenskit.logging import Progress, get_logger, item_progress
 
 _log = get_logger("codex.tuning")
 
@@ -29,6 +29,8 @@ class ProgressReport(ray.tune.ProgressReporter):
     metric = None
     mode = None
     best_metric = None
+    _bar: Progress
+    _task_bars: dict[str, TrialProgress]
 
     def __init__(self, name: str | None = None):
         super().__init__()
@@ -52,7 +54,7 @@ class ProgressReport(ray.tune.ProgressReporter):
         if done:
             _log.debug("search complete", trial_count=len(trials))
             for bar in self._task_bars.values():
-                bar.finish()
+                bar.bar.finish()
             self._bar.finish()
         else:
             total = len(trials)
