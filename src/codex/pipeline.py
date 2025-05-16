@@ -16,7 +16,6 @@ from os import fspath
 from pathlib import Path
 from typing import Annotated, ClassVar, TypeAlias
 
-import yaml
 from annotated_types import MaxLen, MinLen
 from pydantic import BaseModel, JsonValue
 from ruamel.yaml import YAML
@@ -91,7 +90,8 @@ class DVCPipeline(BaseModel):
     @classmethod
     def load_yaml(cls, path: Path):
         with open(path, "rt") as yf:
-            data = yaml.safe_load(yf)
+            yaml = YAML(typ="safe")
+            data = yaml.load(yf)
             return cls.model_validate(data)
 
 
@@ -193,6 +193,7 @@ class CodexPipelineDef(DVCPipeline):
                 )
 
     def save_extras(self, dir: Path | None = None):
+        yaml = YAML()
         for name, content in self.extra_files.items():
             epath = self._file_path(name, dir)
             logger.debug("saving extra file %s", epath)
@@ -200,7 +201,7 @@ class CodexPipelineDef(DVCPipeline):
             with open(epath, "wt") as ef:
                 if isinstance(content, dict):
                     if re.match(r"\.ya?ml", epath.suffix):
-                        yaml.safe_dump(content, ef)
+                        yaml.dump(content, ef)
                     elif epath.suffix == ".json":
                         json.dump(content, ef)
                         print(file=ef)
