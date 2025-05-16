@@ -114,7 +114,9 @@ class CodexPipelineDef(DVCPipeline):
             print("#", file=yf)
             print("# This file is generated from dvc.jsonnet.", file=yf)
 
-            yaml.safe_dump(self.dvc_object().model_dump(mode="yaml", exclude_unset=True), yf)
+            yaml.safe_dump(
+                self.dvc_object().model_dump(mode="yaml", exclude_unset=True, exclude_none=True), yf
+            )
 
     def save_info(self, dir: Path | None = None):
         if self.info is not None:

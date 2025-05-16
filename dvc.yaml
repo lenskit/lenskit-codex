@@ -2,6 +2,69 @@
 #
 # This file is generated from dvc.jsonnet.
 stages:
+  page/amazon/2023-5core/CDV/index:
+    cmd: quarto render amazon/2023-5core/CDV/index.qmd
+    deps:
+      - _quarto.yml
+      - amazon/2023-5core/CDV/index.qmd
+      - amazon/2023-5core/CDV/run-summary.csv
+      - amazon/2023-5core/CDV/run-user-metrics.parquet
+    outs:
+      - _freeze/amazon/2023-5core/CDV/index
+  page/amazon/2023-5core/Elec/index:
+    cmd: quarto render amazon/2023-5core/Elec/index.qmd
+    deps:
+      - _quarto.yml
+      - amazon/2023-5core/Elec/index.qmd
+      - amazon/2023-5core/Elec/run-summary.csv
+      - amazon/2023-5core/Elec/run-user-metrics.parquet
+    outs:
+      - _freeze/amazon/2023-5core/Elec/index
+  page/amazon/2023-5core/MovTV/index:
+    cmd: quarto render amazon/2023-5core/MovTV/index.qmd
+    deps:
+      - _quarto.yml
+      - amazon/2023-5core/MovTV/index.qmd
+      - amazon/2023-5core/MovTV/run-summary.csv
+      - amazon/2023-5core/MovTV/run-user-metrics.parquet
+    outs:
+      - _freeze/amazon/2023-5core/MovTV/index
+  page/amazon/2023-5core/MusInst/index:
+    cmd: quarto render amazon/2023-5core/MusInst/index.qmd
+    deps:
+      - _quarto.yml
+      - amazon/2023-5core/MusInst/index.qmd
+      - amazon/2023-5core/MusInst/run-summary.csv
+      - amazon/2023-5core/MusInst/run-user-metrics.parquet
+    outs:
+      - _freeze/amazon/2023-5core/MusInst/index
+  page/amazon/2023-5core/Pet/index:
+    cmd: quarto render amazon/2023-5core/Pet/index.qmd
+    deps:
+      - _quarto.yml
+      - amazon/2023-5core/Pet/index.qmd
+      - amazon/2023-5core/Pet/run-summary.csv
+      - amazon/2023-5core/Pet/run-user-metrics.parquet
+    outs:
+      - _freeze/amazon/2023-5core/Pet/index
+  page/amazon/2023-5core/Software/index:
+    cmd: quarto render amazon/2023-5core/Software/index.qmd
+    deps:
+      - _quarto.yml
+      - amazon/2023-5core/Software/index.qmd
+      - amazon/2023-5core/Software/run-summary.csv
+      - amazon/2023-5core/Software/run-user-metrics.parquet
+    outs:
+      - _freeze/amazon/2023-5core/Software/index
+  page/amazon/2023-5core/VidGames/index:
+    cmd: quarto render amazon/2023-5core/VidGames/index.qmd
+    deps:
+      - _quarto.yml
+      - amazon/2023-5core/VidGames/index.qmd
+      - amazon/2023-5core/VidGames/run-summary.csv
+      - amazon/2023-5core/VidGames/run-user-metrics.parquet
+    outs:
+      - _freeze/amazon/2023-5core/VidGames/index
   page/amazon/2023-5core/index:
     cmd: quarto render amazon/2023-5core/index.qmd
     deps:

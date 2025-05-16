@@ -13,7 +13,6 @@ from codex.layout import codex_root
 from codex.pages import front_matter, render_templates
 from codex.pipeline import (
     CodexPipeline,
-    CodexPipelineDef,
     render_dvc_gitignores,
 )
 
@@ -53,11 +52,10 @@ def fetch_web_assets(c: Context):
 @task
 def render_page_templates(c: Context, include: str | None = None):
     "Render page templates."
-    ds_yamls = glob("**/dvc.jsonnet", recursive=True)
-    for dsjn in ds_yamls:
-        dsjn = Path(dsjn)
-        ds_dir = dsjn.parent
-        pipe = CodexPipelineDef.load(dsjn)
+    pipeline = CodexPipeline()
+    pipeline.scan()
+    for pipe_dir, pipe in pipeline:
+        ds_dir = Path(pipe_dir)
         if pipe.page_templates:
             assert pipe.info is not None, "no info for pipeline"
             print("rendering templates for", ds_dir)

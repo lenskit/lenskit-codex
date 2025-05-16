@@ -9,6 +9,13 @@ local categoryPipeline(ds_key, ds_name) = {
   },
   local runs = lib.runsForSplit(spec, 'fixed', 'dir'),
 
+  info: {
+    name: ds_key,
+    title: ds_name,
+    splits: spec.splits,
+    searches: spec.searches,
+  },
+  page_templates: '../_template',
 
   stages: {
     'import-valid-train': {

@@ -1,24 +1,17 @@
 ---
-title: {{ds.name}}
-pagetitle: {{ ds.name }} Results Summary
+title: Software
+pagetitle: Software Results Summary
 deps:
 - run-summary.csv
 - run-user-metrics.parquet
 ---
 
-This is a summary view of model performance on the {{ ds.title }} data set.
+This is a summary view of model performance on the Software data set.
 
-{% if false %}
-Change directories for testing.
 
-```{python}
-import os
-os.chdir('../CDV')
-```
-{% endif %}
 
 ```{python}
-DS_NAME = '{{ ds.name }}'
+DS_NAME = 'Software'
 PART = 'valid'
 ```
 

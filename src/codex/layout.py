@@ -28,9 +28,14 @@ class DataSetInfo(BaseModel):
     """
 
     name: str = "UNNAMED"
+    title: str | None = None
     models: list[str] = []
     splits: list[str] = []
     searches: list[str] = []
+
+    @property
+    def resolved_title(self):
+        return self.title or self.name
 
     @property
     def default_split(self) -> str:
