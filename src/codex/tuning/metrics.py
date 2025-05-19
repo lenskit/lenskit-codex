@@ -5,7 +5,7 @@ import pandas as pd
 from lenskit import Pipeline, predict, recommend
 from lenskit.batch import BatchResults
 from lenskit.data import ID, ItemList, ItemListCollection
-from lenskit.logging import Task, get_logger
+from lenskit.logging import Task, get_logger, item_progress
 from lenskit.metrics import (
     DCG,
     NDCG,
@@ -108,7 +108,12 @@ def measure_pipeline(
     train_task: Task | None = None,
     test_task: Task | None = None,
 ):
-    metrics = [measure_user(model, pipe, key.user_id, test) for key, test in test_users.items()]
+    metrics = []
+    with item_progress("Measuring for users", total=len(test_users)) as pb:
+        for key, test in test_users.items():
+            metrics.append(measure_user(model, pipe, key.user_id, test))
+            pb.update()
+
     metric_df = pd.DataFrame.from_records(metrics)
     metric_df = metric_df.drop(columns=["user_id"])
     agg_metrics = metric_df.mean().to_dict()

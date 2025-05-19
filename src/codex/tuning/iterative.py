@@ -12,7 +12,7 @@ import ray.tune
 import ray.tune.result
 import torch
 from lenskit.batch import BatchPipelineRunner
-from lenskit.logging import get_logger
+from lenskit.logging import Task, get_logger
 from lenskit.logging.worker import send_task
 from lenskit.pipeline import Component
 from lenskit.state import ParameterContainer
@@ -86,17 +86,29 @@ class IterativeEval(ray.tune.Trainable):
             return {ray.tune.result.DONE: True}
 
         elog = self.log.bind(epoch=epoch)
+        with Task(f"epoch {self.iteration}", tags=["tuning", "epoch"]) as e_task:
+            elog.debug("beginning training iteration")
+            with Task(
+                f"training epoch {self.iteration}", tags=["tuning", "epoch", "train"]
+            ) as t_task:
+                vals = self.trainer.train_epoch()
+            elog.debug("epoch training finished", result=vals, duration=t_task.duration)
 
-        vals = self.trainer.train_epoch()
-        elog.debug("training iteration finished", result=vals)
+            elog.debug("generating recommendations", n_queries=len(self.data.test))
+            with Task(
+                f"measuring epoch {self.iteration}", tags=["tuning", "epoch", "measure"]
+            ) as m_task:
+                metrics = measure_pipeline(self.mod_def, self.pipe, self.data.test)
+                metrics["max_epochs"] = self.job.epoch_limit
+                if epoch == self.job.epoch_limit:
+                    metrics[ray.tune.result.DONE] = True
 
-        elog.debug("generating recommendations", n_queries=len(self.data.test))
-        metrics = measure_pipeline(self.mod_def, self.pipe, self.data.test)
-        metrics["max_epochs"] = self.job.epoch_limit
-        if epoch == self.job.epoch_limit:
-            metrics[ray.tune.result.DONE] = True
+            metrics["epoch_train_s"] = t_task.duration
+            metrics["epoch_measure_s"] = m_task.duration
+            elog.debug("epoch measurement finished", duration=m_task.duration)
+
         send_task(self.task)
-        elog.info("epoch complete")
+        elog.info("epoch complete", duration=e_task.duration)
         return metrics
 
     def cleanup(self):
