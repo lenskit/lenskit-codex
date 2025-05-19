@@ -92,7 +92,7 @@ class IterativeEval(ray.tune.Trainable):
                 f"training epoch {self.iteration}", tags=["tuning", "epoch", "train"]
             ) as t_task:
                 vals = self.trainer.train_epoch()
-            elog.debug("epoch training finished", result=vals, duration=t_task.duration)
+            elog.debug("epoch training finished", result=vals, duration=t_task.friendly_duration)
 
             elog.debug("generating recommendations", n_queries=len(self.data.test))
             with Task(
@@ -105,10 +105,10 @@ class IterativeEval(ray.tune.Trainable):
 
             metrics["epoch_train_s"] = t_task.duration
             metrics["epoch_measure_s"] = m_task.duration
-            elog.debug("epoch measurement finished", duration=m_task.duration)
+            elog.debug("epoch measurement finished", duration=m_task.friendly_duration)
 
         send_task(self.task)
-        elog.info("epoch complete", duration=e_task.duration)
+        elog.info("epoch complete", duration=e_task.friendly_duration)
         return metrics
 
     def cleanup(self):
