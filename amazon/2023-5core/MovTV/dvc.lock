@@ -81,3 +81,29 @@ stages:
       md5: f6da2cfba0e4755bf96edfa88196b086.dir
       size: 84249833
       nfiles: 5
+  sweep-flexmf-bpr-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
+      flexmf-bpr sweeps/fixed/flexmf-bpr-optuna
+    deps:
+    - path: ../../../src/codex/models/flexmf_bpr.py
+      hash: md5
+      md5: 94acb427f7b39b627be488ba2558067c
+      size: 663
+    - path: splits/fixed
+      hash: md5
+      md5: 88018eba22962afdabfd5cdc3fdedc5e.dir
+      size: 182568006
+      nfiles: 16
+    params:
+      ../../../config.toml:
+        tuning.optuna.points: 40
+    outs:
+    - path: sweeps/fixed/flexmf-bpr-optuna
+      hash: md5
+      md5: 5477bc0740d18257d1d43f3eee3c8006.dir
+      size: 817526
+      nfiles: 5
+    - path: sweeps/fixed/flexmf-bpr-optuna.json
+      hash: md5
+      md5: 4689f2e3a59964ede0fee3750fc3cf82
+      size: 720
