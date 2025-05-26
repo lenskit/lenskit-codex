@@ -1,5 +1,6 @@
 local lib = import '../../src/codex.libsonnet';
 local categories = std.parseYaml(importstr 'categories.yml');
+local VALID_TEST_SIZE = 10000;
 
 local categoryPipeline(ds_key, ds_name) = {
   local spec = {
@@ -26,8 +27,13 @@ local categoryPipeline(ds_key, ds_name) = {
     },
     'import-valid-test': {
       local src = std.format('../data/%s.valid.csv.gz', [ds_name]),
-      cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', '--item-lists', src, 'splits/fixed/valid/test.parquet']),
+      cmd: lib.lenskit_cmd(['data', 'convert', '--amazon', '--item-lists', src, 'splits/fixed/valid/test.full.parquet']),
       deps: [src],
+      outs: ['splits/fixed/valid/test.full.parquet'],
+    },
+    'subset-valid-test': {
+      cmd: lib.lenskit_cmd(['data', 'subset', std.format('--sample-users=%d', [VALID_TEST_SIZE]), '--item-lists', 'splits/fixed/valid/test.full.parquet', 'splits/fixed/valid/test.parquet']),
+      deps: ['splits/fixed/valid/test.full.parquet'],
       outs: ['splits/fixed/valid/test.parquet'],
     },
     'import-test-train': {

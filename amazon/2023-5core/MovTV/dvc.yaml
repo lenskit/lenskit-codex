@@ -64,11 +64,11 @@ stages:
       - splits/fixed/test/train.dataset
   import-valid-test:
     cmd: lenskit data convert --amazon --item-lists ../data/Movies_and_TV.valid.csv.gz
-      splits/fixed/valid/test.parquet
+      splits/fixed/valid/test.full.parquet
     deps:
       - ../data/Movies_and_TV.valid.csv.gz
     outs:
-      - splits/fixed/valid/test.parquet
+      - splits/fixed/valid/test.full.parquet
   import-valid-train:
     cmd: lenskit data convert --amazon ../data/Movies_and_TV.train.csv.gz splits/fixed/valid/train.dataset
     deps:
@@ -205,6 +205,13 @@ stages:
       - sweeps/fixed/flexmf-warp-optuna.json
     outs:
       - runs/fixed/flexmf-warp-optuna-best
+  subset-valid-test:
+    cmd: lenskit data subset --sample-users=10000 --item-lists splits/fixed/valid/test.full.parquet
+      splits/fixed/valid/test.parquet
+    deps:
+      - splits/fixed/valid/test.full.parquet
+    outs:
+      - splits/fixed/valid/test.parquet
   sweep-als-biased-fixed-optuna:
     cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
       als-biased sweeps/fixed/als-biased-optuna
