@@ -205,7 +205,7 @@ stages:
     outs:
       - runs/fixed/flexmf-warp-optuna-best
   subset-valid-test:
-    cmd: lenskit data subset --sample-users=10000 --item-lists splits/fixed/valid/test.full.parquet
+    cmd: lenskit data subset --sample-rows=10000 --item-lists splits/fixed/valid/test.full.parquet
       splits/fixed/valid/test.parquet
     deps:
       - splits/fixed/valid/test.full.parquet

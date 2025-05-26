@@ -46,14 +46,14 @@ stages:
       nfiles: 5
   import-valid-test:
     cmd: lenskit data convert --amazon --item-lists ../data/CDs_and_Vinyl.valid.csv.gz
-      splits/fixed/valid/test.parquet
+      splits/fixed/valid/test.full.parquet
     deps:
     - path: ../data/CDs_and_Vinyl.valid.csv.gz
       hash: md5
       md5: 6b746db4246195b2fb1b8fd239c1204b
       size: 1782019
     outs:
-    - path: splits/fixed/valid/test.parquet
+    - path: splits/fixed/valid/test.full.parquet
       hash: md5
       md5: faadcf5855ea6ceb27f48fe3b8bf37ed
       size: 630185

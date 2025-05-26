@@ -32,7 +32,7 @@ local categoryPipeline(ds_key, ds_name) = {
       outs: ['splits/fixed/valid/test.full.parquet'],
     },
     'subset-valid-test': {
-      cmd: lib.lenskit_cmd(['data', 'subset', std.format('--sample-users=%d', [VALID_TEST_SIZE]), '--item-lists', 'splits/fixed/valid/test.full.parquet', 'splits/fixed/valid/test.parquet']),
+      cmd: lib.lenskit_cmd(['data', 'subset', std.format('--sample-rows=%d', [VALID_TEST_SIZE]), '--item-lists', 'splits/fixed/valid/test.full.parquet', 'splits/fixed/valid/test.parquet']),
       deps: ['splits/fixed/valid/test.full.parquet'],
       outs: ['splits/fixed/valid/test.parquet'],
     },
