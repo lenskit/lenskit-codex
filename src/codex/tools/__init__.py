@@ -20,7 +20,6 @@ def codex():
 
 from . import (  # noqa: F401, E402
     collect,
-    debug,
     duckscript,
     generate,
     movielens,

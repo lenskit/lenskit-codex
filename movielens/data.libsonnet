@@ -23,7 +23,7 @@ local lib = import '../src/codex.libsonnet';
       'split-random': {
         cmd: lib.codex_cmd(['split', 'random.toml']),
         wdir: 'splits',
-        params: [{ '../../../config.toml': ['random.seed'] }],
+        params: [{ '../../../lenskit.toml': ['random.seed'] }],
         deps: ['random.toml', '../dataset'],
         outs: ['random.parquet'],
       },

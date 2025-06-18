@@ -8,9 +8,8 @@ start with different seeds.
 
 from binascii import crc32
 
+from lenskit.config import lenskit_config
 from numpy.random import SeedSequence
-
-from .config import load_config
 
 
 def rng_seed(*keys: str | int | bytes | None) -> SeedSequence:
@@ -23,7 +22,7 @@ def rng_seed(*keys: str | int | bytes | None) -> SeedSequence:
             the seed different models, runs, etc.  String are converted to key
             elements by their CRC32 checksum.
     """
-    cfg = load_config()
+    cfg = lenskit_config()
     seed = SeedSequence(cfg.random.seed)
     if keys:
         seed = extend_seed(seed, *keys)

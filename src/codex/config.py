@@ -56,16 +56,6 @@ class TuningConfig(BaseModel):
 class PowerConfig(BaseModel):
     co2e_rate: float | None = None
     "The CO2 equivalency rate (in kgCO2 / MWh)."
-    prometheus_url: str | None = None
-    "URL for Prometheus endpoint."
-
-
-class MachineConfig(BaseModel):
-    idle_watts: float | None = None
-    "Idle power draw (in watts)."
-
-    power_queries: dict[str, str] = {}
-    "Prometheus queries for power draw."
 
 
 class ModelRule(BaseModel):
@@ -90,12 +80,3 @@ class CodexConfig(BaseModel, extra="allow"):
     tuning: dict[str, TuningConfig] = {}
     models: ModelConfig = ModelConfig()
     power: PowerConfig = PowerConfig()
-    machines: dict[str, MachineConfig] = {}
-
-    @property
-    def machine_config(self) -> MachineConfig:
-        if self.machine is not None:
-            if machine := self.machines.get(self.machine, None):
-                return machine
-
-        return MachineConfig()
