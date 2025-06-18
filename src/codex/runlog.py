@@ -13,10 +13,8 @@ from pathlib import Path
 from uuid import UUID
 
 import lenskit
-import requests
 import structlog
 import zstandard
-from humanize import metric
 from lenskit.logging import Task
 from pydantic import BaseModel, Field, JsonValue
 from typing_extensions import override
@@ -77,38 +75,12 @@ class CodexTask(Task):
     scorer: ScorerModel = Field(default_factory=ScorerModel)
     data: DataModel = Field(default_factory=DataModel)
 
-    cpu_power: float | None = None
-    "CPU power consumed in Joules."
-    gpu_power: float | None = None
-    "GPU power consumed in Joules."
-    chassis_power: float | None = None
-    "Chassis power consumed in Joules."
-
     @override
     def start(self):
         if self._save_file is None and self.parent_id is None:
             self.save_to_file(lobby_dir() / f"{self.task_id}.json")
 
         super().start()
-
-    @override
-    def update_resources(self):
-        res = super().update_resources()
-
-        config = get_config()
-        if prom_base := config.power.prometheus_url:
-            url = prom_base + "/api/v1/query"
-            machine = config.machine_config
-            assert self.duration is not None
-            time_ms = int(self.duration * 1000)
-            if query := machine.power_queries.get("cpu"):
-                self.cpu_power = _get_prometheus_metric(url, query, time_ms)
-            if query := machine.power_queries.get("gpu"):
-                self.gpu_power = _get_prometheus_metric(url, query, time_ms)
-            if query := machine.power_queries.get("chassis"):
-                self.chassis_power = _get_prometheus_metric(url, query, time_ms)
-
-        return res
 
 
 class RunLogDB:
@@ -213,49 +185,3 @@ class RunLogDBFile:
             db = cls(path, (CodexTask.model_validate_json(line) for line in inf))
             log.info("read task database", n=len(db.log_entries))
         return db
-
-
-def power_metrics(name: str, duration: float):
-    time_ms = int(duration * 1000)
-
-    config = get_config()
-    prom = config.power.prometheus_url
-    if not prom:
-        return None
-    url = prom + "/api/v1/query"
-    machine = config.machine_config
-    if query := machine.power_queries.get(name):
-        return _get_prometheus_metric(url, query, time_ms)
-
-
-def _get_prometheus_metric(url: str, query: str, time_ms: int) -> float | None:
-    query = query.format(time=time_ms)
-    log = _log.bind(url=url, query=query)
-    try:
-        res = requests.get(url, {"query": query}).json()
-    except Exception as e:
-        log.warning("Prometheus query error", exc_info=e)
-        return None
-
-    log.debug("received response", response=res)
-    if res["status"] == "error":
-        log.error("Prometheus query error: %s", res["error"], type=res["errorType"])
-        return None
-
-    results = res["data"]["result"]
-    if len(results) == 0:
-        log.debug("Prometheus query returned no results")
-        return None
-    elif len(results) > 1:
-        log.error("Prometheus query returned %d results, expected 1", len(results))
-
-    _time, val = results[0]["value"]
-    return float(val)
-
-
-def human_power(joules: float | None) -> str:
-    if joules is None:
-        return "NA"
-    else:
-        wh = joules / 3600
-        return metric(wh, "Wh")
