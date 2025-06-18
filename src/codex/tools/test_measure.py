@@ -2,8 +2,9 @@ import time
 
 import click
 import structlog
+from humanize import metric
 
-from codex.runlog import CodexTask, human_power
+from codex.runlog import CodexTask
 
 from . import codex
 
@@ -28,6 +29,6 @@ def test_measurements(sleep):
     _log.info("duration: %.2fs", task.duration)
     _log.info(
         "power consumption: %s CPU, %s chassis",
-        human_power(task.cpu_power),
-        human_power(task.chassis_power),
+        metric(task.cpu_power, "J") if task.cpu_power else "NA",
+        metric(task.system_power, "J") if task.system_power else "NA",
     )

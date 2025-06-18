@@ -9,9 +9,9 @@ description = "INERTIAL GPU workstation"
 idle_watts = 81
 
 [machines.screamer.power_queries]
-system = 'sum_over_time((apcupsd_nominal_power_watts{{machine="screamer"}} * (apcupsd_ups_load_percent{{machine="screamer"}} / 100))[{time}ms:1s])'
-cpu = 'increase(node_rapl_package_joules_total{{machine="screamer"}}[{time}ms:1s])'
-gpu = 'sum_over_time((nvidia_gpu_power_usage_milliwatts{{machine="screamer"}} / 1000)[{time}ms:1s])'
+system = 'sum_over_time((apcupsd_nominal_power_watts{{machine="screamer"}} * (apcupsd_ups_load_percent{{machine="screamer"}} / 100))[{elapsed}ms:1s])'
+cpu = 'increase(node_rapl_package_joules_total{{machine="screamer"}}[{elapsed}ms:1s])'
+gpu = 'sum_over_time((nvidia_gpu_power_usage_milliwatts{{machine="screamer"}} / 1000)[{elapsed}ms:1s])'
 
 [machines.cruncher]
 description = "INERTIAL datacenter machine"
