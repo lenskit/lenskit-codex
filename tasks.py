@@ -5,6 +5,7 @@ import re
 import sys
 from glob import glob
 from pathlib import Path
+from subprocess import check_call
 
 from invoke.context import Context
 from invoke.tasks import task
@@ -36,10 +37,10 @@ def render_site(c: Context):
 @task
 def upload_web_assets(c: Context):
     "Upload the web assets."
-    print("pushing page outputs")
-    c.run("dvc push --no-run-cache -r public dvc.yaml", echo=True)
     print("pushing static images")
-    c.run("dvc push --no-run-cache -r public -R images", echo=True)
+    check_call(["dvc", "push", "--no-run-cache", "-r", "public", "-R", "images"])
+    print("pushing page outputs")
+    check_call(["dvc", "push", "--no-run-cache", "-r", "public", "dvc.yaml"])
 
 
 @task
