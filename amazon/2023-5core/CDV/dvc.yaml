@@ -218,7 +218,7 @@ stages:
       - ../../../config.toml:
           - tuning.optuna.points
     deps:
-      - splits/fixed
+      - splits/fixed/valid
       - ../../../src/codex/models/als_biased.py
     outs:
       - sweeps/fixed/als-biased-optuna
@@ -231,7 +231,7 @@ stages:
       - ../../../config.toml:
           - tuning.optuna.points
     deps:
-      - splits/fixed
+      - splits/fixed/valid
       - ../../../src/codex/models/als_implicit.py
     outs:
       - sweeps/fixed/als-implicit-optuna
@@ -244,7 +244,7 @@ stages:
       - ../../../config.toml:
           - tuning.optuna.points
     deps:
-      - splits/fixed
+      - splits/fixed/valid
       - ../../../src/codex/models/bias.py
     outs:
       - sweeps/fixed/bias-optuna
@@ -257,7 +257,7 @@ stages:
       - ../../../config.toml:
           - tuning.optuna.points
     deps:
-      - splits/fixed
+      - splits/fixed/valid
       - ../../../src/codex/models/flexmf_bpr.py
     outs:
       - sweeps/fixed/flexmf-bpr-optuna
@@ -270,7 +270,7 @@ stages:
       - ../../../config.toml:
           - tuning.optuna.points
     deps:
-      - splits/fixed
+      - splits/fixed/valid
       - ../../../src/codex/models/flexmf_explicit.py
     outs:
       - sweeps/fixed/flexmf-explicit-optuna
@@ -283,7 +283,7 @@ stages:
       - ../../../config.toml:
           - tuning.optuna.points
     deps:
-      - splits/fixed
+      - splits/fixed/valid
       - ../../../src/codex/models/flexmf_logistic.py
     outs:
       - sweeps/fixed/flexmf-logistic-optuna
@@ -296,7 +296,7 @@ stages:
       - ../../../config.toml:
           - tuning.optuna.points
     deps:
-      - splits/fixed
+      - splits/fixed/valid
       - ../../../src/codex/models/flexmf_warp.py
     outs:
       - sweeps/fixed/flexmf-warp-optuna

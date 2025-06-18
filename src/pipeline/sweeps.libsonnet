@@ -16,6 +16,15 @@ local searchPointsArg(spec, model) =
     std.format('--sample-count=%s', spec.search_points)
 ;
 
+local splitInfo(name) =
+  if name == 'fixed' then
+    { file: 'splits/fixed', dep: 'splits/fixed/valid' }
+  else if name == 'random' then
+    { file: 'splits/random.toml', dep: 'splits/random.parquet' }
+  else
+    { file: std.format('splits/%s.toml', [name]), dep: self.file }
+;
+
 {
   search_defaults: search_defaults,
 
@@ -26,13 +35,12 @@ local searchPointsArg(spec, model) =
     {
 
       [std.join('-', ['sweep', m.key, split, method])]: {
-        local split_file = 'splits/' + split + (if split == 'fixed' then '' else '.toml'),
-        local split_dep = if split == 'random' then 'splits/random.parquet' else split_file,
+        local sp = splitInfo(split),
         local out_dir = std.format('sweeps/%s/%s-%s', [split, m.key, method]),
 
         cmd: cmds.codex_cmd([
           'search',
-          '--split=' + split_file,
+          '--split=' + sp.file,
           if split == 'random' then '--test-part=0' else '--test-part=valid',
           searchPointsArg(spec, m.value),
           '--' + method,
@@ -44,7 +52,7 @@ local searchPointsArg(spec, model) =
           { [root + '/config.toml']: [std.format('tuning.%s.points', [method])] },
         ] else [],
         deps: [
-          split_dep,
+          sp.dep,
           root + '/' + m.value.src_path,
         ],
         outs: [
