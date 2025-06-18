@@ -44,10 +44,6 @@ def load_config() -> CodexConfig:
     return CodexConfig.model_validate(config)
 
 
-class RandomConfig(BaseModel):
-    seed: int
-
-
 class TuningConfig(BaseModel):
     points: int
     default: bool = False
@@ -75,7 +71,6 @@ class ModelConfig(BaseModel):
 
 
 class CodexConfig(BaseModel, extra="allow"):
-    random: RandomConfig
     machine: str | None = None
     tuning: dict[str, TuningConfig] = {}
     models: ModelConfig = ModelConfig()
