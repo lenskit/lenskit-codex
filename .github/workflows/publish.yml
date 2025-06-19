@@ -25,6 +25,9 @@ jobs:
       - name: 🛒 Checkout
         uses: actions/checkout@v4
 
+      - name: Install mise-en-place
+        uses: jdx/mise-action@v2
+
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@v6
         with:
@@ -33,26 +36,23 @@ jobs:
           python-version: "3.12"
 
       - name: Synchronize dependencies
-        run: uv sync --no-default-groups --locked
+        run: |
+          uv sync --no-default-groups --locked
+          echo "$PWD/.venv/bin" >>"$GITHUB_PATH"
 
       - name: Install authentication
         run: |
-          uv run dvc remote modify --local vault user "$DVC_USER"
-          uv run dvc remote modify --local vault password "$DVC_PASS"
+          dvc remote modify --local vault user "$DVC_USER"
+          dvc remote modify --local vault password "$DVC_PASS"
         env:
-          UV_NO_SYNC: 1
           DVC_USER: ${{vars.DVC_WEBDAV_USER}}
           DVC_PASS: ${{secrets.DVC_WEBDAV_PASSWORD}}
 
       - name: Fetch site assets
-        run: uv run dvc fetch dvc.yaml
-        env:
-          UV_NO_SYNC: 1
+        run: dvc fetch dvc.yaml
 
       - name: Render site content
-        run: uv run invoke render-site
-        env:
-          UV_NO_SYNC: 1
+        run: just render-site
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v4
