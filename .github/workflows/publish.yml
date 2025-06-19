@@ -49,7 +49,7 @@ jobs:
           DVC_PASS: ${{secrets.DVC_WEBDAV_PASSWORD}}
 
       - name: Fetch site assets
-        run: dvc fetch dvc.yaml
+        run: just fetch-web-assets
 
       - name: Render site content
         run: just render-site
