@@ -20,15 +20,6 @@ stages:
       - amazon/2023-5core/MusInst/run-user-metrics.parquet
     outs:
       - _freeze/amazon/2023-5core/MusInst/index
-  page/amazon/2023-5core/Software/index:
-    cmd: quarto render amazon/2023-5core/Software/index.qmd
-    deps:
-      - _quarto.yml
-      - amazon/2023-5core/Software/index.qmd
-      - amazon/2023-5core/Software/run-summary.csv
-      - amazon/2023-5core/Software/run-user-metrics.parquet
-    outs:
-      - _freeze/amazon/2023-5core/Software/index
   page/amazon/2023-5core/index:
     cmd: quarto render amazon/2023-5core/index.qmd
     deps:
