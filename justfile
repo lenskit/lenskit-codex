@@ -9,13 +9,13 @@ render-site:
 # upload public assets to separate web repo
 upload-web-assets:
     @echo '{{ BOLD + CYAN }}pushing static images{{ NORMAL }}'
-    dvc push --no-run-cache -r public -R images
+    dvc push -j4 --no-run-cache -r public -R images
     @echo '{{ BOLD + CYAN }}pushing page outputs{{ NORMAL }}'
-    dvc push --no-run-cache -r public dvc.yaml
+    dvc push -j4 --no-run-cache -r public dvc.yaml
 
 # fetch public web assets
-fetch-web-assets source="public":
+fetch-web-assets remote="public":
     @echo '{{ BOLD + CYAN }}pulling page outputs{{ NORMAL }}'
-    dvc pull --no-run-cache -r {{source}} dvc.yaml
+    dvc pull -j4 --no-run-cache -r {{remote}} dvc.yaml
     @echo '{{ BOLD + CYAN }}pulling static images{{ NORMAL }}'
-    dvc pull --no-run-cache -r {{source}} -R images
+    dvc pull -j4 --no-run-cache -r {{remote}} -R images
