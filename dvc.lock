@@ -1068,26 +1068,22 @@ stages:
       size: 583820
       nfiles: 9
   page/eval-meta/attention:
-    cmd: quarto render eval-meta/attention.qmd --profile prerender
+    cmd: quarto render eval-meta/attention.qmd
     deps:
-    - path: _quarto-prerender.yml
-      hash: md5
-      md5: fe1f6b982acadfdd675d7bf14a819ab8
-      size: 40
     - path: _quarto.yml
       hash: md5
-      md5: 97356d9c9d3ad8ce685d8954d36ec42d
-      size: 1299
+      md5: 14beb3434da173aad8760aa9dc7887fd
+      size: 1310
     - path: eval-meta/attention.qmd
       hash: md5
-      md5: 5fc1c59b7e4b0a633fca012d46a5d4d4
-      size: 2246
+      md5: 795977555e5af8a5d95f2cf07360e710
+      size: 2254
     outs:
     - path: _freeze/eval-meta/attention
       hash: md5
-      md5: c953927147b0ab3984b3c4210d852738.dir
-      size: 169737
-      nfiles: 6
+      md5: 78d31e9f9b7b9b4706a2f87b3b9956c4.dir
+      size: 86104
+      nfiles: 3
   page/movielens/ML20M/splitting:
     cmd: quarto render movielens/ML20M/splitting.qmd
     deps:
