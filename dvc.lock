@@ -2594,3 +2594,28 @@ stages:
       md5: ef56f107cf8d4bcccaa7f945d7e18530.dir
       size: 365527
       nfiles: 9
+  page/amazon/2023-5core/MusInst/index:
+    cmd: quarto render amazon/2023-5core/MusInst/index.qmd
+    deps:
+    - path: _quarto.yml
+      hash: md5
+      md5: 14beb3434da173aad8760aa9dc7887fd
+      size: 1310
+    - path: amazon/2023-5core/MusInst/index.qmd
+      hash: md5
+      md5: 8a9e7f17e1962e610da5ebe5e66daec7
+      size: 4634
+    - path: amazon/2023-5core/MusInst/run-summary.csv
+      hash: md5
+      md5: e2a899014f99a20965f01552c2726a90
+      size: 9821
+    - path: amazon/2023-5core/MusInst/run-user-metrics.parquet
+      hash: md5
+      md5: 631b3b1bea8706d79000c49220033bf0
+      size: 3803553
+    outs:
+    - path: _freeze/amazon/2023-5core/MusInst/index
+      hash: md5
+      md5: 32be1f88a0b891759711a8a5c633cc5d.dir
+      size: 364992
+      nfiles: 9
