@@ -8,7 +8,7 @@ render-site:
 
 # upload public assets to separate web repo
 upload-web-assets:
-    @echo "pushing static images"
+    @echo '{{ BOLD + CYAN }}pushing static images{{ NORMAL }}'
     dvc push --no-run-cache -r public -R images
-    @echo "pushing page outputs"
+    @echo '{{ BOLD + CYAN }}pushing page outputs{{ NORMAL }}'
     dvc push --no-run-cache -r public dvc.yaml
