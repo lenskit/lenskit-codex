@@ -15,12 +15,11 @@ NAME = 'ML100K'
 
 ```{python}
 from codex.reporting.prelude import *
-from codex.stats import GlobalRatingStats, pop_gini
+from codex.stats import GlobalRatingStats, pop_gini, DistributionSet
 from codex.dbutil import to_dataclass
-import scipy.stats as ss
+import scipy.stats as sps
 import duckdb
 ```
-
 
 ```{python}
 db = duckdb.connect('stats.duckdb', read_only=True)
@@ -31,7 +30,6 @@ stats = to_dataclass(db.table('global_stats'), GlobalRatingStats)
 item_stats = db.table('item_stats').df()
 user_stats = db.table('user_stats').df()
 ```
-
 
 ## Rating Statistics
 
@@ -136,7 +134,6 @@ The MovieLens ratings have timestamps, so we'll also look at a temporal view of 
 years = db.table('year_stats').df()
 ```
 
-
 ```{python}
 months = db.table('month_stats').df()
 ```
@@ -190,7 +187,6 @@ Monthly unique users is a good measure of user activity.
 
 How long do users usually stick around?
 
-
 ```{python}
 user_stats['length'] = user_stats['last_rating'] - user_stats['first_rating']
 user_stats['days'] = user_stats['length'].dt.total_seconds() / (24 * 60 * 60)
@@ -203,4 +199,115 @@ user_stats['days'] = user_stats['length'].dt.total_seconds() / (24 * 60 * 60)
     + pn.ylab('# of Users')
     + pn.ggtitle(f"{NAME} Distribution of Account Durations")
 )
+```
+
+## Parametric Activity Distributions
+
+Some downstream uses benefit from parametric distributions of user/item activity levels.
+
+### Item Activity Distributions
+
+This section models the item popularity distribution with various
+parametric distributions.
+
+```{python}
+item_dists = DistributionSet([
+    ("Log-normal",
+        sps.lognorm,
+        {
+            "s": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("Pareto",
+        sps.pareto,
+        {
+            "b": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("Power law",
+        sps.powerlaw,
+        {
+            "a": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("Geometric",
+        sps.geom,
+        {
+            'p': (0, 1),
+            'loc': (0, 100)
+        }
+    )
+])
+item_dists.fit(item_stats["n_ratings"])
+Markdown(item_dists.table())
+```
+
+```{python}
+item_dists.plot()
+plt.title('Comparision of Item Distributions')
+plt.show()
+```
+
+### User Activity Distributions
+
+Now the same, for user activity distributions.
+
+```{python}
+user_dists = DistributionSet([
+    ("Log-normal",
+        sps.lognorm,
+        {
+            "s": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("Pareto",
+        sps.pareto,
+        {
+            "b": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("Power law",
+        sps.powerlaw,
+        {
+            "a": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("NegBinom",
+        sps.nbinom,
+        {
+            "n": (1, 1e3),
+            "p": (0,1),
+            "loc": (0, 100),
+        }
+    ),
+    ("BetaNegBinom",
+        sps.betanbinom,
+        {
+            "n": (1, 1e3),
+            "a": (1e-6, 1e3),
+            "b": (1e-6, 1e3),
+            "loc": (0, 100),
+        }
+    )
+])
+user_dists.fit(user_stats['n_ratings'])
+Markdown(user_dists.table())
+```
+
+```{python}
+user_dists.plot()
+plt.title('Comparision of User Distributions')
+plt.show()
 ```
