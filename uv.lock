@@ -1821,6 +1821,7 @@ dev = [
     { name = "pyarrow-stubs", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "ray", extra = ["default", "tune"], marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "ruff", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
+    { name = "scipy-stubs", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "torch", version = "2.7.0", source = { registry = "https://pypi.lenskit.org/torch/cu128" }, marker = "platform_machine == 'arm64' and sys_platform == 'darwin'" },
     { name = "torch", version = "2.7.0+cu128", source = { registry = "https://pypi.lenskit.org/torch/cu128" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "visidata", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
@@ -1833,6 +1834,10 @@ run = [
     { name = "ray", extra = ["default", "tune"], marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "torch", version = "2.7.0", source = { registry = "https://pypi.lenskit.org/torch/cu128" }, marker = "platform_machine == 'arm64' and sys_platform == 'darwin'" },
     { name = "torch", version = "2.7.0+cu128", source = { registry = "https://pypi.lenskit.org/torch/cu128" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
+]
+types = [
+    { name = "pyarrow-stubs", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
+    { name = "scipy-stubs", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
 ]
 
 [package.metadata]
@@ -1876,6 +1881,7 @@ dev = [
     { name = "pyarrow-stubs", specifier = ">=19.2" },
     { name = "ray", extras = ["default", "tune"], specifier = "~=2.45" },
     { name = "ruff", specifier = ">=0.4" },
+    { name = "scipy-stubs", specifier = ">=1.16.0.2" },
     { name = "torch", specifier = "~=2.7.0" },
     { name = "visidata", specifier = ">=3.1.1" },
 ]
@@ -1886,6 +1892,10 @@ run = [
     { name = "optuna", specifier = "~=4.0" },
     { name = "ray", extras = ["default", "tune"], specifier = "~=2.45" },
     { name = "torch", specifier = "~=2.7.0" },
+]
+types = [
+    { name = "pyarrow-stubs", specifier = ">=19.2" },
+    { name = "scipy-stubs", specifier = ">=1.16.0.2" },
 ]
 
 [[package]]
@@ -2378,6 +2388,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/82/d9/33ebab3060148134655f09f42592e7f7999f7b9e94e139df29bce54b2992/optuna-4.3.0.tar.gz", hash = "sha256:b3866842a84bc0bbb9906363bd846cfc39d09d3196265354bfdfda6a2f123b84", size = 457906, upload-time = "2025-04-14T05:07:43.137Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d9/dd/0b593d1a5ee431b33a1fdf4ddb5911c312ed3bb598ef9e17457af2ee7b34/optuna-4.3.0-py3-none-any.whl", hash = "sha256:0ea1a01c99c09cbdf3e2dcd9af01dea86778d9fa20ca26f0238a98e7462d8dcb", size = 386567, upload-time = "2025-04-14T05:07:40.867Z" },
+]
+
+[[package]]
+name = "optype"
+version = "0.12.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d1/a5/f8faedc8bd43cff9f1d846ce9d1d6d6162886b7221c2c53b1b8d2c9fff4a/optype-0.12.0.tar.gz", hash = "sha256:d1314f486028bc8d53b8c3e6b65f493d999d983df11978272ff67c1876f8ce53", size = 98419, upload-time = "2025-07-16T16:27:29.666Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ff/0b/87427c7b4ea6480e18fa5f933f0407ac4ce0fd9b667568ff2c82b8d66069/optype-0.12.0-py3-none-any.whl", hash = "sha256:245163b14cb78a83f4bf862d2278a5f9aef001242ac8ce577d1891dd1e0b104f", size = 86090, upload-time = "2025-07-16T16:27:27.751Z" },
 ]
 
 [[package]]
@@ -3156,6 +3178,18 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/c0/53/eaada1a414c026673eb983f8b4a55fe5eb172725d33d62c1b21f63ff6ca4/scipy-1.15.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2b871df1fe1a3ba85d90e22742b93584f8d2b8e6124f8372ab15c71b73e428b8", size = 37297371, upload-time = "2025-02-17T00:32:21.411Z" },
     { url = "https://files.pythonhosted.org/packages/e9/06/0449b744892ed22b7e7b9a1994a866e64895363572677a316a9042af1fe5/scipy-1.15.2-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:03205d57a28e18dfd39f0377d5002725bf1f19a46f444108c29bdb246b6c8a11", size = 36872390, upload-time = "2025-02-17T00:32:29.421Z" },
     { url = "https://files.pythonhosted.org/packages/6a/6f/a8ac3cfd9505ec695c1bc35edc034d13afbd2fc1882a7c6b473e280397bb/scipy-1.15.2-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:601881dfb761311045b03114c5fe718a12634e5608c3b403737ae463c9885d53", size = 39700276, upload-time = "2025-02-17T00:32:37.431Z" },
+]
+
+[[package]]
+name = "scipy-stubs"
+version = "1.16.0.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "optype", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4b/19/a8461383f7328300e83c34f58bf38ccc05f57c2289c0e54e2bea757de83c/scipy_stubs-1.16.0.2.tar.gz", hash = "sha256:f83aacaf2e899d044de6483e6112bf7a1942d683304077bc9e78cf6f21353acd", size = 306747, upload-time = "2025-07-01T23:19:04.513Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8f/30/b73418e6d3d8209fef684841d9a0e5b439d3528fa341a23b632fe47918dd/scipy_stubs-1.16.0.2-py3-none-any.whl", hash = "sha256:dc364d24a3accd1663e7576480bdb720533f94de8a05590354ff6d4a83d765c7", size = 491346, upload-time = "2025-07-01T23:19:03.222Z" },
 ]
 
 [[package]]

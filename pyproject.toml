@@ -40,6 +40,10 @@ run = [
   "numpy ~=2.0",
   "lenskit >=2025.3.0a4.dev163",
 ]
+types = [
+  "scipy-stubs >=1.16.0.2",
+  "pyarrow-stubs >=19.2",
+]
 dev = [
   "jsonnet ~=0.20.0",
   "jinja2 ~=3.1",
@@ -50,9 +54,9 @@ dev = [
   "jupyterlab >=3",
   "parquet-tools ~=0.2.16",
   "pre-commit ~= 4.0",
-  { include-group = "run" },
   "visidata>=3.1.1",
-  "pyarrow-stubs>=19.2",
+  { include-group = "run" },
+  { include-group = "types" },
 ]
 
 [tool.uv.build-backend]
