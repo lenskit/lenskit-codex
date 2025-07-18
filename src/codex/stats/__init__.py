@@ -4,6 +4,10 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
+from .distfit import DistributionSet
+
+__all__ = ["DistributionSet", "GlobalRatingStats", "pop_gini"]
+
 
 @dataclass
 class GlobalRatingStats:
