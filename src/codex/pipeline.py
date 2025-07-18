@@ -151,7 +151,10 @@ class CodexPipelineDef(DVCPipeline):
                 ),
                 "resolve_path": (("p1", "p2"), partial(_resolve_path, pdir)),
                 "parse_path": (("path",), _parse_path),
-                "glob": (("glob",), lambda g: [p.as_posix() for p in pdir.glob(g)]),
+                "glob": (
+                    ("glob",),
+                    lambda g: [p.relative_to(pdir, walk_up=True).as_posix() for p in pdir.glob(g)],
+                ),
             },
         )
         return cls.model_validate_json(data)
