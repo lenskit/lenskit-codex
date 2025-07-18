@@ -10,7 +10,7 @@ deps:
 {% if false %}
 ```{python}
 import os
-os.chdir('../ML10M')
+os.chdir('../ML100K')
 ```
 {% endif %}
 
@@ -22,6 +22,7 @@ NAME = '{{ ds.name }}'
 from codex.reporting.prelude import *
 from codex.stats import GlobalRatingStats, pop_gini
 from codex.dbutil import to_dataclass
+import scipy.stats as sps
 import duckdb
 ```
 
@@ -207,4 +208,54 @@ user_stats['days'] = user_stats['length'].dt.total_seconds() / (24 * 60 * 60)
     + pn.ylab('# of Users')
     + pn.ggtitle(f"{NAME} Distribution of Account Durations")
 )
+```
+
+## Parametric Activity Distributions
+
+Some downstream uses benefit from parametric distributions of user/item activity levels.
+
+```{python}
+item_lognorm = sps.fit(sps.lognorm, item_stats['n_ratings'], {
+    's': (1e-6, 1e3),
+    'loc': (0, 100),
+    'scale': (0.1, 1e3),
+})
+item_lognorm
+```
+
+```{python}
+item_dists = {
+    'Log-normal': (sps.lognorm, {
+    's': (1e-6, 1e3),
+    'loc': (0, 100),
+    'scale': (0.1, 1e3),
+}),
+    'Pareto': (sps.pareto, {
+    'b': (1e-6, 1e3),
+    'loc': (0, 100),
+    'scale': (0.1, 1e3),
+}),
+'Power law': (sps.powerlaw, {
+    'a': (1e-6, 1e3),
+    'loc': (0, 100),
+    'scale': (0.1, 1e3),
+})
+}
+item_dfits = {
+    n: sps.fit(dist, item_stats['n_ratings'], space)
+    for n, (dist, space) in item_dists.items()
+}
+```
+
+
+```{python}
+xs = np.linspace(1, item_stats['n_ratings'].max(), 500)
+plt.ecdf(item_stats['n_ratings'], color='black', label='Empirical')
+for name, fit in item_dfits.items():
+    dist, _space = item_dists[name]
+    plt.plot(xs, dist.cdf(xs, *fit.params), linestyle='dashed', label=name)
+plt.xscale('symlog')
+plt.title('Comparision of Item Distributions')
+plt.legend()
+plt.show()
 ```
