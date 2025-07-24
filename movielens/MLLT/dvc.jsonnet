@@ -1,6 +1,6 @@
 {
   spec:: {
-    name: 'MLBIG',
+    name: 'MLLT',
     fn: 'ml-latest',
     template: '../_template',
     splits: ['temporal'],

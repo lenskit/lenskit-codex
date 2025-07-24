@@ -1,0 +1,89 @@
+---
+title: IKNN Explicit
+pagetitle: MLLT - IKNN Explicit
+echo: false
+model: iknn-explicit
+deps:
+- sweeps/temporal/iknn-explicit-optuna
+---
+
+This page analyzes the hyperparameter tuning results for the ItemKNN scorer in
+explicit-feedback mode.
+
+
+
+```{python}
+from codex.reporting.prelude import *
+```
+
+```{python}
+runs = load_sweep_runs('iknn-explicit')
+result = load_sweep_result('iknn-explicit')
+best_id = result['trial_id']
+```
+
+## Parameter Search Space
+
+```{python}
+from codex.models.iknn_explicit import SEARCH_SPACE
+show_param_space(SEARCH_SPACE, result['config'])
+```
+
+### Final Result
+
+Searching selected the following configuration:
+
+```{python}
+rich.print(result['config'])
+```
+
+With these metrics:
+
+```{python}
+rich.print(result)
+```
+
+## Parameter Behavior
+
+### Neighborhood Size
+
+The neighborhood size is key argument to consider, let's look at RMSE with
+repspect to that:
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.max_nbrs', y='RMSE')
+    + pn.geom_point()
+)
+```
+
+### Filtering
+
+There are two filtering parameters we also test — minimum neighbors and mininmum
+simialrity.
+
+::: {.panel-tabset}
+
+#### Min Nbrs
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.min_nbrs', y='RMSE')
+    + pn.geom_point()
+)
+```
+
+#### Min Sim
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.min_sim', y='RMSE')
+    + pn.scale_x_log10()
+    + pn.geom_point()
+)
+```
+
+:::

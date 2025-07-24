@@ -1,0 +1,307 @@
+---
+title: Data Description
+pagetitle: Steam Data Description
+order: 1
+echo: false
+deps:
+- dataset
+---
+
+```{python}
+from codex.reporting.prelude import *
+from codex.stats import GlobalRatingStats, pop_gini, DistributionSet
+from codex.dbutil import to_dataclass
+import scipy.stats as sps
+import duckdb
+```
+
+```{python}
+db = duckdb.connect('stats.duckdb', read_only=True)
+```
+
+```{python}
+stats = to_dataclass(db.table('global_stats'), GlobalRatingStats)
+item_stats = db.table('item_stats').df()
+user_stats = db.table('user_stats').df()
+```
+
+## Rating Statistics
+
+```{python}
+density = stats.n_ratings / (stats.n_users * stats.n_items)
+Markdown(tabulate([
+    ('Ratings', '{:,d}'.format(stats.n_ratings)),
+    ('Users', '{:,d}'.format(stats.n_users)),
+    ('Items', '{:,d}'.format(stats.n_items)),
+    ('Density', '{:.3%}'.format(density)),
+    ('Item Gini', '{:.3f}'.format(pop_gini(item_stats))),
+    ('Start Date', stats.first_rating),
+    ('End Date', stats.last_rating),
+]))
+```
+
+## Item Statistics
+
+This section describes the distribution of various item statistics from the data set.
+
+### Item Popularity
+
+What is the distribution of popularity?
+
+```{python}
+(
+    pn.ggplot(item_stats, pn.aes(x='n_ratings'))
+    + pn.geom_step(stat='ecdf', color=DEFAULTS.line_color)
+    + pn.scale_x_symlog()
+    + pn.xlab('# of Ratings')
+    + pn.ylab('Cumulative Frac. of Items')
+    + pn.ggtitle(f'{NAME} Item Popularity Distribution')
+)
+```
+
+Let's also look at this as a Lorenz curve, for clarity:
+
+```{python}
+item_stats.sort_values('n_ratings', inplace=True)
+item_stats['cf_ratings'] = item_stats['n_ratings'].cumsum() / item_stats['n_ratings'].sum()
+(
+    pn.ggplot(item_stats, pn.aes(x='rank', y='cf_ratings'))
+    + pn.geom_line(color=DEFAULTS.line_color)
+    + pn.geom_abline(color='grey', linetype='--')
+    + pn.xlab('Item Rank')
+    + pn.ylab('Cumulative Frac. of Ratings')
+    + pn.ggtitle(f'Lorenz curve of {NAME} item popularity')
+)
+```
+
+### Item Average Rating
+
+What is the distribution of average ratings?
+
+```{python}
+(
+    pn.ggplot(item_stats, pn.aes(x='mean_rating'))
+    + pn.geom_histogram(bins=25, fill=DEFAULTS.fill_color)
+    + pn.xlab('Mean Rating')
+    + pn.ylab('# of Movies')
+)
+```
+
+## User Statistics
+
+We now turn to the distribution of various user statistics.
+
+### User Average Ratings
+
+How are user averages distributed?
+
+```{python}
+(
+    pn.ggplot(user_stats, pn.aes(x='mean_rating'))
+    + pn.geom_histogram(bins=50, fill=DEFAULTS.fill_color)
+    + pn.xlab('Mean Rating')
+    + pn.ylab('# of Users')
+    + pn.ggtitle(f'Distribution of Average Ratings by User ({NAME})')
+)
+```
+
+### User Activity Level
+
+And what is the distribution of user activity levels (# of ratings)?
+
+```{python}
+(
+    pn.ggplot(user_stats, pn.aes(x='n_ratings'))
+    + pn.geom_histogram(bins=100, fill=DEFAULTS.fill_color)
+    + pn.xlab('# of Ratings')
+    + pn.ylab('# of Users')
+    + pn.scale_x_log10()
+    + pn.ggtitle(f'Distribution of Profile Sizes by User ({NAME})')
+)
+```
+
+## Ratings over Time
+
+The MovieLens ratings have timestamps, so we'll also look at a temporal view of the data.
+
+```{python}
+years = db.table('year_stats').df()
+```
+
+```{python}
+months = db.table('month_stats').df()
+```
+
+### Data Volume
+
+How did the data grow over time?
+
+```{python}
+months['cum_ratings'] = months['n_ratings'].cumsum()
+(
+    pn.ggplot(months)
+    + pn.aes(x='fracyear', y='cum_ratings')
+    + pn.geom_area(fill=DEFAULTS.fill_color)
+    + scale_y_metric()
+    + pn.xlab('Year')
+    + pn.ylab('Total Cumulative Ratings')
+    + pn.ggtitle(f'{NAME} Rating Growth')
+)
+```
+
+How many ratings are we getting each month through the life of the data set?
+
+```{python}
+(
+    pn.ggplot(months)
+    + pn.aes(x='fracyear', y='n_ratings')
+    + pn.geom_line()
+    + scale_y_metric()
+    + pn.xlab('Year')
+    + pn.ylab('Monthly # of Ratings')
+    + pn.ggtitle(f'{NAME} Rating Volume by Month')
+)
+```
+
+### User Activity
+
+Monthly unique users is a good measure of user activity.
+
+```{python}
+(
+    pn.ggplot(months)
+    + pn.aes(x='fracyear', y='n_users')
+    + pn.geom_line(color=DEFAULTS.line_color)
+    + scale_y_metric()
+    + pn.xlab('Year')
+    + pn.ylab('Unique Users per Month')
+    + pn.ggtitle(f'{NAME} Monthly Unique Users')
+)
+```
+
+How long do users usually stick around?
+
+```{python}
+user_stats['length'] = user_stats['last_rating'] - user_stats['first_rating']
+user_stats['days'] = user_stats['length'].dt.total_seconds() / (24 * 60 * 60)
+(
+    pn.ggplot(user_stats)
+    + pn.aes(x='days')
+    + pn.geom_histogram(bins=100, fill=DEFAULTS.fill_color)
+    + pn.scale_x_symlog()
+    + pn.xlab("Account Duration (days)")
+    + pn.ylab('# of Users')
+    + pn.ggtitle(f"{NAME} Distribution of Account Durations")
+)
+```
+
+## Parametric Activity Distributions
+
+Some downstream uses benefit from parametric distributions of user/item activity levels.
+
+### Item Activity Distributions
+
+This section models the item popularity distribution with various
+parametric distributions.
+
+```{python}
+item_dists = DistributionSet([
+    ("Log-normal",
+        sps.lognorm,
+        {
+            "s": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("Pareto",
+        sps.pareto,
+        {
+            "b": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("Power law",
+        sps.powerlaw,
+        {
+            "a": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("Geometric",
+        sps.geom,
+        {
+            'p': (0, 1),
+            'loc': (0, 100)
+        }
+    )
+])
+item_dists.fit(item_stats["n_ratings"])
+Markdown(item_dists.table())
+```
+
+```{python}
+item_dists.plot()
+plt.title('Comparision of Item Distributions')
+plt.show()
+```
+
+### User Activity Distributions
+
+Now the same, for user activity distributions.
+
+```{python}
+user_dists = DistributionSet([
+    ("Log-normal",
+        sps.lognorm,
+        {
+            "s": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("Pareto",
+        sps.pareto,
+        {
+            "b": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("Power law",
+        sps.powerlaw,
+        {
+            "a": (1e-6, 1e3),
+            "loc": (0, 100),
+            "scale": (0.1, 1e3),
+        },
+    ),
+    ("NegBinom",
+        sps.nbinom,
+        {
+            "n": (1, 1e3),
+            "p": (0,1),
+            "loc": (0, 100),
+        }
+    ),
+    ("BetaNegBinom",
+        sps.betanbinom,
+        {
+            "n": (1, 1e3),
+            "a": (1e-6, 1e3),
+            "b": (1e-6, 1e3),
+            "loc": (0, 100),
+        }
+    )
+])
+user_dists.fit(user_stats['n_ratings'])
+Markdown(user_dists.table())
+```
+
+```{python}
+user_dists.plot()
+plt.title('Comparision of User Distributions')
+plt.show()
+```

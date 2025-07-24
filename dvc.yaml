@@ -733,6 +733,95 @@ stages:
       - movielens/ML32M/sweeps/temporal
     outs:
       - _freeze/movielens/ML32M/tuning
+  page/movielens/MLLT/als-biased:
+    cmd: quarto render movielens/MLLT/als-biased.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/als-biased.qmd
+      - movielens/MLLT/sweeps/temporal/als-biased-optuna
+    outs:
+      - _freeze/movielens/MLLT/als-biased
+  page/movielens/MLLT/bias:
+    cmd: quarto render movielens/MLLT/bias.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/bias.qmd
+      - movielens/MLLT/sweeps/temporal/bias-optuna
+    outs:
+      - _freeze/movielens/MLLT/bias
+  page/movielens/MLLT/description:
+    cmd: quarto render movielens/MLLT/description.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/description.qmd
+      - movielens/MLLT/stats.duckdb
+    outs:
+      - _freeze/movielens/MLLT/description
+  page/movielens/MLLT/flexmf-bpr:
+    cmd: quarto render movielens/MLLT/flexmf-bpr.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/flexmf-bpr.qmd
+      - movielens/MLLT/sweeps/temporal/flexmf-bpr-optuna
+    outs:
+      - _freeze/movielens/MLLT/flexmf-bpr
+  page/movielens/MLLT/flexmf-explicit:
+    cmd: quarto render movielens/MLLT/flexmf-explicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/flexmf-explicit.qmd
+      - movielens/MLLT/sweeps/temporal/flexmf-explicit-optuna
+    outs:
+      - _freeze/movielens/MLLT/flexmf-explicit
+  page/movielens/MLLT/flexmf-logistic:
+    cmd: quarto render movielens/MLLT/flexmf-logistic.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/flexmf-logistic.qmd
+      - movielens/MLLT/sweeps/temporal/flexmf-logistic-optuna
+    outs:
+      - _freeze/movielens/MLLT/flexmf-logistic
+  page/movielens/MLLT/flexmf-warp:
+    cmd: quarto render movielens/MLLT/flexmf-warp.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/flexmf-warp.qmd
+      - movielens/MLLT/sweeps/temporal/flexmf-warp-optuna
+    outs:
+      - _freeze/movielens/MLLT/flexmf-warp
+  page/movielens/MLLT/iknn-explicit:
+    cmd: quarto render movielens/MLLT/iknn-explicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/iknn-explicit.qmd
+      - movielens/MLLT/sweeps/temporal/iknn-explicit-optuna
+    outs:
+      - _freeze/movielens/MLLT/iknn-explicit
+  page/movielens/MLLT/iknn-implicit:
+    cmd: quarto render movielens/MLLT/iknn-implicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/iknn-implicit.qmd
+      - movielens/MLLT/sweeps/temporal/iknn-implicit-optuna
+    outs:
+      - _freeze/movielens/MLLT/iknn-implicit
+  page/movielens/MLLT/summary:
+    cmd: quarto render movielens/MLLT/summary.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/summary.qmd
+      - movielens/MLLT/run-summary.csv
+      - movielens/MLLT/run-user-metrics.parquet
+    outs:
+      - _freeze/movielens/MLLT/summary
+  page/movielens/MLLT/tuning:
+    cmd: quarto render movielens/MLLT/tuning.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/tuning.qmd
+      - movielens/MLLT/sweeps/temporal
+    outs:
+      - _freeze/movielens/MLLT/tuning
   page/movielens/index:
     cmd: quarto render movielens/index.qmd
     deps:
@@ -741,3 +830,11 @@ stages:
       - movielens/merged-stats.duckdb
     outs:
       - _freeze/movielens/index
+  page/steam/full/description:
+    cmd: quarto render steam/full/description.qmd
+    deps:
+      - _quarto.yml
+      - steam/full/description.qmd
+      - steam/full/dataset
+    outs:
+      - _freeze/steam/full/description
