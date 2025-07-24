@@ -1,0 +1,32 @@
+schema: '2.0'
+stages:
+  import:
+    cmd: lenskit data convert --movielens ml-latest.zip dataset
+    deps:
+    - path: ml-latest.zip
+      hash: md5
+      md5: 0f3c4dd7304d471e367f237b314f3d86
+      size: 350896731
+    outs:
+    - path: dataset
+      hash: md5
+      md5: 7d9e75baf479ee31a54b9b9b95eeec7b.dir
+      size: 328772653
+      nfiles: 5
+  stats:
+    cmd: lenskit codex sql -D ds_name=MLLT -f ../ml-stats.sql stats.duckdb
+    deps:
+    - path: ../ml-stats.sql
+      hash: md5
+      md5: 56a6eb38e5f620ae1753f9bf93d58642
+      size: 1921
+    - path: dataset
+      hash: md5
+      md5: 7d9e75baf479ee31a54b9b9b95eeec7b.dir
+      size: 328772653
+      nfiles: 5
+    outs:
+    - path: stats.duckdb
+      hash: md5
+      md5: c6b2e77e0fa4dce91f47fbad19bc77aa
+      size: 10235904

@@ -2615,3 +2615,24 @@ stages:
       md5: 32be1f88a0b891759711a8a5c633cc5d.dir
       size: 364992
       nfiles: 9
+  page/movielens/MLLT/description:
+    cmd: quarto render movielens/MLLT/description.qmd
+    deps:
+    - path: _quarto.yml
+      hash: md5
+      md5: 14beb3434da173aad8760aa9dc7887fd
+      size: 1310
+    - path: movielens/MLLT/description.qmd
+      hash: md5
+      md5: a0f2681c6f5e6218b601a8dcf001fb97
+      size: 6903
+    - path: movielens/MLLT/stats.duckdb
+      hash: md5
+      md5: c6b2e77e0fa4dce91f47fbad19bc77aa
+      size: 10235904
+    outs:
+    - path: _freeze/movielens/MLLT/description
+      hash: md5
+      md5: f4df53528f52ecc83647c3a25922698e.dir
+      size: 644531
+      nfiles: 12
