@@ -112,9 +112,9 @@ def run_search(
         len(results),
         precisedelta(task.duration),  # type: ignore
     )
-    if task.chassis_power:
+    if task.system_power:
         line += " and consumed [bold green]{}[/bold green]".format(
-            human_metric(task.chassis_power / 3600, unit="Wh")
+            human_metric(task.system_power / 3600, unit="Wh")
         )
     console.print(line)
 
