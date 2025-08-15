@@ -1,4 +1,4 @@
 ---
-title: Full Data
-pagetitle: Full Steam Data
+title: Australian Subset
+pagetitle: Australian Steam Subset
 ---
