@@ -830,11 +830,3 @@ stages:
       - movielens/merged-stats.duckdb
     outs:
       - _freeze/movielens/index
-  page/steam/full/description:
-    cmd: quarto render steam/full/description.qmd
-    deps:
-      - _quarto.yml
-      - steam/full/description.qmd
-      - steam/full/dataset
-    outs:
-      - _freeze/steam/full/description
