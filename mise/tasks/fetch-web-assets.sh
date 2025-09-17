@@ -6,6 +6,6 @@ set -eo pipefail
 source "$MISE_PROJECT_ROOT/mise/task-functions.sh"
 
 msg 'pulling static images'
-runx dvc push -j4 --no-run-cache -r $usage_remote -R images
+runx dvc pull -j4 --no-run-cache -r $usage_remote -R images
 msg 'pulling page outputs'
-runx dvc push -j4 --no-run-cache -r $usage_remote dvc.yaml
+runx dvc pull -j4 --no-run-cache -r $usage_remote dvc.yaml

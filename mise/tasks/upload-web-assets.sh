@@ -2,8 +2,9 @@
 #MISE description="upload assets needed for web build to public repo"
 
 set -eo pipefail
+source "$MISE_PROJECT_ROOT/mise/task-functions.sh"
 
-echo 'pushing static images'
-dvc push -j4 --no-run-cache -r public -R images
-echo 'pushing page outputs'
-dvc push -j4 --no-run-cache -r public dvc.yaml
+msg 'pushing static images'
+runx dvc push -j4 --no-run-cache -r public -R images
+msg 'pushing page outputs'
+runx dvc push -j4 --no-run-cache -r public dvc.yaml
