@@ -1,6 +1,6 @@
 #!/bin/bash
 #MISE description="fetch assets needed for web build to public repo"
-#USAGE flag "-r --remote" default="public" help="specify the remote to fetch from"
+#USAGE flag "-r --remote <remote>" default="public" help="specify the remote to fetch from"
 
 set -eo pipefail
 
