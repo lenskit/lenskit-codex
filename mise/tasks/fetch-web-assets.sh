@@ -3,8 +3,9 @@
 #USAGE flag "-r --remote <remote>" default="public" help="specify the remote to fetch from"
 
 set -eo pipefail
+source "$MISE_PROJECT_ROOT/mise/task-functions.sh"
 
-echo 'pulling static images'
-dvc push -j4 --no-run-cache -r $usage_remote -R images
-echo 'pulling page outputs'
-dvc push -j4 --no-run-cache -r $usage_remote dvc.yaml
+msg 'pulling static images'
+runx dvc push -j4 --no-run-cache -r $usage_remote -R images
+msg 'pulling page outputs'
+runx dvc push -j4 --no-run-cache -r $usage_remote dvc.yaml
