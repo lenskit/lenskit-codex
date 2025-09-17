@@ -178,5 +178,5 @@ pred_summary = run_summary.loc[
     ['RMSE', 'MAE']
 ]
 pred_summary = pred_summary.sort_values('RMSE')
-show_df(pred_summary.style.format("{:.3f}"))
+show_df(pred_summary.style.format("{:.3f}"), allow_html=True)
 ```
