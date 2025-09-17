@@ -21,6 +21,7 @@ from lenskit.logging import get_logger
 from rich.console import Console
 from tabulate import tabulate
 
+from ..config import get_config
 from .data import DATA_INFO, filter_part
 from .plots import (
     DEFAULTS,
@@ -37,8 +38,10 @@ logging.getLogger("ray.widgets").setLevel(logging.ERROR)
 
 log = get_logger("notebook")
 rich = Console()
+CONFIG = get_config()
 
 __all__ = [
+    "CONFIG",
     "DATA_INFO",
     "filter_part",
     "log",

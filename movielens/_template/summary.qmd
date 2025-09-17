@@ -146,20 +146,44 @@ rtime.loc[rtime['type'] == 'time', 'type'] = 'wall'
 
 ### Power
 
+::: {.panel-tabset}
+
+#### Energy
+
 ```{python}
 rpow = runs.melt(id_vars=['variant', 'model', 'part'], value_vars=['train_power', 'infer_power'])
 rpow = rpow.groupby(['variant', 'model', 'variable'])['value'].sum().reset_index()
 rpow['stage'] = rpow['variable'].str.split('_', expand=True)[0]
+rpow['wh'] = rpow['value'] / 3600
+rpow['co2'] = rpow['wh'] / 1_000_000 * CONFIG.power.co2e_rate
 (
     pn.ggplot(rpow)
-    + pn.aes(x='model', y='value', fill='variant')
+    + pn.aes(x='model', y='wh', fill='variant')
     + pn.geom_col(position='dodge')
-    + pn.facet_grid('~ stage', scales="free_x")
-    + pn.ylab("Total power (Joules)")
     + pn.coord_flip()
+    + pn.facet_grid('~ stage', scales="free_x")
+    + pn.ylab("Total power (Wh)")
+    + pn.ggtitle("Estimated Power Consumption")
     + pn.scale_fill_brewer(type="qual", palette="Dark2")
 )
 ```
+
+#### kgCO2
+
+```{python}
+(
+    pn.ggplot(rpow)
+    + pn.aes(x='model', y='co2', fill='variant')
+    + pn.geom_col(position='dodge')
+    + pn.coord_flip()
+    + pn.facet_grid('~ stage', scales="free_x")
+    + pn.ylab("Emissions (kgCO2)")
+    + pn.ggtitle("Estimated Carbon Emissions")
+    + pn.scale_fill_brewer(type="qual", palette="Dark2")
+)
+```
+
+:::
 
 ## Leaderboard Table
 
