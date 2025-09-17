@@ -1,11 +1,13 @@
 #!/bin/bash
 #MISE description="render the seb site"
-#USAGE flag="--debug" help="include debug output"
+#USAGE flag "--debug" help="include debug output"
 
+set -eo pipefail
 declare -a qr_args=()
 
 if [[ $usage_debug || $GITHUB_DEBUG ]]; then
     qr_args+="--log-level=debug"
+    set -x
 fi
 
-exec quarto render "${qr_args[@]}"
+quarto render "${qr_args[@]}"
