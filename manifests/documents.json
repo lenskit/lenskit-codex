@@ -38,10 +38,14 @@
     ]
   },
   "movielens/ML100K/als-implicit.qmd": {
-    "title": "ALS ImplicitMF on ML100K",
+    "title": "ALS Implicit",
+    "pagetitle": "ML100K - ALS Implicit",
     "echo": false,
+    "model": "als-implicit",
     "deps": [
-      "sweeps/random/als-biased-random"
+      "sweeps/random/als-implicit-random",
+      "sweeps/random/als-implicit-hyperopt",
+      "sweeps/random/als-implicit-optuna"
     ]
   },
   "movielens/ML100K/bias.qmd": {
@@ -179,6 +183,17 @@
       "sweeps/temporal/als-biased-random",
       "sweeps/temporal/als-biased-hyperopt",
       "sweeps/temporal/als-biased-optuna"
+    ]
+  },
+  "movielens/ML10M/als-implicit.qmd": {
+    "title": "ALS Implicit",
+    "pagetitle": "ML10M - ALS Implicit",
+    "echo": false,
+    "model": "als-implicit",
+    "deps": [
+      "sweeps/temporal/als-implicit-random",
+      "sweeps/temporal/als-implicit-hyperopt",
+      "sweeps/temporal/als-implicit-optuna"
     ]
   },
   "movielens/ML10M/bias.qmd": {
@@ -326,6 +341,17 @@
       "sweeps/random/als-biased-optuna"
     ]
   },
+  "movielens/ML1M/als-implicit.qmd": {
+    "title": "ALS Implicit",
+    "pagetitle": "ML1M - ALS Implicit",
+    "echo": false,
+    "model": "als-implicit",
+    "deps": [
+      "sweeps/random/als-implicit-random",
+      "sweeps/random/als-implicit-hyperopt",
+      "sweeps/random/als-implicit-optuna"
+    ]
+  },
   "movielens/ML1M/bias.qmd": {
     "title": "Bias Predictor",
     "pagetitle": "ML1M - Bias",
@@ -463,6 +489,17 @@
       "sweeps/temporal/als-biased-optuna"
     ]
   },
+  "movielens/ML20M/als-implicit.qmd": {
+    "title": "ALS Implicit",
+    "pagetitle": "ML20M - ALS Implicit",
+    "echo": false,
+    "model": "als-implicit",
+    "deps": [
+      "sweeps/temporal/als-implicit-random",
+      "sweeps/temporal/als-implicit-hyperopt",
+      "sweeps/temporal/als-implicit-optuna"
+    ]
+  },
   "movielens/ML20M/bias.qmd": {
     "title": "Bias Predictor",
     "pagetitle": "ML20M - Bias",
@@ -584,6 +621,15 @@
       "sweeps/temporal/als-biased-optuna"
     ]
   },
+  "movielens/ML25M/als-implicit.qmd": {
+    "title": "ALS Implicit",
+    "pagetitle": "ML25M - ALS Implicit",
+    "echo": false,
+    "model": "als-implicit",
+    "deps": [
+      "sweeps/temporal/als-implicit-optuna"
+    ]
+  },
   "movielens/ML25M/bias.qmd": {
     "title": "Bias Predictor",
     "pagetitle": "ML25M - Bias",
@@ -691,6 +737,15 @@
       "sweeps/temporal/als-biased-optuna"
     ]
   },
+  "movielens/ML32M/als-implicit.qmd": {
+    "title": "ALS Implicit",
+    "pagetitle": "ML32M - ALS Implicit",
+    "echo": false,
+    "model": "als-implicit",
+    "deps": [
+      "sweeps/temporal/als-implicit-optuna"
+    ]
+  },
   "movielens/ML32M/bias.qmd": {
     "title": "Bias Predictor",
     "pagetitle": "ML32M - Bias",
@@ -796,6 +851,15 @@
     "model": "als-biased",
     "deps": [
       "sweeps/temporal/als-biased-optuna"
+    ]
+  },
+  "movielens/MLLT/als-implicit.qmd": {
+    "title": "ALS Implicit",
+    "pagetitle": "MLLT - ALS Implicit",
+    "echo": false,
+    "model": "als-implicit",
+    "deps": [
+      "sweeps/temporal/als-implicit-optuna"
     ]
   },
   "movielens/MLLT/bias.qmd": {

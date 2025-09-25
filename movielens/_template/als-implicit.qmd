@@ -1,18 +1,25 @@
 ---
 title: ALS Implicit
-pagetitle: ML100K - ALS Implicit
+pagetitle: {{ ds.name }} - ALS Implicit
 echo: false
 model: als-implicit
 deps:
-- sweeps/random/als-implicit-random
-- sweeps/random/als-implicit-hyperopt
-- sweeps/random/als-implicit-optuna
+{%- for split in ds.splits %}
+{%- for search in ds.searches %}
+- sweeps/{{split}}/als-implicit-{{search}}
+{%- endfor %}
+{%- endfor %}
 ---
 
 This page analyzes the hyperparameter tuning results for the implicit-feedback
 ALS matrix factorization model.
 
-
+{% if false %}
+```{python}
+import os
+os.chdir('../ML10M')
+```
+{% endif %}
 
 ```{python}
 from codex.reporting.prelude import *

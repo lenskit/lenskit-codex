@@ -50,7 +50,9 @@ stages:
     deps:
       - _quarto.yml
       - movielens/ML100K/als-implicit.qmd
-      - movielens/ML100K/sweeps/random/als-biased-random
+      - movielens/ML100K/sweeps/random/als-implicit-random
+      - movielens/ML100K/sweeps/random/als-implicit-hyperopt
+      - movielens/ML100K/sweeps/random/als-implicit-optuna
     outs:
       - _freeze/movielens/ML100K/als-implicit
   page/movielens/ML100K/bias:
@@ -178,6 +180,16 @@ stages:
       - movielens/ML10M/sweeps/temporal/als-biased-optuna
     outs:
       - _freeze/movielens/ML10M/als-biased
+  page/movielens/ML10M/als-implicit:
+    cmd: quarto render movielens/ML10M/als-implicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML10M/als-implicit.qmd
+      - movielens/ML10M/sweeps/temporal/als-implicit-random
+      - movielens/ML10M/sweeps/temporal/als-implicit-hyperopt
+      - movielens/ML10M/sweeps/temporal/als-implicit-optuna
+    outs:
+      - _freeze/movielens/ML10M/als-implicit
   page/movielens/ML10M/bias:
     cmd: quarto render movielens/ML10M/bias.qmd
     deps:
@@ -311,6 +323,16 @@ stages:
       - movielens/ML1M/sweeps/random/als-biased-optuna
     outs:
       - _freeze/movielens/ML1M/als-biased
+  page/movielens/ML1M/als-implicit:
+    cmd: quarto render movielens/ML1M/als-implicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML1M/als-implicit.qmd
+      - movielens/ML1M/sweeps/random/als-implicit-random
+      - movielens/ML1M/sweeps/random/als-implicit-hyperopt
+      - movielens/ML1M/sweeps/random/als-implicit-optuna
+    outs:
+      - _freeze/movielens/ML1M/als-implicit
   page/movielens/ML1M/bias:
     cmd: quarto render movielens/ML1M/bias.qmd
     deps:
@@ -436,6 +458,16 @@ stages:
       - movielens/ML20M/sweeps/temporal/als-biased-optuna
     outs:
       - _freeze/movielens/ML20M/als-biased
+  page/movielens/ML20M/als-implicit:
+    cmd: quarto render movielens/ML20M/als-implicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML20M/als-implicit.qmd
+      - movielens/ML20M/sweeps/temporal/als-implicit-random
+      - movielens/ML20M/sweeps/temporal/als-implicit-hyperopt
+      - movielens/ML20M/sweeps/temporal/als-implicit-optuna
+    outs:
+      - _freeze/movielens/ML20M/als-implicit
   page/movielens/ML20M/bias:
     cmd: quarto render movielens/ML20M/bias.qmd
     deps:
@@ -547,6 +579,14 @@ stages:
       - movielens/ML25M/sweeps/temporal/als-biased-optuna
     outs:
       - _freeze/movielens/ML25M/als-biased
+  page/movielens/ML25M/als-implicit:
+    cmd: quarto render movielens/ML25M/als-implicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML25M/als-implicit.qmd
+      - movielens/ML25M/sweeps/temporal/als-implicit-optuna
+    outs:
+      - _freeze/movielens/ML25M/als-implicit
   page/movielens/ML25M/bias:
     cmd: quarto render movielens/ML25M/bias.qmd
     deps:
@@ -644,6 +684,14 @@ stages:
       - movielens/ML32M/sweeps/temporal/als-biased-optuna
     outs:
       - _freeze/movielens/ML32M/als-biased
+  page/movielens/ML32M/als-implicit:
+    cmd: quarto render movielens/ML32M/als-implicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/ML32M/als-implicit.qmd
+      - movielens/ML32M/sweeps/temporal/als-implicit-optuna
+    outs:
+      - _freeze/movielens/ML32M/als-implicit
   page/movielens/ML32M/bias:
     cmd: quarto render movielens/ML32M/bias.qmd
     deps:
@@ -741,6 +789,14 @@ stages:
       - movielens/MLLT/sweeps/temporal/als-biased-optuna
     outs:
       - _freeze/movielens/MLLT/als-biased
+  page/movielens/MLLT/als-implicit:
+    cmd: quarto render movielens/MLLT/als-implicit.qmd
+    deps:
+      - _quarto.yml
+      - movielens/MLLT/als-implicit.qmd
+      - movielens/MLLT/sweeps/temporal/als-implicit-optuna
+    outs:
+      - _freeze/movielens/MLLT/als-implicit
   page/movielens/MLLT/bias:
     cmd: quarto render movielens/MLLT/bias.qmd
     deps:
