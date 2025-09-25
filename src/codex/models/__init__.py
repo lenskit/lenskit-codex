@@ -157,6 +157,9 @@ class ModelDef:
             if not isinstance(config, dict):
                 config = TypeAdapter(self.config_class).dump_python(config)
             log.debug("using default configuration", config=config)
+        if k := config.get("embedding_size_order"):
+            config["embedding_size"] = 2**k
+            del config["embedding_size_order"]
 
         mod_cls = self.scorer_class
         log.debug("instantiating model", config=config, component=mod_cls)
