@@ -57,7 +57,7 @@ fundamental logic, so let's look at performance as a fufnction of it:
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.embedding_size', y='RBP')
+    + pn.aes(x='config.embedding_size_exp', y='RBP')
     + pn.geom_point()
 )
 ```
