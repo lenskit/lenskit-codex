@@ -17,7 +17,7 @@ ALS matrix factorization model.
 {% if false %}
 ```{python}
 import os
-os.chdir('../ML10M')
+os.chdir('../ML1M')
 ```
 {% endif %}
 
@@ -64,8 +64,9 @@ fundamental logic, so let's look at performance as a fufnction of it:
 ```{python}
 (
     pn.ggplot(runs)
-    + pn.aes(x='config.embedding_size', y='RBP')
+    + pn.aes(x='config.embedding_size_exp', y='RBP')
     + pn.geom_point()
+    + pn.scale_x_continuous(labels=lambda xs: [int(2**x) for x in xs])
 )
 ```
 
@@ -85,18 +86,6 @@ fundamental logic, so let's look at performance as a fufnction of it:
 )
 ```
 
-#### User Damp.
-
-```{python}
-(
-    pn.ggplot(runs)
-    + pn.aes(x='config.damping.user', y='RBP')
-    + pn.geom_point()
-    + pn.scale_x_log10()
-    + pn.labs(x='User Damping')
-)
-```
-
 #### Item Reg.
 
 ```{python}
@@ -106,18 +95,6 @@ fundamental logic, so let's look at performance as a fufnction of it:
     + pn.geom_point()
     + pn.scale_x_log10()
     + pn.labs(x='Item Regularization')
-)
-```
-
-#### Item Damp.
-
-```{python}
-(
-    pn.ggplot(runs)
-    + pn.aes(x='config.damping.item', y='RBP')
-    + pn.geom_point()
-    + pn.scale_x_log10()
-    + pn.labs(x='Item Damping')
 )
 ```
 
