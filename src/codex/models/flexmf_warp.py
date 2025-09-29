@@ -8,7 +8,7 @@ DEFAULT_CONFIG = FlexMFImplicitConfig(loss="warp")
 STATIC_CONFIG = {"loss": "warp"}
 
 SEARCH_SPACE = {
-    "embedding_size": rt.lograndint(4, 512, base=2),
+    "embedding_size_exp": rt.randint(3, 10),
     "regularization": rt.loguniform(1e-4, 10),
     "learning_rate": rt.loguniform(1e-3, 1e-1),
     "reg_method": rt.choice(["L2", "AdamW"]),

@@ -7,7 +7,7 @@ DEFAULT_CONFIG = BiasedMFConfig(user_embeddings="prefer")
 STATIC_CONFIG = {"user_embeddings": "prefer"}
 
 SEARCH_SPACE = {
-    "embedding_size": rt.lograndint(4, 512, base=2),
+    "embedding_size_exp": rt.randint(3, 10),
     "regularization": {
         "user": rt.loguniform(1e-5, 1),
         "item": rt.loguniform(1e-5, 1),
