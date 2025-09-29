@@ -7,7 +7,7 @@ DEFAULT_CONFIG = ImplicitMFConfig(user_embeddings="prefer")
 STATIC_CONFIG = {"user_embeddings": "prefer"}
 
 SEARCH_SPACE = {
-    "embedding_size_order": rt.randint(3, 10),
+    "embedding_size_exp": rt.randint(3, 10),
     "regularization": {
         "user": rt.loguniform(1e-5, 1),
         "item": rt.loguniform(1e-5, 1),
