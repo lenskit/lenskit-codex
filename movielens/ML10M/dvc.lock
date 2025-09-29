@@ -1558,23 +1558,23 @@ stages:
       nfiles: 5
     - path: runs/temporal/flexmf-logistic-default
       hash: md5
-      md5: 73bb8a2061a8963b88a745d79e72d3d0.dir
-      size: 3759906
+      md5: 991753ddc0632aa6d2e7f3ff53af8823.dir
+      size: 3926024
       nfiles: 4
     - path: runs/temporal/flexmf-logistic-hyperopt-best
       hash: md5
-      md5: 8431467b44b52baba7c2e5c2b0c6584f.dir
-      size: 3903577
+      md5: c16fd5bbf4995e0987bb455002ecf925.dir
+      size: 3854659
       nfiles: 4
     - path: runs/temporal/flexmf-logistic-optuna-best
       hash: md5
-      md5: bcac19efd38c7118e8f1735a7673ea7d.dir
-      size: 3879391
+      md5: 6552ccc4d8b7eadfc690daf8a4b1a445.dir
+      size: 3929088
       nfiles: 4
     - path: runs/temporal/flexmf-logistic-random-best
       hash: md5
-      md5: 9c4d30d9f8e61683e0c39f21d469f804.dir
-      size: 3879992
+      md5: 5e5a7d83376232416fb7cd011b5fc437.dir
+      size: 3875274
       nfiles: 4
     - path: runs/temporal/flexmf-warp-default
       hash: md5
@@ -1684,12 +1684,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 3805b5de0b3e7819acfebe7385764525
-      size: 29166
+      md5: cda8579b7bfe4655af26effebc708410
+      size: 29086
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 2e423a1252c910b991c1227c7e0b6327
-      size: 7893019
+      md5: f261eaa07e32afc9f6bfde8b0b8152a5
+      size: 7880473
   run-temporal-valid-default-IKNN-Explicit:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml
       --test-part=valid -o runs/temporal-valid-default/IKNN-Explicit
@@ -2849,8 +2849,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
-      md5: bbad471f8ca28fa9c5a9818432bc7ac8
-      size: 748
+      md5: b921882f3b498737d682241d88feb464
+      size: 740
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -2858,13 +2858,13 @@ stages:
     outs:
     - path: sweeps/temporal/flexmf-logistic-random
       hash: md5
-      md5: cd0914a8b9635ad6202c218b581eccac.dir
-      size: 1226575
+      md5: ffd8da0a0725e531758ef91b30ffd9a3.dir
+      size: 1482672
       nfiles: 5
     - path: sweeps/temporal/flexmf-logistic-random.json
       hash: md5
-      md5: 289480e0b5b4e7e45cf6ce440d590208
-      size: 754
+      md5: bb9f4282cf1a7c6ea157af7401a719df
+      size: 771
   sweep-als-implicit-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
       --sample-count=100 --hyperopt --metric=RBP als-implicit
@@ -3203,8 +3203,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
-      md5: bbad471f8ca28fa9c5a9818432bc7ac8
-      size: 748
+      md5: b921882f3b498737d682241d88feb464
+      size: 740
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -3212,13 +3212,13 @@ stages:
     outs:
     - path: sweeps/temporal/flexmf-logistic-hyperopt
       hash: md5
-      md5: 394f76a47cb4eb5e1da107c1a5b45a9d.dir
-      size: 1625357
+      md5: 75816506da7873af4c0952f950f3cf01.dir
+      size: 1702076
       nfiles: 5
     - path: sweeps/temporal/flexmf-logistic-hyperopt.json
       hash: md5
-      md5: 881967e8d06385f5b9a16d8e4ec7d5be
-      size: 754
+      md5: 4204d351a4ab934e2b30581010b5d8ca
+      size: 767
   run-temporal-default-als-biased:
     cmd: lenskit codex generate --default --ds-name=ML10M
       --split=splits/temporal.toml -o runs/temporal/als-biased-default
@@ -3326,8 +3326,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
-      md5: bbad471f8ca28fa9c5a9818432bc7ac8
-      size: 748
+      md5: b921882f3b498737d682241d88feb464
+      size: 740
     - path: dataset
       hash: md5
       md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
@@ -3339,13 +3339,13 @@ stages:
       size: 120
     - path: sweeps/temporal/flexmf-logistic-random.json
       hash: md5
-      md5: 289480e0b5b4e7e45cf6ce440d590208
-      size: 754
+      md5: bb9f4282cf1a7c6ea157af7401a719df
+      size: 771
     outs:
     - path: runs/temporal/flexmf-logistic-random-best
       hash: md5
-      md5: 9c4d30d9f8e61683e0c39f21d469f804.dir
-      size: 3879992
+      md5: 5e5a7d83376232416fb7cd011b5fc437.dir
+      size: 3875274
       nfiles: 4
   sweep-als-implicit-temporal-random:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
@@ -3482,8 +3482,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
-      md5: bbad471f8ca28fa9c5a9818432bc7ac8
-      size: 748
+      md5: b921882f3b498737d682241d88feb464
+      size: 740
     - path: dataset
       hash: md5
       md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
@@ -3496,8 +3496,8 @@ stages:
     outs:
     - path: runs/temporal/flexmf-logistic-default
       hash: md5
-      md5: 73bb8a2061a8963b88a745d79e72d3d0.dir
-      size: 3759906
+      md5: 991753ddc0632aa6d2e7f3ff53af8823.dir
+      size: 3926024
       nfiles: 4
   run-temporal-random-best-als-biased:
     cmd: lenskit codex generate --param-file
@@ -3674,8 +3674,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
-      md5: bbad471f8ca28fa9c5a9818432bc7ac8
-      size: 748
+      md5: b921882f3b498737d682241d88feb464
+      size: 740
     - path: dataset
       hash: md5
       md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
@@ -3687,13 +3687,13 @@ stages:
       size: 120
     - path: sweeps/temporal/flexmf-logistic-hyperopt.json
       hash: md5
-      md5: 881967e8d06385f5b9a16d8e4ec7d5be
-      size: 754
+      md5: 4204d351a4ab934e2b30581010b5d8ca
+      size: 767
     outs:
     - path: runs/temporal/flexmf-logistic-hyperopt-best
       hash: md5
-      md5: 8431467b44b52baba7c2e5c2b0c6584f.dir
-      size: 3903577
+      md5: c16fd5bbf4995e0987bb455002ecf925.dir
+      size: 3854659
       nfiles: 4
   sweep-iknn-explicit-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
@@ -4106,8 +4106,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
-      md5: bbad471f8ca28fa9c5a9818432bc7ac8
-      size: 748
+      md5: b921882f3b498737d682241d88feb464
+      size: 740
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -4115,13 +4115,13 @@ stages:
     outs:
     - path: sweeps/temporal/flexmf-logistic-optuna
       hash: md5
-      md5: 9306f0358013d1a7b5aa92921b6334cc.dir
-      size: 1734446
+      md5: 931c14ce2b226e30c4ace684c570f94b.dir
+      size: 1826677
       nfiles: 5
     - path: sweeps/temporal/flexmf-logistic-optuna.json
       hash: md5
-      md5: 35cc91559c83b6d10b7ea5777a7fabd6
-      size: 754
+      md5: 058a5a68bc73a0604592b29e491a2943
+      size: 770
   run-temporal-optuna-best-flexmf-logistic:
     cmd: lenskit codex generate --param-file
       sweeps/temporal/flexmf-logistic-optuna.json --ds-name=ML10M
@@ -4130,8 +4130,8 @@ stages:
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
       hash: md5
-      md5: bbad471f8ca28fa9c5a9818432bc7ac8
-      size: 748
+      md5: b921882f3b498737d682241d88feb464
+      size: 740
     - path: dataset
       hash: md5
       md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
@@ -4143,13 +4143,13 @@ stages:
       size: 120
     - path: sweeps/temporal/flexmf-logistic-optuna.json
       hash: md5
-      md5: 35cc91559c83b6d10b7ea5777a7fabd6
-      size: 754
+      md5: 058a5a68bc73a0604592b29e491a2943
+      size: 770
     outs:
     - path: runs/temporal/flexmf-logistic-optuna-best
       hash: md5
-      md5: bcac19efd38c7118e8f1735a7673ea7d.dir
-      size: 3879391
+      md5: 6552ccc4d8b7eadfc690daf8a4b1a445.dir
+      size: 3929088
       nfiles: 4
   sweep-implicit-bpr-temporal-optuna:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
