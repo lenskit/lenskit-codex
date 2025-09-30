@@ -59,8 +59,8 @@ iters = iters.reset_index(names).reset_index(drop=True)
 
 ## Trial Performance
 
-These charts display the maximum performance so far as the search
-progresses through its trials. The vertical lines are at 60 trials.
+These charts display the maximum performance so far as the search progresses
+through its trials. The vertical lines are at 30 and 60 trials.
 
 ```{python}
 topn_runs = runs[runs['RMSE'].isnull()].copy().sort_values('timestamp')
@@ -84,7 +84,7 @@ n_trials = topn_runs['TrialNum'].max()
 plot = (
     pn.ggplot(topn_runs)
     + pn.aes(x='TrialNum', y='MaxRBP', color='model')
-    + pn.geom_vline(xintercept=40, color='grey', linetype='dotted')
+    + pn.geom_vline(xintercept=30, color='grey', linetype='dotted')
 )
 if n_trials >= 55:
     plot = plot + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
@@ -102,7 +102,7 @@ if n_trials >= 55:
 plot = (
     pn.ggplot(topn_runs)
     + pn.aes(x='TrialNum', y='MaxNDCG', color='model')
-    + pn.geom_vline(xintercept=40, color='grey', linetype='dotted')
+    + pn.geom_vline(xintercept=30, color='grey', linetype='dotted')
 )
 if n_trials >= 55:
     plot = plot + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
@@ -138,7 +138,7 @@ tnr['RBPLoss'] = (tnr['FinalBestRBP'] - tnr['MaxRBP']) / tnr['FinalBestRBP']
 plot = (
     pn.ggplot(tnr)
     + pn.aes(x='TrialNum', y='RBPLoss', color='model')
-    + pn.geom_vline(xintercept=40, color='grey', linetype='dotted')
+    + pn.geom_vline(xintercept=30, color='grey', linetype='dotted')
 )
 if n_trials >= 55:
     plot = plot + pn.geom_vline(xintercept=60, color='grey', linetype='dotted')
