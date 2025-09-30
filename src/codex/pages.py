@@ -50,8 +50,18 @@ def render_templates(ds: DataSetInfo, src: Path, dst: Path, glob: str | None = N
                 logger.debug("skipping document %s for %s", file.name, dst)
                 continue
 
-        logger.debug("saving document %s to %s", file.name, dst)
         out_file = dst / file.name
         out_tmp = dst / f".{file.name}.tmp"
-        out_tmp.write_text(res)
-        out_tmp.rename(out_file)
+
+        try:
+            old_text = out_file.read_text()
+            changed = old_text != res
+        except FileNotFoundError:
+            changed = True
+
+        if changed:
+            logger.info("saving document %s to %s", file.name, dst)
+            out_tmp.write_text(res)
+            out_tmp.rename(out_file)
+        else:
+            logger.debug("document %s unchanged", dst)
