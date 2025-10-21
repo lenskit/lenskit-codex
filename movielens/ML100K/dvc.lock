@@ -611,6 +611,16 @@ stages:
       md5: 258581df50dedcd6705746a9f3b86994.dir
       size: 684907
       nfiles: 4
+    - path: runs/random/lightgcn-bpr-default
+      hash: md5
+      md5: ce27a6a9fbc0383ccb6332ec4e544ccf.dir
+      size: 704995
+      nfiles: 4
+    - path: runs/random/lightgcn-logistic-default
+      hash: md5
+      md5: 1cb77f4bd9126c1259985a6444361117.dir
+      size: 703568
+      nfiles: 4
     - path: runs/random/popular-default
       hash: md5
       md5: 30476bc0e02d53f1428114df6a094748.dir
@@ -659,12 +669,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: d1f2c4765bf99acac11f7debd386283b
-      size: 70442
+      md5: 190139bdf50c455c395075cb20580556
+      size: 73450
     - path: run-user-metrics.parquet
       hash: md5
-      md5: f14892db0dba7ee82e0803a4b1c43562
-      size: 899083
+      md5: 22b36fa81bf3e379c07d1e5e362dc4ae
+      size: 935403
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate 
       --param-file=sweeps/random/IKNN-Implicit-grid.json --test-part=-0 
@@ -3985,8 +3995,8 @@ stages:
     deps:
     - path: ../../src/codex/models/lightgcn_logistic.py
       hash: md5
-      md5: f2a467e9f5f92e8a86f5eb86771bc6bd
-      size: 539
+      md5: 9d83d5d05de0432d2346901d6fb87b23
+      size: 551
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -3999,8 +4009,8 @@ stages:
     outs:
     - path: runs/random/lightgcn-logistic-default
       hash: md5
-      md5: 005a2e1960548fca6fc9d2a2ce47d3dc.dir
-      size: 703553
+      md5: 1cb77f4bd9126c1259985a6444361117.dir
+      size: 703568
       nfiles: 4
   run-random-default-lightgcn-bpr:
     cmd: lenskit codex generate --default --ds-name=ML100K 
@@ -4009,8 +4019,8 @@ stages:
     deps:
     - path: ../../src/codex/models/lightgcn_bpr.py
       hash: md5
-      md5: d6a9a2286a42c04169f4bda783da5347
-      size: 539
+      md5: 4ef407fab23ade2064a8faf4a49b1204
+      size: 551
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4023,6 +4033,6 @@ stages:
     outs:
     - path: runs/random/lightgcn-bpr-default
       hash: md5
-      md5: 1b7a055f41b4e2be5be22e1bbea20d3d.dir
-      size: 704993
+      md5: ce27a6a9fbc0383ccb6332ec4e544ccf.dir
+      size: 704995
       nfiles: 4
