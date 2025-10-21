@@ -27,8 +27,6 @@ stages:
       - runs/temporal/flexmf-warp-optuna-best
       - runs/temporal/iknn-explicit-optuna-best
       - runs/temporal/iknn-implicit-optuna-best
-      - runs/temporal/lightgcn-bpr-optuna-best
-      - runs/temporal/lightgcn-logistic-optuna-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -263,30 +261,6 @@ stages:
       - sweeps/temporal/iknn-implicit-optuna.json
     outs:
       - runs/temporal/iknn-implicit-optuna-best
-  run-temporal-optuna-best-lightgcn-bpr:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/lightgcn-bpr-optuna.json --ds-name=ML25M
-      --split=splits/temporal.toml -o runs/temporal/lightgcn-bpr-optuna-best
-      lightgcn-bpr
-    deps:
-      - ../../src/codex/models/lightgcn_bpr.py
-      - dataset
-      - splits/temporal.toml
-      - sweeps/temporal/lightgcn-bpr-optuna.json
-    outs:
-      - runs/temporal/lightgcn-bpr-optuna-best
-  run-temporal-optuna-best-lightgcn-logistic:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/lightgcn-logistic-optuna.json --ds-name=ML25M
-      --split=splits/temporal.toml -o
-      runs/temporal/lightgcn-logistic-optuna-best lightgcn-logistic
-    deps:
-      - ../../src/codex/models/lightgcn_logistic.py
-      - dataset
-      - splits/temporal.toml
-      - sweeps/temporal/lightgcn-logistic-optuna.json
-    outs:
-      - runs/temporal/lightgcn-logistic-optuna-best
   stats:
     cmd: lenskit codex sql -D ds_name=ML25M -f ../ml-stats.sql stats.duckdb
     deps:
@@ -412,31 +386,4 @@ stages:
     outs:
       - sweeps/temporal/iknn-implicit-optuna
       - sweeps/temporal/iknn-implicit-optuna.json:
-          cache: false
-  sweep-lightgcn-bpr-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --optuna --metric=RBP lightgcn-bpr sweeps/temporal/lightgcn-bpr-optuna
-    params:
-      - ../../config.toml:
-          - tuning.optuna.points
-    deps:
-      - splits/temporal.toml
-      - ../../src/codex/models/lightgcn_bpr.py
-    outs:
-      - sweeps/temporal/lightgcn-bpr-optuna
-      - sweeps/temporal/lightgcn-bpr-optuna.json:
-          cache: false
-  sweep-lightgcn-logistic-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --optuna --metric=RBP lightgcn-logistic
-      sweeps/temporal/lightgcn-logistic-optuna
-    params:
-      - ../../config.toml:
-          - tuning.optuna.points
-    deps:
-      - splits/temporal.toml
-      - ../../src/codex/models/lightgcn_logistic.py
-    outs:
-      - sweeps/temporal/lightgcn-logistic-optuna
-      - sweeps/temporal/lightgcn-logistic-optuna.json:
           cache: false
