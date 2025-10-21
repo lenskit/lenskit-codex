@@ -3978,3 +3978,51 @@ stages:
       md5: 06fdc5ddd1528b926fd7c79f70ecb42c.dir
       size: 685893
       nfiles: 4
+  run-random-default-lightgcn-logistic:
+    cmd: lenskit codex generate --default --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/lightgcn-logistic-default 
+      lightgcn-logistic
+    deps:
+    - path: ../../src/codex/models/lightgcn_logistic.py
+      hash: md5
+      md5: f2a467e9f5f92e8a86f5eb86771bc6bd
+      size: 539
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: runs/random/lightgcn-logistic-default
+      hash: md5
+      md5: 005a2e1960548fca6fc9d2a2ce47d3dc.dir
+      size: 703553
+      nfiles: 4
+  run-random-default-lightgcn-bpr:
+    cmd: lenskit codex generate --default --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/lightgcn-bpr-default 
+      lightgcn-bpr
+    deps:
+    - path: ../../src/codex/models/lightgcn_bpr.py
+      hash: md5
+      md5: d6a9a2286a42c04169f4bda783da5347
+      size: 539
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: runs/random/lightgcn-bpr-default
+      hash: md5
+      md5: 1b7a055f41b4e2be5be22e1bbea20d3d.dir
+      size: 704993
+      nfiles: 4
