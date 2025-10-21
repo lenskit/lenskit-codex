@@ -13,6 +13,8 @@ stages:
       - runs/fixed/flexmf-explicit-default
       - runs/fixed/flexmf-logistic-default
       - runs/fixed/flexmf-warp-default
+      - runs/fixed/lightgcn-bpr-default
+      - runs/fixed/lightgcn-logistic-default
       - runs/fixed/popular-default
       - runs/fixed/als-biased-optuna-best
       - runs/fixed/als-implicit-optuna-best
@@ -21,6 +23,8 @@ stages:
       - runs/fixed/flexmf-explicit-optuna-best
       - runs/fixed/flexmf-logistic-optuna-best
       - runs/fixed/flexmf-warp-optuna-best
+      - runs/fixed/lightgcn-bpr-optuna-best
+      - runs/fixed/lightgcn-logistic-optuna-best
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
@@ -35,6 +39,8 @@ stages:
       - runs/fixed/flexmf-explicit-default/recommendations.parquet
       - runs/fixed/flexmf-logistic-default/recommendations.parquet
       - runs/fixed/flexmf-warp-default/recommendations.parquet
+      - runs/fixed/lightgcn-bpr-default/recommendations.parquet
+      - runs/fixed/lightgcn-logistic-default/recommendations.parquet
       - runs/fixed/popular-default/recommendations.parquet
     outs:
       - runs/fixed/default.run.gz
@@ -135,6 +141,22 @@ stages:
       - splits/fixed
     outs:
       - runs/fixed/flexmf-warp-default
+  run-fixed-default-lightgcn-bpr:
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed
+      -o runs/fixed/lightgcn-bpr-default lightgcn-bpr
+    deps:
+      - ../../../src/codex/models/lightgcn_bpr.py
+      - splits/fixed
+    outs:
+      - runs/fixed/lightgcn-bpr-default
+  run-fixed-default-lightgcn-logistic:
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed
+      -o runs/fixed/lightgcn-logistic-default lightgcn-logistic
+    deps:
+      - ../../../src/codex/models/lightgcn_logistic.py
+      - splits/fixed
+    outs:
+      - runs/fixed/lightgcn-logistic-default
   run-fixed-default-popular:
     cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed
       -o runs/fixed/popular-default popular
@@ -214,6 +236,27 @@ stages:
       - sweeps/fixed/flexmf-warp-optuna.json
     outs:
       - runs/fixed/flexmf-warp-optuna-best
+  run-fixed-optuna-best-lightgcn-bpr:
+    cmd: lenskit codex generate --param-file
+      sweeps/fixed/lightgcn-bpr-optuna.json --ds-name=MusInst
+      --split=splits/fixed -o runs/fixed/lightgcn-bpr-optuna-best lightgcn-bpr
+    deps:
+      - ../../../src/codex/models/lightgcn_bpr.py
+      - splits/fixed
+      - sweeps/fixed/lightgcn-bpr-optuna.json
+    outs:
+      - runs/fixed/lightgcn-bpr-optuna-best
+  run-fixed-optuna-best-lightgcn-logistic:
+    cmd: lenskit codex generate --param-file
+      sweeps/fixed/lightgcn-logistic-optuna.json --ds-name=MusInst
+      --split=splits/fixed -o runs/fixed/lightgcn-logistic-optuna-best
+      lightgcn-logistic
+    deps:
+      - ../../../src/codex/models/lightgcn_logistic.py
+      - splits/fixed
+      - sweeps/fixed/lightgcn-logistic-optuna.json
+    outs:
+      - runs/fixed/lightgcn-logistic-optuna-best
   subset-valid-test:
     cmd: lenskit data subset --sample-rows=10000 --item-lists
       splits/fixed/valid/test.full.parquet splits/fixed/valid/test.parquet
@@ -311,4 +354,30 @@ stages:
     outs:
       - sweeps/fixed/flexmf-warp-optuna
       - sweeps/fixed/flexmf-warp-optuna.json:
+          cache: false
+  sweep-lightgcn-bpr-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna
+      --metric=RBP lightgcn-bpr sweeps/fixed/lightgcn-bpr-optuna
+    params:
+      - ../../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid
+      - ../../../src/codex/models/lightgcn_bpr.py
+    outs:
+      - sweeps/fixed/lightgcn-bpr-optuna
+      - sweeps/fixed/lightgcn-bpr-optuna.json:
+          cache: false
+  sweep-lightgcn-logistic-fixed-optuna:
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna
+      --metric=RBP lightgcn-logistic sweeps/fixed/lightgcn-logistic-optuna
+    params:
+      - ../../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid
+      - ../../../src/codex/models/lightgcn_logistic.py
+    outs:
+      - sweeps/fixed/lightgcn-logistic-optuna
+      - sweeps/fixed/lightgcn-logistic-optuna.json:
           cache: false

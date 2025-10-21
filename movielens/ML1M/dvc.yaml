@@ -15,6 +15,8 @@ stages:
       - runs/random/flexmf-warp-default
       - runs/random/iknn-explicit-default
       - runs/random/iknn-implicit-default
+      - runs/random/lightgcn-bpr-default
+      - runs/random/lightgcn-logistic-default
       - runs/random/popular-default
       - runs/random/uknn-explicit-default
       - runs/random/uknn-implicit-default
@@ -27,6 +29,8 @@ stages:
       - runs/random/flexmf-warp-random-best
       - runs/random/iknn-explicit-random-best
       - runs/random/iknn-implicit-random-best
+      - runs/random/lightgcn-bpr-random-best
+      - runs/random/lightgcn-logistic-random-best
       - runs/random/uknn-explicit-random-best
       - runs/random/uknn-implicit-random-best
       - runs/random/als-biased-hyperopt-best
@@ -38,6 +42,8 @@ stages:
       - runs/random/flexmf-warp-hyperopt-best
       - runs/random/iknn-explicit-hyperopt-best
       - runs/random/iknn-implicit-hyperopt-best
+      - runs/random/lightgcn-bpr-hyperopt-best
+      - runs/random/lightgcn-logistic-hyperopt-best
       - runs/random/uknn-explicit-hyperopt-best
       - runs/random/uknn-implicit-hyperopt-best
       - runs/random/als-biased-optuna-best
@@ -49,6 +55,8 @@ stages:
       - runs/random/flexmf-warp-optuna-best
       - runs/random/iknn-explicit-optuna-best
       - runs/random/iknn-implicit-optuna-best
+      - runs/random/lightgcn-bpr-optuna-best
+      - runs/random/lightgcn-logistic-optuna-best
       - runs/random/uknn-explicit-optuna-best
       - runs/random/uknn-implicit-optuna-best
     outs:
@@ -146,6 +154,26 @@ stages:
       - splits/random.parquet
     outs:
       - runs/random/iknn-implicit-default
+  run-random-default-lightgcn-bpr:
+    cmd: lenskit codex generate --default --ds-name=ML1M
+      --split=splits/random.toml -o runs/random/lightgcn-bpr-default
+      lightgcn-bpr
+    deps:
+      - ../../src/codex/models/lightgcn_bpr.py
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/lightgcn-bpr-default
+  run-random-default-lightgcn-logistic:
+    cmd: lenskit codex generate --default --ds-name=ML1M
+      --split=splits/random.toml -o runs/random/lightgcn-logistic-default
+      lightgcn-logistic
+    deps:
+      - ../../src/codex/models/lightgcn_logistic.py
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/lightgcn-logistic-default
   run-random-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML1M
       --split=splits/random.toml -o runs/random/popular-default popular
@@ -282,6 +310,30 @@ stages:
       - sweeps/random/iknn-implicit-hyperopt.json
     outs:
       - runs/random/iknn-implicit-hyperopt-best
+  run-random-hyperopt-best-lightgcn-bpr:
+    cmd: lenskit codex generate --param-file
+      sweeps/random/lightgcn-bpr-hyperopt.json --ds-name=ML1M
+      --split=splits/random.toml -o runs/random/lightgcn-bpr-hyperopt-best
+      lightgcn-bpr
+    deps:
+      - ../../src/codex/models/lightgcn_bpr.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/lightgcn-bpr-hyperopt.json
+    outs:
+      - runs/random/lightgcn-bpr-hyperopt-best
+  run-random-hyperopt-best-lightgcn-logistic:
+    cmd: lenskit codex generate --param-file
+      sweeps/random/lightgcn-logistic-hyperopt.json --ds-name=ML1M
+      --split=splits/random.toml -o runs/random/lightgcn-logistic-hyperopt-best
+      lightgcn-logistic
+    deps:
+      - ../../src/codex/models/lightgcn_logistic.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/lightgcn-logistic-hyperopt.json
+    outs:
+      - runs/random/lightgcn-logistic-hyperopt-best
   run-random-hyperopt-best-uknn-explicit:
     cmd: lenskit codex generate --param-file
       sweeps/random/uknn-explicit-hyperopt.json --ds-name=ML1M
@@ -413,6 +465,30 @@ stages:
       - sweeps/random/iknn-implicit-optuna.json
     outs:
       - runs/random/iknn-implicit-optuna-best
+  run-random-optuna-best-lightgcn-bpr:
+    cmd: lenskit codex generate --param-file
+      sweeps/random/lightgcn-bpr-optuna.json --ds-name=ML1M
+      --split=splits/random.toml -o runs/random/lightgcn-bpr-optuna-best
+      lightgcn-bpr
+    deps:
+      - ../../src/codex/models/lightgcn_bpr.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/lightgcn-bpr-optuna.json
+    outs:
+      - runs/random/lightgcn-bpr-optuna-best
+  run-random-optuna-best-lightgcn-logistic:
+    cmd: lenskit codex generate --param-file
+      sweeps/random/lightgcn-logistic-optuna.json --ds-name=ML1M
+      --split=splits/random.toml -o runs/random/lightgcn-logistic-optuna-best
+      lightgcn-logistic
+    deps:
+      - ../../src/codex/models/lightgcn_logistic.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/lightgcn-logistic-optuna.json
+    outs:
+      - runs/random/lightgcn-logistic-optuna-best
   run-random-optuna-best-uknn-explicit:
     cmd: lenskit codex generate --param-file
       sweeps/random/uknn-explicit-optuna.json --ds-name=ML1M
@@ -544,6 +620,30 @@ stages:
       - sweeps/random/iknn-implicit-random.json
     outs:
       - runs/random/iknn-implicit-random-best
+  run-random-random-best-lightgcn-bpr:
+    cmd: lenskit codex generate --param-file
+      sweeps/random/lightgcn-bpr-random.json --ds-name=ML1M
+      --split=splits/random.toml -o runs/random/lightgcn-bpr-random-best
+      lightgcn-bpr
+    deps:
+      - ../../src/codex/models/lightgcn_bpr.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/lightgcn-bpr-random.json
+    outs:
+      - runs/random/lightgcn-bpr-random-best
+  run-random-random-best-lightgcn-logistic:
+    cmd: lenskit codex generate --param-file
+      sweeps/random/lightgcn-logistic-random.json --ds-name=ML1M
+      --split=splits/random.toml -o runs/random/lightgcn-logistic-random-best
+      lightgcn-logistic
+    deps:
+      - ../../src/codex/models/lightgcn_logistic.py
+      - dataset
+      - splits/random.parquet
+      - sweeps/random/lightgcn-logistic-random.json
+    outs:
+      - runs/random/lightgcn-logistic-random-best
   run-random-random-best-uknn-explicit:
     cmd: lenskit codex generate --param-file
       sweeps/random/uknn-explicit-random.json --ds-name=ML1M
@@ -880,6 +980,72 @@ stages:
     outs:
       - sweeps/random/iknn-implicit-random
       - sweeps/random/iknn-implicit-random.json:
+          cache: false
+  sweep-lightgcn-bpr-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0
+      --sample-count=100 --hyperopt --metric=RBP lightgcn-bpr
+      sweeps/random/lightgcn-bpr-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/lightgcn_bpr.py
+    outs:
+      - sweeps/random/lightgcn-bpr-hyperopt
+      - sweeps/random/lightgcn-bpr-hyperopt.json:
+          cache: false
+  sweep-lightgcn-bpr-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0
+      --sample-count=100 --optuna --metric=RBP lightgcn-bpr
+      sweeps/random/lightgcn-bpr-optuna
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/lightgcn_bpr.py
+    outs:
+      - sweeps/random/lightgcn-bpr-optuna
+      - sweeps/random/lightgcn-bpr-optuna.json:
+          cache: false
+  sweep-lightgcn-bpr-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0
+      --sample-count=100 --random --metric=RBP lightgcn-bpr
+      sweeps/random/lightgcn-bpr-random
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/lightgcn_bpr.py
+    outs:
+      - sweeps/random/lightgcn-bpr-random
+      - sweeps/random/lightgcn-bpr-random.json:
+          cache: false
+  sweep-lightgcn-logistic-random-hyperopt:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0
+      --sample-count=100 --hyperopt --metric=RBP lightgcn-logistic
+      sweeps/random/lightgcn-logistic-hyperopt
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/lightgcn_logistic.py
+    outs:
+      - sweeps/random/lightgcn-logistic-hyperopt
+      - sweeps/random/lightgcn-logistic-hyperopt.json:
+          cache: false
+  sweep-lightgcn-logistic-random-optuna:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0
+      --sample-count=100 --optuna --metric=RBP lightgcn-logistic
+      sweeps/random/lightgcn-logistic-optuna
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/lightgcn_logistic.py
+    outs:
+      - sweeps/random/lightgcn-logistic-optuna
+      - sweeps/random/lightgcn-logistic-optuna.json:
+          cache: false
+  sweep-lightgcn-logistic-random-random:
+    cmd: lenskit codex search --split=splits/random.toml --test-part=0
+      --sample-count=100 --random --metric=RBP lightgcn-logistic
+      sweeps/random/lightgcn-logistic-random
+    deps:
+      - splits/random.parquet
+      - ../../src/codex/models/lightgcn_logistic.py
+    outs:
+      - sweeps/random/lightgcn-logistic-random
+      - sweeps/random/lightgcn-logistic-random.json:
           cache: false
   sweep-uknn-explicit-random-hyperopt:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0

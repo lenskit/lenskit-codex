@@ -15,6 +15,8 @@ stages:
       - runs/temporal/flexmf-warp-default
       - runs/temporal/iknn-explicit-default
       - runs/temporal/iknn-implicit-default
+      - runs/temporal/lightgcn-bpr-default
+      - runs/temporal/lightgcn-logistic-default
       - runs/temporal/popular-default
       - runs/temporal/uknn-explicit-default
       - runs/temporal/uknn-implicit-default
@@ -27,6 +29,8 @@ stages:
       - runs/temporal/flexmf-warp-random-best
       - runs/temporal/iknn-explicit-random-best
       - runs/temporal/iknn-implicit-random-best
+      - runs/temporal/lightgcn-bpr-random-best
+      - runs/temporal/lightgcn-logistic-random-best
       - runs/temporal/uknn-explicit-random-best
       - runs/temporal/uknn-implicit-random-best
       - runs/temporal/als-biased-hyperopt-best
@@ -38,6 +42,8 @@ stages:
       - runs/temporal/flexmf-warp-hyperopt-best
       - runs/temporal/iknn-explicit-hyperopt-best
       - runs/temporal/iknn-implicit-hyperopt-best
+      - runs/temporal/lightgcn-bpr-hyperopt-best
+      - runs/temporal/lightgcn-logistic-hyperopt-best
       - runs/temporal/uknn-explicit-hyperopt-best
       - runs/temporal/uknn-implicit-hyperopt-best
       - runs/temporal/als-biased-optuna-best
@@ -49,6 +55,8 @@ stages:
       - runs/temporal/flexmf-warp-optuna-best
       - runs/temporal/iknn-explicit-optuna-best
       - runs/temporal/iknn-implicit-optuna-best
+      - runs/temporal/lightgcn-bpr-optuna-best
+      - runs/temporal/lightgcn-logistic-optuna-best
       - runs/temporal/uknn-explicit-optuna-best
       - runs/temporal/uknn-implicit-optuna-best
     outs:
@@ -149,6 +157,26 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/iknn-implicit-default
+  run-temporal-default-lightgcn-bpr:
+    cmd: lenskit codex generate --default --ds-name=ML10M
+      --split=splits/temporal.toml -o runs/temporal/lightgcn-bpr-default
+      lightgcn-bpr
+    deps:
+      - ../../src/codex/models/lightgcn_bpr.py
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/lightgcn-bpr-default
+  run-temporal-default-lightgcn-logistic:
+    cmd: lenskit codex generate --default --ds-name=ML10M
+      --split=splits/temporal.toml -o runs/temporal/lightgcn-logistic-default
+      lightgcn-logistic
+    deps:
+      - ../../src/codex/models/lightgcn_logistic.py
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/lightgcn-logistic-default
   run-temporal-default-popular:
     cmd: lenskit codex generate --default --ds-name=ML10M
       --split=splits/temporal.toml -o runs/temporal/popular-default popular
@@ -285,6 +313,30 @@ stages:
       - sweeps/temporal/iknn-implicit-hyperopt.json
     outs:
       - runs/temporal/iknn-implicit-hyperopt-best
+  run-temporal-hyperopt-best-lightgcn-bpr:
+    cmd: lenskit codex generate --param-file
+      sweeps/temporal/lightgcn-bpr-hyperopt.json --ds-name=ML10M
+      --split=splits/temporal.toml -o runs/temporal/lightgcn-bpr-hyperopt-best
+      lightgcn-bpr
+    deps:
+      - ../../src/codex/models/lightgcn_bpr.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/lightgcn-bpr-hyperopt.json
+    outs:
+      - runs/temporal/lightgcn-bpr-hyperopt-best
+  run-temporal-hyperopt-best-lightgcn-logistic:
+    cmd: lenskit codex generate --param-file
+      sweeps/temporal/lightgcn-logistic-hyperopt.json --ds-name=ML10M
+      --split=splits/temporal.toml -o
+      runs/temporal/lightgcn-logistic-hyperopt-best lightgcn-logistic
+    deps:
+      - ../../src/codex/models/lightgcn_logistic.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/lightgcn-logistic-hyperopt.json
+    outs:
+      - runs/temporal/lightgcn-logistic-hyperopt-best
   run-temporal-hyperopt-best-uknn-explicit:
     cmd: lenskit codex generate --param-file
       sweeps/temporal/uknn-explicit-hyperopt.json --ds-name=ML10M
@@ -416,6 +468,30 @@ stages:
       - sweeps/temporal/iknn-implicit-optuna.json
     outs:
       - runs/temporal/iknn-implicit-optuna-best
+  run-temporal-optuna-best-lightgcn-bpr:
+    cmd: lenskit codex generate --param-file
+      sweeps/temporal/lightgcn-bpr-optuna.json --ds-name=ML10M
+      --split=splits/temporal.toml -o runs/temporal/lightgcn-bpr-optuna-best
+      lightgcn-bpr
+    deps:
+      - ../../src/codex/models/lightgcn_bpr.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/lightgcn-bpr-optuna.json
+    outs:
+      - runs/temporal/lightgcn-bpr-optuna-best
+  run-temporal-optuna-best-lightgcn-logistic:
+    cmd: lenskit codex generate --param-file
+      sweeps/temporal/lightgcn-logistic-optuna.json --ds-name=ML10M
+      --split=splits/temporal.toml -o
+      runs/temporal/lightgcn-logistic-optuna-best lightgcn-logistic
+    deps:
+      - ../../src/codex/models/lightgcn_logistic.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/lightgcn-logistic-optuna.json
+    outs:
+      - runs/temporal/lightgcn-logistic-optuna-best
   run-temporal-optuna-best-uknn-explicit:
     cmd: lenskit codex generate --param-file
       sweeps/temporal/uknn-explicit-optuna.json --ds-name=ML10M
@@ -547,6 +623,30 @@ stages:
       - sweeps/temporal/iknn-implicit-random.json
     outs:
       - runs/temporal/iknn-implicit-random-best
+  run-temporal-random-best-lightgcn-bpr:
+    cmd: lenskit codex generate --param-file
+      sweeps/temporal/lightgcn-bpr-random.json --ds-name=ML10M
+      --split=splits/temporal.toml -o runs/temporal/lightgcn-bpr-random-best
+      lightgcn-bpr
+    deps:
+      - ../../src/codex/models/lightgcn_bpr.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/lightgcn-bpr-random.json
+    outs:
+      - runs/temporal/lightgcn-bpr-random-best
+  run-temporal-random-best-lightgcn-logistic:
+    cmd: lenskit codex generate --param-file
+      sweeps/temporal/lightgcn-logistic-random.json --ds-name=ML10M
+      --split=splits/temporal.toml -o
+      runs/temporal/lightgcn-logistic-random-best lightgcn-logistic
+    deps:
+      - ../../src/codex/models/lightgcn_logistic.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/lightgcn-logistic-random.json
+    outs:
+      - runs/temporal/lightgcn-logistic-random-best
   run-temporal-random-best-uknn-explicit:
     cmd: lenskit codex generate --param-file
       sweeps/temporal/uknn-explicit-random.json --ds-name=ML10M
@@ -872,6 +972,72 @@ stages:
     outs:
       - sweeps/temporal/iknn-implicit-random
       - sweeps/temporal/iknn-implicit-random.json:
+          cache: false
+  sweep-lightgcn-bpr-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
+      --sample-count=100 --hyperopt --metric=RBP lightgcn-bpr
+      sweeps/temporal/lightgcn-bpr-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/lightgcn_bpr.py
+    outs:
+      - sweeps/temporal/lightgcn-bpr-hyperopt
+      - sweeps/temporal/lightgcn-bpr-hyperopt.json:
+          cache: false
+  sweep-lightgcn-bpr-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
+      --sample-count=100 --optuna --metric=RBP lightgcn-bpr
+      sweeps/temporal/lightgcn-bpr-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/lightgcn_bpr.py
+    outs:
+      - sweeps/temporal/lightgcn-bpr-optuna
+      - sweeps/temporal/lightgcn-bpr-optuna.json:
+          cache: false
+  sweep-lightgcn-bpr-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
+      --sample-count=100 --random --metric=RBP lightgcn-bpr
+      sweeps/temporal/lightgcn-bpr-random
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/lightgcn_bpr.py
+    outs:
+      - sweeps/temporal/lightgcn-bpr-random
+      - sweeps/temporal/lightgcn-bpr-random.json:
+          cache: false
+  sweep-lightgcn-logistic-temporal-hyperopt:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
+      --sample-count=100 --hyperopt --metric=RBP lightgcn-logistic
+      sweeps/temporal/lightgcn-logistic-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/lightgcn_logistic.py
+    outs:
+      - sweeps/temporal/lightgcn-logistic-hyperopt
+      - sweeps/temporal/lightgcn-logistic-hyperopt.json:
+          cache: false
+  sweep-lightgcn-logistic-temporal-optuna:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
+      --sample-count=100 --optuna --metric=RBP lightgcn-logistic
+      sweeps/temporal/lightgcn-logistic-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/lightgcn_logistic.py
+    outs:
+      - sweeps/temporal/lightgcn-logistic-optuna
+      - sweeps/temporal/lightgcn-logistic-optuna.json:
+          cache: false
+  sweep-lightgcn-logistic-temporal-random:
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
+      --sample-count=100 --random --metric=RBP lightgcn-logistic
+      sweeps/temporal/lightgcn-logistic-random
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/lightgcn_logistic.py
+    outs:
+      - sweeps/temporal/lightgcn-logistic-random
+      - sweeps/temporal/lightgcn-logistic-random.json:
           cache: false
   sweep-uknn-explicit-temporal-hyperopt:
     cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
