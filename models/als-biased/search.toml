@@ -1,0 +1,13 @@
+[search]
+metric = "RMSE"
+max_epochs = 30
+
+[space.scorer]
+embedding_size_exp = { type = "int", min = 3, max = 10, scale = "log" }
+regularization.user = { type = "float", min = 1e-5, max = 0.2, scale = "log" }
+regularization.item = { type = "float", min = 1e-5, max = 0.2, scale = "log" }
+damping.user = { type = "float", min = 1e-12, max = 100, scale = "log" }
+damping.item = { type = "float", min = 1e-12, max = 100, scale = "log" }
+
+[pipeline]
+file = "pipeline.toml"

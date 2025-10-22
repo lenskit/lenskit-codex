@@ -1,0 +1,12 @@
+[meta]
+name = "flexmf-logistic"
+
+[options]
+base = "std:topn"
+
+[components.scorer]
+class = "lenskit.flexmf.FlexMFImplicitScorer"
+
+[components.scorer.config]
+loss = "logistic"
+reg_method = "AdamW"

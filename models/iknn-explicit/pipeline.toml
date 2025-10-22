@@ -1,0 +1,14 @@
+[meta]
+name = "iknn-explicit"
+
+[options]
+base = "std:topn-predict"
+
+[components.scorer]
+class = "lenskit.knn.ItemKNNScorer"
+
+[components.scorer.config]
+feedback = "explicit"
+max_nbrs = 20
+min_nbrs = 2
+save_nbrs = 10000

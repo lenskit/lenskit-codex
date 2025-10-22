@@ -1,0 +1,11 @@
+[meta]
+name = "als-biased"
+
+[options]
+base = "std:topn-predict"
+
+[components.scorer]
+class = "lenskit.als.BiasedMFScorer"
+
+[components.scorer.config]
+user_embeddings = "prefer"

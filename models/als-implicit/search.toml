@@ -1,0 +1,12 @@
+[search]
+metric = "RBP"
+max_epochs = 30
+
+[space.scorer]
+embedding_size_exp = { type = "int", min = 3, max = 10, scale = "log" }
+regularization.user = { type = "float", min = 1e-5, max = 0.2, scale = "log" }
+regularization.item = { type = "float", min = 1e-5, max = 0.2, scale = "log" }
+weight = { type = "float", min = 5, max = 60 }
+
+[pipeline]
+file = "pipeline.toml"

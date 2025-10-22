@@ -1,0 +1,11 @@
+[meta]
+name = "flexmf-explicit"
+
+[options]
+base = "std:topn-predict"
+
+[components.scorer]
+class = "lenskit.flexmf.FlexMFExplicitScorer"
+
+[components.scorer.config]
+reg_method = "AdamW"
