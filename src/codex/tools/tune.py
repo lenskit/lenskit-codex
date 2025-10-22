@@ -17,7 +17,7 @@ from lenskit.tuning import PipelineTuner, TuningSpec
 from pydantic_core import to_json
 
 from codex.cluster import ensure_cluster_init
-from codex.layout import codex_root
+from codex.layout import model_dir
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.splitting import load_split_set
 
@@ -62,7 +62,7 @@ def run_tune(
 
     ray.tune.utils.log.set_verbosity(0)
 
-    spec = TuningSpec.load(codex_root() / "models" / model / "search.toml")
+    spec = TuningSpec.load(model_dir(model) / "search.toml")
     spec.search.method = method
     if metric is not None:
         spec.search.metric = metric

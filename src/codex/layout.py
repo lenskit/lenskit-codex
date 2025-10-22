@@ -15,6 +15,13 @@ def codex_root() -> Path:
     return ROOT_DIR
 
 
+def model_dir(name: str, *, require_exists: bool = True) -> Path:
+    mdir = codex_root() / "models" / name
+    if require_exists and not mdir.exists():
+        raise FileNotFoundError(mdir)
+    return mdir
+
+
 def codex_relpath(path: str | PathLike[str]) -> Path:
     path = Path(path)
     resolved = path.absolute()

@@ -10,6 +10,7 @@ import socket
 import subprocess as sp
 from collections.abc import Iterable
 from pathlib import Path
+from typing import Mapping
 from uuid import UUID
 
 import lenskit
@@ -59,7 +60,7 @@ class DataModel(BaseModel):
 
 class ScorerModel(BaseModel):
     name: str | None = None
-    config: dict[str, JsonValue] | None = None
+    config: Mapping[str, JsonValue] | None = None
 
 
 class CodexTask(Task):

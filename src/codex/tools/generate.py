@@ -3,9 +3,10 @@ from pathlib import Path
 
 import click
 import structlog
+from lenskit import Pipeline
 
 from codex.inference import recommend_and_save
-from codex.models import load_model
+from codex.layout import model_dir
 from codex.outputs import RunOutput
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.splitting import SplitSet, load_split_set
@@ -17,9 +18,12 @@ _log = structlog.stdlib.get_logger(__name__)
 
 
 @codex.command("generate")
-@click.option("--default", "config", help="Use default model configuration.", flag_value="default")
 @click.option(
-    "--param-file", "config", metavar="FILE", default="default", help="Configure model from FILE."
+    "--pipeline-file",
+    "pipeline_file",
+    metavar="FILE",
+    type=Path,
+    help="Load pipeline from FILE.",
 )
 @click.option(
     "-n",
@@ -40,10 +44,10 @@ _log = structlog.stdlib.get_logger(__name__)
     metavar="PARTS",
     help="Test on specified part(s), comma-separated; -part to negate.",
 )
-@click.argument("MODEL", required=True)
+@click.argument("MODEL")
 def generate(
-    model: str,
-    config: str | Path,
+    model: str | None,
+    pipeline_file: Path | None,
     out_dir: Path,
     split: Path,
     test_part: str | None,
@@ -54,12 +58,17 @@ def generate(
     Generate recommendations using a default or configured algorithm.
     """
 
-    if config == "default":
-        cfg_path = None
-    else:
-        cfg_path = Path(config)
+    if pipeline_file is None:
+        if model is None:
+            _log.error("no pipeline or model specified")
+            raise click.UsageError("must specify --pipeline-file or model name")
+        pipeline_file = model_dir(model) / "pipeline.json"
 
-    mod_def = load_model(model)
+    pipeline = Pipeline.load_config(pipeline_file)
+    if model is not None and pipeline.name != model:
+        _log.warn("pipeline name %s does not match model name %s", pipeline.name, model)
+    if model is None:
+        model = pipeline.name
 
     output = RunOutput(out_dir)
     output.initialize()
@@ -83,8 +92,7 @@ def generate(
             plog = log.bind(part=part)
             plog.info("loading data")
             data = split_set.get_part(part)
-            cfg = load_config(cfg_path)
-            pipe, task = train_task(mod_def, cfg, data.train, data_info)
+            pipe, task = train_task(pipeline, data.train, data_info)
             output.record_log("training", task)
 
             shard = f"part={part}"
@@ -92,11 +100,11 @@ def generate(
                 label=f"recommend {model}",
                 tags=["recommend"],
                 reset_hwm=True,
-                scorer=ScorerModel(name=model, config=cfg),
+                scorer=ScorerModel(name=model, config=pipe.config.components["scorer"].config),
                 data=data_info,
             ) as task:
                 rec_out = output.recommendations_hive_path / shard / "data.parquet"
-                if mod_def.is_predictor:
+                if pipe.node("rating-predictor", missing=None) is not None:
                     pred_out = output.predictions_hive_path / shard / "data.parquet"
                 else:
                     pred_out = None
