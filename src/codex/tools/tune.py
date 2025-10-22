@@ -4,8 +4,6 @@ Hyperparameter search.
 
 from __future__ import annotations
 
-import json
-import os.path
 import zipfile
 from pathlib import Path
 from typing import Literal
@@ -15,19 +13,20 @@ import ray.tune.utils.log
 from humanize import metric as human_metric
 from humanize import precisedelta
 from lenskit.logging import get_logger, stdout_console
+from lenskit.tuning import PipelineTuner, TuningSpec
 from pydantic_core import to_json
 
 from codex.cluster import ensure_cluster_init
-from codex.models import load_model
-from codex.runlog import CodexTask, ScorerModel
-from codex.tuning import TuningBuilder
+from codex.layout import codex_root
+from codex.runlog import CodexTask, DataModel, ScorerModel
+from codex.splitting import load_split_set
 
 from . import codex
 
 _log = get_logger(__name__)
 
 
-@codex.command("search")
+@codex.command("tune")
 @click.option("-C", "--sample-count", type=int, metavar="N", help="test N points")
 @click.option("--split", "split", type=Path, help="path to the split spec (or base file)")
 @click.option("-N", "--ds-name", help="name of the dataset to search with")
@@ -43,58 +42,57 @@ _log = get_logger(__name__)
 @click.option("--optuna", "method", flag_value="optuna", help="use Optuna search")
 @click.option(
     "--metric",
-    type=click.Choice(["RMSE", "LogRBP", "RBP", "RecipRank", "NDCG"]),
-    default="RBP",
+    type=click.Choice(["RMSE", "RBP", "RecipRank", "NDCG"]),
     help="Select the metric to optimize",
 )
 @click.argument("MODEL")
 @click.argument("OUT", type=Path)
-def run_search(
+def run_tune(
     model: str,
     out: Path,
     sample_count: int | None,
     split: Path,
     method: Literal["random", "hyperopt", "optuna"],
-    metric: str,
+    metric: str | None = None,
     ds_name: str | None = None,
     test_part: str = "valid",
 ):
     console = stdout_console()
     log = _log.bind(model=model, dataset=ds_name, split=split.stem)
-    mod_def = load_model(model)
 
     ray.tune.utils.log.set_verbosity(0)
-    controller = TuningBuilder(mod_def, out, sample_count, metric)
-    controller.load_data(split, test_part, ds_name)
 
-    out.mkdir(exist_ok=True, parents=True)
+    spec = TuningSpec.load(codex_root() / "models" / model / "search.toml")
+    spec.search.method = method
+    if metric is not None:
+        spec.search.metric = metric
+    if sample_count is not None:
+        spec.search.max_points = sample_count
+    metric = spec.search.metric
+    assert metric is not None
 
     ensure_cluster_init()
+
+    tuner = PipelineTuner(spec, out_dir=out)
+
+    splits = load_split_set(split)
+    data = splits.get_part(test_part)
+    tuner.set_data(data.train, data.test, name=data.name)
+    data_model = DataModel(dataset=data.name or ds_name, split=split.stem, part=test_part)
 
     with (
         CodexTask(
             label=f"{method} search {model}",
             tags=["search", method],
             scorer=ScorerModel(name=model),
-            data=controller.data_info,
+            data=data_model,
         ) as task,
     ):
-        controller.prepare_factory()
-        controller.setup_harness()
-        if method == "random":
-            tuner = controller.create_random_tuner()
-        elif method == "hyperopt":
-            tuner = controller.create_hyperopt_tuner()
-        elif method == "optuna":
-            tuner = controller.create_optuna_tuner()
-        else:
-            raise ValueError(f"invalid method {method}")
-
         with open(out / "config.json", "wt") as jsf:
-            print(to_json(controller.spec, indent=2).decode(), file=jsf)
+            print(tuner.spec.model_dump_json(indent=2), file=jsf)
 
         log.info("starting hyperparameter search")
-        results = tuner.fit()
+        results = tuner.run()
 
     fail = None
     if any(r.metrics is None or len(r.metrics) <= 1 for r in results):
@@ -102,6 +100,7 @@ def run_search(
         fail = RuntimeError("runs failed")
 
     best = results.get_best_result()
+    assert best.metrics is not None
     fields = {metric: best.metrics[metric], "config": best.config}
 
     log.info("finished hyperparameter search", **fields)
@@ -125,18 +124,10 @@ def run_search(
         for result in results:
             print(to_json(result.metrics).decode(), file=jsf)
 
-    best_out = best.metrics
+    best_out = tuner.best_result
     assert best_out is not None
 
-    if mod_def.is_iterative:
-        # see if we have an earlier, best configuration
-        with open(os.path.join(best.path, "result.json"), "rt") as rjsf:
-            iter_results = [json.loads(line) for line in rjsf]
-
-        op = min if controller.mode == "min" else max
-        best_out = op(iter_results, key=lambda r: r[metric]).copy()
-        best_out["config"] = best_out["config"] | {"epochs": best_out["training_iteration"]}
-
+    if tuner.iterative:
         with open(out / "iterations.ndjson", "wt") as jsf:
             for n, result in enumerate(results):
                 for i, row in result.metrics_dataframe.to_dict("index").items():
@@ -144,8 +135,11 @@ def run_search(
                     out_row.update({k: v for (k, v) in row.items() if not k.startswith("config/")})
                     print(to_json(out_row).decode(), file=jsf)
 
+    log.info("saving final tuned configuration")
     with open(out.with_suffix(".json"), "wt") as jsf:
         print(to_json(best_out).decode(), file=jsf)
+    with open(out.with_name(out.stem + "-pipeline.json"), "wt") as jsf:
+        print(tuner.best_pipeline().model_dump_json(indent=2), file=jsf)
 
     log.info("archiving search state")
     with zipfile.ZipFile(out / "tuning-state.zip", "w") as zipf:

@@ -24,8 +24,8 @@ from . import (  # noqa: F401, E402
     generate,
     movielens,
     runlog,
-    search,
     split,
     test_measure,
     trec,
+    tune,
 )
