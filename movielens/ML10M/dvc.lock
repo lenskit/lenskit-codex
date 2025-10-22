@@ -72,7 +72,7 @@ stages:
       md5: 0e40e1ae19f9964ec644f205c9914710
       size: 1847296
   sweep-random-Bias:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml 
       --test-part=0 Bias sweeps/random/Bias
     deps:
     - path: ../../models/Bias.toml
@@ -97,7 +97,7 @@ stages:
       size: 468827058
       nfiles: 260
   sweep-random-BiasedMF-ALS:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml 
       --test-part=0 BiasedMF-ALS sweeps/random/BiasedMF-ALS
     deps:
     - path: ../../models/BiasedMF-ALS.toml
@@ -122,7 +122,7 @@ stages:
       size: 1109297811
       nfiles: 484
   sweep-random-ImplicitMF-ALS:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml 
       --test-part=0 ImplicitMF-ALS sweeps/random/ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
@@ -147,8 +147,8 @@ stages:
       size: 1239395240
       nfiles: 244
   sweep-random-IKNN-Explicit:
-    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb
-      --assignments=splits/random.duckdb IKNN-Explicit
+    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb 
+      --assignments=splits/random.duckdb IKNN-Explicit 
       sweeps/random/IKNN-Explicit.duckdb
     deps:
     - path: ../../codex/models/IKNN_Explicit.py
@@ -172,8 +172,8 @@ stages:
       md5: a85945ca3642dd16a135310db036e5b0
       size: 564146176
   sweep-random-IKNN-Implicit:
-    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb
-      --assignments=splits/random.duckdb IKNN-Implicit
+    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb 
+      --assignments=splits/random.duckdb IKNN-Implicit 
       sweeps/random/IKNN-Implicit.duckdb
     deps:
     - path: ../../codex/models/IKNN_Implicit.py
@@ -210,7 +210,7 @@ stages:
       size: 78748475
       nfiles: 5
   export-random-Bias:
-    cmd: lenskit-codex sweep export -o sweeps/random/Bias.json
+    cmd: lenskit-codex sweep export -o sweeps/random/Bias.json 
       sweeps/random/Bias RMSE
     deps:
     - path: sweeps/random/Bias
@@ -224,7 +224,7 @@ stages:
       md5: 40d17d8232ba49b37f0159fd2088f3f6
       size: 283
   export-random-BiasedMF-ALS:
-    cmd: lenskit-codex sweep export -o sweeps/random/BiasedMF-ALS.json
+    cmd: lenskit-codex sweep export -o sweeps/random/BiasedMF-ALS.json 
       sweeps/random/BiasedMF-ALS RMSE
     deps:
     - path: sweeps/random/BiasedMF-ALS
@@ -238,7 +238,7 @@ stages:
       md5: 356dd1a00a7fcab4a64a22922e189d98
       size: 276
   export-random-ImplicitMF-ALS:
-    cmd: lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS.json
+    cmd: lenskit-codex sweep export -o sweeps/random/ImplicitMF-ALS.json 
       sweeps/random/ImplicitMF-ALS RBP
     deps:
     - path: sweeps/random/ImplicitMF-ALS
@@ -252,7 +252,7 @@ stages:
       md5: 67d41b3fb7d38627363b7ac5df2ca204
       size: 221
   export-random-IKNN-Explicit:
-    cmd: python ../../action.py sweep export sweeps/random/IKNN-Explicit.duckdb
+    cmd: python ../../action.py sweep export sweeps/random/IKNN-Explicit.duckdb 
       rmse
     deps:
     - path: sweeps/random/IKNN-Explicit.duckdb
@@ -269,7 +269,7 @@ stages:
       md5: 084c053afe68f7ba68e69ce5ca125762
       size: 308
   export-random-IKNN-Implicit:
-    cmd: python ../../action.py sweep export sweeps/random/IKNN-Implicit.duckdb
+    cmd: python ../../action.py sweep export sweeps/random/IKNN-Implicit.duckdb 
       ndcg
     deps:
     - path: sweeps/random/IKNN-Implicit.duckdb
@@ -286,8 +286,8 @@ stages:
       md5: a35d30ac82503b02cfd88f408acaafb9
       size: 249
   run-random-default-Bias:
-    cmd: python ../../action.py generate --default --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: python ../../action.py generate --default --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-default/Bias.duckdb Bias
     deps:
     - path: ../../codex/models/Bias.py
@@ -308,7 +308,7 @@ stages:
       md5: 74d4d1325fe0df8e0aef1504e907e296
       size: 45363200
   run-random-grid-best-Bias:
-    cmd: python ../../action.py generate --param-file=sweeps/random/Bias.json
+    cmd: python ../../action.py generate --param-file=sweeps/random/Bias.json 
       --test-part=-0 --assignments=splits/random.duckdb --ratings=ratings.duckdb
       -o runs/random-grid-best/Bias.duckdb Bias
     deps:
@@ -334,8 +334,8 @@ stages:
       md5: 61189ca9f00e2c3bc64aa7816ef3d775
       size: 45363200
   run-random-default-Popular:
-    cmd: lenskit-codex generate --default --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: lenskit-codex generate --default --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-default/Popular Popular
     deps:
     - path: ../../codex/models/Popular.py
@@ -357,8 +357,8 @@ stages:
       size: 5076886
       nfiles: 35
   run-random-default-BiasedMF-ALS:
-    cmd: lenskit-codex generate --default --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: lenskit-codex generate --default --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-default/BiasedMF-ALS BiasedMF-ALS
     deps:
     - path: ../../codex/models/BiasedMF_ALS.py
@@ -380,9 +380,9 @@ stages:
       size: 41576733
       nfiles: 67
   run-random-grid-best-BiasedMF-ALS:
-    cmd: python ../../action.py generate
-      --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: python ../../action.py generate 
+      --param-file=sweeps/random/BiasedMF-ALS.json --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-grid-best/BiasedMF-ALS.duckdb BiasedMF-ALS
     deps:
     - path: ../../codex/models/BiasedMF_ALS.py
@@ -407,7 +407,7 @@ stages:
       md5: 67699827a9bd4614ab771452bac2ed9a
       size: 45363200
   run-random-default-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --default --split=splits/random.toml
+    cmd: lenskit-codex generate --default --split=splits/random.toml 
       --test-part=-0 -o runs/random-default/ImplicitMF-ALS ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
@@ -429,8 +429,8 @@ stages:
       size: 41124284
       nfiles: 35
   run-random-grid-best-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json
-      --split=splits/random.toml --test-part=-0 -o
+    cmd: lenskit-codex generate --param-file=sweeps/random/ImplicitMF-ALS.json 
+      --split=splits/random.toml --test-part=-0 -o 
       runs/random-grid-best/ImplicitMF-ALS ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
@@ -456,8 +456,8 @@ stages:
       size: 42538795
       nfiles: 35
   run-random-default-IKNN-Explicit:
-    cmd: python ../../action.py generate --default --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: python ../../action.py generate --default --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-default/IKNN-Explicit.duckdb IKNN-Explicit
     deps:
     - path: ../../codex/models/IKNN_Explicit.py
@@ -478,9 +478,9 @@ stages:
       md5: 76df675caa680a0031c2b95c404976e5
       size: 45101056
   run-random-grid-best-IKNN-Explicit:
-    cmd: python ../../action.py generate
-      --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: python ../../action.py generate 
+      --param-file=sweeps/random/IKNN-Explicit.json --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-grid-best/IKNN-Explicit.duckdb IKNN-Explicit
     deps:
     - path: ../../codex/models/IKNN_Explicit.py
@@ -505,8 +505,8 @@ stages:
       md5: 24460f4688b9274b0c73efcfc6029bdd
       size: 45101056
   run-random-default-IKNN-Implicit:
-    cmd: lenskit-codex generate --default --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: lenskit-codex generate --default --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-default/IKNN-Implicit IKNN-Implicit
     deps:
     - path: ../../codex/models/IKNN_Implicit.py
@@ -528,9 +528,9 @@ stages:
       size: 39646391
       nfiles: 35
   run-random-grid-best-IKNN-Implicit:
-    cmd: python ../../action.py generate
-      --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: python ../../action.py generate 
+      --param-file=sweeps/random/IKNN-Implicit.json --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-grid-best/IKNN-Implicit.duckdb IKNN-Implicit
     deps:
     - path: ../../codex/models/IKNN_Implicit.py
@@ -555,8 +555,8 @@ stages:
       md5: cc76e91001eb87e380db4b84edf52111
       size: 45101056
   run-random-default-UKNN-Explicit:
-    cmd: lenskit-codex generate --default --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: lenskit-codex generate --default --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-default/UKNN-Explicit UKNN-Explicit
     deps:
     - path: ../../codex/models/UKNN_Explicit.py
@@ -578,8 +578,8 @@ stages:
       size: 40781547
       nfiles: 67
   sweep-random-UKNN-Explicit:
-    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb
-      --assignments=splits/random.duckdb UKNN-Explicit
+    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb 
+      --assignments=splits/random.duckdb UKNN-Explicit 
       sweeps/random/UKNN-Explicit.duckdb
     deps:
     - path: ../../codex/models/UKNN_Explicit.py
@@ -603,7 +603,7 @@ stages:
       md5: 3e6b4cb207981f53aa742f1c819dfa6f
       size: 566243328
   export-random-UKNN-Explicit:
-    cmd: python ../../action.py sweep export sweeps/random/UKNN-Explicit.duckdb
+    cmd: python ../../action.py sweep export sweeps/random/UKNN-Explicit.duckdb 
       rmse
     deps:
     - path: sweeps/random/UKNN-Explicit.duckdb
@@ -620,8 +620,8 @@ stages:
       md5: 37d6da12789069b8fa55173c89b83188
       size: 321
   run-random-default-UKNN-Implicit:
-    cmd: python ../../action.py generate --default --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: python ../../action.py generate --default --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-default/UKNN-Implicit.duckdb UKNN-Implicit
     deps:
     - path: ../../codex/models/UKNN_Implicit.py
@@ -642,7 +642,7 @@ stages:
       md5: a495bd56da2143f0ec87a5336e8f31e5
       size: 45101056
   sweep-random-UKNN-Implicit:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml 
       --test-part=0 UKNN-Implicit sweeps/random/UKNN-Implicit
     deps:
     - path: ../../models/UKNN-Implicit.toml
@@ -667,7 +667,7 @@ stages:
       size: 487669509
       nfiles: 100
   export-random-UKNN-Implicit:
-    cmd: lenskit-codex sweep export -o sweeps/random/UKNN-Implicit.json
+    cmd: lenskit-codex sweep export -o sweeps/random/UKNN-Implicit.json 
       sweeps/random/UKNN-Implicit RBP
     deps:
     - path: sweeps/random/UKNN-Implicit
@@ -681,8 +681,8 @@ stages:
       md5: ff5f6a46daf54ac1531c7425ab8633dc
       size: 244
   run-random-grid-best-UKNN-Implicit:
-    cmd: lenskit-codex generate --param-file=sweeps/random/UKNN-Implicit.json
-      --split=splits/random.toml --test-part=-0 -o
+    cmd: lenskit-codex generate --param-file=sweeps/random/UKNN-Implicit.json 
+      --split=splits/random.toml --test-part=-0 -o 
       runs/random-grid-best/UKNN-Implicit UKNN-Implicit
     deps:
     - path: ../../models/UKNN-Implicit.toml
@@ -708,8 +708,8 @@ stages:
       size: 41634362
       nfiles: 35
   run-random-default-Implicit-BPR:
-    cmd: python ../../action.py generate --default --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: python ../../action.py generate --default --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-default/Implicit-BPR.duckdb Implicit-BPR
     deps:
     - path: ../../codex/models/Implicit_BPR.py
@@ -730,8 +730,8 @@ stages:
       md5: 26e886e4b65b6e1c2d09c0cad12cb7a3
       size: 45101056
   sweep-random-Implicit-BPR:
-    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb
-      --assignments=splits/random.duckdb Implicit-BPR
+    cmd: python ../../action.py sweep run -p 0 --ratings=ratings.duckdb 
+      --assignments=splits/random.duckdb Implicit-BPR 
       sweeps/random/Implicit-BPR.duckdb
     deps:
     - path: ../../codex/models/Implicit_BPR.py
@@ -755,7 +755,7 @@ stages:
       md5: 26835389488b3c2936d9a87a8da800f7
       size: 1674063872
   export-random-Implicit-BPR:
-    cmd: python ../../action.py sweep export sweeps/random/Implicit-BPR.duckdb
+    cmd: python ../../action.py sweep export sweeps/random/Implicit-BPR.duckdb 
       ndcg
     deps:
     - path: sweeps/random/Implicit-BPR.duckdb
@@ -772,9 +772,9 @@ stages:
       md5: 2fe1de870997add50ccba8b6cfa02f0c
       size: 262
   run-random-grid-best-Implicit-BPR:
-    cmd: python ../../action.py generate
-      --param-file=sweeps/random/Implicit-BPR.json --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: python ../../action.py generate 
+      --param-file=sweeps/random/Implicit-BPR.json --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-grid-best/Implicit-BPR.duckdb Implicit-BPR
     deps:
     - path: ../../codex/models/Implicit_BPR.py
@@ -799,8 +799,8 @@ stages:
       md5: 8a3ab6ece5980445a88cd9df006e14d5
       size: 45101056
   run-random-default-HPF:
-    cmd: lenskit-codex generate --default --test-part=-0
-      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o
+    cmd: lenskit-codex generate --default --test-part=-0 
+      --assignments=splits/random.duckdb --ratings=ratings.duckdb -o 
       runs/random-default/HPF HPF
     deps:
     - path: ../../codex/models/HPF.py
@@ -822,7 +822,7 @@ stages:
       size: 41317884
       nfiles: 35
   run-temporal-default-Bias:
-    cmd: lenskit-codex generate --default --ds-name=ML10M
+    cmd: lenskit-codex generate --default --ds-name=ML10M 
       --split=splits/temporal.toml -o runs/temporal-default/Bias Bias
     deps:
     - path: ../../models/Bias.toml
@@ -844,7 +844,7 @@ stages:
       size: 269642
       nfiles: 3
   run-temporal-default-Popular:
-    cmd: lenskit-codex generate --default --ds-name=ML10M
+    cmd: lenskit-codex generate --default --ds-name=ML10M 
       --split=splits/temporal.toml -o runs/temporal-default/Popular Popular
     deps:
     - path: ../../models/Popular.toml
@@ -866,7 +866,7 @@ stages:
       size: 141243
       nfiles: 3
   sweep-temporal-IKNN-Implicit:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml 
       --test-part=valid IKNN-Implicit sweeps/temporal/IKNN-Implicit
     deps:
     - path: ../../models/IKNN-Implicit.toml
@@ -891,7 +891,7 @@ stages:
       size: 89054917
       nfiles: 5
   export-temporal-IKNN-Implicit:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit.json 
       sweeps/temporal/IKNN-Implicit RBP
     deps:
     - path: sweeps/temporal/IKNN-Implicit
@@ -905,7 +905,7 @@ stages:
       md5: 753265914bf671532d647b9555c4d2ed
       size: 238
   sweep-temporal-UKNN-Implicit:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml 
       --test-part=valid UKNN-Implicit sweeps/temporal/UKNN-Implicit
     deps:
     - path: ../../models/UKNN-Implicit.toml
@@ -930,7 +930,7 @@ stages:
       size: 128186677
       nfiles: 100
   export-temporal-UKNN-Implicit:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/UKNN-Implicit.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/UKNN-Implicit.json 
       sweeps/temporal/UKNN-Implicit RBP
     deps:
     - path: sweeps/temporal/UKNN-Implicit
@@ -944,7 +944,7 @@ stages:
       md5: aba7e54f5f4e440b1c04cfafcf6b8803
       size: 244
   sweep-temporal-Bias:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml 
       --test-part=valid Bias sweeps/temporal/Bias
     deps:
     - path: ../../models/Bias.toml
@@ -969,7 +969,7 @@ stages:
       size: 112851804
       nfiles: 6
   export-temporal-Bias:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/Bias.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/Bias.json 
       sweeps/temporal/Bias RMSE
     deps:
     - path: sweeps/temporal/Bias
@@ -983,8 +983,8 @@ stages:
       md5: 172f753a6998217f898a2a39115c34a3
       size: 279
   run-temporal-grid-best-Bias:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias-grid.json
-      --test-part=test --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias-grid.json 
+      --test-part=test --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal-grid-best/Bias Bias
     deps:
     - path: ../../models/Bias.toml
@@ -1010,7 +1010,7 @@ stages:
       size: 267018
       nfiles: 3
   sweep-random-HPF:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/random.toml 
       --test-part=0 HPF sweeps/random/HPF
     deps:
     - path: ../../models/HPF.toml
@@ -1035,8 +1035,8 @@ stages:
       size: 412015844
       nfiles: 84
   run-temporal-default-BiasedMF-ALS:
-    cmd: lenskit-codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal-default/BiasedMF-ALS
+    cmd: lenskit-codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal-default/BiasedMF-ALS 
       BiasedMF-ALS
     deps:
     - path: ../../models/BiasedMF-ALS.toml
@@ -1058,7 +1058,7 @@ stages:
       size: 270649
       nfiles: 3
   export-random-HPF:
-    cmd: lenskit-codex sweep export -o sweeps/random/HPF.json sweeps/random/HPF
+    cmd: lenskit-codex sweep export -o sweeps/random/HPF.json sweeps/random/HPF 
       RBP
     deps:
     - path: sweeps/random/HPF
@@ -1072,7 +1072,7 @@ stages:
       md5: 3049e84655057159338d9e6fc66dc2ff
       size: 209
   sweep-temporal-BiasedMF-ALS:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml 
       --test-part=valid BiasedMF-ALS sweeps/temporal/BiasedMF-ALS
     deps:
     - path: ../../models/BiasedMF-ALS.toml
@@ -1097,7 +1097,7 @@ stages:
       size: 253191467
       nfiles: 6
   export-temporal-BiasedMF-ALS:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS.json 
       sweeps/temporal/BiasedMF-ALS RMSE
     deps:
     - path: sweeps/temporal/BiasedMF-ALS
@@ -1111,9 +1111,9 @@ stages:
       md5: c416f6ea9db07d9312d8501addf24553
       size: 272
   run-temporal-grid-best-BiasedMF-ALS:
-    cmd: lenskit-codex generate
-      --param-file=sweeps/temporal/BiasedMF-ALS-grid.json --test-part=test
-      --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit-codex generate 
+      --param-file=sweeps/temporal/BiasedMF-ALS-grid.json --test-part=test 
+      --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal-grid-best/BiasedMF-ALS BiasedMF-ALS
     deps:
     - path: ../../models/BiasedMF-ALS.toml
@@ -1139,7 +1139,7 @@ stages:
       size: 270620
       nfiles: 3
   sweep-temporal-HPF:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml 
       --test-part=valid HPF sweeps/temporal/HPF
     deps:
     - path: ../../models/HPF.toml
@@ -1164,7 +1164,7 @@ stages:
       size: 112007777
       nfiles: 84
   export-temporal-HPF:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/HPF.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/HPF.json 
       sweeps/temporal/HPF RBP
     deps:
     - path: sweeps/temporal/HPF
@@ -1178,7 +1178,7 @@ stages:
       md5: 30abeb24bf151011f976997b2db1571b
       size: 205
   run-temporal-grid-best-HPF:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/HPF.json
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/HPF.json 
       --split=splits/temporal.toml --test-part=-0 -o runs/temporal-grid-best/HPF
       HPF
     deps:
@@ -1205,8 +1205,8 @@ stages:
       size: 4531445
       nfiles: 19
   run-temporal-valid-default-UKNN-Implicit:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml
-      --test-part=valid -o runs/temporal-valid-default/UKNN-Implicit
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml 
+      --test-part=valid -o runs/temporal-valid-default/UKNN-Implicit 
       UKNN-Implicit
     deps:
     - path: ../../models/UKNN-Implicit.toml
@@ -1228,7 +1228,7 @@ stages:
       size: 2167903
       nfiles: 11
   sweep-temporal-ImplicitMF-ALS:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml 
       --test-part=valid ImplicitMF-ALS sweeps/temporal/ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
@@ -1253,7 +1253,7 @@ stages:
       size: 230414048
       nfiles: 5
   export-temporal-ImplicitMF-ALS:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS.json 
       sweeps/temporal/ImplicitMF-ALS RBP
     deps:
     - path: sweeps/temporal/ImplicitMF-ALS
@@ -1267,9 +1267,9 @@ stages:
       md5: 434f4101b1118f893cea811093a76287
       size: 219
   run-temporal-grid-best-ImplicitMF-ALS:
-    cmd: lenskit-codex generate
-      --param-file=sweeps/temporal/ImplicitMF-ALS-grid.json --test-part=test
-      --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit-codex generate 
+      --param-file=sweeps/temporal/ImplicitMF-ALS-grid.json --test-part=test 
+      --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal-grid-best/ImplicitMF-ALS ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
@@ -1295,8 +1295,8 @@ stages:
       size: 151643
       nfiles: 3
   run-temporal-default-IKNN-Implicit:
-    cmd: lenskit-codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal-default/IKNN-Implicit
+    cmd: lenskit-codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal-default/IKNN-Implicit 
       IKNN-Implicit
     deps:
     - path: ../../models/IKNN-Implicit.toml
@@ -1318,8 +1318,8 @@ stages:
       size: 152370
       nfiles: 3
   run-temporal-default-IKNN-Explicit:
-    cmd: lenskit-codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal-default/IKNN-Explicit
+    cmd: lenskit-codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal-default/IKNN-Explicit 
       IKNN-Explicit
     deps:
     - path: ../../models/IKNN-Explicit.toml
@@ -1341,8 +1341,8 @@ stages:
       size: 267966
       nfiles: 3
   run-temporal-valid-default-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml
-      --test-part=valid -o runs/temporal-valid-default/ImplicitMF-ALS
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml 
+      --test-part=valid -o runs/temporal-valid-default/ImplicitMF-ALS 
       ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
@@ -1364,7 +1364,7 @@ stages:
       size: 2211690
       nfiles: 11
   sweep-temporal-IKNN-Explicit:
-    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml
+    cmd: lenskit-codex sweep run --ds-name=ML10M --split=splits/temporal.toml 
       --test-part=valid IKNN-Explicit sweeps/temporal/IKNN-Explicit
     deps:
     - path: ../../models/IKNN-Explicit.toml
@@ -1389,7 +1389,7 @@ stages:
       size: 107533518
       nfiles: 6
   export-temporal-IKNN-Explicit:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Explicit.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Explicit.json 
       sweeps/temporal/IKNN-Explicit RMSE
     deps:
     - path: sweeps/temporal/IKNN-Explicit
@@ -1403,9 +1403,9 @@ stages:
       md5: 62bc737ca5067102464b22aea2509c7a
       size: 300
   run-temporal-grid-best-IKNN-Explicit:
-    cmd: lenskit-codex generate
-      --param-file=sweeps/temporal/IKNN-Explicit-grid.json --test-part=test
-      --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit-codex generate 
+      --param-file=sweeps/temporal/IKNN-Explicit-grid.json --test-part=test 
+      --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal-grid-best/IKNN-Explicit IKNN-Explicit
     deps:
     - path: ../../models/IKNN-Explicit.toml
@@ -1431,7 +1431,7 @@ stages:
       size: 134437
       nfiles: 3
   run-temporal-valid-default-Popular:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml 
       --test-part=valid -o runs/temporal-valid-default/Popular Popular
     deps:
     - path: ../../models/Popular.toml
@@ -1453,7 +1453,7 @@ stages:
       size: 509152
       nfiles: 11
   collect-metrics:
-    cmd: lenskit codex collect metrics -S run-summary.csv -U
+    cmd: lenskit codex collect metrics -S run-summary.csv -U 
       run-user-metrics.parquet -L runs/manifest.csv
     deps:
     - path: runs/temporal/als-biased-default
@@ -1636,6 +1636,16 @@ stages:
       md5: cb4c22d05f6baa281648fe884ccc7840.dir
       size: 3726129
       nfiles: 4
+    - path: runs/temporal/lightgcn-bpr-default
+      hash: md5
+      md5: d69c8d7d0fd5dd3a38263f48c2025f65.dir
+      size: 4015295
+      nfiles: 4
+    - path: runs/temporal/lightgcn-logistic-default
+      hash: md5
+      md5: 4bd9459532c37191a443bba3e6e797c8.dir
+      size: 4086654
+      nfiles: 4
     - path: runs/temporal/popular-default
       hash: md5
       md5: 3374ab3dc1282cd949fbc7c2f2d054fe.dir
@@ -1684,15 +1694,15 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 84a6f21321a636651fddf5ac510773d8
-      size: 28947
+      md5: 06d46b802e8c4548395e1c4ee6232bff
+      size: 30217
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 73efaf7bc8a91fdb0fcc761d2421234d
-      size: 7792026
+      md5: 4355f6adb294fbe07e3cfe786d8bba72
+      size: 8033744
   run-temporal-valid-default-IKNN-Explicit:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml
-      --test-part=valid -o runs/temporal-valid-default/IKNN-Explicit
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml 
+      --test-part=valid -o runs/temporal-valid-default/IKNN-Explicit 
       IKNN-Explicit
     deps:
     - path: ../../models/IKNN-Explicit.toml
@@ -1714,7 +1724,7 @@ stages:
       size: 4103054
       nfiles: 19
   run-temporal-valid-default-BiasedMF-ALS:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml 
       --test-part=valid -o runs/temporal-valid-default/BiasedMF-ALS BiasedMF-ALS
     deps:
     - path: ../../models/BiasedMF-ALS.toml
@@ -1736,9 +1746,9 @@ stages:
       size: 4055243
       nfiles: 19
   run-temporal-grid-best-IKNN-Implicit:
-    cmd: lenskit-codex generate
-      --param-file=sweeps/temporal/IKNN-Implicit-grid.json --test-part=test
-      --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit-codex generate 
+      --param-file=sweeps/temporal/IKNN-Implicit-grid.json --test-part=test 
+      --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal-grid-best/IKNN-Implicit IKNN-Implicit
     deps:
     - path: ../../models/IKNN-Implicit.toml
@@ -1764,8 +1774,8 @@ stages:
       size: 73673
       nfiles: 3
   run-temporal-default-ImplicitMF-ALS:
-    cmd: lenskit-codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal-default/ImplicitMF-ALS
+    cmd: lenskit-codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal-default/ImplicitMF-ALS 
       ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
@@ -1787,7 +1797,7 @@ stages:
       size: 156139
       nfiles: 3
   run-temporal-valid-default-Bias:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml 
       --test-part=valid -o runs/temporal-valid-default/Bias Bias
     deps:
     - path: ../../models/Bias.toml
@@ -1809,8 +1819,8 @@ stages:
       size: 3792924
       nfiles: 19
   run-temporal-valid-default-IKNN-Implicit:
-    cmd: lenskit-codex generate --default --split=splits/temporal.toml
-      --test-part=valid -o runs/temporal-valid-default/IKNN-Implicit
+    cmd: lenskit-codex generate --default --split=splits/temporal.toml 
+      --test-part=valid -o runs/temporal-valid-default/IKNN-Implicit 
       IKNN-Implicit
     deps:
     - path: ../../models/IKNN-Implicit.toml
@@ -1832,8 +1842,8 @@ stages:
       size: 2096982
       nfiles: 11
   sweep-temporal-grid-Bias:
-    cmd: lenskit-codex sweep run --grid --ds-name=ML10M
-      --split=splits/temporal.toml --test-part=valid Bias
+    cmd: lenskit-codex sweep run --grid --ds-name=ML10M 
+      --split=splits/temporal.toml --test-part=valid Bias 
       sweeps/temporal/Bias-grid
     deps:
     - path: ../../models/Bias.toml
@@ -1858,8 +1868,8 @@ stages:
       size: 2218655
       nfiles: 4
   sweep-temporal-grid-BiasedMF-ALS:
-    cmd: lenskit-codex sweep run --grid --ds-name=ML10M
-      --split=splits/temporal.toml --test-part=valid BiasedMF-ALS
+    cmd: lenskit-codex sweep run --grid --ds-name=ML10M 
+      --split=splits/temporal.toml --test-part=valid BiasedMF-ALS 
       sweeps/temporal/BiasedMF-ALS-grid
     deps:
     - path: ../../models/BiasedMF-ALS.toml
@@ -1884,8 +1894,8 @@ stages:
       size: 253191467
       nfiles: 6
   sweep-temporal-grid-IKNN-Explicit:
-    cmd: lenskit-codex sweep run --grid --ds-name=ML10M
-      --split=splits/temporal.toml --test-part=valid IKNN-Explicit
+    cmd: lenskit-codex sweep run --grid --ds-name=ML10M 
+      --split=splits/temporal.toml --test-part=valid IKNN-Explicit 
       sweeps/temporal/IKNN-Explicit-grid
     deps:
     - path: ../../models/IKNN-Explicit.toml
@@ -1910,8 +1920,8 @@ stages:
       size: 1086501
       nfiles: 4
   sweep-temporal-grid-IKNN-Implicit:
-    cmd: lenskit-codex sweep run --grid --ds-name=ML10M
-      --split=splits/temporal.toml --test-part=valid IKNN-Implicit
+    cmd: lenskit-codex sweep run --grid --ds-name=ML10M 
+      --split=splits/temporal.toml --test-part=valid IKNN-Implicit 
       sweeps/temporal/IKNN-Implicit-grid
     deps:
     - path: ../../models/IKNN-Implicit.toml
@@ -1936,8 +1946,8 @@ stages:
       size: 686675
       nfiles: 4
   sweep-temporal-grid-ImplicitMF-ALS:
-    cmd: lenskit-codex sweep run --grid --ds-name=ML10M
-      --split=splits/temporal.toml --test-part=valid ImplicitMF-ALS
+    cmd: lenskit-codex sweep run --grid --ds-name=ML10M 
+      --split=splits/temporal.toml --test-part=valid ImplicitMF-ALS 
       sweeps/temporal/ImplicitMF-ALS-grid
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
@@ -1962,7 +1972,7 @@ stages:
       size: 230414048
       nfiles: 5
   export-temporal-grid-Bias:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/Bias-grid.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/Bias-grid.json 
       sweeps/temporal/Bias-grid RMSE
     deps:
     - path: sweeps/temporal/Bias-grid
@@ -1976,7 +1986,7 @@ stages:
       md5: 172f753a6998217f898a2a39115c34a3
       size: 279
   export-temporal-grid-BiasedMF-ALS:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS-grid.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/BiasedMF-ALS-grid.json 
       sweeps/temporal/BiasedMF-ALS-grid RMSE
     deps:
     - path: sweeps/temporal/BiasedMF-ALS-grid
@@ -1990,7 +2000,7 @@ stages:
       md5: c416f6ea9db07d9312d8501addf24553
       size: 272
   export-temporal-grid-IKNN-Explicit:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Explicit-grid.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Explicit-grid.json 
       sweeps/temporal/IKNN-Explicit-grid RMSE
     deps:
     - path: sweeps/temporal/IKNN-Explicit-grid
@@ -2004,7 +2014,7 @@ stages:
       md5: f9151691a409c5c1c375e8ace3adb051
       size: 314
   export-temporal-grid-IKNN-Implicit:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit-grid.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/IKNN-Implicit-grid.json 
       sweeps/temporal/IKNN-Implicit-grid RBP
     deps:
     - path: sweeps/temporal/IKNN-Implicit-grid
@@ -2018,7 +2028,7 @@ stages:
       md5: cd4c10f6df871e6d014f902521d1def4
       size: 258
   export-temporal-grid-ImplicitMF-ALS:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS-grid.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/ImplicitMF-ALS-grid.json 
       sweeps/temporal/ImplicitMF-ALS-grid RBP
     deps:
     - path: sweeps/temporal/ImplicitMF-ALS-grid
@@ -2032,8 +2042,8 @@ stages:
       md5: 434f4101b1118f893cea811093a76287
       size: 219
   sweep-temporal-random-Bias:
-    cmd: lenskit-codex sweep run --random --ds-name=ML10M
-      --split=splits/temporal.toml --test-part=valid Bias
+    cmd: lenskit-codex sweep run --random --ds-name=ML10M 
+      --split=splits/temporal.toml --test-part=valid Bias 
       sweeps/temporal/Bias-random
     deps:
     - path: ../../models/Bias.toml
@@ -2058,7 +2068,7 @@ stages:
       size: 1129254945
       nfiles: 6
   export-temporal-random-Bias:
-    cmd: lenskit-codex sweep export -o sweeps/temporal/Bias-random.json
+    cmd: lenskit-codex sweep export -o sweeps/temporal/Bias-random.json 
       sweeps/temporal/Bias-random RMSE
     deps:
     - path: sweeps/temporal/Bias-random
@@ -2072,8 +2082,8 @@ stages:
       md5: 45d8bcf53af07301e14bccdfea58226e
       size: 314
   run-temporal-random-best-Bias:
-    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias-random.json
-      --test-part=test --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit-codex generate --param-file=sweeps/temporal/Bias-random.json 
+      --test-part=test --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal-random-best/Bias Bias
     deps:
     - path: ../../models/Bias.toml
@@ -2099,8 +2109,8 @@ stages:
       size: 3670211
       nfiles: 5
   sweep-temporal-random-IKNN-Explicit:
-    cmd: lenskit-codex sweep run --random --ds-name=ML10M
-      --split=splits/temporal.toml --test-part=valid IKNN-Explicit
+    cmd: lenskit-codex sweep run --random --ds-name=ML10M 
+      --split=splits/temporal.toml --test-part=valid IKNN-Explicit 
       sweeps/temporal/IKNN-Explicit-random
     deps:
     - path: ../../models/IKNN-Explicit.toml
@@ -2139,9 +2149,9 @@ stages:
       md5: ead1fa40071f00cefa7beaabf0e0dd40
       size: 351
   run-temporal-random-best-IKNN-Explicit:
-    cmd: lenskit-codex generate
-      --param-file=sweeps/temporal/IKNN-Explicit-random.json --test-part=test
-      --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit-codex generate 
+      --param-file=sweeps/temporal/IKNN-Explicit-random.json --test-part=test 
+      --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal-random-best/IKNN-Explicit IKNN-Explicit
     deps:
     - path: ../../models/IKNN-Explicit.toml
@@ -2167,8 +2177,8 @@ stages:
       size: 134387
       nfiles: 3
   sweep-temporal-random-IKNN-Implicit:
-    cmd: lenskit-codex sweep run --random --ds-name=ML10M
-      --split=splits/temporal.toml --test-part=valid IKNN-Implicit
+    cmd: lenskit-codex sweep run --random --ds-name=ML10M 
+      --split=splits/temporal.toml --test-part=valid IKNN-Implicit 
       sweeps/temporal/IKNN-Implicit-random
     deps:
     - path: ../../models/IKNN-Implicit.toml
@@ -2207,9 +2217,9 @@ stages:
       md5: 5eca5d8540103f4df70dda55f535b5ae
       size: 296
   run-temporal-random-best-IKNN-Implicit:
-    cmd: lenskit-codex generate
-      --param-file=sweeps/temporal/IKNN-Implicit-random.json --test-part=test
-      --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit-codex generate 
+      --param-file=sweeps/temporal/IKNN-Implicit-random.json --test-part=test 
+      --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal-random-best/IKNN-Implicit IKNN-Implicit
     deps:
     - path: ../../models/IKNN-Implicit.toml
@@ -2235,8 +2245,8 @@ stages:
       size: 73825
       nfiles: 3
   sweep-temporal-random-ImplicitMF-ALS:
-    cmd: lenskit-codex sweep run --random --ds-name=ML10M
-      --split=splits/temporal.toml --test-part=valid ImplicitMF-ALS
+    cmd: lenskit-codex sweep run --random --ds-name=ML10M 
+      --split=splits/temporal.toml --test-part=valid ImplicitMF-ALS 
       sweeps/temporal/ImplicitMF-ALS-random
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
@@ -2261,8 +2271,8 @@ stages:
       size: 8412428
       nfiles: 4
   export-temporal-random-ImplicitMF-ALS:
-    cmd: lenskit-codex sweep export -o
-      sweeps/temporal/ImplicitMF-ALS-random.json
+    cmd: lenskit-codex sweep export -o 
+      sweeps/temporal/ImplicitMF-ALS-random.json 
       sweeps/temporal/ImplicitMF-ALS-random RBP
     deps:
     - path: sweeps/temporal/ImplicitMF-ALS-random
@@ -2276,9 +2286,9 @@ stages:
       md5: 0788adf288d47f4904fbe5ab04dfcac7
       size: 287
   run-temporal-random-best-ImplicitMF-ALS:
-    cmd: lenskit-codex generate
-      --param-file=sweeps/temporal/ImplicitMF-ALS-random.json --test-part=test
-      --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit-codex generate 
+      --param-file=sweeps/temporal/ImplicitMF-ALS-random.json --test-part=test 
+      --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal-random-best/ImplicitMF-ALS ImplicitMF-ALS
     deps:
     - path: ../../models/ImplicitMF-ALS.toml
@@ -2321,7 +2331,7 @@ stages:
       md5: 4463979e309e3131c0876d4f7896d68c
       size: 2895872
   run-temporal-default-bias:
-    cmd: lenskit codex generate --default --ds-name=ML10M
+    cmd: lenskit codex generate --default --ds-name=ML10M 
       --split=splits/temporal.toml -o runs/temporal/bias-default bias
     deps:
     - path: ../../src/codex/models/bias.py
@@ -2344,7 +2354,7 @@ stages:
       size: 6135324
       nfiles: 5
   sweep-bias-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
       --sample-count=100 --random --metric=RMSE bias sweeps/temporal/bias-random
     deps:
     - path: ../../src/codex/models/bias.py
@@ -2366,7 +2376,7 @@ stages:
       md5: a7eccec517399ac6c9ec5453c1d36c37
       size: 820
   run-temporal-default-popular:
-    cmd: lenskit codex generate --default --ds-name=ML10M
+    cmd: lenskit codex generate --default --ds-name=ML10M 
       --split=splits/temporal.toml -o runs/temporal/popular-default popular
     deps:
     - path: ../../src/codex/models/popular.py
@@ -2389,8 +2399,8 @@ stages:
       size: 1206634
       nfiles: 4
   run-temporal-default-uknn-explicit:
-    cmd: lenskit codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/uknn-explicit-default
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/uknn-explicit-default 
       uknn-explicit
     deps:
     - path: ../../src/codex/models/uknn_explicit.py
@@ -2413,8 +2423,8 @@ stages:
       size: 7093441
       nfiles: 5
   run-temporal-default-iknn-implicit:
-    cmd: lenskit codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/iknn-implicit-default
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/iknn-implicit-default 
       iknn-implicit
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
@@ -2437,8 +2447,8 @@ stages:
       size: 3726822
       nfiles: 4
   run-temporal-default-iknn-explicit:
-    cmd: lenskit codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/iknn-explicit-default
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/iknn-explicit-default 
       iknn-explicit
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
@@ -2461,8 +2471,8 @@ stages:
       size: 7112125
       nfiles: 5
   run-temporal-default-implicit-bpr:
-    cmd: lenskit codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/implicit-bpr-default
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/implicit-bpr-default 
       implicit-bpr
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
@@ -2485,8 +2495,8 @@ stages:
       size: 4028679
       nfiles: 4
   run-temporal-default-uknn-implicit:
-    cmd: lenskit codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/uknn-implicit-default
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/uknn-implicit-default 
       uknn-implicit
     deps:
     - path: ../../src/codex/models/uknn_implicit.py
@@ -2509,8 +2519,8 @@ stages:
       size: 3867736
       nfiles: 4
   sweep-uknn-explicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=60 --random --metric=RMSE uknn-explicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 --random --metric=RMSE uknn-explicit 
       sweeps/temporal/uknn-explicit-random
     deps:
     - path: ../../src/codex/models/uknn_explicit.py
@@ -2532,8 +2542,8 @@ stages:
       md5: e383fc0ac0501d38b1518e92ecf1939a
       size: 813
   sweep-uknn-implicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=60 --random --metric=RBP uknn-implicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 --random --metric=RBP uknn-implicit 
       sweeps/temporal/uknn-implicit-random
     deps:
     - path: ../../src/codex/models/uknn_implicit.py
@@ -2555,8 +2565,8 @@ stages:
       md5: 7beaccfaf8ec5e57ef6a4f883ca4269b
       size: 768
   sweep-iknn-explicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RMSE iknn-explicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --random --metric=RMSE iknn-explicit 
       sweeps/temporal/iknn-explicit-random
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
@@ -2578,8 +2588,8 @@ stages:
       md5: 137e152172ad8a51f16e9ea42552f6af
       size: 829
   sweep-iknn-implicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RBP iknn-implicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --random --metric=RBP iknn-implicit 
       sweeps/temporal/iknn-implicit-random
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
@@ -2601,9 +2611,9 @@ stages:
       md5: c9908c71a2622aaf6e7df92ecee101b9
       size: 792
   run-temporal-random-best-iknn-explicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/iknn-explicit-random.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/iknn-explicit-random-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/iknn-explicit-random.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/iknn-explicit-random-best 
       iknn-explicit
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
@@ -2630,9 +2640,9 @@ stages:
       size: 7088374
       nfiles: 5
   run-temporal-random-best-iknn-implicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/iknn-implicit-random.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/iknn-implicit-random-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/iknn-implicit-random.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/iknn-implicit-random-best 
       iknn-implicit
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
@@ -2659,8 +2669,8 @@ stages:
       size: 3726129
       nfiles: 4
   sweep-implicit-bpr-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RBP implicit-bpr
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --random --metric=RBP implicit-bpr 
       sweeps/temporal/implicit-bpr-random
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
@@ -2682,9 +2692,9 @@ stages:
       md5: 5568ac4ec6a288c3e7619d14e3c0cf71
       size: 875
   run-temporal-random-best-uknn-explicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/uknn-explicit-random.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/uknn-explicit-random-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/uknn-explicit-random.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/uknn-explicit-random-best 
       uknn-explicit
     deps:
     - path: ../../src/codex/models/uknn_explicit.py
@@ -2711,9 +2721,9 @@ stages:
       size: 7086296
       nfiles: 5
   run-temporal-random-best-uknn-implicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/uknn-implicit-random.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/uknn-implicit-random-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/uknn-implicit-random.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/uknn-implicit-random-best 
       uknn-implicit
     deps:
     - path: ../../src/codex/models/uknn_implicit.py
@@ -2740,8 +2750,8 @@ stages:
       size: 3903195
       nfiles: 4
   run-temporal-random-best-bias:
-    cmd: lenskit codex generate --param-file sweeps/temporal/bias-random.json
-      --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit codex generate --param-file sweeps/temporal/bias-random.json 
+      --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal/bias-random-best bias
     deps:
     - path: ../../src/codex/models/bias.py
@@ -2768,9 +2778,9 @@ stages:
       size: 6437555
       nfiles: 5
   run-temporal-random-best-implicit-bpr:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/implicit-bpr-random.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/implicit-bpr-random-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/implicit-bpr-random.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/implicit-bpr-random-best 
       implicit-bpr
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
@@ -2797,8 +2807,8 @@ stages:
       size: 3920474
       nfiles: 4
   sweep-flexmf-bpr-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RBP flexmf-bpr
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --random --metric=RBP flexmf-bpr 
       sweeps/temporal/flexmf-bpr-random
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
@@ -2820,8 +2830,8 @@ stages:
       md5: 91be1472ff3019a5a877b1f030d37e25
       size: 715
   sweep-flexmf-explicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RMSE flexmf-explicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --random --metric=RMSE flexmf-explicit 
       sweeps/temporal/flexmf-explicit-random
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
@@ -2843,8 +2853,8 @@ stages:
       md5: 0e8c7fd84fb6995c030c8441ff97b9cd
       size: 700
   sweep-flexmf-logistic-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RBP flexmf-logistic
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --random --metric=RBP flexmf-logistic 
       sweeps/temporal/flexmf-logistic-random
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
@@ -2866,8 +2876,8 @@ stages:
       md5: bb9f4282cf1a7c6ea157af7401a719df
       size: 771
   sweep-als-implicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RBP als-implicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --hyperopt --metric=RBP als-implicit 
       sweeps/temporal/als-implicit-hyperopt
     deps:
     - path: ../../src/codex/models/als_implicit.py
@@ -2889,8 +2899,8 @@ stages:
       md5: e3cc473bbe8c8fb413bcf0a82b036447
       size: 685
   sweep-flexmf-explicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RMSE flexmf-explicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --hyperopt --metric=RMSE flexmf-explicit 
       sweeps/temporal/flexmf-explicit-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
@@ -2912,9 +2922,9 @@ stages:
       md5: c07189ca23718c8cf242f7beaadc1fbf
       size: 705
   run-temporal-hyperopt-best-flexmf-explicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-explicit-hyperopt.json --ds-name=ML10M
-      --split=splits/temporal.toml -o
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-explicit-hyperopt.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o 
       runs/temporal/flexmf-explicit-hyperopt-best flexmf-explicit
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
@@ -2941,8 +2951,8 @@ stages:
       size: 11645762
       nfiles: 5
   sweep-flexmf-bpr-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RBP flexmf-bpr
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --hyperopt --metric=RBP flexmf-bpr 
       sweeps/temporal/flexmf-bpr-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
@@ -2964,9 +2974,9 @@ stages:
       md5: 7ac68bda731eb9549b4f7ce335b82d18
       size: 712
   run-temporal-hyperopt-best-flexmf-bpr:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-bpr-hyperopt.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-hyperopt-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-bpr-hyperopt.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-hyperopt-best 
       flexmf-bpr
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
@@ -2993,8 +3003,8 @@ stages:
       size: 3882535
       nfiles: 4
   run-temporal-default-flexmf-explicit:
-    cmd: lenskit codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-default
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-default 
       flexmf-explicit
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
@@ -3017,8 +3027,8 @@ stages:
       size: 11674388
       nfiles: 5
   sweep-als-biased-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RMSE als-biased
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --random --metric=RMSE als-biased 
       sweeps/temporal/als-biased-random
     deps:
     - path: ../../src/codex/models/als_biased.py
@@ -3040,9 +3050,9 @@ stages:
       md5: 6d175e40b4a6d2738435dcf1ae61ba67
       size: 754
   run-temporal-random-best-flexmf-explicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-explicit-random.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-random-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-explicit-random.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-random-best 
       flexmf-explicit
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
@@ -3069,8 +3079,8 @@ stages:
       size: 11646260
       nfiles: 5
   sweep-implicit-bpr-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RBP implicit-bpr
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --hyperopt --metric=RBP implicit-bpr 
       sweeps/temporal/implicit-bpr-hyperopt
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
@@ -3092,9 +3102,9 @@ stages:
       md5: 75fa47ca8c57489947a90c31c4b04147
       size: 862
   run-temporal-hyperopt-best-implicit-bpr:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/implicit-bpr-hyperopt.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/implicit-bpr-hyperopt-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/implicit-bpr-hyperopt.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/implicit-bpr-hyperopt-best 
       implicit-bpr
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
@@ -3121,8 +3131,8 @@ stages:
       size: 3995839
       nfiles: 4
   run-temporal-default-flexmf-bpr:
-    cmd: lenskit codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-default
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-default 
       flexmf-bpr
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
@@ -3145,8 +3155,8 @@ stages:
       size: 3984022
       nfiles: 4
   sweep-uknn-explicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=60 --hyperopt --metric=RMSE uknn-explicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 --hyperopt --metric=RMSE uknn-explicit 
       sweeps/temporal/uknn-explicit-hyperopt
     deps:
     - path: ../../src/codex/models/uknn_explicit.py
@@ -3168,9 +3178,9 @@ stages:
       md5: ecf5b7178d9902af38b8b3cb1a95560d
       size: 820
   run-temporal-hyperopt-best-uknn-explicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/uknn-explicit-hyperopt.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/uknn-explicit-hyperopt-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/uknn-explicit-hyperopt.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/uknn-explicit-hyperopt-best 
       uknn-explicit
     deps:
     - path: ../../src/codex/models/uknn_explicit.py
@@ -3197,8 +3207,8 @@ stages:
       size: 7144477
       nfiles: 5
   sweep-flexmf-logistic-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RBP flexmf-logistic
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --hyperopt --metric=RBP flexmf-logistic 
       sweeps/temporal/flexmf-logistic-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
@@ -3220,8 +3230,8 @@ stages:
       md5: 4204d351a4ab934e2b30581010b5d8ca
       size: 767
   run-temporal-default-als-biased:
-    cmd: lenskit codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/als-biased-default
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/als-biased-default 
       als-biased
     deps:
     - path: ../../src/codex/models/als_biased.py
@@ -3244,8 +3254,8 @@ stages:
       size: 11522709
       nfiles: 5
   sweep-als-biased-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RMSE als-biased
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --hyperopt --metric=RMSE als-biased 
       sweeps/temporal/als-biased-hyperopt
     deps:
     - path: ../../src/codex/models/als_biased.py
@@ -3267,8 +3277,8 @@ stages:
       md5: 03ce9f1f24f5fbb455c05528f91dbfdb
       size: 749
   sweep-uknn-implicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=60 --hyperopt --metric=RBP uknn-implicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 --hyperopt --metric=RBP uknn-implicit 
       sweeps/temporal/uknn-implicit-hyperopt
     deps:
     - path: ../../src/codex/models/uknn_implicit.py
@@ -3290,9 +3300,9 @@ stages:
       md5: f68e1753e15f1f79ca9f6b02755288c4
       size: 806
   run-temporal-hyperopt-best-uknn-implicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/uknn-implicit-hyperopt.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/uknn-implicit-hyperopt-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/uknn-implicit-hyperopt.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/uknn-implicit-hyperopt-best 
       uknn-implicit
     deps:
     - path: ../../src/codex/models/uknn_implicit.py
@@ -3319,9 +3329,9 @@ stages:
       size: 3891715
       nfiles: 4
   run-temporal-random-best-flexmf-logistic:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-logistic-random.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-random-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-logistic-random.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-random-best 
       flexmf-logistic
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
@@ -3348,8 +3358,8 @@ stages:
       size: 3875274
       nfiles: 4
   sweep-als-implicit-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RBP als-implicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --random --metric=RBP als-implicit 
       sweeps/temporal/als-implicit-random
     deps:
     - path: ../../src/codex/models/als_implicit.py
@@ -3371,9 +3381,9 @@ stages:
       md5: ae5247a6ace9934cfb047faeeb2373db
       size: 686
   run-temporal-random-best-als-implicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/als-implicit-random.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/als-implicit-random-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/als-implicit-random.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/als-implicit-random-best 
       als-implicit
     deps:
     - path: ../../src/codex/models/als_implicit.py
@@ -3400,8 +3410,8 @@ stages:
       size: 3844538
       nfiles: 4
   sweep-iknn-implicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RBP iknn-implicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --hyperopt --metric=RBP iknn-implicit 
       sweeps/temporal/iknn-implicit-hyperopt
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
@@ -3423,9 +3433,9 @@ stages:
       md5: b7edac62a9bd5ae7cb3565caacb44e81
       size: 788
   run-temporal-hyperopt-best-iknn-implicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/iknn-implicit-hyperopt.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/iknn-implicit-hyperopt-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/iknn-implicit-hyperopt.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/iknn-implicit-hyperopt-best 
       iknn-implicit
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
@@ -3452,8 +3462,8 @@ stages:
       size: 3725998
       nfiles: 4
   run-temporal-default-als-implicit:
-    cmd: lenskit codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/als-implicit-default
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/als-implicit-default 
       als-implicit
     deps:
     - path: ../../src/codex/models/als_implicit.py
@@ -3476,8 +3486,8 @@ stages:
       size: 3879502
       nfiles: 4
   run-temporal-default-flexmf-logistic:
-    cmd: lenskit codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-default
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-default 
       flexmf-logistic
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
@@ -3500,9 +3510,9 @@ stages:
       size: 3926024
       nfiles: 4
   run-temporal-random-best-als-biased:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/als-biased-random.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/als-biased-random-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/als-biased-random.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/als-biased-random-best 
       als-biased
     deps:
     - path: ../../src/codex/models/als_biased.py
@@ -3529,9 +3539,9 @@ stages:
       size: 11533911
       nfiles: 5
   run-temporal-random-best-flexmf-bpr:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-bpr-random.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-random-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-bpr-random.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-random-best 
       flexmf-bpr
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
@@ -3558,9 +3568,9 @@ stages:
       size: 3803433
       nfiles: 4
   run-temporal-hyperopt-best-als-biased:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/als-biased-hyperopt.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/als-biased-hyperopt-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/als-biased-hyperopt.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/als-biased-hyperopt-best 
       als-biased
     deps:
     - path: ../../src/codex/models/als_biased.py
@@ -3587,9 +3597,9 @@ stages:
       size: 11548950
       nfiles: 5
   run-temporal-hyperopt-best-als-implicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/als-implicit-hyperopt.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/als-implicit-hyperopt-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/als-implicit-hyperopt.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/als-implicit-hyperopt-best 
       als-implicit
     deps:
     - path: ../../src/codex/models/als_implicit.py
@@ -3616,8 +3626,8 @@ stages:
       size: 3838826
       nfiles: 4
   sweep-bias-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RMSE bias
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --hyperopt --metric=RMSE bias 
       sweeps/temporal/bias-hyperopt
     deps:
     - path: ../../src/codex/models/bias.py
@@ -3639,8 +3649,8 @@ stages:
       md5: 621a6861182bf8b7d90771762f185ad2
       size: 812
   run-temporal-hyperopt-best-bias:
-    cmd: lenskit codex generate --param-file sweeps/temporal/bias-hyperopt.json
-      --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit codex generate --param-file sweeps/temporal/bias-hyperopt.json 
+      --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal/bias-hyperopt-best bias
     deps:
     - path: ../../src/codex/models/bias.py
@@ -3667,9 +3677,9 @@ stages:
       size: 6431803
       nfiles: 5
   run-temporal-hyperopt-best-flexmf-logistic:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-logistic-hyperopt.json --ds-name=ML10M
-      --split=splits/temporal.toml -o
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-logistic-hyperopt.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o 
       runs/temporal/flexmf-logistic-hyperopt-best flexmf-logistic
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
@@ -3696,8 +3706,8 @@ stages:
       size: 3854659
       nfiles: 4
   sweep-iknn-explicit-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RMSE iknn-explicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --hyperopt --metric=RMSE iknn-explicit 
       sweeps/temporal/iknn-explicit-hyperopt
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
@@ -3719,9 +3729,9 @@ stages:
       md5: b084d1c6c7e29d9a2a40da2b7ae781b0
       size: 822
   run-temporal-hyperopt-best-iknn-explicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/iknn-explicit-hyperopt.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/iknn-explicit-hyperopt-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/iknn-explicit-hyperopt.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/iknn-explicit-hyperopt-best 
       iknn-explicit
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
@@ -3748,8 +3758,8 @@ stages:
       size: 7090374
       nfiles: 5
   run-temporal-default-flexmf-warp:
-    cmd: lenskit codex generate --default --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-warp-default
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-warp-default 
       flexmf-warp
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
@@ -3772,8 +3782,8 @@ stages:
       size: 3979382
       nfiles: 4
   sweep-flexmf-warp-temporal-random:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RBP flexmf-warp
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --random --metric=RBP flexmf-warp 
       sweeps/temporal/flexmf-warp-random
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
@@ -3795,9 +3805,9 @@ stages:
       md5: dd88c2828a6b794ad466f0a4549fd6d1
       size: 700
   run-temporal-random-best-flexmf-warp:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-warp-random.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-warp-random-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-warp-random.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-warp-random-best 
       flexmf-warp
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
@@ -3824,8 +3834,8 @@ stages:
       size: 3778333
       nfiles: 4
   sweep-flexmf-warp-temporal-hyperopt:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RBP flexmf-warp
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --hyperopt --metric=RBP flexmf-warp 
       sweeps/temporal/flexmf-warp-hyperopt
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
@@ -3847,9 +3857,9 @@ stages:
       md5: e4af0cad125d5bfa3301c7600afe5e19
       size: 700
   run-temporal-hyperopt-best-flexmf-warp:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-warp-hyperopt.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-warp-hyperopt-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-warp-hyperopt.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-warp-hyperopt-best 
       flexmf-warp
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
@@ -3876,8 +3886,8 @@ stages:
       size: 3876694
       nfiles: 4
   sweep-uknn-explicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=60 --optuna --metric=RMSE uknn-explicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 --optuna --metric=RMSE uknn-explicit 
       sweeps/temporal/uknn-explicit-optuna
     deps:
     - path: ../../src/codex/models/uknn_explicit.py
@@ -3899,9 +3909,9 @@ stages:
       md5: 1cf176e2a1ed10ae119c73a4d4226a10
       size: 792
   run-temporal-optuna-best-uknn-explicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/uknn-explicit-optuna.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/uknn-explicit-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/uknn-explicit-optuna.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/uknn-explicit-optuna-best 
       uknn-explicit
     deps:
     - path: ../../src/codex/models/uknn_explicit.py
@@ -3928,8 +3938,8 @@ stages:
       size: 7071706
       nfiles: 5
   sweep-flexmf-warp-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RBP flexmf-warp
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --optuna --metric=RBP flexmf-warp 
       sweeps/temporal/flexmf-warp-optuna
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
@@ -3951,8 +3961,8 @@ stages:
       md5: 88c7bb3a0bd946b91a6a8395fe0b7572
       size: 694
   sweep-flexmf-bpr-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RBP flexmf-bpr
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --optuna --metric=RBP flexmf-bpr 
       sweeps/temporal/flexmf-bpr-optuna
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
@@ -3974,9 +3984,9 @@ stages:
       md5: 3fe0583cc21a28cc54c1d891513d1d91
       size: 715
   run-temporal-optuna-best-flexmf-bpr:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-bpr-optuna.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-bpr-optuna.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-optuna-best 
       flexmf-bpr
     deps:
     - path: ../../src/codex/models/flexmf_bpr.py
@@ -4003,8 +4013,8 @@ stages:
       size: 3882040
       nfiles: 4
   sweep-flexmf-explicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RMSE flexmf-explicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --optuna --metric=RMSE flexmf-explicit 
       sweeps/temporal/flexmf-explicit-optuna
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
@@ -4026,9 +4036,9 @@ stages:
       md5: 1032f4b25b7d51237fa6ac1d963430c3
       size: 702
   run-temporal-optuna-best-flexmf-warp:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-warp-optuna.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-warp-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-warp-optuna.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-warp-optuna-best 
       flexmf-warp
     deps:
     - path: ../../src/codex/models/flexmf_warp.py
@@ -4055,7 +4065,7 @@ stages:
       size: 3797777
       nfiles: 4
   sweep-bias-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
       --sample-count=100 --optuna --metric=RMSE bias sweeps/temporal/bias-optuna
     deps:
     - path: ../../src/codex/models/bias.py
@@ -4077,8 +4087,8 @@ stages:
       md5: a982cd7f11cfa4552f885ee87b94c164
       size: 818
   sweep-als-biased-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RMSE als-biased
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --optuna --metric=RMSE als-biased 
       sweeps/temporal/als-biased-optuna
     deps:
     - path: ../../src/codex/models/als_biased.py
@@ -4100,8 +4110,8 @@ stages:
       md5: db5e60d31a3241214736ebfcb9490035
       size: 747
   sweep-flexmf-logistic-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RBP flexmf-logistic
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --optuna --metric=RBP flexmf-logistic 
       sweeps/temporal/flexmf-logistic-optuna
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
@@ -4123,9 +4133,9 @@ stages:
       md5: 058a5a68bc73a0604592b29e491a2943
       size: 770
   run-temporal-optuna-best-flexmf-logistic:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-logistic-optuna.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-logistic-optuna.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-optuna-best 
       flexmf-logistic
     deps:
     - path: ../../src/codex/models/flexmf_logistic.py
@@ -4152,8 +4162,8 @@ stages:
       size: 3929088
       nfiles: 4
   sweep-implicit-bpr-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RBP implicit-bpr
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --optuna --metric=RBP implicit-bpr 
       sweeps/temporal/implicit-bpr-optuna
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
@@ -4175,9 +4185,9 @@ stages:
       md5: dd3764f52cd21c082dba446875395ff5
       size: 882
   run-temporal-optuna-best-implicit-bpr:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/implicit-bpr-optuna.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/implicit-bpr-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/implicit-bpr-optuna.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/implicit-bpr-optuna-best 
       implicit-bpr
     deps:
     - path: ../../src/codex/models/implicit_bpr.py
@@ -4204,8 +4214,8 @@ stages:
       size: 3986271
       nfiles: 4
   sweep-als-implicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RBP als-implicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --optuna --metric=RBP als-implicit 
       sweeps/temporal/als-implicit-optuna
     deps:
     - path: ../../src/codex/models/als_implicit.py
@@ -4227,9 +4237,9 @@ stages:
       md5: 63198c9e208a9a03583e288434b6ab7c
       size: 683
   run-temporal-optuna-best-als-implicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/als-implicit-optuna.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/als-implicit-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/als-implicit-optuna.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/als-implicit-optuna-best 
       als-implicit
     deps:
     - path: ../../src/codex/models/als_implicit.py
@@ -4256,8 +4266,8 @@ stages:
       size: 3845308
       nfiles: 4
   sweep-iknn-explicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RMSE iknn-explicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --optuna --metric=RMSE iknn-explicit 
       sweeps/temporal/iknn-explicit-optuna
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
@@ -4279,9 +4289,9 @@ stages:
       md5: b221f62ee4f13f03a94e469af18ef2a2
       size: 823
   run-temporal-optuna-best-flexmf-explicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/flexmf-explicit-optuna.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/flexmf-explicit-optuna.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-optuna-best 
       flexmf-explicit
     deps:
     - path: ../../src/codex/models/flexmf_explicit.py
@@ -4308,8 +4318,8 @@ stages:
       size: 11645150
       nfiles: 5
   run-temporal-optuna-best-bias:
-    cmd: lenskit codex generate --param-file sweeps/temporal/bias-optuna.json
-      --ds-name=ML10M --split=splits/temporal.toml -o
+    cmd: lenskit codex generate --param-file sweeps/temporal/bias-optuna.json 
+      --ds-name=ML10M --split=splits/temporal.toml -o 
       runs/temporal/bias-optuna-best bias
     deps:
     - path: ../../src/codex/models/bias.py
@@ -4336,9 +4346,9 @@ stages:
       size: 6431972
       nfiles: 5
   run-temporal-optuna-best-als-biased:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/als-biased-optuna.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/als-biased-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/als-biased-optuna.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/als-biased-optuna-best 
       als-biased
     deps:
     - path: ../../src/codex/models/als_biased.py
@@ -4365,8 +4375,8 @@ stages:
       size: 11542215
       nfiles: 5
   sweep-iknn-implicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RBP iknn-implicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=100 --optuna --metric=RBP iknn-implicit 
       sweeps/temporal/iknn-implicit-optuna
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
@@ -4388,9 +4398,9 @@ stages:
       md5: 1734c554e32855d994f3680e390f2304
       size: 786
   run-temporal-optuna-best-iknn-implicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/iknn-implicit-optuna.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/iknn-implicit-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/iknn-implicit-optuna.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/iknn-implicit-optuna-best 
       iknn-implicit
     deps:
     - path: ../../src/codex/models/iknn_implicit.py
@@ -4417,9 +4427,9 @@ stages:
       size: 3727641
       nfiles: 4
   run-temporal-optuna-best-iknn-explicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/iknn-explicit-optuna.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/iknn-explicit-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/iknn-explicit-optuna.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/iknn-explicit-optuna-best 
       iknn-explicit
     deps:
     - path: ../../src/codex/models/iknn_explicit.py
@@ -4446,8 +4456,8 @@ stages:
       size: 7094053
       nfiles: 5
   sweep-uknn-implicit-temporal-optuna:
-    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid
-      --sample-count=60 --optuna --metric=RBP uknn-implicit
+    cmd: lenskit codex search --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 --optuna --metric=RBP uknn-implicit 
       sweeps/temporal/uknn-implicit-optuna
     deps:
     - path: ../../src/codex/models/uknn_implicit.py
@@ -4469,9 +4479,9 @@ stages:
       md5: bd5f1d5219d8361aa668d3bef3ed64e8
       size: 791
   run-temporal-optuna-best-uknn-implicit:
-    cmd: lenskit codex generate --param-file
-      sweeps/temporal/uknn-implicit-optuna.json --ds-name=ML10M
-      --split=splits/temporal.toml -o runs/temporal/uknn-implicit-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/temporal/uknn-implicit-optuna.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/uknn-implicit-optuna-best 
       uknn-implicit
     deps:
     - path: ../../src/codex/models/uknn_implicit.py
@@ -4496,4 +4506,52 @@ stages:
       hash: md5
       md5: 7ad78aabe0d55771b6de7f8b1a7107e0.dir
       size: 3892208
+      nfiles: 4
+  run-temporal-default-lightgcn-bpr:
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/lightgcn-bpr-default 
+      lightgcn-bpr
+    deps:
+    - path: ../../src/codex/models/lightgcn_bpr.py
+      hash: md5
+      md5: 4ef407fab23ade2064a8faf4a49b1204
+      size: 551
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/lightgcn-bpr-default
+      hash: md5
+      md5: d69c8d7d0fd5dd3a38263f48c2025f65.dir
+      size: 4015295
+      nfiles: 4
+  run-temporal-default-lightgcn-logistic:
+    cmd: lenskit codex generate --default --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/lightgcn-logistic-default 
+      lightgcn-logistic
+    deps:
+    - path: ../../src/codex/models/lightgcn_logistic.py
+      hash: md5
+      md5: 9d83d5d05de0432d2346901d6fb87b23
+      size: 551
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/lightgcn-logistic-default
+      hash: md5
+      md5: 4bd9459532c37191a443bba3e6e797c8.dir
+      size: 4086654
       nfiles: 4
