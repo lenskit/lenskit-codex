@@ -13,7 +13,6 @@ This document describes the behavior of those attention models.
 ```{python}
 import pandas as pd
 import numpy as np
-import plotnine as pn
 import matplotlib.pyplot as plt
 ```
 
@@ -29,45 +28,34 @@ from codex.reporting.plots import DEFAULTS
 
 ```{python}
 ranks = np.arange(10, dtype=np.float32) + 1
-attn = pd.DataFrame({
-    'rank': ranks,
-    r'$\log_2$': np.reciprocal(np.log2(np.maximum(ranks, 2))),
-    'Recip': np.reciprocal(ranks),
-    r'$\log_2(1+\cdot)$': np.reciprocal(np.log2(ranks + 1)),
-    'Recip': np.reciprocal(ranks),
-    r'$\mathrm{RBP}_{0.5}$': np.power(0.5, ranks - 1),
-    r'$\mathrm{RBP}_{0.2}$': np.power(0.2, ranks - 1),
-    r'$\mathrm{RBP}_{0.85}$': np.power(0.85, ranks - 1),
-    r'$\mathrm{HL}_5$': np.power(2, -(ranks - 1) / 4),
-})
-attn = attn.melt(['rank'], var_name='Model', value_name='discount')
-(
-    pn.ggplot(attn)
-    + pn.aes(x='rank', y='discount', color='Model')
-    + pn.geom_line()
-    + pn.scale_color_brewer('qual', 'Dark2')
-    + pn.ggtitle('Rank Decay (through 10)')
-)
+attn = [
+    ('solid', r'$\log_2(max)$', np.reciprocal(np.log2(np.maximum(ranks, 2)))),
+    ('solid', r'$\log_2(1+\cdot)$', np.reciprocal(np.log2(ranks + 1))),
+    ('dotted', 'Recip', np.reciprocal(ranks)),
+    ('dashed', r'$\mathrm{RBP}_{0.5}$', np.power(0.5, ranks - 1)),
+    ('dashed', r'$\mathrm{RBP}_{0.2}$', np.power(0.2, ranks - 1)),
+    ('dashed', r'$\mathrm{RBP}_{0.85}$', np.power(0.85, ranks - 1)),
+    ((0, (1,2)), r'$\mathrm{HL}_5$', np.power(2, -(ranks - 1) / 4)),
+]
+for ls, label, ys in attn:
+    plt.plot(ranks, ys, linestyle=ls, label=label)
+plt.legend()
+plt.show()
 ```
 
 ```{python}
 ranks = np.arange(100, dtype=np.float32) + 1
-attn = pd.DataFrame({
-    'rank': ranks,
-    r'$\log_2$': np.reciprocal(np.log2(np.maximum(ranks, 2))),
-    r'$\log_2(1+\cdot)$': np.reciprocal(np.log2(ranks + 1)),
-    'Recip': np.reciprocal(ranks),
-    r'$\mathrm{RBP}_{0.5}$': np.power(0.5, ranks - 1),
-    r'$\mathrm{RBP}_{0.2}$': np.power(0.2, ranks - 1),
-    r'$\mathrm{RBP}_{0.85}$': np.power(0.85, ranks - 1),
-    r'$\mathrm{HL}_5$': np.power(2, -(ranks - 1) / 4),
-})
-attn = attn.melt(['rank'], var_name='Model', value_name='discount')
-(
-    pn.ggplot(attn)
-    + pn.aes(x='rank', y='discount', color='Model')
-    + pn.geom_line()
-    + pn.scale_color_brewer('qual', 'Dark2')
-    + pn.ggtitle('Rank Decay (through 100)')
-)
+attn = [
+    ('solid', r'$\log_2(max)$', np.reciprocal(np.log2(np.maximum(ranks, 2)))),
+    ('solid', r'$\log_2(1+\cdot)$', np.reciprocal(np.log2(ranks + 1))),
+    ('dotted', 'Recip', np.reciprocal(ranks)),
+    ('dashed', r'$\mathrm{RBP}_{0.5}$', np.power(0.5, ranks - 1)),
+    ('dashed', r'$\mathrm{RBP}_{0.2}$', np.power(0.2, ranks - 1)),
+    ('dashed', r'$\mathrm{RBP}_{0.85}$', np.power(0.85, ranks - 1)),
+    ((0, (1,2)), r'$\mathrm{HL}_5$', np.power(2, -(ranks - 1) / 4)),
+]
+for ls, label, ys in attn:
+    plt.plot(ranks, ys, linestyle=ls, label=label)
+plt.legend()
+plt.show()
 ```
