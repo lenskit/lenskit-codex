@@ -44,7 +44,6 @@ local splitInfo(name) =
           if split == 'random' then '--test-part=0' else '--test-part=valid',
           searchPointsArg(spec, m.value),
           '--' + method,
-          if m.value.predictor then '--metric=RMSE' else '--metric=RBP',
           m.key,
           out_dir,
         ]),
