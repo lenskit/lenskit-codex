@@ -15,8 +15,6 @@ stages:
       - runs/temporal/flexmf-warp-default
       - runs/temporal/iknn-explicit-default
       - runs/temporal/iknn-implicit-default
-      - runs/temporal/lightgcn-bpr-default
-      - runs/temporal/lightgcn-logistic-default
       - runs/temporal/popular-default
       - runs/temporal/als-biased-optuna-best
       - runs/temporal/als-implicit-optuna-best
@@ -117,24 +115,6 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/iknn-implicit-default
-  run-temporal-default-lightgcn-bpr:
-    cmd: lenskit codex generate --ds-name=ML25M --split=splits/temporal.toml -o
-      runs/temporal/lightgcn-bpr-default lightgcn-bpr
-    deps:
-      - ../../src/codex/models/lightgcn_bpr.py
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal/lightgcn-bpr-default
-  run-temporal-default-lightgcn-logistic:
-    cmd: lenskit codex generate --ds-name=ML25M --split=splits/temporal.toml -o
-      runs/temporal/lightgcn-logistic-default lightgcn-logistic
-    deps:
-      - ../../src/codex/models/lightgcn_logistic.py
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal/lightgcn-logistic-default
   run-temporal-default-popular:
     cmd: lenskit codex generate --ds-name=ML25M --split=splits/temporal.toml -o
       runs/temporal/popular-default popular
@@ -260,7 +240,7 @@ stages:
       - stats.duckdb
   sweep-als-biased-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --optuna --metric=RMSE als-biased sweeps/temporal/als-biased-optuna
+      --optuna als-biased sweeps/temporal/als-biased-optuna
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -275,7 +255,7 @@ stages:
           cache: false
   sweep-als-implicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --optuna --metric=RBP als-implicit sweeps/temporal/als-implicit-optuna
+      --optuna als-implicit sweeps/temporal/als-implicit-optuna
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -290,7 +270,7 @@ stages:
           cache: false
   sweep-bias-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --optuna --metric=RMSE bias sweeps/temporal/bias-optuna
+      --optuna bias sweeps/temporal/bias-optuna
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -305,7 +285,7 @@ stages:
           cache: false
   sweep-flexmf-bpr-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --optuna --metric=RBP flexmf-bpr sweeps/temporal/flexmf-bpr-optuna
+      --optuna flexmf-bpr sweeps/temporal/flexmf-bpr-optuna
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -320,8 +300,7 @@ stages:
           cache: false
   sweep-flexmf-explicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --optuna --metric=RMSE flexmf-explicit
-      sweeps/temporal/flexmf-explicit-optuna
+      --optuna flexmf-explicit sweeps/temporal/flexmf-explicit-optuna
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -336,8 +315,7 @@ stages:
           cache: false
   sweep-flexmf-logistic-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --optuna --metric=RBP flexmf-logistic
-      sweeps/temporal/flexmf-logistic-optuna
+      --optuna flexmf-logistic sweeps/temporal/flexmf-logistic-optuna
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -352,7 +330,7 @@ stages:
           cache: false
   sweep-flexmf-warp-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --optuna --metric=RBP flexmf-warp sweeps/temporal/flexmf-warp-optuna
+      --optuna flexmf-warp sweeps/temporal/flexmf-warp-optuna
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -367,7 +345,7 @@ stages:
           cache: false
   sweep-iknn-explicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --optuna --metric=RMSE iknn-explicit sweeps/temporal/iknn-explicit-optuna
+      --optuna iknn-explicit sweeps/temporal/iknn-explicit-optuna
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -382,7 +360,7 @@ stages:
           cache: false
   sweep-iknn-implicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --optuna --metric=RBP iknn-implicit sweeps/temporal/iknn-implicit-optuna
+      --optuna iknn-implicit sweeps/temporal/iknn-implicit-optuna
     params:
       - ../../config.toml:
           - tuning.optuna.points
