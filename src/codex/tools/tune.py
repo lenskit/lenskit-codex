@@ -66,8 +66,7 @@ def run_tune(
     spec.search.method = method
     if metric is not None:
         spec.search.metric = metric
-    if sample_count is not None:
-        spec.search.max_points = sample_count
+    spec.search.update_max_points(sample_count)
     metric = spec.search.metric
     assert metric is not None
 
@@ -79,6 +78,8 @@ def run_tune(
     data = splits.get_part(test_part)
     tuner.set_data(data.train, data.test, name=data.name)
     data_model = DataModel(dataset=data.name or ds_name, split=split.stem, part=test_part)
+
+    out.mkdir(exist_ok=True, parents=True)
 
     with (
         CodexTask(
@@ -124,7 +125,7 @@ def run_tune(
         for result in results:
             print(to_json(result.metrics).decode(), file=jsf)
 
-    best_out = tuner.best_result
+    best_out = tuner.best_result()
     assert best_out is not None
 
     if tuner.iterative:
