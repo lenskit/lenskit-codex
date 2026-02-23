@@ -39,7 +39,7 @@ local runsForSplit(spec, split, dep_type) =
     {
       name: std.format('%s-default-%s', [split, model]),
       dataset: spec.name,
-      args: ['--default'],
+      args: [],
       model: model,
       split: split,
       variant: 'default',
@@ -49,11 +49,11 @@ local runsForSplit(spec, split, dep_type) =
   ] + [
     {
       local model = m.key,
-      local params = std.format('sweeps/%s/%s-%s.json', [split, model, search]),
+      local params = std.format('sweeps/%s/%s-%s-pipeline.json', [split, model, search]),
 
       name: std.format('%s-%s-best-%s', [split, search, model]),
       dataset: spec.name,
-      args: ['--param-file', params],
+      args: ['--pipeline-file', params],
       model: model,
       split: split,
       variant: search + '-best',

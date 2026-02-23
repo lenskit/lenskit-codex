@@ -1818,8 +1818,8 @@ stages:
       md5: f6c5dd39337143b19ab383176583ab61
       size: 1323008
   run-random-default-bias:
-    cmd: lenskit codex generate --default --ds-name=ML100K 
-      --split=splits/random.toml -o runs/random/bias-default bias
+    cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
+      runs/random/bias-default bias
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
@@ -1837,8 +1837,8 @@ stages:
     outs:
     - path: runs/random/bias-default
       hash: md5
-      md5: 161438b2902bff0d3ce28ee227518a38.dir
-      size: 543665
+      md5: 1538c4a181d07ae818889f0d5b381ac0.dir
+      size: 682240
       nfiles: 5
   sweep-bias-random-random:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 
@@ -2717,7 +2717,7 @@ stages:
       md5: 80ef5372dee56097da45761ccb79fc9c
       size: 708
   sweep-bias-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
       --sample-count=100 --optuna --metric=RMSE bias sweeps/random/bias-optuna
     deps:
     - path: ../../src/codex/models/bias.py
@@ -2731,13 +2731,17 @@ stages:
     outs:
     - path: sweeps/random/bias-optuna
       hash: md5
-      md5: 4adc5303de38d1019223f68dbb5815d2.dir
-      size: 804998
-      nfiles: 4
+      md5: 737bc6817abef19bb40085dd34cf2e0b.dir
+      size: 712880
+      nfiles: 159
+    - path: sweeps/random/bias-optuna-pipeline.json
+      hash: md5
+      md5: 4707387ae3bb938550320101b4f09487
+      size: 2499
     - path: sweeps/random/bias-optuna.json
       hash: md5
-      md5: a38d6f1d72644082bb7e3614408045ce
-      size: 830
+      md5: a93b31ed7825a4ad7d6d1f3adada18cd
+      size: 845
   sweep-uknn-implicit-random-optuna:
     cmd: lenskit codex search --split=splits/random.toml --test-part=0 
       --sample-count=60 --optuna --metric=RBP uknn-implicit 
@@ -3517,9 +3521,9 @@ stages:
       size: 705933
       nfiles: 4
   run-random-optuna-best-bias:
-    cmd: lenskit codex generate --param-file sweeps/random/bias-optuna.json 
-      --ds-name=ML100K --split=splits/random.toml -o 
-      runs/random/bias-optuna-best bias
+    cmd: lenskit codex generate --pipeline-file 
+      sweeps/random/bias-optuna-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/bias-optuna-best bias
     deps:
     - path: ../../src/codex/models/bias.py
       hash: md5
@@ -3534,15 +3538,15 @@ stages:
       hash: md5
       md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
       size: 56269
-    - path: sweeps/random/bias-optuna.json
+    - path: sweeps/random/bias-optuna-pipeline.json
       hash: md5
-      md5: a38d6f1d72644082bb7e3614408045ce
-      size: 830
+      md5: 4707387ae3bb938550320101b4f09487
+      size: 2499
     outs:
     - path: runs/random/bias-optuna-best
       hash: md5
-      md5: 2c5234f9f1d5b2eb16557fab5419afcc.dir
-      size: 636781
+      md5: 5d919c9c571931b08bb235a5566b6226.dir
+      size: 678092
       nfiles: 5
   run-random-optuna-best-flexmf-explicit:
     cmd: lenskit codex generate --param-file 

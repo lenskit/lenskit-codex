@@ -39,7 +39,7 @@ local splitInfo(name) =
         local out_dir = std.format('sweeps/%s/%s-%s', [split, m.key, method]),
 
         cmd: cmds.codex_cmd([
-          'search',
+          'tune',
           '--split=' + sp.file,
           if split == 'random' then '--test-part=0' else '--test-part=valid',
           searchPointsArg(spec, m.value),
@@ -58,6 +58,7 @@ local splitInfo(name) =
         outs: [
           out_dir,
           { [out_dir + '.json']: { cache: false } },
+          { [out_dir + '-pipeline.json']: { cache: false } },
         ],
       } + if spec.search_frozen then { frozen: true } else {}
       for split in spec.splits
