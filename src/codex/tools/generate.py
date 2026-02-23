@@ -62,7 +62,7 @@ def generate(
         if model is None:
             _log.error("no pipeline or model specified")
             raise click.UsageError("must specify --pipeline-file or model name")
-        pipeline_file = model_dir(model) / "pipeline.json"
+        pipeline_file = model_dir(model) / "pipeline.toml"
 
     pipeline = Pipeline.load_config(pipeline_file)
     if model is not None and pipeline.name != model:
