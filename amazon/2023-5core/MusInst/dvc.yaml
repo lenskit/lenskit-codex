@@ -9,6 +9,7 @@ stages:
       - runs/fixed/als-biased-default
       - runs/fixed/als-implicit-default
       - runs/fixed/bias-default
+      - runs/fixed/ease-default
       - runs/fixed/flexmf-bpr-default
       - runs/fixed/flexmf-explicit-default
       - runs/fixed/flexmf-logistic-default
@@ -19,6 +20,7 @@ stages:
       - runs/fixed/als-biased-optuna-best
       - runs/fixed/als-implicit-optuna-best
       - runs/fixed/bias-optuna-best
+      - runs/fixed/ease-optuna-best
       - runs/fixed/flexmf-bpr-optuna-best
       - runs/fixed/flexmf-explicit-optuna-best
       - runs/fixed/flexmf-logistic-optuna-best
@@ -33,6 +35,7 @@ stages:
       - runs/fixed/als-biased-default/recommendations.parquet
       - runs/fixed/als-implicit-default/recommendations.parquet
       - runs/fixed/bias-default/recommendations.parquet
+      - runs/fixed/ease-default/recommendations.parquet
       - runs/fixed/flexmf-bpr-default/recommendations.parquet
       - runs/fixed/flexmf-explicit-default/recommendations.parquet
       - runs/fixed/flexmf-logistic-default/recommendations.parquet
@@ -107,6 +110,14 @@ stages:
       - splits/fixed
     outs:
       - runs/fixed/bias-default
+  run-fixed-default-ease:
+    cmd: lenskit codex generate --ds-name=MusInst --split=splits/fixed -o
+      runs/fixed/ease-default ease
+    deps:
+      - ../../../src/codex/models/ease.py
+      - splits/fixed
+    outs:
+      - runs/fixed/ease-default
   run-fixed-default-flexmf-bpr:
     cmd: lenskit codex generate --ds-name=MusInst --split=splits/fixed -o
       runs/fixed/flexmf-bpr-default flexmf-bpr
@@ -193,6 +204,16 @@ stages:
       - sweeps/fixed/bias-optuna-pipeline.json
     outs:
       - runs/fixed/bias-optuna-best
+  run-fixed-optuna-best-ease:
+    cmd: lenskit codex generate --pipeline-file
+      sweeps/fixed/ease-optuna-pipeline.json --ds-name=MusInst
+      --split=splits/fixed -o runs/fixed/ease-optuna-best ease
+    deps:
+      - ../../../src/codex/models/ease.py
+      - splits/fixed
+      - sweeps/fixed/ease-optuna-pipeline.json
+    outs:
+      - runs/fixed/ease-optuna-best
   run-fixed-optuna-best-flexmf-bpr:
     cmd: lenskit codex generate --pipeline-file
       sweeps/fixed/flexmf-bpr-optuna-pipeline.json --ds-name=MusInst
@@ -244,7 +265,7 @@ stages:
       - splits/fixed/valid/test.parquet
   sweep-als-biased-fixed-optuna:
     cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      --metric=RMSE als-biased sweeps/fixed/als-biased-optuna
+      als-biased sweeps/fixed/als-biased-optuna
     params:
       - ../../../config.toml:
           - tuning.optuna.points
@@ -259,7 +280,7 @@ stages:
           cache: false
   sweep-als-implicit-fixed-optuna:
     cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      --metric=RBP als-implicit sweeps/fixed/als-implicit-optuna
+      als-implicit sweeps/fixed/als-implicit-optuna
     params:
       - ../../../config.toml:
           - tuning.optuna.points
@@ -273,8 +294,8 @@ stages:
       - sweeps/fixed/als-implicit-optuna-pipeline.json:
           cache: false
   sweep-bias-fixed-optuna:
-    cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      --metric=RMSE bias sweeps/fixed/bias-optuna
+    cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna bias
+      sweeps/fixed/bias-optuna
     params:
       - ../../../config.toml:
           - tuning.optuna.points
@@ -287,9 +308,24 @@ stages:
           cache: false
       - sweeps/fixed/bias-optuna-pipeline.json:
           cache: false
+  sweep-ease-fixed-optuna:
+    cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna ease
+      sweeps/fixed/ease-optuna
+    params:
+      - ../../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid
+      - ../../../src/codex/models/ease.py
+    outs:
+      - sweeps/fixed/ease-optuna
+      - sweeps/fixed/ease-optuna.json:
+          cache: false
+      - sweeps/fixed/ease-optuna-pipeline.json:
+          cache: false
   sweep-flexmf-bpr-fixed-optuna:
     cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      --metric=RBP flexmf-bpr sweeps/fixed/flexmf-bpr-optuna
+      flexmf-bpr sweeps/fixed/flexmf-bpr-optuna
     params:
       - ../../../config.toml:
           - tuning.optuna.points
@@ -304,7 +340,7 @@ stages:
           cache: false
   sweep-flexmf-explicit-fixed-optuna:
     cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      --metric=RMSE flexmf-explicit sweeps/fixed/flexmf-explicit-optuna
+      flexmf-explicit sweeps/fixed/flexmf-explicit-optuna
     params:
       - ../../../config.toml:
           - tuning.optuna.points
@@ -319,7 +355,7 @@ stages:
           cache: false
   sweep-flexmf-logistic-fixed-optuna:
     cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      --metric=RBP flexmf-logistic sweeps/fixed/flexmf-logistic-optuna
+      flexmf-logistic sweeps/fixed/flexmf-logistic-optuna
     params:
       - ../../../config.toml:
           - tuning.optuna.points
@@ -334,7 +370,7 @@ stages:
           cache: false
   sweep-flexmf-warp-fixed-optuna:
     cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      --metric=RBP flexmf-warp sweeps/fixed/flexmf-warp-optuna
+      flexmf-warp sweeps/fixed/flexmf-warp-optuna
     params:
       - ../../../config.toml:
           - tuning.optuna.points

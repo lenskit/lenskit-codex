@@ -9,6 +9,7 @@ stages:
       - runs/temporal/als-biased-default
       - runs/temporal/als-implicit-default
       - runs/temporal/bias-default
+      - runs/temporal/ease-default
       - runs/temporal/flexmf-bpr-default
       - runs/temporal/flexmf-explicit-default
       - runs/temporal/flexmf-logistic-default
@@ -21,6 +22,7 @@ stages:
       - runs/temporal/als-biased-random-best
       - runs/temporal/als-implicit-random-best
       - runs/temporal/bias-random-best
+      - runs/temporal/ease-random-best
       - runs/temporal/flexmf-bpr-random-best
       - runs/temporal/flexmf-explicit-random-best
       - runs/temporal/flexmf-logistic-random-best
@@ -30,6 +32,7 @@ stages:
       - runs/temporal/als-biased-hyperopt-best
       - runs/temporal/als-implicit-hyperopt-best
       - runs/temporal/bias-hyperopt-best
+      - runs/temporal/ease-hyperopt-best
       - runs/temporal/flexmf-bpr-hyperopt-best
       - runs/temporal/flexmf-explicit-hyperopt-best
       - runs/temporal/flexmf-logistic-hyperopt-best
@@ -39,6 +42,7 @@ stages:
       - runs/temporal/als-biased-optuna-best
       - runs/temporal/als-implicit-optuna-best
       - runs/temporal/bias-optuna-best
+      - runs/temporal/ease-optuna-best
       - runs/temporal/flexmf-bpr-optuna-best
       - runs/temporal/flexmf-explicit-optuna-best
       - runs/temporal/flexmf-logistic-optuna-best
@@ -81,6 +85,15 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/bias-default
+  run-temporal-default-ease:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o
+      runs/temporal/ease-default ease
+    deps:
+      - ../../src/codex/models/ease.py
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/ease-default
   run-temporal-default-flexmf-bpr:
     cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o
       runs/temporal/flexmf-bpr-default flexmf-bpr
@@ -197,6 +210,17 @@ stages:
       - sweeps/temporal/bias-hyperopt-pipeline.json
     outs:
       - runs/temporal/bias-hyperopt-best
+  run-temporal-hyperopt-best-ease:
+    cmd: lenskit codex generate --pipeline-file
+      sweeps/temporal/ease-hyperopt-pipeline.json --ds-name=ML20M
+      --split=splits/temporal.toml -o runs/temporal/ease-hyperopt-best ease
+    deps:
+      - ../../src/codex/models/ease.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/ease-hyperopt-pipeline.json
+    outs:
+      - runs/temporal/ease-hyperopt-best
   run-temporal-hyperopt-best-flexmf-bpr:
     cmd: lenskit codex generate --pipeline-file
       sweeps/temporal/flexmf-bpr-hyperopt-pipeline.json --ds-name=ML20M
@@ -304,6 +328,17 @@ stages:
       - sweeps/temporal/bias-optuna-pipeline.json
     outs:
       - runs/temporal/bias-optuna-best
+  run-temporal-optuna-best-ease:
+    cmd: lenskit codex generate --pipeline-file
+      sweeps/temporal/ease-optuna-pipeline.json --ds-name=ML20M
+      --split=splits/temporal.toml -o runs/temporal/ease-optuna-best ease
+    deps:
+      - ../../src/codex/models/ease.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/ease-optuna-pipeline.json
+    outs:
+      - runs/temporal/ease-optuna-best
   run-temporal-optuna-best-flexmf-bpr:
     cmd: lenskit codex generate --pipeline-file
       sweeps/temporal/flexmf-bpr-optuna-pipeline.json --ds-name=ML20M
@@ -411,6 +446,17 @@ stages:
       - sweeps/temporal/bias-random-pipeline.json
     outs:
       - runs/temporal/bias-random-best
+  run-temporal-random-best-ease:
+    cmd: lenskit codex generate --pipeline-file
+      sweeps/temporal/ease-random-pipeline.json --ds-name=ML20M
+      --split=splits/temporal.toml -o runs/temporal/ease-random-best ease
+    deps:
+      - ../../src/codex/models/ease.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/ease-random-pipeline.json
+    outs:
+      - runs/temporal/ease-random-best
   run-temporal-random-best-flexmf-bpr:
     cmd: lenskit codex generate --pipeline-file
       sweeps/temporal/flexmf-bpr-random-pipeline.json --ds-name=ML20M
@@ -492,7 +538,7 @@ stages:
       - stats.duckdb
   sweep-als-biased-temporal-hyperopt:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RMSE als-biased
+      --sample-count=100 --hyperopt als-biased
       sweeps/temporal/als-biased-hyperopt
     deps:
       - splits/temporal.toml
@@ -505,8 +551,7 @@ stages:
           cache: false
   sweep-als-biased-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RMSE als-biased
-      sweeps/temporal/als-biased-optuna
+      --sample-count=100 --optuna als-biased sweeps/temporal/als-biased-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_biased.py
@@ -518,8 +563,7 @@ stages:
           cache: false
   sweep-als-biased-temporal-random:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RMSE als-biased
-      sweeps/temporal/als-biased-random
+      --sample-count=100 --random als-biased sweeps/temporal/als-biased-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/als_biased.py
@@ -531,7 +575,7 @@ stages:
           cache: false
   sweep-als-implicit-temporal-hyperopt:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RBP als-implicit
+      --sample-count=100 --hyperopt als-implicit
       sweeps/temporal/als-implicit-hyperopt
     deps:
       - splits/temporal.toml
@@ -544,7 +588,7 @@ stages:
           cache: false
   sweep-als-implicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RBP als-implicit
+      --sample-count=100 --optuna als-implicit
       sweeps/temporal/als-implicit-optuna
     deps:
       - splits/temporal.toml
@@ -557,7 +601,7 @@ stages:
           cache: false
   sweep-als-implicit-temporal-random:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RBP als-implicit
+      --sample-count=100 --random als-implicit
       sweeps/temporal/als-implicit-random
     deps:
       - splits/temporal.toml
@@ -570,8 +614,7 @@ stages:
           cache: false
   sweep-bias-temporal-hyperopt:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RMSE bias
-      sweeps/temporal/bias-hyperopt
+      --sample-count=100 --hyperopt bias sweeps/temporal/bias-hyperopt
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/bias.py
@@ -583,7 +626,7 @@ stages:
           cache: false
   sweep-bias-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RMSE bias sweeps/temporal/bias-optuna
+      --sample-count=100 --optuna bias sweeps/temporal/bias-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/bias.py
@@ -595,7 +638,7 @@ stages:
           cache: false
   sweep-bias-temporal-random:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RMSE bias sweeps/temporal/bias-random
+      --sample-count=100 --random bias sweeps/temporal/bias-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/bias.py
@@ -605,9 +648,45 @@ stages:
           cache: false
       - sweeps/temporal/bias-random-pipeline.json:
           cache: false
+  sweep-ease-temporal-hyperopt:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
+      --sample-count=30 --hyperopt ease sweeps/temporal/ease-hyperopt
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/ease.py
+    outs:
+      - sweeps/temporal/ease-hyperopt
+      - sweeps/temporal/ease-hyperopt.json:
+          cache: false
+      - sweeps/temporal/ease-hyperopt-pipeline.json:
+          cache: false
+  sweep-ease-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
+      --sample-count=30 --optuna ease sweeps/temporal/ease-optuna
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/ease.py
+    outs:
+      - sweeps/temporal/ease-optuna
+      - sweeps/temporal/ease-optuna.json:
+          cache: false
+      - sweeps/temporal/ease-optuna-pipeline.json:
+          cache: false
+  sweep-ease-temporal-random:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
+      --sample-count=30 --random ease sweeps/temporal/ease-random
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/ease.py
+    outs:
+      - sweeps/temporal/ease-random
+      - sweeps/temporal/ease-random.json:
+          cache: false
+      - sweeps/temporal/ease-random-pipeline.json:
+          cache: false
   sweep-flexmf-bpr-temporal-hyperopt:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RBP flexmf-bpr
+      --sample-count=100 --hyperopt flexmf-bpr
       sweeps/temporal/flexmf-bpr-hyperopt
     deps:
       - splits/temporal.toml
@@ -620,8 +699,7 @@ stages:
           cache: false
   sweep-flexmf-bpr-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RBP flexmf-bpr
-      sweeps/temporal/flexmf-bpr-optuna
+      --sample-count=100 --optuna flexmf-bpr sweeps/temporal/flexmf-bpr-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_bpr.py
@@ -633,8 +711,7 @@ stages:
           cache: false
   sweep-flexmf-bpr-temporal-random:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RBP flexmf-bpr
-      sweeps/temporal/flexmf-bpr-random
+      --sample-count=100 --random flexmf-bpr sweeps/temporal/flexmf-bpr-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_bpr.py
@@ -646,7 +723,7 @@ stages:
           cache: false
   sweep-flexmf-explicit-temporal-hyperopt:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RMSE flexmf-explicit
+      --sample-count=100 --hyperopt flexmf-explicit
       sweeps/temporal/flexmf-explicit-hyperopt
     deps:
       - splits/temporal.toml
@@ -659,7 +736,7 @@ stages:
           cache: false
   sweep-flexmf-explicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RMSE flexmf-explicit
+      --sample-count=100 --optuna flexmf-explicit
       sweeps/temporal/flexmf-explicit-optuna
     deps:
       - splits/temporal.toml
@@ -672,7 +749,7 @@ stages:
           cache: false
   sweep-flexmf-explicit-temporal-random:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RMSE flexmf-explicit
+      --sample-count=100 --random flexmf-explicit
       sweeps/temporal/flexmf-explicit-random
     deps:
       - splits/temporal.toml
@@ -685,7 +762,7 @@ stages:
           cache: false
   sweep-flexmf-logistic-temporal-hyperopt:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RBP flexmf-logistic
+      --sample-count=100 --hyperopt flexmf-logistic
       sweeps/temporal/flexmf-logistic-hyperopt
     deps:
       - splits/temporal.toml
@@ -698,7 +775,7 @@ stages:
           cache: false
   sweep-flexmf-logistic-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RBP flexmf-logistic
+      --sample-count=100 --optuna flexmf-logistic
       sweeps/temporal/flexmf-logistic-optuna
     deps:
       - splits/temporal.toml
@@ -711,7 +788,7 @@ stages:
           cache: false
   sweep-flexmf-logistic-temporal-random:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RBP flexmf-logistic
+      --sample-count=100 --random flexmf-logistic
       sweeps/temporal/flexmf-logistic-random
     deps:
       - splits/temporal.toml
@@ -724,7 +801,7 @@ stages:
           cache: false
   sweep-flexmf-warp-temporal-hyperopt:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RBP flexmf-warp
+      --sample-count=100 --hyperopt flexmf-warp
       sweeps/temporal/flexmf-warp-hyperopt
     deps:
       - splits/temporal.toml
@@ -737,8 +814,7 @@ stages:
           cache: false
   sweep-flexmf-warp-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RBP flexmf-warp
-      sweeps/temporal/flexmf-warp-optuna
+      --sample-count=100 --optuna flexmf-warp sweeps/temporal/flexmf-warp-optuna
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_warp.py
@@ -750,8 +826,7 @@ stages:
           cache: false
   sweep-flexmf-warp-temporal-random:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RBP flexmf-warp
-      sweeps/temporal/flexmf-warp-random
+      --sample-count=100 --random flexmf-warp sweeps/temporal/flexmf-warp-random
     deps:
       - splits/temporal.toml
       - ../../src/codex/models/flexmf_warp.py
@@ -763,7 +838,7 @@ stages:
           cache: false
   sweep-iknn-explicit-temporal-hyperopt:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RMSE iknn-explicit
+      --sample-count=100 --hyperopt iknn-explicit
       sweeps/temporal/iknn-explicit-hyperopt
     deps:
       - splits/temporal.toml
@@ -776,7 +851,7 @@ stages:
           cache: false
   sweep-iknn-explicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RMSE iknn-explicit
+      --sample-count=100 --optuna iknn-explicit
       sweeps/temporal/iknn-explicit-optuna
     deps:
       - splits/temporal.toml
@@ -789,7 +864,7 @@ stages:
           cache: false
   sweep-iknn-explicit-temporal-random:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RMSE iknn-explicit
+      --sample-count=100 --random iknn-explicit
       sweeps/temporal/iknn-explicit-random
     deps:
       - splits/temporal.toml
@@ -802,7 +877,7 @@ stages:
           cache: false
   sweep-iknn-implicit-temporal-hyperopt:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --hyperopt --metric=RBP iknn-implicit
+      --sample-count=100 --hyperopt iknn-implicit
       sweeps/temporal/iknn-implicit-hyperopt
     deps:
       - splits/temporal.toml
@@ -815,7 +890,7 @@ stages:
           cache: false
   sweep-iknn-implicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --optuna --metric=RBP iknn-implicit
+      --sample-count=100 --optuna iknn-implicit
       sweeps/temporal/iknn-implicit-optuna
     deps:
       - splits/temporal.toml
@@ -828,7 +903,7 @@ stages:
           cache: false
   sweep-iknn-implicit-temporal-random:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
-      --sample-count=100 --random --metric=RBP iknn-implicit
+      --sample-count=100 --random iknn-implicit
       sweeps/temporal/iknn-implicit-random
     deps:
       - splits/temporal.toml
