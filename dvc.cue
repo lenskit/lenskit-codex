@@ -1,0 +1,988 @@
+// Codex Generated File — DO NOT EDIT
+//
+// This file is generated from dvc.jsonnet.
+stages: {
+	"page/amazon/2023-5core/CDV/index": {
+		cmd: "quarto render amazon/2023-5core/CDV/index.qmd"
+		deps: [
+			"_quarto.yml",
+			"amazon/2023-5core/CDV/index.qmd",
+			"amazon/2023-5core/CDV/run-summary.csv",
+			"amazon/2023-5core/CDV/run-user-metrics.parquet",
+		]
+		outs: ["_freeze/amazon/2023-5core/CDV/index"]
+	}
+	"page/amazon/2023-5core/MusInst/index": {
+		cmd: "quarto render amazon/2023-5core/MusInst/index.qmd"
+		deps: [
+			"_quarto.yml",
+			"amazon/2023-5core/MusInst/index.qmd",
+			"amazon/2023-5core/MusInst/run-summary.csv",
+			"amazon/2023-5core/MusInst/run-user-metrics.parquet",
+		]
+		outs: ["_freeze/amazon/2023-5core/MusInst/index"]
+	}
+	"page/amazon/2023-5core/index": {
+		cmd: "quarto render amazon/2023-5core/index.qmd"
+		deps: [
+			"_quarto.yml",
+			"amazon/2023-5core/index.qmd",
+			"amazon/2023-5core/stats.duckdb",
+		]
+		outs: ["_freeze/amazon/2023-5core/index"]
+	}
+	"page/eval-meta/attention": {
+		cmd: "quarto render eval-meta/attention.qmd"
+		deps: [
+			"_quarto.yml",
+			"eval-meta/attention.qmd",
+		]
+		outs: ["_freeze/eval-meta/attention"]
+	}
+	"page/movielens/ML100K/als-biased": {
+		cmd: "quarto render movielens/ML100K/als-biased.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/als-biased.qmd",
+			"movielens/ML100K/sweeps/random/als-biased-random",
+			"movielens/ML100K/sweeps/random/als-biased-hyperopt",
+			"movielens/ML100K/sweeps/random/als-biased-optuna",
+		]
+		outs: ["_freeze/movielens/ML100K/als-biased"]
+	}
+	"page/movielens/ML100K/als-implicit": {
+		cmd: "quarto render movielens/ML100K/als-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/als-implicit.qmd",
+			"movielens/ML100K/sweeps/random/als-implicit-random",
+			"movielens/ML100K/sweeps/random/als-implicit-hyperopt",
+			"movielens/ML100K/sweeps/random/als-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML100K/als-implicit"]
+	}
+	"page/movielens/ML100K/bias": {
+		cmd: "quarto render movielens/ML100K/bias.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/bias.qmd",
+			"movielens/ML100K/sweeps/random/bias-random",
+			"movielens/ML100K/sweeps/random/bias-hyperopt",
+			"movielens/ML100K/sweeps/random/bias-optuna",
+		]
+		outs: ["_freeze/movielens/ML100K/bias"]
+	}
+	"page/movielens/ML100K/description": {
+		cmd: "quarto render movielens/ML100K/description.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/description.qmd",
+			"movielens/ML100K/stats.duckdb",
+		]
+		outs: ["_freeze/movielens/ML100K/description"]
+	}
+	"page/movielens/ML100K/flexmf-bpr": {
+		cmd: "quarto render movielens/ML100K/flexmf-bpr.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/flexmf-bpr.qmd",
+			"movielens/ML100K/sweeps/random/flexmf-bpr-random",
+			"movielens/ML100K/sweeps/random/flexmf-bpr-hyperopt",
+			"movielens/ML100K/sweeps/random/flexmf-bpr-optuna",
+		]
+		outs: ["_freeze/movielens/ML100K/flexmf-bpr"]
+	}
+	"page/movielens/ML100K/flexmf-explicit": {
+		cmd: "quarto render movielens/ML100K/flexmf-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/flexmf-explicit.qmd",
+			"movielens/ML100K/sweeps/random/flexmf-explicit-random",
+			"movielens/ML100K/sweeps/random/flexmf-explicit-hyperopt",
+			"movielens/ML100K/sweeps/random/flexmf-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML100K/flexmf-explicit"]
+	}
+	"page/movielens/ML100K/flexmf-logistic": {
+		cmd: "quarto render movielens/ML100K/flexmf-logistic.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/flexmf-logistic.qmd",
+			"movielens/ML100K/sweeps/random/flexmf-logistic-random",
+			"movielens/ML100K/sweeps/random/flexmf-logistic-hyperopt",
+			"movielens/ML100K/sweeps/random/flexmf-logistic-optuna",
+		]
+		outs: ["_freeze/movielens/ML100K/flexmf-logistic"]
+	}
+	"page/movielens/ML100K/flexmf-warp": {
+		cmd: "quarto render movielens/ML100K/flexmf-warp.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/flexmf-warp.qmd",
+			"movielens/ML100K/sweeps/random/flexmf-warp-random",
+			"movielens/ML100K/sweeps/random/flexmf-warp-hyperopt",
+			"movielens/ML100K/sweeps/random/flexmf-warp-optuna",
+		]
+		outs: ["_freeze/movielens/ML100K/flexmf-warp"]
+	}
+	"page/movielens/ML100K/iknn-explicit": {
+		cmd: "quarto render movielens/ML100K/iknn-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/iknn-explicit.qmd",
+			"movielens/ML100K/sweeps/random/iknn-explicit-random",
+			"movielens/ML100K/sweeps/random/iknn-explicit-hyperopt",
+			"movielens/ML100K/sweeps/random/iknn-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML100K/iknn-explicit"]
+	}
+	"page/movielens/ML100K/iknn-implicit": {
+		cmd: "quarto render movielens/ML100K/iknn-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/iknn-implicit.qmd",
+			"movielens/ML100K/sweeps/random/iknn-implicit-random",
+			"movielens/ML100K/sweeps/random/iknn-implicit-hyperopt",
+			"movielens/ML100K/sweeps/random/iknn-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML100K/iknn-implicit"]
+	}
+	"page/movielens/ML100K/summary": {
+		cmd: "quarto render movielens/ML100K/summary.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/summary.qmd",
+			"movielens/ML100K/run-summary.csv",
+			"movielens/ML100K/run-user-metrics.parquet",
+		]
+		outs: ["_freeze/movielens/ML100K/summary"]
+	}
+	"page/movielens/ML100K/tuning": {
+		cmd: "quarto render movielens/ML100K/tuning.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/tuning.qmd",
+			"movielens/ML100K/sweeps/random",
+		]
+		outs: ["_freeze/movielens/ML100K/tuning"]
+	}
+	"page/movielens/ML100K/uknn-explicit": {
+		cmd: "quarto render movielens/ML100K/uknn-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/uknn-explicit.qmd",
+			"movielens/ML100K/sweeps/random/uknn-explicit-random",
+			"movielens/ML100K/sweeps/random/uknn-explicit-hyperopt",
+			"movielens/ML100K/sweeps/random/uknn-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML100K/uknn-explicit"]
+	}
+	"page/movielens/ML100K/uknn-implicit": {
+		cmd: "quarto render movielens/ML100K/uknn-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML100K/uknn-implicit.qmd",
+			"movielens/ML100K/sweeps/random/uknn-implicit-random",
+			"movielens/ML100K/sweeps/random/uknn-implicit-hyperopt",
+			"movielens/ML100K/sweeps/random/uknn-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML100K/uknn-implicit"]
+	}
+	"page/movielens/ML10M/als-biased": {
+		cmd: "quarto render movielens/ML10M/als-biased.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/als-biased.qmd",
+			"movielens/ML10M/sweeps/temporal/als-biased-random",
+			"movielens/ML10M/sweeps/temporal/als-biased-hyperopt",
+			"movielens/ML10M/sweeps/temporal/als-biased-optuna",
+		]
+		outs: ["_freeze/movielens/ML10M/als-biased"]
+	}
+	"page/movielens/ML10M/als-implicit": {
+		cmd: "quarto render movielens/ML10M/als-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/als-implicit.qmd",
+			"movielens/ML10M/sweeps/temporal/als-implicit-random",
+			"movielens/ML10M/sweeps/temporal/als-implicit-hyperopt",
+			"movielens/ML10M/sweeps/temporal/als-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML10M/als-implicit"]
+	}
+	"page/movielens/ML10M/bias": {
+		cmd: "quarto render movielens/ML10M/bias.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/bias.qmd",
+			"movielens/ML10M/sweeps/temporal/bias-random",
+			"movielens/ML10M/sweeps/temporal/bias-hyperopt",
+			"movielens/ML10M/sweeps/temporal/bias-optuna",
+		]
+		outs: ["_freeze/movielens/ML10M/bias"]
+	}
+	"page/movielens/ML10M/description": {
+		cmd: "quarto render movielens/ML10M/description.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/description.qmd",
+			"movielens/ML10M/stats.duckdb",
+		]
+		outs: ["_freeze/movielens/ML10M/description"]
+	}
+	"page/movielens/ML10M/flexmf-bpr": {
+		cmd: "quarto render movielens/ML10M/flexmf-bpr.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/flexmf-bpr.qmd",
+			"movielens/ML10M/sweeps/temporal/flexmf-bpr-random",
+			"movielens/ML10M/sweeps/temporal/flexmf-bpr-hyperopt",
+			"movielens/ML10M/sweeps/temporal/flexmf-bpr-optuna",
+		]
+		outs: ["_freeze/movielens/ML10M/flexmf-bpr"]
+	}
+	"page/movielens/ML10M/flexmf-explicit": {
+		cmd: "quarto render movielens/ML10M/flexmf-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/flexmf-explicit.qmd",
+			"movielens/ML10M/sweeps/temporal/flexmf-explicit-random",
+			"movielens/ML10M/sweeps/temporal/flexmf-explicit-hyperopt",
+			"movielens/ML10M/sweeps/temporal/flexmf-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML10M/flexmf-explicit"]
+	}
+	"page/movielens/ML10M/flexmf-logistic": {
+		cmd: "quarto render movielens/ML10M/flexmf-logistic.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/flexmf-logistic.qmd",
+			"movielens/ML10M/sweeps/temporal/flexmf-logistic-random",
+			"movielens/ML10M/sweeps/temporal/flexmf-logistic-hyperopt",
+			"movielens/ML10M/sweeps/temporal/flexmf-logistic-optuna",
+		]
+		outs: ["_freeze/movielens/ML10M/flexmf-logistic"]
+	}
+	"page/movielens/ML10M/flexmf-warp": {
+		cmd: "quarto render movielens/ML10M/flexmf-warp.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/flexmf-warp.qmd",
+			"movielens/ML10M/sweeps/temporal/flexmf-warp-random",
+			"movielens/ML10M/sweeps/temporal/flexmf-warp-hyperopt",
+			"movielens/ML10M/sweeps/temporal/flexmf-warp-optuna",
+		]
+		outs: ["_freeze/movielens/ML10M/flexmf-warp"]
+	}
+	"page/movielens/ML10M/iknn-explicit": {
+		cmd: "quarto render movielens/ML10M/iknn-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/iknn-explicit.qmd",
+			"movielens/ML10M/sweeps/temporal/iknn-explicit-random",
+			"movielens/ML10M/sweeps/temporal/iknn-explicit-hyperopt",
+			"movielens/ML10M/sweeps/temporal/iknn-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML10M/iknn-explicit"]
+	}
+	"page/movielens/ML10M/iknn-implicit": {
+		cmd: "quarto render movielens/ML10M/iknn-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/iknn-implicit.qmd",
+			"movielens/ML10M/sweeps/temporal/iknn-implicit-random",
+			"movielens/ML10M/sweeps/temporal/iknn-implicit-hyperopt",
+			"movielens/ML10M/sweeps/temporal/iknn-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML10M/iknn-implicit"]
+	}
+	"page/movielens/ML10M/splitting": {
+		cmd: "quarto render movielens/ML10M/splitting.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/splitting.qmd",
+			"movielens/ML10M/stats.duckdb",
+		]
+		outs: ["_freeze/movielens/ML10M/splitting"]
+	}
+	"page/movielens/ML10M/summary": {
+		cmd: "quarto render movielens/ML10M/summary.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/summary.qmd",
+			"movielens/ML10M/run-summary.csv",
+			"movielens/ML10M/run-user-metrics.parquet",
+		]
+		outs: ["_freeze/movielens/ML10M/summary"]
+	}
+	"page/movielens/ML10M/tuning": {
+		cmd: "quarto render movielens/ML10M/tuning.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/tuning.qmd",
+			"movielens/ML10M/sweeps/temporal",
+		]
+		outs: ["_freeze/movielens/ML10M/tuning"]
+	}
+	"page/movielens/ML10M/uknn-explicit": {
+		cmd: "quarto render movielens/ML10M/uknn-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/uknn-explicit.qmd",
+			"movielens/ML10M/sweeps/temporal/uknn-explicit-random",
+			"movielens/ML10M/sweeps/temporal/uknn-explicit-hyperopt",
+			"movielens/ML10M/sweeps/temporal/uknn-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML10M/uknn-explicit"]
+	}
+	"page/movielens/ML10M/uknn-implicit": {
+		cmd: "quarto render movielens/ML10M/uknn-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML10M/uknn-implicit.qmd",
+			"movielens/ML10M/sweeps/temporal/uknn-implicit-random",
+			"movielens/ML10M/sweeps/temporal/uknn-implicit-hyperopt",
+			"movielens/ML10M/sweeps/temporal/uknn-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML10M/uknn-implicit"]
+	}
+	"page/movielens/ML1M/als-biased": {
+		cmd: "quarto render movielens/ML1M/als-biased.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/als-biased.qmd",
+			"movielens/ML1M/sweeps/random/als-biased-random",
+			"movielens/ML1M/sweeps/random/als-biased-hyperopt",
+			"movielens/ML1M/sweeps/random/als-biased-optuna",
+		]
+		outs: ["_freeze/movielens/ML1M/als-biased"]
+	}
+	"page/movielens/ML1M/als-implicit": {
+		cmd: "quarto render movielens/ML1M/als-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/als-implicit.qmd",
+			"movielens/ML1M/sweeps/random/als-implicit-random",
+			"movielens/ML1M/sweeps/random/als-implicit-hyperopt",
+			"movielens/ML1M/sweeps/random/als-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML1M/als-implicit"]
+	}
+	"page/movielens/ML1M/bias": {
+		cmd: "quarto render movielens/ML1M/bias.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/bias.qmd",
+			"movielens/ML1M/sweeps/random/bias-random",
+			"movielens/ML1M/sweeps/random/bias-hyperopt",
+			"movielens/ML1M/sweeps/random/bias-optuna",
+		]
+		outs: ["_freeze/movielens/ML1M/bias"]
+	}
+	"page/movielens/ML1M/description": {
+		cmd: "quarto render movielens/ML1M/description.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/description.qmd",
+			"movielens/ML1M/stats.duckdb",
+		]
+		outs: ["_freeze/movielens/ML1M/description"]
+	}
+	"page/movielens/ML1M/flexmf-bpr": {
+		cmd: "quarto render movielens/ML1M/flexmf-bpr.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/flexmf-bpr.qmd",
+			"movielens/ML1M/sweeps/random/flexmf-bpr-random",
+			"movielens/ML1M/sweeps/random/flexmf-bpr-hyperopt",
+			"movielens/ML1M/sweeps/random/flexmf-bpr-optuna",
+		]
+		outs: ["_freeze/movielens/ML1M/flexmf-bpr"]
+	}
+	"page/movielens/ML1M/flexmf-explicit": {
+		cmd: "quarto render movielens/ML1M/flexmf-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/flexmf-explicit.qmd",
+			"movielens/ML1M/sweeps/random/flexmf-explicit-random",
+			"movielens/ML1M/sweeps/random/flexmf-explicit-hyperopt",
+			"movielens/ML1M/sweeps/random/flexmf-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML1M/flexmf-explicit"]
+	}
+	"page/movielens/ML1M/flexmf-logistic": {
+		cmd: "quarto render movielens/ML1M/flexmf-logistic.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/flexmf-logistic.qmd",
+			"movielens/ML1M/sweeps/random/flexmf-logistic-random",
+			"movielens/ML1M/sweeps/random/flexmf-logistic-hyperopt",
+			"movielens/ML1M/sweeps/random/flexmf-logistic-optuna",
+		]
+		outs: ["_freeze/movielens/ML1M/flexmf-logistic"]
+	}
+	"page/movielens/ML1M/flexmf-warp": {
+		cmd: "quarto render movielens/ML1M/flexmf-warp.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/flexmf-warp.qmd",
+			"movielens/ML1M/sweeps/random/flexmf-warp-random",
+			"movielens/ML1M/sweeps/random/flexmf-warp-hyperopt",
+			"movielens/ML1M/sweeps/random/flexmf-warp-optuna",
+		]
+		outs: ["_freeze/movielens/ML1M/flexmf-warp"]
+	}
+	"page/movielens/ML1M/iknn-explicit": {
+		cmd: "quarto render movielens/ML1M/iknn-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/iknn-explicit.qmd",
+			"movielens/ML1M/sweeps/random/iknn-explicit-random",
+			"movielens/ML1M/sweeps/random/iknn-explicit-hyperopt",
+			"movielens/ML1M/sweeps/random/iknn-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML1M/iknn-explicit"]
+	}
+	"page/movielens/ML1M/iknn-implicit": {
+		cmd: "quarto render movielens/ML1M/iknn-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/iknn-implicit.qmd",
+			"movielens/ML1M/sweeps/random/iknn-implicit-random",
+			"movielens/ML1M/sweeps/random/iknn-implicit-hyperopt",
+			"movielens/ML1M/sweeps/random/iknn-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML1M/iknn-implicit"]
+	}
+	"page/movielens/ML1M/summary": {
+		cmd: "quarto render movielens/ML1M/summary.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/summary.qmd",
+			"movielens/ML1M/run-summary.csv",
+			"movielens/ML1M/run-user-metrics.parquet",
+		]
+		outs: ["_freeze/movielens/ML1M/summary"]
+	}
+	"page/movielens/ML1M/tuning": {
+		cmd: "quarto render movielens/ML1M/tuning.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/tuning.qmd",
+			"movielens/ML1M/sweeps/random",
+		]
+		outs: ["_freeze/movielens/ML1M/tuning"]
+	}
+	"page/movielens/ML1M/uknn-explicit": {
+		cmd: "quarto render movielens/ML1M/uknn-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/uknn-explicit.qmd",
+			"movielens/ML1M/sweeps/random/uknn-explicit-random",
+			"movielens/ML1M/sweeps/random/uknn-explicit-hyperopt",
+			"movielens/ML1M/sweeps/random/uknn-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML1M/uknn-explicit"]
+	}
+	"page/movielens/ML1M/uknn-implicit": {
+		cmd: "quarto render movielens/ML1M/uknn-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML1M/uknn-implicit.qmd",
+			"movielens/ML1M/sweeps/random/uknn-implicit-random",
+			"movielens/ML1M/sweeps/random/uknn-implicit-hyperopt",
+			"movielens/ML1M/sweeps/random/uknn-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML1M/uknn-implicit"]
+	}
+	"page/movielens/ML20M/als-biased": {
+		cmd: "quarto render movielens/ML20M/als-biased.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/als-biased.qmd",
+			"movielens/ML20M/sweeps/temporal/als-biased-random",
+			"movielens/ML20M/sweeps/temporal/als-biased-hyperopt",
+			"movielens/ML20M/sweeps/temporal/als-biased-optuna",
+		]
+		outs: ["_freeze/movielens/ML20M/als-biased"]
+	}
+	"page/movielens/ML20M/als-implicit": {
+		cmd: "quarto render movielens/ML20M/als-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/als-implicit.qmd",
+			"movielens/ML20M/sweeps/temporal/als-implicit-random",
+			"movielens/ML20M/sweeps/temporal/als-implicit-hyperopt",
+			"movielens/ML20M/sweeps/temporal/als-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML20M/als-implicit"]
+	}
+	"page/movielens/ML20M/bias": {
+		cmd: "quarto render movielens/ML20M/bias.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/bias.qmd",
+			"movielens/ML20M/sweeps/temporal/bias-random",
+			"movielens/ML20M/sweeps/temporal/bias-hyperopt",
+			"movielens/ML20M/sweeps/temporal/bias-optuna",
+		]
+		outs: ["_freeze/movielens/ML20M/bias"]
+	}
+	"page/movielens/ML20M/description": {
+		cmd: "quarto render movielens/ML20M/description.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/description.qmd",
+			"movielens/ML20M/stats.duckdb",
+		]
+		outs: ["_freeze/movielens/ML20M/description"]
+	}
+	"page/movielens/ML20M/flexmf-bpr": {
+		cmd: "quarto render movielens/ML20M/flexmf-bpr.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/flexmf-bpr.qmd",
+			"movielens/ML20M/sweeps/temporal/flexmf-bpr-random",
+			"movielens/ML20M/sweeps/temporal/flexmf-bpr-hyperopt",
+			"movielens/ML20M/sweeps/temporal/flexmf-bpr-optuna",
+		]
+		outs: ["_freeze/movielens/ML20M/flexmf-bpr"]
+	}
+	"page/movielens/ML20M/flexmf-explicit": {
+		cmd: "quarto render movielens/ML20M/flexmf-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/flexmf-explicit.qmd",
+			"movielens/ML20M/sweeps/temporal/flexmf-explicit-random",
+			"movielens/ML20M/sweeps/temporal/flexmf-explicit-hyperopt",
+			"movielens/ML20M/sweeps/temporal/flexmf-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML20M/flexmf-explicit"]
+	}
+	"page/movielens/ML20M/flexmf-logistic": {
+		cmd: "quarto render movielens/ML20M/flexmf-logistic.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/flexmf-logistic.qmd",
+			"movielens/ML20M/sweeps/temporal/flexmf-logistic-random",
+			"movielens/ML20M/sweeps/temporal/flexmf-logistic-hyperopt",
+			"movielens/ML20M/sweeps/temporal/flexmf-logistic-optuna",
+		]
+		outs: ["_freeze/movielens/ML20M/flexmf-logistic"]
+	}
+	"page/movielens/ML20M/flexmf-warp": {
+		cmd: "quarto render movielens/ML20M/flexmf-warp.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/flexmf-warp.qmd",
+			"movielens/ML20M/sweeps/temporal/flexmf-warp-random",
+			"movielens/ML20M/sweeps/temporal/flexmf-warp-hyperopt",
+			"movielens/ML20M/sweeps/temporal/flexmf-warp-optuna",
+		]
+		outs: ["_freeze/movielens/ML20M/flexmf-warp"]
+	}
+	"page/movielens/ML20M/iknn-explicit": {
+		cmd: "quarto render movielens/ML20M/iknn-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/iknn-explicit.qmd",
+			"movielens/ML20M/sweeps/temporal/iknn-explicit-random",
+			"movielens/ML20M/sweeps/temporal/iknn-explicit-hyperopt",
+			"movielens/ML20M/sweeps/temporal/iknn-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML20M/iknn-explicit"]
+	}
+	"page/movielens/ML20M/iknn-implicit": {
+		cmd: "quarto render movielens/ML20M/iknn-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/iknn-implicit.qmd",
+			"movielens/ML20M/sweeps/temporal/iknn-implicit-random",
+			"movielens/ML20M/sweeps/temporal/iknn-implicit-hyperopt",
+			"movielens/ML20M/sweeps/temporal/iknn-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML20M/iknn-implicit"]
+	}
+	"page/movielens/ML20M/splitting": {
+		cmd: "quarto render movielens/ML20M/splitting.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/splitting.qmd",
+			"movielens/ML20M/stats.duckdb",
+		]
+		outs: ["_freeze/movielens/ML20M/splitting"]
+	}
+	"page/movielens/ML20M/summary": {
+		cmd: "quarto render movielens/ML20M/summary.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/summary.qmd",
+			"movielens/ML20M/run-summary.csv",
+			"movielens/ML20M/run-user-metrics.parquet",
+		]
+		outs: ["_freeze/movielens/ML20M/summary"]
+	}
+	"page/movielens/ML20M/tuning": {
+		cmd: "quarto render movielens/ML20M/tuning.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML20M/tuning.qmd",
+			"movielens/ML20M/sweeps/temporal",
+		]
+		outs: ["_freeze/movielens/ML20M/tuning"]
+	}
+	"page/movielens/ML25M/als-biased": {
+		cmd: "quarto render movielens/ML25M/als-biased.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/als-biased.qmd",
+			"movielens/ML25M/sweeps/temporal/als-biased-optuna",
+		]
+		outs: ["_freeze/movielens/ML25M/als-biased"]
+	}
+	"page/movielens/ML25M/als-implicit": {
+		cmd: "quarto render movielens/ML25M/als-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/als-implicit.qmd",
+			"movielens/ML25M/sweeps/temporal/als-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML25M/als-implicit"]
+	}
+	"page/movielens/ML25M/bias": {
+		cmd: "quarto render movielens/ML25M/bias.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/bias.qmd",
+			"movielens/ML25M/sweeps/temporal/bias-optuna",
+		]
+		outs: ["_freeze/movielens/ML25M/bias"]
+	}
+	"page/movielens/ML25M/description": {
+		cmd: "quarto render movielens/ML25M/description.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/description.qmd",
+			"movielens/ML25M/stats.duckdb",
+		]
+		outs: ["_freeze/movielens/ML25M/description"]
+	}
+	"page/movielens/ML25M/flexmf-bpr": {
+		cmd: "quarto render movielens/ML25M/flexmf-bpr.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/flexmf-bpr.qmd",
+			"movielens/ML25M/sweeps/temporal/flexmf-bpr-optuna",
+		]
+		outs: ["_freeze/movielens/ML25M/flexmf-bpr"]
+	}
+	"page/movielens/ML25M/flexmf-explicit": {
+		cmd: "quarto render movielens/ML25M/flexmf-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/flexmf-explicit.qmd",
+			"movielens/ML25M/sweeps/temporal/flexmf-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML25M/flexmf-explicit"]
+	}
+	"page/movielens/ML25M/flexmf-logistic": {
+		cmd: "quarto render movielens/ML25M/flexmf-logistic.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/flexmf-logistic.qmd",
+			"movielens/ML25M/sweeps/temporal/flexmf-logistic-optuna",
+		]
+		outs: ["_freeze/movielens/ML25M/flexmf-logistic"]
+	}
+	"page/movielens/ML25M/flexmf-warp": {
+		cmd: "quarto render movielens/ML25M/flexmf-warp.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/flexmf-warp.qmd",
+			"movielens/ML25M/sweeps/temporal/flexmf-warp-optuna",
+		]
+		outs: ["_freeze/movielens/ML25M/flexmf-warp"]
+	}
+	"page/movielens/ML25M/iknn-explicit": {
+		cmd: "quarto render movielens/ML25M/iknn-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/iknn-explicit.qmd",
+			"movielens/ML25M/sweeps/temporal/iknn-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML25M/iknn-explicit"]
+	}
+	"page/movielens/ML25M/iknn-implicit": {
+		cmd: "quarto render movielens/ML25M/iknn-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/iknn-implicit.qmd",
+			"movielens/ML25M/sweeps/temporal/iknn-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML25M/iknn-implicit"]
+	}
+	"page/movielens/ML25M/splitting": {
+		cmd: "quarto render movielens/ML25M/splitting.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/splitting.qmd",
+			"movielens/ML25M/stats.duckdb",
+		]
+		outs: ["_freeze/movielens/ML25M/splitting"]
+	}
+	"page/movielens/ML25M/summary": {
+		cmd: "quarto render movielens/ML25M/summary.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/summary.qmd",
+			"movielens/ML25M/run-summary.csv",
+			"movielens/ML25M/run-user-metrics.parquet",
+		]
+		outs: ["_freeze/movielens/ML25M/summary"]
+	}
+	"page/movielens/ML25M/tuning": {
+		cmd: "quarto render movielens/ML25M/tuning.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML25M/tuning.qmd",
+			"movielens/ML25M/sweeps/temporal",
+		]
+		outs: ["_freeze/movielens/ML25M/tuning"]
+	}
+	"page/movielens/ML32M/als-biased": {
+		cmd: "quarto render movielens/ML32M/als-biased.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/als-biased.qmd",
+			"movielens/ML32M/sweeps/temporal/als-biased-optuna",
+		]
+		outs: ["_freeze/movielens/ML32M/als-biased"]
+	}
+	"page/movielens/ML32M/als-implicit": {
+		cmd: "quarto render movielens/ML32M/als-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/als-implicit.qmd",
+			"movielens/ML32M/sweeps/temporal/als-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML32M/als-implicit"]
+	}
+	"page/movielens/ML32M/bias": {
+		cmd: "quarto render movielens/ML32M/bias.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/bias.qmd",
+			"movielens/ML32M/sweeps/temporal/bias-optuna",
+		]
+		outs: ["_freeze/movielens/ML32M/bias"]
+	}
+	"page/movielens/ML32M/description": {
+		cmd: "quarto render movielens/ML32M/description.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/description.qmd",
+			"movielens/ML32M/stats.duckdb",
+		]
+		outs: ["_freeze/movielens/ML32M/description"]
+	}
+	"page/movielens/ML32M/flexmf-bpr": {
+		cmd: "quarto render movielens/ML32M/flexmf-bpr.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/flexmf-bpr.qmd",
+			"movielens/ML32M/sweeps/temporal/flexmf-bpr-optuna",
+		]
+		outs: ["_freeze/movielens/ML32M/flexmf-bpr"]
+	}
+	"page/movielens/ML32M/flexmf-explicit": {
+		cmd: "quarto render movielens/ML32M/flexmf-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/flexmf-explicit.qmd",
+			"movielens/ML32M/sweeps/temporal/flexmf-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML32M/flexmf-explicit"]
+	}
+	"page/movielens/ML32M/flexmf-logistic": {
+		cmd: "quarto render movielens/ML32M/flexmf-logistic.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/flexmf-logistic.qmd",
+			"movielens/ML32M/sweeps/temporal/flexmf-logistic-optuna",
+		]
+		outs: ["_freeze/movielens/ML32M/flexmf-logistic"]
+	}
+	"page/movielens/ML32M/flexmf-warp": {
+		cmd: "quarto render movielens/ML32M/flexmf-warp.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/flexmf-warp.qmd",
+			"movielens/ML32M/sweeps/temporal/flexmf-warp-optuna",
+		]
+		outs: ["_freeze/movielens/ML32M/flexmf-warp"]
+	}
+	"page/movielens/ML32M/iknn-explicit": {
+		cmd: "quarto render movielens/ML32M/iknn-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/iknn-explicit.qmd",
+			"movielens/ML32M/sweeps/temporal/iknn-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML32M/iknn-explicit"]
+	}
+	"page/movielens/ML32M/iknn-implicit": {
+		cmd: "quarto render movielens/ML32M/iknn-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/iknn-implicit.qmd",
+			"movielens/ML32M/sweeps/temporal/iknn-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/ML32M/iknn-implicit"]
+	}
+	"page/movielens/ML32M/splitting": {
+		cmd: "quarto render movielens/ML32M/splitting.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/splitting.qmd",
+			"movielens/ML32M/stats.duckdb",
+		]
+		outs: ["_freeze/movielens/ML32M/splitting"]
+	}
+	"page/movielens/ML32M/summary": {
+		cmd: "quarto render movielens/ML32M/summary.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/summary.qmd",
+			"movielens/ML32M/run-summary.csv",
+			"movielens/ML32M/run-user-metrics.parquet",
+		]
+		outs: ["_freeze/movielens/ML32M/summary"]
+	}
+	"page/movielens/ML32M/tuning": {
+		cmd: "quarto render movielens/ML32M/tuning.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/ML32M/tuning.qmd",
+			"movielens/ML32M/sweeps/temporal",
+		]
+		outs: ["_freeze/movielens/ML32M/tuning"]
+	}
+	"page/movielens/MLLT/als-biased": {
+		cmd: "quarto render movielens/MLLT/als-biased.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/als-biased.qmd",
+			"movielens/MLLT/sweeps/temporal/als-biased-optuna",
+		]
+		outs: ["_freeze/movielens/MLLT/als-biased"]
+	}
+	"page/movielens/MLLT/als-implicit": {
+		cmd: "quarto render movielens/MLLT/als-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/als-implicit.qmd",
+			"movielens/MLLT/sweeps/temporal/als-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/MLLT/als-implicit"]
+	}
+	"page/movielens/MLLT/bias": {
+		cmd: "quarto render movielens/MLLT/bias.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/bias.qmd",
+			"movielens/MLLT/sweeps/temporal/bias-optuna",
+		]
+		outs: ["_freeze/movielens/MLLT/bias"]
+	}
+	"page/movielens/MLLT/description": {
+		cmd: "quarto render movielens/MLLT/description.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/description.qmd",
+			"movielens/MLLT/stats.duckdb",
+		]
+		outs: ["_freeze/movielens/MLLT/description"]
+	}
+	"page/movielens/MLLT/flexmf-bpr": {
+		cmd: "quarto render movielens/MLLT/flexmf-bpr.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/flexmf-bpr.qmd",
+			"movielens/MLLT/sweeps/temporal/flexmf-bpr-optuna",
+		]
+		outs: ["_freeze/movielens/MLLT/flexmf-bpr"]
+	}
+	"page/movielens/MLLT/flexmf-explicit": {
+		cmd: "quarto render movielens/MLLT/flexmf-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/flexmf-explicit.qmd",
+			"movielens/MLLT/sweeps/temporal/flexmf-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/MLLT/flexmf-explicit"]
+	}
+	"page/movielens/MLLT/flexmf-logistic": {
+		cmd: "quarto render movielens/MLLT/flexmf-logistic.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/flexmf-logistic.qmd",
+			"movielens/MLLT/sweeps/temporal/flexmf-logistic-optuna",
+		]
+		outs: ["_freeze/movielens/MLLT/flexmf-logistic"]
+	}
+	"page/movielens/MLLT/flexmf-warp": {
+		cmd: "quarto render movielens/MLLT/flexmf-warp.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/flexmf-warp.qmd",
+			"movielens/MLLT/sweeps/temporal/flexmf-warp-optuna",
+		]
+		outs: ["_freeze/movielens/MLLT/flexmf-warp"]
+	}
+	"page/movielens/MLLT/iknn-explicit": {
+		cmd: "quarto render movielens/MLLT/iknn-explicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/iknn-explicit.qmd",
+			"movielens/MLLT/sweeps/temporal/iknn-explicit-optuna",
+		]
+		outs: ["_freeze/movielens/MLLT/iknn-explicit"]
+	}
+	"page/movielens/MLLT/iknn-implicit": {
+		cmd: "quarto render movielens/MLLT/iknn-implicit.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/iknn-implicit.qmd",
+			"movielens/MLLT/sweeps/temporal/iknn-implicit-optuna",
+		]
+		outs: ["_freeze/movielens/MLLT/iknn-implicit"]
+	}
+	"page/movielens/MLLT/summary": {
+		cmd: "quarto render movielens/MLLT/summary.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/summary.qmd",
+			"movielens/MLLT/run-summary.csv",
+			"movielens/MLLT/run-user-metrics.parquet",
+		]
+		outs: ["_freeze/movielens/MLLT/summary"]
+	}
+	"page/movielens/MLLT/tuning": {
+		cmd: "quarto render movielens/MLLT/tuning.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/MLLT/tuning.qmd",
+			"movielens/MLLT/sweeps/temporal",
+		]
+		outs: ["_freeze/movielens/MLLT/tuning"]
+	}
+	"page/movielens/index": {
+		cmd: "quarto render movielens/index.qmd"
+		deps: [
+			"_quarto.yml",
+			"movielens/index.qmd",
+			"movielens/merged-stats.duckdb",
+		]
+		outs: ["_freeze/movielens/index"]
+	}
+}
