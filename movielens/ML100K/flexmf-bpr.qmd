@@ -49,10 +49,16 @@ rich.print(result)
 
 ## Parameter Analysis
 
-### Embedding Size
+### Model Structure
 
-The embedding size is the hyperparameter that most affects the model's
-fundamental logic, so let's look at performance as a fufnction of it:
+The model structure — particularly embedding size — is the hyperparameter that
+most affects the model's fundamental logic, so let's look at performance as a
+fufnction of it:
+
+::: {.panel-tabset}
+
+#### Embedding Size
+
 
 ```{python}
 (
@@ -62,6 +68,19 @@ fundamental logic, so let's look at performance as a fufnction of it:
     + pn.xlab("lg(embedding size)")
 )
 ```
+
+#### Item Bias
+
+```{python}
+(
+    pn.ggplot(runs)
+    + pn.aes(x='config.item_bias', y='RBP')
+    + pn.geom_point()
+    + pn.xlab("lg(embedding size)")
+)
+```
+
+:::
 
 ### Data Handling
 

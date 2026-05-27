@@ -1,0 +1,9 @@
+[search]
+metric = "RBP"
+max_points = 30
+
+[space.scorer]
+regularization = { type = "float", min = 0.01, max = 1000, scale = "log" }
+
+[pipeline]
+file = "pipeline.toml"

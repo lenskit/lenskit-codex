@@ -9,6 +9,7 @@ stages:
       - runs/temporal/als-biased-default
       - runs/temporal/als-implicit-default
       - runs/temporal/bias-default
+      - runs/temporal/ease-default
       - runs/temporal/flexmf-bpr-default
       - runs/temporal/flexmf-explicit-default
       - runs/temporal/flexmf-logistic-default
@@ -19,6 +20,7 @@ stages:
       - runs/temporal/als-biased-optuna-best
       - runs/temporal/als-implicit-optuna-best
       - runs/temporal/bias-optuna-best
+      - runs/temporal/ease-optuna-best
       - runs/temporal/flexmf-bpr-optuna-best
       - runs/temporal/flexmf-explicit-optuna-best
       - runs/temporal/flexmf-logistic-optuna-best
@@ -61,6 +63,15 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/bias-default
+  run-temporal-default-ease:
+    cmd: lenskit codex generate --ds-name=ML25M --split=splits/temporal.toml -o
+      runs/temporal/ease-default ease
+    deps:
+      - ../../src/codex/models/ease.py
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/ease-default
   run-temporal-default-flexmf-bpr:
     cmd: lenskit codex generate --ds-name=ML25M --split=splits/temporal.toml -o
       runs/temporal/flexmf-bpr-default flexmf-bpr
@@ -159,6 +170,17 @@ stages:
       - sweeps/temporal/bias-optuna-pipeline.json
     outs:
       - runs/temporal/bias-optuna-best
+  run-temporal-optuna-best-ease:
+    cmd: lenskit codex generate --pipeline-file
+      sweeps/temporal/ease-optuna-pipeline.json --ds-name=ML25M
+      --split=splits/temporal.toml -o runs/temporal/ease-optuna-best ease
+    deps:
+      - ../../src/codex/models/ease.py
+      - dataset
+      - splits/temporal.toml
+      - sweeps/temporal/ease-optuna-pipeline.json
+    outs:
+      - runs/temporal/ease-optuna-best
   run-temporal-optuna-best-flexmf-bpr:
     cmd: lenskit codex generate --pipeline-file
       sweeps/temporal/flexmf-bpr-optuna-pipeline.json --ds-name=ML25M
@@ -282,6 +304,21 @@ stages:
       - sweeps/temporal/bias-optuna.json:
           cache: false
       - sweeps/temporal/bias-optuna-pipeline.json:
+          cache: false
+  sweep-ease-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid
+      --optuna ease sweeps/temporal/ease-optuna
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/temporal.toml
+      - ../../src/codex/models/ease.py
+    outs:
+      - sweeps/temporal/ease-optuna
+      - sweeps/temporal/ease-optuna.json:
+          cache: false
+      - sweeps/temporal/ease-optuna-pipeline.json:
           cache: false
   sweep-flexmf-bpr-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid

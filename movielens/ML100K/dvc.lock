@@ -4040,3 +4040,80 @@ stages:
       md5: ce27a6a9fbc0383ccb6332ec4e544ccf.dir
       size: 704995
       nfiles: 4
+  run-random-default-ease:
+    cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
+      runs/random/ease-default ease
+    deps:
+    - path: ../../src/codex/models/ease.py
+      hash: md5
+      md5: b906418366660aebc4ce354a04de902d
+      size: 225
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: runs/random/ease-default
+      hash: md5
+      md5: 7932819838113c020f79f4a83c2e4752.dir
+      size: 706280
+      nfiles: 4
+  sweep-ease-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=30 --optuna ease sweeps/random/ease-optuna
+    deps:
+    - path: ../../src/codex/models/ease.py
+      hash: md5
+      md5: b906418366660aebc4ce354a04de902d
+      size: 225
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: sweeps/random/ease-optuna
+      hash: md5
+      md5: 1d4772e54c7a71f2862f42767a4998d7.dir
+      size: 671629
+      nfiles: 159
+    - path: sweeps/random/ease-optuna-pipeline.json
+      hash: md5
+      md5: b7e24ab3bb81899044337a4b714f5a7a
+      size: 1834
+    - path: sweeps/random/ease-optuna.json
+      hash: md5
+      md5: 353c2daedfb66c3d27dd513a7252f087
+      size: 791
+  run-random-optuna-best-ease:
+    cmd: lenskit codex generate --pipeline-file 
+      sweeps/random/ease-optuna-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/ease-optuna-best ease
+    deps:
+    - path: ../../src/codex/models/ease.py
+      hash: md5
+      md5: b906418366660aebc4ce354a04de902d
+      size: 225
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    - path: sweeps/random/ease-optuna-pipeline.json
+      hash: md5
+      md5: b7e24ab3bb81899044337a4b714f5a7a
+      size: 1834
+    outs:
+    - path: runs/random/ease-optuna-best
+      hash: md5
+      md5: 53e442d01214f7ea6c21daa05fd269e8.dir
+      size: 706694
+      nfiles: 4
