@@ -7,9 +7,8 @@ name = "lenskit-codex"
 version = "0.1.0"
 description = "LensKit run results"
 authors = [{ name = "Michael Ekstrand", email = "mdekstrand@drexel.edu" }]
-requires-python = "==3.12.*"
+requires-python = "==3.14.*"
 dependencies = [
-  "click ~=8.0",
   "invoke ~=2.2",
   "pydantic >=2.8,<3",
   "ruamel.yaml ~=0.18.10",
@@ -18,27 +17,27 @@ dependencies = [
   "glom ~=24.11",
   "pandas ~=2.1",
   "duckdb ~=1.2",
-  "pyarrow ~=20.0",
-  "statsmodels ~=0.14.4",
+  "pyarrow >=20.0",
+  "statsmodels >=0.14",
   "zstandard >=0.23",
-  "plotnine ~=0.14.0",
+  "plotnine ~=0.15.0",
   "matplotlib ~=3.6",
   "seaborn ~=0.13.2",
   "itables ~=2.2",
   "tabulate >=0.9",
   "notebook >=7",
   "dvc[webdav] ~=3.50",
-  "quarto-cli ~=1.7",
+  # "quarto-cli ~=1.7",
 ]
 
 [dependency-groups]
 run = [
-  "torch ~=2.7.0",
+  "torch ~=2.10",
   "ray[default,tune] ~= 2.45",
   "optuna ~=4.0",
   "hyperopt ~=0.2.7",
   "numpy ~=2.0",
-  "lenskit[gnn] >=2026.0.0.dev156",
+  "lenskit >=2026.2.0",
 ]
 types = [
   "scipy-stubs >=1.16.0.2",
@@ -47,7 +46,7 @@ types = [
 dev = [
   "jsonnet ~=0.20.0",
   "jinja2 ~=3.1",
-  "line_profiler ~=4.1; platform_machine != 'aarch64'",
+  # "line_profiler ~=4.1; platform_machine != 'aarch64'",
   "py-spy>=0.4.0",
   "ruff >=0.4",
   "ipython >=8",
@@ -76,7 +75,7 @@ required-environments = [
 ]
 
 [tool.uv.sources]
-lenskit = [{ index = "lenskit" }]
+# lenskit = [{ index = "lenskit" }]
 # triton = [
 #  { index = "pytorch-cuda", group = "cuda" },
 # ]
@@ -88,7 +87,7 @@ explicit = true
 
 [[tool.uv.index]]
 name = "lk-torch-cuda"
-url = "https://pypi.lenskit.org/torch/cu128"
+url = "https://pypi.lenskit.org/torch/cu130"
 
 [project.entry-points."lenskit.cli.plugins"]
 lenskit-codex = "codex.tools:codex"

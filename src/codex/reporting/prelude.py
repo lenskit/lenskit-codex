@@ -11,8 +11,9 @@ import pandas as pd
 import plotnine as pn
 import pyarrow as pa
 import pyarrow.compute as pc
-import statsmodels.api as sm
-import statsmodels.formula.api as smf
+
+# import statsmodels.api as sm
+# import statsmodels.formula.api as smf
 import tqdm
 from humanize import metric, naturalsize
 from IPython.display import Markdown
@@ -56,8 +57,8 @@ __all__ = [
     "pn",
     "pa",
     "pc",
-    "sm",
-    "smf",
+    # "sm",
+    # "smf",
     "naturalsize",
     "metric",
     "show_df",
