@@ -7,13 +7,13 @@ import ray
 import ray.actor
 import structlog
 import torch
+from lenskit.config import ParallelSettings
 from lenskit.logging import Task
-from lenskit.logging.worker import WorkerContext, WorkerLogConfig
-from lenskit.parallel.config import (
-    ParallelConfig,
+from lenskit.logging.multiprocess import WorkerContext, WorkerLogConfig
+from lenskit.parallel import (
     ensure_parallel_init,
     get_parallel_config,
-    initialize,
+    init_threading,
 )
 from lenskit.parallel.ray import init_cluster
 
@@ -36,11 +36,11 @@ class CodexActor:
     context: WorkerContext
     task: Task
 
-    def __init__(self, parallel: ParallelConfig, logging: WorkerLogConfig):
+    def __init__(self, parallel: ParallelSettings, logging: WorkerLogConfig):
         pid = os.getpid()
         self.context = WorkerContext(logging)
         self.context.start()
-        initialize(parallel)
+        init_threading(parallel)
         self.task = Task(f"codex worker {pid} {self}", reset_hwm=True, subprocess=True)
         self.task.start()
 
@@ -60,7 +60,7 @@ def worker_pool[T, **P](
     log = _log.bind()
     ensure_parallel_init()
     cfg = get_parallel_config()
-    n_jobs = cfg.processes
+    n_jobs = cfg.num_procs
 
     log = log.bind(n_jobs=n_jobs)
     log.info("creating actor pool")

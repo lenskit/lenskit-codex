@@ -15,7 +15,7 @@ import ray
 from lenskit import Pipeline, predict, recommend
 from lenskit.data import ID, ItemList, ItemListCollection, UserIDKey
 from lenskit.logging import Task, get_logger, item_progress
-from lenskit.logging.worker import send_task
+from lenskit.logging.multiprocess import send_task
 from lenskit.metrics import (
     DCG,
     MAE,
@@ -149,7 +149,7 @@ def _run_batches_async(pipe_h, test, n_recs: int, collector, metric_collector):
     return all_metrics
 
 
-@ray.remote(num_cpus=PAR_CFG.threads)
+@ray.remote(num_cpus=PAR_CFG.num_threads)
 def run_pipeline_batch(pipeline, batch, n_recs: int, collector):
     with Task("pipeline batch", reset_hwm=True, subprocess=True) as task:
         metrics = []
