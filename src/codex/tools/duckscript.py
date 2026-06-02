@@ -9,8 +9,7 @@ from string import Template
 
 import click
 from duckdb import DuckDBPyConnection, StatementType
-from lenskit.logging import get_logger
-from lenskit.util import Stopwatch
+from lenskit.logging import Stopwatch, get_logger
 
 from codex.dbutil import db_connect
 
