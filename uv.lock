@@ -1802,7 +1802,6 @@ name = "lenskit-codex"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
-    { name = "click", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "deepmerge", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "duckdb", marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
     { name = "dvc", extra = ["webdav"], marker = "(platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine == 'aarch64' and sys_platform == 'linux') or (platform_machine == 'x86_64' and sys_platform == 'linux')" },
@@ -1860,7 +1859,6 @@ types = [
 
 [package.metadata]
 requires-dist = [
-    { name = "click", specifier = "~=8.0" },
     { name = "deepmerge", specifier = ">=2.0,<3" },
     { name = "duckdb", specifier = "~=1.2" },
     { name = "dvc", extras = ["webdav"], specifier = "~=3.50" },
