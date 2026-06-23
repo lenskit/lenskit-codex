@@ -112,7 +112,7 @@ namespace eval ::run {
         puts $fh "path,split,variant,model"
         foreach {name run} $info(runs) {
             dict with run {
-                puts $fh "$info(split)/$name,$info(split),$variant,$model"
+                puts $fh "$info(split)/$model-$variant,$info(split),$variant,$model"
             }
         }
         close $fh

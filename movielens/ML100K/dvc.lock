@@ -4117,3 +4117,60 @@ stages:
       md5: 53e442d01214f7ea6c21daa05fd269e8.dir
       size: 706694
       nfiles: 4
+  run-random-als-biased-default:
+    cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
+      runs/random/als-biased-default als-biased
+    deps:
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: runs/random/als-biased-default
+      hash: md5
+      md5: 3de4a1eaa3cb689de3397cfc0823586e.dir
+      size: 749223
+      nfiles: 5
+  run-random-bias-default:
+    cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
+      runs/random/bias-default bias
+    deps:
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: runs/random/bias-default
+      hash: md5
+      md5: 0cceebdc9c653e777037dc5379fb6f46.dir
+      size: 682029
+      nfiles: 5
+  run-random-flexmf-logistic-default:
+    cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
+      runs/random/flexmf-logistic-default flexmf-logistic
+    deps:
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: runs/random/flexmf-logistic-default
+      hash: md5
+      md5: ce01d9bfe9db9381a0c34cf843074a51.dir
+      size: 707488
+      nfiles: 4
