@@ -56,69 +56,64 @@ namespace eval ::dvc {
         puts $fh "# Regenerate with `mise run pipeline:render`."
         nest open $fh
         nest puts stages:
-        nest push
-        foreach {name stage} $stages {
-            if {$n} {
-                # blank line between stages
-                puts $fh ""
+        nest wrap {
+            foreach {name stage} $stages {
+                if {$n} {
+                    # blank line between stages
+                    puts $fh ""
+                }
+                incr n
+                _stage_yaml $name $stage
             }
-            incr n
-            nest puts "$name:"
-            nest push
+        }
+    }
+
+    proc _stage_yaml {name stage} {
+        nest puts "$name:"
+        nest wrap {
             nest puts "cmd: [dict get $stage cmd]"
             if {[dict exists $stage wdir]} {
                 nest puts "wdir: [dict get $stage wdir]"
             }
             if {[dict exists $stage deps]} {
                 nest puts "deps:"
-                nest push
-                foreach dep [dict get $stage deps] {
-                    nest puts "- $dep"
+                nest wrap {
+                    foreach dep [dict get $stage deps] {
+                        nest puts "- $dep"
+                    }
                 }
-                nest pop
             }
             if {[dict exists $stage outs]} {
                 nest puts "outs:"
-                nest push
-                foreach out [dict get $stage outs] {
-                    lassign $out tracker file
-                    switch $tracker {
-                        git {
-                            nest puts "- $file:"
-                            nest puts "    cache: false"
-                        }
-                        dvc {
-                            nest puts "- $file"
-                        }
-                        default {
-                            error "unknown tracker $tracker"
-                        }
-                    }
+                nest wrap {
+                    _out_yaml [dict get $stage outs]
                 }
-                nest pop
             }
             if {[dict exists $stage metrics]} {
                 nest puts "metrics:"
-                nest push
-                foreach out [dict get $stage metrics] {
-                    lassign $out tracker file
-                    switch $tracker {
-                        git {
-                            nest puts "- $file:"
-                            nest puts "    cache: false"
-                        }
-                        dvc {
-                            nest puts "- $file"
-                        }
-                        default {
-                            error "unknown tracker $tracker"
-                        }
-                    }
+                nest wrap {
+                    _out_yaml [dict get $stage metrics]
                 }
-                nest pop
             }
         }
-        nest pop
+    }
+
+    proc _out_yaml {outs} {
+        foreach out $outs {
+            lassign $out tracker file
+            switch $tracker {
+                git {
+                    nest puts "- $file:"
+                    nest puts "    cache: false"
+                }
+                dvc {
+                    nest puts "- $file"
+                }
+                default {
+                    error "unknown tracker $tracker"
+                }
+            }
+        }
     }
 }
 

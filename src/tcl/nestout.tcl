@@ -19,6 +19,12 @@ namespace eval nest {
         incr depth -$n
     }
 
+    proc wrap {body} {
+        push
+        uplevel $body
+        pop
+    }
+
     proc puts {str} {
         variable out
         variable depth
@@ -34,6 +40,6 @@ namespace eval nest {
         set depth 0
     }
 
-    namespace export open push pop puts
+    namespace export open push pop puts wrap
     namespace ensemble create
 }
