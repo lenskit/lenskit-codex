@@ -11,7 +11,7 @@ stages:
       - dataset
 
   stats:
-    cmd: lenksit codex sql -D ds_name=ML1M -f ../ml-stats.sql stats.duckdb
+    cmd: lenskit codex sql -D ds_name=ML1M -f ../ml-stats.sql stats.duckdb
     deps:
       - ../ml-stats.sql
       - dataset
@@ -134,19 +134,20 @@ stages:
   collect-metrics:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
-      - runs/random/random-als-biased-default
-      - runs/random/random-als-implicit-default
-      - runs/random/random-bias-default
-      - runs/random/random-ease-default
-      - runs/random/random-flexmf-bpr-default
-      - runs/random/random-flexmf-explicit-default
-      - runs/random/random-flexmf-logistic-default
-      - runs/random/random-flexmf-warp-default
-      - runs/random/random-iknn-explicit-default
-      - runs/random/random-iknn-implicit-default
-      - runs/random/random-popular-default
-      - runs/random/random-uknn-explicit-default
-      - runs/random/random-uknn-implicit-default
+      - runs/manifest.csv
+      - runs/random/als-biased-default
+      - runs/random/als-implicit-default
+      - runs/random/bias-default
+      - runs/random/ease-default
+      - runs/random/flexmf-bpr-default
+      - runs/random/flexmf-explicit-default
+      - runs/random/flexmf-logistic-default
+      - runs/random/flexmf-warp-default
+      - runs/random/iknn-explicit-default
+      - runs/random/iknn-implicit-default
+      - runs/random/popular-default
+      - runs/random/uknn-explicit-default
+      - runs/random/uknn-implicit-default
     outs:
       - run-summary.csv
       - run-user-metrics.parquet

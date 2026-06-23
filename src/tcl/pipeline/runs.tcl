@@ -61,7 +61,7 @@ namespace eval ::run {
     proc append {run} {
         variable info
         dict with run {
-            set name "$info(split)-$model-$variant"
+            set name "$model-$variant"
         }
         lappend info(runs) $name $run
         emit-stage $name $run
@@ -75,7 +75,7 @@ namespace eval ::run {
         dict with run {
             set path "$info(split)/$model-$variant"
 
-            stage "run-$name" {
+            stage "run-$info(split)-$name" {
                 cmd lenskit codex generate {*}$args --ds-name=$info(name) --split=$info(split_in) -o runs/$path $model
                 out runs/$path
                 # TODO add pipeline dep
@@ -98,6 +98,7 @@ namespace eval ::run {
             cmd lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
             out run-summary.csv
             out run-user-metrics.parquet
+            dep runs/manifest.csv
             foreach run [names] {
                 dep runs/$info(split)/$run
             }

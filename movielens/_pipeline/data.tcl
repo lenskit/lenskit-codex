@@ -7,7 +7,7 @@ stage import {
 }
 
 stage stats {
-    cmd lenksit codex sql -D ds_name=$ml_name -f ../ml-stats.sql stats.duckdb
+    cmd lenskit codex sql -D ds_name=$ml_name -f ../ml-stats.sql stats.duckdb
     dep ../ml-stats.sql
     dep dataset
     out stats.duckdb

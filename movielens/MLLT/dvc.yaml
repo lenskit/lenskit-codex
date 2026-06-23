@@ -11,7 +11,7 @@ stages:
       - dataset
 
   stats:
-    cmd: lenksit codex sql -D ds_name=MLLT -f ../ml-stats.sql stats.duckdb
+    cmd: lenskit codex sql -D ds_name=MLLT -f ../ml-stats.sql stats.duckdb
     deps:
       - ../ml-stats.sql
       - dataset
@@ -117,18 +117,19 @@ stages:
   collect-metrics:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
-      - runs/temporal/temporal-als-biased-default
-      - runs/temporal/temporal-als-implicit-default
-      - runs/temporal/temporal-bias-default
-      - runs/temporal/temporal-flexmf-bpr-default
-      - runs/temporal/temporal-flexmf-explicit-default
-      - runs/temporal/temporal-flexmf-logistic-default
-      - runs/temporal/temporal-flexmf-warp-default
-      - runs/temporal/temporal-iknn-explicit-default
-      - runs/temporal/temporal-iknn-implicit-default
-      - runs/temporal/temporal-popular-default
-      - runs/temporal/temporal-uknn-explicit-default
-      - runs/temporal/temporal-uknn-implicit-default
+      - runs/manifest.csv
+      - runs/temporal/als-biased-default
+      - runs/temporal/als-implicit-default
+      - runs/temporal/bias-default
+      - runs/temporal/flexmf-bpr-default
+      - runs/temporal/flexmf-explicit-default
+      - runs/temporal/flexmf-logistic-default
+      - runs/temporal/flexmf-warp-default
+      - runs/temporal/iknn-explicit-default
+      - runs/temporal/iknn-implicit-default
+      - runs/temporal/popular-default
+      - runs/temporal/uknn-explicit-default
+      - runs/temporal/uknn-implicit-default
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
