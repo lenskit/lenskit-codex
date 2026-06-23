@@ -1,10 +1,10 @@
-# Codex Generated File — DO NOT EDIT
+# GENERATED PIPELINE FILE - DO NOT EDIT
 #
-# This file is generated from dvc.jsonnet.
+# This file was generated from movielens/pipeline.tcl.
+# Regenerate with `mise run pipeline:render`.
 stages:
   aggregate-rating-stats:
-    cmd: lenskit codex movielens aggregate -d merged-stats.duckdb ML100K ML1M
-      ML10M ML20M ML25M ML32M
+    cmd: lenskit codex movielens aggregate -d merged-stats.duckdb ML100K ML1M ML10M ML20M ML25M ML32M
     deps:
       - ML100K/stats.duckdb
       - ML1M/stats.duckdb
