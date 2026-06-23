@@ -98,22 +98,6 @@ stages:
     outs:
       - runs/temporal/popular-default
 
-  run-temporal-uknn-explicit-default:
-    cmd: lenskit codex generate --ds-name=MLLT --split=splits/temporal.toml -o runs/temporal/uknn-explicit-default uknn-explicit
-    deps:
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal/uknn-explicit-default
-
-  run-temporal-uknn-implicit-default:
-    cmd: lenskit codex generate --ds-name=MLLT --split=splits/temporal.toml -o runs/temporal/uknn-implicit-default uknn-implicit
-    deps:
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal/uknn-implicit-default
-
   collect-metrics:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
@@ -128,8 +112,6 @@ stages:
       - runs/temporal/iknn-explicit-default
       - runs/temporal/iknn-implicit-default
       - runs/temporal/popular-default
-      - runs/temporal/uknn-explicit-default
-      - runs/temporal/uknn-implicit-default
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
