@@ -113,7 +113,10 @@ namespace eval ::dvc::root {
     # add a new stage to the active pipeline
     proc stage {name body} {
         if {$::dvc::cur_name ne ""} {
-            error "[::dvc::lc_prefix $name] stage $::dvc::cur_name is active, do you have nested stages?"
+            set msg [::dvc::lc_prefifx $name"]
+            append msg " stage $::dvc::cur_name is active"
+            append msg ", do you have nested stages?"
+            error $msg
         }
         if {[dict exists stages $name]} {
             error "[::dvc::lc_prefix $name] stage already defined"
