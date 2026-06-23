@@ -113,7 +113,7 @@ namespace eval ::dvc::root {
     # add a new stage to the active pipeline
     proc stage {name body} {
         if {$::dvc::cur_name ne ""} {
-            set msg [::dvc::lc_prefifx $name"]
+            set msg [::dvc::lc_preifx $name]
             append msg " stage $::dvc::cur_name is active"
             append msg ", do you have nested stages?"
             error $msg
