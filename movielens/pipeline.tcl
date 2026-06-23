@@ -1,4 +1,4 @@
-source defs.tcl
+source _pipeline/defs.tcl
 
 stage aggregate-rating-stats {
     cmd lenskit codex movielens aggregate -d merged-stats.duckdb {*}$ML_VERSIONS

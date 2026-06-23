@@ -18,7 +18,7 @@ foreach doc $names {
         dep _quarto.yml
         dep $doc
         foreach dep [kvlookup -default {} $meta deps] {
-            dep [path resolve $page_dir $dep]
+            dep [path project $page_dir $dep]
         }
         out _freeze/$page
     }

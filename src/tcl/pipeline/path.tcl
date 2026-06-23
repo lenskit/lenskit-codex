@@ -20,10 +20,43 @@ namespace eval ::path {
         return $path
     }
 
-    # Resolve a complete, project-relative path
-    proc resolve {args} {
+    # Get the current directory within the project
+    proc current {} {
         set root [root]
-        set path [file join $root {*}$args]
+        set dir [file normalize .]
+        return [relative $root $dir]
+    }
+
+    # Resolve a path, possibly project-relative
+    proc resolve {args} {
+        set done 0
+        set root ""
+        while {!$done} {
+            set arg [lpeek $args]
+            switch -glob -- $arg {
+                -project {
+                    lshift args
+                    set root [root]
+                }
+                -- {
+                    lshift args
+                    set done 1
+                }
+                -* {
+                    error "unrecognized flag $arg"
+                }
+                default {
+                    set done 1
+                }
+            }
+        }
+        return [file normalize [file join $root {*}$args]]
+    }
+
+    # Resolve a path to a project-relative path.
+    proc project {args} {
+        set root [root]
+        set path [file join {*}$args]
         set path [file normalize $path]
         if {![string match $root* $path]} {
             error "resolved path $path not inside project root"

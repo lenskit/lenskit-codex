@@ -73,7 +73,7 @@ def main():
         else:
             assert file is not None
             _log.debug("opening input %s", file)
-            reader = open(file, "rt")
+            reader = open(file, "rb")
 
         _log.debug("parsing data from input")
         if opts["--header"]:
@@ -88,11 +88,14 @@ def main():
 def read_and_parse(src, fmt):
     match fmt:
         case "toml":
+            _log.debug("parsing toml")
             return tomllib.load(src)
         case "yaml" | "yml":
+            _log.debug("parsing yaml")
             yaml = YAML(typ="safe")
             return yaml.load(src)
         case "json":
+            _log.debug("parsing json")
             return json.load(src)
         case _:
             raise ValueError(f"unsupported format {fmt}")

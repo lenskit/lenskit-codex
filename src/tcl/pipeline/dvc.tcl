@@ -199,4 +199,8 @@ namespace eval ::dvc::dsl {
             dict lappend ::dvc::cur_stage $dest [list $tracker $file]
         }
     }
+
+    namespace export stage cmd wdir dep out
 }
+
+namespace import ::dvc::dsl::*
