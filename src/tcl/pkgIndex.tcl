@@ -8,13 +8,13 @@
 # script is sourced, the variable $dir must contain the
 # full path name of this file's directory.
 
-package ifneeded ansifmt 0.1 [list source [file join $dir ansifmt.tcl]]
-package ifneeded dvc 0.1 [list source [file join $dir dvc.tcl]]
-package ifneeded formats 0.1 [list source [file join $dir formats.tcl]]
-package ifneeded getopt 2008.12.07 [list source [file join $dir getopt.tcl]]
-package ifneeded kvlookup 0.1 [list source [file join $dir kvlookup.tcl]]
-package ifneeded logging 0.1 [list source [file join $dir logging.tcl]]
-package ifneeded missing 1.1 [list source [file join $dir missing.tcl]]
-package ifneeded nestout 0.1 [list source [file join $dir nestout.tcl]]
-package ifneeded oscmd 0.1 [list source [file join $dir oscmd.tcl]]
-package ifneeded path 0.1 [list source [file join $dir path.tcl]]
+package ifneeded ansifmt 0.1 [list source [file join $dir lib/ansifmt.tcl]]
+package ifneeded dvc 0.1 [list source [file join $dir pipeline/dvc.tcl]]
+package ifneeded formats 0.1 [list source [file join $dir lib/formats.tcl]]
+package ifneeded getopt 2008.12.07 [list source [file join $dir lib/getopt.tcl]]
+package ifneeded kvlookup 0.1 [list source [file join $dir lib/kvlookup.tcl]]
+package ifneeded logging 0.1 [list source [file join $dir lib/logging.tcl]]
+package ifneeded missing 1.1 [list source [file join $dir lib/missing.tcl]]
+package ifneeded nestout 0.1 [list source [file join $dir lib/nestout.tcl]]
+package ifneeded oscmd 0.1 [list source [file join $dir lib/oscmd.tcl]]
+package ifneeded path 0.1 [list source [file join $dir pipeline/path.tcl]]
