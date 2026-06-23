@@ -1,5 +1,4 @@
-#!/usr/bin/env tclsh
-
+package provide dvc 0.1
 package require nestout
 
 namespace eval ::dvc {
@@ -8,12 +7,30 @@ namespace eval ::dvc {
     variable cur_name ""
     variable cur_stage {}
 
-    proc run_pipeline {src} {
+    # Evaluate a pipeline script to build the pipeline data structures
+    proc eval_pipeline {src} {
         variable script
         set script $src
 
-        puts stderr "running $script"
-        namespace eval ::dvc::root source $script
+        set oldpwd [pwd]
+        set dir [file dirname $script]
+        set fn [file tail $script]
+        msg -debug "entering $dir"
+        cd $dir
+        msg -debug "running $fn"
+        namespace eval ::dvc::dsl source $fn
+        msg -debug "restoring pwd"
+        cd $oldpwd
+    }
+
+    # Reset the pipeline state.
+    proc reset {} {
+        variable stages
+        variable cur_name
+        variable cur_stage
+        set stages []
+        set cur_name {}
+        set cur_stage {}
     }
 
     proc lc_prefix {{name ""}} {
@@ -29,12 +46,14 @@ namespace eval ::dvc {
         }
     }
 
-    proc render_pipeline {{fh stdout}} {
+    # Render the pipeline's YAML to specified output.
+    proc make_yaml {{fh stdout}} {
         variable stages
         set n 0
         puts $fh "# GENERATED PIPELINE FILE - DO NOT EDIT"
+        puts $fh "#"
         puts $fh "# This file was generated from $::dvc::script."
-        puts $fh "# Regenerate with `mise run render-pipeline`."
+        puts $fh "# Regenerate with `mise run pipeline:render`."
         nest open $fh
         nest puts stages:
         nest push
@@ -103,7 +122,7 @@ namespace eval ::dvc {
     }
 }
 
-namespace eval ::dvc::root {
+namespace eval ::dvc::dsl {
     proc _require_stage {cmd} {
         if {$::dvc::cur_name eq ""} {
             error "[::dvc::lc_prefix] command $cmd only valid in a stage"
@@ -122,6 +141,7 @@ namespace eval ::dvc::root {
             error "[::dvc::lc_prefix $name] stage already defined"
         }
 
+        msg -debug "beginning stage $name"
         set ::dvc::cur_name $name
         set ::dvc::cur_stage {}
 
@@ -185,9 +205,3 @@ namespace eval ::dvc::root {
         }
     }
 }
-
-set script [lindex $argv 0]
-
-::dvc::run_pipeline $script
-
-::dvc::render_pipeline
