@@ -18,122 +18,126 @@ stages:
     outs:
       - stats.duckdb
 
-  split-random:
-    cmd: lenskit codex split random.toml
-    wdir: splits
+  run-temporal-als-biased-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-biased-default als-biased
     deps:
-      - random.toml
-      - ../dataset
+      - dataset
+      - splits/temporal.toml
     outs:
-      - random.parquet
+      - runs/temporal/als-biased-default
 
-  run-random-als-biased-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/als-biased-default als-biased
+  run-temporal-als-implicit-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/als-implicit-default als-implicit
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/als-biased-default
+      - runs/temporal/als-implicit-default
 
-  run-random-als-implicit-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/als-implicit-default als-implicit
+  run-temporal-bias-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/bias-default bias
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/als-implicit-default
+      - runs/temporal/bias-default
 
-  run-random-bias-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/bias-default bias
+  run-temporal-ease-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/ease-default ease
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/bias-default
+      - runs/temporal/ease-default
 
-  run-random-ease-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/ease-default ease
+  run-temporal-flexmf-bpr-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-default flexmf-bpr
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/ease-default
+      - runs/temporal/flexmf-bpr-default
 
-  run-random-flexmf-bpr-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/flexmf-bpr-default flexmf-bpr
+  run-temporal-flexmf-explicit-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-default flexmf-explicit
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/flexmf-bpr-default
+      - runs/temporal/flexmf-explicit-default
 
-  run-random-flexmf-explicit-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/flexmf-explicit-default flexmf-explicit
+  run-temporal-flexmf-logistic-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-default flexmf-logistic
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/flexmf-explicit-default
+      - runs/temporal/flexmf-logistic-default
 
-  run-random-flexmf-logistic-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/flexmf-logistic-default flexmf-logistic
+  run-temporal-flexmf-warp-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/flexmf-warp-default flexmf-warp
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/flexmf-logistic-default
+      - runs/temporal/flexmf-warp-default
 
-  run-random-flexmf-warp-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/flexmf-warp-default flexmf-warp
+  run-temporal-iknn-explicit-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-default iknn-explicit
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/flexmf-warp-default
+      - runs/temporal/iknn-explicit-default
 
-  run-random-iknn-explicit-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/iknn-explicit-default iknn-explicit
+  run-temporal-iknn-implicit-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/iknn-implicit-default iknn-implicit
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/iknn-explicit-default
+      - runs/temporal/iknn-implicit-default
 
-  run-random-iknn-implicit-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/iknn-implicit-default iknn-implicit
+  run-temporal-popular-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/popular-default popular
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/iknn-implicit-default
+      - runs/temporal/popular-default
 
-  run-random-popular-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/popular-default popular
+  run-temporal-uknn-explicit-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/uknn-explicit-default uknn-explicit
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/popular-default
+      - runs/temporal/uknn-explicit-default
 
-  run-random-uknn-explicit-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/uknn-explicit-default uknn-explicit
+  run-temporal-uknn-implicit-default:
+    cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o runs/temporal/uknn-implicit-default uknn-implicit
     deps:
-      - splits/random
+      - dataset
+      - splits/temporal.toml
     outs:
-      - runs/random/uknn-explicit-default
-
-  run-random-uknn-implicit-default:
-    cmd: lenskit codex generate --ds-name=ML20M --split=splits/random -o runs/random/uknn-implicit-default uknn-implicit
-    deps:
-      - splits/random
-    outs:
-      - runs/random/uknn-implicit-default
+      - runs/temporal/uknn-implicit-default
 
   collect-metrics:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
-      - runs/random/random-als-biased-default
-      - runs/random/random-als-implicit-default
-      - runs/random/random-bias-default
-      - runs/random/random-ease-default
-      - runs/random/random-flexmf-bpr-default
-      - runs/random/random-flexmf-explicit-default
-      - runs/random/random-flexmf-logistic-default
-      - runs/random/random-flexmf-warp-default
-      - runs/random/random-iknn-explicit-default
-      - runs/random/random-iknn-implicit-default
-      - runs/random/random-popular-default
-      - runs/random/random-uknn-explicit-default
-      - runs/random/random-uknn-implicit-default
+      - runs/temporal/temporal-als-biased-default
+      - runs/temporal/temporal-als-implicit-default
+      - runs/temporal/temporal-bias-default
+      - runs/temporal/temporal-ease-default
+      - runs/temporal/temporal-flexmf-bpr-default
+      - runs/temporal/temporal-flexmf-explicit-default
+      - runs/temporal/temporal-flexmf-logistic-default
+      - runs/temporal/temporal-flexmf-warp-default
+      - runs/temporal/temporal-iknn-explicit-default
+      - runs/temporal/temporal-iknn-implicit-default
+      - runs/temporal/temporal-popular-default
+      - runs/temporal/temporal-uknn-explicit-default
+      - runs/temporal/temporal-uknn-implicit-default
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
