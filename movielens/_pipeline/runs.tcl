@@ -9,6 +9,7 @@ if {$ml_split eq "random"} {
 # start emitting stages for runs - with the name and the split
 run begin-set $ml_name $ml_split
 
+# now we emit a runs for each model
 foreach mod [model list] {
     run default $mod
     # if {[model searchable $mod]} {

@@ -78,6 +78,6 @@ namespace eval ::path {
         return [join $tps /]
     }
 
-    namespace export root resolve relative
+    namespace export root resolve project relative
     namespace ensemble create
 }
