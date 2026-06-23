@@ -5,7 +5,6 @@ from lenskit.pipeline import Pipeline
 from lenskit.random import RNGInput
 from lenskit.training import TrainingOptions
 
-from codex.models import ModelFactory
 from codex.random import rng_seed
 from codex.runlog import CodexTask, DataModel, ScorerModel
 
@@ -16,7 +15,6 @@ def train_task(
     pipeline: Pipeline,
     data: Dataset,
     data_info: DataModel,
-    factory: ModelFactory | None = None,
     rng: RNGInput | None = None,
 ) -> tuple[Pipeline, CodexTask]:
     log = _log.bind(name=pipeline.name)
