@@ -42,14 +42,6 @@ stages:
     outs:
       - runs/temporal/bias-default
 
-  run-temporal-ease-default:
-    cmd: lenskit codex generate --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal/ease-default ease
-    deps:
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal/ease-default
-
   run-temporal-flexmf-bpr-default:
     cmd: lenskit codex generate --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-default flexmf-bpr
     deps:
@@ -128,7 +120,6 @@ stages:
       - runs/temporal/temporal-als-biased-default
       - runs/temporal/temporal-als-implicit-default
       - runs/temporal/temporal-bias-default
-      - runs/temporal/temporal-ease-default
       - runs/temporal/temporal-flexmf-bpr-default
       - runs/temporal/temporal-flexmf-explicit-default
       - runs/temporal/temporal-flexmf-logistic-default

@@ -35,7 +35,7 @@ from docopt import docopt
 from lenskit.logging import LoggingConfig, get_logger
 from ruamel.yaml import YAML
 
-_log = get_logger("mktcl")
+_log = get_logger("parse-to-tcl")
 
 
 def main():
@@ -154,7 +154,7 @@ def write_tcl(data: Any, *, level: int = 0, prefix: bool = True, eol: str = "\n"
         if level >= 0:
             print(leader + "}", end=eol)
     elif isinstance(data, str):
-        if not re.match(r"^[\w_@!%^/.-]+$", data):
+        if not re.match(r"^[\w_@!%^/.*-]+$", data):
             data = re.sub(r"[{}\\]", "\\$0", data)
             data = "{" + data + "}"
         print(data, end=eol)

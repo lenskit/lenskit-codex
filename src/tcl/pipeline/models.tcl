@@ -2,7 +2,9 @@
 package provide models 0.1
 package require logging
 package require path
+package require parse
 
+# Ensemble command for listing and querying recommender models
 namespace eval ::model {
     proc list {} {
         set root [path resolve -project models]
@@ -10,6 +12,41 @@ namespace eval ::model {
         set files [glob -directory $root -tails */pipeline.toml]
         msg -debug "found [llength $files] models"
         return [lmap pf $files {file dirname $pf}]
+    }
+
+    # Query if this model is enable for this dataset
+    proc enabled {model data} {
+        set wanted 1
+        set info {}
+
+        set fn [path resolve -project models $model info.toml]
+        if {[file exists $fn]} {
+            msg -debug "reading $fn"
+            set info [parse toml $fn]
+        }
+
+        if {[dict exists $info match include]} {
+            msg -debug "checking include matches for $model on $data"
+            set wanted 0
+            foreach pat [dict get $info match include] {
+                if {[string match $pat $data]} {
+                    msg -debug "data $data matched include pattern $pat for $model"
+                    set wanted 1
+                    break
+                }
+            }
+        }
+        if {[dict exists $info match exclude]} {
+            msg -debug "checking exclude matches for $model on $data"
+            foreach pat [dict get $info match exclude] {
+                if {[string match $pat $data]} {
+                    msg -debug "data $data matched include pattern $pat for $model"
+                    set wanted 0
+                    break
+                }
+            }
+        }
+        return $wanted
     }
 
     # Query whether the specified model is a rating predictor.
@@ -30,7 +67,7 @@ namespace eval ::model {
         return [file exists $search]
     }
 
-    namespace export list searchable predicts-ratings
+    namespace export list searchable predicts-ratings enabled
     namespace ensemble create
 }
 

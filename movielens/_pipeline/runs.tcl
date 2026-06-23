@@ -11,10 +11,12 @@ run begin-set $ml_name $ml_split
 
 # now we emit a runs for each model
 foreach mod [model list] {
-    run default $mod
+    if {[model enabled $mod $ml_name]} {
+        run default $mod
     # if {[model searchable $mod]} {
     #     run tuned $mod
     # }
+    }
 }
 run collect
 run save-manifest

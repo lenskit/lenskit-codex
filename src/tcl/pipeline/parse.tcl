@@ -4,7 +4,7 @@ package require path
 namespace eval ::parse {
     proc toml {file} {
         set proc [path resolve -project scripts/parse-to-tcl.py]
-        set result [exec python $proc -v -f toml $file 2>@stderr]
+        set result [exec python $proc -f toml $file 2>@stderr]
         return $result
     }
 
