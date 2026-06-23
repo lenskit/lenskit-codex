@@ -1,5 +1,7 @@
 #!/usr/bin/env tclsh
 
+package require nestout
+
 namespace eval ::dvc {
     variable script ""
     variable stages {}
@@ -29,56 +31,75 @@ namespace eval ::dvc {
 
     proc render_pipeline {{fh stdout}} {
         variable stages
-        puts $fh "stages:"
+        set n 0
+        puts $fh "# GENERATED PIPELINE FILE - DO NOT EDIT"
+        puts $fh "# This file was generated from $::dvc::script."
+        puts $fh "# Regenerate with `mise run render-pipeline`."
+        nest open $fh
+        nest puts stages:
+        nest push
         foreach {name stage} $stages {
-            puts $fh "  $name:"
-            puts $fh "    cmd: [dict get $stage cmd]"
+            if {$n} {
+                # blank line between stages
+                puts $fh ""
+            }
+            incr n
+            nest puts "$name:"
+            nest push
+            nest puts "cmd: [dict get $stage cmd]"
             if {[dict exists $stage wdir]} {
-                puts $fh "    wdir: [dict get $stage wdir]"
+                nest puts "wdir: [dict get $stage wdir]"
             }
             if {[dict exists $stage deps]} {
-                puts $fh "    deps:"
+                nest puts "deps:"
+                nest push
                 foreach dep [dict get $stage deps] {
-                    puts $fh "    - $dep"
+                    nest puts "- $dep"
                 }
+                nest pop
             }
             if {[dict exists $stage outs]} {
-                puts $fh "    outs:"
+                nest puts "outs:"
+                nest push
                 foreach out [dict get $stage outs] {
                     lassign $out tracker file
                     switch $tracker {
                         git {
-                            puts $fh "    - $file:"
-                            puts $fh "        cache: false"
+                            nest puts "- $file:"
+                            nest puts "    cache: false"
                         }
                         dvc {
-                            puts $fh "    - $file"
+                            nest puts "- $file"
                         }
                         default {
                             error "unknown tracker $tracker"
                         }
                     }
                 }
+                nest pop
             }
             if {[dict exists $stage metrics]} {
-                puts $fh "    metrics:"
+                nest puts "metrics:"
+                nest push
                 foreach out [dict get $stage metrics] {
                     lassign $out tracker file
                     switch $tracker {
                         git {
-                            puts $fh "    - $file:"
-                            puts $fh "        cache: false"
+                            nest puts "- $file:"
+                            nest puts "    cache: false"
                         }
                         dvc {
-                            puts $fh "    - $file"
+                            nest puts "- $file"
                         }
                         default {
                             error "unknown tracker $tracker"
                         }
                     }
                 }
+                nest pop
             }
         }
+        nest pop
     }
 }
 
@@ -92,7 +113,7 @@ namespace eval ::dvc::root {
     # add a new stage to the active pipeline
     proc stage {name body} {
         if {$::dvc::cur_name ne ""} {
-            error "[::dvc::lc_prefix $name] stage $cur_name is active, do you have nested stages?"
+            error "[::dvc::lc_prefix $name] stage $::dvc::cur_name is active, do you have nested stages?"
         }
         if {[dict exists stages $name]} {
             error "[::dvc::lc_prefix $name] stage already defined"
@@ -102,6 +123,8 @@ namespace eval ::dvc::root {
         set ::dvc::cur_stage {}
 
         uplevel $body
+
+        set ::dvc::cur_name {}
 
         if {![dict exists $::dvc::cur_stage cmd]} {
             error "[::dvc::lc_prefix] stage has no command"
