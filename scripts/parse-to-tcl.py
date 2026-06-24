@@ -61,7 +61,7 @@ def main():
     if opts["--all-headers"]:
         data = {}
         for path in Path(".").glob("**/*.qmd"):
-            if re.match(r".*/_.*", path.as_posix()):
+            if re.match(r"^(.*/)?[_.].*", path.as_posix()):
                 continue
 
             _log.info("reading %s", path)

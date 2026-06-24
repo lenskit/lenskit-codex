@@ -66,7 +66,8 @@ def render_dvc_gitignores():
                 line.strip() for line in gif if not re.match(r"^\s*(#.*)?$", line)
             )
 
-    for file in root.glob("**/dvc.yaml"):
+    for file in glob("**/dvc.yaml", recursive=True, include_hidden=False):
+        file = Path(file)
         pl_dir = file.parent
         pipe = DVCPipeline.load_yaml(file)
 

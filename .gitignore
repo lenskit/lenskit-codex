@@ -14,12 +14,14 @@
 *.wal-log
 *_files/
 *venv/
+**/*.quarto_ipynb
 .RData
 .Rhistory
 .ipynb_checkpoints/
 .jupyter_cache/
 .netlify
-.pixi/
+.pixi/*
+!.pixi/config.toml
 .pytest_cache/
 .ruff_cache/
 /.quarto/
@@ -33,7 +35,3 @@ __pycache__/
 perf.data*
 rmm_log.txt
 scratch/
-**/*.quarto_ipynb
-# pixi environments
-.pixi/*
-!.pixi/config.toml
