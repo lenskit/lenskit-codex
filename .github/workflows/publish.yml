@@ -33,7 +33,6 @@ jobs:
         with:
           version: latest
           enable-cache: true
-          python-version: "3.12"
 
       - name: Synchronize dependencies
         run: |
@@ -49,7 +48,7 @@ jobs:
           DVC_PASS: ${{secrets.DVC_WEBDAV_PASSWORD}}
 
       - name: Fetch site assets
-        run: mise run fetch-web-assets -- -r vault
+        run: mise run web:fetch-assets -- -r vault
 
       - name: Render site content
         run: mise run render-site
