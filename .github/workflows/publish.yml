@@ -28,23 +28,29 @@ jobs:
       - name: Install mise-en-place
         uses: jdx/mise-action@v4
 
-      - name: Synchronize dependencies
-        run: |
-          uv sync --no-default-groups --locked
+      - uses: prefix-dev/setup-pixi@v0.9.6
+        with:
+          pixi-version: v0.71.0
+          cache: true
+          cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+          environments: site
 
       - name: Install authentication
         run: |
           dvc remote modify --local vault user "$DVC_USER"
           dvc remote modify --local vault password "$DVC_PASS"
+        shell: pixi run -e site bash -e {0}
         env:
           DVC_USER: ${{vars.DVC_WEBDAV_USER}}
           DVC_PASS: ${{secrets.DVC_WEBDAV_PASSWORD}}
 
       - name: Fetch site assets
         run: mise run web:fetch-assets -- -r vault
+        shell: pixi run -e site bash -e {0}
 
       - name: Render site content
         run: mise run render-site
+        shell: pixi run -e site bash -e {0}
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v7
