@@ -79,6 +79,7 @@ namespace eval ::run {
                 cmd lenskit codex generate {*}$args --ds-name=$info(name) --split=$info(split_in) -o runs/$path $model
                 out runs/$path
                 # TODO add pipeline dep
+                dep ../../models/$model/pipeline.toml
                 dep {*}$info(split_deps)
                 dep {*}$deps
             }

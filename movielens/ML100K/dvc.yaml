@@ -30,6 +30,7 @@ stages:
   run-random-als-biased-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/als-biased-default als-biased
     deps:
+      - ../../models/als-biased/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -38,6 +39,7 @@ stages:
   run-random-als-implicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/als-implicit-default als-implicit
     deps:
+      - ../../models/als-implicit/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -46,6 +48,7 @@ stages:
   run-random-bias-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/bias-default bias
     deps:
+      - ../../models/bias/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -54,6 +57,7 @@ stages:
   run-random-ease-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/ease-default ease
     deps:
+      - ../../models/ease/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -62,6 +66,7 @@ stages:
   run-random-flexmf-bpr-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-bpr-default flexmf-bpr
     deps:
+      - ../../models/flexmf-bpr/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -70,6 +75,7 @@ stages:
   run-random-flexmf-explicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-explicit-default flexmf-explicit
     deps:
+      - ../../models/flexmf-explicit/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -78,6 +84,7 @@ stages:
   run-random-flexmf-logistic-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-logistic-default flexmf-logistic
     deps:
+      - ../../models/flexmf-logistic/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -86,6 +93,7 @@ stages:
   run-random-flexmf-warp-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-warp-default flexmf-warp
     deps:
+      - ../../models/flexmf-warp/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -94,6 +102,7 @@ stages:
   run-random-iknn-explicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-default iknn-explicit
     deps:
+      - ../../models/iknn-explicit/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -102,6 +111,7 @@ stages:
   run-random-iknn-implicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-implicit-default iknn-implicit
     deps:
+      - ../../models/iknn-implicit/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -110,6 +120,7 @@ stages:
   run-random-popular-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/popular-default popular
     deps:
+      - ../../models/popular/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -118,6 +129,7 @@ stages:
   run-random-uknn-explicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-explicit-default uknn-explicit
     deps:
+      - ../../models/uknn-explicit/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
@@ -126,6 +138,7 @@ stages:
   run-random-uknn-implicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-implicit-default uknn-implicit
     deps:
+      - ../../models/uknn-implicit/pipeline.toml
       - dataset
       - splits/random.parquet
     outs:
