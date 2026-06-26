@@ -50,7 +50,7 @@ namespace eval ::path {
                 }
             }
         }
-        return [file normalize [file join $root {*}$args]]
+        return [file join $root {*}$args]
     }
 
     # Resolve a path to a project-relative path.

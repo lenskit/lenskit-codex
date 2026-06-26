@@ -132,7 +132,7 @@ namespace eval ::dvc::dsl {
             append msg ", do you have nested stages?"
             error $msg
         }
-        if {[dict exists stages $name]} {
+        if {[dict exists $::dvc::stages $name]} {
             error "[::dvc::lc_prefix $name] stage already defined"
         }
 
