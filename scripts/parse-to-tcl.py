@@ -25,6 +25,7 @@ Options:
 """
 
 import json
+import logging
 import re
 import sys
 import tomllib
@@ -32,18 +33,14 @@ from pathlib import Path
 from typing import Any
 
 from docopt import docopt
-from lenskit.logging import LoggingConfig, get_logger
 from ruamel.yaml import YAML
 
-_log = get_logger("parse-to-tcl")
+_log = logging.getLogger("parse-to-tcl")
 
 
 def main():
     opts = docopt(__doc__ or "")
-    lc = LoggingConfig()
-    if opts["--verbose"]:
-        lc.set_verbose(True)
-    lc.apply()
+    logging.basicConfig(level=logging.DEBUG if opts["--verbose"] else logging.INFO)
 
     fmt = opts["--format"]
     file = opts["FILE"]
