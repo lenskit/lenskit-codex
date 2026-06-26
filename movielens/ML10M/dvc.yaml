@@ -135,6 +135,24 @@ stages:
     outs:
       - runs/temporal/uknn-implicit-default
 
+  run-temporal-slim-default:
+    cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/slim-default slim
+    deps:
+      - ../../models/slim/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/slim-default
+
+  run-temporal-slim-fs-default:
+    cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/slim-fs-default slim-fs
+    deps:
+      - ../../models/slim-fs/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/slim-fs-default
+
   collect-metrics:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
@@ -152,6 +170,8 @@ stages:
       - runs/temporal/popular-default
       - runs/temporal/uknn-explicit-default
       - runs/temporal/uknn-implicit-default
+      - runs/temporal/slim-default
+      - runs/temporal/slim-fs-default
     outs:
       - run-summary.csv
       - run-user-metrics.parquet

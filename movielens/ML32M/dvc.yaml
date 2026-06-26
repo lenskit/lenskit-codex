@@ -108,6 +108,15 @@ stages:
     outs:
       - runs/temporal/popular-default
 
+  run-temporal-slim-fs-default:
+    cmd: lenskit codex generate --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal/slim-fs-default slim-fs
+    deps:
+      - ../../models/slim-fs/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+    outs:
+      - runs/temporal/slim-fs-default
+
   collect-metrics:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
@@ -122,6 +131,7 @@ stages:
       - runs/temporal/iknn-explicit-default
       - runs/temporal/iknn-implicit-default
       - runs/temporal/popular-default
+      - runs/temporal/slim-fs-default
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
