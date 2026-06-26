@@ -437,78 +437,78 @@ stages:
       size: 721
     - path: runs/random/als-biased-default
       hash: md5
-      md5: 3de4a1eaa3cb689de3397cfc0823586e.dir
-      size: 749223
+      md5: 962f4250ae2a094a58dc9a443abdc725.dir
+      size: 749207
       nfiles: 5
     - path: runs/random/als-implicit-default
       hash: md5
-      md5: beb8fa917dfd549a862336c2b23524cd.dir
-      size: 703511
+      md5: 6e58df95076991022b7f376a2acbeb1c.dir
+      size: 703497
       nfiles: 4
     - path: runs/random/bias-default
       hash: md5
-      md5: 0cceebdc9c653e777037dc5379fb6f46.dir
-      size: 682029
+      md5: 173c6cfdf372c991c377ec844c39b8f7.dir
+      size: 682027
       nfiles: 5
     - path: runs/random/ease-default
       hash: md5
-      md5: 03ada5fc2d925c13a753052aa7882511.dir
-      size: 706013
+      md5: b46dac6cdeff8d0b2da823145f486438.dir
+      size: 706027
       nfiles: 4
     - path: runs/random/flexmf-bpr-default
       hash: md5
-      md5: a61a1f0d4c67aac535c8e155854d96de.dir
-      size: 698360
+      md5: c28c5d5a578a229cf50acf066d3ea237.dir
+      size: 698307
       nfiles: 4
     - path: runs/random/flexmf-explicit-default
       hash: md5
-      md5: f5ce4de5a72ac44943b5422902c48cdf.dir
-      size: 758037
+      md5: b0b99d19f0631bc480c55a8871190606.dir
+      size: 758155
       nfiles: 5
     - path: runs/random/flexmf-logistic-default
       hash: md5
-      md5: ce01d9bfe9db9381a0c34cf843074a51.dir
-      size: 707488
+      md5: a08ce919d8dbdb000d5ec9e030999cde.dir
+      size: 707538
       nfiles: 4
     - path: runs/random/flexmf-warp-default
       hash: md5
-      md5: 64f0a6bf2303353b1332c57af8a8ceb0.dir
-      size: 698582
+      md5: e3923e876372b892900e76dc1036f3be.dir
+      size: 698539
       nfiles: 4
     - path: runs/random/iknn-explicit-default
       hash: md5
-      md5: a402576ac95485931138d78c739e0d35.dir
-      size: 771987
+      md5: e2b22cb39256e2b1be3f6ab4c455649f.dir
+      size: 771952
       nfiles: 5
     - path: runs/random/iknn-implicit-default
       hash: md5
-      md5: fcb976057835f48a9b31f758041dffcb.dir
-      size: 782202
-      nfiles: 5
+      md5: 368739d9fc93c97a97b4b8471ddab66e.dir
+      size: 684895
+      nfiles: 4
     - path: runs/random/popular-default
       hash: md5
-      md5: f30acd7c151dbb7d3641b86d5891754f.dir
+      md5: c06d3f5d874451f945d8d44b6e23153e.dir
       size: 178356
       nfiles: 4
     - path: runs/random/uknn-explicit-default
       hash: md5
-      md5: b50f6789e821c82c4243246f090f07c3.dir
-      size: 748975
+      md5: edd9b6983175262b6c99cfa4ff5bc1ca.dir
+      size: 748981
       nfiles: 5
     - path: runs/random/uknn-implicit-default
       hash: md5
-      md5: b5f836b633dac716e6673f9ea0800ec0.dir
-      size: 698928
+      md5: 69b0f49eb55afdc9ec657dbcbf08b520.dir
+      size: 699000
       nfiles: 4
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 4c46dc038655389a30251661ded517a9
-      size: 20291
+      md5: 2f7d90d9208cd60e2140108b283d0a97
+      size: 20225
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 5a191645e8be1d47f216a7619a6fd4eb
-      size: 340407
+      md5: ae5ad3b42c6cb21331dedcf1ce00fa4f
+      size: 324237
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate 
       --param-file=sweeps/random/IKNN-Implicit-grid.json --test-part=-0 
@@ -3955,6 +3955,10 @@ stages:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/als-biased-default als-biased
     deps:
+    - path: ../../models/als-biased/pipeline.toml
+      hash: md5
+      md5: 617ea3225f6fab63a108ee9504325727
+      size: 177
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -3967,13 +3971,17 @@ stages:
     outs:
     - path: runs/random/als-biased-default
       hash: md5
-      md5: 3de4a1eaa3cb689de3397cfc0823586e.dir
-      size: 749223
+      md5: 962f4250ae2a094a58dc9a443abdc725.dir
+      size: 749207
       nfiles: 5
   run-random-bias-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/bias-default bias
     deps:
+    - path: ../../models/bias/pipeline.toml
+      hash: md5
+      md5: 8ce32f6596a5cdfd8fd80fdd4ad2630b
+      size: 155
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -3986,13 +3994,17 @@ stages:
     outs:
     - path: runs/random/bias-default
       hash: md5
-      md5: 0cceebdc9c653e777037dc5379fb6f46.dir
-      size: 682029
+      md5: 173c6cfdf372c991c377ec844c39b8f7.dir
+      size: 682027
       nfiles: 5
   run-random-flexmf-logistic-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/flexmf-logistic-default flexmf-logistic
     deps:
+    - path: ../../models/flexmf-logistic/pipeline.toml
+      hash: md5
+      md5: e53400bdca23e8d06ed75688a2c2b0d4
+      size: 195
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4005,13 +4017,17 @@ stages:
     outs:
     - path: runs/random/flexmf-logistic-default
       hash: md5
-      md5: ce01d9bfe9db9381a0c34cf843074a51.dir
-      size: 707488
+      md5: a08ce919d8dbdb000d5ec9e030999cde.dir
+      size: 707538
       nfiles: 4
   run-random-iknn-implicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/iknn-implicit-default iknn-implicit
     deps:
+    - path: ../../models/iknn-implicit/pipeline.toml
+      hash: md5
+      md5: 036f0d9e041240e42fa369925414889e
+      size: 211
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4024,13 +4040,17 @@ stages:
     outs:
     - path: runs/random/iknn-implicit-default
       hash: md5
-      md5: fcb976057835f48a9b31f758041dffcb.dir
-      size: 782202
-      nfiles: 5
+      md5: 368739d9fc93c97a97b4b8471ddab66e.dir
+      size: 684895
+      nfiles: 4
   run-random-flexmf-warp-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/flexmf-warp-default flexmf-warp
     deps:
+    - path: ../../models/flexmf-warp/pipeline.toml
+      hash: md5
+      md5: df9f119b425b7c170f9ce70f9cfaf7f2
+      size: 187
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4043,13 +4063,17 @@ stages:
     outs:
     - path: runs/random/flexmf-warp-default
       hash: md5
-      md5: 64f0a6bf2303353b1332c57af8a8ceb0.dir
-      size: 698582
+      md5: e3923e876372b892900e76dc1036f3be.dir
+      size: 698539
       nfiles: 4
   run-random-uknn-implicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/uknn-implicit-default uknn-implicit
     deps:
+    - path: ../../models/uknn-implicit/pipeline.toml
+      hash: md5
+      md5: 3eb434272bc362eda1663ffb5632907a
+      size: 193
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4062,13 +4086,17 @@ stages:
     outs:
     - path: runs/random/uknn-implicit-default
       hash: md5
-      md5: b5f836b633dac716e6673f9ea0800ec0.dir
-      size: 698928
+      md5: 69b0f49eb55afdc9ec657dbcbf08b520.dir
+      size: 699000
       nfiles: 4
   run-random-uknn-explicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/uknn-explicit-default uknn-explicit
     deps:
+    - path: ../../models/uknn-explicit/pipeline.toml
+      hash: md5
+      md5: 147d0fbddb538787bfe0a03f84db18a5
+      size: 201
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4081,13 +4109,17 @@ stages:
     outs:
     - path: runs/random/uknn-explicit-default
       hash: md5
-      md5: b50f6789e821c82c4243246f090f07c3.dir
-      size: 748975
+      md5: edd9b6983175262b6c99cfa4ff5bc1ca.dir
+      size: 748981
       nfiles: 5
   run-random-flexmf-explicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/flexmf-explicit-default flexmf-explicit
     deps:
+    - path: ../../models/flexmf-explicit/pipeline.toml
+      hash: md5
+      md5: 820de790f159d933bc64eac0bc447a12
+      size: 185
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4100,13 +4132,17 @@ stages:
     outs:
     - path: runs/random/flexmf-explicit-default
       hash: md5
-      md5: f5ce4de5a72ac44943b5422902c48cdf.dir
-      size: 758037
+      md5: b0b99d19f0631bc480c55a8871190606.dir
+      size: 758155
       nfiles: 5
   run-random-popular-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/popular-default popular
     deps:
+    - path: ../../models/popular/pipeline.toml
+      hash: md5
+      md5: ed104618e25c8749e84674e64a05a706
+      size: 108
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4119,13 +4155,17 @@ stages:
     outs:
     - path: runs/random/popular-default
       hash: md5
-      md5: f30acd7c151dbb7d3641b86d5891754f.dir
+      md5: c06d3f5d874451f945d8d44b6e23153e.dir
       size: 178356
       nfiles: 4
   run-random-iknn-explicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/iknn-explicit-default iknn-explicit
     deps:
+    - path: ../../models/iknn-explicit/pipeline.toml
+      hash: md5
+      md5: 1f3d5bac137760ca16e25d2722a79397
+      size: 219
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4138,13 +4178,17 @@ stages:
     outs:
     - path: runs/random/iknn-explicit-default
       hash: md5
-      md5: a402576ac95485931138d78c739e0d35.dir
-      size: 771987
+      md5: e2b22cb39256e2b1be3f6ab4c455649f.dir
+      size: 771952
       nfiles: 5
   run-random-ease-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/ease-default ease
     deps:
+    - path: ../../models/ease/pipeline.toml
+      hash: md5
+      md5: a8e0a0fcba4fa58a8bcc1acad67f544f
+      size: 104
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4157,13 +4201,17 @@ stages:
     outs:
     - path: runs/random/ease-default
       hash: md5
-      md5: 03ada5fc2d925c13a753052aa7882511.dir
-      size: 706013
+      md5: b46dac6cdeff8d0b2da823145f486438.dir
+      size: 706027
       nfiles: 4
   run-random-flexmf-bpr-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/flexmf-bpr-default flexmf-bpr
     deps:
+    - path: ../../models/flexmf-bpr/pipeline.toml
+      hash: md5
+      md5: 4ad020cc9459a490e23e78cc14ee0893
+      size: 190
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4176,13 +4224,17 @@ stages:
     outs:
     - path: runs/random/flexmf-bpr-default
       hash: md5
-      md5: a61a1f0d4c67aac535c8e155854d96de.dir
-      size: 698360
+      md5: c28c5d5a578a229cf50acf066d3ea237.dir
+      size: 698307
       nfiles: 4
   run-random-als-implicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
       runs/random/als-implicit-default als-implicit
     deps:
+    - path: ../../models/als-implicit/pipeline.toml
+      hash: md5
+      md5: a88f57edd1e5bf7c205d84122a47e94c
+      size: 173
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4195,6 +4247,6 @@ stages:
     outs:
     - path: runs/random/als-implicit-default
       hash: md5
-      md5: beb8fa917dfd549a862336c2b23524cd.dir
-      size: 703511
+      md5: 6e58df95076991022b7f376a2acbeb1c.dir
+      size: 703497
       nfiles: 4
