@@ -433,8 +433,8 @@ stages:
     deps:
     - path: runs/manifest.csv
       hash: md5
-      md5: 713e442d7d38f3cee2d5623676b25566
-      size: 721
+      md5: ceee07fe9ff3713cda5cfb506260ac09
+      size: 807
     - path: runs/random/als-biased-default
       hash: md5
       md5: 962f4250ae2a094a58dc9a443abdc725.dir
@@ -490,6 +490,16 @@ stages:
       md5: c06d3f5d874451f945d8d44b6e23153e.dir
       size: 178356
       nfiles: 4
+    - path: runs/random/slim-default
+      hash: md5
+      md5: 303aeec05d8a670a777b4a52e11868c7.dir
+      size: 704006
+      nfiles: 4
+    - path: runs/random/slim-fs-default
+      hash: md5
+      md5: 9781d91739b053eb33bf53a5db675c4c.dir
+      size: 702206
+      nfiles: 4
     - path: runs/random/uknn-explicit-default
       hash: md5
       md5: edd9b6983175262b6c99cfa4ff5bc1ca.dir
@@ -503,12 +513,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 2f7d90d9208cd60e2140108b283d0a97
-      size: 20225
+      md5: 00a1d46128af31f90e326d1be3187ffc
+      size: 23019
     - path: run-user-metrics.parquet
       hash: md5
-      md5: ae5ad3b42c6cb21331dedcf1ce00fa4f
-      size: 324237
+      md5: facc6b0bc50560544b85c753f679d619
+      size: 374128
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate 
       --param-file=sweeps/random/IKNN-Implicit-grid.json --test-part=-0 
@@ -4249,4 +4259,50 @@ stages:
       hash: md5
       md5: 6e58df95076991022b7f376a2acbeb1c.dir
       size: 703497
+      nfiles: 4
+  run-random-slim-default:
+    cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
+      runs/random/slim-default slim
+    deps:
+    - path: ../../models/slim/pipeline.toml
+      hash: md5
+      md5: f7bd75cae63c041794e50577c3d8d60a
+      size: 104
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: runs/random/slim-default
+      hash: md5
+      md5: 303aeec05d8a670a777b4a52e11868c7.dir
+      size: 704006
+      nfiles: 4
+  run-random-slim-fs-default:
+    cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
+      runs/random/slim-fs-default slim-fs
+    deps:
+    - path: ../../models/slim-fs/pipeline.toml
+      hash: md5
+      md5: fc82b962ce5f15ed93013842cf48030b
+      size: 150
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
+      size: 56269
+    outs:
+    - path: runs/random/slim-fs-default
+      hash: md5
+      md5: 9781d91739b053eb33bf53a5db675c4c.dir
+      size: 702206
       nfiles: 4
