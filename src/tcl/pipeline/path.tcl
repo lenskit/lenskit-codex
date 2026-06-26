@@ -78,6 +78,23 @@ namespace eval ::path {
         return [join $tps /]
     }
 
-    namespace export root resolve project relative
+    # Convert a project-relative path to a pwd-relative path.
+    proc project-relpath {path {wdir ""}}  {
+        set cwd [project $wdir]
+        set tgt_parts [file split $path]
+        set src_parts [file split $cwd]
+        while {[llength $tgt_parts] && [lpeek $tgt_parts] eq [lpeek $src_parts]} {
+            lshift tgt_parts
+            lshift src_parts
+        }
+        set out [join $tgt_parts /]
+        while {[llength $src_parts]} {
+            set out "../$out"
+            lshift src_parts
+        }
+        return $out
+    }
+
+    namespace export root resolve project relative project-relpath
     namespace ensemble create
 }

@@ -1,6 +1,7 @@
 # Code for managing individual runs and generating their DVC output
 package provide runs 0.1
 package require parse
+package require path
 
 # define "run" - an ensemble command to generate stages for
 # recommender system runs.
@@ -11,6 +12,7 @@ namespace eval ::run {
     proc begin-set {name split} {
         variable info
 
+        set info(wdir) [pwd]
         set info(name) $name
         set info(split) $split
         set info(runs) [list]
@@ -78,8 +80,7 @@ namespace eval ::run {
             stage "run-$info(split)-$name" {
                 cmd lenskit codex generate {*}$args --ds-name=$info(name) --split=$info(split_in) -o runs/$path $model
                 out runs/$path
-                # TODO add pipeline dep
-                dep ../../models/$model/pipeline.toml
+                dep [path project-relpath models/$model/pipeline.toml $info(wdir)]
                 dep {*}$info(split_deps)
                 dep {*}$deps
             }
