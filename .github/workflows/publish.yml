@@ -36,18 +36,15 @@ jobs:
         run: |
           dvc remote modify --local vault user "$DVC_USER"
           dvc remote modify --local vault password "$DVC_PASS"
-        shell: pixi run -e site bash -e {0}
         env:
           DVC_USER: ${{vars.DVC_WEBDAV_USER}}
           DVC_PASS: ${{secrets.DVC_WEBDAV_PASSWORD}}
 
       - name: Fetch site assets
         run: mise run web:fetch-assets -- -r vault
-        shell: pixi run -e site bash -e {0}
 
       - name: Render site content
         run: mise run render-site
-        shell: pixi run -e site bash -e {0}
 
       - name: Upload site artifact
         uses: actions/upload-artifact@v7
