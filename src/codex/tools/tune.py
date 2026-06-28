@@ -37,9 +37,10 @@ _log = get_logger(__name__)
     metavar="PART",
     help="validate on PART",
 )
+@click.option("--ray", "use_ray", is_flag=True, help="use Ray Tune")
 @click.option("--random", "method", flag_value="random", help="use random search")
 @click.option("--hyperopt", "method", flag_value="hyperopt", help="use HyperOpt search")
-@click.option("--optuna", "method", flag_value="optuna", help="use Optuna search")
+@click.option("--tpe", "method", flag_value="optuna", help="use Optuna/TPE search")
 @click.option(
     "--metric",
     type=click.Choice(["RMSE", "RBP", "RecipRank", "NDCG"]),
@@ -52,7 +53,8 @@ def run_tune(
     out: Path,
     sample_count: int | None,
     split: Path,
-    method: Literal["random", "hyperopt", "optuna"],
+    use_ray: bool,
+    method: Literal["random", "hyperopt", "optuna"] | None,
     metric: str | None = None,
     ds_name: str | None = None,
     test_part: str = "valid",
@@ -60,19 +62,27 @@ def run_tune(
     console = stdout_console()
     log = _log.bind(model=model, dataset=ds_name, split=split.stem)
 
-    ray.tune.utils.log.set_verbosity(0)
-
     spec = TuningSpec.load(model_dir(model) / "search.toml")
-    spec.search.method = method
+    if method is not None:
+        if not use_ray:
+            _log.error("search methods only supported with Ray Tune")
+        spec.search.method = method
+
     if metric is not None:
         spec.search.metric = metric
     spec.search.update_max_points(sample_count)
+
     metric = spec.search.metric
     assert metric is not None
 
-    ensure_cluster_init()
+    if use_ray:
+        from lenskit.tuning import RayPipelineTuner
 
-    tuner = PipelineTuner(spec, out_dir=out)
+        ray.tune.utils.log.set_verbosity(0)
+        ensure_cluster_init()
+        tuner = RayPipelineTuner(spec, out_dir=out)
+    else:
+        tuner = PipelineTuner(spec, out_dir=out)
 
     splits = load_split_set(split)
     data = splits.get_part(test_part)
@@ -100,17 +110,17 @@ def run_tune(
         log.error("one or more runs did not complete")
         fail = RuntimeError("runs failed")
 
-    best = results.get_best_result()
-    assert best.metrics is not None
-    fields = {metric: best.metrics[metric], "config": best.config}
+    best = results.best_result()
+    best_cfg = results.best_config()
+    fields = {metric: best[metric], "config": best_cfg}
 
     log.info("finished hyperparameter search", **fields)
     console.print("[bold yellow]Hyperparameter search completed![/bold yellow]")
-    console.print("Best {} is [bold red]{:.3f}[/bold red]".format(metric, best.metrics[metric]))
+    console.print("Best {} is [bold red]{:.3f}[/bold red]".format(metric, best[metric]))
     assert task.duration is not None
     line = "[bold magenta]{}[/bold magenta] trials took [bold cyan]{}[/bold cyan]".format(
-        len(results),
-        precisedelta(task.duration),  # type: ignore
+        results.num_trials(),
+        precisedelta(task.duration),
     )
     if task.system_power:
         line += " and consumed [bold green]{}[/bold green]".format(
@@ -122,41 +132,46 @@ def run_tune(
         print(task.model_dump_json(indent=2), file=jsf)
 
     with open(out / "trials.ndjson", "wt") as jsf:
-        for result in results:
-            print(to_json(result.metrics).decode(), file=jsf)
+        for result in results.trials():
+            print(to_json(result).decode(), file=jsf)
 
-    best_out = tuner.best_result()
+    best_out = results.best_result()
     assert best_out is not None
 
     if tuner.iterative:
         with open(out / "iterations.ndjson", "wt") as jsf:
-            for n, result in enumerate(results):
-                for i, row in result.metrics_dataframe.to_dict("index").items():
-                    out_row = {"trial": n, "config": result.config}
-                    out_row.update({k: v for (k, v) in row.items() if not k.startswith("config/")})
-                    print(to_json(out_row).decode(), file=jsf)
+            for si in results.iterations():
+                print(to_json(si).decode(), file=jsf)
 
     log.info("saving final tuned configuration")
     with open(out.with_suffix(".json"), "wt") as jsf:
         print(to_json(best_out).decode(), file=jsf)
     with open(out.with_name(out.stem + "-pipeline.json"), "wt") as jsf:
-        print(tuner.best_pipeline().model_dump_json(indent=2), file=jsf)
+        print(results.best_pipeline().model_dump_json(indent=2), file=jsf)
 
-    log.info("archiving search state")
+    if use_ray:
+        _archive_ray_state(out)
+
+    if fail is not None:
+        raise fail
+
+
+def _archive_ray_state(out: Path):
+    _log.info("archiving search state")
     with zipfile.ZipFile(out / "tuning-state.zip", "w") as zipf:
         state_dir = out / "tuning-state"
         for dir, _sds, files in state_dir.walk():
             if dir.name.startswith("checkpoint_"):
-                log.debug("skipping checkpoint directory")
+                _log.debug("skipping checkpoint directory")
                 continue
 
-            log.debug("adding directory", dir=dir)
+            _log.debug("adding directory", dir=dir)
             zipf.mkdir(dir.relative_to(out).as_posix())
             for file in files:
                 fpath = dir / file
                 fpstr = fpath.relative_to(out).as_posix()
 
-                log.debug("adding file", file=fpstr)
+                _log.debug("adding file", file=fpstr)
                 if fpath.suffix in [".gz", ".zst", ".pkl", ".pt"]:
                     comp = zipfile.ZIP_STORED
                 else:
@@ -166,6 +181,3 @@ def run_tune(
 
     # log.debug("deleting unpacked search state")
     # shutil.rmtree(out / "state")
-
-    if fail is not None:
-        raise fail
