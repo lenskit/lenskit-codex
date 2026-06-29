@@ -54,6 +54,12 @@ repository, add your credentials to your **local** configuration:
 $ dvc remote modify --local vault user=<user> password=<passwd>
 ```
 
+You can then fetch the results from DVC:
+
+```console
+$ dvc pull
+```
+
 [uv]: https://docs.astral.sh/uv/
 [Mise]: https://mise.jdx.dev
 [install-mise]: https://mise.jdx.dev/installing-mise.html
