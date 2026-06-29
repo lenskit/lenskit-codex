@@ -15,4 +15,4 @@ for file in **/pipeline.tcl; do
     ./scripts/mkpipeline.tcl "${mk_args[@]}" -o "${dir}/dvc.yaml" "$file"
 done
 
-python scripts/update-gitignore.py
+tclsh scripts/update-gitignore.tcl
