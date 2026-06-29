@@ -56,7 +56,7 @@ foreach file $yaml_files {
         }
         foreach out $outs {
             set out [string trim $out]
-            if {[string match "cache 0" $out]} {
+            if {[llength $out] == 2} {
                 continue
             }
             set path [path project $sdir $out]
