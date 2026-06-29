@@ -472,8 +472,8 @@ stages:
       nfiles: 4
     - path: runs/random/flexmf-warp-default
       hash: md5
-      md5: e3923e876372b892900e76dc1036f3be.dir
-      size: 698539
+      md5: 9c2fc984283bec2df7ea0b2be727b7d6.dir
+      size: 710605
       nfiles: 4
     - path: runs/random/iknn-explicit-default
       hash: md5
@@ -502,23 +502,23 @@ stages:
       nfiles: 4
     - path: runs/random/uknn-explicit-default
       hash: md5
-      md5: edd9b6983175262b6c99cfa4ff5bc1ca.dir
-      size: 748981
+      md5: c1663398d1d1fe45b89b309665cdb769.dir
+      size: 749143
       nfiles: 5
     - path: runs/random/uknn-implicit-default
       hash: md5
-      md5: 69b0f49eb55afdc9ec657dbcbf08b520.dir
-      size: 699000
+      md5: 735832d8ab86e00eb7ef9b988648bcea.dir
+      size: 699166
       nfiles: 4
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 00a1d46128af31f90e326d1be3187ffc
-      size: 23019
+      md5: 3abbf7e7b6a14f04bd05c1e68fb4c4f9
+      size: 23186
     - path: run-user-metrics.parquet
       hash: md5
-      md5: facc6b0bc50560544b85c753f679d619
-      size: 374128
+      md5: d156ea762ee371ba5fa13a32c380e4ff
+      size: 370747
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate 
       --param-file=sweeps/random/IKNN-Implicit-grid.json --test-part=-0 
@@ -4082,7 +4082,7 @@ stages:
     deps:
     - path: ../../models/uknn-implicit/pipeline.toml
       hash: md5
-      md5: 3eb434272bc362eda1663ffb5632907a
+      md5: f4572194ab778ebd3db6cba5e1918d51
       size: 193
     - path: dataset
       hash: md5
@@ -4096,8 +4096,8 @@ stages:
     outs:
     - path: runs/random/uknn-implicit-default
       hash: md5
-      md5: 69b0f49eb55afdc9ec657dbcbf08b520.dir
-      size: 699000
+      md5: 735832d8ab86e00eb7ef9b988648bcea.dir
+      size: 699166
       nfiles: 4
   run-random-uknn-explicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
@@ -4105,7 +4105,7 @@ stages:
     deps:
     - path: ../../models/uknn-explicit/pipeline.toml
       hash: md5
-      md5: 147d0fbddb538787bfe0a03f84db18a5
+      md5: 4f96897e185f7e9f55f582f310262a24
       size: 201
     - path: dataset
       hash: md5
@@ -4119,8 +4119,8 @@ stages:
     outs:
     - path: runs/random/uknn-explicit-default
       hash: md5
-      md5: edd9b6983175262b6c99cfa4ff5bc1ca.dir
-      size: 748981
+      md5: c1663398d1d1fe45b89b309665cdb769.dir
+      size: 749143
       nfiles: 5
   run-random-flexmf-explicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
