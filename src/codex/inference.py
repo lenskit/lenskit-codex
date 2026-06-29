@@ -114,7 +114,7 @@ def _run_batches_async(pipe_h, test, n_recs: int, collector, metric_collector):
     log = _log.bind(n_users=n_users, n_recs=n_recs)
     log.info("launching asynchronous inference")
     pc = get_parallel_config()
-    n_pending = pc.processes * 2
+    n_pending = pc.num_procs * 2
 
     n_batches = 1
     all_metrics = []
