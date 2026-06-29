@@ -3729,3 +3729,141 @@ stages:
       md5: e9481ba6bf7b24bdd8e4b3bdc8db4377.dir
       size: 3833270
       nfiles: 5
+  run-random-uknn-implicit-default:
+    cmd: lenskit codex generate --ds-name=ML1M --split=splits/random.toml -o 
+      runs/random/uknn-implicit-default uknn-implicit
+    deps:
+    - path: ../../models/uknn-implicit/pipeline.toml
+      hash: md5
+      md5: f4572194ab778ebd3db6cba5e1918d51
+      size: 193
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: runs/random/uknn-implicit-default
+      hash: md5
+      md5: b700661fe9ef0352ffbb35013a61d29f.dir
+      size: 3826886
+      nfiles: 4
+  run-random-uknn-explicit-default:
+    cmd: lenskit codex generate --ds-name=ML1M --split=splits/random.toml -o 
+      runs/random/uknn-explicit-default uknn-explicit
+    deps:
+    - path: ../../models/uknn-explicit/pipeline.toml
+      hash: md5
+      md5: 4f96897e185f7e9f55f582f310262a24
+      size: 201
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: runs/random/uknn-explicit-default
+      hash: md5
+      md5: f7636ed8662117e6dc03bdf7395dca00.dir
+      size: 4115618
+      nfiles: 5
+  run-random-bias-default:
+    cmd: lenskit codex generate --ds-name=ML1M --split=splits/random.toml -o 
+      runs/random/bias-default bias
+    deps:
+    - path: ../../models/bias/pipeline.toml
+      hash: md5
+      md5: 8ce32f6596a5cdfd8fd80fdd4ad2630b
+      size: 155
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: runs/random/bias-default
+      hash: md5
+      md5: f0a600241f06051a70ad506de26b4e43.dir
+      size: 3505264
+      nfiles: 5
+  run-random-slim-fs-default:
+    cmd: lenskit codex generate --ds-name=ML1M --split=splits/random.toml -o 
+      runs/random/slim-fs-default slim-fs
+    deps:
+    - path: ../../models/slim-fs/pipeline.toml
+      hash: md5
+      md5: fc82b962ce5f15ed93013842cf48030b
+      size: 150
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: runs/random/slim-fs-default
+      hash: md5
+      md5: b5d3e0e845bbdff535debd244520fb62.dir
+      size: 3856177
+      nfiles: 4
+  run-random-flexmf-explicit-default:
+    cmd: lenskit codex generate --ds-name=ML1M --split=splits/random.toml -o 
+      runs/random/flexmf-explicit-default flexmf-explicit
+    deps:
+    - path: ../../models/flexmf-explicit/pipeline.toml
+      hash: md5
+      md5: 820de790f159d933bc64eac0bc447a12
+      size: 185
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: runs/random/flexmf-explicit-default
+      hash: md5
+      md5: 4b28b5a4d5561f55494277f6886d0ca3.dir
+      size: 4211309
+      nfiles: 5
+  run-random-ease-default:
+    cmd: lenskit codex generate --ds-name=ML1M --split=splits/random.toml -o 
+      runs/random/ease-default ease
+    deps:
+    - path: ../../models/ease/pipeline.toml
+      hash: md5
+      md5: a8e0a0fcba4fa58a8bcc1acad67f544f
+      size: 104
+    - path: dataset
+      hash: md5
+      md5: abae7c82c38a4d4ff41c94aa44c7c6f6.dir
+      size: 6161837
+      nfiles: 5
+    - path: splits/random.parquet
+      hash: md5
+      md5: e76a6b995411abb5ba2ade811e7f8d1f
+      size: 358913
+    outs:
+    - path: runs/random/ease-default
+      hash: md5
+      md5: 1944985f07aa785920e84d14866f30e0.dir
+      size: 3756781
+      nfiles: 4
