@@ -14,3 +14,7 @@ hk = "latest"
 [env]
 TCLLIBPATH = "{{config_root}}/src/tcl"
 JIMLIB = "{{config_root}}/src/tcl/pipeline:{{config_root}}/src/tcl/lib"
+HK_MISE = 1
+
+[hooks]
+postinstall = "hk install --mise"
