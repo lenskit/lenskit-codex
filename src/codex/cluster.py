@@ -25,7 +25,7 @@ def ensure_cluster_init():
         try:
             ray.init(address="auto")
         except ConnectionError:
-            init_cluster(global_logging=True, worker_parallel=get_parallel_config())
+            init_cluster(global_logging=True)
 
 
 class CodexActor:
