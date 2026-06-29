@@ -1,0 +1,47 @@
+amends "package://github.com/jdx/hk/releases/download/v1.48.0/hk@1.48.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.48.0/hk@1.48.0#/Builtins.pkl"
+
+local linters = new Mapping<String, Step> {
+    ["check-added-large-files"] = Builtins.check_added_large_files
+    ["check-merge-conflict"] = Builtins.check_merge_conflict
+    ["check-yaml"] = Builtins.yamllint
+    ["check-toml"] = Builtins.tombi
+
+    ["end-of-file-fixer"] = Builtins.newlines
+    ["mixed-line-ending"] = Builtins.mixed_line_ending
+    ["trailing-whitespace"] = (Builtins.trailing_whitespace) {
+        exclude = Regex(#"dvc\.lock$|^\.hk/"#)
+    }
+    ["ruff"] = Builtins.ruff
+}
+
+local formatters = new Mapping<String, Step> {
+    ["dprint"] = (Builtins.dprint) {
+        glob = Regex(#"(.*\.yaml$|.*\.yml$|.*\.toml$)"#)
+    }
+    ["ruff-format"] = Builtins.ruff_format
+}
+
+hooks {
+    ["pre-commit"] {
+        fix = true
+        stash = "git"
+        steps {
+            ...linters
+            ...formatters
+        }
+    }
+    ["check"] {
+        steps {
+            ...linters
+            ...formatters
+        }
+    }
+    ["fix"] {
+        fix = true
+        steps {
+            ...linters
+            ...formatters
+        }
+    }
+}

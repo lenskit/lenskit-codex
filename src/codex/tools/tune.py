@@ -140,7 +140,7 @@ def run_tune(
 
     if tuner.iterative:
         with open(out / "iterations.ndjson", "wt") as jsf:
-            for si in results.iterations():
+            for si in results.epochs():
                 print(to_json(si).decode(), file=jsf)
 
     log.info("saving final tuned configuration")
