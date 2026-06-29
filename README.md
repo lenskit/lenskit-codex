@@ -60,6 +60,27 @@ You can then fetch the results from DVC:
 $ dvc pull
 ```
 
+### Integrating Run Logs
+
+Individual task information is saved with particular tasks, but incorporating that information into the overall run log is a manual step.  To update:
+
+1.  Make sure you have the **latest** code and data (`git pull` and `dvc pull`).  Merging run logs is difficult.
+
+2.  Integrate the run logs:
+
+    ```console
+    $ lenskit codex runlog collect
+    ```
+
+3.  Commit and push the result:
+
+    ```console
+    $ git add run-log
+    $ git commit -m 'integrated run log'
+    $ dvc push
+    $ git push
+    ```
+
 [uv]: https://docs.astral.sh/uv/
 [Mise]: https://mise.jdx.dev
 [install-mise]: https://mise.jdx.dev/installing-mise.html
