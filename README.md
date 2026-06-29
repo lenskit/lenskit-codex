@@ -24,7 +24,8 @@ either `git` or `gh`.  Then:
 
 1. Trust the workspace with `mise trust .`
 2. Install Mise dependencies with `mise install`
-3. Install Python dependencies with `uv sync`
+3. Set up pre-commit hooks with `hk install`
+4. Install Python dependencies with `uv sync`
 
 If you set up Mise to auto-activate in your shell, then whenever you `cd` into
 the directory, it will automatically add the various dependencies and the Python
