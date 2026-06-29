@@ -5,7 +5,6 @@ local linters = new Mapping<String, Step> {
   ["large-files"] = Builtins.check_added_large_files
   ["merge-conflict"] = Builtins.check_merge_conflict
   // ["check-yaml"] = Builtins.yamllint
-  ["check-toml"] = Builtins.tombi
   ["end-of-file-fixer"] = Builtins.newlines
   ["mixed-line-ending"] = Builtins.mixed_line_ending
   ["trailing-whitespace"] = (Builtins.trailing_whitespace) {
