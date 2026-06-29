@@ -37,7 +37,7 @@ run = [
   "optuna ~=4.0",
   "hyperopt ~=0.2.7",
   "numpy ~=2.0",
-  "lenskit >=2026.2.0",
+  "lenskit >=2026.2.2.dev40,<2026.3.0.dev1",
 ]
 types = [
   "scipy-stubs >=1.16.0.2",
@@ -74,7 +74,7 @@ required-environments = [
 ]
 
 [tool.uv.sources]
-# lenskit = [{ index = "lenskit" }]
+lenskit = [{ index = "lenskit" }]
 # triton = [
 #  { index = "pytorch-cuda", group = "cuda" },
 # ]

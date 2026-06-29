@@ -1815,8 +1815,8 @@ wheels = [
 
 [[package]]
 name = "lenskit"
-version = "2026.2.1"
-source = { registry = "https://pypi.org/simple" }
+version = "2026.2.2.dev40+g10997ad5"
+source = { registry = "https://pypi.lenskit.org/lenskit-dev/" }
 dependencies = [
     { name = "click" },
     { name = "humanize" },
@@ -1842,14 +1842,14 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "xopen" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f7/7a/0348174212e4bb476ff52aa884967e4db0e3c1b97644cd3c12f6337c6eda/lenskit-2026.2.1.tar.gz", hash = "sha256:7751faa0fb4ebe5f9ae3e0f0d47d80800869b138757186e1ab4161ec3d58a263", size = 2984411, upload-time = "2026-06-01T02:01:41.135Z" }
+sdist = { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2026.2.2.dev40%2Bg10997ad5.tar.gz" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/98/69/459d324a106b1beb3c83860ebd1f59bf43875621364a9d101f03b264bc16/lenskit-2026.2.1-cp312-abi3-macosx_11_0_arm64.whl", hash = "sha256:19e6892c6cc6411c6b0ee10f42c68e7b05089c79b5b4b585a05800c8a83af904", size = 3209406, upload-time = "2026-06-01T02:01:27.551Z" },
-    { url = "https://files.pythonhosted.org/packages/49/52/329db53ab4229e8c2ba2beeb8ad5d78b579130290d03855947c68abb066d/lenskit-2026.2.1-cp312-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:f720eec124411dc86327d0c6c87412da998a21b5abf98c6158031284c5eb2070", size = 9416028, upload-time = "2026-06-01T02:01:29.382Z" },
-    { url = "https://files.pythonhosted.org/packages/36/c4/935e5d3ada72d8263ca3819c89db008ef55ff7410d5669747a4c6851f765/lenskit-2026.2.1-cp312-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:eb03aa82e6f57b6622b4da0a76b14dd89649a06d17b7c4391b1c0b871604368b", size = 9929056, upload-time = "2026-06-01T02:01:31.14Z" },
-    { url = "https://files.pythonhosted.org/packages/fc/67/2b2e8ecf6975eb900da30ada677e780810bb2d13d99fe7b96b9bcab88ccc/lenskit-2026.2.1-cp314-cp314t-macosx_11_0_arm64.whl", hash = "sha256:786ab632ae5027e69e8a0440a0eac559139cb9ce10035128ed85cded4998962f", size = 3207713, upload-time = "2026-06-01T02:01:34.912Z" },
-    { url = "https://files.pythonhosted.org/packages/1d/77/9e1024cded490d62458b6ca546543d57254df7503ed19e08d010080a48dc/lenskit-2026.2.1-cp314-cp314t-manylinux_2_28_aarch64.whl", hash = "sha256:a68ac6fa88b169a65cc3046238c6774aab958a62bebe822d379682c425fab6f9", size = 9403416, upload-time = "2026-06-01T02:01:36.514Z" },
-    { url = "https://files.pythonhosted.org/packages/b5/c8/ab3d37e995af84678085abecc5d4a4f84acde19197d4fa03eb2930b1ece8/lenskit-2026.2.1-cp314-cp314t-manylinux_2_28_x86_64.whl", hash = "sha256:417e27bdc69f722a6f0c782e4274635034d34f40a2766e17fcbc001e934839d7", size = 9917208, upload-time = "2026-06-01T02:01:38.982Z" },
+    { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2026.2.2.dev40%2Bg10997ad5-cp312-abi3-macosx_11_0_arm64.whl" },
+    { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2026.2.2.dev40%2Bg10997ad5-cp312-abi3-manylinux_2_28_aarch64.whl" },
+    { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2026.2.2.dev40%2Bg10997ad5-cp312-abi3-manylinux_2_28_x86_64.whl" },
+    { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2026.2.2.dev40%2Bg10997ad5-cp314-cp314t-macosx_11_0_arm64.whl" },
+    { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2026.2.2.dev40%2Bg10997ad5-cp314-cp314t-manylinux_2_28_aarch64.whl" },
+    { url = "https://inertial.cci.drexel.edu/dist/lenskit-dev/packages/lenskit-2026.2.2.dev40%2Bg10997ad5-cp314-cp314t-manylinux_2_28_x86_64.whl" },
 ]
 
 [[package]]
@@ -1940,7 +1940,7 @@ dev = [
     { name = "jinja2", specifier = "~=3.1" },
     { name = "jsonnet", specifier = "~=0.22.0" },
     { name = "jupyterlab", specifier = ">=3" },
-    { name = "lenskit", specifier = ">=2026.2.0" },
+    { name = "lenskit", specifier = ">=2026.2.2.dev40,<2026.3.0.dev1", index = "https://pypi.lenskit.org/lenskit-dev/" },
     { name = "numpy", specifier = "~=2.0" },
     { name = "optuna", specifier = "~=4.0" },
     { name = "parquet-tools", specifier = "~=0.2.16" },
@@ -1954,7 +1954,7 @@ dev = [
 ]
 run = [
     { name = "hyperopt", specifier = "~=0.2.7" },
-    { name = "lenskit", specifier = ">=2026.2.0" },
+    { name = "lenskit", specifier = ">=2026.2.2.dev40,<2026.3.0.dev1", index = "https://pypi.lenskit.org/lenskit-dev/" },
     { name = "numpy", specifier = "~=2.0" },
     { name = "optuna", specifier = "~=4.0" },
     { name = "ray", extras = ["default", "tune"], specifier = "~=2.45" },
