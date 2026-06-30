@@ -32,6 +32,38 @@ url = "https://github.com/dprint/dprint/releases/download/0.54.0/dprint-x86_64-a
 checksum = "sha256:3fd881acaf7fd4fbc5d07c3030ce79b965a4cb7128fe0eb1ebe725188ccd2715"
 url = "https://github.com/dprint/dprint/releases/download/0.54.0/dprint-x86_64-pc-windows-msvc.zip"
 
+[[tools."forgejo:mdekstrand/rust-jim"]]
+version = "0.4.0-beta2"
+backend = "forgejo:mdekstrand/rust-jim"
+
+[tools."forgejo:mdekstrand/rust-jim".options]
+matching = "guartcl"
+
+[tools."forgejo:mdekstrand/rust-jim"."platforms.linux-arm64"]
+url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-aarch64-unknown-linux-gnu.tgz"
+url_api = "https://codeberg.org/attachments/f90f1afa-eab0-4dd1-94ce-f3dc50004629"
+
+[tools."forgejo:mdekstrand/rust-jim"."platforms.linux-arm64-musl"]
+url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-aarch64-unknown-linux-musl.tgz"
+url_api = "https://codeberg.org/attachments/d29412e1-68e3-4153-8076-77c2ed0d0051"
+
+[tools."forgejo:mdekstrand/rust-jim"."platforms.linux-x64"]
+checksum = "blake3:86d1220ff558e8d937f2d7d97ac251589f34a9ed3010196b6855be8d18c31dab"
+url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-x86_64-unknown-linux-gnu.tgz"
+url_api = "https://codeberg.org/attachments/1f655b2f-e2ec-48f2-9179-718c2cd49e7a"
+
+[tools."forgejo:mdekstrand/rust-jim"."platforms.linux-x64-musl"]
+url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-x86_64-unknown-linux-musl.tgz"
+url_api = "https://codeberg.org/attachments/1cdcceb3-29b8-424e-ae06-6d7b8966dab4"
+
+[tools."forgejo:mdekstrand/rust-jim"."platforms.macos-arm64"]
+url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-aarch64-apple-darwin.tgz"
+url_api = "https://codeberg.org/attachments/e8af9238-9144-40ba-b86a-c1a0b69b0b0a"
+
+[tools."forgejo:mdekstrand/rust-jim"."platforms.macos-x64"]
+url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-x86_64-apple-darwin.tgz"
+url_api = "https://codeberg.org/attachments/94a03208-0e4c-4023-b0a6-1b2b42724349"
+
 [[tools."github:quarto-dev/quarto-cli"]]
 version = "1.9.38"
 backend = "github:quarto-dev/quarto-cli"
@@ -134,6 +166,10 @@ url = "https://github.com/jdx/hk/releases/download/v1.48.0/hk-x86_64-pc-windows-
 [[tools."pipx:tclint"]]
 version = "0.8.0"
 backend = "pipx:tclint"
+
+[[tools.tombi]]
+version = "1.1.5"
+backend = "aqua:tombi-toml/tombi"
 
 [[tools.usage]]
 version = "3.5.3"
