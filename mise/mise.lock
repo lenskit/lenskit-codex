@@ -33,36 +33,32 @@ checksum = "sha256:3fd881acaf7fd4fbc5d07c3030ce79b965a4cb7128fe0eb1ebe725188ccd2
 url = "https://github.com/dprint/dprint/releases/download/0.54.0/dprint-x86_64-pc-windows-msvc.zip"
 
 [[tools."forgejo:mdekstrand/rust-jim"]]
-version = "0.4.0-beta2"
+version = "0.4.0-beta3"
 backend = "forgejo:mdekstrand/rust-jim"
 
 [tools."forgejo:mdekstrand/rust-jim".options]
 matching = "guartcl"
 
 [tools."forgejo:mdekstrand/rust-jim"."platforms.linux-arm64"]
-url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-aarch64-unknown-linux-gnu.tgz"
-url_api = "https://codeberg.org/attachments/f90f1afa-eab0-4dd1-94ce-f3dc50004629"
+url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta3/guartcl-0.4.0-beta3-aarch64-unknown-linux-gnu.tgz"
+url_api = "https://codeberg.org/attachments/37281b8b-380d-4d0e-b2c5-ae0b0fafb07a"
 
 [tools."forgejo:mdekstrand/rust-jim"."platforms.linux-arm64-musl"]
-url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-aarch64-unknown-linux-musl.tgz"
-url_api = "https://codeberg.org/attachments/d29412e1-68e3-4153-8076-77c2ed0d0051"
+url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta3/guartcl-0.4.0-beta3-aarch64-unknown-linux-musl.tgz"
+url_api = "https://codeberg.org/attachments/5fd69676-bd29-48c2-8d3d-6a866ff713f6"
 
 [tools."forgejo:mdekstrand/rust-jim"."platforms.linux-x64"]
-checksum = "blake3:86d1220ff558e8d937f2d7d97ac251589f34a9ed3010196b6855be8d18c31dab"
-url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-x86_64-unknown-linux-gnu.tgz"
-url_api = "https://codeberg.org/attachments/1f655b2f-e2ec-48f2-9179-718c2cd49e7a"
+checksum = "blake3:dbd5e03daab61ffe748d6f397d7f86cbe83e5651a2570f6eb7f6cef1ba7c0e05"
+url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta3/guartcl-0.4.0-beta3-x86_64-unknown-linux-gnu.tgz"
+url_api = "https://codeberg.org/attachments/10cb8849-43d4-4858-b927-30c0443dfbee"
 
 [tools."forgejo:mdekstrand/rust-jim"."platforms.linux-x64-musl"]
-url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-x86_64-unknown-linux-musl.tgz"
-url_api = "https://codeberg.org/attachments/1cdcceb3-29b8-424e-ae06-6d7b8966dab4"
+url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta3/guartcl-0.4.0-beta3-x86_64-unknown-linux-musl.tgz"
+url_api = "https://codeberg.org/attachments/e15e64e8-741a-4234-914b-b70485425f8b"
 
 [tools."forgejo:mdekstrand/rust-jim"."platforms.macos-arm64"]
-url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-aarch64-apple-darwin.tgz"
-url_api = "https://codeberg.org/attachments/e8af9238-9144-40ba-b86a-c1a0b69b0b0a"
-
-[tools."forgejo:mdekstrand/rust-jim"."platforms.macos-x64"]
-url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta2/guartcl-0.4.0-beta2-x86_64-apple-darwin.tgz"
-url_api = "https://codeberg.org/attachments/94a03208-0e4c-4023-b0a6-1b2b42724349"
+url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta3/guartcl-0.4.0-beta3-aarch64-apple-darwin.tgz"
+url_api = "https://codeberg.org/attachments/fd1b82c2-16ba-402a-9769-c01ebce196fe"
 
 [[tools."github:quarto-dev/quarto-cli"]]
 version = "1.9.38"
@@ -170,6 +166,34 @@ backend = "pipx:tclint"
 [[tools.tombi]]
 version = "1.1.5"
 backend = "aqua:tombi-toml/tombi"
+
+[tools.tombi."platforms.linux-arm64"]
+checksum = "sha256:32cde3d006175407f44535770747b4629c27776fde62a0cbb1f891e8361526dc"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.5/tombi-cli-1.1.5-aarch64-unknown-linux-musl.tar.gz"
+
+[tools.tombi."platforms.linux-arm64-musl"]
+checksum = "sha256:32cde3d006175407f44535770747b4629c27776fde62a0cbb1f891e8361526dc"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.5/tombi-cli-1.1.5-aarch64-unknown-linux-musl.tar.gz"
+
+[tools.tombi."platforms.linux-x64"]
+checksum = "sha256:533d47fe516468fa0abc245050dbc120fcbfa4399fdbfebe863758dc9d95f5fe"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.5/tombi-cli-1.1.5-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.tombi."platforms.linux-x64-musl"]
+checksum = "sha256:533d47fe516468fa0abc245050dbc120fcbfa4399fdbfebe863758dc9d95f5fe"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.5/tombi-cli-1.1.5-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.tombi."platforms.macos-arm64"]
+checksum = "sha256:bb6c09efabc5114d6ae7e188fc72ce28e2b8e378f79835d5601e6bc038bca0ea"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.5/tombi-cli-1.1.5-aarch64-apple-darwin.tar.gz"
+
+[tools.tombi."platforms.macos-x64"]
+checksum = "sha256:c9c4328970fe46f17edbafea4b4880bfa9e7eaa8baab9baf0813a47e99af452e"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.5/tombi-cli-1.1.5-x86_64-apple-darwin.tar.gz"
+
+[tools.tombi."platforms.windows-x64"]
+checksum = "sha256:c6a4234c17cff35f6ab687b35bea85d63bb1b91c96a70bde043bd1c9dc260dea"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.5/tombi-cli-1.1.5-x86_64-pc-windows-msvc.zip"
 
 [[tools.usage]]
 version = "3.5.3"
