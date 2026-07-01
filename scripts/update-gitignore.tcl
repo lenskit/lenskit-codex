@@ -42,7 +42,8 @@ foreach file $yaml_files {
     set pipe [parse yaml $file]
     set stages [dict get $pipe stages]
     msg -debug "scanning [llength $stages] stages"
-    foreach stage $stages {
+    foreach {name stage} $stages {
+        msg -debug "scanning stage $stage"
         set sdir $dir
         if {[dict exists $stage wdir]} {
             set sdir [file join $sdir [dict get $stage wdir]]
