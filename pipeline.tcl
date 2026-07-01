@@ -2,8 +2,19 @@ package require oscmd
 package require logging
 package require kvlookup
 package require path
+package require frontmatter
 
-set documents [exec python scripts/parse-to-tcl.py --all-headers 2>@stderr]
+msg -debug "scanning for Quarto documents"
+set doc_files [exec fd -g *.qmd -E _*]
+msg "reading front-matter from [llength $doc_files]"
+
+set documents {}
+foreach doc $doc_files {
+    msg -debug "loading frontmatter from $doc"
+    set header [doc load-meta $doc]
+    dict set documents $doc $header
+}
+
 msg "loaded [dict size $documents] documents"
 
 set names [lsort [dict keys $documents]]
