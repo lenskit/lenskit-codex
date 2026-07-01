@@ -1,6 +1,5 @@
 # Code for managing individual runs and generating their DVC output
 package provide runs 0.1
-package require parse
 package require path
 
 # define "run" - an ensemble command to generate stages for
@@ -22,7 +21,7 @@ namespace eval ::run {
         if {[file exists $split_spec]} {
             # this is a split specified in toml
             set info(split_in) $split_spec
-            set split_info [parse toml $split_spec]
+            set split_info [parse toml -file $split_spec]
             if {[dict get $split_info method] eq "crossfold"} {
                 # crossfold requires the parquet file
                 set info(split_deps) [list dataset splits/$split.parquet]

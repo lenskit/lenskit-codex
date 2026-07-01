@@ -9,7 +9,6 @@ from pathlib import Path
 from typing import Literal
 
 import click
-import ray.tune.utils.log
 from humanize import metric as human_metric
 from humanize import precisedelta
 from lenskit.logging import get_logger, stdout_console
@@ -76,6 +75,7 @@ def run_tune(
     assert metric is not None
 
     if use_ray:
+        import ray.tune.utils.log
         from lenskit.tuning import RayPipelineTuner
 
         ray.tune.utils.log.set_verbosity(0)
@@ -111,10 +111,9 @@ def run_tune(
         fail = RuntimeError("runs failed")
 
     best = results.best_result()
-    best_cfg = results.best_config()
-    fields = {metric: best[metric], "config": best_cfg}
+    results.save_results(out)
 
-    log.info("finished hyperparameter search", **fields)
+    log.info("finished hyperparameter search", {metric: best[metric]})
     console.print("[bold yellow]Hyperparameter search completed![/bold yellow]")
     console.print("Best {} is [bold red]{:.3f}[/bold red]".format(metric, best[metric]))
     assert task.duration is not None
@@ -128,24 +127,9 @@ def run_tune(
         )
     console.print(line)
 
-    with open(out / "tuning-task.json", "wt") as jsf:
-        print(task.model_dump_json(indent=2), file=jsf)
-
-    with open(out / "trials.ndjson", "wt") as jsf:
-        for result in results.trials():
-            print(to_json(result).decode(), file=jsf)
-
-    best_out = results.best_result()
-    assert best_out is not None
-
-    if tuner.iterative:
-        with open(out / "iterations.ndjson", "wt") as jsf:
-            for si in results.epochs():
-                print(to_json(si).decode(), file=jsf)
-
     log.info("saving final tuned configuration")
     with open(out.with_suffix(".json"), "wt") as jsf:
-        print(to_json(best_out).decode(), file=jsf)
+        print(to_json(best).decode(), file=jsf)
     with open(out.with_name(out.stem + "-pipeline.json"), "wt") as jsf:
         print(results.best_pipeline().model_dump_json(indent=2), file=jsf)
 

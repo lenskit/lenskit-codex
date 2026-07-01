@@ -1,4 +1,4 @@
-#!/usr/bin/env jimsh
+#!/usr/bin/env tclsh
 
 package require logging
 package require dvc

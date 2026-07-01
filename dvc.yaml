@@ -59,15 +59,6 @@ stages:
     outs:
       - _freeze/movielens/ML100K/summary
 
-  page/movielens/ML100K/tuning:
-    cmd: quarto render movielens/ML100K/tuning.qmd
-    deps:
-      - _quarto.yml
-      - movielens/ML100K/tuning.qmd
-      - movielens/ML100K/sweeps/random
-    outs:
-      - _freeze/movielens/ML100K/tuning
-
   page/movielens/ML10M/description:
     cmd: quarto render movielens/ML10M/description.qmd
     deps:
@@ -96,15 +87,6 @@ stages:
     outs:
       - _freeze/movielens/ML10M/summary
 
-  page/movielens/ML10M/tuning:
-    cmd: quarto render movielens/ML10M/tuning.qmd
-    deps:
-      - _quarto.yml
-      - movielens/ML10M/tuning.qmd
-      - movielens/ML10M/sweeps/temporal
-    outs:
-      - _freeze/movielens/ML10M/tuning
-
   page/movielens/ML1M/description:
     cmd: quarto render movielens/ML1M/description.qmd
     deps:
@@ -123,15 +105,6 @@ stages:
       - movielens/ML1M/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML1M/summary
-
-  page/movielens/ML1M/tuning:
-    cmd: quarto render movielens/ML1M/tuning.qmd
-    deps:
-      - _quarto.yml
-      - movielens/ML1M/tuning.qmd
-      - movielens/ML1M/sweeps/random
-    outs:
-      - _freeze/movielens/ML1M/tuning
 
   page/movielens/ML20M/description:
     cmd: quarto render movielens/ML20M/description.qmd
@@ -161,15 +134,6 @@ stages:
     outs:
       - _freeze/movielens/ML20M/summary
 
-  page/movielens/ML20M/tuning:
-    cmd: quarto render movielens/ML20M/tuning.qmd
-    deps:
-      - _quarto.yml
-      - movielens/ML20M/tuning.qmd
-      - movielens/ML20M/sweeps/temporal
-    outs:
-      - _freeze/movielens/ML20M/tuning
-
   page/movielens/ML25M/description:
     cmd: quarto render movielens/ML25M/description.qmd
     deps:
@@ -197,15 +161,6 @@ stages:
       - movielens/ML25M/run-user-metrics.parquet
     outs:
       - _freeze/movielens/ML25M/summary
-
-  page/movielens/ML25M/tuning:
-    cmd: quarto render movielens/ML25M/tuning.qmd
-    deps:
-      - _quarto.yml
-      - movielens/ML25M/tuning.qmd
-      - movielens/ML25M/sweeps/temporal
-    outs:
-      - _freeze/movielens/ML25M/tuning
 
   page/movielens/ML32M/description:
     cmd: quarto render movielens/ML32M/description.qmd
@@ -235,15 +190,6 @@ stages:
     outs:
       - _freeze/movielens/ML32M/summary
 
-  page/movielens/ML32M/tuning:
-    cmd: quarto render movielens/ML32M/tuning.qmd
-    deps:
-      - _quarto.yml
-      - movielens/ML32M/tuning.qmd
-      - movielens/ML32M/sweeps/temporal
-    outs:
-      - _freeze/movielens/ML32M/tuning
-
   page/movielens/MLLT/description:
     cmd: quarto render movielens/MLLT/description.qmd
     deps:
@@ -262,15 +208,6 @@ stages:
       - movielens/MLLT/run-user-metrics.parquet
     outs:
       - _freeze/movielens/MLLT/summary
-
-  page/movielens/MLLT/tuning:
-    cmd: quarto render movielens/MLLT/tuning.qmd
-    deps:
-      - _quarto.yml
-      - movielens/MLLT/tuning.qmd
-      - movielens/MLLT/sweeps/temporal
-    outs:
-      - _freeze/movielens/MLLT/tuning
 
   page/movielens/index:
     cmd: quarto render movielens/index.qmd
