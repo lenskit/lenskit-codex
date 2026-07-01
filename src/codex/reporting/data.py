@@ -1,8 +1,6 @@
 import pandas as pd
 
-from codex.layout import load_data_info
-
-DATA_INFO = load_data_info()
+DATA_INFO = None
 
 
 def filter_part(data: pd.DataFrame, part: str):
