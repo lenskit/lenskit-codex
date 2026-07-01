@@ -2,7 +2,6 @@
 package provide models 0.1
 package require logging
 package require path
-package require parse
 
 # Ensemble command for listing and querying recommender models
 namespace eval ::model {
@@ -22,7 +21,7 @@ namespace eval ::model {
         set fn [path resolve -project models $model info.toml]
         if {[file exists $fn]} {
             msg -debug "reading $fn"
-            set info [parse toml $fn]
+            set info [parse toml -file $fn]
         }
 
         if {[dict exists $info match include]} {
