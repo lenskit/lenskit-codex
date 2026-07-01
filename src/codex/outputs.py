@@ -12,11 +12,13 @@ from typing import IO, Literal
 
 import structlog
 import zstandard
-from lenskit.data import ID, ItemList, ListILC
+from lenskit.batch import BatchResults
+from lenskit.data import ID, ItemList, ItemListCollection, ListILC
 from pyarrow.parquet import ParquetDataset, ParquetWriter, write_table
 from pydantic import BaseModel, JsonValue
 
 from codex.cfgid import ConfigData
+from codex.measurement import prediction_collector, topn_collector
 
 _log = structlog.stdlib.get_logger(__name__)
 
@@ -33,35 +35,43 @@ class RunOutput:
         self._log = _log.bind(path=str(path))
 
     @property
-    def training_log_path(self):
+    def training_log_path(self) -> Path:
         return self.path / "training.json"
 
     @property
-    def inference_log_path(self):
+    def inference_log_path(self) -> Path:
         return self.path / "inference.json"
 
     @property
-    def run_log_path(self):
+    def run_log_path(self) -> Path:
         return self.path / "runs.json"
 
     @property
-    def user_metric_path(self):
-        return self.path / "user-metrics.ndjson.zst"
+    def summary_metric_path(self) -> Path:
+        return self.path / "summary-metrics.ndjson"
 
     @property
-    def predictions_hive_path(self):
+    def user_metric_path(self) -> Path:
+        return self.path / "user-metrics.parquet"
+
+    @property
+    def user_metric_hive_path(self) -> Path:
+        return self.path / "user-metrics"
+
+    @property
+    def predictions_hive_path(self) -> Path:
         return self.path / "predictions"
 
     @property
-    def recommendations_hive_path(self):
+    def recommendations_hive_path(self) -> Path:
         return self.path / "recommendations"
 
     @property
-    def predictions_path(self):
+    def predictions_path(self) -> Path:
         return self.path / "predictions.parquet"
 
     @property
-    def recommendations_path(self):
+    def recommendations_path(self) -> Path:
         return self.path / "recommendations.parquet"
 
     def initialize(self):
@@ -79,6 +89,36 @@ class RunOutput:
     def user_metric_collector(self) -> NDJSONCollector:
         self._log.debug("opening metric output")
         return NDJSONCollector(self.user_metric_path)
+
+    def save_results(self, results: BatchResults, **shards):
+        for out in results.outputs:
+            dir = shard_path(self.path / out, **shards)
+
+            path = dir / f"{out}.parquet"
+            res = results.output(out)
+            _log.info("saving to %s", path)
+            res.save_parquet(path)
+
+    def save_metrics(self, results: BatchResults, test: ItemListCollection, **shards):
+        topn = topn_collector()
+        topn.add_collection_measurements(results.output("recommendations"), test)
+        user_metrics = topn.list_metrics()
+        metrics = topn.summary_metrics()
+        if "predictions" in results.outputs:
+            pred = prediction_collector()
+            pred.add_collection_measurements(results.output("predictions"), test)
+            user_metrics = user_metrics.join(pred.list_metrics(), how="left")
+            metrics |= pred.summary_metrics()
+
+        _log.debug("saving metrics to %s", self.summary_metric_path)
+        metrics = shards | metrics
+        with open(self.summary_metric_path, "at") as smf:
+            print(json.dumps(metrics), file=smf)
+
+        um_out = shard_path(self.user_metric_hive_path, **shards)
+        um_out.mkdir(exist_ok=True, parents=True)
+        _log.debug("saving user metrics to %s", um_out)
+        user_metrics.reset_index().to_parquet(um_out / "user-metrics.parquet", index=False)
 
     def record_log(self, rec_type: RunLog, data: ConfigData | BaseModel):
         """
@@ -103,13 +143,21 @@ class RunOutput:
             )
         if self.predictions_hive_path.exists():
             self._repack("predictions", self.predictions_hive_path, self.predictions_path)
+        if self.user_metric_hive_path.exists():
+            self._repack("user-metrics", self.user_metric_hive_path, self.user_metric_path)
 
     def _repack(self, name: str, hive: Path, flat: Path):
-        self._log.info("repacking hive", output=name)
+        log = self._log.bind(output=name)
+        log.info("repacking hive")
+
+        log.debug("loading hive")
         ds = ParquetDataset(hive)
         tbl = ds.read()
+
+        log.debug("saving hive")
         write_table(tbl, flat, compression="zstd")
-        self._log.debug("removing hive", output=name)
+
+        log.debug("removing hive")
         shutil.rmtree(hive)
 
     def __str__(self):
@@ -198,7 +246,7 @@ class ItemListCollector:
         self.batch_size = batch_size
         self.key_fields = key_fields.copy()
 
-        self.batch = ListILC(self.key_fields)  # type: ignore
+        self.batch = ListILC(self.key_fields)
 
     def write_list(self, list: ItemList, *key: ID, **kw: ID):
         self.batch.add(list, *key, **kw)
@@ -222,4 +270,11 @@ class ItemListCollector:
 
                 self.writer.write_batch(rb)
 
-            self.batch = ListILC(self.key_fields)  # type: ignore
+            self.batch = ListILC(self.key_fields)
+
+
+def shard_path(base: Path, **shards: str | int | float | bool) -> Path:
+    path = base
+    for k, v in shards.items():
+        path = path / f"{k}={v}"
+    return path
