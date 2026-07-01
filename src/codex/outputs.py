@@ -16,6 +16,7 @@ from lenskit.batch import BatchResults
 from lenskit.data import ID, ItemList, ItemListCollection, ListILC
 from pyarrow.parquet import ParquetDataset, ParquetWriter, write_table
 from pydantic import BaseModel, JsonValue
+from xopen import xopen
 
 from codex.cfgid import ConfigData
 from codex.measurement import prediction_collector, topn_collector
@@ -52,7 +53,7 @@ class RunOutput:
 
     @property
     def user_metric_path(self) -> Path:
-        return self.path / "user-metrics.parquet"
+        return self.path / "user-metrics.ndjson.zst"
 
     @property
     def user_metric_hive_path(self) -> Path:
@@ -85,10 +86,6 @@ class RunOutput:
 
         self._log.debug("ensuring output directory exists")
         self.path.mkdir(exist_ok=True, parents=True)
-
-    def user_metric_collector(self) -> NDJSONCollector:
-        self._log.debug("opening metric output")
-        return NDJSONCollector(self.user_metric_path)
 
     def save_results(self, results: BatchResults, **shards):
         for out in results.outputs:
@@ -144,9 +141,13 @@ class RunOutput:
         if self.predictions_hive_path.exists():
             self._repack("predictions", self.predictions_hive_path, self.predictions_path)
         if self.user_metric_hive_path.exists():
-            self._repack("user-metrics", self.user_metric_hive_path, self.user_metric_path)
+            self._repack(
+                "user-metrics", self.user_metric_hive_path, self.user_metric_path, format="json"
+            )
 
-    def _repack(self, name: str, hive: Path, flat: Path):
+    def _repack(
+        self, name: str, hive: Path, flat: Path, *, format: Literal["json", "parquet"] = "parquet"
+    ):
         log = self._log.bind(output=name)
         log.info("repacking hive")
 
@@ -155,7 +156,14 @@ class RunOutput:
         tbl = ds.read()
 
         log.debug("saving hive")
-        write_table(tbl, flat, compression="zstd")
+        match format:
+            case "parquet":
+                write_table(tbl, flat, compression="zstd")
+            case "json":
+                # FIXME Make this more efficient
+                with xopen(flat, "wt") as out:
+                    for row in tbl.to_pylist():
+                        print(json.dumps(row), file=out)
 
         log.debug("removing hive")
         shutil.rmtree(hive)

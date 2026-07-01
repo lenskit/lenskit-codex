@@ -4,8 +4,8 @@ from pathlib import Path
 import click
 import structlog
 from lenskit import Pipeline
+from lenskit.batch import BatchPipelineRunner
 
-from codex.inference import recommend_and_save
 from codex.layout import model_dir
 from codex.outputs import RunOutput
 from codex.runlog import CodexTask, DataModel, ScorerModel
@@ -81,7 +81,6 @@ def generate(
             scorer=ScorerModel(name=model),
             data=data_info,
         ) as root_task,
-        output.user_metric_collector() as metric_out,
     ):
         split_set = load_split_set(split)
         parts = select_parts(split_set, test_part)
@@ -95,7 +94,8 @@ def generate(
             pipe, task = train_task(pipeline, data.train, data_info)
             output.record_log("training", task)
 
-            shard = f"part={part}"
+            is_predictor = pipe.node("rating-predictor", missing=None) is not None
+
             with CodexTask(
                 label=f"recommend {model}",
                 tags=["recommend"],
@@ -103,21 +103,16 @@ def generate(
                 scorer=ScorerModel(name=model, config=pipe.config.components["scorer"].config),
                 data=data_info,
             ) as task:
-                rec_out = output.recommendations_hive_path / shard / "data.parquet"
-                if pipe.node("rating-predictor", missing=None) is not None:
-                    pred_out = output.predictions_hive_path / shard / "data.parquet"
-                else:
-                    pred_out = None
+                runner = BatchPipelineRunner()
+                runner.recommend(n=list_length)
+                if is_predictor:
+                    runner.predict()
 
-                recommend_and_save(
-                    pipe,
-                    data.test,
-                    list_length,
-                    rec_out,
-                    pred_out,
-                    metric_out,
-                    meta={"part": part},
-                )
+                log.info("starting recommendation run")
+                results = runner.run(pipe, data.test)
+
+                output.save_results(results, part=part)
+                output.save_metrics(results, data.test, part=part)
 
             output.record_log("inference", task)
 
