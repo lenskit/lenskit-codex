@@ -3261,28 +3261,34 @@ stages:
       size: 696335
       nfiles: 4
   sweep-als-biased-random-optuna:
-    cmd: lenskit codex search --split=splits/random.toml --test-part=0 
-      --sample-count=100 --optuna --metric=RMSE als-biased 
-      sweeps/random/als-biased-optuna
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 
+      als-biased sweeps/random/optuna/als-biased
     deps:
-    - path: ../../src/codex/models/als_biased.py
+    - path: ../../models/als-biased/search.toml
       hash: md5
-      md5: 1d35e9507610209ce0fbf7e3173c944a
-      size: 539
+      md5: 30ac07f54b5c7ad5353b92208cbdef72
+      size: 468
     - path: splits/random.parquet
       hash: md5
-      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
-      size: 56269
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    params:
+      ../../codex.toml:
+        tuning.optuna.points: 30
     outs:
-    - path: sweeps/random/als-biased-optuna
+    - path: sweeps/random/optuna/als-biased
       hash: md5
-      md5: 992d274c8cf8661026d9e50d2ff83843.dir
-      size: 1422961
-      nfiles: 5
-    - path: sweeps/random/als-biased-optuna.json
+      md5: 76ac46f081595aeb77ac5712cd75e388.dir
+      size: 376083
+      nfiles: 10
+    - path: sweeps/random/optuna/als-biased-pipeline.json
       hash: md5
-      md5: 4bbf70900afbca346b9ced81aac9ab66
-      size: 742
+      md5: b50f56ce4f6863d9d70b76ba05332cc5
+      size: 2661
+    - path: sweeps/random/optuna/als-biased.json
+      hash: md5
+      md5: dfdde083c82fa77f7f0ad0839adc9277
+      size: 282
   run-random-optuna-best-als-biased:
     cmd: lenskit codex generate --param-file 
       sweeps/random/als-biased-optuna.json --ds-name=ML100K 
@@ -4338,3 +4344,63 @@ stages:
       hash: md5
       md5: d47eca8ea1fd28f1b6d4017e90d50b4b
       size: 96
+  search-als-biased-random-optuna:
+    cmd: lenskit codex tune --on-error=continue --split=splits/random.toml 
+      --test-part=0 --sample-count=50 als-biased 
+      searches/random/optuna/als-biased
+    deps:
+    - path: ../../models/als-biased/pipeline.toml
+      hash: md5
+      md5: 617ea3225f6fab63a108ee9504325727
+      size: 177
+    - path: ../../models/als-biased/search.toml
+      hash: md5
+      md5: 30ac07f54b5c7ad5353b92208cbdef72
+      size: 468
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/als-biased
+      hash: md5
+      md5: d907f2cdb7df9e8091e9fe78acb6a7db.dir
+      size: 588495
+      nfiles: 10
+    - path: searches/random/optuna/als-biased-pipeline.json
+      hash: md5
+      md5: a8c3da90844f159889c18c57c2c35957
+      size: 2660
+    - path: searches/random/optuna/als-biased.json
+      hash: md5
+      md5: b88ac7f89c10013d4723472a730de898
+      size: 282
+  run-random-als-biased-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/als-biased-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/als-biased-optuna-tuned 
+      als-biased
+    deps:
+    - path: ../../models/als-biased/pipeline.toml
+      hash: md5
+      md5: 617ea3225f6fab63a108ee9504325727
+      size: 177
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/als-biased-pipeline.json
+      hash: md5
+      md5: a8c3da90844f159889c18c57c2c35957
+      size: 2660
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/als-biased-optuna-tuned
+      hash: md5
+      md5: ea48eb0b234d4bbf5b3998985261967f.dir
+      size: 751824
+      nfiles: 6
