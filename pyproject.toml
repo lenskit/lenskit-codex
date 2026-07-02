@@ -34,10 +34,7 @@ run = [
   "numpy ~=2.0",
   "lenskit >=2026.2.2.dev40,<2026.3.0.dev1",
 ]
-types = [
-  "scipy-stubs >=1.16.0.2",
-  "pyarrow-stubs >=19.2",
-]
+types = ["scipy-stubs >=1.16.0.2", "pyarrow-stubs >=19.2"]
 dev = [
   "jinja2 ~=3.1",
   # "line_profiler ~=4.1; platform_machine != 'aarch64'",
@@ -69,7 +66,9 @@ required-environments = [
 
 [tool.uv.sources]
 # lenskit = [{ index = "lenskit" }]
-lenskit = [{ git = "https://github.com/mdekstrand/lkpy.git", branch = "fix/tuning-results" }]
+lenskit = [
+  { git = "https://github.com/mdekstrand/lkpy.git", branch = "codex-head" },
+]
 # triton = [
 #  { index = "pytorch-cuda", group = "cuda" },
 # ]
