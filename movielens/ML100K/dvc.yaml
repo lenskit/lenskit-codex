@@ -30,7 +30,7 @@ stages:
     outs:
       - random.parquet
 
-  sweep-als-biased-random-optuna:
+  search-als-biased-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 als-biased sweeps/random/optuna/als-biased
     params:
       - ../../codex.toml:
@@ -45,7 +45,7 @@ stages:
       - sweeps/random/optuna/als-biased-pipeline.json:
           cache: false
 
-  sweep-als-implicit-random-optuna:
+  search-als-implicit-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 als-implicit sweeps/random/optuna/als-implicit
     params:
       - ../../codex.toml:
@@ -60,7 +60,7 @@ stages:
       - sweeps/random/optuna/als-implicit-pipeline.json:
           cache: false
 
-  sweep-bias-random-optuna:
+  search-bias-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 bias sweeps/random/optuna/bias
     params:
       - ../../codex.toml:
@@ -75,7 +75,7 @@ stages:
       - sweeps/random/optuna/bias-pipeline.json:
           cache: false
 
-  sweep-ease-random-optuna:
+  search-ease-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 ease sweeps/random/optuna/ease
     params:
       - ../../codex.toml:
@@ -90,7 +90,7 @@ stages:
       - sweeps/random/optuna/ease-pipeline.json:
           cache: false
 
-  sweep-flexmf-bpr-random-optuna:
+  search-flexmf-bpr-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-bpr sweeps/random/optuna/flexmf-bpr
     params:
       - ../../codex.toml:
@@ -105,7 +105,7 @@ stages:
       - sweeps/random/optuna/flexmf-bpr-pipeline.json:
           cache: false
 
-  sweep-flexmf-explicit-random-optuna:
+  search-flexmf-explicit-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-explicit sweeps/random/optuna/flexmf-explicit
     params:
       - ../../codex.toml:
@@ -120,7 +120,7 @@ stages:
       - sweeps/random/optuna/flexmf-explicit-pipeline.json:
           cache: false
 
-  sweep-flexmf-logistic-random-optuna:
+  search-flexmf-logistic-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-logistic sweeps/random/optuna/flexmf-logistic
     params:
       - ../../codex.toml:
@@ -135,7 +135,7 @@ stages:
       - sweeps/random/optuna/flexmf-logistic-pipeline.json:
           cache: false
 
-  sweep-flexmf-warp-random-optuna:
+  search-flexmf-warp-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-warp sweeps/random/optuna/flexmf-warp
     params:
       - ../../codex.toml:
@@ -150,7 +150,7 @@ stages:
       - sweeps/random/optuna/flexmf-warp-pipeline.json:
           cache: false
 
-  sweep-iknn-explicit-random-optuna:
+  search-iknn-explicit-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 iknn-explicit sweeps/random/optuna/iknn-explicit
     params:
       - ../../codex.toml:
@@ -165,7 +165,7 @@ stages:
       - sweeps/random/optuna/iknn-explicit-pipeline.json:
           cache: false
 
-  sweep-iknn-implicit-random-optuna:
+  search-iknn-implicit-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 iknn-implicit sweeps/random/optuna/iknn-implicit
     params:
       - ../../codex.toml:
@@ -180,7 +180,7 @@ stages:
       - sweeps/random/optuna/iknn-implicit-pipeline.json:
           cache: false
 
-  sweep-popular-random-optuna:
+  search-popular-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 popular sweeps/random/optuna/popular
     params:
       - ../../codex.toml:
@@ -195,7 +195,7 @@ stages:
       - sweeps/random/optuna/popular-pipeline.json:
           cache: false
 
-  sweep-uknn-explicit-random-optuna:
+  search-uknn-explicit-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 uknn-explicit sweeps/random/optuna/uknn-explicit
     params:
       - ../../codex.toml:
@@ -210,7 +210,7 @@ stages:
       - sweeps/random/optuna/uknn-explicit-pipeline.json:
           cache: false
 
-  sweep-uknn-implicit-random-optuna:
+  search-uknn-implicit-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 uknn-implicit sweeps/random/optuna/uknn-implicit
     params:
       - ../../codex.toml:
@@ -225,7 +225,7 @@ stages:
       - sweeps/random/optuna/uknn-implicit-pipeline.json:
           cache: false
 
-  sweep-slim-random-optuna:
+  search-slim-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 slim sweeps/random/optuna/slim
     params:
       - ../../codex.toml:
@@ -240,7 +240,7 @@ stages:
       - sweeps/random/optuna/slim-pipeline.json:
           cache: false
 
-  sweep-slim-fs-random-optuna:
+  search-slim-fs-random-optuna:
     cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 slim-fs sweeps/random/optuna/slim-fs
     params:
       - ../../codex.toml:
