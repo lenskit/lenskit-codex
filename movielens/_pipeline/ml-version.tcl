@@ -12,7 +12,7 @@ set _tpl_dir [file dirname [info script]]
 
 # set default values for MovieLens configuration
 set _ml_defaults {
-    search no
+    search yes
 }
 foreach {name value} $_ml_defaults {
     if {![info exists movielens($name)]} {

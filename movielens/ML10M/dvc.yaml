@@ -18,6 +18,201 @@ stages:
     outs:
       - stats.duckdb
 
+  search-als-biased-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 als-biased searches/temporal/optuna/als-biased
+    deps:
+      - splits/temporal.toml
+      - ../../models/als-biased/pipeline.toml
+      - ../../models/als-biased/search.toml
+    outs:
+      - searches/temporal/optuna/als-biased
+      - searches/temporal/optuna/als-biased.json:
+          cache: false
+      - searches/temporal/optuna/als-biased-pipeline.json:
+          cache: false
+
+  search-als-implicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 als-implicit searches/temporal/optuna/als-implicit
+    deps:
+      - splits/temporal.toml
+      - ../../models/als-implicit/pipeline.toml
+      - ../../models/als-implicit/search.toml
+    outs:
+      - searches/temporal/optuna/als-implicit
+      - searches/temporal/optuna/als-implicit.json:
+          cache: false
+      - searches/temporal/optuna/als-implicit-pipeline.json:
+          cache: false
+
+  search-bias-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 bias searches/temporal/optuna/bias
+    deps:
+      - splits/temporal.toml
+      - ../../models/bias/pipeline.toml
+      - ../../models/bias/search.toml
+    outs:
+      - searches/temporal/optuna/bias
+      - searches/temporal/optuna/bias.json:
+          cache: false
+      - searches/temporal/optuna/bias-pipeline.json:
+          cache: false
+
+  search-ease-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 ease searches/temporal/optuna/ease
+    deps:
+      - splits/temporal.toml
+      - ../../models/ease/pipeline.toml
+      - ../../models/ease/search.toml
+    outs:
+      - searches/temporal/optuna/ease
+      - searches/temporal/optuna/ease.json:
+          cache: false
+      - searches/temporal/optuna/ease-pipeline.json:
+          cache: false
+
+  search-flexmf-bpr-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 flexmf-bpr searches/temporal/optuna/flexmf-bpr
+    deps:
+      - splits/temporal.toml
+      - ../../models/flexmf-bpr/pipeline.toml
+      - ../../models/flexmf-bpr/search.toml
+    outs:
+      - searches/temporal/optuna/flexmf-bpr
+      - searches/temporal/optuna/flexmf-bpr.json:
+          cache: false
+      - searches/temporal/optuna/flexmf-bpr-pipeline.json:
+          cache: false
+
+  search-flexmf-explicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 flexmf-explicit searches/temporal/optuna/flexmf-explicit
+    deps:
+      - splits/temporal.toml
+      - ../../models/flexmf-explicit/pipeline.toml
+      - ../../models/flexmf-explicit/search.toml
+    outs:
+      - searches/temporal/optuna/flexmf-explicit
+      - searches/temporal/optuna/flexmf-explicit.json:
+          cache: false
+      - searches/temporal/optuna/flexmf-explicit-pipeline.json:
+          cache: false
+
+  search-flexmf-logistic-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 flexmf-logistic searches/temporal/optuna/flexmf-logistic
+    deps:
+      - splits/temporal.toml
+      - ../../models/flexmf-logistic/pipeline.toml
+      - ../../models/flexmf-logistic/search.toml
+    outs:
+      - searches/temporal/optuna/flexmf-logistic
+      - searches/temporal/optuna/flexmf-logistic.json:
+          cache: false
+      - searches/temporal/optuna/flexmf-logistic-pipeline.json:
+          cache: false
+
+  search-flexmf-warp-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 flexmf-warp searches/temporal/optuna/flexmf-warp
+    deps:
+      - splits/temporal.toml
+      - ../../models/flexmf-warp/pipeline.toml
+      - ../../models/flexmf-warp/search.toml
+    outs:
+      - searches/temporal/optuna/flexmf-warp
+      - searches/temporal/optuna/flexmf-warp.json:
+          cache: false
+      - searches/temporal/optuna/flexmf-warp-pipeline.json:
+          cache: false
+
+  search-iknn-explicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 iknn-explicit searches/temporal/optuna/iknn-explicit
+    deps:
+      - splits/temporal.toml
+      - ../../models/iknn-explicit/pipeline.toml
+      - ../../models/iknn-explicit/search.toml
+    outs:
+      - searches/temporal/optuna/iknn-explicit
+      - searches/temporal/optuna/iknn-explicit.json:
+          cache: false
+      - searches/temporal/optuna/iknn-explicit-pipeline.json:
+          cache: false
+
+  search-iknn-implicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 iknn-implicit searches/temporal/optuna/iknn-implicit
+    deps:
+      - splits/temporal.toml
+      - ../../models/iknn-implicit/pipeline.toml
+      - ../../models/iknn-implicit/search.toml
+    outs:
+      - searches/temporal/optuna/iknn-implicit
+      - searches/temporal/optuna/iknn-implicit.json:
+          cache: false
+      - searches/temporal/optuna/iknn-implicit-pipeline.json:
+          cache: false
+
+  search-popular-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 popular searches/temporal/optuna/popular
+    deps:
+      - splits/temporal.toml
+      - ../../models/popular/pipeline.toml
+      - ../../models/popular/search.toml
+    outs:
+      - searches/temporal/optuna/popular
+      - searches/temporal/optuna/popular.json:
+          cache: false
+      - searches/temporal/optuna/popular-pipeline.json:
+          cache: false
+
+  search-uknn-explicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 uknn-explicit searches/temporal/optuna/uknn-explicit
+    deps:
+      - splits/temporal.toml
+      - ../../models/uknn-explicit/pipeline.toml
+      - ../../models/uknn-explicit/search.toml
+    outs:
+      - searches/temporal/optuna/uknn-explicit
+      - searches/temporal/optuna/uknn-explicit.json:
+          cache: false
+      - searches/temporal/optuna/uknn-explicit-pipeline.json:
+          cache: false
+
+  search-uknn-implicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 uknn-implicit searches/temporal/optuna/uknn-implicit
+    deps:
+      - splits/temporal.toml
+      - ../../models/uknn-implicit/pipeline.toml
+      - ../../models/uknn-implicit/search.toml
+    outs:
+      - searches/temporal/optuna/uknn-implicit
+      - searches/temporal/optuna/uknn-implicit.json:
+          cache: false
+      - searches/temporal/optuna/uknn-implicit-pipeline.json:
+          cache: false
+
+  search-slim-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 slim searches/temporal/optuna/slim
+    deps:
+      - splits/temporal.toml
+      - ../../models/slim/pipeline.toml
+      - ../../models/slim/search.toml
+    outs:
+      - searches/temporal/optuna/slim
+      - searches/temporal/optuna/slim.json:
+          cache: false
+      - searches/temporal/optuna/slim-pipeline.json:
+          cache: false
+
+  search-slim-fs-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 slim-fs searches/temporal/optuna/slim-fs
+    deps:
+      - splits/temporal.toml
+      - ../../models/slim-fs/pipeline.toml
+      - ../../models/slim-fs/search.toml
+    outs:
+      - searches/temporal/optuna/slim-fs
+      - searches/temporal/optuna/slim-fs.json:
+          cache: false
+      - searches/temporal/optuna/slim-fs-pipeline.json:
+          cache: false
+
   run-temporal-als-biased-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/als-biased-default als-biased
     deps:
@@ -26,6 +221,16 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/als-biased-default
+
+  run-temporal-als-biased-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/als-biased-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/als-biased-optuna-tuned als-biased
+    deps:
+      - ../../models/als-biased/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/als-biased-pipeline.json
+    outs:
+      - runs/temporal/als-biased-optuna-tuned
 
   run-temporal-als-implicit-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/als-implicit-default als-implicit
@@ -36,6 +241,16 @@ stages:
     outs:
       - runs/temporal/als-implicit-default
 
+  run-temporal-als-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/als-implicit-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/als-implicit-optuna-tuned als-implicit
+    deps:
+      - ../../models/als-implicit/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/als-implicit-pipeline.json
+    outs:
+      - runs/temporal/als-implicit-optuna-tuned
+
   run-temporal-bias-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/bias-default bias
     deps:
@@ -44,6 +259,16 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/bias-default
+
+  run-temporal-bias-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/bias-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/bias-optuna-tuned bias
+    deps:
+      - ../../models/bias/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/bias-pipeline.json
+    outs:
+      - runs/temporal/bias-optuna-tuned
 
   run-temporal-ease-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/ease-default ease
@@ -54,6 +279,16 @@ stages:
     outs:
       - runs/temporal/ease-default
 
+  run-temporal-ease-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/ease-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/ease-optuna-tuned ease
+    deps:
+      - ../../models/ease/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/ease-pipeline.json
+    outs:
+      - runs/temporal/ease-optuna-tuned
+
   run-temporal-flexmf-bpr-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-default flexmf-bpr
     deps:
@@ -62,6 +297,16 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/flexmf-bpr-default
+
+  run-temporal-flexmf-bpr-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/flexmf-bpr-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-optuna-tuned flexmf-bpr
+    deps:
+      - ../../models/flexmf-bpr/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/flexmf-bpr-pipeline.json
+    outs:
+      - runs/temporal/flexmf-bpr-optuna-tuned
 
   run-temporal-flexmf-explicit-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-default flexmf-explicit
@@ -72,6 +317,16 @@ stages:
     outs:
       - runs/temporal/flexmf-explicit-default
 
+  run-temporal-flexmf-explicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/flexmf-explicit-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-optuna-tuned flexmf-explicit
+    deps:
+      - ../../models/flexmf-explicit/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/flexmf-explicit-pipeline.json
+    outs:
+      - runs/temporal/flexmf-explicit-optuna-tuned
+
   run-temporal-flexmf-logistic-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-default flexmf-logistic
     deps:
@@ -80,6 +335,16 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/flexmf-logistic-default
+
+  run-temporal-flexmf-logistic-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/flexmf-logistic-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-optuna-tuned flexmf-logistic
+    deps:
+      - ../../models/flexmf-logistic/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/flexmf-logistic-pipeline.json
+    outs:
+      - runs/temporal/flexmf-logistic-optuna-tuned
 
   run-temporal-flexmf-warp-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/flexmf-warp-default flexmf-warp
@@ -90,6 +355,16 @@ stages:
     outs:
       - runs/temporal/flexmf-warp-default
 
+  run-temporal-flexmf-warp-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/flexmf-warp-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/flexmf-warp-optuna-tuned flexmf-warp
+    deps:
+      - ../../models/flexmf-warp/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/flexmf-warp-pipeline.json
+    outs:
+      - runs/temporal/flexmf-warp-optuna-tuned
+
   run-temporal-iknn-explicit-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-default iknn-explicit
     deps:
@@ -99,6 +374,16 @@ stages:
     outs:
       - runs/temporal/iknn-explicit-default
 
+  run-temporal-iknn-explicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/iknn-explicit-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-optuna-tuned iknn-explicit
+    deps:
+      - ../../models/iknn-explicit/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/iknn-explicit-pipeline.json
+    outs:
+      - runs/temporal/iknn-explicit-optuna-tuned
+
   run-temporal-iknn-implicit-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/iknn-implicit-default iknn-implicit
     deps:
@@ -107,6 +392,16 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/iknn-implicit-default
+
+  run-temporal-iknn-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/iknn-implicit-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/iknn-implicit-optuna-tuned iknn-implicit
+    deps:
+      - ../../models/iknn-implicit/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/iknn-implicit-pipeline.json
+    outs:
+      - runs/temporal/iknn-implicit-optuna-tuned
 
   run-temporal-popular-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/popular-default popular
@@ -126,6 +421,16 @@ stages:
     outs:
       - runs/temporal/uknn-explicit-default
 
+  run-temporal-uknn-explicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/uknn-explicit-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/uknn-explicit-optuna-tuned uknn-explicit
+    deps:
+      - ../../models/uknn-explicit/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/uknn-explicit-pipeline.json
+    outs:
+      - runs/temporal/uknn-explicit-optuna-tuned
+
   run-temporal-uknn-implicit-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/uknn-implicit-default uknn-implicit
     deps:
@@ -134,6 +439,16 @@ stages:
       - splits/temporal.toml
     outs:
       - runs/temporal/uknn-implicit-default
+
+  run-temporal-uknn-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/uknn-implicit-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/uknn-implicit-optuna-tuned uknn-implicit
+    deps:
+      - ../../models/uknn-implicit/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/uknn-implicit-pipeline.json
+    outs:
+      - runs/temporal/uknn-implicit-optuna-tuned
 
   run-temporal-slim-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/slim-default slim
@@ -144,6 +459,16 @@ stages:
     outs:
       - runs/temporal/slim-default
 
+  run-temporal-slim-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/slim-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/slim-optuna-tuned slim
+    deps:
+      - ../../models/slim/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/slim-pipeline.json
+    outs:
+      - runs/temporal/slim-optuna-tuned
+
   run-temporal-slim-fs-default:
     cmd: lenskit codex generate --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/slim-fs-default slim-fs
     deps:
@@ -153,25 +478,49 @@ stages:
     outs:
       - runs/temporal/slim-fs-default
 
+  run-temporal-slim-fs-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/slim-fs-pipeline.json --ds-name=ML10M --split=splits/temporal.toml -o runs/temporal/slim-fs-optuna-tuned slim-fs
+    deps:
+      - ../../models/slim-fs/pipeline.toml
+      - dataset
+      - splits/temporal.toml
+      - searches/temporal/optuna/slim-fs-pipeline.json
+    outs:
+      - runs/temporal/slim-fs-optuna-tuned
+
   collect-metrics:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
       - runs/manifest.csv
       - runs/temporal/als-biased-default
+      - runs/temporal/als-biased-optuna-tuned
       - runs/temporal/als-implicit-default
+      - runs/temporal/als-implicit-optuna-tuned
       - runs/temporal/bias-default
+      - runs/temporal/bias-optuna-tuned
       - runs/temporal/ease-default
+      - runs/temporal/ease-optuna-tuned
       - runs/temporal/flexmf-bpr-default
+      - runs/temporal/flexmf-bpr-optuna-tuned
       - runs/temporal/flexmf-explicit-default
+      - runs/temporal/flexmf-explicit-optuna-tuned
       - runs/temporal/flexmf-logistic-default
+      - runs/temporal/flexmf-logistic-optuna-tuned
       - runs/temporal/flexmf-warp-default
+      - runs/temporal/flexmf-warp-optuna-tuned
       - runs/temporal/iknn-explicit-default
+      - runs/temporal/iknn-explicit-optuna-tuned
       - runs/temporal/iknn-implicit-default
+      - runs/temporal/iknn-implicit-optuna-tuned
       - runs/temporal/popular-default
       - runs/temporal/uknn-explicit-default
+      - runs/temporal/uknn-explicit-optuna-tuned
       - runs/temporal/uknn-implicit-default
+      - runs/temporal/uknn-implicit-optuna-tuned
       - runs/temporal/slim-default
+      - runs/temporal/slim-optuna-tuned
       - runs/temporal/slim-fs-default
+      - runs/temporal/slim-fs-optuna-tuned
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
