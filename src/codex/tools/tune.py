@@ -13,6 +13,7 @@ from humanize import metric as human_metric
 from humanize import precisedelta
 from lenskit.logging import get_logger, stdout_console
 from lenskit.tuning import PipelineTuner, TuningSpec
+from lenskit.tuning.spec import ErrorAction
 from pydantic_core import to_json
 
 from codex.config import load_config
@@ -45,6 +46,11 @@ _log = get_logger(__name__)
     type=click.Choice(["RMSE", "RBP", "RecipRank", "NDCG"]),
     help="Select the metric to optimize",
 )
+@click.option(
+    "--on-error",
+    type=click.Choice(["abort", "continue"], case_sensitive=False),
+    help="What to do when a trial fails.",
+)
 @click.argument("MODEL")
 @click.argument("OUT", type=Path)
 def run_tune(
@@ -54,6 +60,7 @@ def run_tune(
     split: Path,
     use_ray: bool,
     method: Literal["random", "hyperopt", "optuna"] | None,
+    on_error: ErrorAction | None,
     metric: str | None = None,
     ds_name: str | None = None,
     test_part: str = "valid",
@@ -76,6 +83,8 @@ def run_tune(
     if metric is not None:
         spec.search.metric = metric
     spec.search.update_max_points(sample_count)
+    if on_error is not None:
+        spec.search.error_action = on_error
 
     metric = spec.search.metric
     assert metric is not None
