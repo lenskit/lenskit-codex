@@ -38,7 +38,7 @@ _log = get_logger(__name__)
 @click.option("--ray", "use_ray", is_flag=True, help="use Ray Tune")
 @click.option("--random", "method", flag_value="random", help="use random search")
 @click.option("--hyperopt", "method", flag_value="hyperopt", help="use HyperOpt search")
-@click.option("--tpe", "method", flag_value="optuna", help="use Optuna/TPE search")
+@click.option("--tpe", "method", flag_value="tpe", help="use Optuna/TPE search")
 @click.option(
     "--metric",
     type=click.Choice(["RMSE", "RBP", "RecipRank", "NDCG"]),

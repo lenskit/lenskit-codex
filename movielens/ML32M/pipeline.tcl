@@ -1,5 +1,7 @@
-set ml_name ML32M
-set ml_fn ml-32m
-set ml_split temporal
+set movielens {
+    name ML32M
+    filename ml-32m
+    split temporal
+}
 
 source ../_pipeline/ml-version.tcl

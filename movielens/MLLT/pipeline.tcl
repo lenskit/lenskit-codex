@@ -1,5 +1,7 @@
-set ml_name MLLT
-set ml_fn ml-latest
-set ml_split temporal
+set movielens {
+    name MLLT
+    filename ml-latest
+    split temporal
+}
 
 source ../_pipeline/ml-version.tcl

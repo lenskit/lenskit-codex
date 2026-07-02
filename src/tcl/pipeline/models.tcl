@@ -1,16 +1,38 @@
 # Code for understanding available models and pipelines.
 package provide models 0.1
+package require missing
 package require logging
 package require path
 
 # Ensemble command for listing and querying recommender models
 namespace eval ::model {
-    proc list {} {
-        set root [path resolve -project models]
+    proc list {args} {
+        set data {}
+        while {![lempty $args]} {
+            set arg [lshift args]
+            switch -glob -- $arg {
+                -enabled {
+                    set data [lshift args]
+                }
+                default {
+                    error "unrecognized argument $arg"
+                }
+            }
+        }
+        set root [path resolve !/models]
         msg -debug "scanning for models in $root"
         set files [glob -directory $root -tails */pipeline.toml]
         msg -debug "found [llength $files] models"
-        return [lmap pf $files {file dirname $pf}]
+        set models [lmap pf $files {file dirname $pf}]
+        if {$data ne ""} {
+            set models [lmap m $models {
+                if {![enabled $m $data]} {
+                    continue
+                }
+                set _ $m
+            }]
+        }
+        return $models
     }
 
     # Query if this model is enable for this dataset
@@ -18,7 +40,7 @@ namespace eval ::model {
         set wanted 1
         set info {}
 
-        set fn [path resolve -project models $model info.toml]
+        set fn [path resolve "!/models/$model/info.toml"]
         if {[file exists $fn]} {
             msg -debug "reading $fn"
             set info [parse toml -file $fn]
@@ -50,19 +72,15 @@ namespace eval ::model {
 
     # Query whether the specified model is a rating predictor.
     proc predicts-ratings {name} {
-        set pipe [path resolve -project models $name pipeline.toml]
-        set fh [open $pipe]
-        while {[gets $fh line] >= 0} {
-            if {[string match *std:topn-predict* $line]} {
-                return 1
-            }
-        }
-        return 0
+        set file [path resolve "!/models/$name/pipeline.toml"]
+        set pipe [parse yaml -file $file]
+        set base [dict get $pipe options base]
+        return [expr {$base eq "std:topn-predict"}]
     }
 
     # Query whether searching is defined for this model.
     proc searchable {name} {
-        set search [path resolve -project models $name search.toml]
+        set search [path resolve "!/models/$name/search.toml"]
         return [file exists $search]
     }
 

@@ -20,6 +20,22 @@ proc lshift {listVar} {
     return $x
 }
 
+# lpop --
+#
+#   Remove and return an item from the end of a list.  This is based on
+#   https://wiki.tcl-lang.org/page/lpop.
+proc lpop {listVar} {
+    upvar 1 $listVar list
+    if {![info exists list]} {
+        error "lpop: variable $listVar does not exist"
+    } elseif {[llength $list] == 0} {
+        error "lpop: list $listVar is empty"
+    }
+    set x [lindex $list end]
+    set list [lreplace $list [set list end] end]
+    return $x
+}
+
 # lunshift --
 #   Push a value onto the front of a list.
 proc lunshift {listVar args} {

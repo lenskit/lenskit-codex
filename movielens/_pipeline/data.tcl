@@ -1,19 +1,19 @@
 # define the data import and preparation stages
 
 stage import {
-    cmd lenskit data convert --movielens $ml_fn.zip dataset
-    dep $ml_fn.zip
+    cmd lenskit data convert --movielens $movielens(filename).zip dataset
+    dep $movielens(filename).zip
     out dataset
 }
 
 stage stats {
-    cmd lenskit codex sql -D ds_name=$ml_name -f ../ml-stats.sql stats.duckdb
+    cmd lenskit codex sql -D ds_name=$movielens(name) -f ../ml-stats.sql stats.duckdb
     dep ../ml-stats.sql
     dep dataset
     out stats.duckdb
 }
 
-if {$ml_split eq "random"} {
+if {$movielens(split) eq "random"} {
     stage split-random {
         cmd lenskit codex split random.toml
         wdir splits
