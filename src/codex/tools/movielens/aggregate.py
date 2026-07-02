@@ -2,9 +2,12 @@ import logging
 import os.path
 from os import fspath
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import click
-from duckdb import DuckDBPyConnection, connect
+
+if TYPE_CHECKING:
+    from duckdb import DuckDBPyConnection
 
 from . import movielens
 
@@ -15,6 +18,8 @@ _log = logging.getLogger(__name__)
 @click.option("-d", "--database", type=Path, help="output database file")
 @click.argument("NAMES", nargs=-1, required=True)
 def aggregate(database: Path, names: list[str]):
+    from duckdb import connect
+
     "Aggregate ML data statistics for an integrated view."
     _log.info("summarizing %d data names", len(names))
     if database.exists():

@@ -6,12 +6,14 @@ Run a DuckDB SQL script.
 import re
 from pathlib import Path
 from string import Template
+from typing import TYPE_CHECKING
 
 import click
-from duckdb import DuckDBPyConnection, StatementType
 from lenskit.logging import Stopwatch, get_logger
 
-from codex.dbutil import db_connect
+if TYPE_CHECKING:
+    from duckdb import DuckDBPyConnection, StatementType
+
 
 from . import codex
 
@@ -40,6 +42,8 @@ def duckdb_sql(
     defines: list[str] = [],
 ):
     global _log
+    from codex.dbutil import db_connect
+
     log = _log.bind(script=str(sql))
     log.info("reading script source")
     var_defs = {}

@@ -3,7 +3,6 @@ from os import fspath
 from pathlib import Path
 
 import click
-from duckdb import connect
 
 from . import codex
 
@@ -27,6 +26,8 @@ def export():
 @click.argument("FILE", type=Path)
 def export_qrels(output: Path, file: Path):
     "Export QREL files from truth data."
+    from duckdb import connect
+
     if file.suffix != ".parquet":
         _log.info("only parquet files can be exported at present")
 
@@ -52,6 +53,7 @@ def export_qrels(output: Path, file: Path):
 def export_runs(output: Path, recs: list[Path]):
     "Export runs in TREC-compatible format."
     # <query id><iteration><document id><rank><score>[<run id>]
+    from duckdb import connect
 
     with connect() as db:
         db.execute("""
