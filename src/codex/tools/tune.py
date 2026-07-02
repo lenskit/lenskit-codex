@@ -49,6 +49,8 @@ _log = get_logger(__name__)
 @click.option(
     "--on-error",
     type=click.Choice(["abort", "continue"], case_sensitive=False),
+    default="continue",
+    envvar="LK_TUNE_ON_ERROR",
     help="What to do when a trial fails.",
 )
 @click.argument("MODEL")
