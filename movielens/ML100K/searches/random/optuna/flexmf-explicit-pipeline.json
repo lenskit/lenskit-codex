@@ -1,0 +1,122 @@
+{
+  "options": null,
+  "meta": {
+    "name": "flexmf-explicit",
+    "version": null,
+    "hash": "bb2092bfb6ae8ef795926cd53e883b7e7f219aad81fb8029b78dbdff3ba05765"
+  },
+  "inputs": [
+    {
+      "name": "query",
+      "types": [
+        "numpy:integer",
+        "numpy:bytes_",
+        "lenskit.data:RecQuery",
+        "int",
+        "lenskit.data:ItemList",
+        "numpy:object_",
+        "bytes",
+        "str",
+        "numpy:str_"
+      ]
+    },
+    {
+      "name": "items",
+      "types": [
+        "lenskit.data:ItemList"
+      ]
+    },
+    {
+      "name": "n",
+      "types": [
+        "int",
+        "None"
+      ]
+    }
+  ],
+  "components": {
+    "history-lookup": {
+      "code": "lenskit.basic.history:UserTrainingHistoryLookup",
+      "config": {
+        "interaction_class": null
+      },
+      "inputs": {
+        "query": "query"
+      }
+    },
+    "candidate-selector": {
+      "code": "lenskit.basic.candidates:TrainingItemsCandidateSelector",
+      "config": {
+        "exclude": "query"
+      },
+      "inputs": {
+        "query": "history-lookup"
+      }
+    },
+    "candidates": {
+      "code": "lenskit.pipeline.components:fallback_on_none",
+      "config": null,
+      "inputs": {
+        "fallback": "candidate-selector",
+        "primary": "items"
+      }
+    },
+    "scorer": {
+      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "config": {
+        "embedding_size": 64,
+        "batch_size": 8192,
+        "learning_rate": 0.017874969002770604,
+        "epochs": 6,
+        "regularization": 0.2631014181554016,
+        "reg_method": "AdamW",
+        "embedding_size_exp": 4
+      },
+      "inputs": {
+        "items": "candidates",
+        "query": "history-lookup"
+      }
+    },
+    "ranker": {
+      "code": "lenskit.basic.topn:TopNRanker",
+      "config": {
+        "n": null
+      },
+      "inputs": {
+        "items": "scorer",
+        "n": "n"
+      }
+    },
+    "fallback-predictor": {
+      "code": "lenskit.basic.bias:BiasScorer",
+      "config": {
+        "entities": [
+          "item",
+          "user"
+        ],
+        "damping": 0.0
+      },
+      "inputs": {
+        "items": "candidates",
+        "query": "history-lookup"
+      }
+    },
+    "rating-merger": {
+      "code": "lenskit.basic.composite:FallbackScorer",
+      "config": null,
+      "inputs": {
+        "backup": "fallback-predictor",
+        "primary": "scorer"
+      }
+    }
+  },
+  "aliases": {
+    "rating-predictor": "rating-merger",
+    "recommender": "ranker"
+  },
+  "default": null,
+  "literals": {},
+  "hooks": {
+    "run": {}
+  }
+}
