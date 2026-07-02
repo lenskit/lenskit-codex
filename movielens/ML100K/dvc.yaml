@@ -31,7 +31,7 @@ stages:
       - random.parquet
 
   search-als-biased-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 als-biased sweeps/random/optuna/als-biased
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 als-biased searches/random/optuna/als-biased
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -39,14 +39,14 @@ stages:
       - splits/random.parquet
       - ../../models/als-biased/search.toml
     outs:
-      - sweeps/random/optuna/als-biased
-      - sweeps/random/optuna/als-biased.json:
+      - searches/random/optuna/als-biased
+      - searches/random/optuna/als-biased.json:
           cache: false
-      - sweeps/random/optuna/als-biased-pipeline.json:
+      - searches/random/optuna/als-biased-pipeline.json:
           cache: false
 
   search-als-implicit-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 als-implicit sweeps/random/optuna/als-implicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 als-implicit searches/random/optuna/als-implicit
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -54,14 +54,14 @@ stages:
       - splits/random.parquet
       - ../../models/als-implicit/search.toml
     outs:
-      - sweeps/random/optuna/als-implicit
-      - sweeps/random/optuna/als-implicit.json:
+      - searches/random/optuna/als-implicit
+      - searches/random/optuna/als-implicit.json:
           cache: false
-      - sweeps/random/optuna/als-implicit-pipeline.json:
+      - searches/random/optuna/als-implicit-pipeline.json:
           cache: false
 
   search-bias-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 bias sweeps/random/optuna/bias
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 bias searches/random/optuna/bias
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -69,14 +69,14 @@ stages:
       - splits/random.parquet
       - ../../models/bias/search.toml
     outs:
-      - sweeps/random/optuna/bias
-      - sweeps/random/optuna/bias.json:
+      - searches/random/optuna/bias
+      - searches/random/optuna/bias.json:
           cache: false
-      - sweeps/random/optuna/bias-pipeline.json:
+      - searches/random/optuna/bias-pipeline.json:
           cache: false
 
   search-ease-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 ease sweeps/random/optuna/ease
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 ease searches/random/optuna/ease
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -84,14 +84,14 @@ stages:
       - splits/random.parquet
       - ../../models/ease/search.toml
     outs:
-      - sweeps/random/optuna/ease
-      - sweeps/random/optuna/ease.json:
+      - searches/random/optuna/ease
+      - searches/random/optuna/ease.json:
           cache: false
-      - sweeps/random/optuna/ease-pipeline.json:
+      - searches/random/optuna/ease-pipeline.json:
           cache: false
 
   search-flexmf-bpr-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-bpr sweeps/random/optuna/flexmf-bpr
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-bpr searches/random/optuna/flexmf-bpr
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -99,14 +99,14 @@ stages:
       - splits/random.parquet
       - ../../models/flexmf-bpr/search.toml
     outs:
-      - sweeps/random/optuna/flexmf-bpr
-      - sweeps/random/optuna/flexmf-bpr.json:
+      - searches/random/optuna/flexmf-bpr
+      - searches/random/optuna/flexmf-bpr.json:
           cache: false
-      - sweeps/random/optuna/flexmf-bpr-pipeline.json:
+      - searches/random/optuna/flexmf-bpr-pipeline.json:
           cache: false
 
   search-flexmf-explicit-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-explicit sweeps/random/optuna/flexmf-explicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-explicit searches/random/optuna/flexmf-explicit
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -114,14 +114,14 @@ stages:
       - splits/random.parquet
       - ../../models/flexmf-explicit/search.toml
     outs:
-      - sweeps/random/optuna/flexmf-explicit
-      - sweeps/random/optuna/flexmf-explicit.json:
+      - searches/random/optuna/flexmf-explicit
+      - searches/random/optuna/flexmf-explicit.json:
           cache: false
-      - sweeps/random/optuna/flexmf-explicit-pipeline.json:
+      - searches/random/optuna/flexmf-explicit-pipeline.json:
           cache: false
 
   search-flexmf-logistic-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-logistic sweeps/random/optuna/flexmf-logistic
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-logistic searches/random/optuna/flexmf-logistic
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -129,14 +129,14 @@ stages:
       - splits/random.parquet
       - ../../models/flexmf-logistic/search.toml
     outs:
-      - sweeps/random/optuna/flexmf-logistic
-      - sweeps/random/optuna/flexmf-logistic.json:
+      - searches/random/optuna/flexmf-logistic
+      - searches/random/optuna/flexmf-logistic.json:
           cache: false
-      - sweeps/random/optuna/flexmf-logistic-pipeline.json:
+      - searches/random/optuna/flexmf-logistic-pipeline.json:
           cache: false
 
   search-flexmf-warp-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-warp sweeps/random/optuna/flexmf-warp
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-warp searches/random/optuna/flexmf-warp
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -144,14 +144,14 @@ stages:
       - splits/random.parquet
       - ../../models/flexmf-warp/search.toml
     outs:
-      - sweeps/random/optuna/flexmf-warp
-      - sweeps/random/optuna/flexmf-warp.json:
+      - searches/random/optuna/flexmf-warp
+      - searches/random/optuna/flexmf-warp.json:
           cache: false
-      - sweeps/random/optuna/flexmf-warp-pipeline.json:
+      - searches/random/optuna/flexmf-warp-pipeline.json:
           cache: false
 
   search-iknn-explicit-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 iknn-explicit sweeps/random/optuna/iknn-explicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 iknn-explicit searches/random/optuna/iknn-explicit
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -159,14 +159,14 @@ stages:
       - splits/random.parquet
       - ../../models/iknn-explicit/search.toml
     outs:
-      - sweeps/random/optuna/iknn-explicit
-      - sweeps/random/optuna/iknn-explicit.json:
+      - searches/random/optuna/iknn-explicit
+      - searches/random/optuna/iknn-explicit.json:
           cache: false
-      - sweeps/random/optuna/iknn-explicit-pipeline.json:
+      - searches/random/optuna/iknn-explicit-pipeline.json:
           cache: false
 
   search-iknn-implicit-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 iknn-implicit sweeps/random/optuna/iknn-implicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 iknn-implicit searches/random/optuna/iknn-implicit
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -174,14 +174,14 @@ stages:
       - splits/random.parquet
       - ../../models/iknn-implicit/search.toml
     outs:
-      - sweeps/random/optuna/iknn-implicit
-      - sweeps/random/optuna/iknn-implicit.json:
+      - searches/random/optuna/iknn-implicit
+      - searches/random/optuna/iknn-implicit.json:
           cache: false
-      - sweeps/random/optuna/iknn-implicit-pipeline.json:
+      - searches/random/optuna/iknn-implicit-pipeline.json:
           cache: false
 
   search-popular-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 popular sweeps/random/optuna/popular
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 popular searches/random/optuna/popular
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -189,14 +189,14 @@ stages:
       - splits/random.parquet
       - ../../models/popular/search.toml
     outs:
-      - sweeps/random/optuna/popular
-      - sweeps/random/optuna/popular.json:
+      - searches/random/optuna/popular
+      - searches/random/optuna/popular.json:
           cache: false
-      - sweeps/random/optuna/popular-pipeline.json:
+      - searches/random/optuna/popular-pipeline.json:
           cache: false
 
   search-uknn-explicit-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 uknn-explicit sweeps/random/optuna/uknn-explicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 uknn-explicit searches/random/optuna/uknn-explicit
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -204,14 +204,14 @@ stages:
       - splits/random.parquet
       - ../../models/uknn-explicit/search.toml
     outs:
-      - sweeps/random/optuna/uknn-explicit
-      - sweeps/random/optuna/uknn-explicit.json:
+      - searches/random/optuna/uknn-explicit
+      - searches/random/optuna/uknn-explicit.json:
           cache: false
-      - sweeps/random/optuna/uknn-explicit-pipeline.json:
+      - searches/random/optuna/uknn-explicit-pipeline.json:
           cache: false
 
   search-uknn-implicit-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 uknn-implicit sweeps/random/optuna/uknn-implicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 uknn-implicit searches/random/optuna/uknn-implicit
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -219,14 +219,14 @@ stages:
       - splits/random.parquet
       - ../../models/uknn-implicit/search.toml
     outs:
-      - sweeps/random/optuna/uknn-implicit
-      - sweeps/random/optuna/uknn-implicit.json:
+      - searches/random/optuna/uknn-implicit
+      - searches/random/optuna/uknn-implicit.json:
           cache: false
-      - sweeps/random/optuna/uknn-implicit-pipeline.json:
+      - searches/random/optuna/uknn-implicit-pipeline.json:
           cache: false
 
   search-slim-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 slim sweeps/random/optuna/slim
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 slim searches/random/optuna/slim
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -234,14 +234,14 @@ stages:
       - splits/random.parquet
       - ../../models/slim/search.toml
     outs:
-      - sweeps/random/optuna/slim
-      - sweeps/random/optuna/slim.json:
+      - searches/random/optuna/slim
+      - searches/random/optuna/slim.json:
           cache: false
-      - sweeps/random/optuna/slim-pipeline.json:
+      - searches/random/optuna/slim-pipeline.json:
           cache: false
 
   search-slim-fs-random-optuna:
-    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 slim-fs sweeps/random/optuna/slim-fs
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 slim-fs searches/random/optuna/slim-fs
     params:
       - ../../codex.toml:
           - tuning.optuna.points
@@ -249,10 +249,10 @@ stages:
       - splits/random.parquet
       - ../../models/slim-fs/search.toml
     outs:
-      - sweeps/random/optuna/slim-fs
-      - sweeps/random/optuna/slim-fs.json:
+      - searches/random/optuna/slim-fs
+      - searches/random/optuna/slim-fs.json:
           cache: false
-      - sweeps/random/optuna/slim-fs-pipeline.json:
+      - searches/random/optuna/slim-fs-pipeline.json:
           cache: false
 
   run-random-als-biased-default:
@@ -265,12 +265,12 @@ stages:
       - runs/random/als-biased-default
 
   run-random-als-biased-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/als-biased-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/als-biased-optuna-tuned als-biased
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/als-biased-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/als-biased-optuna-tuned als-biased
     deps:
       - ../../models/als-biased/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/als-biased-pipeline.json
+      - searches/random/optuna/als-biased-pipeline.json
     outs:
       - runs/random/als-biased-optuna-tuned
 
@@ -284,12 +284,12 @@ stages:
       - runs/random/als-implicit-default
 
   run-random-als-implicit-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/als-implicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/als-implicit-optuna-tuned als-implicit
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/als-implicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/als-implicit-optuna-tuned als-implicit
     deps:
       - ../../models/als-implicit/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/als-implicit-pipeline.json
+      - searches/random/optuna/als-implicit-pipeline.json
     outs:
       - runs/random/als-implicit-optuna-tuned
 
@@ -303,12 +303,12 @@ stages:
       - runs/random/bias-default
 
   run-random-bias-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/bias-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/bias-optuna-tuned bias
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/bias-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/bias-optuna-tuned bias
     deps:
       - ../../models/bias/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/bias-pipeline.json
+      - searches/random/optuna/bias-pipeline.json
     outs:
       - runs/random/bias-optuna-tuned
 
@@ -322,12 +322,12 @@ stages:
       - runs/random/ease-default
 
   run-random-ease-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/ease-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/ease-optuna-tuned ease
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/ease-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/ease-optuna-tuned ease
     deps:
       - ../../models/ease/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/ease-pipeline.json
+      - searches/random/optuna/ease-pipeline.json
     outs:
       - runs/random/ease-optuna-tuned
 
@@ -341,12 +341,12 @@ stages:
       - runs/random/flexmf-bpr-default
 
   run-random-flexmf-bpr-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/flexmf-bpr-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-bpr-optuna-tuned flexmf-bpr
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/flexmf-bpr-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-bpr-optuna-tuned flexmf-bpr
     deps:
       - ../../models/flexmf-bpr/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/flexmf-bpr-pipeline.json
+      - searches/random/optuna/flexmf-bpr-pipeline.json
     outs:
       - runs/random/flexmf-bpr-optuna-tuned
 
@@ -360,12 +360,12 @@ stages:
       - runs/random/flexmf-explicit-default
 
   run-random-flexmf-explicit-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/flexmf-explicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-explicit-optuna-tuned flexmf-explicit
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/flexmf-explicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-explicit-optuna-tuned flexmf-explicit
     deps:
       - ../../models/flexmf-explicit/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/flexmf-explicit-pipeline.json
+      - searches/random/optuna/flexmf-explicit-pipeline.json
     outs:
       - runs/random/flexmf-explicit-optuna-tuned
 
@@ -379,12 +379,12 @@ stages:
       - runs/random/flexmf-logistic-default
 
   run-random-flexmf-logistic-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/flexmf-logistic-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-logistic-optuna-tuned flexmf-logistic
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/flexmf-logistic-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-logistic-optuna-tuned flexmf-logistic
     deps:
       - ../../models/flexmf-logistic/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/flexmf-logistic-pipeline.json
+      - searches/random/optuna/flexmf-logistic-pipeline.json
     outs:
       - runs/random/flexmf-logistic-optuna-tuned
 
@@ -398,12 +398,12 @@ stages:
       - runs/random/flexmf-warp-default
 
   run-random-flexmf-warp-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/flexmf-warp-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-warp-optuna-tuned flexmf-warp
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/flexmf-warp-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/flexmf-warp-optuna-tuned flexmf-warp
     deps:
       - ../../models/flexmf-warp/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/flexmf-warp-pipeline.json
+      - searches/random/optuna/flexmf-warp-pipeline.json
     outs:
       - runs/random/flexmf-warp-optuna-tuned
 
@@ -417,12 +417,12 @@ stages:
       - runs/random/iknn-explicit-default
 
   run-random-iknn-explicit-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/iknn-explicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-optuna-tuned iknn-explicit
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/iknn-explicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-explicit-optuna-tuned iknn-explicit
     deps:
       - ../../models/iknn-explicit/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/iknn-explicit-pipeline.json
+      - searches/random/optuna/iknn-explicit-pipeline.json
     outs:
       - runs/random/iknn-explicit-optuna-tuned
 
@@ -436,12 +436,12 @@ stages:
       - runs/random/iknn-implicit-default
 
   run-random-iknn-implicit-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/iknn-implicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-implicit-optuna-tuned iknn-implicit
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/iknn-implicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/iknn-implicit-optuna-tuned iknn-implicit
     deps:
       - ../../models/iknn-implicit/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/iknn-implicit-pipeline.json
+      - searches/random/optuna/iknn-implicit-pipeline.json
     outs:
       - runs/random/iknn-implicit-optuna-tuned
 
@@ -464,12 +464,12 @@ stages:
       - runs/random/uknn-explicit-default
 
   run-random-uknn-explicit-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/uknn-explicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-explicit-optuna-tuned uknn-explicit
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/uknn-explicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-explicit-optuna-tuned uknn-explicit
     deps:
       - ../../models/uknn-explicit/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/uknn-explicit-pipeline.json
+      - searches/random/optuna/uknn-explicit-pipeline.json
     outs:
       - runs/random/uknn-explicit-optuna-tuned
 
@@ -483,12 +483,12 @@ stages:
       - runs/random/uknn-implicit-default
 
   run-random-uknn-implicit-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/uknn-implicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-implicit-optuna-tuned uknn-implicit
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/uknn-implicit-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/uknn-implicit-optuna-tuned uknn-implicit
     deps:
       - ../../models/uknn-implicit/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/uknn-implicit-pipeline.json
+      - searches/random/optuna/uknn-implicit-pipeline.json
     outs:
       - runs/random/uknn-implicit-optuna-tuned
 
@@ -502,12 +502,12 @@ stages:
       - runs/random/slim-default
 
   run-random-slim-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/slim-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/slim-optuna-tuned slim
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/slim-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/slim-optuna-tuned slim
     deps:
       - ../../models/slim/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/slim-pipeline.json
+      - searches/random/optuna/slim-pipeline.json
     outs:
       - runs/random/slim-optuna-tuned
 
@@ -521,12 +521,12 @@ stages:
       - runs/random/slim-fs-default
 
   run-random-slim-fs-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file sweeps/random/optuna/slim-fs-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/slim-fs-optuna-tuned slim-fs
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/slim-fs-pipeline.json --ds-name=ML100K --split=splits/random.toml -o runs/random/slim-fs-optuna-tuned slim-fs
     deps:
       - ../../models/slim-fs/pipeline.toml
       - dataset
       - splits/random.parquet
-      - sweeps/random/optuna/slim-fs-pipeline.json
+      - searches/random/optuna/slim-fs-pipeline.json
     outs:
       - runs/random/slim-fs-optuna-tuned
 

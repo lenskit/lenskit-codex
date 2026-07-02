@@ -48,7 +48,7 @@ namespace eval ::run {
 
     proc tuned {model {tuner optuna}} {
         variable info
-        set params "sweeps/$info(split)/$tuner/$model-pipeline.json"
+        set params "searches/$info(split)/$tuner/$model-pipeline.json"
         set run [subst {
             args {--pipeline-file $params}
             model $model
