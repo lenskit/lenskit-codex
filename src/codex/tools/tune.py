@@ -101,7 +101,7 @@ def run_tune(
     with (
         CodexTask(
             label=f"{method} search {model}",
-            tags=["search", method],
+            tags=["search", method or "optuna"],
             scorer=ScorerModel(name=model),
             data=data_model,
         ) as task,

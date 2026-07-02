@@ -26,6 +26,7 @@ foreach mod [model list -enabled $movielens(name)] {
     stage "search-$mod-$movielens(split)-optuna" {
         cmd lenskit codex tune {*}$search_args $mod $out_dir
         dep {*}$search_deps
+        dep [path relative !/models/${mod}/pipeline.toml]
         dep [path relative !/models/${mod}/search.toml]
         out $out_dir
         out -nocache $out_dir.json
