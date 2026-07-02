@@ -63,15 +63,22 @@ $ dvc pull
 
 Individual task information is saved with particular tasks, but incorporating that information into the overall run log is a manual step.  To update:
 
-1.  Make sure you have the **latest** code and data (`git pull` and `dvc pull`).  Merging run logs is difficult.
+1.  Commit any outstanding changes so your working copy is clean.
 
-2.  Integrate the run logs:
+2.  Make sure you have the **latest** code and data before trying to collect:
+
+    ```console
+    $ git pull
+    $ dvc pull
+    ```
+
+3.  Integrate the run logs:
 
     ```console
     $ lenskit codex runlog collect
     ```
 
-3.  Commit and push the result:
+4.  Commit and push the result:
 
     ```console
     $ git add run-log
