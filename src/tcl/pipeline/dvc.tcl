@@ -75,6 +75,26 @@ namespace eval ::dvc {
             if {[dict exists $stage wdir]} {
                 nest puts "wdir: [dict get $stage wdir]"
             }
+            if {[dict exists $stage params]} {
+                nest puts "params:"
+                nest wrap {
+                    foreach param [dict get $stage params] {
+                        if {[llength $param] > 1} {
+                            lassign $param file names
+                            nest puts "- $file:"
+                            nest wrap {
+                                foreach name $names {
+                                    nest puts "- $name"
+                                }
+                            }
+                        } else {
+                            foreach name $names {
+                                nest puts "- $name"
+                            }
+                        }
+                    }
+                }
+            }
             if {[dict exists $stage deps]} {
                 nest puts "deps:"
                 nest wrap {
@@ -197,6 +217,16 @@ namespace eval ::dvc::dsl {
 
         foreach file $args {
             dict lappend ::dvc::cur_stage $dest [list $tracker $file]
+        }
+    }
+
+    proc param args {
+        if {[lpeek $args] eq "-file"} {
+            lshift args
+            set file [lshift args]
+            dict lappend ::dvc::cur_stage params [list $file $args]
+        } else {
+            dict lappend ::dvc::cur_stage params {*}$args
         }
     }
 

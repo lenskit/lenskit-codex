@@ -17,7 +17,7 @@ if {$ml_split eq "random"} {
     stage split-random {
         cmd lenskit codex split random.toml
         wdir splits
-        # TODO: re-add random seed dependency
+        param -file ../../../lenskit.toml random.seed
         dep random.toml
         dep ../dataset
         out random.parquet
