@@ -1,16 +1,38 @@
 # Code for understanding available models and pipelines.
 package provide models 0.1
+package require missing
 package require logging
 package require path
 
 # Ensemble command for listing and querying recommender models
 namespace eval ::model {
-    proc list {} {
+    proc list {args} {
+        set data {}
+        while {![lempty $args]} {
+            set arg [lshift args]
+            switch -glob -- $arg {
+                -enabled {
+                    set data [lshift args]
+                }
+                default {
+                    error "unrecognized argument $arg"
+                }
+            }
+        }
         set root [path resolve !/models]
         msg -debug "scanning for models in $root"
         set files [glob -directory $root -tails */pipeline.toml]
         msg -debug "found [llength $files] models"
-        return [lmap pf $files {file dirname $pf}]
+        set models [lmap pf $files {file dirname $pf}]
+        if {$data ne ""} {
+            set models [lmap m $models {
+                if {![enabled $m $data]} {
+                    continue
+                }
+                set _ $m
+            }]
+        }
+        return $models
     }
 
     # Query if this model is enable for this dataset

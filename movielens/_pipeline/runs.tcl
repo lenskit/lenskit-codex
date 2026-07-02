@@ -10,13 +10,11 @@ if {$ml_split eq "random"} {
 run begin-set $ml_name $ml_split
 
 # now we emit a runs for each model
-foreach mod [model list] {
-    if {[model enabled $mod $ml_name]} {
-        run default $mod
+foreach mod [model list -enabled $ml_name] {
+    run default $mod
     # if {[model searchable $mod]} {
     #     run tuned $mod
     # }
-    }
 }
 run collect
 run save-manifest

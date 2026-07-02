@@ -1,6 +1,14 @@
+from pathlib import Path
+
 import pandas as pd
 
-DATA_INFO = None
+from codex.layout import DataSetInfo
+
+try:
+    _json = Path("dataset.json").read_text()
+    DATA_INFO = DataSetInfo.model_validate_json(_json)
+except FileNotFoundError:
+    DATA_INFO = None
 
 
 def filter_part(data: pd.DataFrame, part: str):
