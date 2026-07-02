@@ -35,7 +35,8 @@ foreach script $scripts {
     if {$out_file ne ""} {
         msg "saving to $out_file"
         if {$format} {
-            set out_fh [open "|dprint fmt --stdin dvc.yaml >'$out_file'" w]
+            msg -debug "saving with dprint"
+            set out_fh [open "|dprint fmt --stdin dvc.yaml >$out_file" w]
         } else {
             set out_fh [open $out_file w]
         }
