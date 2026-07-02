@@ -70,7 +70,7 @@ def run_tune(
 
     if method is not None:
         if not use_ray:
-            _log.error("search methods only supported with Ray Tune")
+            _log.warn("search methods only supported with Ray Tune")
         spec.search.method = method
 
     if metric is not None:
