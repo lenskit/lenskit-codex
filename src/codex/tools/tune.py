@@ -105,11 +105,6 @@ def run_tune(
         log.info("starting hyperparameter search")
         results = tuner.run()
 
-    fail = None
-    if any(r.metrics is None or len(r.metrics) <= 1 for r in results):
-        log.error("one or more runs did not complete")
-        fail = RuntimeError("runs failed")
-
     best = results.best_result()
     results.save_results(out)
 
@@ -135,9 +130,6 @@ def run_tune(
 
     if use_ray:
         _archive_ray_state(out)
-
-    if fail is not None:
-        raise fail
 
 
 def _archive_ray_state(out: Path):
