@@ -72,6 +72,10 @@ foreach file $yaml_files {
 
 foreach {dir ignores} $ignore_lists {
     msg "$dir has [llength $ignores] ignore lines"
+    if {![file exists $dir]} {
+        msg "creating $dir"
+        file mkdir $dir
+    }
     set fh [open "$dir/.gitignore" w]
     foreach line $ignores {
         puts $fh $line
