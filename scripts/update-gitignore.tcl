@@ -1,7 +1,6 @@
 #!/usr/bin/env tclsh
 package require missing
 package require logging
-package require parse
 package require path
 
 set ignore_lists [dict create]
@@ -17,7 +16,7 @@ foreach file $ignore_files {
         continue
     }
     msg "found ignore $file"
-    set dir [path project [file dirname $file]]
+    set dir [path project [path create [file dirname $file]]]
     msg -debug "ignore dir: $dir"
     set fh [open $file r]
     while {[gets $fh line] >= 0} {
@@ -34,12 +33,12 @@ foreach file $ignore_files {
 msg "found $ignore_count ignores in [array size ignore_lists] files"
 foreach file $yaml_files {
     if {[string match ./.* $file]} {
-        msg -debug "skiping $file"
+        msg -debug "skipping $file"
         continue
     }
     msg "found pipeline $file"
     set dir [file dirname $file]
-    set pipe [parse yaml $file]
+    set pipe [parse yaml -file $file]
     set stages [dict get $pipe stages]
     msg -debug "scanning [llength $stages] stages"
     foreach {name stage} $stages {
@@ -60,7 +59,7 @@ foreach file $yaml_files {
             if {[llength $out] == 2} {
                 continue
             }
-            set path [path project $sdir $out]
+            set path [path project [path create $sdir $out]]
             set odir [file dirname $path]
             set oname [file tail $path]
             if {![dict exists $ignore_sets $odir "/$oname"]} {

@@ -14,8 +14,8 @@ fi
 
 for file in **/pipeline.tcl; do
     dir="$(dirname "$file")"
-    "${PIPE_TCL:-guarsh}" scripts/mkpipeline.tcl -- "${mk_args[@]}" -o "${dir}/dvc.yaml" "$file"
+    $PIPE_TCL scripts/mkpipeline.tcl -- "${mk_args[@]}" -o "${dir}/dvc.yaml" "$file"
 done
 
 # FIXME Use Guardian for update-gitignore too
-./scripts/update-gitignore.tcl
+$PIPE_TCL ./scripts/update-gitignore.tcl

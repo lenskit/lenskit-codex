@@ -6,7 +6,7 @@ package require path
 # Ensemble command for listing and querying recommender models
 namespace eval ::model {
     proc list {} {
-        set root [path resolve -project models]
+        set root [path resolve !/models]
         msg -debug "scanning for models in $root"
         set files [glob -directory $root -tails */pipeline.toml]
         msg -debug "found [llength $files] models"
@@ -18,7 +18,7 @@ namespace eval ::model {
         set wanted 1
         set info {}
 
-        set fn [path resolve -project models $model info.toml]
+        set fn [path resolve "!/models/$model/info.toml"]
         if {[file exists $fn]} {
             msg -debug "reading $fn"
             set info [parse toml -file $fn]
@@ -50,19 +50,15 @@ namespace eval ::model {
 
     # Query whether the specified model is a rating predictor.
     proc predicts-ratings {name} {
-        set pipe [path resolve -project models $name pipeline.toml]
-        set fh [open $pipe]
-        while {[gets $fh line] >= 0} {
-            if {[string match *std:topn-predict* $line]} {
-                return 1
-            }
-        }
-        return 0
+        set file [path resolve "!/models/$name/pipeline.toml"]
+        set pipe [parse yaml -file $file]
+        set base [dict get $pipe options base]
+        return [expr {$base eq "std:topn-predict"}]
     }
 
     # Query whether searching is defined for this model.
     proc searchable {name} {
-        set search [path resolve -project models $name search.toml]
+        set search [path resolve "!/models/$name/search.toml"]
         return [file exists $search]
     }
 
