@@ -68,7 +68,8 @@ required-environments = [
 ]
 
 [tool.uv.sources]
-lenskit = [{ index = "lenskit" }]
+# lenskit = [{ index = "lenskit" }]
+lenskit = [{ git = "https://github.com/mdekstrand/lkpy.git", branch = "fix/tuning-results" }]
 # triton = [
 #  { index = "pytorch-cuda", group = "cuda" },
 # ]
