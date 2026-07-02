@@ -15,7 +15,6 @@ from lenskit.logging import get_logger, stdout_console
 from lenskit.tuning import PipelineTuner, TuningSpec
 from pydantic_core import to_json
 
-from codex.cluster import ensure_cluster_init
 from codex.layout import model_dir
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.splitting import load_split_set
@@ -76,10 +75,11 @@ def run_tune(
 
     if use_ray:
         import ray.tune.utils.log
+        from lenskit.parallel.ray import ensure_cluster
         from lenskit.tuning import RayPipelineTuner
 
         ray.tune.utils.log.set_verbosity(0)
-        ensure_cluster_init()
+        ensure_cluster()
         tuner = RayPipelineTuner(spec, out_dir=out)
     else:
         tuner = PipelineTuner(spec, out_dir=out)
