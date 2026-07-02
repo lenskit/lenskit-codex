@@ -31,7 +31,7 @@ stages:
       - random.parquet
 
   sweep-als-biased-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 als-biased sweeps/als-biased/optuna/als-biased
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 als-biased sweeps/als-biased/optuna/als-biased
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -46,7 +46,7 @@ stages:
           cache: false
 
   sweep-als-implicit-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 als-implicit sweeps/als-implicit/optuna/als-implicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 als-implicit sweeps/als-implicit/optuna/als-implicit
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -61,7 +61,7 @@ stages:
           cache: false
 
   sweep-bias-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 bias sweeps/bias/optuna/bias
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 bias sweeps/bias/optuna/bias
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -76,7 +76,7 @@ stages:
           cache: false
 
   sweep-ease-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 ease sweeps/ease/optuna/ease
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 ease sweeps/ease/optuna/ease
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -91,7 +91,7 @@ stages:
           cache: false
 
   sweep-flexmf-bpr-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 flexmf-bpr sweeps/flexmf-bpr/optuna/flexmf-bpr
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-bpr sweeps/flexmf-bpr/optuna/flexmf-bpr
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -106,7 +106,7 @@ stages:
           cache: false
 
   sweep-flexmf-explicit-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 flexmf-explicit sweeps/flexmf-explicit/optuna/flexmf-explicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-explicit sweeps/flexmf-explicit/optuna/flexmf-explicit
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -121,7 +121,7 @@ stages:
           cache: false
 
   sweep-flexmf-logistic-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 flexmf-logistic sweeps/flexmf-logistic/optuna/flexmf-logistic
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-logistic sweeps/flexmf-logistic/optuna/flexmf-logistic
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -136,7 +136,7 @@ stages:
           cache: false
 
   sweep-flexmf-warp-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 flexmf-warp sweeps/flexmf-warp/optuna/flexmf-warp
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 flexmf-warp sweeps/flexmf-warp/optuna/flexmf-warp
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -151,7 +151,7 @@ stages:
           cache: false
 
   sweep-iknn-explicit-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 iknn-explicit sweeps/iknn-explicit/optuna/iknn-explicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 iknn-explicit sweeps/iknn-explicit/optuna/iknn-explicit
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -166,7 +166,7 @@ stages:
           cache: false
 
   sweep-iknn-implicit-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 iknn-implicit sweeps/iknn-implicit/optuna/iknn-implicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 iknn-implicit sweeps/iknn-implicit/optuna/iknn-implicit
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -181,7 +181,7 @@ stages:
           cache: false
 
   sweep-popular-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 popular sweeps/popular/optuna/popular
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 popular sweeps/popular/optuna/popular
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -196,7 +196,7 @@ stages:
           cache: false
 
   sweep-uknn-explicit-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 uknn-explicit sweeps/uknn-explicit/optuna/uknn-explicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 uknn-explicit sweeps/uknn-explicit/optuna/uknn-explicit
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -211,7 +211,7 @@ stages:
           cache: false
 
   sweep-uknn-implicit-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 uknn-implicit sweeps/uknn-implicit/optuna/uknn-implicit
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 uknn-implicit sweeps/uknn-implicit/optuna/uknn-implicit
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -226,7 +226,7 @@ stages:
           cache: false
 
   sweep-slim-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 slim sweeps/slim/optuna/slim
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 slim sweeps/slim/optuna/slim
     params:
       - ../../config.toml:
           - tuning.optuna.points
@@ -241,7 +241,7 @@ stages:
           cache: false
 
   sweep-slim-fs-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 slim-fs sweeps/slim-fs/optuna/slim-fs
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 slim-fs sweeps/slim-fs/optuna/slim-fs
     params:
       - ../../config.toml:
           - tuning.optuna.points

@@ -1,6 +1,6 @@
 package require models
 
-set search_args [list]
+set search_args [list --tpe]
 set search_deps [list]
 if {$movielens(split) eq "random"} {
     lappend search_args "--split=splits/$movielens(split).toml"
