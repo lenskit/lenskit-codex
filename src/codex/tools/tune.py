@@ -4,6 +4,7 @@ Hyperparameter search.
 
 from __future__ import annotations
 
+import warnings
 import zipfile
 from pathlib import Path
 from typing import Literal
@@ -62,7 +63,7 @@ def run_tune(
     split: Path,
     use_ray: bool,
     method: Literal["random", "hyperopt", "optuna"] | None,
-    on_error: ErrorAction | None,
+    on_error: ErrorAction,
     metric: str | None = None,
     ds_name: str | None = None,
     test_part: str = "valid",
@@ -70,6 +71,8 @@ def run_tune(
     console = stdout_console()
     log = _log.bind(model=model, dataset=ds_name, split=split.stem)
     codex_cfg = load_config()
+
+    warnings.filterwarnings("error", r".*global interpreter lock.*enabled.*", RuntimeWarning)
 
     spec = TuningSpec.load(model_dir(model) / "search.toml")
     if sample_count is not None:
@@ -85,8 +88,7 @@ def run_tune(
     if metric is not None:
         spec.search.metric = metric
     spec.search.update_max_points(sample_count)
-    if on_error is not None:
-        spec.search.error_action = on_error
+    spec.search.error_action = on_error
 
     metric = spec.search.metric
     assert metric is not None
