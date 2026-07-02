@@ -22,7 +22,7 @@ if {[info exists movielens(search-points)]} {
 }
 
 foreach mod [model list -enabled $movielens(name)] {
-    set out_dir sweeps/$mod/optuna/$mod
+    set out_dir sweeps/$movielens(split)/optuna/$mod
     stage "sweep-$mod-$movielens(split)-optuna" {
         cmd lenskit codex tune {*}$search_args $mod $out_dir
         dep {*}$search_deps

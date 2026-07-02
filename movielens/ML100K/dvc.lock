@@ -3908,31 +3908,34 @@ stages:
       size: 706280
       nfiles: 4
   sweep-ease-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
-      --sample-count=30 --optuna ease sweeps/random/ease-optuna
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 ease 
+      sweeps/ease/optuna/ease
     deps:
-    - path: ../../src/codex/models/ease.py
+    - path: ../../models/ease/search.toml
       hash: md5
-      md5: b906418366660aebc4ce354a04de902d
-      size: 225
+      md5: d4ffd3dd7c10dd65cc3854679739ef8b
+      size: 166
     - path: splits/random.parquet
       hash: md5
-      md5: 2b0e4ee15ee8c959562f1f4b83d0d0e3
-      size: 56269
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    params:
+      ../../config.toml:
+        tuning.optuna.points: 30
     outs:
-    - path: sweeps/random/ease-optuna
+    - path: sweeps/ease/optuna/ease
       hash: md5
-      md5: 1d4772e54c7a71f2862f42767a4998d7.dir
-      size: 671629
-      nfiles: 159
-    - path: sweeps/random/ease-optuna-pipeline.json
+      md5: 84c4b4aaab1162dba3ecbade9c2bf759.dir
+      size: 72803
+      nfiles: 8
+    - path: sweeps/ease/optuna/ease-pipeline.json
       hash: md5
-      md5: b7e24ab3bb81899044337a4b714f5a7a
-      size: 1834
-    - path: sweeps/random/ease-optuna.json
+      md5: 5c47eb001a2e63ed9874d21f102c9880
+      size: 1816
+    - path: sweeps/ease/optuna/ease.json
       hash: md5
-      md5: 353c2daedfb66c3d27dd513a7252f087
-      size: 791
+      md5: a3ee13ef1a5f0005d7d418b21461ce8f
+      size: 73
   run-random-optuna-best-ease:
     cmd: lenskit codex generate --pipeline-file 
       sweeps/random/ease-optuna-pipeline.json --ds-name=ML100K 
@@ -4306,3 +4309,32 @@ stages:
       md5: 019ac60a81fd3014a055c05a55dbd815.dir
       size: 710313
       nfiles: 5
+  sweep-slim-random-optuna:
+    cmd: lenskit codex tune --tpe --split=splits/random.toml --test-part=0 slim 
+      sweeps/slim/optuna/slim
+    deps:
+    - path: ../../models/slim/search.toml
+      hash: md5
+      md5: 8e15e48e95f919536286dcd99a484f1e
+      size: 225
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    params:
+      ../../config.toml:
+        tuning.optuna.points: 30
+    outs:
+    - path: sweeps/slim/optuna/slim
+      hash: md5
+      md5: cd618d1cda14c9e5484654912f57dbf2.dir
+      size: 82872
+      nfiles: 8
+    - path: sweeps/slim/optuna/slim-pipeline.json
+      hash: md5
+      md5: ba0c31dafb2025d2b0ab222591d31db5
+      size: 1900
+    - path: sweeps/slim/optuna/slim.json
+      hash: md5
+      md5: d47eca8ea1fd28f1b6d4017e90d50b4b
+      size: 96
