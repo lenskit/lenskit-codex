@@ -30,6 +30,231 @@ stages:
     outs:
       - random.parquet
 
+  sweep-als-biased-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 als-biased sweeps/als-biased/optuna/als-biased
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/als-biased/search.toml
+    outs:
+      - sweeps/als-biased/optuna/als-biased
+      - sweeps/als-biased/optuna/als-biased.json:
+          cache: false
+      - sweeps/als-biased/optuna/als-biased-pipeline.json:
+          cache: false
+
+  sweep-als-implicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 als-implicit sweeps/als-implicit/optuna/als-implicit
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/als-implicit/search.toml
+    outs:
+      - sweeps/als-implicit/optuna/als-implicit
+      - sweeps/als-implicit/optuna/als-implicit.json:
+          cache: false
+      - sweeps/als-implicit/optuna/als-implicit-pipeline.json:
+          cache: false
+
+  sweep-bias-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 bias sweeps/bias/optuna/bias
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/bias/search.toml
+    outs:
+      - sweeps/bias/optuna/bias
+      - sweeps/bias/optuna/bias.json:
+          cache: false
+      - sweeps/bias/optuna/bias-pipeline.json:
+          cache: false
+
+  sweep-ease-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 ease sweeps/ease/optuna/ease
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/ease/search.toml
+    outs:
+      - sweeps/ease/optuna/ease
+      - sweeps/ease/optuna/ease.json:
+          cache: false
+      - sweeps/ease/optuna/ease-pipeline.json:
+          cache: false
+
+  sweep-flexmf-bpr-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 flexmf-bpr sweeps/flexmf-bpr/optuna/flexmf-bpr
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/flexmf-bpr/search.toml
+    outs:
+      - sweeps/flexmf-bpr/optuna/flexmf-bpr
+      - sweeps/flexmf-bpr/optuna/flexmf-bpr.json:
+          cache: false
+      - sweeps/flexmf-bpr/optuna/flexmf-bpr-pipeline.json:
+          cache: false
+
+  sweep-flexmf-explicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 flexmf-explicit sweeps/flexmf-explicit/optuna/flexmf-explicit
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/flexmf-explicit/search.toml
+    outs:
+      - sweeps/flexmf-explicit/optuna/flexmf-explicit
+      - sweeps/flexmf-explicit/optuna/flexmf-explicit.json:
+          cache: false
+      - sweeps/flexmf-explicit/optuna/flexmf-explicit-pipeline.json:
+          cache: false
+
+  sweep-flexmf-logistic-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 flexmf-logistic sweeps/flexmf-logistic/optuna/flexmf-logistic
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/flexmf-logistic/search.toml
+    outs:
+      - sweeps/flexmf-logistic/optuna/flexmf-logistic
+      - sweeps/flexmf-logistic/optuna/flexmf-logistic.json:
+          cache: false
+      - sweeps/flexmf-logistic/optuna/flexmf-logistic-pipeline.json:
+          cache: false
+
+  sweep-flexmf-warp-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 flexmf-warp sweeps/flexmf-warp/optuna/flexmf-warp
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/flexmf-warp/search.toml
+    outs:
+      - sweeps/flexmf-warp/optuna/flexmf-warp
+      - sweeps/flexmf-warp/optuna/flexmf-warp.json:
+          cache: false
+      - sweeps/flexmf-warp/optuna/flexmf-warp-pipeline.json:
+          cache: false
+
+  sweep-iknn-explicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 iknn-explicit sweeps/iknn-explicit/optuna/iknn-explicit
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/iknn-explicit/search.toml
+    outs:
+      - sweeps/iknn-explicit/optuna/iknn-explicit
+      - sweeps/iknn-explicit/optuna/iknn-explicit.json:
+          cache: false
+      - sweeps/iknn-explicit/optuna/iknn-explicit-pipeline.json:
+          cache: false
+
+  sweep-iknn-implicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 iknn-implicit sweeps/iknn-implicit/optuna/iknn-implicit
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/iknn-implicit/search.toml
+    outs:
+      - sweeps/iknn-implicit/optuna/iknn-implicit
+      - sweeps/iknn-implicit/optuna/iknn-implicit.json:
+          cache: false
+      - sweeps/iknn-implicit/optuna/iknn-implicit-pipeline.json:
+          cache: false
+
+  sweep-popular-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 popular sweeps/popular/optuna/popular
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/popular/search.toml
+    outs:
+      - sweeps/popular/optuna/popular
+      - sweeps/popular/optuna/popular.json:
+          cache: false
+      - sweeps/popular/optuna/popular-pipeline.json:
+          cache: false
+
+  sweep-uknn-explicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 uknn-explicit sweeps/uknn-explicit/optuna/uknn-explicit
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/uknn-explicit/search.toml
+    outs:
+      - sweeps/uknn-explicit/optuna/uknn-explicit
+      - sweeps/uknn-explicit/optuna/uknn-explicit.json:
+          cache: false
+      - sweeps/uknn-explicit/optuna/uknn-explicit-pipeline.json:
+          cache: false
+
+  sweep-uknn-implicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 uknn-implicit sweeps/uknn-implicit/optuna/uknn-implicit
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/uknn-implicit/search.toml
+    outs:
+      - sweeps/uknn-implicit/optuna/uknn-implicit
+      - sweeps/uknn-implicit/optuna/uknn-implicit.json:
+          cache: false
+      - sweeps/uknn-implicit/optuna/uknn-implicit-pipeline.json:
+          cache: false
+
+  sweep-slim-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 slim sweeps/slim/optuna/slim
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/slim/search.toml
+    outs:
+      - sweeps/slim/optuna/slim
+      - sweeps/slim/optuna/slim.json:
+          cache: false
+      - sweeps/slim/optuna/slim-pipeline.json:
+          cache: false
+
+  sweep-slim-fs-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 slim-fs sweeps/slim-fs/optuna/slim-fs
+    params:
+      - ../../config.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random.parquet
+      - ../../models/slim-fs/search.toml
+    outs:
+      - sweeps/slim-fs/optuna/slim-fs
+      - sweeps/slim-fs/optuna/slim-fs.json:
+          cache: false
+      - sweeps/slim-fs/optuna/slim-fs-pipeline.json:
+          cache: false
+
   run-random-als-biased-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o runs/random/als-biased-default als-biased
     deps:

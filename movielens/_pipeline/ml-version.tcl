@@ -21,6 +21,9 @@ foreach {name value} $_ml_defaults {
 }
 
 source $_tpl_dir/data.tcl
+if {$movielens(search)} {
+    source $_tpl_dir/searches.tcl
+}
 source $_tpl_dir/runs.tcl
 
 set dsinfo [dict create name $movielens(name)]
