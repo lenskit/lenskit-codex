@@ -10,6 +10,16 @@ package require dsinfo
 
 set _tpl_dir [file dirname [info script]]
 
+# set default values for MovieLens configuration
+set _ml_defaults {
+    search no
+}
+foreach {name value} $_ml_defaults {
+    if {![info exists movielens($name)]} {
+        set movielens($name) $value
+    }
+}
+
 source $_tpl_dir/data.tcl
 source $_tpl_dir/runs.tcl
 

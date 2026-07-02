@@ -12,9 +12,9 @@ run begin-set $movielens(name) $movielens(split)
 # now we emit a runs for each model
 foreach mod [model list -enabled $movielens(name)] {
     run default $mod
-    # if {[model searchable $mod]} {
-    #     run tuned $mod
-    # }
+    if {$movielens(search) && [model searchable $mod]} {
+        run tuned $mod
+    }
 }
 run collect
 run save-manifest

@@ -173,15 +173,3 @@ if {![exists -command alias]} {
         interp alias {} $name {} {*}$args
     }
 }
-
-proc flagset {value} {
-    if {[string is integer $value]} {
-        return $value
-    } elseif {[regexp -nocase {^(y(es)?|t(rue)?)$} $value} {
-        return 1
-    } elseif {[regexp -nocase {^no?|f(alse)?)$} $value} {
-        return 0
-    } else {
-        error "invalid flag value: $value"
-    }
-}
