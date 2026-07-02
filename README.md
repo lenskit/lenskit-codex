@@ -17,6 +17,10 @@ run:
 $ curl https://mise.run/bash
 ```
 
+> [!NOTE]
+>
+> Only Unix-like systems are supported for running the Codex.
+
 ## Local Setup
 
 To set up an environment to work on the Codex, first clone the repository with
