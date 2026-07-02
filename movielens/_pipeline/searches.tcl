@@ -31,7 +31,7 @@ foreach mod [model list -enabled $movielens(name)] {
         out -nocache $out_dir.json
         out -nocache $out_dir-pipeline.json
         if {![info exists movielens(search-points)]} {
-            param -file [path relative !/config.toml] tuning.optuna.points
+            param -file [path relative !/codex.toml] tuning.optuna.points
         }
     }
 }

@@ -15,6 +15,7 @@ from lenskit.logging import get_logger, stdout_console
 from lenskit.tuning import PipelineTuner, TuningSpec
 from pydantic_core import to_json
 
+from codex.config import load_config
 from codex.layout import model_dir
 from codex.runlog import CodexTask, DataModel, ScorerModel
 from codex.splitting import load_split_set
@@ -59,8 +60,14 @@ def run_tune(
 ):
     console = stdout_console()
     log = _log.bind(model=model, dataset=ds_name, split=split.stem)
+    codex_cfg = load_config()
 
     spec = TuningSpec.load(model_dir(model) / "search.toml")
+    if sample_count is not None:
+        spec.search.default_points = sample_count
+    else:
+        spec.search.default_points = codex_cfg.tuning[method or "optuna"].points
+
     if method is not None:
         if not use_ray:
             _log.error("search methods only supported with Ray Tune")

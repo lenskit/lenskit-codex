@@ -25,8 +25,6 @@ from codex.layout import codex_root
 
 _log = structlog.stdlib.get_logger(__name__)
 
-CONFIGS = ["config.toml", "local.toml"]
-
 
 def runlog_dir() -> Path:
     return codex_root() / "run-log"

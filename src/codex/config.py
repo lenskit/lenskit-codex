@@ -17,7 +17,7 @@ _log = get_logger(__name__)
 
 _config: CodexConfig | None = None
 
-CONFIG_FILES = {"config.toml": True, "config.local.toml": False}
+CONFIG_FILES = {"codex.toml": True, "codex.local.toml": False}
 
 
 def get_config() -> CodexConfig:
