@@ -53,6 +53,7 @@ module-name = "codex"
 
 [tool.uv]
 required-version = ">=0.7"
+exclude-dependencies = ["triton"]
 environments = [
   "sys_platform == 'darwin' and platform_machine == 'arm64'",
   "sys_platform == 'linux' and platform_machine == 'x86_64'",
@@ -78,9 +79,9 @@ name = "lenskit"
 url = "https://pypi.lenskit.org/lenskit-dev/"
 explicit = true
 
-[[tool.uv.index]]
-name = "lk-torch-cuda"
-url = "https://pypi.lenskit.org/torch/cu130"
+# [[tool.uv.index]]
+# name = "lk-torch-cuda"
+# url = "https://pypi.lenskit.org/torch/cu130"
 
 [project.entry-points."lenskit.cli.plugins"]
 lenskit-codex = "codex.tools:codex"
