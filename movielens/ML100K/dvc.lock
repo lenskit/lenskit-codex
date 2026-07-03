@@ -4345,9 +4345,8 @@ stages:
       md5: d47eca8ea1fd28f1b6d4017e90d50b4b
       size: 96
   search-als-biased-random-optuna:
-    cmd: lenskit codex tune --on-error=continue --split=splits/random.toml 
-      --test-part=0 --sample-count=50 als-biased 
-      searches/random/optuna/als-biased
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 als-biased searches/random/optuna/als-biased
     deps:
     - path: ../../models/als-biased/pipeline.toml
       hash: md5
@@ -4364,17 +4363,17 @@ stages:
     outs:
     - path: searches/random/optuna/als-biased
       hash: md5
-      md5: d907f2cdb7df9e8091e9fe78acb6a7db.dir
-      size: 588495
+      md5: 919ef99d4428d82db40d54ecc394d311.dir
+      size: 704263
       nfiles: 10
     - path: searches/random/optuna/als-biased-pipeline.json
       hash: md5
-      md5: a8c3da90844f159889c18c57c2c35957
-      size: 2660
+      md5: 2dc8ba9e4a7f89e7ea7580a152ba0edf
+      size: 2656
     - path: searches/random/optuna/als-biased.json
       hash: md5
-      md5: b88ac7f89c10013d4723472a730de898
-      size: 282
+      md5: aa6b4a363e2efcef55611f3f8a9aa30e
+      size: 278
   run-random-als-biased-optuna-tuned:
     cmd: lenskit codex generate --pipeline-file 
       searches/random/optuna/als-biased-pipeline.json --ds-name=ML100K 
@@ -4392,8 +4391,8 @@ stages:
       nfiles: 5
     - path: searches/random/optuna/als-biased-pipeline.json
       hash: md5
-      md5: a8c3da90844f159889c18c57c2c35957
-      size: 2660
+      md5: 2dc8ba9e4a7f89e7ea7580a152ba0edf
+      size: 2656
     - path: splits/random.parquet
       hash: md5
       md5: f254fe11e52ddafa9666db1084dcb293
@@ -4401,12 +4400,12 @@ stages:
     outs:
     - path: runs/random/als-biased-optuna-tuned
       hash: md5
-      md5: ea48eb0b234d4bbf5b3998985261967f.dir
-      size: 751824
+      md5: d62243425ad5a52679d454742cf24d43.dir
+      size: 750183
       nfiles: 6
   search-flexmf-explicit-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
-      --sample-count=50 flexmf-explicit searches/random/optuna/flexmf-explicit
+      --sample-count=60 flexmf-explicit searches/random/optuna/flexmf-explicit
     deps:
     - path: ../../models/flexmf-explicit/pipeline.toml
       hash: md5
@@ -4423,17 +4422,17 @@ stages:
     outs:
     - path: searches/random/optuna/flexmf-explicit
       hash: md5
-      md5: bcb4b70936606d418040b887ac5e7191.dir
-      size: 632390
+      md5: 52bf6c6bbd0858bc1497528103f3d44b.dir
+      size: 802011
       nfiles: 10
     - path: searches/random/optuna/flexmf-explicit-pipeline.json
       hash: md5
-      md5: 8538a49702a6961553fa109cda4dce39
-      size: 2560
+      md5: 78a259df4e1c095b2f41441a38b4648d
+      size: 2559
     - path: searches/random/optuna/flexmf-explicit.json
       hash: md5
-      md5: 937bbf215ad45100b891ffe92782438e
-      size: 212
+      md5: fba486d2ca80cc54270f13af7deb9708
+      size: 211
   run-random-flexmf-explicit-optuna-tuned:
     cmd: lenskit codex generate --pipeline-file 
       searches/random/optuna/flexmf-explicit-pipeline.json --ds-name=ML100K 
@@ -4451,8 +4450,8 @@ stages:
       nfiles: 5
     - path: searches/random/optuna/flexmf-explicit-pipeline.json
       hash: md5
-      md5: 8538a49702a6961553fa109cda4dce39
-      size: 2560
+      md5: 78a259df4e1c095b2f41441a38b4648d
+      size: 2559
     - path: splits/random.parquet
       hash: md5
       md5: f254fe11e52ddafa9666db1084dcb293
@@ -4460,12 +4459,12 @@ stages:
     outs:
     - path: runs/random/flexmf-explicit-optuna-tuned
       hash: md5
-      md5: a529886cb1f059b57281d3d3107ab64a.dir
-      size: 767012
+      md5: edb97983e4a30823c4b4d8f821a5b116.dir
+      size: 768803
       nfiles: 6
   search-bias-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
-      --sample-count=50 bias searches/random/optuna/bias
+      --sample-count=60 bias searches/random/optuna/bias
     deps:
     - path: ../../models/bias/pipeline.toml
       hash: md5
@@ -4482,16 +4481,16 @@ stages:
     outs:
     - path: searches/random/optuna/bias
       hash: md5
-      md5: 294f8f20f0f672b520f9ad2a4b9793ca.dir
-      size: 84559
+      md5: 19b746b5294653bf8b4b1792b1098e50.dir
+      size: 84506
       nfiles: 8
     - path: searches/random/optuna/bias-pipeline.json
       hash: md5
-      md5: 13bd3beeea8e2031628c69a45edc6ce5
+      md5: b6d007aaabde35a0997e26554f23c3b9
       size: 2482
     - path: searches/random/optuna/bias.json
       hash: md5
-      md5: 027547014c2e8fd54d2feb25fb6fa592
+      md5: a4a05911d54142f8723a1d0db46a5d36
       size: 103
   run-random-bias-optuna-tuned:
     cmd: lenskit codex generate --pipeline-file 
@@ -4509,7 +4508,7 @@ stages:
       nfiles: 5
     - path: searches/random/optuna/bias-pipeline.json
       hash: md5
-      md5: 13bd3beeea8e2031628c69a45edc6ce5
+      md5: b6d007aaabde35a0997e26554f23c3b9
       size: 2482
     - path: splits/random.parquet
       hash: md5
@@ -4518,6 +4517,416 @@ stages:
     outs:
     - path: runs/random/bias-optuna-tuned
       hash: md5
-      md5: 1467242efd8b68c8dcfad77555f1af90.dir
-      size: 649799
+      md5: bc589a1312a3879b28bc8753170b7c62.dir
+      size: 648695
       nfiles: 6
+  search-ease-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 ease searches/random/optuna/ease
+    deps:
+    - path: ../../models/ease/pipeline.toml
+      hash: md5
+      md5: a8e0a0fcba4fa58a8bcc1acad67f544f
+      size: 104
+    - path: ../../models/ease/search.toml
+      hash: md5
+      md5: d4ffd3dd7c10dd65cc3854679739ef8b
+      size: 166
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/ease
+      hash: md5
+      md5: 5d6bb3f77ab8069614d0f7fe20771321.dir
+      size: 71167
+      nfiles: 8
+    - path: searches/random/optuna/ease-pipeline.json
+      hash: md5
+      md5: d0029f0fd657fd7aafc797755726d902
+      size: 1817
+    - path: searches/random/optuna/ease.json
+      hash: md5
+      md5: 1a44461bebaea8232ada1e26eff6344d
+      size: 75
+  search-iknn-explicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 iknn-explicit searches/random/optuna/iknn-explicit
+    deps:
+    - path: ../../models/iknn-explicit/pipeline.toml
+      hash: md5
+      md5: 1f3d5bac137760ca16e25d2722a79397
+      size: 219
+    - path: ../../models/iknn-explicit/search.toml
+      hash: md5
+      md5: 63756a666c14bacb73312b50f01674e2
+      size: 238
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/iknn-explicit
+      hash: md5
+      md5: 3e6b1f5b4c0f68028d8c56a903b03d8a.dir
+      size: 177893
+      nfiles: 8
+    - path: searches/random/optuna/iknn-explicit-pipeline.json
+      hash: md5
+      md5: c44f63ea70230613130dde93b66c5895
+      size: 2492
+    - path: searches/random/optuna/iknn-explicit.json
+      hash: md5
+      md5: 233415ad4d5d99a345563c9901ec69b2
+      size: 97
+  search-iknn-implicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 iknn-implicit searches/random/optuna/iknn-implicit
+    deps:
+    - path: ../../models/iknn-implicit/pipeline.toml
+      hash: md5
+      md5: 036f0d9e041240e42fa369925414889e
+      size: 211
+    - path: ../../models/iknn-implicit/search.toml
+      hash: md5
+      md5: 14848ec09311cc6e05d8745b5d4c4ce5
+      size: 237
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/iknn-implicit
+      hash: md5
+      md5: 193a849218522b626443ff2c7d8ef750.dir
+      size: 177275
+      nfiles: 8
+    - path: searches/random/optuna/iknn-implicit-pipeline.json
+      hash: md5
+      md5: a5d24563455433171742069dfbac8da7
+      size: 1957
+    - path: searches/random/optuna/iknn-implicit.json
+      hash: md5
+      md5: 049b454a62b9961d29624245e853201d
+      size: 96
+  search-uknn-explicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 uknn-explicit searches/random/optuna/uknn-explicit
+    deps:
+    - path: ../../models/uknn-explicit/pipeline.toml
+      hash: md5
+      md5: 4f96897e185f7e9f55f582f310262a24
+      size: 201
+    - path: ../../models/uknn-explicit/search.toml
+      hash: md5
+      md5: 63756a666c14bacb73312b50f01674e2
+      size: 238
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/uknn-explicit
+      hash: md5
+      md5: 4867619b7764f7e47e2a62fce4ed7216.dir
+      size: 177575
+      nfiles: 8
+    - path: searches/random/optuna/uknn-explicit-pipeline.json
+      hash: md5
+      md5: 8af2e695445f53f0550bdf911bc3c313
+      size: 2438
+    - path: searches/random/optuna/uknn-explicit.json
+      hash: md5
+      md5: 19ba72d60b0c26cf6bc36a6790d03620
+      size: 98
+  search-uknn-implicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 uknn-implicit searches/random/optuna/uknn-implicit
+    deps:
+    - path: ../../models/uknn-implicit/pipeline.toml
+      hash: md5
+      md5: f4572194ab778ebd3db6cba5e1918d51
+      size: 193
+    - path: ../../models/uknn-implicit/search.toml
+      hash: md5
+      md5: 14848ec09311cc6e05d8745b5d4c4ce5
+      size: 237
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/uknn-implicit
+      hash: md5
+      md5: 50868ea0ec93d2fc912546e4593a4d53.dir
+      size: 176334
+      nfiles: 8
+    - path: searches/random/optuna/uknn-implicit-pipeline.json
+      hash: md5
+      md5: 4372b07a2f8c0bb81f75bc139c599600
+      size: 1902
+    - path: searches/random/optuna/uknn-implicit.json
+      hash: md5
+      md5: 02b2b70547745d7a9cf9b8477c149765
+      size: 96
+  search-slim-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 slim searches/random/optuna/slim
+    deps:
+    - path: ../../models/slim/pipeline.toml
+      hash: md5
+      md5: f7bd75cae63c041794e50577c3d8d60a
+      size: 104
+    - path: ../../models/slim/search.toml
+      hash: md5
+      md5: 8e15e48e95f919536286dcd99a484f1e
+      size: 225
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/slim
+      hash: md5
+      md5: 64b2b51ec9506974f113b5d1fd16723c.dir
+      size: 82875
+      nfiles: 8
+    - path: searches/random/optuna/slim-pipeline.json
+      hash: md5
+      md5: 2d737e7ed5042defcf890f8c80be9041
+      size: 1899
+    - path: searches/random/optuna/slim.json
+      hash: md5
+      md5: 4f5dc5638f5963ea4d5d2118f5cda543
+      size: 95
+  search-slim-fs-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 slim-fs searches/random/optuna/slim-fs
+    deps:
+    - path: ../../models/slim-fs/pipeline.toml
+      hash: md5
+      md5: fc82b962ce5f15ed93013842cf48030b
+      size: 150
+    - path: ../../models/slim-fs/search.toml
+      hash: md5
+      md5: 3251fec4a90a6692d59767f6068e0974
+      size: 274
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/slim-fs
+      hash: md5
+      md5: a7cb189e24f9e82636e4607f06de6dac.dir
+      size: 178569
+      nfiles: 8
+    - path: searches/random/optuna/slim-fs-pipeline.json
+      hash: md5
+      md5: 6d329584748c06d04291980372d4127f
+      size: 1900
+    - path: searches/random/optuna/slim-fs.json
+      hash: md5
+      md5: 4be865035125deceb8c5067b83843f11
+      size: 109
+  run-random-ease-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/ease-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/ease-optuna-tuned ease
+    deps:
+    - path: ../../models/ease/pipeline.toml
+      hash: md5
+      md5: a8e0a0fcba4fa58a8bcc1acad67f544f
+      size: 104
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/ease-pipeline.json
+      hash: md5
+      md5: d0029f0fd657fd7aafc797755726d902
+      size: 1817
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/ease-optuna-tuned
+      hash: md5
+      md5: c1c33f66c83d9daaea9554cef0085cf4.dir
+      size: 714676
+      nfiles: 5
+  run-random-iknn-explicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/iknn-explicit-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/iknn-explicit-optuna-tuned 
+      iknn-explicit
+    deps:
+    - path: ../../models/iknn-explicit/pipeline.toml
+      hash: md5
+      md5: 1f3d5bac137760ca16e25d2722a79397
+      size: 219
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/iknn-explicit-pipeline.json
+      hash: md5
+      md5: c44f63ea70230613130dde93b66c5895
+      size: 2492
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/iknn-explicit-optuna-tuned
+      hash: md5
+      md5: 72b60becfd1913527a8974b8cf6239e0.dir
+      size: 768813
+      nfiles: 6
+  run-random-iknn-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/iknn-implicit-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/iknn-implicit-optuna-tuned 
+      iknn-implicit
+    deps:
+    - path: ../../models/iknn-implicit/pipeline.toml
+      hash: md5
+      md5: 036f0d9e041240e42fa369925414889e
+      size: 211
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/iknn-implicit-pipeline.json
+      hash: md5
+      md5: a5d24563455433171742069dfbac8da7
+      size: 1957
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/iknn-implicit-optuna-tuned
+      hash: md5
+      md5: bef3e4671613035fd79e2983debaa8f8.dir
+      size: 707934
+      nfiles: 5
+  run-random-uknn-explicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/uknn-explicit-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/uknn-explicit-optuna-tuned 
+      uknn-explicit
+    deps:
+    - path: ../../models/uknn-explicit/pipeline.toml
+      hash: md5
+      md5: 4f96897e185f7e9f55f582f310262a24
+      size: 201
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/uknn-explicit-pipeline.json
+      hash: md5
+      md5: 8af2e695445f53f0550bdf911bc3c313
+      size: 2438
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/uknn-explicit-optuna-tuned
+      hash: md5
+      md5: c32e384aad253f723843f72f9e92a55c.dir
+      size: 758604
+      nfiles: 6
+  run-random-uknn-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/uknn-implicit-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/uknn-implicit-optuna-tuned 
+      uknn-implicit
+    deps:
+    - path: ../../models/uknn-implicit/pipeline.toml
+      hash: md5
+      md5: f4572194ab778ebd3db6cba5e1918d51
+      size: 193
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/uknn-implicit-pipeline.json
+      hash: md5
+      md5: 4372b07a2f8c0bb81f75bc139c599600
+      size: 1902
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/uknn-implicit-optuna-tuned
+      hash: md5
+      md5: 9315e6594d1889e7365532578657c02b.dir
+      size: 704336
+      nfiles: 5
+  run-random-slim-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/slim-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/slim-optuna-tuned slim
+    deps:
+    - path: ../../models/slim/pipeline.toml
+      hash: md5
+      md5: f7bd75cae63c041794e50577c3d8d60a
+      size: 104
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/slim-pipeline.json
+      hash: md5
+      md5: 2d737e7ed5042defcf890f8c80be9041
+      size: 1899
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/slim-optuna-tuned
+      hash: md5
+      md5: 05b6d03b99ebcc1f27d599419280922f.dir
+      size: 706703
+      nfiles: 5
+  run-random-slim-fs-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/slim-fs-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/slim-fs-optuna-tuned slim-fs
+    deps:
+    - path: ../../models/slim-fs/pipeline.toml
+      hash: md5
+      md5: fc82b962ce5f15ed93013842cf48030b
+      size: 150
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/slim-fs-pipeline.json
+      hash: md5
+      md5: 6d329584748c06d04291980372d4127f
+      size: 1900
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/slim-fs-optuna-tuned
+      hash: md5
+      md5: 0d63c4c315ce6313d0d570cf3f9d8b60.dir
+      size: 708898
+      nfiles: 5

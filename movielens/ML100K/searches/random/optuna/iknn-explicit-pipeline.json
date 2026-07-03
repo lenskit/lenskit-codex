@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "iknn-explicit",
     "version": null,
-    "hash": "25e9ce034a621055c1b9f0824cbc7ca6d89e5b5dd0374821543323826a2f097f"
+    "hash": "cf5d93d5ecbd604e318071843b81d2b939c7905151b789e3d72777f3efedfe51"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "numpy:bytes_",
-        "numpy:str_",
-        "numpy:integer",
-        "str",
+        "int",
         "lenskit.data:RecQuery",
-        "bytes",
         "lenskit.data:ItemList",
+        "str",
+        "numpy:str_",
+        "bytes",
         "numpy:object_",
-        "int"
+        "numpy:bytes_",
+        "numpy:integer"
       ]
     },
     {
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "None",
-        "int"
+        "int",
+        "None"
       ]
     }
   ],
@@ -62,15 +62,14 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.knn.item:ItemKNNScorer",
       "config": {
-        "embedding_size": 64,
-        "batch_size": 8192,
-        "learning_rate": 0.04618869041910354,
-        "epochs": 5,
-        "regularization": 3.7927617708625925,
-        "reg_method": "AdamW",
-        "embedding_size_exp": 8
+        "max_nbrs": 12,
+        "min_nbrs": 1,
+        "min_sim": 3.873728391834302e-6,
+        "save_nbrs": 10000,
+        "feedback": "explicit",
+        "block_size": 250
       },
       "inputs": {
         "items": "candidates",

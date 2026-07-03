@@ -4744,3 +4744,589 @@ stages:
       md5: 140effc9bba68a2b5b983caa778adc5e.dir
       size: 3969617
       nfiles: 4
+  search-als-implicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 als-implicit searches/temporal/optuna/als-implicit
+    deps:
+    - path: ../../models/als-implicit/pipeline.toml
+      hash: md5
+      md5: a88f57edd1e5bf7c205d84122a47e94c
+      size: 173
+    - path: ../../models/als-implicit/search.toml
+      hash: md5
+      md5: 9bbb87c6034ddb35139631c6d5ae5597
+      size: 368
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: searches/temporal/optuna/als-implicit
+      hash: md5
+      md5: 9c66d48810e9f46e5b9b545e62004793.dir
+      size: 753850
+      nfiles: 10
+    - path: searches/temporal/optuna/als-implicit-pipeline.json
+      hash: md5
+      md5: 174af8558d7823986c30a2bf3b769b0f
+      size: 2089
+    - path: searches/temporal/optuna/als-implicit.json
+      hash: md5
+      md5: 9e2346595cd723c76cade6a05f73a77b
+      size: 245
+  search-bias-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 bias searches/temporal/optuna/bias
+    deps:
+    - path: ../../models/bias/pipeline.toml
+      hash: md5
+      md5: 8ce32f6596a5cdfd8fd80fdd4ad2630b
+      size: 155
+    - path: ../../models/bias/search.toml
+      hash: md5
+      md5: 8c4bd72d6e48f6516ec03735c43698dc
+      size: 247
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: searches/temporal/optuna/bias
+      hash: md5
+      md5: aa4ea25d27fa5c29788b0c9bdf53428a.dir
+      size: 85686
+      nfiles: 8
+    - path: searches/temporal/optuna/bias-pipeline.json
+      hash: md5
+      md5: f53a51c1944bc0b5590b7bf034837d43
+      size: 2481
+    - path: searches/temporal/optuna/bias.json
+      hash: md5
+      md5: ee3da7977ba1d63e65cf2c3fa886a49e
+      size: 102
+  search-ease-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 ease searches/temporal/optuna/ease
+    deps:
+    - path: ../../models/ease/pipeline.toml
+      hash: md5
+      md5: a8e0a0fcba4fa58a8bcc1acad67f544f
+      size: 104
+    - path: ../../models/ease/search.toml
+      hash: md5
+      md5: d4ffd3dd7c10dd65cc3854679739ef8b
+      size: 166
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: searches/temporal/optuna/ease
+      hash: md5
+      md5: ad8198a9c4bc3b9e11390f5980b6808e.dir
+      size: 72663
+      nfiles: 8
+    - path: searches/temporal/optuna/ease-pipeline.json
+      hash: md5
+      md5: d1878f1a54e388c332f1533048c9cfd0
+      size: 1816
+    - path: searches/temporal/optuna/ease.json
+      hash: md5
+      md5: 425278a010343fccd0b43fc771224da3
+      size: 74
+  search-flexmf-explicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 flexmf-explicit searches/temporal/optuna/flexmf-explicit
+    deps:
+    - path: ../../models/flexmf-explicit/pipeline.toml
+      hash: md5
+      md5: 820de790f159d933bc64eac0bc447a12
+      size: 185
+    - path: ../../models/flexmf-explicit/search.toml
+      hash: md5
+      md5: a71483ecd3ec32105aee091c99d0909d
+      size: 325
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: searches/temporal/optuna/flexmf-explicit
+      hash: md5
+      md5: 3616d7b5cf10fde152e85b5e26249900.dir
+      size: 661157
+      nfiles: 10
+    - path: searches/temporal/optuna/flexmf-explicit-pipeline.json
+      hash: md5
+      md5: c4bcd1d92626fa949f841af5213be593
+      size: 2560
+    - path: searches/temporal/optuna/flexmf-explicit.json
+      hash: md5
+      md5: 3696442b06dba5f31d0679ab4b5ee7c3
+      size: 212
+  search-iknn-explicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 iknn-explicit searches/temporal/optuna/iknn-explicit
+    deps:
+    - path: ../../models/iknn-explicit/pipeline.toml
+      hash: md5
+      md5: 1f3d5bac137760ca16e25d2722a79397
+      size: 219
+    - path: ../../models/iknn-explicit/search.toml
+      hash: md5
+      md5: 63756a666c14bacb73312b50f01674e2
+      size: 238
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: searches/temporal/optuna/iknn-explicit
+      hash: md5
+      md5: 111dc48f159f5006851babfdb7d2ff65.dir
+      size: 180663
+      nfiles: 8
+    - path: searches/temporal/optuna/iknn-explicit-pipeline.json
+      hash: md5
+      md5: 8e0d96a22434911661718340d253996a
+      size: 2494
+    - path: searches/temporal/optuna/iknn-explicit.json
+      hash: md5
+      md5: 0e177ffbfad8165bb4a20af806352d21
+      size: 99
+  search-iknn-implicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 iknn-implicit searches/temporal/optuna/iknn-implicit
+    deps:
+    - path: ../../models/iknn-implicit/pipeline.toml
+      hash: md5
+      md5: 036f0d9e041240e42fa369925414889e
+      size: 211
+    - path: ../../models/iknn-implicit/search.toml
+      hash: md5
+      md5: 14848ec09311cc6e05d8745b5d4c4ce5
+      size: 237
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: searches/temporal/optuna/iknn-implicit
+      hash: md5
+      md5: cb24b7c0249aab97b97f0cf0f34eff8c.dir
+      size: 179664
+      nfiles: 8
+    - path: searches/temporal/optuna/iknn-implicit-pipeline.json
+      hash: md5
+      md5: 65ed17a24bf5d58cef343631adb84498
+      size: 1960
+    - path: searches/temporal/optuna/iknn-implicit.json
+      hash: md5
+      md5: 1893e0b90fd1d22ca43246f9a5ca8548
+      size: 99
+  search-uknn-explicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 uknn-explicit searches/temporal/optuna/uknn-explicit
+    deps:
+    - path: ../../models/uknn-explicit/pipeline.toml
+      hash: md5
+      md5: 4f96897e185f7e9f55f582f310262a24
+      size: 201
+    - path: ../../models/uknn-explicit/search.toml
+      hash: md5
+      md5: 63756a666c14bacb73312b50f01674e2
+      size: 238
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: searches/temporal/optuna/uknn-explicit
+      hash: md5
+      md5: 15430264a3799edf6130682d39b226eb.dir
+      size: 179909
+      nfiles: 8
+    - path: searches/temporal/optuna/uknn-explicit-pipeline.json
+      hash: md5
+      md5: 42401fe69e7851cb9717d7e57a4fd63c
+      size: 2438
+    - path: searches/temporal/optuna/uknn-explicit.json
+      hash: md5
+      md5: c5a87a17c6134af8260d50b18ce8f33a
+      size: 98
+  search-uknn-implicit-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 uknn-implicit searches/temporal/optuna/uknn-implicit
+    deps:
+    - path: ../../models/uknn-implicit/pipeline.toml
+      hash: md5
+      md5: f4572194ab778ebd3db6cba5e1918d51
+      size: 193
+    - path: ../../models/uknn-implicit/search.toml
+      hash: md5
+      md5: 14848ec09311cc6e05d8745b5d4c4ce5
+      size: 237
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: searches/temporal/optuna/uknn-implicit
+      hash: md5
+      md5: 54ee7fe4b055bc0a874b2d0340ee7578.dir
+      size: 178601
+      nfiles: 8
+    - path: searches/temporal/optuna/uknn-implicit-pipeline.json
+      hash: md5
+      md5: acea81beab27bf7e8d3ede6bf3f924d5
+      size: 1902
+    - path: searches/temporal/optuna/uknn-implicit.json
+      hash: md5
+      md5: 1b2c0e597a7c05b31f4440c23f0b3463
+      size: 96
+  search-slim-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 slim searches/temporal/optuna/slim
+    deps:
+    - path: ../../models/slim/pipeline.toml
+      hash: md5
+      md5: f7bd75cae63c041794e50577c3d8d60a
+      size: 104
+    - path: ../../models/slim/search.toml
+      hash: md5
+      md5: 8e15e48e95f919536286dcd99a484f1e
+      size: 225
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: searches/temporal/optuna/slim
+      hash: md5
+      md5: 9a69a7e09413dbb897714ae9060db1ff.dir
+      size: 84524
+      nfiles: 8
+    - path: searches/temporal/optuna/slim-pipeline.json
+      hash: md5
+      md5: 3f187b14e62c7b272e7f6d5774573170
+      size: 1899
+    - path: searches/temporal/optuna/slim.json
+      hash: md5
+      md5: d50a930f40d3befe7001804294b4d39c
+      size: 95
+  search-slim-fs-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 slim-fs searches/temporal/optuna/slim-fs
+    deps:
+    - path: ../../models/slim-fs/pipeline.toml
+      hash: md5
+      md5: fc82b962ce5f15ed93013842cf48030b
+      size: 150
+    - path: ../../models/slim-fs/search.toml
+      hash: md5
+      md5: 3251fec4a90a6692d59767f6068e0974
+      size: 274
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: searches/temporal/optuna/slim-fs
+      hash: md5
+      md5: d10257fd16b3bb6af65f0cc6df22dee5.dir
+      size: 181784
+      nfiles: 8
+    - path: searches/temporal/optuna/slim-fs-pipeline.json
+      hash: md5
+      md5: 1bdd73b2aedd4297c3e7583f5106051a
+      size: 1901
+    - path: searches/temporal/optuna/slim-fs.json
+      hash: md5
+      md5: 1faf9c24e679a1c21f775a9ae0319ddf
+      size: 110
+  run-temporal-als-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/als-implicit-pipeline.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/als-implicit-optuna-tuned 
+      als-implicit
+    deps:
+    - path: ../../models/als-implicit/pipeline.toml
+      hash: md5
+      md5: a88f57edd1e5bf7c205d84122a47e94c
+      size: 173
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: searches/temporal/optuna/als-implicit-pipeline.json
+      hash: md5
+      md5: 174af8558d7823986c30a2bf3b769b0f
+      size: 2089
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/als-implicit-optuna-tuned
+      hash: md5
+      md5: 6790d9aaf2c260f6d6dc3f5d5b7e48e4.dir
+      size: 3880017
+      nfiles: 5
+  run-temporal-bias-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/bias-pipeline.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/bias-optuna-tuned bias
+    deps:
+    - path: ../../models/bias/pipeline.toml
+      hash: md5
+      md5: 8ce32f6596a5cdfd8fd80fdd4ad2630b
+      size: 155
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: searches/temporal/optuna/bias-pipeline.json
+      hash: md5
+      md5: f53a51c1944bc0b5590b7bf034837d43
+      size: 2481
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/bias-optuna-tuned
+      hash: md5
+      md5: 99b9f4240e7d9c128251c23605da4a45.dir
+      size: 10937575
+      nfiles: 6
+  run-temporal-ease-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/ease-pipeline.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/ease-optuna-tuned ease
+    deps:
+    - path: ../../models/ease/pipeline.toml
+      hash: md5
+      md5: a8e0a0fcba4fa58a8bcc1acad67f544f
+      size: 104
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: searches/temporal/optuna/ease-pipeline.json
+      hash: md5
+      md5: d1878f1a54e388c332f1533048c9cfd0
+      size: 1816
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/ease-optuna-tuned
+      hash: md5
+      md5: 0ae4a60f1f7258b76ad321710e4152cf.dir
+      size: 3967384
+      nfiles: 5
+  run-temporal-flexmf-explicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/flexmf-explicit-pipeline.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-explicit-optuna-tuned
+      flexmf-explicit
+    deps:
+    - path: ../../models/flexmf-explicit/pipeline.toml
+      hash: md5
+      md5: 820de790f159d933bc64eac0bc447a12
+      size: 185
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: searches/temporal/optuna/flexmf-explicit-pipeline.json
+      hash: md5
+      md5: c4bcd1d92626fa949f841af5213be593
+      size: 2560
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/flexmf-explicit-optuna-tuned
+      hash: md5
+      md5: ef1349f678bdbf05f3243b958da64b51.dir
+      size: 11682944
+      nfiles: 6
+  run-temporal-iknn-explicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/iknn-explicit-pipeline.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/iknn-explicit-optuna-tuned 
+      iknn-explicit
+    deps:
+    - path: ../../models/iknn-explicit/pipeline.toml
+      hash: md5
+      md5: 1f3d5bac137760ca16e25d2722a79397
+      size: 219
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: searches/temporal/optuna/iknn-explicit-pipeline.json
+      hash: md5
+      md5: 8e0d96a22434911661718340d253996a
+      size: 2494
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/iknn-explicit-optuna-tuned
+      hash: md5
+      md5: 57f21109c2df74b6230a13c621d81c86.dir
+      size: 11705972
+      nfiles: 6
+  run-temporal-iknn-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/iknn-implicit-pipeline.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/iknn-implicit-optuna-tuned 
+      iknn-implicit
+    deps:
+    - path: ../../models/iknn-implicit/pipeline.toml
+      hash: md5
+      md5: 036f0d9e041240e42fa369925414889e
+      size: 211
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: searches/temporal/optuna/iknn-implicit-pipeline.json
+      hash: md5
+      md5: 65ed17a24bf5d58cef343631adb84498
+      size: 1960
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/iknn-implicit-optuna-tuned
+      hash: md5
+      md5: 018424dc215f4f37e1093c0d6d610b4f.dir
+      size: 3755735
+      nfiles: 5
+  run-temporal-uknn-explicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/uknn-explicit-pipeline.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/uknn-explicit-optuna-tuned 
+      uknn-explicit
+    deps:
+    - path: ../../models/uknn-explicit/pipeline.toml
+      hash: md5
+      md5: 4f96897e185f7e9f55f582f310262a24
+      size: 201
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: searches/temporal/optuna/uknn-explicit-pipeline.json
+      hash: md5
+      md5: 42401fe69e7851cb9717d7e57a4fd63c
+      size: 2438
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/uknn-explicit-optuna-tuned
+      hash: md5
+      md5: 8cf89e4b1ddf698988744da4b94b4115.dir
+      size: 11572889
+      nfiles: 6
+  run-temporal-uknn-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/uknn-implicit-pipeline.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/uknn-implicit-optuna-tuned 
+      uknn-implicit
+    deps:
+    - path: ../../models/uknn-implicit/pipeline.toml
+      hash: md5
+      md5: f4572194ab778ebd3db6cba5e1918d51
+      size: 193
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: searches/temporal/optuna/uknn-implicit-pipeline.json
+      hash: md5
+      md5: acea81beab27bf7e8d3ede6bf3f924d5
+      size: 1902
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/uknn-implicit-optuna-tuned
+      hash: md5
+      md5: c7ac1bfdbb2e7a9761181400926e68ad.dir
+      size: 3934205
+      nfiles: 5
+  run-temporal-slim-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/slim-pipeline.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/slim-optuna-tuned slim
+    deps:
+    - path: ../../models/slim/pipeline.toml
+      hash: md5
+      md5: f7bd75cae63c041794e50577c3d8d60a
+      size: 104
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: searches/temporal/optuna/slim-pipeline.json
+      hash: md5
+      md5: 3f187b14e62c7b272e7f6d5774573170
+      size: 1899
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/slim-optuna-tuned
+      hash: md5
+      md5: e0f11ae0cadc5effa6abe5fedd8e0001.dir
+      size: 3965379
+      nfiles: 5
+  run-temporal-slim-fs-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/slim-fs-pipeline.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/slim-fs-optuna-tuned slim-fs
+    deps:
+    - path: ../../models/slim-fs/pipeline.toml
+      hash: md5
+      md5: fc82b962ce5f15ed93013842cf48030b
+      size: 150
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: searches/temporal/optuna/slim-fs-pipeline.json
+      hash: md5
+      md5: 1bdd73b2aedd4297c3e7583f5106051a
+      size: 1901
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/slim-fs-optuna-tuned
+      hash: md5
+      md5: e77303a3fae255e9e3ee5041b8a3fd72.dir
+      size: 3966334
+      nfiles: 5

@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "slim",
     "version": null,
-    "hash": "25e9ce034a621055c1b9f0824cbc7ca6d89e5b5dd0374821543323826a2f097f"
+    "hash": "beea28f10fc4a96f3b10d274b209d5e87bd56f39b1fc07c4ee193ed47ceb9e50"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
         "numpy:bytes_",
-        "numpy:str_",
-        "numpy:integer",
+        "int",
         "str",
-        "lenskit.data:RecQuery",
-        "bytes",
+        "numpy:str_",
         "lenskit.data:ItemList",
+        "numpy:integer",
         "numpy:object_",
-        "int"
+        "lenskit.data:RecQuery",
+        "bytes"
       ]
     },
     {
@@ -62,15 +62,12 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.knn.slim:SLIMScorer",
       "config": {
-        "embedding_size": 64,
-        "batch_size": 8192,
-        "learning_rate": 0.04618869041910354,
-        "epochs": 5,
-        "regularization": 3.7927617708625925,
-        "reg_method": "AdamW",
-        "embedding_size_exp": 8
+        "l1_reg": 1.9277489689177396,
+        "l2_reg": 228.97796262022229,
+        "max_iters": 100,
+        "max_nbrs": null
       },
       "inputs": {
         "items": "candidates",
@@ -86,32 +83,9 @@
         "items": "scorer",
         "n": "n"
       }
-    },
-    "fallback-predictor": {
-      "code": "lenskit.basic.bias:BiasScorer",
-      "config": {
-        "entities": [
-          "item",
-          "user"
-        ],
-        "damping": 0.0
-      },
-      "inputs": {
-        "items": "candidates",
-        "query": "history-lookup"
-      }
-    },
-    "rating-merger": {
-      "code": "lenskit.basic.composite:FallbackScorer",
-      "config": null,
-      "inputs": {
-        "backup": "fallback-predictor",
-        "primary": "scorer"
-      }
     }
   },
   "aliases": {
-    "rating-predictor": "rating-merger",
     "recommender": "ranker"
   },
   "default": null,

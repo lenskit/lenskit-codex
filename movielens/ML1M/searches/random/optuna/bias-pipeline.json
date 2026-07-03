@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "bias",
     "version": null,
-    "hash": "25e9ce034a621055c1b9f0824cbc7ca6d89e5b5dd0374821543323826a2f097f"
+    "hash": "45a63b2bd6ce963c0344b17d364df1fdacaef4cf14d7010ccf6909dd24fb263e"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
         "numpy:bytes_",
+        "str",
+        "lenskit.data:ItemList",
+        "bytes",
+        "numpy:object_",
         "numpy:str_",
         "numpy:integer",
-        "str",
-        "lenskit.data:RecQuery",
-        "bytes",
-        "lenskit.data:ItemList",
-        "numpy:object_",
-        "int"
+        "int",
+        "lenskit.data:RecQuery"
       ]
     },
     {
@@ -62,15 +62,16 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.basic.bias:BiasScorer",
       "config": {
-        "embedding_size": 64,
-        "batch_size": 8192,
-        "learning_rate": 0.04618869041910354,
-        "epochs": 5,
-        "regularization": 3.7927617708625925,
-        "reg_method": "AdamW",
-        "embedding_size_exp": 8
+        "entities": [
+          "item",
+          "user"
+        ],
+        "damping": {
+          "user": 4.100126835313578,
+          "item": 6.412185797683377
+        }
       },
       "inputs": {
         "items": "candidates",

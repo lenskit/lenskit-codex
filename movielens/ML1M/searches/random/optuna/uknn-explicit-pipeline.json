@@ -1,22 +1,22 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "uknn-explicit",
     "version": null,
-    "hash": "25e9ce034a621055c1b9f0824cbc7ca6d89e5b5dd0374821543323826a2f097f"
+    "hash": "469f07f2e5c3b80f5036b37ea428ab06f8f6b3783da312a6dc8fef3a687d2b15"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
+        "bytes",
         "numpy:bytes_",
-        "numpy:str_",
-        "numpy:integer",
+        "numpy:object_",
+        "lenskit.data:ItemList",
         "str",
         "lenskit.data:RecQuery",
-        "bytes",
-        "lenskit.data:ItemList",
-        "numpy:object_",
+        "numpy:str_",
+        "numpy:integer",
         "int"
       ]
     },
@@ -62,15 +62,12 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.knn.user:UserKNNScorer",
       "config": {
-        "embedding_size": 64,
-        "batch_size": 8192,
-        "learning_rate": 0.04618869041910354,
-        "epochs": 5,
-        "regularization": 3.7927617708625925,
-        "reg_method": "AdamW",
-        "embedding_size_exp": 8
+        "max_nbrs": 46,
+        "min_nbrs": 5,
+        "min_sim": 0.001823678236301802,
+        "feedback": "explicit"
       },
       "inputs": {
         "items": "candidates",

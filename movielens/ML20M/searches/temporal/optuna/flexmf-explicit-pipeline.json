@@ -3,21 +3,21 @@
   "meta": {
     "name": "flexmf-explicit",
     "version": null,
-    "hash": "25e9ce034a621055c1b9f0824cbc7ca6d89e5b5dd0374821543323826a2f097f"
+    "hash": "dd5a0cb6ca9a10039887d55947bdd6b2ee453251e8ef9bc048cf42fa8d9e24b1"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "numpy:bytes_",
-        "numpy:str_",
-        "numpy:integer",
-        "str",
-        "lenskit.data:RecQuery",
         "bytes",
+        "numpy:str_",
         "lenskit.data:ItemList",
+        "numpy:bytes_",
+        "numpy:integer",
         "numpy:object_",
-        "int"
+        "int",
+        "lenskit.data:RecQuery",
+        "str"
       ]
     },
     {
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "None",
-        "int"
+        "int",
+        "None"
       ]
     }
   ],
@@ -66,11 +66,11 @@
       "config": {
         "embedding_size": 64,
         "batch_size": 8192,
-        "learning_rate": 0.04618869041910354,
-        "epochs": 5,
-        "regularization": 3.7927617708625925,
+        "learning_rate": 0.0023469733949754617,
+        "epochs": 4,
+        "regularization": 0.06531692476788288,
         "reg_method": "AdamW",
-        "embedding_size_exp": 8
+        "embedding_size_exp": 4
       },
       "inputs": {
         "items": "candidates",

@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "als-implicit",
     "version": null,
-    "hash": "25e9ce034a621055c1b9f0824cbc7ca6d89e5b5dd0374821543323826a2f097f"
+    "hash": "1e4ce1b3427414d8f239931da3f20da6407a1df853a842dc6186efa089fe3ba8"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
+        "lenskit.data:RecQuery",
+        "str",
         "numpy:bytes_",
         "numpy:str_",
-        "numpy:integer",
-        "str",
-        "lenskit.data:RecQuery",
         "bytes",
+        "numpy:integer",
         "lenskit.data:ItemList",
-        "numpy:object_",
-        "int"
+        "int",
+        "numpy:object_"
       ]
     },
     {
@@ -62,15 +62,18 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.als:ImplicitMFScorer",
       "config": {
         "embedding_size": 64,
-        "batch_size": 8192,
-        "learning_rate": 0.04618869041910354,
-        "epochs": 5,
-        "regularization": 3.7927617708625925,
-        "reg_method": "AdamW",
-        "embedding_size_exp": 8
+        "epochs": 6,
+        "regularization": {
+          "user": 0.002293531340431487,
+          "item": 0.09899989127147969
+        },
+        "user_embeddings": "prefer",
+        "weight": 5.169747046204421,
+        "use_ratings": false,
+        "embedding_size_exp": 5
       },
       "inputs": {
         "items": "candidates",
@@ -86,32 +89,9 @@
         "items": "scorer",
         "n": "n"
       }
-    },
-    "fallback-predictor": {
-      "code": "lenskit.basic.bias:BiasScorer",
-      "config": {
-        "entities": [
-          "item",
-          "user"
-        ],
-        "damping": 0.0
-      },
-      "inputs": {
-        "items": "candidates",
-        "query": "history-lookup"
-      }
-    },
-    "rating-merger": {
-      "code": "lenskit.basic.composite:FallbackScorer",
-      "config": null,
-      "inputs": {
-        "backup": "fallback-predictor",
-        "primary": "scorer"
-      }
     }
   },
   "aliases": {
-    "rating-predictor": "rating-merger",
     "recommender": "ranker"
   },
   "default": null,

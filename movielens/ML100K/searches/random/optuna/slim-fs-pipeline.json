@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "slim-fs",
     "version": null,
-    "hash": "25e9ce034a621055c1b9f0824cbc7ca6d89e5b5dd0374821543323826a2f097f"
+    "hash": "2655cd8e562d6c951d3bedde52fe8ae9f7d741761002ce6ecd02bdbc8f973764"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "numpy:bytes_",
         "numpy:str_",
-        "numpy:integer",
-        "str",
         "lenskit.data:RecQuery",
+        "int",
+        "numpy:integer",
         "bytes",
-        "lenskit.data:ItemList",
         "numpy:object_",
-        "int"
+        "str",
+        "lenskit.data:ItemList",
+        "numpy:bytes_"
       ]
     },
     {
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "None",
-        "int"
+        "int",
+        "None"
       ]
     }
   ],
@@ -62,15 +62,12 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.knn.slim:SLIMScorer",
       "config": {
-        "embedding_size": 64,
-        "batch_size": 8192,
-        "learning_rate": 0.04618869041910354,
-        "epochs": 5,
-        "regularization": 3.7927617708625925,
-        "reg_method": "AdamW",
-        "embedding_size_exp": 8
+        "l1_reg": 0.1789966235261524,
+        "l2_reg": 167.3144283277016,
+        "max_iters": 100,
+        "max_nbrs": 772
       },
       "inputs": {
         "items": "candidates",
@@ -86,32 +83,9 @@
         "items": "scorer",
         "n": "n"
       }
-    },
-    "fallback-predictor": {
-      "code": "lenskit.basic.bias:BiasScorer",
-      "config": {
-        "entities": [
-          "item",
-          "user"
-        ],
-        "damping": 0.0
-      },
-      "inputs": {
-        "items": "candidates",
-        "query": "history-lookup"
-      }
-    },
-    "rating-merger": {
-      "code": "lenskit.basic.composite:FallbackScorer",
-      "config": null,
-      "inputs": {
-        "backup": "fallback-predictor",
-        "primary": "scorer"
-      }
     }
   },
   "aliases": {
-    "rating-predictor": "rating-merger",
     "recommender": "ranker"
   },
   "default": null,

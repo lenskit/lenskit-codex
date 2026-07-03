@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "slim",
     "version": null,
-    "hash": "25e9ce034a621055c1b9f0824cbc7ca6d89e5b5dd0374821543323826a2f097f"
+    "hash": "916bdf4adb617cfbb2244cd3fe2fd9a44371582c37e6fc48b3815947c7cf9223"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
+        "bytes",
+        "numpy:object_",
         "numpy:bytes_",
+        "lenskit.data:ItemList",
         "numpy:str_",
+        "int",
         "numpy:integer",
         "str",
-        "lenskit.data:RecQuery",
-        "bytes",
-        "lenskit.data:ItemList",
-        "numpy:object_",
-        "int"
+        "lenskit.data:RecQuery"
       ]
     },
     {
@@ -62,15 +62,12 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.knn.slim:SLIMScorer",
       "config": {
-        "embedding_size": 64,
-        "batch_size": 8192,
-        "learning_rate": 0.04618869041910354,
-        "epochs": 5,
-        "regularization": 3.7927617708625925,
-        "reg_method": "AdamW",
-        "embedding_size_exp": 8
+        "l1_reg": 0.04619928222288872,
+        "l2_reg": 175.81171565808054,
+        "max_iters": 100,
+        "max_nbrs": null
       },
       "inputs": {
         "items": "candidates",
@@ -86,32 +83,9 @@
         "items": "scorer",
         "n": "n"
       }
-    },
-    "fallback-predictor": {
-      "code": "lenskit.basic.bias:BiasScorer",
-      "config": {
-        "entities": [
-          "item",
-          "user"
-        ],
-        "damping": 0.0
-      },
-      "inputs": {
-        "items": "candidates",
-        "query": "history-lookup"
-      }
-    },
-    "rating-merger": {
-      "code": "lenskit.basic.composite:FallbackScorer",
-      "config": null,
-      "inputs": {
-        "backup": "fallback-predictor",
-        "primary": "scorer"
-      }
     }
   },
   "aliases": {
-    "rating-predictor": "rating-merger",
     "recommender": "ranker"
   },
   "default": null,
