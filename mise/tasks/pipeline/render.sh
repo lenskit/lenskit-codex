@@ -15,7 +15,7 @@ fi
 
 for file in **/pipeline.tcl; do
     dir="$(dirname "$file")"
-    $PIPE_TCL scripts/mkpipeline.tcl -- --format "${mk_args[@]}" -o "${dir}/dvc.yaml" "$file"
+    $PIPE_TCL scripts/mkpipeline.tcl --format "${mk_args[@]}" -o "${dir}/dvc.yaml" "$file"
 done
 
 if [[ $usage_gitignore = true ]]; then
