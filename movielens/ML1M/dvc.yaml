@@ -160,19 +160,6 @@ stages:
       - searches/random/optuna/iknn-implicit-pipeline.json:
           cache: false
 
-  search-popular-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 popular searches/random/optuna/popular
-    deps:
-      - splits/random.parquet
-      - ../../models/popular/pipeline.toml
-      - ../../models/popular/search.toml
-    outs:
-      - searches/random/optuna/popular
-      - searches/random/optuna/popular.json:
-          cache: false
-      - searches/random/optuna/popular-pipeline.json:
-          cache: false
-
   search-uknn-explicit-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 uknn-explicit searches/random/optuna/uknn-explicit
     deps:

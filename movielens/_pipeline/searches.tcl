@@ -22,6 +22,9 @@ if {[info exists movielens(search-points)]} {
 }
 
 foreach mod [model list -enabled $movielens(name)] {
+    if {![model searchable $mod]} {
+        continue
+    }
     set out_dir searches/$movielens(split)/optuna/$mod
     stage "search-$mod-$movielens(split)-optuna" {
         cmd lenskit codex tune {*}$search_args $mod $out_dir

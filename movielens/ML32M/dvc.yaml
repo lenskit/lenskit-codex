@@ -162,22 +162,6 @@ stages:
       - searches/temporal/optuna/iknn-implicit-pipeline.json:
           cache: false
 
-  search-popular-temporal-optuna:
-    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid popular searches/temporal/optuna/popular
-    params:
-      - ../../codex.toml:
-          - tuning.optuna.points
-    deps:
-      - splits/temporal.toml
-      - ../../models/popular/pipeline.toml
-      - ../../models/popular/search.toml
-    outs:
-      - searches/temporal/optuna/popular
-      - searches/temporal/optuna/popular.json:
-          cache: false
-      - searches/temporal/optuna/popular-pipeline.json:
-          cache: false
-
   search-slim-fs-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid slim-fs searches/temporal/optuna/slim-fs
     params:
