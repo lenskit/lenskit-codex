@@ -4930,3 +4930,33 @@ stages:
       md5: 0d63c4c315ce6313d0d570cf3f9d8b60.dir
       size: 708898
       nfiles: 5
+  search-flexmf-warp-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 flexmf-warp searches/random/optuna/flexmf-warp
+    deps:
+    - path: ../../models/flexmf-warp/pipeline.toml
+      hash: md5
+      md5: df9f119b425b7c170f9ce70f9cfaf7f2
+      size: 187
+    - path: ../../models/flexmf-warp/search.toml
+      hash: md5
+      md5: f690269d047e7195560361490bb04247
+      size: 461
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/flexmf-warp
+      hash: md5
+      md5: 605c2977371c19f8c17ad36420e4a102.dir
+      size: 901717
+      nfiles: 10
+    - path: searches/random/optuna/flexmf-warp-pipeline.json
+      hash: md5
+      md5: 8c5b7609cd1a62987cbabc7f751966d8
+      size: 2217
+    - path: searches/random/optuna/flexmf-warp.json
+      hash: md5
+      md5: 2ed5dbc6c45cd5879def68e5734df661
+      size: 246
