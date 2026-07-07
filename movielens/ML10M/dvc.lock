@@ -5330,3 +5330,62 @@ stages:
       md5: e77303a3fae255e9e3ee5041b8a3fd72.dir
       size: 3966334
       nfiles: 5
+  search-als-biased-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      --sample-count=60 als-biased searches/temporal/optuna/als-biased
+    deps:
+    - path: ../../models/als-biased/pipeline.toml
+      hash: md5
+      md5: 617ea3225f6fab63a108ee9504325727
+      size: 177
+    - path: ../../models/als-biased/search.toml
+      hash: md5
+      md5: 30ac07f54b5c7ad5353b92208cbdef72
+      size: 468
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: searches/temporal/optuna/als-biased
+      hash: md5
+      md5: 74a15985970ab27190397cebf53c71ee.dir
+      size: 733593
+      nfiles: 10
+    - path: searches/temporal/optuna/als-biased-pipeline.json
+      hash: md5
+      md5: ac8cece92e42475fdbab3eb75cd2679a
+      size: 2655
+    - path: searches/temporal/optuna/als-biased.json
+      hash: md5
+      md5: fcc707859fb53f27bfb6337031ac6ec4
+      size: 277
+  run-temporal-als-biased-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/als-biased-pipeline.json --ds-name=ML10M 
+      --split=splits/temporal.toml -o runs/temporal/als-biased-optuna-tuned 
+      als-biased
+    deps:
+    - path: ../../models/als-biased/pipeline.toml
+      hash: md5
+      md5: 617ea3225f6fab63a108ee9504325727
+      size: 177
+    - path: dataset
+      hash: md5
+      md5: a1d791aeba8d9c7e924d2f1cbce02726.dir
+      size: 78748475
+      nfiles: 5
+    - path: searches/temporal/optuna/als-biased-pipeline.json
+      hash: md5
+      md5: ac8cece92e42475fdbab3eb75cd2679a
+      size: 2655
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 05e5eda2993ed1e8a3af917d9a1d9068
+      size: 120
+    outs:
+    - path: runs/temporal/als-biased-optuna-tuned
+      hash: md5
+      md5: 81e3702ec47fb6b95f85ae6ba098de07.dir
+      size: 11561501
+      nfiles: 6
