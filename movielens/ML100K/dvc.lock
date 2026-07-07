@@ -4960,3 +4960,33 @@ stages:
       hash: md5
       md5: 2ed5dbc6c45cd5879def68e5734df661
       size: 246
+  search-als-implicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 als-implicit searches/random/optuna/als-implicit
+    deps:
+    - path: ../../models/als-implicit/pipeline.toml
+      hash: md5
+      md5: a88f57edd1e5bf7c205d84122a47e94c
+      size: 173
+    - path: ../../models/als-implicit/search.toml
+      hash: md5
+      md5: 9bbb87c6034ddb35139631c6d5ae5597
+      size: 368
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/als-implicit
+      hash: md5
+      md5: 75e53db7d4e588f6e646bc7ade10024e.dir
+      size: 759457
+      nfiles: 10
+    - path: searches/random/optuna/als-implicit-pipeline.json
+      hash: md5
+      md5: c654f9602fb641089309af5a30743eca
+      size: 2089
+    - path: searches/random/optuna/als-implicit.json
+      hash: md5
+      md5: 5884826d2642a08a91900b20e8c2eb6f
+      size: 243
