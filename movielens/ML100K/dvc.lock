@@ -4413,8 +4413,8 @@ stages:
       size: 185
     - path: ../../models/flexmf-explicit/search.toml
       hash: md5
-      md5: a71483ecd3ec32105aee091c99d0909d
-      size: 325
+      md5: a94e484c15a96a4a3635578890bd1b0c
+      size: 324
     - path: splits/random.parquet
       hash: md5
       md5: f254fe11e52ddafa9666db1084dcb293
@@ -4422,17 +4422,17 @@ stages:
     outs:
     - path: searches/random/optuna/flexmf-explicit
       hash: md5
-      md5: 52bf6c6bbd0858bc1497528103f3d44b.dir
-      size: 802011
+      md5: 56b0809f5e2e89eab0ee2bfc6d36ab3d.dir
+      size: 745877
       nfiles: 10
     - path: searches/random/optuna/flexmf-explicit-pipeline.json
       hash: md5
-      md5: 78a259df4e1c095b2f41441a38b4648d
-      size: 2559
+      md5: 3355ab5b0474af78fd4d6dc119aed7dc
+      size: 2526
     - path: searches/random/optuna/flexmf-explicit.json
       hash: md5
-      md5: fba486d2ca80cc54270f13af7deb9708
-      size: 211
+      md5: 41e6633ff3eccb7bf07723d6ab21f68d
+      size: 207
   run-random-flexmf-explicit-optuna-tuned:
     cmd: lenskit codex generate --pipeline-file 
       searches/random/optuna/flexmf-explicit-pipeline.json --ds-name=ML100K 
@@ -4990,3 +4990,150 @@ stages:
       hash: md5
       md5: 5884826d2642a08a91900b20e8c2eb6f
       size: 243
+  search-flexmf-logistic-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 flexmf-logistic searches/random/optuna/flexmf-logistic
+    deps:
+    - path: ../../models/flexmf-logistic/pipeline.toml
+      hash: md5
+      md5: e53400bdca23e8d06ed75688a2c2b0d4
+      size: 195
+    - path: ../../models/flexmf-logistic/search.toml
+      hash: md5
+      md5: 3374e0c5a0f6c15dd463410c30033837
+      size: 489
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/flexmf-logistic
+      hash: md5
+      md5: 1c16a7f38319945a64ee6307d0ba97b1.dir
+      size: 1275097
+      nfiles: 10
+    - path: searches/random/optuna/flexmf-logistic-pipeline.json
+      hash: md5
+      md5: 3fe095442fd38b497572a7012d1d9f6a
+      size: 2227
+    - path: searches/random/optuna/flexmf-logistic.json
+      hash: md5
+      md5: 87ce366bff63a6a526ef8efac42fd085
+      size: 284
+  search-flexmf-bpr-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
+      --sample-count=60 flexmf-bpr searches/random/optuna/flexmf-bpr
+    deps:
+    - path: ../../models/flexmf-bpr/pipeline.toml
+      hash: md5
+      md5: 4ad020cc9459a490e23e78cc14ee0893
+      size: 190
+    - path: ../../models/flexmf-bpr/search.toml
+      hash: md5
+      md5: 24860a67a1c0410eca906a12ca2d9d09
+      size: 459
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: searches/random/optuna/flexmf-bpr
+      hash: md5
+      md5: 633ed62cdae893b1ef7dc436c936c991.dir
+      size: 1193426
+      nfiles: 10
+    - path: searches/random/optuna/flexmf-bpr-pipeline.json
+      hash: md5
+      md5: 3f29dbd5be2128b939c97be152e17738
+      size: 2222
+    - path: searches/random/optuna/flexmf-bpr.json
+      hash: md5
+      md5: 5269926f95d0a5eb0807161fb69d0674
+      size: 269
+  run-random-flexmf-warp-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/flexmf-warp-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/flexmf-warp-optuna-tuned 
+      flexmf-warp
+    deps:
+    - path: ../../models/flexmf-warp/pipeline.toml
+      hash: md5
+      md5: df9f119b425b7c170f9ce70f9cfaf7f2
+      size: 187
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/flexmf-warp-pipeline.json
+      hash: md5
+      md5: 8c5b7609cd1a62987cbabc7f751966d8
+      size: 2217
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/flexmf-warp-optuna-tuned
+      hash: md5
+      md5: fa9eb3b897b923560aae8708b6fb6933.dir
+      size: 720788
+      nfiles: 5
+  run-random-als-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/als-implicit-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/als-implicit-optuna-tuned 
+      als-implicit
+    deps:
+    - path: ../../models/als-implicit/pipeline.toml
+      hash: md5
+      md5: a88f57edd1e5bf7c205d84122a47e94c
+      size: 173
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/als-implicit-pipeline.json
+      hash: md5
+      md5: c654f9602fb641089309af5a30743eca
+      size: 2089
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/als-implicit-optuna-tuned
+      hash: md5
+      md5: 490ba3b11a6f1ebac328be113500bde0.dir
+      size: 715682
+      nfiles: 5
+  run-random-flexmf-bpr-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/flexmf-bpr-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/flexmf-bpr-optuna-tuned 
+      flexmf-bpr
+    deps:
+    - path: ../../models/flexmf-bpr/pipeline.toml
+      hash: md5
+      md5: 4ad020cc9459a490e23e78cc14ee0893
+      size: 190
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/flexmf-bpr-pipeline.json
+      hash: md5
+      md5: 3f29dbd5be2128b939c97be152e17738
+      size: 2222
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/flexmf-bpr-optuna-tuned
+      hash: md5
+      md5: fc4ca0a8baa52dc1350281825ba07231.dir
+      size: 695060
+      nfiles: 5

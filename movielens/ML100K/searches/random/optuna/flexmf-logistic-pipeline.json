@@ -1,22 +1,22 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "flexmf-logistic",
     "version": null,
-    "hash": "787b7a5884bf1c2469b11b4c6471e8ea39bb85228a02ca4f19bd5a1933f74d25"
+    "hash": "61f6ffd55ef32be7c4aad416eb822cf81ec557b0f0ccad131e30922d21e9c997"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "lenskit.data:RecQuery",
+        "numpy:str_",
         "str",
         "numpy:object_",
-        "int",
-        "numpy:str_",
-        "numpy:bytes_",
         "bytes",
+        "numpy:bytes_",
+        "lenskit.data:RecQuery",
         "numpy:integer",
+        "int",
         "lenskit.data:ItemList"
       ]
     },
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "None",
-        "int"
+        "int",
+        "None"
       ]
     }
   ],
@@ -62,14 +62,22 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.flexmf:FlexMFImplicitScorer",
       "config": {
-        "embedding_size": 10,
+        "embedding_size": 7,
         "batch_size": 8192,
-        "learning_rate": 0.011159602370969992,
-        "epochs": 7,
-        "regularization": 4.849161671614301,
-        "reg_method": "AdamW"
+        "learning_rate": 0.013907143304979502,
+        "epochs": 10,
+        "regularization": 0.7523504130077977,
+        "reg_method": "AdamW",
+        "preset": null,
+        "loss": "logistic",
+        "negative_strategy": null,
+        "negative_count": 4,
+        "positive_weight": 3,
+        "user_bias": true,
+        "item_bias": false,
+        "convolution_layers": 0
       },
       "inputs": {
         "items": "candidates",
@@ -85,32 +93,9 @@
         "items": "scorer",
         "n": "n"
       }
-    },
-    "fallback-predictor": {
-      "code": "lenskit.basic.bias:BiasScorer",
-      "config": {
-        "entities": [
-          "item",
-          "user"
-        ],
-        "damping": 0.0
-      },
-      "inputs": {
-        "items": "candidates",
-        "query": "history-lookup"
-      }
-    },
-    "rating-merger": {
-      "code": "lenskit.basic.composite:FallbackScorer",
-      "config": null,
-      "inputs": {
-        "backup": "fallback-predictor",
-        "primary": "scorer"
-      }
     }
   },
   "aliases": {
-    "rating-predictor": "rating-merger",
     "recommender": "ranker"
   },
   "default": null,
