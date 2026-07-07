@@ -433,57 +433,107 @@ stages:
     deps:
     - path: runs/manifest.csv
       hash: md5
-      md5: ceee07fe9ff3713cda5cfb506260ac09
-      size: 807
+      md5: 6020f7206af333db1cb06f7bf7059874
+      size: 1683
     - path: runs/random/als-biased-default
       hash: md5
       md5: acc8ccda1b0fd84a5fc9c42962ae7ded.dir
       size: 758499
+      nfiles: 6
+    - path: runs/random/als-biased-optuna-tuned
+      hash: md5
+      md5: d62243425ad5a52679d454742cf24d43.dir
+      size: 750183
       nfiles: 6
     - path: runs/random/als-implicit-default
       hash: md5
       md5: dee5334feb73c3201ff432e4c503937f.dir
       size: 711860
       nfiles: 5
+    - path: runs/random/als-implicit-optuna-tuned
+      hash: md5
+      md5: 490ba3b11a6f1ebac328be113500bde0.dir
+      size: 715682
+      nfiles: 5
     - path: runs/random/bias-default
       hash: md5
       md5: d1fb83c657e0e15a614e8dd10768a850.dir
       size: 690118
+      nfiles: 6
+    - path: runs/random/bias-optuna-tuned
+      hash: md5
+      md5: bc589a1312a3879b28bc8753170b7c62.dir
+      size: 648695
       nfiles: 6
     - path: runs/random/ease-default
       hash: md5
       md5: 10b5fd7ca0dcbd53f85d02d7f4ab68cc.dir
       size: 713179
       nfiles: 5
+    - path: runs/random/ease-optuna-tuned
+      hash: md5
+      md5: c1c33f66c83d9daaea9554cef0085cf4.dir
+      size: 714676
+      nfiles: 5
     - path: runs/random/flexmf-bpr-default
       hash: md5
       md5: f85312249e901107f75267e4b6a3a2d1.dir
       size: 707083
+      nfiles: 5
+    - path: runs/random/flexmf-bpr-optuna-tuned
+      hash: md5
+      md5: fc4ca0a8baa52dc1350281825ba07231.dir
+      size: 695060
       nfiles: 5
     - path: runs/random/flexmf-explicit-default
       hash: md5
       md5: 57c3dd1dd46a5d61faf7d203b11096a0.dir
       size: 766835
       nfiles: 6
+    - path: runs/random/flexmf-explicit-optuna-tuned
+      hash: md5
+      md5: 7e471698297be099f7eded031f9446a3.dir
+      size: 746369
+      nfiles: 6
     - path: runs/random/flexmf-logistic-default
       hash: md5
       md5: e6aa4626b52986be584f7e4f335630f5.dir
       size: 716475
+      nfiles: 5
+    - path: runs/random/flexmf-logistic-optuna-tuned
+      hash: md5
+      md5: 745222b15acc56abfd780c47735be29c.dir
+      size: 691845
       nfiles: 5
     - path: runs/random/flexmf-warp-default
       hash: md5
       md5: 7dd476545d86841d4cfbf925a26f754a.dir
       size: 719908
       nfiles: 5
+    - path: runs/random/flexmf-warp-optuna-tuned
+      hash: md5
+      md5: fa9eb3b897b923560aae8708b6fb6933.dir
+      size: 720788
+      nfiles: 5
     - path: runs/random/iknn-explicit-default
       hash: md5
       md5: 8b6cef7fe7f1acf5f236c0398074f0e2.dir
       size: 783183
       nfiles: 6
+    - path: runs/random/iknn-explicit-optuna-tuned
+      hash: md5
+      md5: 72b60becfd1913527a8974b8cf6239e0.dir
+      size: 768813
+      nfiles: 6
     - path: runs/random/iknn-implicit-default
       hash: md5
       md5: 39f3036baacb5b07e4b674418bd4a40f.dir
       size: 694790
+      nfiles: 5
+    - path: runs/random/iknn-implicit-optuna-tuned
+      hash: md5
+      md5: bef3e4671613035fd79e2983debaa8f8.dir
+      size: 707934
       nfiles: 5
     - path: runs/random/popular-default
       hash: md5
@@ -500,25 +550,45 @@ stages:
       md5: 019ac60a81fd3014a055c05a55dbd815.dir
       size: 710313
       nfiles: 5
+    - path: runs/random/slim-fs-optuna-tuned
+      hash: md5
+      md5: 0d63c4c315ce6313d0d570cf3f9d8b60.dir
+      size: 708898
+      nfiles: 5
+    - path: runs/random/slim-optuna-tuned
+      hash: md5
+      md5: 05b6d03b99ebcc1f27d599419280922f.dir
+      size: 706703
+      nfiles: 5
     - path: runs/random/uknn-explicit-default
       hash: md5
       md5: 1a83b6e02dda5a5eab7bbd17f3dd3dc1.dir
       size: 757713
+      nfiles: 6
+    - path: runs/random/uknn-explicit-optuna-tuned
+      hash: md5
+      md5: c32e384aad253f723843f72f9e92a55c.dir
+      size: 758604
       nfiles: 6
     - path: runs/random/uknn-implicit-default
       hash: md5
       md5: 8103a9b3d002d8445cbf8f43773d4194.dir
       size: 707703
       nfiles: 5
+    - path: runs/random/uknn-implicit-optuna-tuned
+      hash: md5
+      md5: 9315e6594d1889e7365532578657c02b.dir
+      size: 704336
+      nfiles: 5
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: d9cb69d0e917977f9767c861c5f46c8d
-      size: 29455
+      md5: 59e97bd8fefbb4e0e8f92d7d7abcefcc
+      size: 56793
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 3ec942a63db931098e602af9d59eee32
-      size: 383846
+      md5: b7f97f87a7297f229bcc56c68e1f77d3
+      size: 711667
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate 
       --param-file=sweeps/random/IKNN-Implicit-grid.json --test-part=-0 
@@ -4450,8 +4520,8 @@ stages:
       nfiles: 5
     - path: searches/random/optuna/flexmf-explicit-pipeline.json
       hash: md5
-      md5: 78a259df4e1c095b2f41441a38b4648d
-      size: 2559
+      md5: 3355ab5b0474af78fd4d6dc119aed7dc
+      size: 2526
     - path: splits/random.parquet
       hash: md5
       md5: f254fe11e52ddafa9666db1084dcb293
@@ -4459,8 +4529,8 @@ stages:
     outs:
     - path: runs/random/flexmf-explicit-optuna-tuned
       hash: md5
-      md5: edb97983e4a30823c4b4d8f821a5b116.dir
-      size: 768803
+      md5: 7e471698297be099f7eded031f9446a3.dir
+      size: 746369
       nfiles: 6
   search-bias-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
@@ -5136,4 +5206,33 @@ stages:
       hash: md5
       md5: fc4ca0a8baa52dc1350281825ba07231.dir
       size: 695060
+      nfiles: 5
+  run-random-flexmf-logistic-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/random/optuna/flexmf-logistic-pipeline.json --ds-name=ML100K 
+      --split=splits/random.toml -o runs/random/flexmf-logistic-optuna-tuned 
+      flexmf-logistic
+    deps:
+    - path: ../../models/flexmf-logistic/pipeline.toml
+      hash: md5
+      md5: e53400bdca23e8d06ed75688a2c2b0d4
+      size: 195
+    - path: dataset
+      hash: md5
+      md5: 689a7f709fffc6cac754f3f50a763e4e.dir
+      size: 887992
+      nfiles: 5
+    - path: searches/random/optuna/flexmf-logistic-pipeline.json
+      hash: md5
+      md5: 3fe095442fd38b497572a7012d1d9f6a
+      size: 2227
+    - path: splits/random.parquet
+      hash: md5
+      md5: f254fe11e52ddafa9666db1084dcb293
+      size: 56292
+    outs:
+    - path: runs/random/flexmf-logistic-optuna-tuned
+      hash: md5
+      md5: 745222b15acc56abfd780c47735be29c.dir
+      size: 691845
       nfiles: 5
