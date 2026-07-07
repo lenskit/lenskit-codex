@@ -5,9 +5,9 @@ on:
     branches:
       - main
 
-defaults:
-  run:
-    shell: bash -el {0}
+concurrency:
+  group: publish-${{github.ref}}
+  cancel-in-progress: true
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
