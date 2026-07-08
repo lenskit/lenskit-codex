@@ -35,7 +35,7 @@ namespace eval ::model {
                 set _ $m
             }]
         }
-        return $models
+        return [lsort $models]
     }
 
     # Query if this model is enable for this dataset
