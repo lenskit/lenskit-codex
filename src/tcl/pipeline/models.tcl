@@ -1,3 +1,6 @@
+#!/usr/bin/env -S guarsh -U
+#USAGE flag="-v --verbose" help="Enable verbose logging messages."
+
 # Code for understanding available models and pipelines.
 package provide models 0.1
 package require missing
@@ -90,13 +93,6 @@ namespace eval ::model {
 
 if {[info exists argv0]} {
     if {$argv0 eq [info script]} {
-        package require getopt
-        getopt arg $argv {
-            -v - --verbose {
-                # increase logging verbosity
-                logging::configure -verbose
-            }
-        }
 
         msg "showing model list"
         foreach m [model list] {

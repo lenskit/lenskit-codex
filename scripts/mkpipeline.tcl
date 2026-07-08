@@ -1,38 +1,23 @@
-#!/usr/bin/env tclsh
+#!/usr/bin/env -S guarsh -U
+#USAGE flag "-v --verbose" help="Output debug log messages."
+#USAGE flag "--format" help="Format piepline output."
+#USAGE flag "-o --output <file>" help="Write output to <file>."
+#USAGE arg "<script...>" help="Render scripts specified by <script>."
 
 package require logging
 package require dvc
-package require getopt
 
-set scripts {}
-set format 0
-set out_file ""
-
-getopt arg $argv {
-    -v - --verbose {
-        # increase logging verbosity
-        logging::configure -verbose
-    }
-    --format {
-        # format pipeline output
-        set format 1
-    }
-    -o: - --output=FILE {
-        # save pipeline to file instead of stdout
-        set out_file $arg
-    }
-
-    arglist {
-        set scripts $arg
-    }
+set format $usage(format)
+if {[exists -var usage(output)]} {
+    set out_file $usage(output)
 }
 
-foreach script $scripts {
+foreach script $usage(script) {
     msg "evaluating pipeline $script"
     ::dvc::reset
     ::dvc::eval_pipeline $script
     set pid 0
-    if {$out_file ne ""} {
+    if {[exists out_file]} {
         msg "saving to $out_file"
         if {$format} {
             msg -debug "saving with dprint"
