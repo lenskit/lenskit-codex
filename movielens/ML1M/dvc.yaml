@@ -160,32 +160,6 @@ stages:
       - searches/random/optuna/iknn-implicit-pipeline.json:
           cache: false
 
-  search-uknn-explicit-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 uknn-explicit searches/random/optuna/uknn-explicit
-    deps:
-      - splits/random.parquet
-      - ../../models/uknn-explicit/pipeline.toml
-      - ../../models/uknn-explicit/search.toml
-    outs:
-      - searches/random/optuna/uknn-explicit
-      - searches/random/optuna/uknn-explicit.json:
-          cache: false
-      - searches/random/optuna/uknn-explicit-pipeline.json:
-          cache: false
-
-  search-uknn-implicit-random-optuna:
-    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 uknn-implicit searches/random/optuna/uknn-implicit
-    deps:
-      - splits/random.parquet
-      - ../../models/uknn-implicit/pipeline.toml
-      - ../../models/uknn-implicit/search.toml
-    outs:
-      - searches/random/optuna/uknn-implicit
-      - searches/random/optuna/uknn-implicit.json:
-          cache: false
-      - searches/random/optuna/uknn-implicit-pipeline.json:
-          cache: false
-
   search-slim-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 slim searches/random/optuna/slim
     deps:
@@ -210,6 +184,32 @@ stages:
       - searches/random/optuna/slim-fs.json:
           cache: false
       - searches/random/optuna/slim-fs-pipeline.json:
+          cache: false
+
+  search-uknn-explicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 uknn-explicit searches/random/optuna/uknn-explicit
+    deps:
+      - splits/random.parquet
+      - ../../models/uknn-explicit/pipeline.toml
+      - ../../models/uknn-explicit/search.toml
+    outs:
+      - searches/random/optuna/uknn-explicit
+      - searches/random/optuna/uknn-explicit.json:
+          cache: false
+      - searches/random/optuna/uknn-explicit-pipeline.json:
+          cache: false
+
+  search-uknn-implicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 uknn-implicit searches/random/optuna/uknn-implicit
+    deps:
+      - splits/random.parquet
+      - ../../models/uknn-implicit/pipeline.toml
+      - ../../models/uknn-implicit/search.toml
+    outs:
+      - searches/random/optuna/uknn-implicit
+      - searches/random/optuna/uknn-implicit.json:
+          cache: false
+      - searches/random/optuna/uknn-implicit-pipeline.json:
           cache: false
 
   run-random-als-biased-default:
@@ -411,44 +411,6 @@ stages:
     outs:
       - runs/random/popular-default
 
-  run-random-uknn-explicit-default:
-    cmd: lenskit codex generate --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-explicit-default uknn-explicit
-    deps:
-      - ../../models/uknn-explicit/pipeline.toml
-      - dataset
-      - splits/random.parquet
-    outs:
-      - runs/random/uknn-explicit-default
-
-  run-random-uknn-explicit-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file searches/random/optuna/uknn-explicit-pipeline.json --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-explicit-optuna-tuned uknn-explicit
-    deps:
-      - ../../models/uknn-explicit/pipeline.toml
-      - dataset
-      - splits/random.parquet
-      - searches/random/optuna/uknn-explicit-pipeline.json
-    outs:
-      - runs/random/uknn-explicit-optuna-tuned
-
-  run-random-uknn-implicit-default:
-    cmd: lenskit codex generate --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-implicit-default uknn-implicit
-    deps:
-      - ../../models/uknn-implicit/pipeline.toml
-      - dataset
-      - splits/random.parquet
-    outs:
-      - runs/random/uknn-implicit-default
-
-  run-random-uknn-implicit-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file searches/random/optuna/uknn-implicit-pipeline.json --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-implicit-optuna-tuned uknn-implicit
-    deps:
-      - ../../models/uknn-implicit/pipeline.toml
-      - dataset
-      - splits/random.parquet
-      - searches/random/optuna/uknn-implicit-pipeline.json
-    outs:
-      - runs/random/uknn-implicit-optuna-tuned
-
   run-random-slim-default:
     cmd: lenskit codex generate --ds-name=ML1M --split=splits/random.toml -o runs/random/slim-default slim
     deps:
@@ -487,6 +449,44 @@ stages:
     outs:
       - runs/random/slim-fs-optuna-tuned
 
+  run-random-uknn-explicit-default:
+    cmd: lenskit codex generate --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-explicit-default uknn-explicit
+    deps:
+      - ../../models/uknn-explicit/pipeline.toml
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/uknn-explicit-default
+
+  run-random-uknn-explicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/uknn-explicit-pipeline.json --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-explicit-optuna-tuned uknn-explicit
+    deps:
+      - ../../models/uknn-explicit/pipeline.toml
+      - dataset
+      - splits/random.parquet
+      - searches/random/optuna/uknn-explicit-pipeline.json
+    outs:
+      - runs/random/uknn-explicit-optuna-tuned
+
+  run-random-uknn-implicit-default:
+    cmd: lenskit codex generate --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-implicit-default uknn-implicit
+    deps:
+      - ../../models/uknn-implicit/pipeline.toml
+      - dataset
+      - splits/random.parquet
+    outs:
+      - runs/random/uknn-implicit-default
+
+  run-random-uknn-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/uknn-implicit-pipeline.json --ds-name=ML1M --split=splits/random.toml -o runs/random/uknn-implicit-optuna-tuned uknn-implicit
+    deps:
+      - ../../models/uknn-implicit/pipeline.toml
+      - dataset
+      - splits/random.parquet
+      - searches/random/optuna/uknn-implicit-pipeline.json
+    outs:
+      - runs/random/uknn-implicit-optuna-tuned
+
   collect-metrics:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
@@ -512,14 +512,14 @@ stages:
       - runs/random/iknn-implicit-default
       - runs/random/iknn-implicit-optuna-tuned
       - runs/random/popular-default
-      - runs/random/uknn-explicit-default
-      - runs/random/uknn-explicit-optuna-tuned
-      - runs/random/uknn-implicit-default
-      - runs/random/uknn-implicit-optuna-tuned
       - runs/random/slim-default
       - runs/random/slim-optuna-tuned
       - runs/random/slim-fs-default
       - runs/random/slim-fs-optuna-tuned
+      - runs/random/uknn-explicit-default
+      - runs/random/uknn-explicit-optuna-tuned
+      - runs/random/uknn-implicit-default
+      - runs/random/uknn-implicit-optuna-tuned
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
