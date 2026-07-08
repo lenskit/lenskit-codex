@@ -5,6 +5,7 @@ uv_venv_auto = true
 usage = "latest"
 # needed when we are installing git deps
 rust = "stable"
+cargo-binstall = "latest"
 "github:quarto-dev/quarto-cli" = "1.9"
 go-jsonnet = "latest"
 uv = "latest"
@@ -16,14 +17,11 @@ dprint = "latest"
 "pipx:tclint" = "latest"
 hk = "latest"
 fd = "latest"
+"cargo:guartcl" = "latest"
 
 [tools."pipx:dvc"]
 version = "3"
 extras = "s3,webdav"
-
-[tools."forgejo:mdekstrand/rust-jim"]
-version = "0.4.0-beta5"
-matching = "guartcl"
 
 [env]
 JIMLIB = "{{config_root}}/src/tcl/pipeline:{{config_root}}/src/tcl/lib"
