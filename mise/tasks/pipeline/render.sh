@@ -5,8 +5,6 @@
 
 setopt -eo pipefail
 
-: "${PIPE_TCL:=guarsh}"
-
 declare -a mk_args=()
 
 if [[ $usage_verbose ]]; then
@@ -15,9 +13,9 @@ fi
 
 for file in **/pipeline.tcl; do
     dir="$(dirname "$file")"
-    $PIPE_TCL scripts/mkpipeline.tcl --format "${mk_args[@]}" -o "${dir}/dvc.yaml" "$file"
+    ./scripts/mkpipeline.tcl --format "${mk_args[@]}" -o "${dir}/dvc.yaml" "$file"
 done
 
 if [[ $usage_gitignore = true ]]; then
-    $PIPE_TCL ./scripts/update-gitignore.tcl
+    ./scripts/update-gitignore.tcl
 fi
