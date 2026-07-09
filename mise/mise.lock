@@ -116,35 +116,6 @@ checksum = "sha256:b2816e506390a89941c63c9187d58a3cc10e9a55f2ef0685f9ea0eccaf7c9
 url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-pc-windows-msvc.zip"
 url_api = "https://api.github.com/repos/sharkdp/fd/releases/assets/370661516"
 
-[[tools."forgejo:mdekstrand/rust-jim"]]
-version = "0.4.0-beta5"
-backend = "forgejo:mdekstrand/rust-jim"
-
-[tools."forgejo:mdekstrand/rust-jim".options]
-matching = "guartcl"
-
-[tools."forgejo:mdekstrand/rust-jim"."platforms.linux-arm64"]
-url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta5/guartcl-0.4.0-beta5-aarch64-unknown-linux-gnu.tgz"
-url_api = "https://codeberg.org/attachments/fcbd8644-564f-4486-bdd8-fda47980a040"
-
-[tools."forgejo:mdekstrand/rust-jim"."platforms.linux-arm64-musl"]
-url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta5/guartcl-0.4.0-beta5-aarch64-unknown-linux-musl.tgz"
-url_api = "https://codeberg.org/attachments/84f8027f-8b2f-4384-80f0-e63a6310564d"
-
-[tools."forgejo:mdekstrand/rust-jim"."platforms.linux-x64"]
-checksum = "blake3:df89df0c216c3e03e4ea150b721ed07d3628ff4e20337029af4caff834f93fd2"
-url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta5/guartcl-0.4.0-beta5-x86_64-unknown-linux-gnu.tgz"
-url_api = "https://codeberg.org/attachments/c2fef9ea-c212-4fbd-9522-3cecb3e3f7be"
-
-[tools."forgejo:mdekstrand/rust-jim"."platforms.linux-x64-musl"]
-url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta5/guartcl-0.4.0-beta5-x86_64-unknown-linux-musl.tgz"
-url_api = "https://codeberg.org/attachments/d3a7a69e-b16d-49e2-a2b5-c25b88f5ae4f"
-
-[tools."forgejo:mdekstrand/rust-jim"."platforms.macos-arm64"]
-checksum = "blake3:14088d1022a4790c28a1eb1b29f65a2ba2eb5af78697a881ba84049209c4c712"
-url = "https://codeberg.org/mdekstrand/rust-jim/releases/download/v0.4.0-beta5/guartcl-0.4.0-beta5-aarch64-apple-darwin.tgz"
-url_api = "https://codeberg.org/attachments/7db27a5a-2f3a-485b-b0d8-06554179da32"
-
 [[tools."github:quarto-dev/quarto-cli"]]
 version = "1.9.38"
 backend = "github:quarto-dev/quarto-cli"
@@ -321,6 +292,41 @@ backend = "core:rust"
 [[tools.shfmt]]
 version = "3.13.1"
 backend = "aqua:mvdan/sh"
+
+[tools.shfmt."platforms.linux-arm64"]
+checksum = "sha256:32d92acaa5cd8abb29fc49dac123dc412442d5713967819d8af2c29f1b3857c7"
+url = "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_linux_arm64"
+url_api = "https://api.github.com/repos/mvdan/sh/releases/assets/390322859"
+
+[tools.shfmt."platforms.linux-arm64-musl"]
+checksum = "sha256:32d92acaa5cd8abb29fc49dac123dc412442d5713967819d8af2c29f1b3857c7"
+url = "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_linux_arm64"
+url_api = "https://api.github.com/repos/mvdan/sh/releases/assets/390322859"
+
+[tools.shfmt."platforms.linux-x64"]
+checksum = "sha256:fb096c5d1ac6beabbdbaa2874d025badb03ee07929f0c9ff67563ce8c75398b1"
+url = "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_linux_amd64"
+url_api = "https://api.github.com/repos/mvdan/sh/releases/assets/390322866"
+
+[tools.shfmt."platforms.linux-x64-musl"]
+checksum = "sha256:fb096c5d1ac6beabbdbaa2874d025badb03ee07929f0c9ff67563ce8c75398b1"
+url = "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_linux_amd64"
+url_api = "https://api.github.com/repos/mvdan/sh/releases/assets/390322866"
+
+[tools.shfmt."platforms.macos-arm64"]
+checksum = "sha256:9680526be4a66ea1ffe988ed08af58e1400fe1e4f4aef5bd88b20bb9b3da33f8"
+url = "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_darwin_arm64"
+url_api = "https://api.github.com/repos/mvdan/sh/releases/assets/390322881"
+
+[tools.shfmt."platforms.macos-x64"]
+checksum = "sha256:6feedafc72915794163114f512348e2437d080d0047ef8b8fa2ec63b575f12af"
+url = "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_darwin_amd64"
+url_api = "https://api.github.com/repos/mvdan/sh/releases/assets/390322886"
+
+[tools.shfmt."platforms.windows-x64"]
+checksum = "sha256:60cd368533d0ad73fa86d93d5bbf95ef40587245ce684ed138c1b31557b5fe97"
+url = "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_windows_amd64.exe"
+url_api = "https://api.github.com/repos/mvdan/sh/releases/assets/390322844"
 
 [[tools.tombi]]
 version = "1.2.0"
