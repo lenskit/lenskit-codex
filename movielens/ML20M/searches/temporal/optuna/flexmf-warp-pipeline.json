@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "flexmf-warp",
     "version": null,
-    "hash": "48cb01a643f7edc7826dede335181a76b8af1219fe563ec6e0c0b56e4ff922a4"
+    "hash": "274a5a5cbcf67ca7874eefe1b7da80b8d52509275b4dae857fb04f983d75a957"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
         "int",
-        "numpy:bytes_",
         "numpy:object_",
-        "numpy:str_",
+        "numpy:bytes_",
+        "lenskit.data:RecQuery",
         "bytes",
         "lenskit.data:ItemList",
-        "str",
-        "lenskit.data:RecQuery",
-        "numpy:integer"
+        "numpy:str_",
+        "numpy:integer",
+        "str"
       ]
     },
     {
@@ -62,14 +62,22 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.flexmf:FlexMFImplicitScorer",
       "config": {
         "embedding_size": 4,
         "batch_size": 8192,
-        "learning_rate": 0.00308035689149086,
-        "epochs": 4,
-        "regularization": 0.08103754481195166,
-        "reg_method": "AdamW"
+        "learning_rate": 0.0038928904086158824,
+        "epochs": 6,
+        "regularization": 0.0007644815158869854,
+        "reg_method": "AdamW",
+        "preset": null,
+        "loss": "warp",
+        "negative_strategy": null,
+        "negative_count": 1,
+        "positive_weight": 4,
+        "user_bias": null,
+        "item_bias": false,
+        "convolution_layers": 0
       },
       "inputs": {
         "items": "candidates",
@@ -85,32 +93,9 @@
         "items": "scorer",
         "n": "n"
       }
-    },
-    "fallback-predictor": {
-      "code": "lenskit.basic.bias:BiasScorer",
-      "config": {
-        "entities": [
-          "item",
-          "user"
-        ],
-        "damping": 0.0
-      },
-      "inputs": {
-        "items": "candidates",
-        "query": "history-lookup"
-      }
-    },
-    "rating-merger": {
-      "code": "lenskit.basic.composite:FallbackScorer",
-      "config": null,
-      "inputs": {
-        "backup": "fallback-predictor",
-        "primary": "scorer"
-      }
     }
   },
   "aliases": {
-    "rating-predictor": "rating-merger",
     "recommender": "ranker"
   },
   "default": null,

@@ -1347,52 +1347,97 @@ stages:
     deps:
     - path: runs/manifest.csv
       hash: md5
-      md5: 6386927a454dfc1bf091bb0ae7dd099a
-      size: 655
+      md5: f01278a5b69ea092c6801eaf6f21da0a
+      size: 1335
     - path: runs/temporal/als-biased-default
       hash: md5
       md5: 7f385e9f0a41515ecb6fa1f19c612541.dir
       size: 20740343
+      nfiles: 6
+    - path: runs/temporal/als-biased-optuna-tuned
+      hash: md5
+      md5: c95e33062a66a268ac223b02ff36e2cc.dir
+      size: 20649259
       nfiles: 6
     - path: runs/temporal/als-implicit-default
       hash: md5
       md5: 37f0f35ce8aceae0222b8e3bbe0a4546.dir
       size: 6266632
       nfiles: 5
+    - path: runs/temporal/als-implicit-optuna-tuned
+      hash: md5
+      md5: 3de62624c607f8e2b14bcce25f69ced2.dir
+      size: 6236998
+      nfiles: 5
     - path: runs/temporal/bias-default
       hash: md5
       md5: 687599a2c2992ba3fd71bd57fe4c9292.dir
       size: 19681082
+      nfiles: 6
+    - path: runs/temporal/bias-optuna-tuned
+      hash: md5
+      md5: d8004ff37aab4ccd1926f4753f849ef5.dir
+      size: 19654514
       nfiles: 6
     - path: runs/temporal/flexmf-bpr-default
       hash: md5
       md5: 210ebf24a55db3152e0102b415d0b516.dir
       size: 6419576
       nfiles: 5
+    - path: runs/temporal/flexmf-bpr-optuna-tuned
+      hash: md5
+      md5: 184e6bef4fee0511552b0ac75befeb43.dir
+      size: 6055417
+      nfiles: 5
     - path: runs/temporal/flexmf-explicit-default
       hash: md5
       md5: 3ae3188bbf4300755d6765e5810c4c08.dir
       size: 21049288
+      nfiles: 6
+    - path: runs/temporal/flexmf-explicit-optuna-tuned
+      hash: md5
+      md5: 39fd4854283cd0d3463f04198caad265.dir
+      size: 20703113
       nfiles: 6
     - path: runs/temporal/flexmf-logistic-default
       hash: md5
       md5: a49d0b66d936f67ffb3594a72913888c.dir
       size: 6417249
       nfiles: 5
+    - path: runs/temporal/flexmf-logistic-optuna-tuned
+      hash: md5
+      md5: f83c72a0ed6ed7a5e6f40af6a931c778.dir
+      size: 6106324
+      nfiles: 5
     - path: runs/temporal/flexmf-warp-default
       hash: md5
       md5: a77e89c7fdec9161e62caed012f7c59f.dir
       size: 6549801
+      nfiles: 5
+    - path: runs/temporal/flexmf-warp-optuna-tuned
+      hash: md5
+      md5: 175ef26ad0920eaf34df6a5c00ea18a8.dir
+      size: 6260598
       nfiles: 5
     - path: runs/temporal/iknn-explicit-default
       hash: md5
       md5: fe681cc4ca26aaf3a0cb747c524bf96d.dir
       size: 21088427
       nfiles: 6
+    - path: runs/temporal/iknn-explicit-optuna-tuned
+      hash: md5
+      md5: 899ad0a754ecc44cba845d565ad7f8f9.dir
+      size: 21198250
+      nfiles: 6
     - path: runs/temporal/iknn-implicit-default
       hash: md5
       md5: b09828aaee1c6d38ecd722764df3ef09.dir
       size: 5967436
+      nfiles: 5
+    - path: runs/temporal/iknn-implicit-optuna-tuned
+      hash: md5
+      md5: 67676eda1343121b52b6e6405d43e317.dir
+      size: 5973319
       nfiles: 5
     - path: runs/temporal/popular-default
       hash: md5
@@ -1404,15 +1449,20 @@ stages:
       md5: 6fdf3322292f716c3bafd8d663b67536.dir
       size: 6488192
       nfiles: 5
+    - path: runs/temporal/slim-fs-optuna-tuned
+      hash: md5
+      md5: be5bebdb5d6fbcc26fcfb98a3b0a7c2b.dir
+      size: 6468650
+      nfiles: 5
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 9d737a01319fd0c61b850228adc6fbd7
-      size: 9003
+      md5: d3639613226e31b1dc762f40886c401b
+      size: 17224
     - path: run-user-metrics.parquet
       hash: md5
-      md5: bbd2e1216226c8e5f71d6c45f511481a
-      size: 3715749
+      md5: dec0b3697adf9c2c6a50c8213ec24a93
+      size: 7033664
   run-temporal-valid-default-BiasedMF-ALS:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml 
       --test-part=valid -o runs/temporal-valid-default/BiasedMF-ALS BiasedMF-ALS
@@ -4090,8 +4140,8 @@ stages:
       size: 185
     - path: ../../models/flexmf-explicit/search.toml
       hash: md5
-      md5: a71483ecd3ec32105aee091c99d0909d
-      size: 325
+      md5: a94e484c15a96a4a3635578890bd1b0c
+      size: 324
     - path: splits/temporal.toml
       hash: md5
       md5: 959e6bb4995aad998bfe547b6536c572
@@ -4102,17 +4152,17 @@ stages:
     outs:
     - path: searches/temporal/optuna/flexmf-explicit
       hash: md5
-      md5: 5962cae4d17cf2f17d735f718363cf22.dir
-      size: 336169
+      md5: 8ea222710929348f409df584c16d61cb.dir
+      size: 336933
       nfiles: 10
     - path: searches/temporal/optuna/flexmf-explicit-pipeline.json
       hash: md5
-      md5: c4290d641160436db96ed83131d0becd
-      size: 2562
+      md5: a5545bd43ccae7ee06259cc536fd5beb
+      size: 2528
     - path: searches/temporal/optuna/flexmf-explicit.json
       hash: md5
-      md5: 54b944fda61bdd5efd4c0a8d70a4c034
-      size: 213
+      md5: 4bb2ea7b8ef0d436085fd6361d759381
+      size: 210
   search-iknn-explicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
       iknn-explicit searches/temporal/optuna/iknn-explicit
@@ -4315,8 +4365,8 @@ stages:
       nfiles: 5
     - path: searches/temporal/optuna/flexmf-explicit-pipeline.json
       hash: md5
-      md5: c4290d641160436db96ed83131d0becd
-      size: 2562
+      md5: a5545bd43ccae7ee06259cc536fd5beb
+      size: 2528
     - path: splits/temporal.toml
       hash: md5
       md5: 959e6bb4995aad998bfe547b6536c572
@@ -4324,8 +4374,8 @@ stages:
     outs:
     - path: runs/temporal/flexmf-explicit-optuna-tuned
       hash: md5
-      md5: 2d6985aa1ec7d9ba84c5872e00d5d628.dir
-      size: 20963718
+      md5: 39fd4854283cd0d3463f04198caad265.dir
+      size: 20703113
       nfiles: 6
   run-temporal-iknn-explicit-optuna-tuned:
     cmd: lenskit codex generate --pipeline-file 
@@ -4412,4 +4462,190 @@ stages:
       hash: md5
       md5: be5bebdb5d6fbcc26fcfb98a3b0a7c2b.dir
       size: 6468650
+      nfiles: 5
+  search-flexmf-bpr-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      flexmf-bpr searches/temporal/optuna/flexmf-bpr
+    deps:
+    - path: ../../models/flexmf-bpr/pipeline.toml
+      hash: md5
+      md5: 4ad020cc9459a490e23e78cc14ee0893
+      size: 190
+    - path: ../../models/flexmf-bpr/search.toml
+      hash: md5
+      md5: 24860a67a1c0410eca906a12ca2d9d09
+      size: 459
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    params:
+      ../../codex.toml:
+        tuning.optuna.points: 30
+    outs:
+    - path: searches/temporal/optuna/flexmf-bpr
+      hash: md5
+      md5: 14adbeb96c7deede13cb026d3d5557ff.dir
+      size: 449998
+      nfiles: 10
+    - path: searches/temporal/optuna/flexmf-bpr-pipeline.json
+      hash: md5
+      md5: 8c0f071f0c1c025540cb5dd7aff92602
+      size: 2223
+    - path: searches/temporal/optuna/flexmf-bpr.json
+      hash: md5
+      md5: 2cc570d6a882b434a26de6dc809f601e
+      size: 270
+  search-flexmf-logistic-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      flexmf-logistic searches/temporal/optuna/flexmf-logistic
+    deps:
+    - path: ../../models/flexmf-logistic/pipeline.toml
+      hash: md5
+      md5: e53400bdca23e8d06ed75688a2c2b0d4
+      size: 195
+    - path: ../../models/flexmf-logistic/search.toml
+      hash: md5
+      md5: 3374e0c5a0f6c15dd463410c30033837
+      size: 489
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    params:
+      ../../codex.toml:
+        tuning.optuna.points: 30
+    outs:
+    - path: searches/temporal/optuna/flexmf-logistic
+      hash: md5
+      md5: 4ad75de8ad771daaf7d68dead0cef515.dir
+      size: 417555
+      nfiles: 10
+    - path: searches/temporal/optuna/flexmf-logistic-pipeline.json
+      hash: md5
+      md5: ed2c0adb16a186c97074ce8ff792934b
+      size: 2230
+    - path: searches/temporal/optuna/flexmf-logistic.json
+      hash: md5
+      md5: 4c888187830abb177c192e701154c969
+      size: 287
+  search-flexmf-warp-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      flexmf-warp searches/temporal/optuna/flexmf-warp
+    deps:
+    - path: ../../models/flexmf-warp/pipeline.toml
+      hash: md5
+      md5: df9f119b425b7c170f9ce70f9cfaf7f2
+      size: 187
+    - path: ../../models/flexmf-warp/search.toml
+      hash: md5
+      md5: f690269d047e7195560361490bb04247
+      size: 461
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    params:
+      ../../codex.toml:
+        tuning.optuna.points: 30
+    outs:
+    - path: searches/temporal/optuna/flexmf-warp
+      hash: md5
+      md5: 80f6458fc83958ed57e92067a56dda13.dir
+      size: 385892
+      nfiles: 10
+    - path: searches/temporal/optuna/flexmf-warp-pipeline.json
+      hash: md5
+      md5: 744a2cb419b083f2951525e837726dae
+      size: 2222
+    - path: searches/temporal/optuna/flexmf-warp.json
+      hash: md5
+      md5: 3b5f7ae074cec86cc2342b77c8fe8bfc
+      size: 251
+  run-temporal-flexmf-bpr-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/flexmf-bpr-pipeline.json --ds-name=ML20M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-bpr-optuna-tuned 
+      flexmf-bpr
+    deps:
+    - path: ../../models/flexmf-bpr/pipeline.toml
+      hash: md5
+      md5: 4ad020cc9459a490e23e78cc14ee0893
+      size: 190
+    - path: dataset
+      hash: md5
+      md5: 186f56a026b3409fc928936af4775db0.dir
+      size: 184637813
+      nfiles: 5
+    - path: searches/temporal/optuna/flexmf-bpr-pipeline.json
+      hash: md5
+      md5: 8c0f071f0c1c025540cb5dd7aff92602
+      size: 2223
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    outs:
+    - path: runs/temporal/flexmf-bpr-optuna-tuned
+      hash: md5
+      md5: 184e6bef4fee0511552b0ac75befeb43.dir
+      size: 6055417
+      nfiles: 5
+  run-temporal-flexmf-logistic-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/flexmf-logistic-pipeline.json --ds-name=ML20M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-logistic-optuna-tuned
+      flexmf-logistic
+    deps:
+    - path: ../../models/flexmf-logistic/pipeline.toml
+      hash: md5
+      md5: e53400bdca23e8d06ed75688a2c2b0d4
+      size: 195
+    - path: dataset
+      hash: md5
+      md5: 186f56a026b3409fc928936af4775db0.dir
+      size: 184637813
+      nfiles: 5
+    - path: searches/temporal/optuna/flexmf-logistic-pipeline.json
+      hash: md5
+      md5: ed2c0adb16a186c97074ce8ff792934b
+      size: 2230
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    outs:
+    - path: runs/temporal/flexmf-logistic-optuna-tuned
+      hash: md5
+      md5: f83c72a0ed6ed7a5e6f40af6a931c778.dir
+      size: 6106324
+      nfiles: 5
+  run-temporal-flexmf-warp-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file 
+      searches/temporal/optuna/flexmf-warp-pipeline.json --ds-name=ML20M 
+      --split=splits/temporal.toml -o runs/temporal/flexmf-warp-optuna-tuned 
+      flexmf-warp
+    deps:
+    - path: ../../models/flexmf-warp/pipeline.toml
+      hash: md5
+      md5: df9f119b425b7c170f9ce70f9cfaf7f2
+      size: 187
+    - path: dataset
+      hash: md5
+      md5: 186f56a026b3409fc928936af4775db0.dir
+      size: 184637813
+      nfiles: 5
+    - path: searches/temporal/optuna/flexmf-warp-pipeline.json
+      hash: md5
+      md5: 744a2cb419b083f2951525e837726dae
+      size: 2222
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 959e6bb4995aad998bfe547b6536c572
+      size: 120
+    outs:
+    - path: runs/temporal/flexmf-warp-optuna-tuned
+      hash: md5
+      md5: 175ef26ad0920eaf34df6a5c00ea18a8.dir
+      size: 6260598
       nfiles: 5

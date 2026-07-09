@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "flexmf-logistic",
     "version": null,
-    "hash": "48cb01a643f7edc7826dede335181a76b8af1219fe563ec6e0c0b56e4ff922a4"
+    "hash": "b22e991bf582af3b4ea3b74b3023fb2f9b505273d530d4a36f50864f5113cabd"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "int",
         "numpy:bytes_",
-        "numpy:object_",
-        "numpy:str_",
-        "bytes",
-        "lenskit.data:ItemList",
         "str",
+        "int",
+        "numpy:object_",
+        "lenskit.data:ItemList",
+        "bytes",
         "lenskit.data:RecQuery",
-        "numpy:integer"
+        "numpy:integer",
+        "numpy:str_"
       ]
     },
     {
@@ -62,14 +62,22 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.flexmf:FlexMFImplicitScorer",
       "config": {
-        "embedding_size": 4,
+        "embedding_size": 8,
         "batch_size": 8192,
-        "learning_rate": 0.00308035689149086,
+        "learning_rate": 0.0010958979372350396,
         "epochs": 4,
-        "regularization": 0.08103754481195166,
-        "reg_method": "AdamW"
+        "regularization": 0.00023039282198796708,
+        "reg_method": "AdamW",
+        "preset": null,
+        "loss": "logistic",
+        "negative_strategy": null,
+        "negative_count": 5,
+        "positive_weight": 1,
+        "user_bias": true,
+        "item_bias": true,
+        "convolution_layers": 0
       },
       "inputs": {
         "items": "candidates",
@@ -85,32 +93,9 @@
         "items": "scorer",
         "n": "n"
       }
-    },
-    "fallback-predictor": {
-      "code": "lenskit.basic.bias:BiasScorer",
-      "config": {
-        "entities": [
-          "item",
-          "user"
-        ],
-        "damping": 0.0
-      },
-      "inputs": {
-        "items": "candidates",
-        "query": "history-lookup"
-      }
-    },
-    "rating-merger": {
-      "code": "lenskit.basic.composite:FallbackScorer",
-      "config": null,
-      "inputs": {
-        "backup": "fallback-predictor",
-        "primary": "scorer"
-      }
     }
   },
   "aliases": {
-    "rating-predictor": "rating-merger",
     "recommender": "ranker"
   },
   "default": null,

@@ -433,7 +433,7 @@ stages:
     deps:
     - path: runs/manifest.csv
       hash: md5
-      md5: 6020f7206af333db1cb06f7bf7059874
+      md5: 6fc5c72cfbb48174374901d6d8fee353
       size: 1683
     - path: runs/random/als-biased-default
       hash: md5
@@ -583,12 +583,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 59e97bd8fefbb4e0e8f92d7d7abcefcc
+      md5: 74e189da40379886002d031b0f377788
       size: 56793
     - path: run-user-metrics.parquet
       hash: md5
-      md5: b7f97f87a7297f229bcc56c68e1f77d3
-      size: 711667
+      md5: fe6865a4dc436cefb106bbf711fd0255
+      size: 711848
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate 
       --param-file=sweeps/random/IKNN-Implicit-grid.json --test-part=-0 

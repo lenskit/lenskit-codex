@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "flexmf-bpr",
     "version": null,
-    "hash": "48cb01a643f7edc7826dede335181a76b8af1219fe563ec6e0c0b56e4ff922a4"
+    "hash": "df4acd20860d448a9130f10793db284bec47b6d2cca4736b5d11f5a06a4f9d1b"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "int",
-        "numpy:bytes_",
-        "numpy:object_",
-        "numpy:str_",
-        "bytes",
-        "lenskit.data:ItemList",
         "str",
+        "numpy:str_",
+        "int",
+        "numpy:object_",
+        "lenskit.data:ItemList",
+        "bytes",
+        "numpy:integer",
         "lenskit.data:RecQuery",
-        "numpy:integer"
+        "numpy:bytes_"
       ]
     },
     {
@@ -62,14 +62,22 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.flexmf:FlexMFImplicitScorer",
       "config": {
-        "embedding_size": 4,
+        "embedding_size": 7,
         "batch_size": 8192,
-        "learning_rate": 0.00308035689149086,
-        "epochs": 4,
-        "regularization": 0.08103754481195166,
-        "reg_method": "AdamW"
+        "learning_rate": 0.0013857977666577935,
+        "epochs": 13,
+        "regularization": 0.06299178194426829,
+        "reg_method": "AdamW",
+        "preset": null,
+        "loss": "pairwise",
+        "negative_strategy": null,
+        "negative_count": 2,
+        "positive_weight": 3,
+        "user_bias": null,
+        "item_bias": true,
+        "convolution_layers": 0
       },
       "inputs": {
         "items": "candidates",
@@ -85,32 +93,9 @@
         "items": "scorer",
         "n": "n"
       }
-    },
-    "fallback-predictor": {
-      "code": "lenskit.basic.bias:BiasScorer",
-      "config": {
-        "entities": [
-          "item",
-          "user"
-        ],
-        "damping": 0.0
-      },
-      "inputs": {
-        "items": "candidates",
-        "query": "history-lookup"
-      }
-    },
-    "rating-merger": {
-      "code": "lenskit.basic.composite:FallbackScorer",
-      "config": null,
-      "inputs": {
-        "backup": "fallback-predictor",
-        "primary": "scorer"
-      }
     }
   },
   "aliases": {
-    "rating-predictor": "rating-merger",
     "recommender": "ranker"
   },
   "default": null,

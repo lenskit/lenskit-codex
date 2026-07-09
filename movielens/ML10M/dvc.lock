@@ -1458,7 +1458,7 @@ stages:
     deps:
     - path: runs/manifest.csv
       hash: md5
-      md5: 786af45ac422d4716032025454bd3a53
+      md5: 925c19fe0e0c56e19b707a1e2ec502b6
       size: 1799
     - path: runs/temporal/als-biased-default
       hash: md5
@@ -1608,12 +1608,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: f9cf65063d34829ec2d1d33d4b58eab7
+      md5: e2db7d701a3384d846571a1ab0be5c66
       size: 21129
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 583daab328dc8bf9b662de632ff631d6
-      size: 5502928
+      md5: b1584a6d19a4bb1bad48023c919e280e
+      size: 5503312
   run-temporal-valid-default-IKNN-Explicit:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml 
       --test-part=valid -o runs/temporal-valid-default/IKNN-Explicit 

@@ -905,7 +905,7 @@ stages:
     deps:
     - path: runs/manifest.csv
       hash: md5
-      md5: 6020f7206af333db1cb06f7bf7059874
+      md5: 6fc5c72cfbb48174374901d6d8fee353
       size: 1683
     - path: runs/random/als-biased-default
       hash: md5
@@ -1055,12 +1055,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 5c99ad67faca249f9730a4deba180958
+      md5: 43805304f1340210a078296a092ca7f7
       size: 57665
     - path: run-user-metrics.parquet
       hash: md5
-      md5: df9735f59c4ac5f97859ecc1d07aaa48
-      size: 3502772
+      md5: 615c67792ac9ea62bfcf9231a7b71732
+      size: 3508232
   sweep-random-grid-Bias:
     cmd: lenskit-codex sweep run --grid --ds-name=ML1M 
       --split=splits/random.toml --test-part=0 Bias sweeps/random/Bias-grid
