@@ -3364,3 +3364,36 @@ stages:
       hash: md5
       md5: 82c4a6c76f09617d12645ca2cb81acb9
       size: 280
+  search-flexmf-warp-temporal-optuna:
+    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
+      flexmf-warp searches/temporal/optuna/flexmf-warp
+    deps:
+    - path: ../../models/flexmf-warp/pipeline.toml
+      hash: md5
+      md5: df9f119b425b7c170f9ce70f9cfaf7f2
+      size: 187
+    - path: ../../models/flexmf-warp/search.toml
+      hash: md5
+      md5: f690269d047e7195560361490bb04247
+      size: 461
+    - path: splits/temporal.toml
+      hash: md5
+      md5: 77faa6b8f17f977f3461da1d1350d2ac
+      size: 120
+    params:
+      ../../codex.toml:
+        tuning.optuna.points: 30
+    outs:
+    - path: searches/temporal/optuna/flexmf-warp
+      hash: md5
+      md5: 11895983c706a6c65acf6793907b8e3b.dir
+      size: 356321
+      nfiles: 10
+    - path: searches/temporal/optuna/flexmf-warp-pipeline.json
+      hash: md5
+      md5: 0b33bb932db1560e8a4e50f66905904c
+      size: 2221
+    - path: searches/temporal/optuna/flexmf-warp.json
+      hash: md5
+      md5: e00364bfd2e714f15f0a27fcfad96352
+      size: 250
