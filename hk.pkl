@@ -18,6 +18,7 @@ local formatters = new Mapping<String, Step> {
     glob = Regex(#".*\.(json|ya?ml|toml)$"#)
   }
   ["ruff-format"] = Builtins.ruff_format
+  ["wshell-format"] = Builtins.shfmt
 }
 
 hooks {
