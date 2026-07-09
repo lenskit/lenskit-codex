@@ -15,7 +15,7 @@ local linters = new Mapping<String, Step> {
 
 local formatters = new Mapping<String, Step> {
   ["dprint"] = (Builtins.dprint) {
-    glob = Regex(#"(.*\.ya?ml$|.*\.toml$)"#)
+    glob = Regex(#".*\.(json|ya?ml|toml)$"#)
   }
   ["ruff-format"] = Builtins.ruff_format
 }
