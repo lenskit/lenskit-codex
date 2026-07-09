@@ -15,8 +15,10 @@ local linters = new Mapping<String, Step> {
 
 local formatters = new Mapping<String, Step> {
   ["dprint"] = (Builtins.dprint) {
-    glob = Regex(#".*\.(json|ya?ml|toml)$"#)
+    glob = Regex(#".*\.(json)$"#)
   }
+  ["toml-format"] = Builtins.taplo_format
+  ["yaml-format"] = Builtins.yamlfmt
   ["ruff-format"] = Builtins.ruff_format
   ["wshell-format"] = Builtins.shfmt
 }
