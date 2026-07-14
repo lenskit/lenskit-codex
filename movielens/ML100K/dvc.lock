@@ -477,13 +477,13 @@ stages:
       nfiles: 5
     - path: runs/random/flexmf-bpr-default
       hash: md5
-      md5: f85312249e901107f75267e4b6a3a2d1.dir
-      size: 707083
+      md5: 963cf2fd229acc041b8bb590ba30734f.dir
+      size: 707088
       nfiles: 5
     - path: runs/random/flexmf-bpr-optuna-tuned
       hash: md5
-      md5: 693606d30c0c4d870e866ccedc6d9092.dir
-      size: 692584
+      md5: 25de4dccb517015776854b74f9cd98cd.dir
+      size: 690205
       nfiles: 5
     - path: runs/random/flexmf-explicit-default
       hash: md5
@@ -507,13 +507,13 @@ stages:
       nfiles: 5
     - path: runs/random/flexmf-warp-default
       hash: md5
-      md5: 7dd476545d86841d4cfbf925a26f754a.dir
-      size: 719908
+      md5: 96bf25cca444e906adc5a1b728089b1a.dir
+      size: 719964
       nfiles: 5
     - path: runs/random/flexmf-warp-optuna-tuned
       hash: md5
-      md5: 1d3df463e143f8453da1cafc4f7274c5.dir
-      size: 721355
+      md5: 4739a7b900a108c1e83d0f2aed04d6b3.dir
+      size: 720324
       nfiles: 5
     - path: runs/random/iknn-explicit-default
       hash: md5
@@ -583,12 +583,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 308a68f7722b08a382bd30afad5fa34e
-      size: 56649
+      md5: 7d2b7778d69e3ad4911a80dd9046b121
+      size: 56695
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 8322e436da23f12a271e7e902f367d04
-      size: 714061
+      md5: 51353c9ce38806fec613df845c2806e0
+      size: 713798
   run-random-grid-best-IKNN-Implicit:
     cmd: lenskit-codex generate 
       --param-file=sweeps/random/IKNN-Implicit-grid.json --test-part=-0 
@@ -4138,8 +4138,8 @@ stages:
     deps:
     - path: ../../models/flexmf-warp/pipeline.toml
       hash: md5
-      md5: df9f119b425b7c170f9ce70f9cfaf7f2
-      size: 187
+      md5: 076b9716af831fddccb69d351888ad6d
+      size: 205
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4152,8 +4152,8 @@ stages:
     outs:
     - path: runs/random/flexmf-warp-default
       hash: md5
-      md5: 7dd476545d86841d4cfbf925a26f754a.dir
-      size: 719908
+      md5: 96bf25cca444e906adc5a1b728089b1a.dir
+      size: 719964
       nfiles: 5
   run-random-uknn-implicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
@@ -4299,8 +4299,8 @@ stages:
     deps:
     - path: ../../models/flexmf-bpr/pipeline.toml
       hash: md5
-      md5: 4ad020cc9459a490e23e78cc14ee0893
-      size: 190
+      md5: ef18be4f9091c851f086421dd1eb6698
+      size: 208
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -4313,8 +4313,8 @@ stages:
     outs:
     - path: runs/random/flexmf-bpr-default
       hash: md5
-      md5: f85312249e901107f75267e4b6a3a2d1.dir
-      size: 707083
+      md5: 963cf2fd229acc041b8bb590ba30734f.dir
+      size: 707088
       nfiles: 5
   run-random-als-implicit-default:
     cmd: lenskit codex generate --ds-name=ML100K --split=splits/random.toml -o 
@@ -5046,8 +5046,8 @@ stages:
     deps:
     - path: ../../models/flexmf-warp/pipeline.toml
       hash: md5
-      md5: df9f119b425b7c170f9ce70f9cfaf7f2
-      size: 187
+      md5: 076b9716af831fddccb69d351888ad6d
+      size: 205
     - path: ../../models/flexmf-warp/search.toml
       hash: md5
       md5: f690269d047e7195560361490bb04247
@@ -5063,17 +5063,17 @@ stages:
     outs:
     - path: searches/random/optuna/flexmf-warp
       hash: md5
-      md5: d2e068704483088f419b4ab1488cd8bf.dir
-      size: 811685
+      md5: fee0c20d76a4709c762fc0669f172a1d.dir
+      size: 861964
       nfiles: 10
     - path: searches/random/optuna/flexmf-warp-pipeline.json
       hash: md5
-      md5: 6e01ea4ca86fe4d9be61d9f22be64d11
-      size: 2219
+      md5: 65dec86d62b9d40279b2fbbeada2bb40
+      size: 2218
     - path: searches/random/optuna/flexmf-warp.json
       hash: md5
-      md5: 4665e240725f93bf23df5a1b5a94ae85
-      size: 248
+      md5: 957170d8be71f59755eb384dcdf5349a
+      size: 246
   search-als-implicit-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 
       --sample-count=60 als-implicit searches/random/optuna/als-implicit
@@ -5148,8 +5148,8 @@ stages:
     deps:
     - path: ../../models/flexmf-bpr/pipeline.toml
       hash: md5
-      md5: 4ad020cc9459a490e23e78cc14ee0893
-      size: 190
+      md5: ef18be4f9091c851f086421dd1eb6698
+      size: 208
     - path: ../../models/flexmf-bpr/search.toml
       hash: md5
       md5: 24860a67a1c0410eca906a12ca2d9d09
@@ -5165,17 +5165,17 @@ stages:
     outs:
     - path: searches/random/optuna/flexmf-bpr
       hash: md5
-      md5: 627728e17b97aea9a0aa0a3de9cc66e6.dir
-      size: 1097663
+      md5: 1fbdf2a3619369e4823bd696d4ca3a24.dir
+      size: 1180142
       nfiles: 10
     - path: searches/random/optuna/flexmf-bpr-pipeline.json
       hash: md5
-      md5: 5c10b5dff7e2d7057196dc3f1fdabb8e
+      md5: 5c5b083e82cb009c45efc6e180b0a229
       size: 2221
     - path: searches/random/optuna/flexmf-bpr.json
       hash: md5
-      md5: 2e598a720092249a0ab70d26319a16f8
-      size: 267
+      md5: a12e07438766b269a340d2e0e532e0b2
+      size: 265
   run-random-flexmf-warp-optuna-tuned:
     cmd: lenskit codex generate --pipeline-file 
       searches/random/optuna/flexmf-warp-pipeline.json --ds-name=ML100K 
@@ -5184,8 +5184,8 @@ stages:
     deps:
     - path: ../../models/flexmf-warp/pipeline.toml
       hash: md5
-      md5: df9f119b425b7c170f9ce70f9cfaf7f2
-      size: 187
+      md5: 076b9716af831fddccb69d351888ad6d
+      size: 205
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -5193,8 +5193,8 @@ stages:
       nfiles: 5
     - path: searches/random/optuna/flexmf-warp-pipeline.json
       hash: md5
-      md5: 6e01ea4ca86fe4d9be61d9f22be64d11
-      size: 2219
+      md5: 65dec86d62b9d40279b2fbbeada2bb40
+      size: 2218
     - path: splits/random.parquet
       hash: md5
       md5: f254fe11e52ddafa9666db1084dcb293
@@ -5202,8 +5202,8 @@ stages:
     outs:
     - path: runs/random/flexmf-warp-optuna-tuned
       hash: md5
-      md5: 1d3df463e143f8453da1cafc4f7274c5.dir
-      size: 721355
+      md5: 4739a7b900a108c1e83d0f2aed04d6b3.dir
+      size: 720324
       nfiles: 5
   run-random-als-implicit-optuna-tuned:
     cmd: lenskit codex generate --pipeline-file 
@@ -5242,8 +5242,8 @@ stages:
     deps:
     - path: ../../models/flexmf-bpr/pipeline.toml
       hash: md5
-      md5: 4ad020cc9459a490e23e78cc14ee0893
-      size: 190
+      md5: ef18be4f9091c851f086421dd1eb6698
+      size: 208
     - path: dataset
       hash: md5
       md5: 689a7f709fffc6cac754f3f50a763e4e.dir
@@ -5251,7 +5251,7 @@ stages:
       nfiles: 5
     - path: searches/random/optuna/flexmf-bpr-pipeline.json
       hash: md5
-      md5: 5c10b5dff7e2d7057196dc3f1fdabb8e
+      md5: 5c5b083e82cb009c45efc6e180b0a229
       size: 2221
     - path: splits/random.parquet
       hash: md5
@@ -5260,8 +5260,8 @@ stages:
     outs:
     - path: runs/random/flexmf-bpr-optuna-tuned
       hash: md5
-      md5: 693606d30c0c4d870e866ccedc6d9092.dir
-      size: 692584
+      md5: 25de4dccb517015776854b74f9cd98cd.dir
+      size: 690205
       nfiles: 5
   run-random-flexmf-logistic-optuna-tuned:
     cmd: lenskit codex generate --pipeline-file 
