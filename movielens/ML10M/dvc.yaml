@@ -20,6 +20,9 @@ stages:
 
   search-als-biased-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 als-biased searches/temporal/optuna/als-biased
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/als-biased/pipeline.toml
@@ -33,6 +36,9 @@ stages:
 
   search-als-implicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 als-implicit searches/temporal/optuna/als-implicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/als-implicit/pipeline.toml
@@ -46,6 +52,9 @@ stages:
 
   search-bias-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 bias searches/temporal/optuna/bias
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/bias/pipeline.toml
@@ -59,6 +68,9 @@ stages:
 
   search-ease-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 ease searches/temporal/optuna/ease
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/ease/pipeline.toml
@@ -72,6 +84,9 @@ stages:
 
   search-flexmf-bpr-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 flexmf-bpr searches/temporal/optuna/flexmf-bpr
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/flexmf-bpr/pipeline.toml
@@ -85,6 +100,9 @@ stages:
 
   search-flexmf-explicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 flexmf-explicit searches/temporal/optuna/flexmf-explicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/flexmf-explicit/pipeline.toml
@@ -98,6 +116,9 @@ stages:
 
   search-flexmf-logistic-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 flexmf-logistic searches/temporal/optuna/flexmf-logistic
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/flexmf-logistic/pipeline.toml
@@ -111,6 +132,9 @@ stages:
 
   search-flexmf-warp-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 flexmf-warp searches/temporal/optuna/flexmf-warp
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/flexmf-warp/pipeline.toml
@@ -124,6 +148,9 @@ stages:
 
   search-iknn-explicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 iknn-explicit searches/temporal/optuna/iknn-explicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/iknn-explicit/pipeline.toml
@@ -137,6 +164,9 @@ stages:
 
   search-iknn-implicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 iknn-implicit searches/temporal/optuna/iknn-implicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/iknn-implicit/pipeline.toml
@@ -150,6 +180,9 @@ stages:
 
   search-slim-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 slim searches/temporal/optuna/slim
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/slim/pipeline.toml
@@ -163,6 +196,9 @@ stages:
 
   search-slim-fs-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 slim-fs searches/temporal/optuna/slim-fs
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/slim-fs/pipeline.toml
@@ -176,6 +212,9 @@ stages:
 
   search-uknn-explicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 uknn-explicit searches/temporal/optuna/uknn-explicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/uknn-explicit/pipeline.toml
@@ -189,6 +228,9 @@ stages:
 
   search-uknn-implicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid --sample-count=60 uknn-implicit searches/temporal/optuna/uknn-implicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/temporal.toml
       - ../../models/uknn-implicit/pipeline.toml

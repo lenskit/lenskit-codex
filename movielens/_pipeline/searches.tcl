@@ -31,6 +31,7 @@ foreach mod [model list -enabled $movielens(name)] {
         dep {*}$search_deps
         dep [path relative !/models/${mod}/pipeline.toml]
         dep [path relative !/models/${mod}/search.toml]
+        param -file [path relative !/lenskit.toml] tuning.defaults
         out $out_dir
         out -nocache $out_dir.json
         out -nocache $out_dir-pipeline.json

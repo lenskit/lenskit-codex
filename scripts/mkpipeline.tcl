@@ -21,7 +21,7 @@ foreach script $usage(script) {
         msg "saving to $out_file"
         if {$format} {
             msg -debug "saving with dprint"
-            set out_fh [open "|dprint fmt --stdin dvc.yaml >$out_file" w]
+            set out_fh [open "|yamlfmt -in >$out_file" w]
         } else {
             set out_fh [open $out_file w]
         }

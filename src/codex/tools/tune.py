@@ -13,8 +13,8 @@ import click
 from humanize import metric as human_metric
 from humanize import precisedelta
 from lenskit.logging import get_logger, stdout_console
-from lenskit.tuning import PipelineTuner, TuningSpec
-from lenskit.tuning.spec import ErrorAction
+from lenskit.schemas.tuning import ErrorAction, TuningSpec
+from lenskit.tuning import PipelineTuner
 from pydantic_core import to_json
 
 from codex.config import load_config
