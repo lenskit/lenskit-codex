@@ -3,21 +3,21 @@
   "meta": {
     "name": "flexmf-bpr",
     "version": null,
-    "hash": "5dcb66a2811b2ec344c812704a67e4e5b44bf221cf46de8c60f9296f531ece03"
+    "hash": "5f1a358fb4c7b888921b9c53b277add9d03d7b2bcc2d88f8a3385a6ae20c1ef1"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
+        "bytes",
+        "lenskit.data:ItemList",
+        "numpy:integer",
         "numpy:object_",
         "numpy:bytes_",
         "numpy:str_",
-        "lenskit.data:ItemList",
-        "bytes",
         "lenskit.data:RecQuery",
-        "str",
-        "numpy:integer",
-        "int"
+        "int",
+        "str"
       ]
     },
     {
@@ -66,16 +66,16 @@
       "config": {
         "embedding_size": 9,
         "batch_size": 8192,
-        "learning_rate": 0.008697573565200508,
-        "epochs": 12,
-        "regularization": 0.9680872608665559,
+        "learning_rate": 0.024558893855249467,
+        "epochs": 6,
+        "regularization": 1.3928158183742292,
         "reg_method": "AdamW",
         "preset": null,
         "loss": "pairwise",
         "negative_strategy": null,
-        "negative_count": 2,
-        "positive_weight": 6,
-        "user_bias": null,
+        "negative_count": 5,
+        "positive_weight": 8,
+        "user_bias": false,
         "item_bias": true,
         "convolution_layers": 0
       },
