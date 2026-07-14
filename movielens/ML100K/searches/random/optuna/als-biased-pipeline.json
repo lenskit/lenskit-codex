@@ -3,21 +3,21 @@
   "meta": {
     "name": "als-biased",
     "version": null,
-    "hash": "d331a43f981d93f41c5e77a640378bfda24854094ae538eb36ab4d54d803151b"
+    "hash": "81ff991a9bbd8184e2144df4eb7efdec007566e84660fbedf3efc24f96a19961"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "lenskit.data:RecQuery",
         "int",
         "str",
-        "lenskit.data:ItemList",
+        "bytes",
         "numpy:bytes_",
-        "numpy:object_",
+        "lenskit.data:ItemList",
         "numpy:str_",
+        "lenskit.data:RecQuery",
         "numpy:integer",
-        "bytes"
+        "numpy:object_"
       ]
     },
     {
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "None",
-        "int"
+        "int",
+        "None"
       ]
     }
   ],
@@ -67,15 +67,15 @@
         "embedding_size": 64,
         "epochs": 4,
         "regularization": {
-          "user": 0.13507812423087653,
-          "item": 0.06458570547903725
+          "user": 0.17633349580603627,
+          "item": 0.0718150086020459
         },
         "user_embeddings": "prefer",
         "damping": {
-          "user": 7.184432717673397,
-          "item": 1.3500909010423023e-9
+          "user": 0.000016429028926976108,
+          "item": 2.621953930538899e-10
         },
-        "embedding_size_exp": 7
+        "embedding_size_exp": 9
       },
       "inputs": {
         "items": "candidates",
