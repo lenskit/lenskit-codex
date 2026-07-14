@@ -127,8 +127,12 @@ def run_tune(
 
     best = results.best_result()
     results.save_results(out)
+    n_trials = results.num_trials()
+    log = log.bind(n_trials=n_trials)
 
     log.info("finished hyperparameter search", {metric: best[metric]})
+    if n_bad := results.num_failed():
+        log.warn("{} trials failed", n_bad)
     console.print("[bold yellow]Hyperparameter search completed![/bold yellow]")
     console.print("Best {} is [bold red]{:.3f}[/bold red]".format(metric, best[metric]))
     assert task.duration is not None
