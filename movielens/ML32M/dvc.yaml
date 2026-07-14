@@ -21,6 +21,8 @@ stages:
   search-als-biased-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid als-biased searches/temporal/optuna/als-biased
     params:
+      - ../../lenskit.toml:
+          - tuning.defaults
       - ../../codex.toml:
           - tuning.optuna.points
     deps:
@@ -37,6 +39,8 @@ stages:
   search-als-implicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid als-implicit searches/temporal/optuna/als-implicit
     params:
+      - ../../lenskit.toml:
+          - tuning.defaults
       - ../../codex.toml:
           - tuning.optuna.points
     deps:
@@ -53,6 +57,8 @@ stages:
   search-bias-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid bias searches/temporal/optuna/bias
     params:
+      - ../../lenskit.toml:
+          - tuning.defaults
       - ../../codex.toml:
           - tuning.optuna.points
     deps:
@@ -69,6 +75,8 @@ stages:
   search-flexmf-bpr-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid flexmf-bpr searches/temporal/optuna/flexmf-bpr
     params:
+      - ../../lenskit.toml:
+          - tuning.defaults
       - ../../codex.toml:
           - tuning.optuna.points
     deps:
@@ -85,6 +93,8 @@ stages:
   search-flexmf-explicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid flexmf-explicit searches/temporal/optuna/flexmf-explicit
     params:
+      - ../../lenskit.toml:
+          - tuning.defaults
       - ../../codex.toml:
           - tuning.optuna.points
     deps:
@@ -101,6 +111,8 @@ stages:
   search-flexmf-logistic-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid flexmf-logistic searches/temporal/optuna/flexmf-logistic
     params:
+      - ../../lenskit.toml:
+          - tuning.defaults
       - ../../codex.toml:
           - tuning.optuna.points
     deps:
@@ -117,6 +129,8 @@ stages:
   search-flexmf-warp-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid flexmf-warp searches/temporal/optuna/flexmf-warp
     params:
+      - ../../lenskit.toml:
+          - tuning.defaults
       - ../../codex.toml:
           - tuning.optuna.points
     deps:
@@ -133,6 +147,8 @@ stages:
   search-iknn-explicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid iknn-explicit searches/temporal/optuna/iknn-explicit
     params:
+      - ../../lenskit.toml:
+          - tuning.defaults
       - ../../codex.toml:
           - tuning.optuna.points
     deps:
@@ -149,6 +165,8 @@ stages:
   search-iknn-implicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid iknn-implicit searches/temporal/optuna/iknn-implicit
     params:
+      - ../../lenskit.toml:
+          - tuning.defaults
       - ../../codex.toml:
           - tuning.optuna.points
     deps:
@@ -165,6 +183,8 @@ stages:
   search-slim-fs-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid slim-fs searches/temporal/optuna/slim-fs
     params:
+      - ../../lenskit.toml:
+          - tuning.defaults
       - ../../codex.toml:
           - tuning.optuna.points
     deps:

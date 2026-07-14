@@ -32,6 +32,9 @@ stages:
 
   search-als-biased-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 als-biased searches/random/optuna/als-biased
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/als-biased/pipeline.toml
@@ -45,6 +48,9 @@ stages:
 
   search-als-implicit-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 als-implicit searches/random/optuna/als-implicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/als-implicit/pipeline.toml
@@ -58,6 +64,9 @@ stages:
 
   search-bias-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 bias searches/random/optuna/bias
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/bias/pipeline.toml
@@ -71,6 +80,9 @@ stages:
 
   search-ease-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 ease searches/random/optuna/ease
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/ease/pipeline.toml
@@ -84,6 +96,9 @@ stages:
 
   search-flexmf-bpr-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 flexmf-bpr searches/random/optuna/flexmf-bpr
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/flexmf-bpr/pipeline.toml
@@ -97,6 +112,9 @@ stages:
 
   search-flexmf-explicit-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 flexmf-explicit searches/random/optuna/flexmf-explicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/flexmf-explicit/pipeline.toml
@@ -110,6 +128,9 @@ stages:
 
   search-flexmf-logistic-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 flexmf-logistic searches/random/optuna/flexmf-logistic
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/flexmf-logistic/pipeline.toml
@@ -123,6 +144,9 @@ stages:
 
   search-flexmf-warp-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 flexmf-warp searches/random/optuna/flexmf-warp
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/flexmf-warp/pipeline.toml
@@ -136,6 +160,9 @@ stages:
 
   search-iknn-explicit-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 iknn-explicit searches/random/optuna/iknn-explicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/iknn-explicit/pipeline.toml
@@ -149,6 +176,9 @@ stages:
 
   search-iknn-implicit-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 iknn-implicit searches/random/optuna/iknn-implicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/iknn-implicit/pipeline.toml
@@ -162,6 +192,9 @@ stages:
 
   search-slim-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 slim searches/random/optuna/slim
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/slim/pipeline.toml
@@ -175,6 +208,9 @@ stages:
 
   search-slim-fs-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 slim-fs searches/random/optuna/slim-fs
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/slim-fs/pipeline.toml
@@ -188,6 +224,9 @@ stages:
 
   search-uknn-explicit-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 uknn-explicit searches/random/optuna/uknn-explicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/uknn-explicit/pipeline.toml
@@ -201,6 +240,9 @@ stages:
 
   search-uknn-implicit-random-optuna:
     cmd: lenskit codex tune --split=splits/random.toml --test-part=0 --sample-count=60 uknn-implicit searches/random/optuna/uknn-implicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
     deps:
       - splits/random.parquet
       - ../../models/uknn-implicit/pipeline.toml
