@@ -3,20 +3,20 @@
   "meta": {
     "name": "ease",
     "version": null,
-    "hash": "b9091e83ef0c1867c65f8b710b000b9f991d1d007301c8c30f8046b9e7eba448"
+    "hash": "ad9f949a7bd1f63b224cc86e965753f44d227173bfcf086c53db5ac6e59c3d26"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "numpy:str_",
         "str",
-        "int",
-        "numpy:integer",
-        "bytes",
         "lenskit.data:ItemList",
+        "numpy:integer",
+        "numpy:str_",
+        "bytes",
         "numpy:bytes_",
         "lenskit.data:RecQuery",
+        "int",
         "numpy:object_"
       ]
     },
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "int",
-        "None"
+        "None",
+        "int"
       ]
     }
   ],
@@ -64,7 +64,7 @@
     "scorer": {
       "code": "lenskit.knn.ease:EASEScorer",
       "config": {
-        "regularization": 220.76430139428996
+        "regularization": 264.38151954045867
       },
       "inputs": {
         "items": "candidates",
