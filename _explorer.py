@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.23.13"
+__generated_with = "0.23.14"
 app = marimo.App(width="medium")
 
 
@@ -33,7 +33,6 @@ def _(mo):
         FROM read_csv("movielens/ML100K/run-summary.csv")
         WHERE part=0
         GROUP BY model, variant, RBP, NDCG
-
         """
     )
     return
@@ -153,7 +152,7 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    NDCGhtom = mo.sql(
+    NDCG10M = mo.sql(
         f"""
         SELECT  
             model,
@@ -215,11 +214,11 @@ def _(mo):
         ORDER BY ht.ht_rank;
         """
     )
-    return
+    return (NDCGhtom,)
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+def _(NDCGhtom):
     import numpy as np
     from scipy.stats import kendalltau
 
@@ -237,13 +236,16 @@ app._unparsable_cell(
 
     print(f"Kendall's Tau-b: {tau:.4f}")
 
-    #interpretations in quarters of 1
+    #interpretations in increments of 0.25
     if tau <= -0.75:
-        print("The model and variant combination perform completely differently, with dataset 2.")
+        print("The rankings of the model-variant pairs completely disagree across the datasets.")
     elif tau <= -0.5:
-    """,
-    name="_"
-)
+        print("The rankings of the model-varaint pairs disagree across the datasets.")
+    elif tau <=-0.25:
+        print("The rankings of model-variant pairs slightly disagree across the datasets.")
+    elif tau <=-0:
+        print("The rankings of model-variant pairs ")
+    return
 
 
 @app.cell
