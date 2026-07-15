@@ -3,21 +3,21 @@
   "meta": {
     "name": "uknn-explicit",
     "version": null,
-    "hash": "683c80a2bca1d36da018c5f85025a2a284f7c32e689369d32a18ec36ad1d8d34"
+    "hash": "200a23767ca30d45a0d926b34945880e538ec20dcb5e6fe64ca486c1fde1e039"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "bytes",
         "numpy:integer",
-        "numpy:str_",
-        "lenskit.data:RecQuery",
-        "int",
-        "numpy:bytes_",
         "numpy:object_",
+        "lenskit.data:RecQuery",
+        "bytes",
+        "str",
+        "numpy:bytes_",
         "lenskit.data:ItemList",
-        "str"
+        "numpy:str_",
+        "int"
       ]
     },
     {
@@ -65,8 +65,8 @@
       "code": "lenskit.knn.user:UserKNNScorer",
       "config": {
         "max_nbrs": 50,
-        "min_nbrs": 3,
-        "min_sim": 0.00567010272332751,
+        "min_nbrs": 1,
+        "min_sim": 0.0010392845275846382,
         "feedback": "implicit"
       },
       "inputs": {
