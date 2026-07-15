@@ -3,21 +3,21 @@
   "meta": {
     "name": "als-implicit",
     "version": null,
-    "hash": "b9240f5635aa1efc03aebaf70653a9e049d7eddc597c437aaaa86e65a16c038e"
+    "hash": "5fe86cf08b124b75e5cbc3163f54bb4ccb2028b69b9bf4240da78ea357bcde1e"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
+        "bytes",
         "lenskit.data:ItemList",
-        "numpy:str_",
-        "str",
-        "lenskit.data:RecQuery",
         "numpy:integer",
-        "int",
+        "str",
         "numpy:object_",
+        "lenskit.data:RecQuery",
+        "numpy:str_",
         "numpy:bytes_",
-        "bytes"
+        "int"
       ]
     },
     {
@@ -67,11 +67,11 @@
         "embedding_size": 64,
         "epochs": 7,
         "regularization": {
-          "user": 0.1735930156931024,
-          "item": 0.0003705669719545892
+          "user": 0.0016236185046906444,
+          "item": 0.0006117699653699804
         },
         "user_embeddings": "prefer",
-        "weight": 6.592528064172942,
+        "weight": 5.000156706096204,
         "use_ratings": false,
         "embedding_size_exp": 6
       },
