@@ -15,241 +15,356 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    **100K Sorted by RBP**
+    **Movielens Datasets**
     """)
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
-    RBP100K = mo.sql(
+    dataset_selector = mo.ui.radio(
+        options=["100K", "1M", "10M", "20M", "25M", "32M"],
+        value="100K",
+        label="Dataset:",
+    )
+
+    sort_selector = mo.ui.radio(
+        options=["RBP", "NDCG"],
+        value="RBP",
+        label="Rank by:",
+    )
+
+    mo.vstack([dataset_selector, sort_selector])
+    return dataset_selector, sort_selector
+
+
+@app.cell(hide_code=True)
+def _(dataset_selector, mo, sort_selector):
+    dataset_files = {
+        "100K": ("movielens/ML100K/run-summary.csv", "0"),
+        "1M": ("movielens/ML1M/run-summary.csv", "0"),
+        "10M": ("movielens/ML10M/run-summary.csv", "'valid'"),
+        "20M": ("movielens/ML20M/run-summary.csv", "'valid'"),
+        "25M": ("movielens/ML25M/run-summary.csv", "'valid'"),
+        "32M": ("movielens/ML32M/run-summary.csv", "'valid'"),
+    }
+
+    dataset = dataset_selector.value
+    sort_metric = sort_selector.value
+
+    file_path, part_value = dataset_files[dataset]
+
+    sorted_results = mo.sql(
         f"""
-        SELECT  
+        SELECT
             model,
             variant,
-            RBP, 
-            NDCG, 
-        	RANK() OVER (ORDER BY RBP DESC) as rank
-        FROM read_csv("movielens/ML100K/run-summary.csv")
-        WHERE part=0
+            RBP,
+            NDCG,
+            RANK() OVER (ORDER BY {sort_metric} DESC) AS rank
+        FROM read_csv('{file_path}')
+        WHERE part = {part_value}
         GROUP BY model, variant, RBP, NDCG
+        ORDER BY rank
         """
     )
+
+    mo.vstack([
+        mo.md(f"**{dataset} Sorted by {sort_metric}**"),
+        sorted_results,
+    ])
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    **100K Sorted by NDCG**
+    **Kendall's Tau**
     """)
-    return
-
-
-@app.cell
-def _(mo):
-    NDCG100K = mo.sql(
-        f"""
-        SELECT  
-            model,
-            variant,
-            RBP, 
-            NDCG, 
-        	RANK() OVER (ORDER BY NDCG DESC) as rank
-        FROM read_csv("movielens/ML100K/run-summary.csv")
-        WHERE part=0
-        GROUP BY model, variant, RBP, NDCG
-        """
-    )
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""
-    **1M Sorted by RBP**
-    """)
-    return
-
-
-@app.cell
-def _(mo):
-    RBP1M = mo.sql(
-        f"""
-        SELECT  
-            model,
-            variant,
-            RBP, 
-            NDCG, 
-        	RANK() OVER (ORDER BY RBP DESC) as rank
-        FROM read_csv("movielens/ML1M/run-summary.csv")
-        WHERE part=0
-        GROUP BY model, variant, RBP, NDCG
-        """
+    comparison_selector = mo.ui.radio(
+        options=[
+            "100K to 1M",
+            "1M to 10M",
+            "10M to 20M",
+            "20M to 25M",
+            "25M to 32M",
+            "100K to 10M",
+            "100K to 20M",
+            "100K to 25M",
+            "100K to 32M"
+        ],
+        value="100K to 1M",
+        label="Comparison pair:",
     )
-    return
+
+    comparison_selector
+    return (comparison_selector,)
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    **1M Sorted by NDCG**
-    """)
-    return
+def _(comparison_selector, mo):
+    def _():
+        from scipy.stats import kendalltau
 
+        dataset_info = {
+            "100K": ("movielens/ML100K/run-summary.csv", "0"),
+            "1M": ("movielens/ML1M/run-summary.csv", "0"),
+            "10M": ("movielens/ML10M/run-summary.csv", "'valid'"),
+            "20M": ("movielens/ML20M/run-summary.csv", "'valid'"),
+            "25M": ("movielens/ML25M/run-summary.csv", "'valid'"),
+            "32M": ("movielens/ML32M/run-summary.csv", "'valid'"),
+        }
 
-@app.cell
-def _(mo):
-    NDCG1M = mo.sql(
-        f"""
-        SELECT  
-            model,
-            variant,
-            RBP, 
-            NDCG, 
-        	RANK() OVER (ORDER BY NDCG DESC) as rank
-        FROM read_csv("movielens/ML1M/run-summary.csv")
-        WHERE part=0
-        GROUP BY model, variant, RBP, NDCG
-        """
-    )
-    return
+        comparison_pairs = {
+            "100K to 1M": ("100K", "1M"),
+            "1M to 10M": ("1M", "10M"),
+            "10M to 20M": ("10M", "20M"),
+            "20M to 25M": ("20M", "25M"),
+            "25M to 32M": ("25M", "32M"),
+            "100K to 10M": ("100K", "10M"),
+            "100K to 20M": ("100K", "20M"),
+            "100K to 25M": ("100K", "25M"),
+            "100K to 32M": ("100K", "32M"),
+        }
 
+        size_a, size_b = comparison_pairs[comparison_selector.value]
 
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    **10M Sorted by RBP**
-    """)
-    return
+        file_a, part_a = dataset_info[size_a]
+        file_b, part_b = dataset_info[size_b]
 
+        rankings = mo.sql(
+            f"""
+            WITH a_rankings AS (
+                SELECT
+                    model,
+                    variant,
+                    RBP,
+                    RANK() OVER (ORDER BY RBP DESC) AS rank_a
+                FROM read_csv('{file_a}')
+                WHERE part = {part_a}
+            ),
 
-@app.cell
-def _(mo):
-    RBP10M = mo.sql(
-        f"""
-        SELECT  
-            model,
-            variant,
-            RBP, 
-            NDCG, 
-        	RANK() OVER (ORDER BY RBP DESC) as rank
-        FROM read_csv("movielens/ML10M/run-summary.csv")
-        WHERE part='valid'
-        GROUP BY model, variant, RBP, NDCG
-        """
-    )
-    return
+            b_rankings AS (
+                SELECT
+                    model,
+                    variant,
+                    RBP,
+                    RANK() OVER (ORDER BY RBP DESC) AS rank_b
+                FROM read_csv('{file_b}')
+                WHERE part = {part_b}
+            )
 
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    **10M Sorted by NDCG**
-    """)
-    return
-
-
-@app.cell
-def _(mo):
-    NDCG10M = mo.sql(
-        f"""
-        SELECT  
-            model,
-            variant,
-            RBP, 
-            NDCG, 
-        	RANK() OVER (ORDER BY NDCG DESC) as rank
-        FROM read_csv("movielens/ML10M/run-summary.csv")
-        WHERE part='valid'
-        GROUP BY model, variant, RBP, NDCG
-        """
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    **Kendall's Tau for 100K and 1M**
-    """)
-    return
-
-
-@app.cell
-def _(mo):
-    NDCGhtom = mo.sql(
-        f"""
-        WITH ht_rankings AS (
             SELECT
-                model,
-                variant,
-                RBP,
-                RANK() OVER (ORDER BY RBP DESC) AS ht_rank
-            FROM read_csv('movielens/ML100K/run-summary.csv')
-            WHERE part = 0
-        ),
-
-        om_rankings AS (
-            SELECT
-                model,
-                variant,
-                RBP,
-                RANK() OVER (ORDER BY RBP DESC) AS om_rank
-            FROM read_csv('movielens/ML1M/run-summary.csv')
-            WHERE part = 0
+                a.model,
+                a.variant,
+                a.RBP AS RBP_{size_a},
+                b.RBP AS RBP_{size_b},
+                a.rank_a,
+                b.rank_b
+            FROM a_rankings AS a
+            INNER JOIN b_rankings AS b
+                ON a.model = b.model
+                AND a.variant = b.variant
+            ORDER BY a.rank_a
+            """
         )
 
-        SELECT
-            ht.model,
-            ht.variant,
-            ht.RBP AS ht_RBP,
-            om.RBP AS om_RBP,
-            ht.ht_rank,
-            om.om_rank
-        FROM ht_rankings AS ht
-        INNER JOIN om_rankings AS om
-            ON ht.model = om.model
-            AND ht.variant = om.variant
-        ORDER BY ht.ht_rank;
-        """
-    )
-    return (NDCGhtom,)
+        tau, p_value = kendalltau(
+            rankings["rank_a"],
+            rankings["rank_b"],
+            variant="b",
+            nan_policy="omit",
+        )
+
+        if tau <= -0.97:
+            interpretation = "The rankings of the model-variant pairs completely disagree across the datasets."
+        elif tau <= -0.9:
+            interpretation = "The rankings of the model-variant pairs nearly completely disagree across the datasets."
+        elif tau <= -0.75:
+            interpretation = "The rankings of the model-variant pairs strongly disagree across the datasets."
+        elif tau <= -0.5:
+            interpretation = "The rankings of the model-variant pairs disagree across the datasets."
+        elif tau <= -0.25:
+            interpretation = "The rankings of the model-variant pairs slightly disagree across the datasets."
+        elif tau < 0.25:
+            interpretation = "The rankings of the model-variant pairs have little to no correlation across the datasets."
+        elif tau <= 0.5:
+            interpretation = "The rankings of the model-variant pairs slightly agree across the datasets."
+        elif tau <= 0.75:
+            interpretation = "The rankings of the model-variant pairs agree across the datasets."
+        elif tau < 0.9:
+            interpretation = "The rankings of the model-variant pairs strongly agree across the datasets."
+        elif tau < 0.97:
+            interpretation = "The rankings of the model-variant pairs nearly completely agree across the datasets."
+        else:
+            interpretation = "The rankings of the model-variant pairs completely agree across the datasets."
+        return mo.md(
+            f"""
+            **Kendall's Tau-b: {size_a} to {size_b}**
+
+            **Tau-b:** `{tau:.4f}`  
+            **Number of shared model-variant pairs:** `{len(rankings)}`
+
+            {interpretation}
+            """
+        )
 
 
-@app.cell
-def _(NDCGhtom):
-    import numpy as np
-    from scipy.stats import kendalltau
-
-    #ht stands for hundred thousand
-    #om stands for one million
-
-    rankings = NDCGhtom
-
-    tau, p_value = kendalltau(
-        rankings["ht_rank"],
-        rankings["om_rank"],
-        variant="b",
-        nan_policy="omit"
-    )
-
-    print(f"Kendall's Tau-b: {tau:.4f}")
-
-    #interpretations in increments of 0.25
-    if tau <= -0.75:
-        print("The rankings of the model-variant pairs completely disagree across the datasets.")
-    elif tau <= -0.5:
-        print("The rankings of the model-varaint pairs disagree across the datasets.")
-    elif tau <=-0.25:
-        print("The rankings of model-variant pairs slightly disagree across the datasets.")
-    elif tau <=-0:
-        print("The rankings of model-variant pairs ")
+    _()
     return
 
 
-@app.cell
-def _():
+@app.cell(hide_code=True)
+def _(mo):
+    metric_selector = mo.ui.radio(
+        options=["RBP", "NDCG"],
+        value="RBP",
+        label="Sort rankings by:",
+    )
+
+    metric_selector
+    return (metric_selector,)
+
+
+@app.cell(hide_code=True)
+def _(metric_selector, mo):
+    def _():
+        from scipy.stats import kendalltau
+        import pandas as pd
+        import altair as alt
+
+        metric = metric_selector.value
+
+        dataset_info = {
+            "100K": ("movielens/ML100K/run-summary.csv", "0"),
+            "1M": ("movielens/ML1M/run-summary.csv", "0"),
+            "10M": ("movielens/ML10M/run-summary.csv", "'valid'"),
+            "20M": ("movielens/ML20M/run-summary.csv", "'valid'"),
+            "25M": ("movielens/ML25M/run-summary.csv", "'valid'"),
+            "32M": ("movielens/ML32M/run-summary.csv", "'valid'"),
+        }
+
+        comparison_groups = {
+            "Adjacent comparisons": [
+                ("100K", "1M"),
+                ("1M", "10M"),
+                ("10M", "20M"),
+                ("20M", "25M"),
+                ("25M", "32M"),
+            ],
+            "100K baseline comparisons": [
+                ("100K", "1M"),
+                ("100K", "10M"),
+                ("100K", "20M"),
+                ("100K", "25M"),
+                ("100K", "32M"),
+            ],
+        }
+
+        rows = []
+
+        for group_name, comparisons in comparison_groups.items():
+            for size_a, size_b in comparisons:
+                file_a, part_a = dataset_info[size_a]
+                file_b, part_b = dataset_info[size_b]
+
+                rankings = mo.sql(
+                    f"""
+                    WITH a_rankings AS (
+                        SELECT
+                            model,
+                            variant,
+                            {metric},
+                            RANK() OVER (ORDER BY {metric} DESC) AS rank_a
+                        FROM read_csv('{file_a}')
+                        WHERE part = {part_a}
+                    ),
+
+                    b_rankings AS (
+                        SELECT
+                            model,
+                            variant,
+                            {metric},
+                            RANK() OVER (ORDER BY {metric} DESC) AS rank_b
+                        FROM read_csv('{file_b}')
+                        WHERE part = {part_b}
+                    )
+
+                    SELECT
+                        a.model,
+                        a.variant,
+                        a.{metric} AS metric_a,
+                        b.{metric} AS metric_b,
+                        a.rank_a,
+                        b.rank_b
+                    FROM a_rankings AS a
+                    INNER JOIN b_rankings AS b
+                        ON a.model = b.model
+                        AND a.variant = b.variant
+                    ORDER BY a.rank_a
+                    """
+                )
+
+                tau, p_value = kendalltau(
+                    rankings["rank_a"],
+                    rankings["rank_b"],
+                    variant="b",
+                    nan_policy="omit",
+                )
+
+                rows.append({
+                    "group": group_name,
+                    "comparison": f"{size_a} to {size_b}",
+                    "kendall_tau": tau,
+                    "p_value": p_value,
+                    "n_items": len(rankings),
+                })
+
+        kendall_results = pd.DataFrame(rows)
+
+        adjacent_chart = (
+            alt.Chart(kendall_results[kendall_results["group"] == "Adjacent comparisons"])
+            .mark_line(point=True)
+            .encode(
+                x=alt.X("comparison:N", sort=None, title="Comparison"),
+                y=alt.Y(
+                    "kendall_tau:Q",
+                    title=f"Kendall's tau-b sorted by {metric}",
+                    scale=alt.Scale(domain=[-1, 1]),
+                ),
+                tooltip=["comparison", "kendall_tau", "p_value", "n_items"],
+            )
+            .properties(width=700, height=300)
+        )
+
+        baseline_chart = (
+            alt.Chart(kendall_results[kendall_results["group"] == "100K baseline comparisons"])
+            .mark_line(point=True)
+            .encode(
+                x=alt.X("comparison:N", sort=None, title="Comparison"),
+                y=alt.Y(
+                    "kendall_tau:Q",
+                    title=f"Kendall's tau-b sorted by {metric}",
+                    scale=alt.Scale(domain=[-1, 1]),
+                ),
+                tooltip=["comparison", "kendall_tau", "p_value", "n_items"],
+            )
+            .properties(width=700, height=300)
+        )
+        return mo.vstack([
+            mo.md(f"**Adjacent Comparisons Sorted by {metric}**"),
+            adjacent_chart,
+            mo.md(f"**100K Baseline Comparisons Sorted by {metric}**"),
+            baseline_chart,
+        ])
+
+
+    _()
     return
 
 
