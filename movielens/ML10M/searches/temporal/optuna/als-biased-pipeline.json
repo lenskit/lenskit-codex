@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "iknn-explicit",
+    "name": "als-biased",
     "version": null,
-    "hash": "f701bf58274149c0d219427668ee3f1d6ac367b1cbc2f3dfaa1e8436058e2abf"
+    "hash": "94091173b2e3a55d7687f5f465f3933f6320e1fc46a12bc6dc9d40e0203edb73"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "numpy:bytes_",
+        "numpy:integer",
         "bytes",
+        "numpy:bytes_",
         "lenskit.data:RecQuery",
-        "numpy:str_",
-        "int",
         "lenskit.data:ItemList",
-        "numpy:object_",
         "str",
-        "numpy:integer"
+        "int",
+        "numpy:str_",
+        "numpy:object_"
       ]
     },
     {
@@ -62,14 +62,20 @@
       }
     },
     "scorer": {
-      "code": "lenskit.knn.item:ItemKNNScorer",
+      "code": "lenskit.als:BiasedMFScorer",
       "config": {
-        "max_nbrs": 33,
-        "min_nbrs": 5,
-        "min_sim": 0.00019100828516027544,
-        "save_nbrs": 10000,
-        "feedback": "explicit",
-        "block_size": 250
+        "embedding_size": 64,
+        "epochs": 7,
+        "regularization": {
+          "user": 0.036471149976260185,
+          "item": 0.09875802088401317
+        },
+        "user_embeddings": "prefer",
+        "damping": {
+          "user": 7.082484162823096,
+          "item": 31.294524624972354
+        },
+        "embedding_size_exp": 7
       },
       "inputs": {
         "items": "candidates",
