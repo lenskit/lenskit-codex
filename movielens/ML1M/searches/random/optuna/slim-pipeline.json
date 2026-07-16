@@ -3,21 +3,21 @@
   "meta": {
     "name": "slim",
     "version": null,
-    "hash": "916bdf4adb617cfbb2244cd3fe2fd9a44371582c37e6fc48b3815947c7cf9223"
+    "hash": "d08ac4f289a5f30185bd8f81c31f41f3744103e22d544cc929187c93a3a7d9fe"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "bytes",
-        "numpy:object_",
-        "numpy:bytes_",
-        "lenskit.data:ItemList",
+        "lenskit.data:RecQuery",
         "numpy:str_",
+        "lenskit.data:ItemList",
+        "numpy:object_",
+        "str",
         "int",
         "numpy:integer",
-        "str",
-        "lenskit.data:RecQuery"
+        "numpy:bytes_",
+        "bytes"
       ]
     },
     {
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "None",
-        "int"
+        "int",
+        "None"
       ]
     }
   ],
@@ -64,8 +64,8 @@
     "scorer": {
       "code": "lenskit.knn.slim:SLIMScorer",
       "config": {
-        "l1_reg": 0.04619928222288872,
-        "l2_reg": 175.81171565808054,
+        "l1_reg": 0.3161843894830196,
+        "l2_reg": 180.10576378326698,
         "max_iters": 100,
         "max_nbrs": null
       },
