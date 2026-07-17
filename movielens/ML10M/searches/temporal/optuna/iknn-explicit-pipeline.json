@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "slim",
+    "name": "iknn-explicit",
     "version": null,
-    "hash": "da2db5d594917ac9adf7cad730ccd00ed2c9c21e0d7fce6114e69d7a22bacd8c"
+    "hash": "0fe44624a6fef433d6ea58c7d9c7cef1d4cb8aff8d1c70899ce543595a7e19b1"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "str",
-        "lenskit.data:ItemList",
-        "numpy:integer",
         "numpy:object_",
+        "lenskit.data:ItemList",
+        "str",
+        "numpy:integer",
         "lenskit.data:RecQuery",
-        "numpy:str_",
         "bytes",
+        "int",
         "numpy:bytes_",
-        "int"
+        "numpy:str_"
       ]
     },
     {
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "None",
-        "int"
+        "int",
+        "None"
       ]
     }
   ],
@@ -62,12 +62,14 @@
       }
     },
     "scorer": {
-      "code": "lenskit.knn.slim:SLIMScorer",
+      "code": "lenskit.knn.item:ItemKNNScorer",
       "config": {
-        "l1_reg": 0.08623019583427596,
-        "l2_reg": 963.1270879611342,
-        "max_iters": 100,
-        "max_nbrs": null
+        "max_nbrs": 32,
+        "min_nbrs": 5,
+        "min_sim": 5.242427159124931e-6,
+        "save_nbrs": 10000,
+        "feedback": "explicit",
+        "block_size": 250
       },
       "inputs": {
         "items": "candidates",
@@ -83,9 +85,32 @@
         "items": "scorer",
         "n": "n"
       }
+    },
+    "fallback-predictor": {
+      "code": "lenskit.basic.bias:BiasScorer",
+      "config": {
+        "entities": [
+          "item",
+          "user"
+        ],
+        "damping": 0.0
+      },
+      "inputs": {
+        "items": "candidates",
+        "query": "history-lookup"
+      }
+    },
+    "rating-merger": {
+      "code": "lenskit.basic.composite:FallbackScorer",
+      "config": null,
+      "inputs": {
+        "backup": "fallback-predictor",
+        "primary": "scorer"
+      }
     }
   },
   "aliases": {
+    "rating-predictor": "rating-merger",
     "recommender": "ranker"
   },
   "default": null,
