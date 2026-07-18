@@ -3,20 +3,20 @@
   "meta": {
     "name": "flexmf-logistic",
     "version": null,
-    "hash": "b22e991bf582af3b4ea3b74b3023fb2f9b505273d530d4a36f50864f5113cabd"
+    "hash": "b88e734b8f64c73e3f62ecdea47ee4ca3bd0fbfa1fb48cc5f8615b90c0af4668"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "numpy:bytes_",
         "str",
-        "int",
-        "numpy:object_",
         "lenskit.data:ItemList",
+        "numpy:bytes_",
         "bytes",
-        "lenskit.data:RecQuery",
+        "int",
         "numpy:integer",
+        "lenskit.data:RecQuery",
+        "numpy:object_",
         "numpy:str_"
       ]
     },
@@ -64,7 +64,7 @@
     "scorer": {
       "code": "lenskit.flexmf:FlexMFImplicitScorer",
       "config": {
-        "embedding_size": 8,
+        "embedding_size": 256,
         "batch_size": 8192,
         "learning_rate": 0.0010958979372350396,
         "epochs": 4,

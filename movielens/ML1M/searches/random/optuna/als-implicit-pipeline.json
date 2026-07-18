@@ -3,21 +3,21 @@
   "meta": {
     "name": "als-implicit",
     "version": null,
-    "hash": "5fe86cf08b124b75e5cbc3163f54bb4ccb2028b69b9bf4240da78ea357bcde1e"
+    "hash": "fa1a6bc2903acafb53b74e56c7dcdf6285d527fa7d7d713c25107fc3bbd6efcd"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "bytes",
-        "lenskit.data:ItemList",
-        "numpy:integer",
-        "str",
         "numpy:object_",
-        "lenskit.data:RecQuery",
-        "numpy:str_",
+        "numpy:integer",
+        "bytes",
         "numpy:bytes_",
-        "int"
+        "numpy:str_",
+        "lenskit.data:ItemList",
+        "lenskit.data:RecQuery",
+        "int",
+        "str"
       ]
     },
     {
@@ -64,16 +64,15 @@
     "scorer": {
       "code": "lenskit.als:ImplicitMFScorer",
       "config": {
-        "embedding_size": 64,
-        "epochs": 7,
+        "embedding_size": 128,
+        "epochs": 13,
         "regularization": {
-          "user": 0.0016236185046906444,
-          "item": 0.0006117699653699804
+          "user": 0.0015012880356516023,
+          "item": 0.013385112027731036
         },
         "user_embeddings": "prefer",
-        "weight": 5.000156706096204,
-        "use_ratings": false,
-        "embedding_size_exp": 6
+        "weight": 5.154314439628157,
+        "use_ratings": false
       },
       "inputs": {
         "items": "candidates",

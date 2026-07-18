@@ -1467,8 +1467,8 @@ stages:
       nfiles: 5
     - path: runs/temporal/als-biased-optuna-tuned
       hash: md5
-      md5: 5c5d1805409c231b791ef345ae1f0fec.dir
-      size: 11691067
+      md5: cabad2b63463d3b5bb0c936887f1d9aa.dir
+      size: 11583845
       nfiles: 6
     - path: runs/temporal/als-implicit-default
       hash: md5
@@ -1477,8 +1477,8 @@ stages:
       nfiles: 4
     - path: runs/temporal/als-implicit-optuna-tuned
       hash: md5
-      md5: db84390bebb80f598f913de6a44115c4.dir
-      size: 3895688
+      md5: 9068f0c1a3dc7c98510e79d6475256ba.dir
+      size: 3881900
       nfiles: 5
     - path: runs/temporal/bias-default
       hash: md5
@@ -1608,12 +1608,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 913c09da73dd3e9d682eae1e6e1109f7
-      size: 21644
+      md5: 8f8d31298dc0afe0056c15cbd2aa8968
+      size: 21632
     - path: run-user-metrics.parquet
       hash: md5
-      md5: 16436e7bbd142c6af7add0a2f0c8b694
-      size: 5600002
+      md5: 13647436385b522192263305b7f1d530
+      size: 5587157
   run-temporal-valid-default-IKNN-Explicit:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml 
       --test-part=valid -o runs/temporal-valid-default/IKNN-Explicit 
@@ -4824,8 +4824,8 @@ stages:
       size: 173
     - path: ../../models/als-implicit/search.toml
       hash: md5
-      md5: 9bbb87c6034ddb35139631c6d5ae5597
-      size: 368
+      md5: 45773c3e932cb2220efd2de188abef65
+      size: 369
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -4837,17 +4837,17 @@ stages:
     outs:
     - path: searches/temporal/optuna/als-implicit
       hash: md5
-      md5: 58b914216b9ebfbc22bfa387ca3d96cf.dir
-      size: 785069
+      md5: c063b507f62a329b278afd30fc82ff9d.dir
+      size: 880723
       nfiles: 10
     - path: searches/temporal/optuna/als-implicit-pipeline.json
       hash: md5
-      md5: a21bbd5bf5d5b18f6babbe8af38e2296
-      size: 2089
+      md5: e1ef0903e866145575569d18cb8f0e1d
+      size: 2055
     - path: searches/temporal/optuna/als-implicit.json
       hash: md5
-      md5: 7b13882e25e711b250a741ca746966c9
-      size: 245
+      md5: 537420bbb85e1d7338a8673687c1b227
+      size: 402
   search-bias-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
       --sample-count=60 bias searches/temporal/optuna/bias
@@ -5171,8 +5171,8 @@ stages:
       nfiles: 5
     - path: searches/temporal/optuna/als-implicit-pipeline.json
       hash: md5
-      md5: a21bbd5bf5d5b18f6babbe8af38e2296
-      size: 2089
+      md5: e1ef0903e866145575569d18cb8f0e1d
+      size: 2055
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -5180,8 +5180,8 @@ stages:
     outs:
     - path: runs/temporal/als-implicit-optuna-tuned
       hash: md5
-      md5: db84390bebb80f598f913de6a44115c4.dir
-      size: 3895688
+      md5: 9068f0c1a3dc7c98510e79d6475256ba.dir
+      size: 3881900
       nfiles: 5
   run-temporal-bias-optuna-tuned:
     cmd: lenskit codex generate --pipeline-file 
@@ -5450,8 +5450,8 @@ stages:
       size: 177
     - path: ../../models/als-biased/search.toml
       hash: md5
-      md5: 30ac07f54b5c7ad5353b92208cbdef72
-      size: 468
+      md5: 92df5892189995aa106e4a05e8fb6c03
+      size: 469
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -5463,17 +5463,17 @@ stages:
     outs:
     - path: searches/temporal/optuna/als-biased
       hash: md5
-      md5: 3ecbce6937d566b32cba75f79e4dcad8.dir
-      size: 813154
+      md5: b5f0f2f17d12a91fe8f8ecf4a8a7dc90.dir
+      size: 790829
       nfiles: 10
     - path: searches/temporal/optuna/als-biased-pipeline.json
       hash: md5
-      md5: 7f9c5e58e53f0e11444e414bf091f1cb
-      size: 2654
+      md5: 9219d1f5ef253f4ba4f98829cbdbbf6f
+      size: 2629
     - path: searches/temporal/optuna/als-biased.json
       hash: md5
-      md5: 9ec5182caf6bb72e89a3c4a7ca6476a5
-      size: 276
+      md5: 40e824b533e7d54f7f18465cea1e3c1f
+      size: 486
   run-temporal-als-biased-optuna-tuned:
     cmd: lenskit codex generate --pipeline-file 
       searches/temporal/optuna/als-biased-pipeline.json --ds-name=ML10M 
@@ -5491,8 +5491,8 @@ stages:
       nfiles: 5
     - path: searches/temporal/optuna/als-biased-pipeline.json
       hash: md5
-      md5: 7f9c5e58e53f0e11444e414bf091f1cb
-      size: 2654
+      md5: 9219d1f5ef253f4ba4f98829cbdbbf6f
+      size: 2629
     - path: splits/temporal.toml
       hash: md5
       md5: 05e5eda2993ed1e8a3af917d9a1d9068
@@ -5500,8 +5500,8 @@ stages:
     outs:
     - path: runs/temporal/als-biased-optuna-tuned
       hash: md5
-      md5: 5c5d1805409c231b791ef345ae1f0fec.dir
-      size: 11691067
+      md5: cabad2b63463d3b5bb0c936887f1d9aa.dir
+      size: 11583845
       nfiles: 6
   search-flexmf-warp-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid 
