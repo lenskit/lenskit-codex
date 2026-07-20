@@ -28,12 +28,12 @@ namespace eval ::dvc {
     }
 
     # Evaluate a pipeline script to build the pipeline data structures
-    proc eval_subdir {dir body} {
+    proc eval_subdir {dir body {level 1}} {
         set oldpwd [pwd]
         msg -debug "entering $dir"
         cd $dir
-        msg -debug "running $fn"
-        namespace eval ::dvc::dsl $body
+        msg -debug "running subdir $dir"
+        uplevel $level $body
         msg -debug "restoring pwd"
         cd $oldpwd
     }
@@ -198,7 +198,7 @@ namespace eval ::dvc::dsl {
 
     proc subdir {dir body} {
         ::dvc::push_pipeline
-        ::dvc::eval_subdir $dir $body
+        ::dvc::eval_subdir $dir $body 2
         ::dvc::save_yaml "$dir/dvc.yaml"
         ::dvc::pop_pipeline
     }
