@@ -1,364 +1,177 @@
-# Codex Generated File — DO NOT EDIT
+# GENERATED PIPELINE FILE - DO NOT EDIT
 #
-# This file is generated from dvc.jsonnet.
+# This file was generated from amazon/2023-5core/pipeline.tcl.
+# Regenerate with `mise run pipeline:render`.
 stages:
-  collect-metrics:
-    cmd: lenskit codex collect metrics -S run-summary.csv -U
-      run-user-metrics.parquet -L runs/manifest.csv
+  import-valid-train:
+    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz splits/fixed/valid/train.dataset
     deps:
-      - runs/fixed/als-biased-default
-      - runs/fixed/als-implicit-default
-      - runs/fixed/bias-default
-      - runs/fixed/ease-default
-      - runs/fixed/flexmf-bpr-default
-      - runs/fixed/flexmf-explicit-default
-      - runs/fixed/flexmf-logistic-default
-      - runs/fixed/flexmf-warp-default
-      - runs/fixed/popular-default
-      - runs/fixed/als-biased-optuna-best
-      - runs/fixed/als-implicit-optuna-best
-      - runs/fixed/bias-optuna-best
-      - runs/fixed/ease-optuna-best
-      - runs/fixed/flexmf-bpr-optuna-best
-      - runs/fixed/flexmf-explicit-optuna-best
-      - runs/fixed/flexmf-logistic-optuna-best
-      - runs/fixed/flexmf-warp-optuna-best
+      - ../data/CDs_and_Vinyl.train.csv.gz
     outs:
-      - run-summary.csv
-      - run-user-metrics.parquet
-  export-trec-default-runs:
-    cmd: lenskit codex trec export runs -o runs/fixed/default.run.gz
-      runs/fixed/*-default
+      - splits/fixed/valid/train.dataset
+
+  import-valid-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/CDs_and_Vinyl.valid.csv.gz splits/fixed/valid/test.full.parquet
     deps:
-      - runs/fixed/als-biased-default/recommendations.parquet
-      - runs/fixed/als-implicit-default/recommendations.parquet
-      - runs/fixed/bias-default/recommendations.parquet
-      - runs/fixed/ease-default/recommendations.parquet
-      - runs/fixed/flexmf-bpr-default/recommendations.parquet
-      - runs/fixed/flexmf-explicit-default/recommendations.parquet
-      - runs/fixed/flexmf-logistic-default/recommendations.parquet
-      - runs/fixed/flexmf-warp-default/recommendations.parquet
-      - runs/fixed/popular-default/recommendations.parquet
+      - ../data/CDs_and_Vinyl.valid.csv.gz
     outs:
-      - runs/fixed/default.run.gz
-  export-trec-qrels:
-    foreach:
-      - test
-      - valid
-    do:
-      cmd: lenskit codex trec export qrels -o splits/fixed/${item}.qrels.gz
-        splits/fixed/${item}/test.parquet
-      deps:
-        - splits/fixed/${item}/test.parquet
-      outs:
-        - splits/fixed/${item}.qrels.gz
-  import-test-test:
-    cmd: lenskit data convert --amazon --item-lists
-      ../data/CDs_and_Vinyl.test.csv.gz splits/fixed/test/test.parquet
+      - splits/fixed/valid/test.full.parquet
+
+  subset-valid-test:
+    cmd: lenskit data subset --sample-rows=10000 --item-lists splits/fixed/valid/test.full.parquet splits/fixed/valid/test.parquet
     deps:
-      - ../data/CDs_and_Vinyl.test.csv.gz
+      - splits/fixed/valid/test.full.parquet
     outs:
-      - splits/fixed/test/test.parquet
+      - splits/fixed/valid/test.parquet
+
   import-test-train:
-    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz
-      ../data/CDs_and_Vinyl.valid.csv.gz splits/fixed/test/train.dataset
+    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz ../data/CDs_and_Vinyl.valid.csv.gz splits/fixed/valid/train.dataset
     deps:
       - ../data/CDs_and_Vinyl.train.csv.gz
       - ../data/CDs_and_Vinyl.valid.csv.gz
     outs:
       - splits/fixed/test/train.dataset
-  import-valid-test:
-    cmd: lenskit data convert --amazon --item-lists
-      ../data/CDs_and_Vinyl.valid.csv.gz splits/fixed/valid/test.full.parquet
+
+  import-test-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/CDs_and_Vinyl.test.csv.gz splits/fixed/test/test.parquet
     deps:
-      - ../data/CDs_and_Vinyl.valid.csv.gz
+      - ../data/CDs_and_Vinyl.test.csv.gz
     outs:
-      - splits/fixed/valid/test.full.parquet
-  import-valid-train:
-    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz
-      splits/fixed/valid/train.dataset
+      - splits/fixed/test/test.parquet
+
+  run-fixed-als-biased-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-CDV --split=splits/fixed -o runs/fixed/als-biased-default als-biased
     deps:
-      - ../data/CDs_and_Vinyl.train.csv.gz
-    outs:
-      - splits/fixed/valid/train.dataset
-  run-fixed-default-als-biased:
-    cmd: lenskit codex generate --ds-name=CDV --split=splits/fixed -o
-      runs/fixed/als-biased-default als-biased
-    deps:
-      - ../../../src/codex/models/als_biased.py
+      - ../../../models/als-biased/pipeline.toml
       - splits/fixed
     outs:
       - runs/fixed/als-biased-default
-  run-fixed-default-als-implicit:
-    cmd: lenskit codex generate --ds-name=CDV --split=splits/fixed -o
-      runs/fixed/als-implicit-default als-implicit
+
+  run-fixed-als-implicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-CDV --split=splits/fixed -o runs/fixed/als-implicit-default als-implicit
     deps:
-      - ../../../src/codex/models/als_implicit.py
+      - ../../../models/als-implicit/pipeline.toml
       - splits/fixed
     outs:
       - runs/fixed/als-implicit-default
-  run-fixed-default-bias:
-    cmd: lenskit codex generate --ds-name=CDV --split=splits/fixed -o
-      runs/fixed/bias-default bias
+
+  run-fixed-bias-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-CDV --split=splits/fixed -o runs/fixed/bias-default bias
     deps:
-      - ../../../src/codex/models/bias.py
+      - ../../../models/bias/pipeline.toml
       - splits/fixed
     outs:
       - runs/fixed/bias-default
-  run-fixed-default-ease:
-    cmd: lenskit codex generate --ds-name=CDV --split=splits/fixed -o
-      runs/fixed/ease-default ease
+
+  run-fixed-flexmf-bpr-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-CDV --split=splits/fixed -o runs/fixed/flexmf-bpr-default flexmf-bpr
     deps:
-      - ../../../src/codex/models/ease.py
-      - splits/fixed
-    outs:
-      - runs/fixed/ease-default
-  run-fixed-default-flexmf-bpr:
-    cmd: lenskit codex generate --ds-name=CDV --split=splits/fixed -o
-      runs/fixed/flexmf-bpr-default flexmf-bpr
-    deps:
-      - ../../../src/codex/models/flexmf_bpr.py
+      - ../../../models/flexmf-bpr/pipeline.toml
       - splits/fixed
     outs:
       - runs/fixed/flexmf-bpr-default
-  run-fixed-default-flexmf-explicit:
-    cmd: lenskit codex generate --ds-name=CDV --split=splits/fixed -o
-      runs/fixed/flexmf-explicit-default flexmf-explicit
+
+  run-fixed-flexmf-explicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-CDV --split=splits/fixed -o runs/fixed/flexmf-explicit-default flexmf-explicit
     deps:
-      - ../../../src/codex/models/flexmf_explicit.py
+      - ../../../models/flexmf-explicit/pipeline.toml
       - splits/fixed
     outs:
       - runs/fixed/flexmf-explicit-default
-  run-fixed-default-flexmf-logistic:
-    cmd: lenskit codex generate --ds-name=CDV --split=splits/fixed -o
-      runs/fixed/flexmf-logistic-default flexmf-logistic
+
+  run-fixed-flexmf-logistic-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-CDV --split=splits/fixed -o runs/fixed/flexmf-logistic-default flexmf-logistic
     deps:
-      - ../../../src/codex/models/flexmf_logistic.py
+      - ../../../models/flexmf-logistic/pipeline.toml
       - splits/fixed
     outs:
       - runs/fixed/flexmf-logistic-default
-  run-fixed-default-flexmf-warp:
-    cmd: lenskit codex generate --ds-name=CDV --split=splits/fixed -o
-      runs/fixed/flexmf-warp-default flexmf-warp
+
+  run-fixed-flexmf-warp-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-CDV --split=splits/fixed -o runs/fixed/flexmf-warp-default flexmf-warp
     deps:
-      - ../../../src/codex/models/flexmf_warp.py
+      - ../../../models/flexmf-warp/pipeline.toml
       - splits/fixed
     outs:
       - runs/fixed/flexmf-warp-default
-  run-fixed-default-popular:
-    cmd: lenskit codex generate --ds-name=CDV --split=splits/fixed -o
-      runs/fixed/popular-default popular
+
+  run-fixed-iknn-explicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-CDV --split=splits/fixed -o runs/fixed/iknn-explicit-default iknn-explicit
     deps:
-      - ../../../src/codex/models/popular.py
+      - ../../../models/iknn-explicit/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/iknn-explicit-default
+
+  run-fixed-iknn-implicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-CDV --split=splits/fixed -o runs/fixed/iknn-implicit-default iknn-implicit
+    deps:
+      - ../../../models/iknn-implicit/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/iknn-implicit-default
+
+  run-fixed-popular-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-CDV --split=splits/fixed -o runs/fixed/popular-default popular
+    deps:
+      - ../../../models/popular/pipeline.toml
       - splits/fixed
     outs:
       - runs/fixed/popular-default
-  run-fixed-optuna-best-als-biased:
-    cmd: lenskit codex generate --pipeline-file
-      sweeps/fixed/als-biased-optuna-pipeline.json --ds-name=CDV
-      --split=splits/fixed -o runs/fixed/als-biased-optuna-best als-biased
+
+  run-fixed-slim-fs-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-CDV --split=splits/fixed -o runs/fixed/slim-fs-default slim-fs
     deps:
-      - ../../../src/codex/models/als_biased.py
+      - ../../../models/slim-fs/pipeline.toml
       - splits/fixed
-      - sweeps/fixed/als-biased-optuna-pipeline.json
     outs:
-      - runs/fixed/als-biased-optuna-best
-  run-fixed-optuna-best-als-implicit:
-    cmd: lenskit codex generate --pipeline-file
-      sweeps/fixed/als-implicit-optuna-pipeline.json --ds-name=CDV
-      --split=splits/fixed -o runs/fixed/als-implicit-optuna-best als-implicit
+      - runs/fixed/slim-fs-default
+
+  collect-metrics:
+    cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
-      - ../../../src/codex/models/als_implicit.py
-      - splits/fixed
-      - sweeps/fixed/als-implicit-optuna-pipeline.json
+      - runs/manifest.csv
+      - runs/fixed/als-biased-default
+      - runs/fixed/als-implicit-default
+      - runs/fixed/bias-default
+      - runs/fixed/flexmf-bpr-default
+      - runs/fixed/flexmf-explicit-default
+      - runs/fixed/flexmf-logistic-default
+      - runs/fixed/flexmf-warp-default
+      - runs/fixed/iknn-explicit-default
+      - runs/fixed/iknn-implicit-default
+      - runs/fixed/popular-default
+      - runs/fixed/slim-fs-default
     outs:
-      - runs/fixed/als-implicit-optuna-best
-  run-fixed-optuna-best-bias:
-    cmd: lenskit codex generate --pipeline-file
-      sweeps/fixed/bias-optuna-pipeline.json --ds-name=CDV --split=splits/fixed
-      -o runs/fixed/bias-optuna-best bias
+      - run-summary.csv
+      - run-user-metrics.parquet
+
+  export-trec-qrels-valid:
+    cmd: lenskit codex trec export qrels -o splits/fixed/valid.qrels.gz splits/fixed/test/test.parquet
     deps:
-      - ../../../src/codex/models/bias.py
-      - splits/fixed
-      - sweeps/fixed/bias-optuna-pipeline.json
-    outs:
-      - runs/fixed/bias-optuna-best
-  run-fixed-optuna-best-ease:
-    cmd: lenskit codex generate --pipeline-file
-      sweeps/fixed/ease-optuna-pipeline.json --ds-name=CDV --split=splits/fixed
-      -o runs/fixed/ease-optuna-best ease
-    deps:
-      - ../../../src/codex/models/ease.py
-      - splits/fixed
-      - sweeps/fixed/ease-optuna-pipeline.json
-    outs:
-      - runs/fixed/ease-optuna-best
-  run-fixed-optuna-best-flexmf-bpr:
-    cmd: lenskit codex generate --pipeline-file
-      sweeps/fixed/flexmf-bpr-optuna-pipeline.json --ds-name=CDV
-      --split=splits/fixed -o runs/fixed/flexmf-bpr-optuna-best flexmf-bpr
-    deps:
-      - ../../../src/codex/models/flexmf_bpr.py
-      - splits/fixed
-      - sweeps/fixed/flexmf-bpr-optuna-pipeline.json
-    outs:
-      - runs/fixed/flexmf-bpr-optuna-best
-  run-fixed-optuna-best-flexmf-explicit:
-    cmd: lenskit codex generate --pipeline-file
-      sweeps/fixed/flexmf-explicit-optuna-pipeline.json --ds-name=CDV
-      --split=splits/fixed -o runs/fixed/flexmf-explicit-optuna-best
-      flexmf-explicit
-    deps:
-      - ../../../src/codex/models/flexmf_explicit.py
-      - splits/fixed
-      - sweeps/fixed/flexmf-explicit-optuna-pipeline.json
-    outs:
-      - runs/fixed/flexmf-explicit-optuna-best
-  run-fixed-optuna-best-flexmf-logistic:
-    cmd: lenskit codex generate --pipeline-file
-      sweeps/fixed/flexmf-logistic-optuna-pipeline.json --ds-name=CDV
-      --split=splits/fixed -o runs/fixed/flexmf-logistic-optuna-best
-      flexmf-logistic
-    deps:
-      - ../../../src/codex/models/flexmf_logistic.py
-      - splits/fixed
-      - sweeps/fixed/flexmf-logistic-optuna-pipeline.json
-    outs:
-      - runs/fixed/flexmf-logistic-optuna-best
-  run-fixed-optuna-best-flexmf-warp:
-    cmd: lenskit codex generate --pipeline-file
-      sweeps/fixed/flexmf-warp-optuna-pipeline.json --ds-name=CDV
-      --split=splits/fixed -o runs/fixed/flexmf-warp-optuna-best flexmf-warp
-    deps:
-      - ../../../src/codex/models/flexmf_warp.py
-      - splits/fixed
-      - sweeps/fixed/flexmf-warp-optuna-pipeline.json
-    outs:
-      - runs/fixed/flexmf-warp-optuna-best
-  subset-valid-test:
-    cmd: lenskit data subset --sample-rows=10000 --item-lists
-      splits/fixed/valid/test.full.parquet splits/fixed/valid/test.parquet
-    deps:
-      - splits/fixed/valid/test.full.parquet
-    outs:
       - splits/fixed/valid/test.parquet
-  sweep-als-biased-fixed-optuna:
-    cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      als-biased sweeps/fixed/als-biased-optuna
-    params:
-      - ../../../config.toml:
-          - tuning.optuna.points
-    deps:
-      - splits/fixed/valid
-      - ../../../src/codex/models/als_biased.py
     outs:
-      - sweeps/fixed/als-biased-optuna
-      - sweeps/fixed/als-biased-optuna.json:
-          cache: false
-      - sweeps/fixed/als-biased-optuna-pipeline.json:
-          cache: false
-  sweep-als-implicit-fixed-optuna:
-    cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      als-implicit sweeps/fixed/als-implicit-optuna
-    params:
-      - ../../../config.toml:
-          - tuning.optuna.points
+      - splits/fixed/valid.qrels.gz
+
+  export-trec-qrels-test:
+    cmd: lenskit codex trec export qrels -o splits/fixed/test.qrels.gz splits/fixed/test/test.parquet
     deps:
-      - splits/fixed/valid
-      - ../../../src/codex/models/als_implicit.py
+      - splits/fixed/test/test.parquet
     outs:
-      - sweeps/fixed/als-implicit-optuna
-      - sweeps/fixed/als-implicit-optuna.json:
-          cache: false
-      - sweeps/fixed/als-implicit-optuna-pipeline.json:
-          cache: false
-  sweep-bias-fixed-optuna:
-    cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna bias
-      sweeps/fixed/bias-optuna
-    params:
-      - ../../../config.toml:
-          - tuning.optuna.points
-    deps:
-      - splits/fixed/valid
-      - ../../../src/codex/models/bias.py
+      - splits/fixed/test.qrels.gz
+
+  export-trec-default-runs:
+    cmd: lenskit codex trec export runs -o runs/fixed/default.run.gz runs/fixed/*-default
     outs:
-      - sweeps/fixed/bias-optuna
-      - sweeps/fixed/bias-optuna.json:
-          cache: false
-      - sweeps/fixed/bias-optuna-pipeline.json:
-          cache: false
-  sweep-ease-fixed-optuna:
-    cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna ease
-      sweeps/fixed/ease-optuna
-    params:
-      - ../../../config.toml:
-          - tuning.optuna.points
-    deps:
-      - splits/fixed/valid
-      - ../../../src/codex/models/ease.py
-    outs:
-      - sweeps/fixed/ease-optuna
-      - sweeps/fixed/ease-optuna.json:
-          cache: false
-      - sweeps/fixed/ease-optuna-pipeline.json:
-          cache: false
-  sweep-flexmf-bpr-fixed-optuna:
-    cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      flexmf-bpr sweeps/fixed/flexmf-bpr-optuna
-    params:
-      - ../../../config.toml:
-          - tuning.optuna.points
-    deps:
-      - splits/fixed/valid
-      - ../../../src/codex/models/flexmf_bpr.py
-    outs:
-      - sweeps/fixed/flexmf-bpr-optuna
-      - sweeps/fixed/flexmf-bpr-optuna.json:
-          cache: false
-      - sweeps/fixed/flexmf-bpr-optuna-pipeline.json:
-          cache: false
-  sweep-flexmf-explicit-fixed-optuna:
-    cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      flexmf-explicit sweeps/fixed/flexmf-explicit-optuna
-    params:
-      - ../../../config.toml:
-          - tuning.optuna.points
-    deps:
-      - splits/fixed/valid
-      - ../../../src/codex/models/flexmf_explicit.py
-    outs:
-      - sweeps/fixed/flexmf-explicit-optuna
-      - sweeps/fixed/flexmf-explicit-optuna.json:
-          cache: false
-      - sweeps/fixed/flexmf-explicit-optuna-pipeline.json:
-          cache: false
-  sweep-flexmf-logistic-fixed-optuna:
-    cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      flexmf-logistic sweeps/fixed/flexmf-logistic-optuna
-    params:
-      - ../../../config.toml:
-          - tuning.optuna.points
-    deps:
-      - splits/fixed/valid
-      - ../../../src/codex/models/flexmf_logistic.py
-    outs:
-      - sweeps/fixed/flexmf-logistic-optuna
-      - sweeps/fixed/flexmf-logistic-optuna.json:
-          cache: false
-      - sweeps/fixed/flexmf-logistic-optuna-pipeline.json:
-          cache: false
-  sweep-flexmf-warp-fixed-optuna:
-    cmd: lenskit codex tune --split=splits/fixed --test-part=valid --optuna
-      flexmf-warp sweeps/fixed/flexmf-warp-optuna
-    params:
-      - ../../../config.toml:
-          - tuning.optuna.points
-    deps:
-      - splits/fixed/valid
-      - ../../../src/codex/models/flexmf_warp.py
-    outs:
-      - sweeps/fixed/flexmf-warp-optuna
-      - sweeps/fixed/flexmf-warp-optuna.json:
-          cache: false
-      - sweeps/fixed/flexmf-warp-optuna-pipeline.json:
-          cache: false
+      - runs/fixed.default.run.gz
+      - runs/fixed/als-biased-default/recommendations.parquet
+      - runs/fixed/als-implicit-default/recommendations.parquet
+      - runs/fixed/bias-default/recommendations.parquet
+      - runs/fixed/flexmf-bpr-default/recommendations.parquet
+      - runs/fixed/flexmf-explicit-default/recommendations.parquet
+      - runs/fixed/flexmf-logistic-default/recommendations.parquet
+      - runs/fixed/flexmf-warp-default/recommendations.parquet
+      - runs/fixed/iknn-explicit-default/recommendations.parquet
+      - runs/fixed/iknn-implicit-default/recommendations.parquet
+      - runs/fixed/popular-default/recommendations.parquet
+      - runs/fixed/slim-fs-default/recommendations.parquet
