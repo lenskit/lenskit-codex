@@ -50,45 +50,6 @@ provenance = "github-attestations"
 version = "0.4.0"
 backend = "cargo:guartcl"
 
-[[tools.dprint]]
-version = "0.55.1"
-backend = "aqua:dprint/dprint"
-
-[tools.dprint."platforms.linux-arm64"]
-checksum = "sha256:2d414d659034650bc25b208a87ab427cd01a7ac6c21b3ed2191cf92e1b58f76c"
-url = "https://github.com/dprint/dprint/releases/download/0.55.1/dprint-aarch64-unknown-linux-musl.zip"
-url_api = "https://api.github.com/repos/dprint/dprint/releases/assets/460010446"
-
-[tools.dprint."platforms.linux-arm64-musl"]
-checksum = "sha256:2d414d659034650bc25b208a87ab427cd01a7ac6c21b3ed2191cf92e1b58f76c"
-url = "https://github.com/dprint/dprint/releases/download/0.55.1/dprint-aarch64-unknown-linux-musl.zip"
-url_api = "https://api.github.com/repos/dprint/dprint/releases/assets/460010446"
-
-[tools.dprint."platforms.linux-x64"]
-checksum = "sha256:7ce856d5999585e58666701eab5e0291abfb63953884d5dd0268001c89d74b8d"
-url = "https://github.com/dprint/dprint/releases/download/0.55.1/dprint-x86_64-unknown-linux-musl.zip"
-url_api = "https://api.github.com/repos/dprint/dprint/releases/assets/460010456"
-
-[tools.dprint."platforms.linux-x64-musl"]
-checksum = "sha256:7ce856d5999585e58666701eab5e0291abfb63953884d5dd0268001c89d74b8d"
-url = "https://github.com/dprint/dprint/releases/download/0.55.1/dprint-x86_64-unknown-linux-musl.zip"
-url_api = "https://api.github.com/repos/dprint/dprint/releases/assets/460010456"
-
-[tools.dprint."platforms.macos-arm64"]
-checksum = "sha256:94a9ce5ca91dbb609d4f22f2ccf28d8b422627c0944c6ee63d1beecac28f8cd4"
-url = "https://github.com/dprint/dprint/releases/download/0.55.1/dprint-aarch64-apple-darwin.zip"
-url_api = "https://api.github.com/repos/dprint/dprint/releases/assets/460010452"
-
-[tools.dprint."platforms.macos-x64"]
-checksum = "sha256:21f9784b3edf3b0a686932b4387359ebd83fba798ac2f7e2ba1e7b8c9f674e3e"
-url = "https://github.com/dprint/dprint/releases/download/0.55.1/dprint-x86_64-apple-darwin.zip"
-url_api = "https://api.github.com/repos/dprint/dprint/releases/assets/460010440"
-
-[tools.dprint."platforms.windows-x64"]
-checksum = "sha256:dfdee60f04810c14df310696ce680da7ece599cd27b162f77906adc80d5e9679"
-url = "https://github.com/dprint/dprint/releases/download/0.55.1/dprint-x86_64-pc-windows-msvc.zip"
-url_api = "https://api.github.com/repos/dprint/dprint/releases/assets/460010450"
-
 [[tools.fd]]
 version = "10.4.2"
 backend = "aqua:sharkdp/fd"
@@ -161,45 +122,6 @@ url_api = "https://api.github.com/repos/quarto-dev/quarto-cli/releases/assets/42
 checksum = "sha256:3dd3b22616dcae65f710b1d6c019b818027312c8cbf54a0a08fdd9842346375e"
 url = "https://github.com/quarto-dev/quarto-cli/releases/download/v1.9.38/quarto-1.9.38-win.zip"
 url_api = "https://api.github.com/repos/quarto-dev/quarto-cli/releases/assets/429244226"
-
-[[tools.go-jsonnet]]
-version = "0.22.0"
-backend = "aqua:google/go-jsonnet"
-
-[tools.go-jsonnet."platforms.linux-arm64"]
-checksum = "sha256:3016b049254cb92548ba99304b6f44ec3795e6173f908e3ce3c5add57243fe20"
-url = "https://github.com/google/go-jsonnet/releases/download/v0.22.0/go-jsonnet_0.22.0_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/google/go-jsonnet/releases/assets/380558845"
-
-[tools.go-jsonnet."platforms.linux-arm64-musl"]
-checksum = "sha256:3016b049254cb92548ba99304b6f44ec3795e6173f908e3ce3c5add57243fe20"
-url = "https://github.com/google/go-jsonnet/releases/download/v0.22.0/go-jsonnet_0.22.0_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/google/go-jsonnet/releases/assets/380558845"
-
-[tools.go-jsonnet."platforms.linux-x64"]
-checksum = "sha256:e87a93ea44e34da92c15636205c7f2240bf3ac92d00ccb855dbb4e7e03ea6941"
-url = "https://github.com/google/go-jsonnet/releases/download/v0.22.0/go-jsonnet_0.22.0_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/google/go-jsonnet/releases/assets/380558847"
-
-[tools.go-jsonnet."platforms.linux-x64-musl"]
-checksum = "sha256:e87a93ea44e34da92c15636205c7f2240bf3ac92d00ccb855dbb4e7e03ea6941"
-url = "https://github.com/google/go-jsonnet/releases/download/v0.22.0/go-jsonnet_0.22.0_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/google/go-jsonnet/releases/assets/380558847"
-
-[tools.go-jsonnet."platforms.macos-arm64"]
-checksum = "sha256:112534191b6e27f2ae01bb80c6ab82950fb7bf5772e2e81c5472f59a069700f5"
-url = "https://github.com/google/go-jsonnet/releases/download/v0.22.0/go-jsonnet_0.22.0_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/google/go-jsonnet/releases/assets/380558841"
-
-[tools.go-jsonnet."platforms.macos-x64"]
-checksum = "sha256:2ada40ece13e8b4e1f37c06315783110c84b496963b0b8b90809daf69df7dfc9"
-url = "https://github.com/google/go-jsonnet/releases/download/v0.22.0/go-jsonnet_0.22.0_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/google/go-jsonnet/releases/assets/380558829"
-
-[tools.go-jsonnet."platforms.windows-x64"]
-checksum = "sha256:277b83ddbe836a627dcde0655720aa42b02277fdf3a9cdaebeef2a53e98599b1"
-url = "https://github.com/google/go-jsonnet/releases/download/v0.22.0/go-jsonnet_0.22.0_windows_amd64.tar.gz"
-url_api = "https://api.github.com/repos/google/go-jsonnet/releases/assets/380558839"
 
 [[tools.hk]]
 version = "1.51.0"
