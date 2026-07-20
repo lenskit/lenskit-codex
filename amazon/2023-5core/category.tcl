@@ -3,7 +3,10 @@ package require logging
 
 proc azcat args {
     set tune yes
-    set subset 0
+    set sample 0
+    if {[exists -var ::valid_sample_size]} {
+        set sample $::valid_sample_size
+    }
 
     while {![lempty $args]} {
         set arg [lpeek $args]

@@ -3,12 +3,14 @@ package require runs
 
 source category.tcl
 
+set ::valid_sample_size 10000
+
 # Crafts: Arts_Crafts_and_Sewing
 # Auto: Automotive
 # Baby: Baby_Products
 # Beauty: Beauty_and_Personal_Care
 # Books: Books
-azcat -no-tune -sample-valid 10000 CDV CDs_and_Vinyl
+azcat -no-tune CDV CDs_and_Vinyl
 # Cell: Cell_Phones_and_Accessories
 # Clothing: Clothing_Shoes_and_Jewelry
 # Elec: Electronics
@@ -18,7 +20,7 @@ azcat -no-tune -sample-valid 10000 CDV CDs_and_Vinyl
 # IndSci: Industrial_and_Scientific
 # Kindle: Kindle_Store
 # MovTV: Movies_and_TV
-azcat -no-tune -sample-valid 10000 MusInst Musical_Instruments
+azcat -no-tune MusInst Musical_Instruments
 # Office: Office_Products
 # PLG: Patio_Lawn_and_Garden
 # Pet: Pet_Supplies
