@@ -23,7 +23,7 @@ azcat -no-tune CDV CDs_and_Vinyl
 azcat -no-tune MusInst Musical_Instruments
 # Office: Office_Products
 # PLG: Patio_Lawn_and_Garden
-# Pet: Pet_Supplies
+azcat -no-tune Pet Pet_Supplies
 # Software: Software
 # Sports: Sports_and_Outdoors
 # THI: Tools_and_Home_Improvement
