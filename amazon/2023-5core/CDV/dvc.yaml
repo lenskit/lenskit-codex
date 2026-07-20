@@ -162,8 +162,7 @@ stages:
 
   export-trec-default-runs:
     cmd: lenskit codex trec export runs -o runs/fixed/default.run.gz runs/fixed/*-default
-    outs:
-      - runs/fixed.default.run.gz
+    deps:
       - runs/fixed/als-biased-default/recommendations.parquet
       - runs/fixed/als-implicit-default/recommendations.parquet
       - runs/fixed/bias-default/recommendations.parquet
@@ -175,3 +174,5 @@ stages:
       - runs/fixed/iknn-implicit-default/recommendations.parquet
       - runs/fixed/popular-default/recommendations.parquet
       - runs/fixed/slim-fs-default/recommendations.parquet
+    outs:
+      - runs/fixed.default.run.gz

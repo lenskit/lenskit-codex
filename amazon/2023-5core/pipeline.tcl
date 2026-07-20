@@ -62,7 +62,7 @@ foreach {cat full} $categories {
             out runs/fixed.default.run.gz
             foreach mod [model list] {
                 if {[model enabled $mod $ds]} {
-                    out runs/fixed/$mod-default/recommendations.parquet
+                    dep runs/fixed/$mod-default/recommendations.parquet
                 }
             }
         }
