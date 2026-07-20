@@ -1,7 +1,11 @@
 package provide dvc 0.1
+package require oo
 package require nestout
 
 namespace eval ::dvc {
+    variable format_yaml no
+    variable stack {}
+
     variable script ""
     variable stages {}
     variable cur_name ""
@@ -21,6 +25,34 @@ namespace eval ::dvc {
         namespace eval ::dvc::dsl source $fn
         msg -debug "restoring pwd"
         cd $oldpwd
+    }
+
+    # Evaluate a pipeline script to build the pipeline data structures
+    proc eval_subdir {dir body} {
+        set oldpwd [pwd]
+        msg -debug "entering $dir"
+        cd $dir
+        msg -debug "running $fn"
+        namespace eval ::dvc::dsl $body
+        msg -debug "restoring pwd"
+        cd $oldpwd
+    }
+
+    # push the pipeline state
+    proc push_pipeline {} {
+        variable stack
+        variable stages
+        lappend stack $stages
+        reset
+    }
+
+    proc pop_pipeline {} {
+        variable stack
+        variable stages
+        if {![llength $stack]} {
+            error "no pushed pipeline"
+        }
+        set stages [lpop stack]
     }
 
     # Reset the pipeline state.
@@ -47,8 +79,9 @@ namespace eval ::dvc {
     }
 
     # Render the pipeline's YAML to specified output.
-    proc make_yaml {{fh stdout}} {
+    proc save_yaml {file} {
         variable stages
+        set fh [open_yaml_out $file]
         set n 0
         puts $fh "# GENERATED PIPELINE FILE - DO NOT EDIT"
         puts $fh "#"
@@ -65,6 +98,9 @@ namespace eval ::dvc {
                 incr n
                 _stage_yaml $name $stage
             }
+        }
+        if {$fh ne "stdout"} {
+            close $fh
         }
     }
 
@@ -135,6 +171,22 @@ namespace eval ::dvc {
             }
         }
     }
+
+    proc open_yaml_out {file} {
+        variable format_yaml
+        if {$file eq "-"} {
+            if {$format_yaml} {
+                return [open "|yamlfmt -in" w]
+            } else {
+                return stdout
+            }
+        } elseif {$format_yaml} {
+            msg -debug "saving with yamlfmt"
+            set out_fh [open "|yamlfmt -in >$file" w]
+        } else {
+            set out_fh [open $file w]
+        }
+    }
 }
 
 namespace eval ::dvc::dsl {
@@ -142,6 +194,13 @@ namespace eval ::dvc::dsl {
         if {$::dvc::cur_name eq ""} {
             error "[::dvc::lc_prefix] command $cmd only valid in a stage"
         }
+    }
+
+    proc subdir {dir body} {
+        ::dvc::push_pipeline
+        ::dvc::eval_subdir $dir $body
+        ::dvc::save_yaml "$dir/dvc.yaml"
+        ::dvc::pop_pipeline
     }
 
     # add a new stage to the active pipeline
