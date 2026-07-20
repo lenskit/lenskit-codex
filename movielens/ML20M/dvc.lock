@@ -1411,13 +1411,13 @@ stages:
       nfiles: 5
     - path: runs/temporal/flexmf-warp-default
       hash: md5
-      md5: 57603169920519c36f4ae3001191240a.dir
-      size: 6549796
+      md5: 432270ae252b96211b52537a2f5f2e31.dir
+      size: 6539033
       nfiles: 5
     - path: runs/temporal/flexmf-warp-optuna-tuned
       hash: md5
-      md5: 41c74cc6de6130e11676decfa09e8d78.dir
-      size: 6432396
+      md5: c9381922c06436975f727e011229d23b.dir
+      size: 6432400
       nfiles: 5
     - path: runs/temporal/iknn-explicit-default
       hash: md5
@@ -1457,12 +1457,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 521e023b55d55bf77fa908f5c8ae039d
-      size: 17100
+      md5: 0a9e5490c028d6782d39d54faba40216
+      size: 17132
     - path: run-user-metrics.parquet
       hash: md5
-      md5: cf4ef45fe7f1c78a07346c6a869a8597
-      size: 7106643
+      md5: 01636dd917128ed9aca476e1721ba246
+      size: 7106428
   run-temporal-valid-default-BiasedMF-ALS:
     cmd: lenskit-codex generate --default --split=splits/temporal.toml 
       --test-part=valid -o runs/temporal-valid-default/BiasedMF-ALS BiasedMF-ALS
@@ -3784,8 +3784,8 @@ stages:
     deps:
     - path: ../../models/flexmf-warp/pipeline.toml
       hash: md5
-      md5: a40d1dd945866fb9eeea8f28280e5e0a
-      size: 223
+      md5: d72187cb155de195aea4e520880a298a
+      size: 234
     - path: dataset
       hash: md5
       md5: 186f56a026b3409fc928936af4775db0.dir
@@ -3798,8 +3798,8 @@ stages:
     outs:
     - path: runs/temporal/flexmf-warp-default
       hash: md5
-      md5: 57603169920519c36f4ae3001191240a.dir
-      size: 6549796
+      md5: 432270ae252b96211b52537a2f5f2e31.dir
+      size: 6539033
       nfiles: 5
   run-temporal-flexmf-explicit-default:
     cmd: lenskit codex generate --ds-name=ML20M --split=splits/temporal.toml -o 
@@ -4658,8 +4658,8 @@ stages:
     deps:
     - path: ../../models/flexmf-warp/pipeline.toml
       hash: md5
-      md5: a40d1dd945866fb9eeea8f28280e5e0a
-      size: 223
+      md5: d72187cb155de195aea4e520880a298a
+      size: 234
     - path: dataset
       hash: md5
       md5: 186f56a026b3409fc928936af4775db0.dir
@@ -4676,6 +4676,6 @@ stages:
     outs:
     - path: runs/temporal/flexmf-warp-optuna-tuned
       hash: md5
-      md5: 41c74cc6de6130e11676decfa09e8d78.dir
-      size: 6432396
+      md5: c9381922c06436975f727e011229d23b.dir
+      size: 6432400
       nfiles: 5
