@@ -3,21 +3,21 @@
   "meta": {
     "name": "als-biased",
     "version": null,
-    "hash": "3c672ab784cd8df1d0a8ca5126a9e804b293d6dd3797a329031d4a68786a23d4"
+    "hash": "eea9e781e46c9bfc8e00f8d39b822b012990382d9214f48fbb9994098a07509a"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
+        "numpy:bytes_",
+        "lenskit.data:RecQuery",
+        "int",
+        "numpy:object_",
         "numpy:str_",
         "numpy:integer",
-        "numpy:object_",
-        "numpy:bytes_",
         "bytes",
-        "str",
-        "lenskit.data:RecQuery",
         "lenskit.data:ItemList",
-        "int"
+        "str"
       ]
     },
     {
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "None",
-        "int"
+        "int",
+        "None"
       ]
     }
   ],
@@ -64,18 +64,17 @@
     "scorer": {
       "code": "lenskit.als:BiasedMFScorer",
       "config": {
-        "embedding_size": 64,
-        "epochs": 6,
+        "embedding_size": 1024,
+        "epochs": 7,
         "regularization": {
-          "user": 0.1945489468449452,
-          "item": 0.019707645562651328
+          "user": 0.001215649212959577,
+          "item": 0.1858359742643067
         },
         "user_embeddings": "prefer",
         "damping": {
-          "user": 75.04393801609699,
-          "item": 1.4748852734699044e-7
-        },
-        "embedding_size_exp": 10
+          "user": 92.29330930462366,
+          "item": 2.633674539394334e-6
+        }
       },
       "inputs": {
         "items": "candidates",

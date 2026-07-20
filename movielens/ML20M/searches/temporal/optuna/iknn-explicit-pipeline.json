@@ -3,21 +3,21 @@
   "meta": {
     "name": "iknn-explicit",
     "version": null,
-    "hash": "903a7078c7b09abe188b87aa93820556155b16be3a3730aead56a2efefd7c445"
+    "hash": "d116ba936d2228f89060175c7f8695c6c04145f657db6e86b88187c4038c62d2"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "int",
         "numpy:str_",
+        "int",
         "numpy:integer",
-        "numpy:bytes_",
+        "numpy:object_",
         "lenskit.data:ItemList",
         "lenskit.data:RecQuery",
-        "str",
+        "numpy:bytes_",
         "bytes",
-        "numpy:object_"
+        "str"
       ]
     },
     {
@@ -64,9 +64,9 @@
     "scorer": {
       "code": "lenskit.knn.item:ItemKNNScorer",
       "config": {
-        "max_nbrs": 33,
-        "min_nbrs": 2,
-        "min_sim": 0.0003544097052146817,
+        "max_nbrs": 34,
+        "min_nbrs": 1,
+        "min_sim": 0.0003432840320331464,
         "save_nbrs": 10000,
         "feedback": "explicit",
         "block_size": 250

@@ -1,23 +1,23 @@
 {
   "options": null,
   "meta": {
-    "name": "flexmf-explicit",
+    "name": "flexmf-bpr",
     "version": null,
-    "hash": "78c03bbac0f70c8ca5662cd658531c9170be735123e40b5e6ef51341815386f7"
+    "hash": "7b7403a5db44d66f1f43704e98292b2f4a3f070953f29e72f8094a0aa16d823d"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "numpy:integer",
         "str",
-        "numpy:bytes_",
+        "numpy:str_",
+        "numpy:integer",
         "numpy:object_",
         "lenskit.data:RecQuery",
-        "bytes",
-        "numpy:str_",
+        "numpy:bytes_",
         "int",
-        "lenskit.data:ItemList"
+        "lenskit.data:ItemList",
+        "bytes"
       ]
     },
     {
@@ -62,14 +62,22 @@
       }
     },
     "scorer": {
-      "code": "lenskit.flexmf:FlexMFExplicitScorer",
+      "code": "lenskit.flexmf:FlexMFImplicitScorer",
       "config": {
-        "embedding_size": 16,
+        "embedding_size": 128,
         "batch_size": 8192,
-        "learning_rate": 0.0018379239780566404,
-        "epochs": 8,
-        "regularization": 0.08403226846185112,
-        "reg_method": "AdamW"
+        "learning_rate": 0.001064240585846747,
+        "epochs": 22,
+        "regularization": 0.012572069174471186,
+        "reg_method": "AdamW",
+        "preset": null,
+        "loss": "pairwise",
+        "negative_strategy": null,
+        "negative_count": 3,
+        "positive_weight": 5,
+        "user_bias": false,
+        "item_bias": true,
+        "convolution_layers": 0
       },
       "inputs": {
         "items": "candidates",
@@ -85,32 +93,9 @@
         "items": "scorer",
         "n": "n"
       }
-    },
-    "fallback-predictor": {
-      "code": "lenskit.basic.bias:BiasScorer",
-      "config": {
-        "entities": [
-          "item",
-          "user"
-        ],
-        "damping": 0.0
-      },
-      "inputs": {
-        "items": "candidates",
-        "query": "history-lookup"
-      }
-    },
-    "rating-merger": {
-      "code": "lenskit.basic.composite:FallbackScorer",
-      "config": null,
-      "inputs": {
-        "backup": "fallback-predictor",
-        "primary": "scorer"
-      }
     }
   },
   "aliases": {
-    "rating-predictor": "rating-merger",
     "recommender": "ranker"
   },
   "default": null,
