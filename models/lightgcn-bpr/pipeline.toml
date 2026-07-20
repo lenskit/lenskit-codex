@@ -1,0 +1,15 @@
+[meta]
+name = "lightgcn-bpr"
+
+[options]
+base = "std:topn"
+
+[components.scorer]
+class = "lenskit.flexmf.FlexMFImplicitScorer"
+
+[components.scorer.config]
+loss = "pairwise"
+reg_method = "AdamW"
+user_bias = false
+item_bias = false
+convolution_layers = 2

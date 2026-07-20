@@ -1,11 +1,13 @@
 #!/usr/bin/env -S guarsh -U
-#USAGE flag="-v --verbose" help="Enable verbose logging messages."
+#USAGE flag "-v --verbose" help="Enable verbose logging messages."
+#USAGE arg "[data]" help="Show active for specified dataset."
 
 # Code for understanding available models and pipelines.
 package provide models 0.1
 package require missing
 package require logging
 package require path
+package require kvlookup
 
 # Ensemble command for listing and querying recommender models
 namespace eval ::model {
@@ -47,6 +49,10 @@ namespace eval ::model {
         if {[file exists $fn]} {
             msg -debug "reading $fn"
             set info [parse toml -file $fn]
+        }
+        if {![kvlookup -default yes $info enabled]} {
+            msg -debug "$model is disabled"
+            return 0
         }
 
         if {[dict exists $info match include]} {
@@ -93,9 +99,18 @@ namespace eval ::model {
 
 if {[info exists argv0]} {
     if {$argv0 eq [info script]} {
-
         msg "showing model list"
+        if {[exists usage(data)]} {
+            msg -debug "limiting to $usage(data)"
+        }
+
         foreach m [model list] {
+            if {[exists -var usage(data)]} {
+                if {![model enabled $m $usage(data)]} {
+                    msg -debug "$m is disabled for $usage(data)"
+                    continue
+                }
+            }
             puts $m
         }
     }
