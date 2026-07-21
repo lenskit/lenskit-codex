@@ -14,12 +14,20 @@ foreach file $files {
     while {[gets $fh line] >= 0} {
         set record [td parse json $line]
         set id [td get -native $record task_id]
+        set start [td get $record start_time]
+        set finish [td get $record finish_time]
+        set time [td coalesce $finish $start]
+        if {[td type $time] ne "null"} {
+            set time [clock format $(int($time))]
+        } else {
+            set time "unknown"
+        }
         set d1 [string range $id 0 1]
         set d2 [string range $id 2 3]
         set dir $d1/$d2
         set path $dir/$id.json
         if {![file exists $path]} {
-            msg -debug "saving task $id"
+            msg "saving task $id ($time)"
             file mkdir $dir
             td dump json -file $d1/$d2/$id.json $record
             oscmd run git add $d1/$d2/$id.json
