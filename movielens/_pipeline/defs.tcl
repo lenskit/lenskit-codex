@@ -8,4 +8,5 @@ set ML_VERSIONS {
     ML20M
     ML25M
     ML32M
+    MLLT
 }

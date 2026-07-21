@@ -1,8 +1,8 @@
 schema: '2.0'
 stages:
   aggregate:
-    cmd: lenskit-codex movielens aggregate -d merged-stats.duckdb ML100K ML1M ML10M
-      ML20M ML25M ML32M
+    cmd: lenskit-codex movielens aggregate -d merged-stats.duckdb ML100K ML1M 
+      ML10M ML20M ML25M ML32M
     deps:
     - path: ML100K/ratings.duckdb
       hash: md5
@@ -34,8 +34,8 @@ stages:
       md5: bd6157a86d399ec27b6447d617be0da7
       size: 29372416
   aggregate-rating-stats:
-    cmd: lenskit codex movielens aggregate -d merged-stats.duckdb ML100K ML1M ML10M
-      ML20M ML25M ML32M
+    cmd: lenskit codex movielens aggregate -d merged-stats.duckdb ML100K ML1M 
+      ML10M ML20M ML25M ML32M MLLT
     deps:
     - path: ML100K/stats.duckdb
       hash: md5
@@ -61,8 +61,12 @@ stages:
       hash: md5
       md5: 2404f1d65a505fb7355f54255ef6585e
       size: 7090176
+    - path: MLLT/stats.duckdb
+      hash: md5
+      md5: c6b2e77e0fa4dce91f47fbad19bc77aa
+      size: 10235904
     outs:
     - path: merged-stats.duckdb
       hash: md5
-      md5: c01a0b90ae50a6d91517c21225afa050
-      size: 32780288
+      md5: 6889562a539f4ff8fc2d0bde9c892e31
+      size: 42479616
