@@ -1,4 +1,4 @@
-package provide logging 0.1
+package provide logging 0.2.1
 package require ansifmt
 package require formats
 
@@ -192,6 +192,9 @@ namespace eval logging {
                 lunshift args -bold -fg green
             }
             -result {
+            }
+            -dbg {
+                set level debug
             }
             -* {
                 set level [string range $code 1 end]
