@@ -7,7 +7,7 @@ The LensKit Codex is an open resource for all to study and reuse.
 The code in the LensKit Codex, including code embedded in notebooks and pages,
 is available under the terms of the MIT License below.
 
-Copyright (c) 2023-2024 Drexel University and contributors
+Copyright (c) 2023-2026 Drexel University and contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
