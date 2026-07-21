@@ -72,15 +72,6 @@ stages:
     outs:
       - runs/temporal/flexmf-logistic-default
 
-  run-temporal-flexmf-warp-default:
-    cmd: lenskit codex generate --ds-name=MLLT --split=splits/temporal.toml -o runs/temporal/flexmf-warp-default flexmf-warp
-    deps:
-      - ../../models/flexmf-warp/pipeline.toml
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal/flexmf-warp-default
-
   run-temporal-iknn-explicit-default:
     cmd: lenskit codex generate --ds-name=MLLT --split=splits/temporal.toml -o runs/temporal/iknn-explicit-default iknn-explicit
     deps:
@@ -127,7 +118,6 @@ stages:
       - runs/temporal/flexmf-bpr-default
       - runs/temporal/flexmf-explicit-default
       - runs/temporal/flexmf-logistic-default
-      - runs/temporal/flexmf-warp-default
       - runs/temporal/iknn-explicit-default
       - runs/temporal/iknn-implicit-default
       - runs/temporal/popular-default

@@ -87,14 +87,6 @@ stages:
     outs:
       - runs/fixed/flexmf-logistic-default
 
-  run-fixed-flexmf-warp-default:
-    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/flexmf-warp-default flexmf-warp
-    deps:
-      - ../../../models/flexmf-warp/pipeline.toml
-      - splits/fixed
-    outs:
-      - runs/fixed/flexmf-warp-default
-
   run-fixed-iknn-explicit-default:
     cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/iknn-explicit-default iknn-explicit
     deps:
@@ -137,7 +129,6 @@ stages:
       - runs/fixed/flexmf-bpr-default
       - runs/fixed/flexmf-explicit-default
       - runs/fixed/flexmf-logistic-default
-      - runs/fixed/flexmf-warp-default
       - runs/fixed/iknn-explicit-default
       - runs/fixed/iknn-implicit-default
       - runs/fixed/popular-default
@@ -169,7 +160,6 @@ stages:
       - runs/fixed/flexmf-bpr-default/recommendations.parquet
       - runs/fixed/flexmf-explicit-default/recommendations.parquet
       - runs/fixed/flexmf-logistic-default/recommendations.parquet
-      - runs/fixed/flexmf-warp-default/recommendations.parquet
       - runs/fixed/iknn-explicit-default/recommendations.parquet
       - runs/fixed/iknn-implicit-default/recommendations.parquet
       - runs/fixed/popular-default/recommendations.parquet
