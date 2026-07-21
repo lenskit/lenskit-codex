@@ -14,13 +14,19 @@ foreach file $files {
     while {[gets $fh line] >= 0} {
         set record [td parse json $line]
         set id [td get -native $record task_id]
-        msg -debug "task $id"
         set d1 [string range $id 0 1]
         set d2 [string range $id 2 3]
-        file mkdir $d1/$d2
-        td dump json -file $d1/$d2/$id.json $record
-        oscmd run git add $d1/$d2/$id.json
-        oscmd run git commit -m "add $id"
+        set dir $d1/$d2
+        set path $dir/$id.json
+        if {![file exists $path]} {
+            msg -debug "saving task $id"
+            file mkdir $dir
+            td dump json -file $d1/$d2/$id.json $record
+            oscmd run git add $d1/$d2/$id.json
+            oscmd run git commit -m "add $id"
+        } else {
+            msg -debug "task $id already saved"
+        }
     }
     close $fh
 }
