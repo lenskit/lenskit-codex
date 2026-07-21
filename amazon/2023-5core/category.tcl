@@ -87,24 +87,24 @@ proc azcat args {
         run collect
         run save-manifest
 
-        stage export-trec-qrels-valid {
-            cmd lenskit codex trec export qrels -o splits/fixed/valid.qrels.gz splits/fixed/test/test.parquet
-            dep splits/fixed/valid/test.parquet
-            out splits/fixed/valid.qrels.gz
-        }
-        stage export-trec-qrels-test {
-            cmd lenskit codex trec export qrels -o splits/fixed/test.qrels.gz splits/fixed/test/test.parquet
-            dep splits/fixed/test/test.parquet
-            out splits/fixed/test.qrels.gz
-        }
-        stage export-trec-default-runs {
-            cmd lenskit codex trec export runs -o runs/fixed/default.run.gz runs/fixed/*-default
-            out runs/fixed.default.run.gz
-            foreach mod [model list] {
-                if {[model enabled $mod $ds]} {
-                    dep runs/fixed/$mod-default/recommendations.parquet
-                }
-            }
-        }
+        # stage export-trec-qrels-valid {
+        #     cmd lenskit codex trec export qrels -o splits/fixed/valid.qrels.gz splits/fixed/test/test.parquet
+        #     dep splits/fixed/valid/test.parquet
+        #     out splits/fixed/valid.qrels.gz
+        # }
+        # stage export-trec-qrels-test {
+        #     cmd lenskit codex trec export qrels -o splits/fixed/test.qrels.gz splits/fixed/test/test.parquet
+        #     dep splits/fixed/test/test.parquet
+        #     out splits/fixed/test.qrels.gz
+        # }
+        # stage export-trec-default-runs {
+        #     cmd lenskit codex trec export runs -o runs/fixed/default.run.gz runs/fixed/*-default
+        #     out runs/fixed.default.run.gz
+        #     foreach mod [model list] {
+        #         if {[model enabled $mod $ds]} {
+        #             dep runs/fixed/$mod-default/recommendations.parquet
+        #         }
+        #     }
+        # }
     }
 }
