@@ -3,21 +3,21 @@
   "meta": {
     "name": "flexmf-bpr",
     "version": null,
-    "hash": "5f1a358fb4c7b888921b9c53b277add9d03d7b2bcc2d88f8a3385a6ae20c1ef1"
+    "hash": "7ade1bd7b8731acf193cd45064ac926cf08ac89469337cef4e2626c993497444"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
         "bytes",
-        "lenskit.data:ItemList",
-        "numpy:integer",
         "numpy:object_",
-        "numpy:bytes_",
-        "numpy:str_",
         "lenskit.data:RecQuery",
         "int",
-        "str"
+        "str",
+        "numpy:str_",
+        "numpy:integer",
+        "numpy:bytes_",
+        "lenskit.data:ItemList"
       ]
     },
     {
@@ -64,11 +64,11 @@
     "scorer": {
       "code": "lenskit.flexmf:FlexMFImplicitScorer",
       "config": {
-        "embedding_size": 9,
+        "embedding_size": 64,
         "batch_size": 8192,
-        "learning_rate": 0.024558893855249467,
-        "epochs": 6,
-        "regularization": 1.3928158183742292,
+        "learning_rate": 0.023017000984723222,
+        "epochs": 14,
+        "regularization": 0.9187738554499193,
         "reg_method": "AdamW",
         "preset": null,
         "loss": "pairwise",

@@ -3,21 +3,21 @@
   "meta": {
     "name": "flexmf-logistic",
     "version": null,
-    "hash": "034e6279f22d9e567878e8a95f85b159f65f50bb2f2968e4612a8b342d4f064e"
+    "hash": "6ec18a00e128c0d5b6ffa50926fdd9f0d043d272e6eb1b35ee70868bbf393426"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "numpy:bytes_",
         "numpy:str_",
-        "lenskit.data:ItemList",
-        "lenskit.data:RecQuery",
+        "numpy:object_",
         "numpy:integer",
-        "int",
-        "bytes",
         "str",
-        "numpy:object_"
+        "bytes",
+        "int",
+        "lenskit.data:RecQuery",
+        "numpy:bytes_",
+        "lenskit.data:ItemList"
       ]
     },
     {
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "int",
-        "None"
+        "None",
+        "int"
       ]
     }
   ],
@@ -64,19 +64,19 @@
     "scorer": {
       "code": "lenskit.flexmf:FlexMFImplicitScorer",
       "config": {
-        "embedding_size": 8,
+        "embedding_size": 256,
         "batch_size": 8192,
-        "learning_rate": 0.001181164796757351,
-        "epochs": 8,
-        "regularization": 0.06884740716741111,
+        "learning_rate": 0.0010958979372350396,
+        "epochs": 7,
+        "regularization": 0.00023039282198796708,
         "reg_method": "AdamW",
         "preset": null,
         "loss": "logistic",
         "negative_strategy": null,
-        "negative_count": 2,
-        "positive_weight": 3,
+        "negative_count": 5,
+        "positive_weight": 1,
         "user_bias": true,
-        "item_bias": false,
+        "item_bias": true,
         "convolution_layers": 0
       },
       "inputs": {

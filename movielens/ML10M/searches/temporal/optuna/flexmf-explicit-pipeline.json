@@ -3,21 +3,21 @@
   "meta": {
     "name": "flexmf-explicit",
     "version": null,
-    "hash": "4bd04b486ea8409d0b7a6666fc5daed6baf9b57106f6cbc47fafc109b079dc32"
+    "hash": "380691167a40420e839cc1c16a48eedd7d40571c441828de3a1bc43c797c8ec3"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "lenskit.data:RecQuery",
-        "numpy:bytes_",
-        "str",
         "int",
-        "numpy:integer",
+        "lenskit.data:ItemList",
+        "str",
         "bytes",
-        "numpy:object_",
+        "numpy:bytes_",
         "numpy:str_",
-        "lenskit.data:ItemList"
+        "lenskit.data:RecQuery",
+        "numpy:object_",
+        "numpy:integer"
       ]
     },
     {
@@ -64,11 +64,11 @@
     "scorer": {
       "code": "lenskit.flexmf:FlexMFExplicitScorer",
       "config": {
-        "embedding_size": 5,
+        "embedding_size": 16,
         "batch_size": 8192,
-        "learning_rate": 0.002270264236358733,
-        "epochs": 5,
-        "regularization": 0.2320851149976665,
+        "learning_rate": 0.004046328558081029,
+        "epochs": 6,
+        "regularization": 0.08905278138677229,
         "reg_method": "AdamW"
       },
       "inputs": {

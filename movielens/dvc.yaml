@@ -4,7 +4,7 @@
 # Regenerate with `mise run pipeline:render`.
 stages:
   aggregate-rating-stats:
-    cmd: lenskit codex movielens aggregate -d merged-stats.duckdb ML100K ML1M ML10M ML20M ML25M ML32M
+    cmd: lenskit codex movielens aggregate -d merged-stats.duckdb ML100K ML1M ML10M ML20M ML25M ML32M MLLT
     deps:
       - ML100K/stats.duckdb
       - ML1M/stats.duckdb
@@ -12,5 +12,6 @@ stages:
       - ML20M/stats.duckdb
       - ML25M/stats.duckdb
       - ML32M/stats.duckdb
+      - MLLT/stats.duckdb
     outs:
       - merged-stats.duckdb

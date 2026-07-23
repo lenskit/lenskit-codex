@@ -8,6 +8,7 @@ base = "std:topn"
 class = "lenskit.flexmf.FlexMFImplicitScorer"
 
 [components.scorer.config]
+epochs = 5
 loss = "warp"
 reg_method = "AdamW"
 user_bias = false

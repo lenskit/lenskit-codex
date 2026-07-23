@@ -126,24 +126,6 @@ stages:
       - searches/temporal/optuna/flexmf-logistic-pipeline.json:
           cache: false
 
-  search-flexmf-warp-temporal-optuna:
-    cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid flexmf-warp searches/temporal/optuna/flexmf-warp
-    params:
-      - ../../lenskit.toml:
-          - tuning.defaults
-      - ../../codex.toml:
-          - tuning.optuna.points
-    deps:
-      - splits/temporal.toml
-      - ../../models/flexmf-warp/pipeline.toml
-      - ../../models/flexmf-warp/search.toml
-    outs:
-      - searches/temporal/optuna/flexmf-warp
-      - searches/temporal/optuna/flexmf-warp.json:
-          cache: false
-      - searches/temporal/optuna/flexmf-warp-pipeline.json:
-          cache: false
-
   search-iknn-explicit-temporal-optuna:
     cmd: lenskit codex tune --split=splits/temporal.toml --test-part=valid iknn-explicit searches/temporal/optuna/iknn-explicit
     params:
@@ -312,25 +294,6 @@ stages:
     outs:
       - runs/temporal/flexmf-logistic-optuna-tuned
 
-  run-temporal-flexmf-warp-default:
-    cmd: lenskit codex generate --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal/flexmf-warp-default flexmf-warp
-    deps:
-      - ../../models/flexmf-warp/pipeline.toml
-      - dataset
-      - splits/temporal.toml
-    outs:
-      - runs/temporal/flexmf-warp-default
-
-  run-temporal-flexmf-warp-optuna-tuned:
-    cmd: lenskit codex generate --pipeline-file searches/temporal/optuna/flexmf-warp-pipeline.json --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal/flexmf-warp-optuna-tuned flexmf-warp
-    deps:
-      - ../../models/flexmf-warp/pipeline.toml
-      - dataset
-      - splits/temporal.toml
-      - searches/temporal/optuna/flexmf-warp-pipeline.json
-    outs:
-      - runs/temporal/flexmf-warp-optuna-tuned
-
   run-temporal-iknn-explicit-default:
     cmd: lenskit codex generate --ds-name=ML32M --split=splits/temporal.toml -o runs/temporal/iknn-explicit-default iknn-explicit
     deps:
@@ -413,8 +376,6 @@ stages:
       - runs/temporal/flexmf-explicit-optuna-tuned
       - runs/temporal/flexmf-logistic-default
       - runs/temporal/flexmf-logistic-optuna-tuned
-      - runs/temporal/flexmf-warp-default
-      - runs/temporal/flexmf-warp-optuna-tuned
       - runs/temporal/iknn-explicit-default
       - runs/temporal/iknn-explicit-optuna-tuned
       - runs/temporal/iknn-implicit-default

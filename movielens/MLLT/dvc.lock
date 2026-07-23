@@ -780,8 +780,8 @@ stages:
       nfiles: 6
     - path: runs/temporal/flexmf-bpr-default
       hash: md5
-      md5: 4b6525322933aa77b664e1281bab4b11.dir
-      size: 9152607
+      md5: 6ebedc11b015bc5a4c7e3edceb5fc9e6.dir
+      size: 9152630
       nfiles: 5
     - path: runs/temporal/flexmf-explicit-default
       hash: md5
@@ -790,13 +790,13 @@ stages:
       nfiles: 6
     - path: runs/temporal/flexmf-logistic-default
       hash: md5
-      md5: f697e5cac2a52a276f91189a78efafaf.dir
-      size: 9301469
+      md5: f6ea333a068e63b212fb7309714cb044.dir
+      size: 9301466
       nfiles: 5
     - path: runs/temporal/flexmf-warp-default
       hash: md5
-      md5: f3920b8a144989afb8bd8da45c6b3083.dir
-      size: 9271990
+      md5: 6c534d16f17f562d5268b6b493b72f5d.dir
+      size: 9253216
       nfiles: 5
     - path: runs/temporal/iknn-explicit-default
       hash: md5
@@ -821,12 +821,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 55a70402f94731a22ab7bcfaa70dd16f
-      size: 9103
+      md5: 2bb4fd368b241817cb53ea9bc6041481
+      size: 9077
     - path: run-user-metrics.parquet
       hash: md5
-      md5: edefe36a41af8200d03abed8ec29c4a5
-      size: 4875103
+      md5: a58bef95b2d67cfd35502f0d56f2a04c
+      size: 4874010
   run-temporal-als-biased-default:
     cmd: lenskit codex generate --ds-name=MLLT --split=splits/temporal.toml -o 
       runs/temporal/als-biased-default als-biased
@@ -902,8 +902,8 @@ stages:
     deps:
     - path: ../../models/flexmf-bpr/pipeline.toml
       hash: md5
-      md5: 4ad020cc9459a490e23e78cc14ee0893
-      size: 190
+      md5: e072a8eff9ba98464b316cc7f1e5af75
+      size: 226
     - path: dataset
       hash: md5
       md5: 7d9e75baf479ee31a54b9b9b95eeec7b.dir
@@ -916,8 +916,8 @@ stages:
     outs:
     - path: runs/temporal/flexmf-bpr-default
       hash: md5
-      md5: 4b6525322933aa77b664e1281bab4b11.dir
-      size: 9152607
+      md5: 6ebedc11b015bc5a4c7e3edceb5fc9e6.dir
+      size: 9152630
       nfiles: 5
   run-temporal-flexmf-explicit-default:
     cmd: lenskit codex generate --ds-name=MLLT --split=splits/temporal.toml -o 
@@ -948,8 +948,8 @@ stages:
     deps:
     - path: ../../models/flexmf-logistic/pipeline.toml
       hash: md5
-      md5: e53400bdca23e8d06ed75688a2c2b0d4
-      size: 195
+      md5: c97224762f23ff27750bcdc35ea0df29
+      size: 212
     - path: dataset
       hash: md5
       md5: 7d9e75baf479ee31a54b9b9b95eeec7b.dir
@@ -962,8 +962,8 @@ stages:
     outs:
     - path: runs/temporal/flexmf-logistic-default
       hash: md5
-      md5: f697e5cac2a52a276f91189a78efafaf.dir
-      size: 9301469
+      md5: f6ea333a068e63b212fb7309714cb044.dir
+      size: 9301466
       nfiles: 5
   run-temporal-flexmf-warp-default:
     cmd: lenskit codex generate --ds-name=MLLT --split=splits/temporal.toml -o 
@@ -971,8 +971,8 @@ stages:
     deps:
     - path: ../../models/flexmf-warp/pipeline.toml
       hash: md5
-      md5: df9f119b425b7c170f9ce70f9cfaf7f2
-      size: 187
+      md5: d72187cb155de195aea4e520880a298a
+      size: 234
     - path: dataset
       hash: md5
       md5: 7d9e75baf479ee31a54b9b9b95eeec7b.dir
@@ -985,8 +985,8 @@ stages:
     outs:
     - path: runs/temporal/flexmf-warp-default
       hash: md5
-      md5: f3920b8a144989afb8bd8da45c6b3083.dir
-      size: 9271990
+      md5: 6c534d16f17f562d5268b6b493b72f5d.dir
+      size: 9253216
       nfiles: 5
   run-temporal-iknn-explicit-default:
     cmd: lenskit codex generate --ds-name=MLLT --split=splits/temporal.toml -o 

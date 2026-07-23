@@ -1,0 +1,106 @@
+{
+  "options": null,
+  "meta": {
+    "name": "flexmf-logistic",
+    "version": null,
+    "hash": "7e12e3eafb040d6fea11ca244691a0762d4b9e992a4788f2e47c5cda978de32b"
+  },
+  "inputs": [
+    {
+      "name": "query",
+      "types": [
+        "int",
+        "numpy:bytes_",
+        "bytes",
+        "str",
+        "numpy:integer",
+        "lenskit.data:ItemList",
+        "lenskit.data:RecQuery",
+        "numpy:str_",
+        "numpy:object_"
+      ]
+    },
+    {
+      "name": "items",
+      "types": [
+        "lenskit.data:ItemList"
+      ]
+    },
+    {
+      "name": "n",
+      "types": [
+        "int",
+        "None"
+      ]
+    }
+  ],
+  "components": {
+    "history-lookup": {
+      "code": "lenskit.basic.history:UserTrainingHistoryLookup",
+      "config": {
+        "interaction_class": null
+      },
+      "inputs": {
+        "query": "query"
+      }
+    },
+    "candidate-selector": {
+      "code": "lenskit.basic.candidates:TrainingItemsCandidateSelector",
+      "config": {
+        "exclude": "query"
+      },
+      "inputs": {
+        "query": "history-lookup"
+      }
+    },
+    "candidates": {
+      "code": "lenskit.pipeline.components:fallback_on_none",
+      "config": null,
+      "inputs": {
+        "fallback": "candidate-selector",
+        "primary": "items"
+      }
+    },
+    "scorer": {
+      "code": "lenskit.flexmf:FlexMFImplicitScorer",
+      "config": {
+        "embedding_size": 512,
+        "batch_size": 8192,
+        "learning_rate": 0.0010872984314202123,
+        "epochs": 11,
+        "regularization": 0.07775011837065413,
+        "reg_method": "AdamW",
+        "preset": null,
+        "loss": "logistic",
+        "negative_strategy": null,
+        "negative_count": 4,
+        "positive_weight": 5,
+        "user_bias": true,
+        "item_bias": true,
+        "convolution_layers": 0
+      },
+      "inputs": {
+        "items": "candidates",
+        "query": "history-lookup"
+      }
+    },
+    "ranker": {
+      "code": "lenskit.basic.topn:TopNRanker",
+      "config": {
+        "n": null
+      },
+      "inputs": {
+        "items": "scorer",
+        "n": "n"
+      }
+    }
+  },
+  "aliases": {
+    "recommender": "ranker"
+  },
+  "default": null,
+  "literals": {},
+  "hooks": {
+    "run": {}
+  }
+}

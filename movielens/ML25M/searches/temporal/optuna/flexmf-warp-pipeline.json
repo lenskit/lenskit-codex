@@ -3,21 +3,21 @@
   "meta": {
     "name": "flexmf-warp",
     "version": null,
-    "hash": "5f63e575ba84c1dd774af8a1a73ada2081f9b088646dd9bd2854bbffa42f0905"
+    "hash": "700674d649a4f5fab4ff87913f67baefbe3accad84ad61dc1ac2de93a0052447"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "str",
-        "numpy:bytes_",
-        "numpy:object_",
-        "numpy:str_",
         "lenskit.data:ItemList",
+        "int",
+        "numpy:str_",
         "numpy:integer",
+        "numpy:object_",
+        "str",
         "bytes",
         "lenskit.data:RecQuery",
-        "int"
+        "numpy:bytes_"
       ]
     },
     {
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "None",
-        "int"
+        "int",
+        "None"
       ]
     }
   ],
@@ -64,19 +64,19 @@
     "scorer": {
       "code": "lenskit.flexmf:FlexMFImplicitScorer",
       "config": {
-        "embedding_size": 4,
+        "embedding_size": 16,
         "batch_size": 8192,
-        "learning_rate": 0.0023377879723269694,
-        "epochs": 7,
-        "regularization": 0.0030451120242014134,
+        "learning_rate": 0.0044351708305778465,
+        "epochs": 10,
+        "regularization": 0.0007407540565836565,
         "reg_method": "AdamW",
         "preset": null,
         "loss": "warp",
         "negative_strategy": null,
         "negative_count": 1,
         "positive_weight": 8,
-        "user_bias": null,
-        "item_bias": true,
+        "user_bias": false,
+        "item_bias": false,
         "convolution_layers": 0
       },
       "inputs": {

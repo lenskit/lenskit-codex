@@ -1,0 +1,138 @@
+# GENERATED PIPELINE FILE - DO NOT EDIT
+#
+# This file was generated from amazon/2023-5core/pipeline.tcl.
+# Regenerate with `mise run pipeline:render`.
+stages:
+  import-valid-train:
+    cmd: lenskit data convert --amazon ../data/Pet_Supplies.train.csv.gz splits/fixed/valid/train.dataset
+    deps:
+      - ../data/Pet_Supplies.train.csv.gz
+    outs:
+      - splits/fixed/valid/train.dataset
+
+  import-valid-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/Pet_Supplies.valid.csv.gz splits/fixed/valid/test.full.parquet
+    deps:
+      - ../data/Pet_Supplies.valid.csv.gz
+    outs:
+      - splits/fixed/valid/test.full.parquet
+
+  subset-valid-test:
+    cmd: lenskit data subset --sample-rows=10000 --item-lists splits/fixed/valid/test.full.parquet splits/fixed/valid/test.parquet
+    deps:
+      - splits/fixed/valid/test.full.parquet
+    outs:
+      - splits/fixed/valid/test.parquet
+
+  import-test-train:
+    cmd: lenskit data convert --amazon ../data/Pet_Supplies.train.csv.gz ../data/Pet_Supplies.valid.csv.gz splits/fixed/valid/train.dataset
+    deps:
+      - ../data/Pet_Supplies.train.csv.gz
+      - ../data/Pet_Supplies.valid.csv.gz
+    outs:
+      - splits/fixed/test/train.dataset
+
+  import-test-test:
+    cmd: lenskit data convert --amazon --item-lists ../data/Pet_Supplies.test.csv.gz splits/fixed/test/test.parquet
+    deps:
+      - ../data/Pet_Supplies.test.csv.gz
+    outs:
+      - splits/fixed/test/test.parquet
+
+  run-fixed-als-biased-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/als-biased-default als-biased
+    deps:
+      - ../../../models/als-biased/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/als-biased-default
+
+  run-fixed-als-implicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/als-implicit-default als-implicit
+    deps:
+      - ../../../models/als-implicit/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/als-implicit-default
+
+  run-fixed-bias-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/bias-default bias
+    deps:
+      - ../../../models/bias/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/bias-default
+
+  run-fixed-flexmf-bpr-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/flexmf-bpr-default flexmf-bpr
+    deps:
+      - ../../../models/flexmf-bpr/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/flexmf-bpr-default
+
+  run-fixed-flexmf-explicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/flexmf-explicit-default flexmf-explicit
+    deps:
+      - ../../../models/flexmf-explicit/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/flexmf-explicit-default
+
+  run-fixed-flexmf-logistic-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/flexmf-logistic-default flexmf-logistic
+    deps:
+      - ../../../models/flexmf-logistic/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/flexmf-logistic-default
+
+  run-fixed-iknn-explicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/iknn-explicit-default iknn-explicit
+    deps:
+      - ../../../models/iknn-explicit/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/iknn-explicit-default
+
+  run-fixed-iknn-implicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/iknn-implicit-default iknn-implicit
+    deps:
+      - ../../../models/iknn-implicit/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/iknn-implicit-default
+
+  run-fixed-popular-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/popular-default popular
+    deps:
+      - ../../../models/popular/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/popular-default
+
+  run-fixed-slim-fs-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed -o runs/fixed/slim-fs-default slim-fs
+    deps:
+      - ../../../models/slim-fs/pipeline.toml
+      - splits/fixed
+    outs:
+      - runs/fixed/slim-fs-default
+
+  collect-metrics:
+    cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
+    deps:
+      - runs/manifest.csv
+      - runs/fixed/als-biased-default
+      - runs/fixed/als-implicit-default
+      - runs/fixed/bias-default
+      - runs/fixed/flexmf-bpr-default
+      - runs/fixed/flexmf-explicit-default
+      - runs/fixed/flexmf-logistic-default
+      - runs/fixed/iknn-explicit-default
+      - runs/fixed/iknn-implicit-default
+      - runs/fixed/popular-default
+      - runs/fixed/slim-fs-default
+    outs:
+      - run-summary.csv
+      - run-user-metrics.parquet

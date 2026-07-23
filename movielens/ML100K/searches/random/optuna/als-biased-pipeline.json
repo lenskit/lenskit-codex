@@ -3,21 +3,21 @@
   "meta": {
     "name": "als-biased",
     "version": null,
-    "hash": "81ff991a9bbd8184e2144df4eb7efdec007566e84660fbedf3efc24f96a19961"
+    "hash": "f41cf442ff4597986b5a79660b621d1de74501421275ca6e9920a20aa6a76bc9"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
         "int",
-        "str",
-        "bytes",
-        "numpy:bytes_",
         "lenskit.data:ItemList",
         "numpy:str_",
-        "lenskit.data:RecQuery",
         "numpy:integer",
-        "numpy:object_"
+        "bytes",
+        "str",
+        "numpy:bytes_",
+        "numpy:object_",
+        "lenskit.data:RecQuery"
       ]
     },
     {
@@ -64,18 +64,17 @@
     "scorer": {
       "code": "lenskit.als:BiasedMFScorer",
       "config": {
-        "embedding_size": 64,
-        "epochs": 4,
+        "embedding_size": 1024,
+        "epochs": 3,
         "regularization": {
-          "user": 0.17633349580603627,
-          "item": 0.0718150086020459
+          "user": 0.05587562579078162,
+          "item": 0.17557538583669183
         },
         "user_embeddings": "prefer",
         "damping": {
-          "user": 0.000016429028926976108,
-          "item": 2.621953930538899e-10
-        },
-        "embedding_size_exp": 9
+          "user": 1.493126686251495e-12,
+          "item": 1.1327357775436059e-12
+        }
       },
       "inputs": {
         "items": "candidates",

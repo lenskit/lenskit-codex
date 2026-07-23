@@ -3,21 +3,21 @@
   "meta": {
     "name": "slim-fs",
     "version": null,
-    "hash": "e6d3fbbc480f9cc90d1c13f837b9bfad2f3d02bbfd56b1c5776921aa60815512"
+    "hash": "ef88f96a4909ff8aa0e81fd59b7ccadcc3393f2f08405eaf39c46fb66a5c18fa"
   },
   "inputs": [
     {
       "name": "query",
       "types": [
-        "numpy:str_",
-        "int",
+        "lenskit.data:RecQuery",
         "numpy:bytes_",
         "numpy:integer",
-        "bytes",
+        "numpy:str_",
+        "numpy:object_",
+        "int",
         "str",
         "lenskit.data:ItemList",
-        "lenskit.data:RecQuery",
-        "numpy:object_"
+        "bytes"
       ]
     },
     {
@@ -29,8 +29,8 @@
     {
       "name": "n",
       "types": [
-        "int",
-        "None"
+        "None",
+        "int"
       ]
     }
   ],
@@ -64,10 +64,10 @@
     "scorer": {
       "code": "lenskit.knn.slim:SLIMScorer",
       "config": {
-        "l1_reg": 0.8635311124648395,
-        "l2_reg": 875.9527744087679,
+        "l1_reg": 0.4196938841851141,
+        "l2_reg": 975.6974058478926,
         "max_iters": 100,
-        "max_nbrs": 1982
+        "max_nbrs": 1457
       },
       "inputs": {
         "items": "candidates",
