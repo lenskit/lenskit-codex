@@ -23,8 +23,8 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     dataset_selector = mo.ui.radio(
-        options=["100K", "1M", "10M", "20M", "25M", "32M"],
-        value="100K",
+        options=["100K MovieLens", "1M MovieLens", "10M MovieLens", "20M MovieLens", "25M MovieLens", "32M MovieLens"],
+        value="100K MovieLens",
         label="Dataset:",
     )
 
@@ -41,12 +41,12 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(dataset_selector, mo, sort_selector):
     dataset_files = {
-        "100K": ("movielens/ML100K/run-summary.csv", "0"),
-        "1M": ("movielens/ML1M/run-summary.csv", "0"),
-        "10M": ("movielens/ML10M/run-summary.csv", "'valid'"),
-        "20M": ("movielens/ML20M/run-summary.csv", "'valid'"),
-        "25M": ("movielens/ML25M/run-summary.csv", "'valid'"),
-        "32M": ("movielens/ML32M/run-summary.csv", "'valid'"),
+        "100K MovieLens": ("movielens/ML100K/run-summary.csv", "0"),
+        "1M MovieLens": ("movielens/ML1M/run-summary.csv", "0"),
+        "10M MovieLens": ("movielens/ML10M/run-summary.csv", "'valid'"),
+        "20M MovieLens": ("movielens/ML20M/run-summary.csv", "'valid'"),
+        "25M MovieLens": ("movielens/ML25M/run-summary.csv", "'valid'"),
+        "32M MovieLens": ("movielens/ML32M/run-summary.csv", "'valid'"),
     }
 
     dataset = dataset_selector.value
@@ -79,7 +79,7 @@ def _(dataset_selector, mo, sort_selector):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    **Kendall's Tau**
+    **Kendall's Tau for MovieLens**
     """)
     return
 
@@ -365,6 +365,124 @@ def _(metric_selector, mo):
 
 
     _()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    top_metric_selector = mo.ui.radio(
+        options=["RBP", "NDCG"],
+        value="RBP",
+        label="Metric for top model-variant pair",
+    )
+
+    top_metric_selector
+    return (top_metric_selector,)
+
+
+@app.cell(hide_code=True)
+def _(mo, top_metric_selector):
+    metric = top_metric_selector.value
+
+    top_tracking = mo.sql(
+        f"""
+        WITH all_rankings AS (
+            SELECT
+                '100K' AS dataset,
+                model,
+                variant,
+                RBP,
+                NDCG,
+                RANK() OVER (ORDER BY {metric} DESC) AS rank
+            FROM read_csv('movielens/ML100K/run-summary.csv')
+            WHERE part = 0
+
+            UNION ALL
+
+            SELECT
+                '1M' AS dataset,
+                model,
+                variant,
+                RBP,
+                NDCG,
+                RANK() OVER (ORDER BY {metric} DESC) AS rank
+            FROM read_csv('movielens/ML1M/run-summary.csv')
+            WHERE part = 0
+
+            UNION ALL
+
+            SELECT
+                '10M' AS dataset,
+                model,
+                variant,
+                RBP,
+                NDCG,
+                RANK() OVER (ORDER BY {metric} DESC) AS rank
+            FROM read_csv('movielens/ML10M/run-summary.csv')
+            WHERE part = 'valid'
+
+            UNION ALL
+
+            SELECT
+                '20M' AS dataset,
+                model,
+                variant,
+                RBP,
+                NDCG,
+                RANK() OVER (ORDER BY {metric} DESC) AS rank
+            FROM read_csv('movielens/ML20M/run-summary.csv')
+            WHERE part = 'valid'
+
+            UNION ALL
+
+            SELECT
+                '25M' AS dataset,
+                model,
+                variant,
+                RBP,
+                NDCG,
+                RANK() OVER (ORDER BY {metric} DESC) AS rank
+            FROM read_csv('movielens/ML25M/run-summary.csv')
+            WHERE part = 'valid'
+
+            UNION ALL
+
+            SELECT
+                '32M' AS dataset,
+                model,
+                variant,
+                RBP,
+                NDCG,
+                RANK() OVER (ORDER BY {metric} DESC) AS rank
+            FROM read_csv('movielens/ML32M/run-summary.csv')
+            WHERE part = 'valid'
+        )
+
+        SELECT
+            dataset,
+            model,
+            variant,
+            RBP,
+            NDCG,
+            rank
+        FROM all_rankings
+        WHERE rank = 1
+        ORDER BY
+            CASE dataset
+                WHEN '100K' THEN 1
+                WHEN '1M' THEN 2
+                WHEN '10M' THEN 3
+                WHEN '20M' THEN 4
+                WHEN '25M' THEN 5
+                WHEN '32M' THEN 6
+            END
+        """
+    )
+
+    mo.vstack([
+        mo.md(f"**Best Model-Variant Pair of Each Dataset by {metric}**"),
+        top_tracking,
+    ])
     return
 
 
