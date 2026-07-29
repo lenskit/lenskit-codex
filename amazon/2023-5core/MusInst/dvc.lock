@@ -1,7 +1,8 @@
 schema: '2.0'
 stages:
   import:
-    cmd: lenskit codex amazon import-train -o dataset ../data/Musical_Instruments.train.csv.gz
+    cmd: lenskit codex amazon import-train -o dataset 
+      ../data/Musical_Instruments.train.csv.gz
     deps:
     - path: ../data/Musical_Instruments.train.csv.gz
       hash: md5
@@ -14,8 +15,8 @@ stages:
       size: 5279415
       nfiles: 5
   import-test-test:
-    cmd: lenskit data convert --amazon --item-lists ../data/Musical_Instruments.test.csv.gz
-      splits/fixed/test/test.parquet
+    cmd: lenskit data convert --amazon --item-lists 
+      ../data/Musical_Instruments.test.csv.gz splits/fixed/test/test.parquet
     deps:
     - path: ../data/Musical_Instruments.test.csv.gz
       hash: md5
@@ -27,7 +28,8 @@ stages:
       md5: 5894b8004d8ea9636a82d8ba0ca319d1
       size: 770406
   import-valid-train:
-    cmd: lenskit data convert --amazon ../data/Musical_Instruments.train.csv.gz splits/fixed/valid/train.dataset
+    cmd: lenskit data convert --amazon ../data/Musical_Instruments.train.csv.gz 
+      splits/fixed/valid/train.dataset
     deps:
     - path: ../data/Musical_Instruments.train.csv.gz
       hash: md5
@@ -40,8 +42,8 @@ stages:
       size: 5328976
       nfiles: 5
   import-test-train:
-    cmd: lenskit data convert --amazon ../data/Musical_Instruments.train.csv.gz ../data/Musical_Instruments.valid.csv.gz
-      splits/fixed/test/train.dataset
+    cmd: lenskit data convert --amazon ../data/Musical_Instruments.train.csv.gz 
+      ../data/Musical_Instruments.valid.csv.gz splits/fixed/test/train.dataset
     deps:
     - path: ../data/Musical_Instruments.train.csv.gz
       hash: md5
@@ -58,20 +60,22 @@ stages:
       size: 5720596
       nfiles: 5
   import-valid-test:
-    cmd: lenskit data convert --amazon --item-lists ../data/Musical_Instruments.valid.csv.gz
-      splits/fixed/valid/test.parquet
+    cmd: lenskit data convert --amazon --item-lists 
+      ../data/Musical_Instruments.valid.csv.gz 
+      splits/fixed/valid/test.full.parquet
     deps:
     - path: ../data/Musical_Instruments.valid.csv.gz
       hash: md5
       md5: 5333a84211e0f3b2a76ea848a3a75f7d
       size: 1786891
     outs:
-    - path: splits/fixed/valid/test.parquet
+    - path: splits/fixed/valid/test.full.parquet
       hash: md5
-      md5: 713b557df125e1a66483d678fda8c379
-      size: 812899
+      md5: 054ff03924d9c4961fa3c1ae54b6b097
+      size: 812963
   export-trec-qrels@valid:
-    cmd: lenskit codex trec export qrels -o splits/fixed/valid.qrels.gz splits/fixed/valid/test.parquet
+    cmd: lenskit codex trec export qrels -o splits/fixed/valid.qrels.gz 
+      splits/fixed/valid/test.parquet
     deps:
     - path: splits/fixed/valid/test.parquet
       hash: md5
@@ -83,7 +87,8 @@ stages:
       md5: bd38afdea876026e251ca54e8b53144e
       size: 582595
   export-trec-qrels@test:
-    cmd: lenskit codex trec export qrels -o splits/fixed/test.qrels.gz splits/fixed/test/test.parquet
+    cmd: lenskit codex trec export qrels -o splits/fixed/test.qrels.gz 
+      splits/fixed/test/test.parquet
     deps:
     - path: splits/fixed/test/test.parquet
       hash: md5
@@ -95,8 +100,8 @@ stages:
       md5: 12ffbafa749cdae878d41cab8d1d9261
       size: 544225
   run-fixed-default-flexmf-bpr:
-    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
-      runs/fixed/flexmf-bpr-default flexmf-bpr
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed
+      -o runs/fixed/flexmf-bpr-default flexmf-bpr
     deps:
     - path: ../../../src/codex/models/flexmf_bpr.py
       hash: md5
@@ -114,8 +119,8 @@ stages:
       size: 15318605
       nfiles: 4
   run-fixed-default-als-biased:
-    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
-      runs/fixed/als-biased-default als-biased
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed
+      -o runs/fixed/als-biased-default als-biased
     deps:
     - path: ../../../src/codex/models/als_biased.py
       hash: md5
@@ -133,8 +138,8 @@ stages:
       size: 16844067
       nfiles: 5
   run-fixed-default-flexmf-explicit:
-    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
-      runs/fixed/flexmf-explicit-default flexmf-explicit
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed
+      -o runs/fixed/flexmf-explicit-default flexmf-explicit
     deps:
     - path: ../../../src/codex/models/flexmf_explicit.py
       hash: md5
@@ -152,8 +157,8 @@ stages:
       size: 17143588
       nfiles: 5
   run-fixed-default-bias:
-    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
-      runs/fixed/bias-default bias
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed
+      -o runs/fixed/bias-default bias
     deps:
     - path: ../../../src/codex/models/bias.py
       hash: md5
@@ -171,8 +176,8 @@ stages:
       size: 6929946
       nfiles: 5
   run-fixed-default-flexmf-warp:
-    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
-      runs/fixed/flexmf-warp-default flexmf-warp
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed
+      -o runs/fixed/flexmf-warp-default flexmf-warp
     deps:
     - path: ../../../src/codex/models/flexmf_warp.py
       hash: md5
@@ -190,8 +195,8 @@ stages:
       size: 15296143
       nfiles: 4
   run-fixed-default-popular:
-    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
-      runs/fixed/popular-default popular
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed
+      -o runs/fixed/popular-default popular
     deps:
     - path: ../../../src/codex/models/popular.py
       hash: md5
@@ -209,8 +214,8 @@ stages:
       size: 1278118
       nfiles: 4
   run-fixed-default-als-implicit:
-    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
-      runs/fixed/als-implicit-default als-implicit
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed
+      -o runs/fixed/als-implicit-default als-implicit
     deps:
     - path: ../../../src/codex/models/als_implicit.py
       hash: md5
@@ -228,8 +233,8 @@ stages:
       size: 14933003
       nfiles: 4
   run-fixed-default-flexmf-logistic:
-    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed -o
-      runs/fixed/flexmf-logistic-default flexmf-logistic
+    cmd: lenskit codex generate --default --ds-name=MusInst --split=splits/fixed
+      -o runs/fixed/flexmf-logistic-default flexmf-logistic
     deps:
     - path: ../../../src/codex/models/flexmf_logistic.py
       hash: md5
@@ -247,7 +252,8 @@ stages:
       size: 15364791
       nfiles: 4
   export-trec-default-runs:
-    cmd: lenskit codex trec export runs -o runs/fixed/default.run.gz runs/fixed/*-default
+    cmd: lenskit codex trec export runs -o runs/fixed/default.run.gz 
+      runs/fixed/*-default
     deps:
     - path: runs/fixed/als-biased-default/recommendations.parquet
       hash: md5
@@ -287,8 +293,8 @@ stages:
       md5: 962d67560c16da3575bb4ba42a25c286
       size: 229367332
   sweep-flexmf-bpr-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
-      flexmf-bpr sweeps/fixed/flexmf-bpr-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna 
+      --metric=RBP flexmf-bpr sweeps/fixed/flexmf-bpr-optuna
     deps:
     - path: ../../../src/codex/models/flexmf_bpr.py
       hash: md5
@@ -313,8 +319,9 @@ stages:
       md5: b9a9cce456524614d9181aca0b1186a5
       size: 702
   run-fixed-optuna-best-flexmf-bpr:
-    cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-bpr-optuna.json --ds-name=MusInst
-      --split=splits/fixed -o runs/fixed/flexmf-bpr-optuna-best flexmf-bpr
+    cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-bpr-optuna.json
+      --ds-name=MusInst --split=splits/fixed -o 
+      runs/fixed/flexmf-bpr-optuna-best flexmf-bpr
     deps:
     - path: ../../../src/codex/models/flexmf_bpr.py
       hash: md5
@@ -336,8 +343,8 @@ stages:
       size: 14898605
       nfiles: 4
   sweep-flexmf-logistic-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
-      flexmf-logistic sweeps/fixed/flexmf-logistic-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna 
+      --metric=RBP flexmf-logistic sweeps/fixed/flexmf-logistic-optuna
     deps:
     - path: ../../../src/codex/models/flexmf_logistic.py
       hash: md5
@@ -362,8 +369,9 @@ stages:
       md5: 886b4412043800a84ced58dfb41697f1
       size: 751
   run-fixed-optuna-best-flexmf-logistic:
-    cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-logistic-optuna.json
-      --ds-name=MusInst --split=splits/fixed -o runs/fixed/flexmf-logistic-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/fixed/flexmf-logistic-optuna.json --ds-name=MusInst 
+      --split=splits/fixed -o runs/fixed/flexmf-logistic-optuna-best 
       flexmf-logistic
     deps:
     - path: ../../../src/codex/models/flexmf_logistic.py
@@ -386,8 +394,8 @@ stages:
       size: 14684173
       nfiles: 4
   sweep-als-biased-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
-      als-biased sweeps/fixed/als-biased-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna 
+      --metric=RMSE als-biased sweeps/fixed/als-biased-optuna
     deps:
     - path: ../../../src/codex/models/als_biased.py
       hash: md5
@@ -412,8 +420,9 @@ stages:
       md5: 96038f352a06b81234db874b82304cea
       size: 736
   run-fixed-optuna-best-als-biased:
-    cmd: lenskit codex generate --param-file sweeps/fixed/als-biased-optuna.json --ds-name=MusInst
-      --split=splits/fixed -o runs/fixed/als-biased-optuna-best als-biased
+    cmd: lenskit codex generate --param-file sweeps/fixed/als-biased-optuna.json
+      --ds-name=MusInst --split=splits/fixed -o 
+      runs/fixed/als-biased-optuna-best als-biased
     deps:
     - path: ../../../src/codex/models/als_biased.py
       hash: md5
@@ -435,8 +444,8 @@ stages:
       size: 13506873
       nfiles: 5
   sweep-bias-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
-      bias sweeps/fixed/bias-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna 
+      --metric=RMSE bias sweeps/fixed/bias-optuna
     deps:
     - path: ../../../src/codex/models/bias.py
       hash: md5
@@ -461,8 +470,8 @@ stages:
       md5: 8dec32e7540d408f3d088bc5c41228c9
       size: 818
   run-fixed-optuna-best-bias:
-    cmd: lenskit codex generate --param-file sweeps/fixed/bias-optuna.json --ds-name=MusInst
-      --split=splits/fixed -o runs/fixed/bias-optuna-best bias
+    cmd: lenskit codex generate --param-file sweeps/fixed/bias-optuna.json 
+      --ds-name=MusInst --split=splits/fixed -o runs/fixed/bias-optuna-best bias
     deps:
     - path: ../../../src/codex/models/bias.py
       hash: md5
@@ -484,8 +493,8 @@ stages:
       size: 10811263
       nfiles: 5
   sweep-flexmf-explicit-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RMSE
-      flexmf-explicit sweeps/fixed/flexmf-explicit-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna 
+      --metric=RMSE flexmf-explicit sweeps/fixed/flexmf-explicit-optuna
     deps:
     - path: ../../../src/codex/models/flexmf_explicit.py
       hash: md5
@@ -510,8 +519,9 @@ stages:
       md5: 6df21fa46a35816ec94b6e8bf24783c4
       size: 693
   run-fixed-optuna-best-flexmf-explicit:
-    cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-explicit-optuna.json
-      --ds-name=MusInst --split=splits/fixed -o runs/fixed/flexmf-explicit-optuna-best
+    cmd: lenskit codex generate --param-file 
+      sweeps/fixed/flexmf-explicit-optuna.json --ds-name=MusInst 
+      --split=splits/fixed -o runs/fixed/flexmf-explicit-optuna-best 
       flexmf-explicit
     deps:
     - path: ../../../src/codex/models/flexmf_explicit.py
@@ -534,8 +544,8 @@ stages:
       size: 17237941
       nfiles: 5
   sweep-als-implicit-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
-      als-implicit sweeps/fixed/als-implicit-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna 
+      --metric=RBP als-implicit sweeps/fixed/als-implicit-optuna
     deps:
     - path: ../../../src/codex/models/als_implicit.py
       hash: md5
@@ -560,9 +570,9 @@ stages:
       md5: 0ccbef0974b794b6c62322cef9dce1e4
       size: 741
   run-fixed-optuna-best-als-implicit:
-    cmd: lenskit codex generate --param-file sweeps/fixed/als-implicit-optuna.json
-      --ds-name=MusInst --split=splits/fixed -o runs/fixed/als-implicit-optuna-best
-      als-implicit
+    cmd: lenskit codex generate --param-file 
+      sweeps/fixed/als-implicit-optuna.json --ds-name=MusInst 
+      --split=splits/fixed -o runs/fixed/als-implicit-optuna-best als-implicit
     deps:
     - path: ../../../src/codex/models/als_implicit.py
       hash: md5
@@ -584,8 +594,8 @@ stages:
       size: 14676139
       nfiles: 4
   sweep-flexmf-warp-fixed-optuna:
-    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna --metric=RBP
-      flexmf-warp sweeps/fixed/flexmf-warp-optuna
+    cmd: lenskit codex search --split=splits/fixed --test-part=valid --optuna 
+      --metric=RBP flexmf-warp sweeps/fixed/flexmf-warp-optuna
     deps:
     - path: ../../../src/codex/models/flexmf_warp.py
       hash: md5
@@ -610,9 +620,9 @@ stages:
       md5: dbc737b7d0fdc0025cf525d17f35e6c0
       size: 622
   run-fixed-optuna-best-flexmf-warp:
-    cmd: lenskit codex generate --param-file sweeps/fixed/flexmf-warp-optuna.json
-      --ds-name=MusInst --split=splits/fixed -o runs/fixed/flexmf-warp-optuna-best
-      flexmf-warp
+    cmd: lenskit codex generate --param-file 
+      sweeps/fixed/flexmf-warp-optuna.json --ds-name=MusInst 
+      --split=splits/fixed -o runs/fixed/flexmf-warp-optuna-best flexmf-warp
     deps:
     - path: ../../../src/codex/models/flexmf_warp.py
       hash: md5
@@ -634,8 +644,8 @@ stages:
       size: 14052688
       nfiles: 4
   collect-metrics:
-    cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet
-      -L runs/manifest.csv
+    cmd: lenskit codex collect metrics -S run-summary.csv -U 
+      run-user-metrics.parquet -L runs/manifest.csv
     deps:
     - path: runs/fixed/als-biased-default
       hash: md5
@@ -721,3 +731,187 @@ stages:
       hash: md5
       md5: 631b3b1bea8706d79000c49220033bf0
       size: 3803553
+  subset-valid-test:
+    cmd: lenskit data subset --sample-rows=10000 --item-lists 
+      splits/fixed/valid/test.full.parquet splits/fixed/valid/test.parquet
+    deps:
+    - path: splits/fixed/valid/test.full.parquet
+      hash: md5
+      md5: 054ff03924d9c4961fa3c1ae54b6b097
+      size: 812963
+    outs:
+    - path: splits/fixed/valid/test.parquet
+      hash: md5
+      md5: 1b8a1d821e0bca4d6ef5e1792b5448b3
+      size: 472015
+  run-fixed-popular-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-MusInst 
+      --split=splits/fixed -o runs/fixed/popular-default popular
+    deps:
+    - path: ../../../models/popular/pipeline.toml
+      hash: md5
+      md5: ed104618e25c8749e84674e64a05a706
+      size: 108
+    - path: splits/fixed
+      hash: md5
+      md5: a6da29fadbfbfbffd9f5018569ace60e.dir
+      size: 13105132
+      nfiles: 16
+    outs:
+    - path: runs/fixed/popular-default
+      hash: md5
+      md5: fc670833d0e9ebd3e56ed6698cf9c528.dir
+      size: 1023978
+      nfiles: 5
+  run-fixed-flexmf-explicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-MusInst 
+      --split=splits/fixed -o runs/fixed/flexmf-explicit-default flexmf-explicit
+    deps:
+    - path: ../../../models/flexmf-explicit/pipeline.toml
+      hash: md5
+      md5: 820de790f159d933bc64eac0bc447a12
+      size: 185
+    - path: splits/fixed
+      hash: md5
+      md5: a6da29fadbfbfbffd9f5018569ace60e.dir
+      size: 13105132
+      nfiles: 16
+    outs:
+    - path: runs/fixed/flexmf-explicit-default
+      hash: md5
+      md5: 75977708654951db0ec63dbb21bd101d.dir
+      size: 13900968
+      nfiles: 6
+  run-fixed-als-implicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-MusInst 
+      --split=splits/fixed -o runs/fixed/als-implicit-default als-implicit
+    deps:
+    - path: ../../../models/als-implicit/pipeline.toml
+      hash: md5
+      md5: a88f57edd1e5bf7c205d84122a47e94c
+      size: 173
+    - path: splits/fixed
+      hash: md5
+      md5: a6da29fadbfbfbffd9f5018569ace60e.dir
+      size: 13105132
+      nfiles: 16
+    outs:
+    - path: runs/fixed/als-implicit-default
+      hash: md5
+      md5: 1532f0a1c285036aa03b0e7d844209ce.dir
+      size: 12031323
+      nfiles: 5
+  run-fixed-flexmf-bpr-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-MusInst 
+      --split=splits/fixed -o runs/fixed/flexmf-bpr-default flexmf-bpr
+    deps:
+    - path: ../../../models/flexmf-bpr/pipeline.toml
+      hash: md5
+      md5: e072a8eff9ba98464b316cc7f1e5af75
+      size: 226
+    - path: splits/fixed
+      hash: md5
+      md5: a6da29fadbfbfbffd9f5018569ace60e.dir
+      size: 13105132
+      nfiles: 16
+    outs:
+    - path: runs/fixed/flexmf-bpr-default
+      hash: md5
+      md5: 57c56fafe4aff82bd97aedd75d070dfb.dir
+      size: 12272714
+      nfiles: 5
+  run-fixed-iknn-implicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-MusInst 
+      --split=splits/fixed -o runs/fixed/iknn-implicit-default iknn-implicit
+    deps:
+    - path: ../../../models/iknn-implicit/pipeline.toml
+      hash: md5
+      md5: 036f0d9e041240e42fa369925414889e
+      size: 211
+    - path: splits/fixed
+      hash: md5
+      md5: a6da29fadbfbfbffd9f5018569ace60e.dir
+      size: 13105132
+      nfiles: 16
+    outs:
+    - path: runs/fixed/iknn-implicit-default
+      hash: md5
+      md5: dd46e0f2aa37592b09be727d19d97f96.dir
+      size: 11290171
+      nfiles: 5
+  run-fixed-flexmf-logistic-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-MusInst 
+      --split=splits/fixed -o runs/fixed/flexmf-logistic-default flexmf-logistic
+    deps:
+    - path: ../../../models/flexmf-logistic/pipeline.toml
+      hash: md5
+      md5: c97224762f23ff27750bcdc35ea0df29
+      size: 212
+    - path: splits/fixed
+      hash: md5
+      md5: a6da29fadbfbfbffd9f5018569ace60e.dir
+      size: 13105132
+      nfiles: 16
+    outs:
+    - path: runs/fixed/flexmf-logistic-default
+      hash: md5
+      md5: 9976a60422cf0763442d898e6ce54232.dir
+      size: 11892194
+      nfiles: 5
+  run-fixed-slim-fs-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-MusInst 
+      --split=splits/fixed -o runs/fixed/slim-fs-default slim-fs
+    deps:
+    - path: ../../../models/slim-fs/pipeline.toml
+      hash: md5
+      md5: fc82b962ce5f15ed93013842cf48030b
+      size: 150
+    - path: splits/fixed
+      hash: md5
+      md5: a6da29fadbfbfbffd9f5018569ace60e.dir
+      size: 13105132
+      nfiles: 16
+    outs:
+    - path: runs/fixed/slim-fs-default
+      hash: md5
+      md5: 29f0be1765816fbce1c8fd26859b0b4c.dir
+      size: 9364086
+      nfiles: 5
+  run-fixed-als-biased-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-MusInst 
+      --split=splits/fixed -o runs/fixed/als-biased-default als-biased
+    deps:
+    - path: ../../../models/als-biased/pipeline.toml
+      hash: md5
+      md5: 617ea3225f6fab63a108ee9504325727
+      size: 177
+    - path: splits/fixed
+      hash: md5
+      md5: a6da29fadbfbfbffd9f5018569ace60e.dir
+      size: 13105132
+      nfiles: 16
+    outs:
+    - path: runs/fixed/als-biased-default
+      hash: md5
+      md5: cf2fc735b4927b5a776b5f5a4cad4479.dir
+      size: 13502600
+      nfiles: 6
+  run-fixed-bias-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-MusInst 
+      --split=splits/fixed -o runs/fixed/bias-default bias
+    deps:
+    - path: ../../../models/bias/pipeline.toml
+      hash: md5
+      md5: 8ce32f6596a5cdfd8fd80fdd4ad2630b
+      size: 155
+    - path: splits/fixed
+      hash: md5
+      md5: a6da29fadbfbfbffd9f5018569ace60e.dir
+      size: 13105132
+      nfiles: 16
+    outs:
+    - path: runs/fixed/bias-default
+      hash: md5
+      md5: c8d0e8f00acf68f3211cf8a0e8483dc6.dir
+      size: 9642693
+      nfiles: 6
