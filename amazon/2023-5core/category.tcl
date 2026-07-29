@@ -69,7 +69,7 @@ proc azcat args {
         stage import-test-train {
             set train ../data/$full.train.csv.gz
             set valid ../data/$full.valid.csv.gz
-            cmd lenskit data convert --amazon $train $valid splits/fixed/valid/train.dataset
+            cmd lenskit data convert --amazon $train $valid splits/fixed/test/train.dataset
             dep $train $valid
             out splits/fixed/test/train.dataset
         }

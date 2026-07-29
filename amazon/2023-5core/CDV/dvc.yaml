@@ -25,7 +25,7 @@ stages:
       - splits/fixed/valid/test.parquet
 
   import-test-train:
-    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz ../data/CDs_and_Vinyl.valid.csv.gz splits/fixed/valid/train.dataset
+    cmd: lenskit data convert --amazon ../data/CDs_and_Vinyl.train.csv.gz ../data/CDs_and_Vinyl.valid.csv.gz splits/fixed/test/train.dataset
     deps:
       - ../data/CDs_and_Vinyl.train.csv.gz
       - ../data/CDs_and_Vinyl.valid.csv.gz
