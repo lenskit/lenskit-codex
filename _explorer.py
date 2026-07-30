@@ -696,21 +696,7 @@ def _(category_avg_metric_selector, mo, pd):
     )
 
     # bar chart looks incomplete until other categories of datasets are added
-    return (alt,)
-
-
-@app.cell
-def _():
-    import altair as alt
-
-    return (alt,)
-
-
-@app.cell
-def _():
-    import altair as alt
-
-    return (alt,)
+    return alt, kendalltau
 
 
 @app.cell(hide_code=True)
@@ -818,6 +804,7 @@ def _(mo, pd, top_pair_metric_selector):
             times_in_top_3=("points", "count"),
         )
         .sort_values("total_points", ascending=False)
+        .reset_index(drop=True)
     )
 
     top_pair_category_points = (
@@ -827,6 +814,7 @@ def _(mo, pd, top_pair_metric_selector):
             times_in_top_3=("points", "count"),
         )
         .sort_values(["category", "category_points"], ascending=[True, False])
+        .reset_index(drop=True)
     )
 
     top_pair_total_points
@@ -860,13 +848,17 @@ def _(
     selected_top_pair_category = top_pair_category_selector.value
 
     if selected_top_pair_category == "ALL":
-        selected_top_pair_points = top_pair_total_points.copy()
+        selected_top_pair_points = top_pair_total_points.copy().reset_index(drop=True)
         selected_points_column = "total_points"
         selected_title = "All Dataset Categories"
     else:
-        selected_top_pair_points = top_pair_category_points[
-            top_pair_category_points["category"] == selected_top_pair_category
-        ].copy()
+        selected_top_pair_points = (
+            top_pair_category_points[
+                top_pair_category_points["category"] == selected_top_pair_category
+            ]
+            .copy()
+            .reset_index(drop=True)
+        )
         selected_points_column = "category_points"
         selected_title = selected_top_pair_category
 
@@ -899,6 +891,280 @@ def _(
             selected_top_pair_chart,
         ]
     )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    one_vs_all_avg_dataset_selector = mo.ui.dropdown(
+        options=["ML100K", "ML1M", "ML10M", "ML20M", "ML25M", "ML32M"],
+        value="ML100K",
+        label="Choose dataset to average against all others:",
+    )
+
+    one_vs_all_avg_metric_selector = mo.ui.radio(
+        options=["RBP", "NDCG"],
+        value="RBP",
+        label="Rank by:",
+    )
+
+    mo.vstack([one_vs_all_avg_dataset_selector, one_vs_all_avg_metric_selector])
+    return one_vs_all_avg_dataset_selector, one_vs_all_avg_metric_selector
+
+
+@app.cell(hide_code=True)
+def _(
+    kendalltau,
+    mo,
+    one_vs_all_avg_dataset_selector,
+    one_vs_all_avg_metric_selector,
+    pd,
+):
+    one_vs_all_avg_dataset_configs = {
+        "ML100K": {
+            "category": "MovieLens",
+            "path": "movielens/ML100K/run-summary.csv",
+            "where": "part = 0",
+        },
+        "ML1M": {
+            "category": "MovieLens",
+            "path": "movielens/ML1M/run-summary.csv",
+            "where": "part = 0",
+        },
+        "ML10M": {
+            "category": "MovieLens",
+            "path": "movielens/ML10M/run-summary.csv",
+            "where": "part = 'valid'",
+        },
+        "ML20M": {
+            "category": "MovieLens",
+            "path": "movielens/ML20M/run-summary.csv",
+            "where": "part = 'valid'",
+        },
+        "ML25M": {
+            "category": "MovieLens",
+            "path": "movielens/ML25M/run-summary.csv",
+            "where": "part = 'valid'",
+        },
+        "ML32M": {
+            "category": "MovieLens",
+            "path": "movielens/ML32M/run-summary.csv",
+            "where": "part = 'valid'",
+        },
+    }
+
+    one_vs_all_avg_main_dataset = one_vs_all_avg_dataset_selector.value
+    one_vs_all_avg_metric = one_vs_all_avg_metric_selector.value
+
+    one_vs_all_avg_rows = []
+
+    for one_vs_all_avg_other_dataset in one_vs_all_avg_dataset_configs.keys():
+        if one_vs_all_avg_other_dataset == one_vs_all_avg_main_dataset:
+            continue
+
+        main_config = one_vs_all_avg_dataset_configs[one_vs_all_avg_main_dataset]
+        other_config = one_vs_all_avg_dataset_configs[one_vs_all_avg_other_dataset]
+
+        one_vs_all_avg_rankings = mo.sql(
+            f"""
+            WITH main_rankings AS (
+                SELECT
+                    model,
+                    variant,
+                    {one_vs_all_avg_metric},
+                    RANK() OVER (ORDER BY {one_vs_all_avg_metric} DESC) AS main_rank
+                FROM read_csv('{main_config["path"]}')
+                WHERE {main_config["where"]}
+                GROUP BY model, variant, {one_vs_all_avg_metric}
+            ),
+
+            other_rankings AS (
+                SELECT
+                    model,
+                    variant,
+                    {one_vs_all_avg_metric},
+                    RANK() OVER (ORDER BY {one_vs_all_avg_metric} DESC) AS other_rank
+                FROM read_csv('{other_config["path"]}')
+                WHERE {other_config["where"]}
+                GROUP BY model, variant, {one_vs_all_avg_metric}
+            )
+
+            SELECT
+                main.model,
+                main.variant,
+                main.main_rank,
+                other.other_rank
+            FROM main_rankings AS main
+            INNER JOIN other_rankings AS other
+                ON main.model = other.model
+                AND main.variant = other.variant
+            """
+        )
+
+        one_vs_all_avg_tau, one_vs_all_avg_p_value = kendalltau(
+            one_vs_all_avg_rankings["main_rank"],
+            one_vs_all_avg_rankings["other_rank"],
+            variant="b",
+            nan_policy="omit",
+        )
+
+        one_vs_all_avg_rows.append(
+            {
+                "main_dataset": one_vs_all_avg_main_dataset,
+                "comparison_dataset": one_vs_all_avg_other_dataset,
+                "comparison": f"{one_vs_all_avg_main_dataset} to {one_vs_all_avg_other_dataset}",
+                "metric": one_vs_all_avg_metric,
+                "kendall_tau": one_vs_all_avg_tau,
+                "p_value": one_vs_all_avg_p_value,
+                "n_items": len(one_vs_all_avg_rankings),
+                # n items because only use items model-variant pairs that appear in both datasets
+            }
+        )
+
+    one_vs_all_avg_pairwise_results = pd.DataFrame(one_vs_all_avg_rows).reset_index(drop=True)
+
+    one_vs_all_avg_summary = pd.DataFrame(
+        [
+            {
+                "main_dataset": one_vs_all_avg_main_dataset,
+                "metric": one_vs_all_avg_metric,
+                "average_kendall_tau": one_vs_all_avg_pairwise_results["kendall_tau"].mean(),
+                "number_of_comparisons": len(one_vs_all_avg_pairwise_results),
+                "average_n_items": one_vs_all_avg_pairwise_results["n_items"].mean(),
+            }
+        ]
+    )
+
+    mo.vstack(
+        [
+            mo.md(
+                f"**{one_vs_all_avg_main_dataset} Average Kendall's Tau"
+                + " vs All Other Datasets**"
+            ),
+            one_vs_all_avg_summary,
+            mo.md("**Individual Comparisons Used in the Average**"),
+            one_vs_all_avg_pairwise_results,
+        ]
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(alt, kendalltau, mo, pd):
+    rbp_ndcg_dataset_info = {
+        "100K": ("movielens/ML100K/run-summary.csv", "0"),
+        "1M": ("movielens/ML1M/run-summary.csv", "0"),
+        "10M": ("movielens/ML10M/run-summary.csv", "'valid'"),
+        "20M": ("movielens/ML20M/run-summary.csv", "'valid'"),
+        "25M": ("movielens/ML25M/run-summary.csv", "'valid'"),
+        "32M": ("movielens/ML32M/run-summary.csv", "'valid'"),
+    }
+
+    rbp_ndcg_comparisons = [
+        ("100K", "1M"),
+        ("1M", "10M"),
+        ("10M", "20M"),
+        ("20M", "25M"),
+        ("25M", "32M"),
+        ("100K", "10M"),
+        ("100K", "20M"),
+        ("100K", "25M"),
+        ("100K", "32M"),
+    ]
+
+    rbp_ndcg_rows = []
+
+    for rbp_ndcg_metric in ["RBP", "NDCG"]:
+        for rbp_ndcg_size_a, rbp_ndcg_size_b in rbp_ndcg_comparisons:
+            rbp_ndcg_file_a, rbp_ndcg_part_a = rbp_ndcg_dataset_info[rbp_ndcg_size_a]
+            rbp_ndcg_file_b, rbp_ndcg_part_b = rbp_ndcg_dataset_info[rbp_ndcg_size_b]
+
+            rbp_ndcg_rankings = mo.sql(
+                f"""
+                WITH a_rankings AS (
+                    SELECT
+                        model,
+                        variant,
+                        {rbp_ndcg_metric},
+                        RANK() OVER (ORDER BY {rbp_ndcg_metric} DESC) AS rank_a
+                    FROM read_csv('{rbp_ndcg_file_a}')
+                    WHERE part = {rbp_ndcg_part_a}
+                    GROUP BY model, variant, {rbp_ndcg_metric}
+                ),
+
+                b_rankings AS (
+                    SELECT
+                        model,
+                        variant,
+                        {rbp_ndcg_metric},
+                        RANK() OVER (ORDER BY {rbp_ndcg_metric} DESC) AS rank_b
+                    FROM read_csv('{rbp_ndcg_file_b}')
+                    WHERE part = {rbp_ndcg_part_b}
+                    GROUP BY model, variant, {rbp_ndcg_metric}
+                )
+
+                SELECT
+                    a.model,
+                    a.variant,
+                    a.rank_a,
+                    b.rank_b
+                FROM a_rankings AS a
+                INNER JOIN b_rankings AS b
+                    ON a.model = b.model
+                    AND a.variant = b.variant
+                """
+            )
+
+            rbp_ndcg_tau, rbp_ndcg_p_value = kendalltau(
+                rbp_ndcg_rankings["rank_a"],
+                rbp_ndcg_rankings["rank_b"],
+                variant="b",
+                nan_policy="omit",
+            )
+
+            rbp_ndcg_rows.append(
+                {
+                    "metric": rbp_ndcg_metric,
+                    "comparison": f"{rbp_ndcg_size_a} to {rbp_ndcg_size_b}",
+                    "kendall_tau": rbp_ndcg_tau,
+                    "p_value": rbp_ndcg_p_value,
+                    "n_items": len(rbp_ndcg_rankings),
+                }
+            )
+
+    rbp_ndcg_results = pd.DataFrame(rbp_ndcg_rows).reset_index(drop=True)
+
+    rbp_ndcg_chart = (
+        alt.Chart(rbp_ndcg_results)
+        .mark_line(point=True)
+        .encode(
+            x=alt.X("comparison:N", sort=None, title="Dataset comparison"),
+            y=alt.Y(
+                "kendall_tau:Q",
+                title="Kendall's tau-b",
+                scale=alt.Scale(domain=[-1, 1]),
+            ),
+            color=alt.Color("metric:N", title="Metric"),
+            tooltip=[
+                "metric",
+                "comparison",
+                "kendall_tau",
+                "p_value",
+                "n_items",
+            ],
+        )
+        .properties(width=750, height=400)
+    )
+
+    mo.vstack(
+        [
+            mo.md("**RBP vs NDCG Kendall's Tau Comparison**"),
+            rbp_ndcg_results,
+            rbp_ndcg_chart,
+        ]
+    )
+
+    # still in the works :D
     return
 
 
