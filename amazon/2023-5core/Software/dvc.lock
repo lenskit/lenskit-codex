@@ -662,88 +662,67 @@ stages:
     deps:
     - path: runs/fixed/als-biased-default
       hash: md5
-      md5: a20cbf6c642d8a0ee9366982b8cc58de.dir
-      size: 10066412
-      nfiles: 5
-    - path: runs/fixed/als-biased-optuna-best
-      hash: md5
-      md5: 453f33fb9364b8f5c0366496c3c4a89d.dir
-      size: 9683020
-      nfiles: 5
+      md5: 64487f7c410f1f0e7569ffbcb32caddc.dir
+      size: 10123131
+      nfiles: 6
     - path: runs/fixed/als-implicit-default
       hash: md5
-      md5: 61c386d6b30b87fa6d7009baa17e323a.dir
-      size: 9097563
-      nfiles: 4
-    - path: runs/fixed/als-implicit-optuna-best
-      hash: md5
-      md5: e122bf99b17de7c8dbaf47238832c6b0.dir
-      size: 9272483
-      nfiles: 4
+      md5: a5c8c4af8501760ff607c1846f6c1436.dir
+      size: 9134226
+      nfiles: 5
     - path: runs/fixed/bias-default
       hash: md5
-      md5: e6057375dd4b70d9342af134c47debac.dir
-      size: 3420243
-      nfiles: 5
-    - path: runs/fixed/bias-optuna-best
-      hash: md5
-      md5: d2f7a685df38cf0860054bc55560373f.dir
-      size: 7648385
-      nfiles: 5
+      md5: 275a13fc989ee445f6a085da484e060d.dir
+      size: 7501810
+      nfiles: 6
     - path: runs/fixed/flexmf-bpr-default
       hash: md5
-      md5: 53bf40b9c68e2c0a4b231739b4038d6b.dir
-      size: 9674018
-      nfiles: 4
-    - path: runs/fixed/flexmf-bpr-optuna-best
-      hash: md5
-      md5: ac010de5907bfd50b2286ae11a8339fa.dir
-      size: 8777922
-      nfiles: 4
+      md5: dc05e36917651bef3ee50f5ee93a38ce.dir
+      size: 9326234
+      nfiles: 5
     - path: runs/fixed/flexmf-explicit-default
       hash: md5
-      md5: 9e950b1e5f0fc60c46f8f7a3fc05468b.dir
-      size: 10400099
-      nfiles: 5
-    - path: runs/fixed/flexmf-explicit-optuna-best
-      hash: md5
-      md5: 63869fdd96c8102e7912ab8dc239087a.dir
-      size: 10046336
-      nfiles: 5
+      md5: 6022be3220240a53b4943db70579c097.dir
+      size: 10516584
+      nfiles: 6
     - path: runs/fixed/flexmf-logistic-default
       hash: md5
-      md5: 2416369949d82ee01c33e2ed70cc65d7.dir
-      size: 9491109
-      nfiles: 4
-    - path: runs/fixed/flexmf-logistic-optuna-best
+      md5: f41453892ea15771ee518eb80520869b.dir
+      size: 9115829
+      nfiles: 5
+    - path: runs/fixed/iknn-explicit-default
       hash: md5
-      md5: b5346e97bd2adaef299222afe0e585b5.dir
-      size: 8899276
-      nfiles: 4
-    - path: runs/fixed/flexmf-warp-default
+      md5: 1bdaca8a28eaecb4dd765e7e83ecfca2.dir
+      size: 10582497
+      nfiles: 6
+    - path: runs/fixed/iknn-implicit-default
       hash: md5
-      md5: 8951094860055c57d573f5e0f5c22ea4.dir
-      size: 9505572
-      nfiles: 4
-    - path: runs/fixed/flexmf-warp-optuna-best
-      hash: md5
-      md5: 4fb6b18aa906b344e461c8cc4d33ea62.dir
-      size: 9042291
-      nfiles: 4
+      md5: 7afd058e9eb822f455a54c94f0043fe8.dir
+      size: 9824081
+      nfiles: 5
     - path: runs/fixed/popular-default
       hash: md5
-      md5: af906065c76307d4bad5acaa7cc17fc4.dir
-      size: 921034
-      nfiles: 4
+      md5: 47fb2568d815d4be3d6892efbfc8c3f2.dir
+      size: 930424
+      nfiles: 5
+    - path: runs/fixed/slim-fs-default
+      hash: md5
+      md5: 5941bfc087b958d50a555631ab5b4e82.dir
+      size: 9297979
+      nfiles: 5
+    - path: runs/manifest.csv
+      hash: md5
+      md5: 228d42c559551b2ab4d84f49fecb704b
+      size: 537
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 0aa9f537ed205d5b252e5534561e58e2
-      size: 9461
+      md5: 12ed6d7230f6a50acca48377b0e4e789
+      size: 8144
     - path: run-user-metrics.parquet
       hash: md5
-      md5: deeb862d4209183ce94ef6c512c5d229
-      size: 2330184
+      md5: bb4fd98fd8997a736f398770b376c1fd
+      size: 2355986
   run-fixed-flexmf-explicit-default:
     cmd: lenskit codex generate --ds-name=AZ-2023-5core-Software 
       --split=splits/fixed -o runs/fixed/flexmf-explicit-default flexmf-explicit
@@ -915,3 +894,22 @@ stages:
       md5: 47fb2568d815d4be3d6892efbfc8c3f2.dir
       size: 930424
       nfiles: 5
+  run-fixed-iknn-explicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Software 
+      --split=splits/fixed -o runs/fixed/iknn-explicit-default iknn-explicit
+    deps:
+    - path: ../../../models/iknn-explicit/pipeline.toml
+      hash: md5
+      md5: 1f3d5bac137760ca16e25d2722a79397
+      size: 219
+    - path: splits/fixed
+      hash: md5
+      md5: 6d90d32b0a4940b42d6c41861a591b08.dir
+      size: 31225087
+      nfiles: 16
+    outs:
+    - path: runs/fixed/iknn-explicit-default
+      hash: md5
+      md5: 1bdaca8a28eaecb4dd765e7e83ecfca2.dir
+      size: 10582497
+      nfiles: 6

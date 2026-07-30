@@ -242,3 +242,89 @@ stages:
       md5: 4d1110ed08980b8a79b8f5bd2903c98f.dir
       size: 105083546
       nfiles: 5
+  run-fixed-iknn-explicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-Pet --split=splits/fixed
+      -o runs/fixed/iknn-explicit-default iknn-explicit
+    deps:
+    - path: ../../../models/iknn-explicit/pipeline.toml
+      hash: md5
+      md5: 1f3d5bac137760ca16e25d2722a79397
+      size: 219
+    - path: splits/fixed
+      hash: md5
+      md5: e2160fe93540fcf63cb6aafb6a2d5f8e.dir
+      size: 134486294
+      nfiles: 16
+    outs:
+    - path: runs/fixed/iknn-explicit-default
+      hash: md5
+      md5: ba2b55ad75dd44fcfa2d4e7d8eec826d.dir
+      size: 116345508
+      nfiles: 6
+  collect-metrics:
+    cmd: lenskit codex collect metrics -S run-summary.csv -U 
+      run-user-metrics.parquet -L runs/manifest.csv
+    deps:
+    - path: runs/fixed/als-biased-default
+      hash: md5
+      md5: 71cc15bda5d90a4532405d85da4723ff.dir
+      size: 118449228
+      nfiles: 6
+    - path: runs/fixed/als-implicit-default
+      hash: md5
+      md5: 339410c52a2dd007b4cb5e4ac28ccaed.dir
+      size: 102762255
+      nfiles: 5
+    - path: runs/fixed/bias-default
+      hash: md5
+      md5: b514f78e2215b72e2a1a4215a6706f4f.dir
+      size: 82503011
+      nfiles: 6
+    - path: runs/fixed/flexmf-bpr-default
+      hash: md5
+      md5: 44e626a1d7ba7994eadb4822071f7b00.dir
+      size: 127409769
+      nfiles: 5
+    - path: runs/fixed/flexmf-explicit-default
+      hash: md5
+      md5: 0e48f93fe87c7e46cc801a1b06f9030a.dir
+      size: 127152560
+      nfiles: 6
+    - path: runs/fixed/flexmf-logistic-default
+      hash: md5
+      md5: 4d1110ed08980b8a79b8f5bd2903c98f.dir
+      size: 105083546
+      nfiles: 5
+    - path: runs/fixed/iknn-explicit-default
+      hash: md5
+      md5: ba2b55ad75dd44fcfa2d4e7d8eec826d.dir
+      size: 116345508
+      nfiles: 6
+    - path: runs/fixed/iknn-implicit-default
+      hash: md5
+      md5: 43b72aa183a8cde5469a488be566f44d.dir
+      size: 150035272
+      nfiles: 5
+    - path: runs/fixed/popular-default
+      hash: md5
+      md5: aa4db7840d7f0fc9564c2fdf1370207a.dir
+      size: 9041775
+      nfiles: 5
+    - path: runs/fixed/slim-fs-default
+      hash: md5
+      md5: ccfe87bb6ca5f84d72d522e5daf0d794.dir
+      size: 93848308
+      nfiles: 5
+    - path: runs/manifest.csv
+      hash: md5
+      md5: 228d42c559551b2ab4d84f49fecb704b
+      size: 537
+    outs:
+    - path: run-summary.csv
+      hash: md5
+      md5: b5e324dadfa81bd3dd07d5de8e4deed1
+      size: 8341
+    - path: run-user-metrics.parquet
+      hash: md5
+      md5: 83bc4f73b464e666323deb507d31bf5f
+      size: 48162099
