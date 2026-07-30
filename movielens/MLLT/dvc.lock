@@ -761,8 +761,8 @@ stages:
     deps:
     - path: runs/manifest.csv
       hash: md5
-      md5: 6386927a454dfc1bf091bb0ae7dd099a
-      size: 655
+      md5: 26ae90b5c2fb583181c20c676660c78b
+      size: 597
     - path: runs/temporal/als-biased-default
       hash: md5
       md5: c1ee329743e36ab12df3830e4ccf5546.dir
@@ -793,11 +793,6 @@ stages:
       md5: f6ea333a068e63b212fb7309714cb044.dir
       size: 9301466
       nfiles: 5
-    - path: runs/temporal/flexmf-warp-default
-      hash: md5
-      md5: 6c534d16f17f562d5268b6b493b72f5d.dir
-      size: 9253216
-      nfiles: 5
     - path: runs/temporal/iknn-explicit-default
       hash: md5
       md5: b1f754029aeda5f09ea602b268c19f68.dir
@@ -821,12 +816,12 @@ stages:
     outs:
     - path: run-summary.csv
       hash: md5
-      md5: 2bb4fd368b241817cb53ea9bc6041481
-      size: 9077
+      md5: bab686d961bcf59261e6b58c0666aff2
+      size: 8285
     - path: run-user-metrics.parquet
       hash: md5
-      md5: a58bef95b2d67cfd35502f0d56f2a04c
-      size: 4874010
+      md5: 41a715a4d8fe7842d297a11942375cdc
+      size: 4448524
   run-temporal-als-biased-default:
     cmd: lenskit codex generate --ds-name=MLLT --split=splits/temporal.toml -o 
       runs/temporal/als-biased-default als-biased
