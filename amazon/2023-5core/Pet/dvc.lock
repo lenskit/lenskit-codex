@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   import-valid-test:
-    cmd: lenskit data convert --amazon --item-lists 
+    cmd: lenskit data convert --amazon --item-lists
       ../data/Pet_Supplies.valid.csv.gz splits/fixed/valid/test.full.parquet
     deps:
     - path: ../data/Pet_Supplies.valid.csv.gz
@@ -14,7 +14,7 @@ stages:
       md5: a9e109247d508023a08d454a6a050d27
       size: 11631744
   import-valid-train:
-    cmd: lenskit data convert --amazon ../data/Pet_Supplies.train.csv.gz 
+    cmd: lenskit data convert --amazon ../data/Pet_Supplies.train.csv.gz
       splits/fixed/valid/train.dataset
     deps:
     - path: ../data/Pet_Supplies.train.csv.gz
@@ -28,7 +28,7 @@ stages:
       size: 52434815
       nfiles: 5
   subset-valid-test:
-    cmd: lenskit data subset --sample-rows=10000 --item-lists 
+    cmd: lenskit data subset --sample-rows=10000 --item-lists
       splits/fixed/valid/test.full.parquet splits/fixed/valid/test.parquet
     deps:
     - path: splits/fixed/valid/test.full.parquet
@@ -41,7 +41,7 @@ stages:
       md5: ec9882ccf992e2091fdb09685588c087
       size: 525744
   import-test-train:
-    cmd: lenskit data convert --amazon ../data/Pet_Supplies.train.csv.gz 
+    cmd: lenskit data convert --amazon ../data/Pet_Supplies.train.csv.gz
       ../data/Pet_Supplies.valid.csv.gz splits/fixed/test/train.dataset
     deps:
     - path: ../data/Pet_Supplies.train.csv.gz
@@ -59,7 +59,7 @@ stages:
       size: 58371542
       nfiles: 5
   import-test-test:
-    cmd: lenskit data convert --amazon --item-lists 
+    cmd: lenskit data convert --amazon --item-lists
       ../data/Pet_Supplies.test.csv.gz splits/fixed/test/test.parquet
     deps:
     - path: ../data/Pet_Supplies.test.csv.gz
@@ -262,7 +262,7 @@ stages:
       size: 116345508
       nfiles: 6
   collect-metrics:
-    cmd: lenskit codex collect metrics -S run-summary.csv -U 
+    cmd: lenskit codex collect metrics -S run-summary.csv -U
       run-user-metrics.parquet -L runs/manifest.csv
     deps:
     - path: runs/fixed/als-biased-default
