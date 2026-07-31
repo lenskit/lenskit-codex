@@ -197,9 +197,9 @@ namespace eval ::dvc::dsl {
     }
 
     proc subdir {dir body} {
+        file mkdir $dir
         ::dvc::push_pipeline
         ::dvc::eval_subdir $dir $body 2
-        file mkdir $dir
         ::dvc::save_yaml "$dir/dvc.yaml"
         ::dvc::pop_pipeline
     }
