@@ -17,7 +17,7 @@ azcat -no-tune CDV CDs_and_Vinyl
 # Grocery: Grocery_and_Gourmet_Food
 # HealthHouse: Health_and_Household
 # HomeKitchen: Home_and_Kitchen
-# IndSci: Industrial_and_Scientific
+azcat -no-tune IndSci Industrial_and_Scientific
 # Kindle: Kindle_Store
 # MovTV: Movies_and_TV
 azcat -no-tune MusInst Musical_Instruments
