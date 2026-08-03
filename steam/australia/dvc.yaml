@@ -1,0 +1,11 @@
+# GENERATED PIPELINE FILE - DO NOT EDIT
+#
+# This file was generated from steam/australia/pipeline.tcl.
+# Regenerate with `mise run pipeline:render`.
+stages:
+  import-interactions:
+    cmd: lenskit data convert --steam ../data/australian_users_items.json.gz dataset
+    deps:
+      - ../data/australian_users_items.json.gz
+    outs:
+      - dataset
