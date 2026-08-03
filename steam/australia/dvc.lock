@@ -1,0 +1,16 @@
+schema: '2.0'
+stages:
+  import-interactions:
+    cmd: lenskit data convert --steam ../data/australian_users_items.json.gz 
+      dataset
+    deps:
+    - path: ../data/australian_users_items.json.gz
+      hash: md5
+      md5: 2d8cbcec1b0ade2f77b1c8bb65c33619
+      size: 73574835
+    outs:
+    - path: dataset
+      hash: md5
+      md5: 0364cbf963b79dc19bc1d9c47795c045.dir
+      size: 17697499
+      nfiles: 5
