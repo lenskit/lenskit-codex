@@ -1,4 +1,4 @@
-package require missing
+package require listextra
 package require logging
 
 proc azcat args {

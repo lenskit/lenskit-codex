@@ -1,5 +1,5 @@
 package provide kvlookup 0.1
-package require missing
+package require listextra
 
 # kvlookup -- look up keys in a key-value structure
 proc kvlookup {args} {

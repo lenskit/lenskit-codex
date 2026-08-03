@@ -3,7 +3,7 @@
 #   This package provides routines for working with external commands.
 package provide oscmd 0.1
 package require logging
-package require missing
+package require listextra
 
 namespace eval oscmd {}
 logging::ns_msg oscmd

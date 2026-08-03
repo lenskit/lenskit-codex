@@ -1,6 +1,6 @@
 #!/usr/bin/env -S guarsh -U
 #USAGE flag "-v --verbose" help="Enable verbose log messages."
-package require missing
+package require listextra
 package require logging
 package require path
 
