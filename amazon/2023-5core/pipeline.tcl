@@ -11,7 +11,7 @@ azcat -no-tune Baby Baby_Products
 # Beauty: Beauty_and_Personal_Care
 # Books: Books
 azcat -no-tune CDV CDs_and_Vinyl
-# Cell: Cell_Phones_and_Accessories
+azcat -no-tune Cell Cell_Phones_and_Accessories
 # Clothing: Clothing_Shoes_and_Jewelry
 # Elec: Electronics
 # Grocery: Grocery_and_Gourmet_Food
