@@ -1,56 +1,77 @@
-[build-system]
-requires = ["uv_build ~=0.11"]
-build-backend = "uv_build"
-
 [project]
 name = "lenskit-codex"
 version = "0.2.0"
 description = "LensKit run results"
-authors = [{ name = "Michael Ekstrand", email = "mdekstrand@drexel.edu" }]
 requires-python = "==3.14.*"
+authors = [{ name = "Michael Ekstrand", email = "mdekstrand@drexel.edu" }]
 dependencies = [
-  "pydantic >=2.8,<3",
-  "humanize ~=4.0",
   "deepmerge >=2.0,<3",
-  "glom ~=24.11",
-  "pandas ~=3.0",
-  "duckdb~=1.2",
-  "pyarrow >=20.0",
-  # "statsmodels >=0.14",
-  "zstandard >=0.23",
-  "plotnine ~=0.15.0",
-  "matplotlib ~=3.6",
-  "itables ~=2.2",
-  "tabulate >=0.9",
-  "notebook >=7",
   # "quarto-cli ~=1.7",
   "docopt-ng>=0.9.0",
+  "duckdb~=1.2",
+  "glom ~=24.11",
+  "humanize ~=4.0",
+  "itables ~=2.2",
   "marimo>=0.23.14",
+  "matplotlib ~=3.6",
+  "notebook >=7",
+  "pandas ~=3.0",
+  "plotnine ~=0.15.0",
+  "pyarrow >=20.0",
+  "pydantic >=2.8,<3",
+  "tabulate >=0.9",
+  # "statsmodels >=0.14",
+  "zstandard >=0.23",
 ]
 
+[project.entry-points."lenskit.cli.plugins"]
+lenskit-codex = "codex.tools:codex"
+
 [dependency-groups]
-run = [
-  "torch ~=2.10",
-  "optuna ~=4.0",
-  "numpy ~=2.0",
-  "lenskit >=2026.2.2.dev40,<2026.3.0.dev1",
-]
-types = ["scipy-stubs >=1.16.0.2", "pyarrow-stubs >=19.2"]
 dev = [
+  "ipython >=8",
   "jinja2 ~=3.1",
+  "jupyterlab >=3",
+  "marimo>=0.23.11",
   # "line_profiler ~=4.1; platform_machine != 'aarch64'",
   "py-spy>=0.4.0",
   "ruff >=0.4",
-  "ipython >=8",
-  "jupyterlab >=3",
   "visidata>=3.1.1",
-  "marimo>=0.23.11",
   { include-group = "run" },
   { include-group = "types" },
 ]
+run = [
+  "lenskit >=2026.2.2.dev40,<2026.3.0.dev1",
+  "numpy ~=2.0",
+  "optuna ~=4.0",
+  "torch ~=2.10",
+]
+types = ["pyarrow-stubs >=19.2", "scipy-stubs >=1.16.0.2"]
 
-[tool.uv.build-backend]
-module-name = "codex"
+[build-system]
+requires = ["uv_build ~=0.11"]
+build-backend = "uv_build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/codex"]
+
+[tool.pyright]
+exclude = [".pixi/*", ".venv/*"]
+typeCheckingMode = "basic"
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+exclude = [".git", "__pycache__", "build", "dist", "*/tests/*", ".pixi/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+unfixable = ["F401"]
+
+[tool.ruff.lint.per-file-ignores]
+"*.ipynb" = ["F403", "F405"]
 
 [tool.uv]
 required-version = ">=0.7"
@@ -66,11 +87,14 @@ required-environments = [
   "sys_platform == 'linux' and platform_machine == 'aarch64'",
 ]
 
+[tool.uv.build-backend]
+module-name = "codex"
+
 [tool.uv.sources]
 # lenskit = [{ index = "lenskit" }]
 lenskit = [
-  # { git = "https://github.com/mdekstrand/lkpy.git", branch = "codex-head" },
-  { git = "https://github.com/lenskit/lkpy.git" },
+  { git = "https://github.com/mdekstrand/lkpy.git", branch = "codex-head" },
+  # { git = "https://github.com/lenskit/lkpy.git" },
 ]
 # triton = [
 #  { index = "pytorch-cuda", group = "cuda" },
@@ -84,27 +108,3 @@ explicit = true
 # [[tool.uv.index]]
 # name = "lk-torch-cuda"
 # url = "https://pypi.lenskit.org/torch/cu130"
-
-[project.entry-points."lenskit.cli.plugins"]
-lenskit-codex = "codex.tools:codex"
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/codex"]
-
-[tool.ruff]
-line-length = 100
-target-version = "py314"
-exclude = [".git", "__pycache__", "build", "dist", "*/tests/*", ".pixi/*"]
-
-[tool.ruff.lint]
-select = ["E", "F", "I"]
-unfixable = ["F401"]
-
-[tool.ruff.lint.per-file-ignores]
-"*.ipynb" = ["F403", "F405"]
-
-[tool.pyright]
-exclude = [".pixi/*", '.venv/*']
-typeCheckingMode = "basic"
-reportMissingImports = true
-reportMissingTypeStubs = false
