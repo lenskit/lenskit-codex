@@ -4,7 +4,7 @@
 
 # Code for understanding available models and pipelines.
 package provide models 0.1
-package require missing
+package require listextra
 package require logging
 package require path
 package require kvlookup

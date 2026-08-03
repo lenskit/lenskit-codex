@@ -1,5 +1,5 @@
 package provide formats 0.1
-package require missing
+package require listextra
 
 namespace eval fmt {
     namespace export duration
@@ -33,4 +33,3 @@ proc fmt::duration {dur} {
 
     return $res
 }
-

@@ -5,7 +5,7 @@
 # Copyright (c) 2023 Michael D. Ekstrand
 # Provided under the MIT license, see LICENSE for details.
 package provide ansifmt 0.1
-package require missing
+package require listextra
 
 namespace eval ansi {
     variable colors {

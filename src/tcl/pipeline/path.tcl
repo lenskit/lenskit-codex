@@ -1,6 +1,6 @@
 # Path libraries for the pipeline
 package provide path 0.2
-package require missing
+package require listextra
 package require logging
 
 namespace eval ::path {

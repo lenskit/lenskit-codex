@@ -1,7 +1,6 @@
-# missing.tcl --
+# listextra.tcl --
 #
-#   Polyfills for missing functionality TCL or JimTcl should arguably have, and very small
-#   add-on procedures.
+#   Extra list utilities to round out Tcl's support.
 package provide missing 1.1
 
 # lshift --
@@ -110,66 +109,4 @@ proc lglob args {
     }
 
     return $result
-}
-
-# exists --
-#
-#   A Jim-like 'exists' procedure for core Tcl.  Only tests variables for now.
-if {"exists" ni [info commands]} {
-    proc exists {name args} {
-        set mode var
-        set nsfilt ""
-        if {[string match $name* -var]} {
-            set name [lshift args]
-        } elseif {[string match $name* -proc]} {
-            set mode proc
-            set name [lshift args]
-        } elseif {[string match $name* -command]} {
-            set mode cmd
-            set name [lshift args]
-        } elseif {[string match $name* -alias]} {
-            set mode alias
-            set name [lshift args]
-        }
-
-        switch $mode {
-            var {
-                return [uplevel 1 info exists $name]
-            }
-            proc {
-                set list [uplevel 1 info procs $name]
-                return [expr {[llength $list] > 0}]
-            }
-            cmd {
-                set list [uplevel 1 info commands $name]
-                return [expr {[llength $list] > 0}]
-            }
-            alias {
-                error "exists -alias not yet supported"
-            }
-            default {
-                error "unknown mode"
-            }
-        }
-    }
-}
-
-# Jim-compatible `env` procedure.
-if {"env" ni [info commands]} {
-    proc env {name args} {
-        if {[info exists ::env($name)]} {
-            return $::env($name)
-        } elseif {[llength $args] > 0} {
-            lassign $args dft
-            return $dft
-        } else {
-            error "unknown environment variable $env"
-        }
-    }
-}
-
-if {![exists -command alias]} {
-    proc alias {name args} {
-        interp alias {} $name {} {*}$args
-    }
 }
