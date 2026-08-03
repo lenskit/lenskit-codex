@@ -22,7 +22,7 @@ azcat -no-tune IndSci Industrial_and_Scientific
 # MovTV: Movies_and_TV
 azcat -no-tune MusInst Musical_Instruments
 azcat -no-tune Office Office_Products
-# PLG: Patio_Lawn_and_Garden
+azcat -no-tune PLG Patio_Lawn_and_Garden
 azcat -no-tune Pet Pet_Supplies
 azcat -no-tune Software Software
 # Sports: Sports_and_Outdoors
