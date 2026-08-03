@@ -5,7 +5,7 @@ source category.tcl
 
 set ::valid_sample_size 10000
 
-# Crafts: Arts_Crafts_and_Sewing
+azcat -no-tune Crafts Arts_Crafts_and_Sewing
 # Auto: Automotive
 azcat -no-tune Baby Baby_Products
 # Beauty: Beauty_and_Personal_Care
