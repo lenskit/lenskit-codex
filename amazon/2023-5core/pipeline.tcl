@@ -34,5 +34,5 @@ stage collect-stats {
     cmd lenskit codex sql -f bench-stats.sql stats.duckdb
     out stats.duckdb
     dep bench-stats.sql
-    dep {*}[glob data/*.csv.gz]
+    dep {*}[lsort [glob data/*.csv.gz]]
 }
