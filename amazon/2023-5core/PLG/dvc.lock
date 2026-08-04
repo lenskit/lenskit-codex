@@ -1,0 +1,333 @@
+schema: '2.0'
+stages:
+  import-valid-test:
+    cmd: lenskit data convert --amazon --item-lists 
+      ../data/Patio_Lawn_and_Garden.valid.csv.gz 
+      splits/fixed/valid/test.full.parquet
+    deps:
+    - path: ../data/Patio_Lawn_and_Garden.valid.csv.gz
+      hash: md5
+      md5: 6a98e45550c5978a3519e9cc31cc5026
+      size: 18537791
+    outs:
+    - path: splits/fixed/valid/test.full.parquet
+      hash: md5
+      md5: 8d861c5fe584a40254ccc5e406e1b564
+      size: 9627068
+  import-valid-train:
+    cmd: lenskit data convert --amazon 
+      ../data/Patio_Lawn_and_Garden.train.csv.gz 
+      splits/fixed/valid/train.dataset
+    deps:
+    - path: ../data/Patio_Lawn_and_Garden.train.csv.gz
+      hash: md5
+      md5: 6d534fd8597eb6b8ee567695d0f8beb1
+      size: 58323206
+    outs:
+    - path: splits/fixed/valid/train.dataset
+      hash: md5
+      md5: 362889e1220b2458ce2adf8616bce5ed.dir
+      size: 34442307
+      nfiles: 5
+  subset-valid-test:
+    cmd: lenskit data subset --sample-rows=10000 --item-lists 
+      splits/fixed/valid/test.full.parquet splits/fixed/valid/test.parquet
+    deps:
+    - path: splits/fixed/valid/test.full.parquet
+      hash: md5
+      md5: 8d861c5fe584a40254ccc5e406e1b564
+      size: 9627068
+    outs:
+    - path: splits/fixed/valid/test.parquet
+      hash: md5
+      md5: 98da0572772766ac59c27e241d459fca
+      size: 524629
+  import-test-train:
+    cmd: lenskit data convert --amazon 
+      ../data/Patio_Lawn_and_Garden.train.csv.gz 
+      ../data/Patio_Lawn_and_Garden.valid.csv.gz splits/fixed/test/train.dataset
+    deps:
+    - path: ../data/Patio_Lawn_and_Garden.train.csv.gz
+      hash: md5
+      md5: 6d534fd8597eb6b8ee567695d0f8beb1
+      size: 58323206
+    - path: ../data/Patio_Lawn_and_Garden.valid.csv.gz
+      hash: md5
+      md5: 6a98e45550c5978a3519e9cc31cc5026
+      size: 18537791
+    outs:
+    - path: splits/fixed/test/train.dataset
+      hash: md5
+      md5: 16b1f8db62b8d9595a8555acf919c3e1.dir
+      size: 39013022
+      nfiles: 5
+  import-test-test:
+    cmd: lenskit data convert --amazon --item-lists 
+      ../data/Patio_Lawn_and_Garden.test.csv.gz splits/fixed/test/test.parquet
+    deps:
+    - path: ../data/Patio_Lawn_and_Garden.test.csv.gz
+      hash: md5
+      md5: f86cdcab5ace621918252fce992a45e9
+      size: 18639288
+    outs:
+    - path: splits/fixed/test/test.parquet
+      hash: md5
+      md5: 9772a3e13bb0219145909f735a4cfce8
+      size: 9328760
+  run-fixed-iknn-implicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-PLG --split=splits/fixed
+      -o runs/fixed/iknn-implicit-default iknn-implicit
+    deps:
+    - path: ../../../models/iknn-implicit/pipeline.toml
+      hash: md5
+      md5: 036f0d9e041240e42fa369925414889e
+      size: 211
+    - path: splits/fixed
+      hash: md5
+      md5: 5e030e5ab7086a420a18e3369553ed5a.dir
+      size: 92935863
+      nfiles: 15
+    outs:
+    - path: runs/fixed/iknn-implicit-default
+      hash: md5
+      md5: 0e5ce125c9475ce17e8f24e8ec424445.dir
+      size: 110929338
+      nfiles: 5
+  run-fixed-bias-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-PLG --split=splits/fixed
+      -o runs/fixed/bias-default bias
+    deps:
+    - path: ../../../models/bias/pipeline.toml
+      hash: md5
+      md5: 8ce32f6596a5cdfd8fd80fdd4ad2630b
+      size: 155
+    - path: splits/fixed
+      hash: md5
+      md5: 5e030e5ab7086a420a18e3369553ed5a.dir
+      size: 92935863
+      nfiles: 15
+    outs:
+    - path: runs/fixed/bias-default
+      hash: md5
+      md5: 4f5e026ea62ea6420f5162b2a3104ae5.dir
+      size: 67350128
+      nfiles: 6
+  run-fixed-slim-fs-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-PLG --split=splits/fixed
+      -o runs/fixed/slim-fs-default slim-fs
+    deps:
+    - path: ../../../models/slim-fs/pipeline.toml
+      hash: md5
+      md5: fc82b962ce5f15ed93013842cf48030b
+      size: 150
+    - path: splits/fixed
+      hash: md5
+      md5: 5e030e5ab7086a420a18e3369553ed5a.dir
+      size: 92935863
+      nfiles: 15
+    outs:
+    - path: runs/fixed/slim-fs-default
+      hash: md5
+      md5: 5c413492d374ab3944e9de57206e484c.dir
+      size: 53303450
+      nfiles: 5
+  run-fixed-flexmf-logistic-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-PLG --split=splits/fixed
+      -o runs/fixed/flexmf-logistic-default flexmf-logistic
+    deps:
+    - path: ../../../models/flexmf-logistic/pipeline.toml
+      hash: md5
+      md5: c97224762f23ff27750bcdc35ea0df29
+      size: 212
+    - path: splits/fixed
+      hash: md5
+      md5: 5e030e5ab7086a420a18e3369553ed5a.dir
+      size: 92935863
+      nfiles: 15
+    outs:
+    - path: runs/fixed/flexmf-logistic-default
+      hash: md5
+      md5: a253d8c5c16582434184e2bbcf06c9de.dir
+      size: 85750546
+      nfiles: 5
+  run-fixed-iknn-explicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-PLG --split=splits/fixed
+      -o runs/fixed/iknn-explicit-default iknn-explicit
+    deps:
+    - path: ../../../models/iknn-explicit/pipeline.toml
+      hash: md5
+      md5: 1f3d5bac137760ca16e25d2722a79397
+      size: 219
+    - path: splits/fixed
+      hash: md5
+      md5: 5e030e5ab7086a420a18e3369553ed5a.dir
+      size: 92935863
+      nfiles: 15
+    outs:
+    - path: runs/fixed/iknn-explicit-default
+      hash: md5
+      md5: 08fc1d0d27ca94557c84d4034743e896.dir
+      size: 94136129
+      nfiles: 6
+  run-fixed-popular-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-PLG --split=splits/fixed
+      -o runs/fixed/popular-default popular
+    deps:
+    - path: ../../../models/popular/pipeline.toml
+      hash: md5
+      md5: ed104618e25c8749e84674e64a05a706
+      size: 108
+    - path: splits/fixed
+      hash: md5
+      md5: 5e030e5ab7086a420a18e3369553ed5a.dir
+      size: 92935863
+      nfiles: 15
+    outs:
+    - path: runs/fixed/popular-default
+      hash: md5
+      md5: 2c61d09ecac1416198ca797c2b9d61e7.dir
+      size: 6730261
+      nfiles: 5
+  run-fixed-flexmf-explicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-PLG --split=splits/fixed
+      -o runs/fixed/flexmf-explicit-default flexmf-explicit
+    deps:
+    - path: ../../../models/flexmf-explicit/pipeline.toml
+      hash: md5
+      md5: 820de790f159d933bc64eac0bc447a12
+      size: 185
+    - path: splits/fixed
+      hash: md5
+      md5: 5e030e5ab7086a420a18e3369553ed5a.dir
+      size: 92935863
+      nfiles: 15
+    outs:
+    - path: runs/fixed/flexmf-explicit-default
+      hash: md5
+      md5: 5a2db97ad74efe3a04ca9239d4069730.dir
+      size: 119178375
+      nfiles: 6
+  run-fixed-als-implicit-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-PLG --split=splits/fixed
+      -o runs/fixed/als-implicit-default als-implicit
+    deps:
+    - path: ../../../models/als-implicit/pipeline.toml
+      hash: md5
+      md5: a88f57edd1e5bf7c205d84122a47e94c
+      size: 173
+    - path: splits/fixed
+      hash: md5
+      md5: 5e030e5ab7086a420a18e3369553ed5a.dir
+      size: 92935863
+      nfiles: 15
+    outs:
+    - path: runs/fixed/als-implicit-default
+      hash: md5
+      md5: fbbdf4c682f2751c3e64dc06f3f66f4e.dir
+      size: 84561525
+      nfiles: 5
+  run-fixed-flexmf-bpr-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-PLG --split=splits/fixed
+      -o runs/fixed/flexmf-bpr-default flexmf-bpr
+    deps:
+    - path: ../../../models/flexmf-bpr/pipeline.toml
+      hash: md5
+      md5: e072a8eff9ba98464b316cc7f1e5af75
+      size: 226
+    - path: splits/fixed
+      hash: md5
+      md5: 5e030e5ab7086a420a18e3369553ed5a.dir
+      size: 92935863
+      nfiles: 15
+    outs:
+    - path: runs/fixed/flexmf-bpr-default
+      hash: md5
+      md5: ba0328f71930588b6bf1fa243d130d6e.dir
+      size: 117533596
+      nfiles: 5
+  run-fixed-als-biased-default:
+    cmd: lenskit codex generate --ds-name=AZ-2023-5core-PLG --split=splits/fixed
+      -o runs/fixed/als-biased-default als-biased
+    deps:
+    - path: ../../../models/als-biased/pipeline.toml
+      hash: md5
+      md5: 617ea3225f6fab63a108ee9504325727
+      size: 177
+    - path: splits/fixed
+      hash: md5
+      md5: 5e030e5ab7086a420a18e3369553ed5a.dir
+      size: 92935863
+      nfiles: 15
+    outs:
+    - path: runs/fixed/als-biased-default
+      hash: md5
+      md5: 96a4ce0d01a67cb58cf04cd9d08ec326.dir
+      size: 97381803
+      nfiles: 6
+  collect-metrics:
+    cmd: lenskit codex collect metrics -S run-summary.csv -U 
+      run-user-metrics.parquet -L runs/manifest.csv
+    deps:
+    - path: runs/fixed/als-biased-default
+      hash: md5
+      md5: 96a4ce0d01a67cb58cf04cd9d08ec326.dir
+      size: 97381803
+      nfiles: 6
+    - path: runs/fixed/als-implicit-default
+      hash: md5
+      md5: fbbdf4c682f2751c3e64dc06f3f66f4e.dir
+      size: 84561525
+      nfiles: 5
+    - path: runs/fixed/bias-default
+      hash: md5
+      md5: 4f5e026ea62ea6420f5162b2a3104ae5.dir
+      size: 67350128
+      nfiles: 6
+    - path: runs/fixed/flexmf-bpr-default
+      hash: md5
+      md5: ba0328f71930588b6bf1fa243d130d6e.dir
+      size: 117533596
+      nfiles: 5
+    - path: runs/fixed/flexmf-explicit-default
+      hash: md5
+      md5: 5a2db97ad74efe3a04ca9239d4069730.dir
+      size: 119178375
+      nfiles: 6
+    - path: runs/fixed/flexmf-logistic-default
+      hash: md5
+      md5: a253d8c5c16582434184e2bbcf06c9de.dir
+      size: 85750546
+      nfiles: 5
+    - path: runs/fixed/iknn-explicit-default
+      hash: md5
+      md5: 08fc1d0d27ca94557c84d4034743e896.dir
+      size: 94136129
+      nfiles: 6
+    - path: runs/fixed/iknn-implicit-default
+      hash: md5
+      md5: 0e5ce125c9475ce17e8f24e8ec424445.dir
+      size: 110929338
+      nfiles: 5
+    - path: runs/fixed/popular-default
+      hash: md5
+      md5: 2c61d09ecac1416198ca797c2b9d61e7.dir
+      size: 6730261
+      nfiles: 5
+    - path: runs/fixed/slim-fs-default
+      hash: md5
+      md5: 5c413492d374ab3944e9de57206e484c.dir
+      size: 53303450
+      nfiles: 5
+    - path: runs/manifest.csv
+      hash: md5
+      md5: 228d42c559551b2ab4d84f49fecb704b
+      size: 537
+    outs:
+    - path: run-summary.csv
+      hash: md5
+      md5: 5eb37a25e0c2144e8dbed6a471f66e03
+      size: 8356
+    - path: run-user-metrics.parquet
+      hash: md5
+      md5: 94e4e064ba8866dcadec771ed3768d22
+      size: 38045384
