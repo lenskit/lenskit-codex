@@ -14,3 +14,47 @@ stages:
       md5: 0364cbf963b79dc19bc1d9c47795c045.dir
       size: 17697499
       nfiles: 5
+  split-interactions:
+    cmd: lenskit codex split splits/random.toml
+    deps:
+    - path: dataset
+      hash: md5
+      md5: 0364cbf963b79dc19bc1d9c47795c045.dir
+      size: 17697499
+      nfiles: 5
+    - path: splits/random.toml
+      hash: md5
+      md5: 1bb49f480626ed148e46ab6c1851c729
+      size: 162
+    params:
+      ../../lenskit.toml:
+        random.seed: 20260701
+    outs:
+    - path: splits/random
+      hash: md5
+      md5: 0a411ef1c89339f2a32c8a8c7e72c1f9.dir
+      size: 18015621
+      nfiles: 7
+  run-random-popular-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o
+      runs/random/popular-default popular
+    deps:
+    - path: ../../models/popular/pipeline.toml
+      hash: md5
+      md5: ed104618e25c8749e84674e64a05a706
+      size: 108
+    - path: splits/random
+      hash: md5
+      md5: 0a411ef1c89339f2a32c8a8c7e72c1f9.dir
+      size: 18015621
+      nfiles: 7
+    - path: splits/random.toml
+      hash: md5
+      md5: 1bb49f480626ed148e46ab6c1851c729
+      size: 162
+    outs:
+    - path: runs/random/popular-default
+      hash: md5
+      md5: 935145dbd2cdc5ff047ecb0fc2a27c9a.dir
+      size: 1560409
+      nfiles: 5

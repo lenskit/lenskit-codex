@@ -9,3 +9,272 @@ stages:
       - ../data/australian_users_items.json.gz
     outs:
       - dataset
+
+  split-interactions:
+    cmd: lenskit codex split splits/random.toml
+    params:
+      - ../../lenskit.toml:
+          - random.seed
+    deps:
+      - splits/random.toml
+      - dataset
+    outs:
+      - splits/random
+
+  search-als-implicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=tune als-implicit searches/random/optuna/als-implicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
+      - ../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random/train.dataset
+      - splits/random/tune.parquet
+      - ../../models/als-implicit/pipeline.toml
+      - ../../models/als-implicit/search.toml
+    outs:
+      - searches/random/optuna/als-implicit
+      - searches/random/optuna/als-implicit.json:
+          cache: false
+      - searches/random/optuna/als-implicit-pipeline.json:
+          cache: false
+
+  search-flexmf-bpr-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=tune flexmf-bpr searches/random/optuna/flexmf-bpr
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
+      - ../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random/train.dataset
+      - splits/random/tune.parquet
+      - ../../models/flexmf-bpr/pipeline.toml
+      - ../../models/flexmf-bpr/search.toml
+    outs:
+      - searches/random/optuna/flexmf-bpr
+      - searches/random/optuna/flexmf-bpr.json:
+          cache: false
+      - searches/random/optuna/flexmf-bpr-pipeline.json:
+          cache: false
+
+  search-flexmf-logistic-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=tune flexmf-logistic searches/random/optuna/flexmf-logistic
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
+      - ../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random/train.dataset
+      - splits/random/tune.parquet
+      - ../../models/flexmf-logistic/pipeline.toml
+      - ../../models/flexmf-logistic/search.toml
+    outs:
+      - searches/random/optuna/flexmf-logistic
+      - searches/random/optuna/flexmf-logistic.json:
+          cache: false
+      - searches/random/optuna/flexmf-logistic-pipeline.json:
+          cache: false
+
+  search-iknn-implicit-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=tune iknn-implicit searches/random/optuna/iknn-implicit
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
+      - ../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random/train.dataset
+      - splits/random/tune.parquet
+      - ../../models/iknn-implicit/pipeline.toml
+      - ../../models/iknn-implicit/search.toml
+    outs:
+      - searches/random/optuna/iknn-implicit
+      - searches/random/optuna/iknn-implicit.json:
+          cache: false
+      - searches/random/optuna/iknn-implicit-pipeline.json:
+          cache: false
+
+  search-slim-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=tune slim searches/random/optuna/slim
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
+      - ../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random/train.dataset
+      - splits/random/tune.parquet
+      - ../../models/slim/pipeline.toml
+      - ../../models/slim/search.toml
+    outs:
+      - searches/random/optuna/slim
+      - searches/random/optuna/slim.json:
+          cache: false
+      - searches/random/optuna/slim-pipeline.json:
+          cache: false
+
+  search-slim-fs-random-optuna:
+    cmd: lenskit codex tune --split=splits/random.toml --test-part=tune slim-fs searches/random/optuna/slim-fs
+    params:
+      - ../../lenskit.toml:
+          - tuning.defaults
+      - ../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/random/train.dataset
+      - splits/random/tune.parquet
+      - ../../models/slim-fs/pipeline.toml
+      - ../../models/slim-fs/search.toml
+    outs:
+      - searches/random/optuna/slim-fs
+      - searches/random/optuna/slim-fs.json:
+          cache: false
+      - searches/random/optuna/slim-fs-pipeline.json:
+          cache: false
+
+  run-random-als-implicit-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/als-implicit-default als-implicit
+    deps:
+      - ../../models/als-implicit/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/als-implicit-default
+
+  run-random-als-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/als-implicit-pipeline.json --ds-name=Steam-AU --split=splits/random.toml -o runs/random/als-implicit-optuna-tuned als-implicit
+    deps:
+      - ../../models/als-implicit/pipeline.toml
+      - splits/random.toml
+      - splits/random
+      - searches/random/optuna/als-implicit-pipeline.json
+    outs:
+      - runs/random/als-implicit-optuna-tuned
+
+  run-random-flexmf-bpr-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/flexmf-bpr-default flexmf-bpr
+    deps:
+      - ../../models/flexmf-bpr/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/flexmf-bpr-default
+
+  run-random-flexmf-bpr-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/flexmf-bpr-pipeline.json --ds-name=Steam-AU --split=splits/random.toml -o runs/random/flexmf-bpr-optuna-tuned flexmf-bpr
+    deps:
+      - ../../models/flexmf-bpr/pipeline.toml
+      - splits/random.toml
+      - splits/random
+      - searches/random/optuna/flexmf-bpr-pipeline.json
+    outs:
+      - runs/random/flexmf-bpr-optuna-tuned
+
+  run-random-flexmf-logistic-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/flexmf-logistic-default flexmf-logistic
+    deps:
+      - ../../models/flexmf-logistic/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/flexmf-logistic-default
+
+  run-random-flexmf-logistic-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/flexmf-logistic-pipeline.json --ds-name=Steam-AU --split=splits/random.toml -o runs/random/flexmf-logistic-optuna-tuned flexmf-logistic
+    deps:
+      - ../../models/flexmf-logistic/pipeline.toml
+      - splits/random.toml
+      - splits/random
+      - searches/random/optuna/flexmf-logistic-pipeline.json
+    outs:
+      - runs/random/flexmf-logistic-optuna-tuned
+
+  run-random-iknn-implicit-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/iknn-implicit-default iknn-implicit
+    deps:
+      - ../../models/iknn-implicit/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/iknn-implicit-default
+
+  run-random-iknn-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/iknn-implicit-pipeline.json --ds-name=Steam-AU --split=splits/random.toml -o runs/random/iknn-implicit-optuna-tuned iknn-implicit
+    deps:
+      - ../../models/iknn-implicit/pipeline.toml
+      - splits/random.toml
+      - splits/random
+      - searches/random/optuna/iknn-implicit-pipeline.json
+    outs:
+      - runs/random/iknn-implicit-optuna-tuned
+
+  run-random-popular-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/popular-default popular
+    deps:
+      - ../../models/popular/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/popular-default
+
+  run-random-slim-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/slim-default slim
+    deps:
+      - ../../models/slim/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/slim-default
+
+  run-random-slim-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/slim-pipeline.json --ds-name=Steam-AU --split=splits/random.toml -o runs/random/slim-optuna-tuned slim
+    deps:
+      - ../../models/slim/pipeline.toml
+      - splits/random.toml
+      - splits/random
+      - searches/random/optuna/slim-pipeline.json
+    outs:
+      - runs/random/slim-optuna-tuned
+
+  run-random-slim-fs-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/slim-fs-default slim-fs
+    deps:
+      - ../../models/slim-fs/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/slim-fs-default
+
+  run-random-slim-fs-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/random/optuna/slim-fs-pipeline.json --ds-name=Steam-AU --split=splits/random.toml -o runs/random/slim-fs-optuna-tuned slim-fs
+    deps:
+      - ../../models/slim-fs/pipeline.toml
+      - splits/random.toml
+      - splits/random
+      - searches/random/optuna/slim-fs-pipeline.json
+    outs:
+      - runs/random/slim-fs-optuna-tuned
+
+  collect-metrics:
+    cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
+    deps:
+      - runs/manifest.csv
+      - runs/random/als-implicit-default
+      - runs/random/als-implicit-optuna-tuned
+      - runs/random/flexmf-bpr-default
+      - runs/random/flexmf-bpr-optuna-tuned
+      - runs/random/flexmf-logistic-default
+      - runs/random/flexmf-logistic-optuna-tuned
+      - runs/random/iknn-implicit-default
+      - runs/random/iknn-implicit-optuna-tuned
+      - runs/random/popular-default
+      - runs/random/slim-default
+      - runs/random/slim-optuna-tuned
+      - runs/random/slim-fs-default
+      - runs/random/slim-fs-optuna-tuned
+    outs:
+      - run-summary.csv
+      - run-user-metrics.parquet
