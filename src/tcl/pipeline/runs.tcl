@@ -20,13 +20,22 @@ namespace eval ::run {
         if {[file exists $split_spec]} {
             # this is a split specified in toml
             set info(split_in) $split_spec
+            set info(split_deps) {}
             set split_info [parse toml -file $split_spec]
-            if {[dict get $split_info method] eq "crossfold"} {
-                # crossfold requires the parquet file
-                set info(split_deps) [list dataset splits/$split.parquet]
-            } else {
-                # temporal is split on the fly
-                set info(split_deps) [list dataset splits/$split.toml]
+            set method [dict get $split_info method]
+            switch -glob $method {
+                crossfold {
+                    # crossfold requires the parquet file
+                    lappend info(split_deps) dataset splits/$split.parquet
+                }
+                sample-* {
+                    # sampling has output
+                    lappend info(split_deps) splits/$split.toml splits/$split
+                }
+                default {
+                    # temporal is split on the fly
+                    lappend info(split_deps) dataset splits/$split.toml
+                }
             }
         } else {
             # this is a fixed-directory split

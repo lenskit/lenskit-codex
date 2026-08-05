@@ -20,3 +20,71 @@ stages:
       - dataset
     outs:
       - splits/random
+
+  run-random-als-implicit-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/als-implicit-default als-implicit
+    deps:
+      - ../../models/als-implicit/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/als-implicit-default
+
+  run-random-flexmf-bpr-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/flexmf-bpr-default flexmf-bpr
+    deps:
+      - ../../models/flexmf-bpr/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/flexmf-bpr-default
+
+  run-random-flexmf-logistic-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/flexmf-logistic-default flexmf-logistic
+    deps:
+      - ../../models/flexmf-logistic/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/flexmf-logistic-default
+
+  run-random-iknn-implicit-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/iknn-implicit-default iknn-implicit
+    deps:
+      - ../../models/iknn-implicit/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/iknn-implicit-default
+
+  run-random-popular-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/popular-default popular
+    deps:
+      - ../../models/popular/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/popular-default
+
+  run-random-slim-fs-default:
+    cmd: lenskit codex generate --ds-name=Steam-AU --split=splits/random.toml -o runs/random/slim-fs-default slim-fs
+    deps:
+      - ../../models/slim-fs/pipeline.toml
+      - splits/random.toml
+      - splits/random
+    outs:
+      - runs/random/slim-fs-default
+
+  collect-metrics:
+    cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
+    deps:
+      - runs/manifest.csv
+      - runs/random/als-implicit-default
+      - runs/random/flexmf-bpr-default
+      - runs/random/flexmf-logistic-default
+      - runs/random/iknn-implicit-default
+      - runs/random/popular-default
+      - runs/random/slim-fs-default
+    outs:
+      - run-summary.csv
+      - run-user-metrics.parquet

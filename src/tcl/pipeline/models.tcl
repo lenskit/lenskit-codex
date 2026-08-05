@@ -13,11 +13,15 @@ package require kvlookup
 namespace eval ::model {
     proc list {args} {
         set data {}
+        set wanted all
         while {![lempty $args]} {
             set arg [lshift args]
             switch -glob -- $arg {
                 -enabled {
                     set data [lshift args]
+                }
+                -implicit {
+                    set wanted implicit
                 }
                 default {
                     error "unrecognized argument $arg"
@@ -32,6 +36,9 @@ namespace eval ::model {
         if {$data ne ""} {
             set models [lmap m $models {
                 if {![enabled $m $data]} {
+                    continue
+                } elseif {$wanted eq "implicit" && [predicts-ratings $m]} {
+                    # FIXME add a way to allow implicit-feedback to predict ratings
                     continue
                 }
                 set _ $m

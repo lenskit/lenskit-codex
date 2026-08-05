@@ -14,3 +14,10 @@ stage split-interactions {
     dep dataset
     out splits/random
 }
+
+run begin-set Steam-AU random
+foreach mod [model list -implicit -enabled Steam-AU] {
+    run default $mod
+}
+run collect
+run save-manifest
