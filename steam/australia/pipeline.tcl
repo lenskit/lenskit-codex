@@ -15,9 +15,31 @@ stage split-interactions {
     out splits/random
 }
 
+foreach mod [model list -implicit -enabled Steam-AU] {
+    set out_dir searches/random/optuna/$mod
+
+    if {[model searchable $mod]} {
+        stage "search-$mod-random-optuna" {
+            cmd lenskit codex tune --split=splits/random.toml --test-part=tune $mod $out_dir
+            dep splits/random/train.dataset
+            dep splits/random/tune.parquet
+            dep [path relative !/models/${mod}/pipeline.toml]
+            dep [path relative !/models/${mod}/search.toml]
+            param -file [path relative !/lenskit.toml] tuning.defaults
+            out $out_dir
+            out -nocache $out_dir.json
+            out -nocache $out_dir-pipeline.json
+            param -file [path relative !/codex.toml] tuning.optuna.points
+        }
+    }
+}
+
 run begin-set Steam-AU random
 foreach mod [model list -implicit -enabled Steam-AU] {
     run default $mod
+    if {[model searchable $mod]} {
+        run tuned $mod
+    }
 }
 run collect
 run save-manifest
