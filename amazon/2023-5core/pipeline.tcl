@@ -27,7 +27,7 @@ azcat -no-tune Pet Pet_Supplies
 azcat -no-tune Software Software
 azcat -no-tune Sports Sports_and_Outdoors
 # THI: Tools_and_Home_Improvement
-# Toys: Toys_and_Games
+azcat -no-tune Toys Toys_and_Games
 azcat -no-tune VidGames Video_Games
 
 stage collect-stats {
