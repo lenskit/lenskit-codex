@@ -8,7 +8,7 @@ set ::valid_sample_size 10000
 azcat -no-tune Crafts Arts_Crafts_and_Sewing
 azcat -no-tune Auto Automotive
 azcat -no-tune Baby Baby_Products
-# Beauty: Beauty_and_Personal_Care
+azcat -no-tune Beauty Beauty_and_Personal_Care
 # Books: Books
 azcat -no-tune CDV CDs_and_Vinyl
 azcat -no-tune Cell Cell_Phones_and_Accessories
