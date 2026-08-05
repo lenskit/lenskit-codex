@@ -1,6 +1,7 @@
 package provide dvc 0.1
 package require oo
 package require nestout
+package require path
 
 namespace eval ::dvc {
     variable format_yaml no
@@ -124,9 +125,7 @@ namespace eval ::dvc {
                                 }
                             }
                         } else {
-                            foreach name $names {
-                                nest puts "- $name"
-                            }
+                            nest puts "- $param"
                         }
                     }
                 }
@@ -284,6 +283,7 @@ namespace eval ::dvc::dsl {
         if {[lpeek $args] eq "-file"} {
             lshift args
             set file [lshift args]
+            set file [path relative $file]
             dict lappend ::dvc::cur_stage params [list $file $args]
         } else {
             dict lappend ::dvc::cur_stage params {*}$args

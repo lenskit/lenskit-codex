@@ -9,3 +9,14 @@ stages:
       - ../data/australian_users_items.json.gz
     outs:
       - dataset
+
+  split-interactions:
+    cmd: lenskit codex split splits/random.toml
+    params:
+      - ../../lenskit.toml:
+          - random.seed
+    deps:
+      - splits/random.toml
+      - dataset
+    outs:
+      - splits/random

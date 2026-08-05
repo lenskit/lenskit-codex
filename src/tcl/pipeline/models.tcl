@@ -82,7 +82,7 @@ namespace eval ::model {
     # Query whether the specified model is a rating predictor.
     proc predicts-ratings {name} {
         set file [path resolve "!/models/$name/pipeline.toml"]
-        set pipe [parse yaml -file $file]
+        set pipe [parse toml -file $file]
         set base [dict get $pipe options base]
         return [expr {$base eq "std:topn-predict"}]
     }

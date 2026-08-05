@@ -14,3 +14,24 @@ stages:
       md5: 0364cbf963b79dc19bc1d9c47795c045.dir
       size: 17697499
       nfiles: 5
+  split-interactions:
+    cmd: lenskit codex split splits/random.toml
+    deps:
+    - path: dataset
+      hash: md5
+      md5: 0364cbf963b79dc19bc1d9c47795c045.dir
+      size: 17697499
+      nfiles: 5
+    - path: splits/random.toml
+      hash: md5
+      md5: 9a2eacd6902741c27a5222588e647958
+      size: 156
+    params:
+      ../../lenskit.toml:
+        random.seed: 20260701
+    outs:
+    - path: splits/random
+      hash: md5
+      md5: 0a411ef1c89339f2a32c8a8c7e72c1f9.dir
+      size: 18015621
+      nfiles: 7
