@@ -15,7 +15,7 @@ azcat -no-tune Cell Cell_Phones_and_Accessories
 # Clothing: Clothing_Shoes_and_Jewelry
 # Elec: Electronics
 azcat -no-tune Grocery Grocery_and_Gourmet_Food
-# HealthHouse: Health_and_Household
+azcat -no-tune HealthHouse Health_and_Household
 # HomeKitchen: Home_and_Kitchen
 azcat -no-tune IndSci Industrial_and_Scientific
 # Kindle: Kindle_Store
