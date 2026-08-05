@@ -2,6 +2,8 @@ from pathlib import Path
 
 import structlog
 
+from codex.splitting.sampled import SampledSplitSet
+
 from ._base import SplitSet
 from .crossfold import CrossfoldSplitSet
 from .fixed import FixedSplitSet
@@ -33,6 +35,9 @@ def load_split_set(path: Path) -> SplitSet:
             case "temporal":
                 assert spec.temporal is not None
                 return TemporalSplitSet(src, spec.temporal)
+            case "sample-users":
+                assert spec.sample is not None
+                return SampledSplitSet(path.with_suffix(""))
             case "crossfold":
                 assert spec.crossfold is not None
                 assert spec.holdout is not None
