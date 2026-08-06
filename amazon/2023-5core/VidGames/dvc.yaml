@@ -47,6 +47,33 @@ stages:
     outs:
       - runs/fixed/als-biased-default
 
+  search-als-biased-fixed-optuna:
+    cmd: lenskit codex tune --split=splits/fixed als-biased searches/random/optuna/als-biased
+    params:
+      - ../../../lenskit.toml:
+          - tuning.defaults
+      - ../../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid/
+      - ../../../models/als-biased/pipeline.toml
+      - ../../../models/als-biased/search.toml
+    outs:
+      - searches/random/optuna/als-biased
+      - searches/random/optuna/als-biased.json:
+          cache: false
+      - searches/random/optuna/als-biased-pipeline.json:
+          cache: false
+
+  run-fixed-als-biased-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/fixed/optuna/als-biased-pipeline.json --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/als-biased-optuna-tuned als-biased
+    deps:
+      - ../../../models/als-biased/pipeline.toml
+      - splits/fixed
+      - searches/fixed/optuna/als-biased-pipeline.json
+    outs:
+      - runs/fixed/als-biased-optuna-tuned
+
   run-fixed-als-implicit-default:
     cmd: lenskit codex generate --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/als-implicit-default als-implicit
     deps:
@@ -54,6 +81,33 @@ stages:
       - splits/fixed
     outs:
       - runs/fixed/als-implicit-default
+
+  search-als-implicit-fixed-optuna:
+    cmd: lenskit codex tune --split=splits/fixed als-implicit searches/random/optuna/als-implicit
+    params:
+      - ../../../lenskit.toml:
+          - tuning.defaults
+      - ../../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid/
+      - ../../../models/als-implicit/pipeline.toml
+      - ../../../models/als-implicit/search.toml
+    outs:
+      - searches/random/optuna/als-implicit
+      - searches/random/optuna/als-implicit.json:
+          cache: false
+      - searches/random/optuna/als-implicit-pipeline.json:
+          cache: false
+
+  run-fixed-als-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/fixed/optuna/als-implicit-pipeline.json --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/als-implicit-optuna-tuned als-implicit
+    deps:
+      - ../../../models/als-implicit/pipeline.toml
+      - splits/fixed
+      - searches/fixed/optuna/als-implicit-pipeline.json
+    outs:
+      - runs/fixed/als-implicit-optuna-tuned
 
   run-fixed-bias-default:
     cmd: lenskit codex generate --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/bias-default bias
@@ -63,6 +117,33 @@ stages:
     outs:
       - runs/fixed/bias-default
 
+  search-bias-fixed-optuna:
+    cmd: lenskit codex tune --split=splits/fixed bias searches/random/optuna/bias
+    params:
+      - ../../../lenskit.toml:
+          - tuning.defaults
+      - ../../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid/
+      - ../../../models/bias/pipeline.toml
+      - ../../../models/bias/search.toml
+    outs:
+      - searches/random/optuna/bias
+      - searches/random/optuna/bias.json:
+          cache: false
+      - searches/random/optuna/bias-pipeline.json:
+          cache: false
+
+  run-fixed-bias-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/fixed/optuna/bias-pipeline.json --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/bias-optuna-tuned bias
+    deps:
+      - ../../../models/bias/pipeline.toml
+      - splits/fixed
+      - searches/fixed/optuna/bias-pipeline.json
+    outs:
+      - runs/fixed/bias-optuna-tuned
+
   run-fixed-flexmf-bpr-default:
     cmd: lenskit codex generate --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/flexmf-bpr-default flexmf-bpr
     deps:
@@ -70,6 +151,33 @@ stages:
       - splits/fixed
     outs:
       - runs/fixed/flexmf-bpr-default
+
+  search-flexmf-bpr-fixed-optuna:
+    cmd: lenskit codex tune --split=splits/fixed flexmf-bpr searches/random/optuna/flexmf-bpr
+    params:
+      - ../../../lenskit.toml:
+          - tuning.defaults
+      - ../../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid/
+      - ../../../models/flexmf-bpr/pipeline.toml
+      - ../../../models/flexmf-bpr/search.toml
+    outs:
+      - searches/random/optuna/flexmf-bpr
+      - searches/random/optuna/flexmf-bpr.json:
+          cache: false
+      - searches/random/optuna/flexmf-bpr-pipeline.json:
+          cache: false
+
+  run-fixed-flexmf-bpr-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/fixed/optuna/flexmf-bpr-pipeline.json --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/flexmf-bpr-optuna-tuned flexmf-bpr
+    deps:
+      - ../../../models/flexmf-bpr/pipeline.toml
+      - splits/fixed
+      - searches/fixed/optuna/flexmf-bpr-pipeline.json
+    outs:
+      - runs/fixed/flexmf-bpr-optuna-tuned
 
   run-fixed-flexmf-explicit-default:
     cmd: lenskit codex generate --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/flexmf-explicit-default flexmf-explicit
@@ -79,6 +187,33 @@ stages:
     outs:
       - runs/fixed/flexmf-explicit-default
 
+  search-flexmf-explicit-fixed-optuna:
+    cmd: lenskit codex tune --split=splits/fixed flexmf-explicit searches/random/optuna/flexmf-explicit
+    params:
+      - ../../../lenskit.toml:
+          - tuning.defaults
+      - ../../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid/
+      - ../../../models/flexmf-explicit/pipeline.toml
+      - ../../../models/flexmf-explicit/search.toml
+    outs:
+      - searches/random/optuna/flexmf-explicit
+      - searches/random/optuna/flexmf-explicit.json:
+          cache: false
+      - searches/random/optuna/flexmf-explicit-pipeline.json:
+          cache: false
+
+  run-fixed-flexmf-explicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/fixed/optuna/flexmf-explicit-pipeline.json --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/flexmf-explicit-optuna-tuned flexmf-explicit
+    deps:
+      - ../../../models/flexmf-explicit/pipeline.toml
+      - splits/fixed
+      - searches/fixed/optuna/flexmf-explicit-pipeline.json
+    outs:
+      - runs/fixed/flexmf-explicit-optuna-tuned
+
   run-fixed-flexmf-logistic-default:
     cmd: lenskit codex generate --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/flexmf-logistic-default flexmf-logistic
     deps:
@@ -86,6 +221,33 @@ stages:
       - splits/fixed
     outs:
       - runs/fixed/flexmf-logistic-default
+
+  search-flexmf-logistic-fixed-optuna:
+    cmd: lenskit codex tune --split=splits/fixed flexmf-logistic searches/random/optuna/flexmf-logistic
+    params:
+      - ../../../lenskit.toml:
+          - tuning.defaults
+      - ../../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid/
+      - ../../../models/flexmf-logistic/pipeline.toml
+      - ../../../models/flexmf-logistic/search.toml
+    outs:
+      - searches/random/optuna/flexmf-logistic
+      - searches/random/optuna/flexmf-logistic.json:
+          cache: false
+      - searches/random/optuna/flexmf-logistic-pipeline.json:
+          cache: false
+
+  run-fixed-flexmf-logistic-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/fixed/optuna/flexmf-logistic-pipeline.json --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/flexmf-logistic-optuna-tuned flexmf-logistic
+    deps:
+      - ../../../models/flexmf-logistic/pipeline.toml
+      - splits/fixed
+      - searches/fixed/optuna/flexmf-logistic-pipeline.json
+    outs:
+      - runs/fixed/flexmf-logistic-optuna-tuned
 
   run-fixed-iknn-explicit-default:
     cmd: lenskit codex generate --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/iknn-explicit-default iknn-explicit
@@ -95,6 +257,33 @@ stages:
     outs:
       - runs/fixed/iknn-explicit-default
 
+  search-iknn-explicit-fixed-optuna:
+    cmd: lenskit codex tune --split=splits/fixed iknn-explicit searches/random/optuna/iknn-explicit
+    params:
+      - ../../../lenskit.toml:
+          - tuning.defaults
+      - ../../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid/
+      - ../../../models/iknn-explicit/pipeline.toml
+      - ../../../models/iknn-explicit/search.toml
+    outs:
+      - searches/random/optuna/iknn-explicit
+      - searches/random/optuna/iknn-explicit.json:
+          cache: false
+      - searches/random/optuna/iknn-explicit-pipeline.json:
+          cache: false
+
+  run-fixed-iknn-explicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/fixed/optuna/iknn-explicit-pipeline.json --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/iknn-explicit-optuna-tuned iknn-explicit
+    deps:
+      - ../../../models/iknn-explicit/pipeline.toml
+      - splits/fixed
+      - searches/fixed/optuna/iknn-explicit-pipeline.json
+    outs:
+      - runs/fixed/iknn-explicit-optuna-tuned
+
   run-fixed-iknn-implicit-default:
     cmd: lenskit codex generate --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/iknn-implicit-default iknn-implicit
     deps:
@@ -102,6 +291,33 @@ stages:
       - splits/fixed
     outs:
       - runs/fixed/iknn-implicit-default
+
+  search-iknn-implicit-fixed-optuna:
+    cmd: lenskit codex tune --split=splits/fixed iknn-implicit searches/random/optuna/iknn-implicit
+    params:
+      - ../../../lenskit.toml:
+          - tuning.defaults
+      - ../../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid/
+      - ../../../models/iknn-implicit/pipeline.toml
+      - ../../../models/iknn-implicit/search.toml
+    outs:
+      - searches/random/optuna/iknn-implicit
+      - searches/random/optuna/iknn-implicit.json:
+          cache: false
+      - searches/random/optuna/iknn-implicit-pipeline.json:
+          cache: false
+
+  run-fixed-iknn-implicit-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/fixed/optuna/iknn-implicit-pipeline.json --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/iknn-implicit-optuna-tuned iknn-implicit
+    deps:
+      - ../../../models/iknn-implicit/pipeline.toml
+      - splits/fixed
+      - searches/fixed/optuna/iknn-implicit-pipeline.json
+    outs:
+      - runs/fixed/iknn-implicit-optuna-tuned
 
   run-fixed-popular-default:
     cmd: lenskit codex generate --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/popular-default popular
@@ -119,20 +335,56 @@ stages:
     outs:
       - runs/fixed/slim-fs-default
 
+  search-slim-fs-fixed-optuna:
+    cmd: lenskit codex tune --split=splits/fixed slim-fs searches/random/optuna/slim-fs
+    params:
+      - ../../../lenskit.toml:
+          - tuning.defaults
+      - ../../../codex.toml:
+          - tuning.optuna.points
+    deps:
+      - splits/fixed/valid/
+      - ../../../models/slim-fs/pipeline.toml
+      - ../../../models/slim-fs/search.toml
+    outs:
+      - searches/random/optuna/slim-fs
+      - searches/random/optuna/slim-fs.json:
+          cache: false
+      - searches/random/optuna/slim-fs-pipeline.json:
+          cache: false
+
+  run-fixed-slim-fs-optuna-tuned:
+    cmd: lenskit codex generate --pipeline-file searches/fixed/optuna/slim-fs-pipeline.json --ds-name=AZ-2023-5core-VidGames --split=splits/fixed -o runs/fixed/slim-fs-optuna-tuned slim-fs
+    deps:
+      - ../../../models/slim-fs/pipeline.toml
+      - splits/fixed
+      - searches/fixed/optuna/slim-fs-pipeline.json
+    outs:
+      - runs/fixed/slim-fs-optuna-tuned
+
   collect-metrics:
     cmd: lenskit codex collect metrics -S run-summary.csv -U run-user-metrics.parquet -L runs/manifest.csv
     deps:
       - runs/manifest.csv
       - runs/fixed/als-biased-default
+      - runs/fixed/als-biased-optuna-tuned
       - runs/fixed/als-implicit-default
+      - runs/fixed/als-implicit-optuna-tuned
       - runs/fixed/bias-default
+      - runs/fixed/bias-optuna-tuned
       - runs/fixed/flexmf-bpr-default
+      - runs/fixed/flexmf-bpr-optuna-tuned
       - runs/fixed/flexmf-explicit-default
+      - runs/fixed/flexmf-explicit-optuna-tuned
       - runs/fixed/flexmf-logistic-default
+      - runs/fixed/flexmf-logistic-optuna-tuned
       - runs/fixed/iknn-explicit-default
+      - runs/fixed/iknn-explicit-optuna-tuned
       - runs/fixed/iknn-implicit-default
+      - runs/fixed/iknn-implicit-optuna-tuned
       - runs/fixed/popular-default
       - runs/fixed/slim-fs-default
+      - runs/fixed/slim-fs-optuna-tuned
     outs:
       - run-summary.csv
       - run-user-metrics.parquet
