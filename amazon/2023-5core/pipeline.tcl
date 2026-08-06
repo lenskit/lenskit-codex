@@ -26,7 +26,7 @@ azcat -no-tune PLG Patio_Lawn_and_Garden
 azcat -no-tune Pet Pet_Supplies
 azcat -no-tune Software Software
 azcat -no-tune Sports Sports_and_Outdoors
-# THI: Tools_and_Home_Improvement
+azcat -no-tune THI Tools_and_Home_Improvement
 azcat -no-tune Toys Toys_and_Games
 azcat -no-tune VidGames Video_Games
 
