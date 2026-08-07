@@ -1,0 +1,96 @@
+{
+  "options": null,
+  "meta": {
+    "name": "slim",
+    "version": null,
+    "hash": "71d8a5bf8daa1ec83e32b61caae570553cb73ce93466ffc128f5b4155b771979"
+  },
+  "inputs": [
+    {
+      "name": "query",
+      "types": [
+        "bytes",
+        "lenskit.data:ItemList",
+        "numpy:object_",
+        "lenskit.data:RecQuery",
+        "numpy:integer",
+        "numpy:bytes_",
+        "numpy:str_",
+        "str",
+        "int"
+      ]
+    },
+    {
+      "name": "items",
+      "types": [
+        "lenskit.data:ItemList"
+      ]
+    },
+    {
+      "name": "n",
+      "types": [
+        "None",
+        "int"
+      ]
+    }
+  ],
+  "components": {
+    "history-lookup": {
+      "code": "lenskit.basic.history:UserTrainingHistoryLookup",
+      "config": {
+        "interaction_class": null
+      },
+      "inputs": {
+        "query": "query"
+      }
+    },
+    "candidate-selector": {
+      "code": "lenskit.basic.candidates:TrainingItemsCandidateSelector",
+      "config": {
+        "exclude": "query"
+      },
+      "inputs": {
+        "query": "history-lookup"
+      }
+    },
+    "candidates": {
+      "code": "lenskit.pipeline.components:fallback_on_none",
+      "config": null,
+      "inputs": {
+        "fallback": "candidate-selector",
+        "primary": "items"
+      }
+    },
+    "scorer": {
+      "code": "lenskit.knn.slim:SLIMScorer",
+      "config": {
+        "l1_reg": 0.23446097550007505,
+        "l2_reg": 13.965253086620782,
+        "max_iters": 100,
+        "max_nbrs": null
+      },
+      "inputs": {
+        "items": "candidates",
+        "query": "history-lookup"
+      }
+    },
+    "ranker": {
+      "code": "lenskit.basic.topn:TopNRanker",
+      "config": {
+        "n": null
+      },
+      "inputs": {
+        "items": "scorer",
+        "n": "n"
+      }
+    }
+  },
+  "aliases": {
+    "recommender": "ranker"
+  },
+  "default": null,
+  "literals": {},
+  "hooks": {
+    "run": {}
+  }
+}
