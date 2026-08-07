@@ -9,7 +9,7 @@ azcat -no-tune Crafts Arts_Crafts_and_Sewing
 azcat -no-tune Auto Automotive
 azcat -no-tune Baby Baby_Products
 azcat -no-tune Beauty Beauty_and_Personal_Care
-# Books: Books
+azcat -no-tune Books Books
 azcat -no-tune CDV CDs_and_Vinyl
 azcat -no-tune Cell Cell_Phones_and_Accessories
 # Clothing: Clothing_Shoes_and_Jewelry
