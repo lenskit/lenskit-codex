@@ -83,6 +83,21 @@ proc azcat args {
         run begin-set $ds fixed
         foreach mod [model list -enabled $ds] {
             run default $mod
+            if {$tune && [model searchable $mod]} {
+                set out_dir searches/random/optuna/$mod
+                stage "search-$mod-fixed-optuna" {
+                    cmd lenskit codex tune --split=splits/fixed $mod $out_dir
+                    dep splits/fixed/valid/
+                    dep [path relative !/models/${mod}/pipeline.toml]
+                    dep [path relative !/models/${mod}/search.toml]
+                    param -file [path relative !/lenskit.toml] tuning.defaults
+                    param -file [path relative !/codex.toml] tuning.optuna.points
+                    out $out_dir
+                    out -nocache $out_dir.json
+                    out -nocache $out_dir-pipeline.json
+                }
+                run tuned $mod
+            }
         }
         run collect
         run save-manifest
