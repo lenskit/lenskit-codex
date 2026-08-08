@@ -13,7 +13,7 @@ azcat -no-tune Books Books
 azcat -no-tune CDV CDs_and_Vinyl
 azcat -no-tune Cell Cell_Phones_and_Accessories
 # Clothing: Clothing_Shoes_and_Jewelry
-# Elec: Electronics
+azcat -no-tune Elec Electronics
 azcat -no-tune Grocery Grocery_and_Gourmet_Food
 azcat -no-tune HealthHouse Health_and_Household
 # HomeKitchen: Home_and_Kitchen
