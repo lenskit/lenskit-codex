@@ -18,7 +18,7 @@ azcat -no-tune Grocery Grocery_and_Gourmet_Food
 azcat -no-tune HealthHouse Health_and_Household
 # HomeKitchen: Home_and_Kitchen
 azcat -no-tune IndSci Industrial_and_Scientific
-# Kindle: Kindle_Store
+azcat -no-tune Kindle Kindle_Store
 azcat -no-tune MovTV Movies_and_TV
 azcat -no-tune MusInst Musical_Instruments
 azcat -no-tune Office Office_Products
@@ -28,7 +28,7 @@ azcat -no-tune Software Software
 azcat -no-tune Sports Sports_and_Outdoors
 azcat -no-tune THI Tools_and_Home_Improvement
 azcat -no-tune Toys Toys_and_Games
-azcat -no-tune VidGames Video_Games
+azcat VidGames Video_Games
 
 stage collect-stats {
     cmd lenskit codex sql -f bench-stats.sql stats.duckdb
