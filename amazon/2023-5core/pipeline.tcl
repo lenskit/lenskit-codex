@@ -28,7 +28,7 @@ azcat -no-tune Software Software
 azcat -no-tune Sports Sports_and_Outdoors
 azcat -no-tune THI Tools_and_Home_Improvement
 azcat -no-tune Toys Toys_and_Games
-azcat VidGames Video_Games
+azcat -no-tune VidGames Video_Games
 
 stage collect-stats {
     cmd lenskit codex sql -f bench-stats.sql stats.duckdb
