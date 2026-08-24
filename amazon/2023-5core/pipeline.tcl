@@ -16,7 +16,7 @@ azcat -no-tune Clothing Clothing_Shoes_and_Jewelry
 azcat -no-tune Elec Electronics
 azcat -no-tune Grocery Grocery_and_Gourmet_Food
 azcat -no-tune HealthHouse Health_and_Household
-# HomeKitchen: Home_and_Kitchen
+azcat -no-tune HomeKitchen Home_and_Kitchen
 azcat -no-tune IndSci Industrial_and_Scientific
 azcat -no-tune Kindle Kindle_Store
 azcat -no-tune MovTV Movies_and_TV
